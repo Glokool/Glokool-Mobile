@@ -1,0 +1,9 @@
+export { MyPageScreen } from './myPage.component';
+export { MyPageSettingScreen } from './myPage.setting.component';
+export { MyPageProfileScreen } from './myPage.profile.component';
+export { MyPageCustomerServiceScreen } from './myPage.CustomerService.component';
+export { MyPageNotificationScreen } from './myPage.notification';
+export { MyPagePrivacyScreen } from './myPage.privacy.component';
+export { MyPagePrivacyConfirmScreen } from './myPage.privacy.confirm.component';
+export { MyPagePrivacyLoginScreen } from './myPage.privacy.login.component';
+export { MyPageFAQScreen } from './myPage.FAQ.component'; 
