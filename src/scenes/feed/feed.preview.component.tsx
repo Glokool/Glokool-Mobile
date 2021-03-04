@@ -26,7 +26,9 @@ import Tags from "react-native-tags";
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component'
 import axios from 'axios';
+import { FullWidthPicture } from '../../data/picture.model';
 
+const window = Dimensions.get('window');
 
 function isIphoneX() {
   const dimen = Dimensions.get('window');
@@ -50,7 +52,7 @@ export function getStatusBarHeight(skipAndroid) {
 export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const tourKey = props.route.params;
-
+  
   const [DetailData, setDetailData] = React.useState({
     id: "",
     title: "",
@@ -119,7 +121,7 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
         
                   
           {/*사진만 표시하는 */}              
-            <Image style={{width: '100%', height: '10%',resizeMode: 'stretch'}} source={{uri: DetailData.thumbnail}}/>            
+            <Image style={{width: '100%', height: '2%',resizeMode: 'stretch'}} source={{uri: DetailData.thumbnail}}/>            
             <Layout style={styles.bottomBar}>
               <Layout style={styles.discountLayout}>
                 <Image source={require('../../assets/discount.jpg')}/> 
@@ -153,12 +155,12 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
 
           <Divider style={{backgroundColor: 'gray', margin: 20}}/>
           
-          
-          <Image style={{width: '100%', height: undefined, aspectRatio: 0.2}} resizeMode="contain" source={{uri: DetailData?.image[0]}}/>
-          
-          <Image style={{width: '100%', height: undefined, aspectRatio: 0.2}} resizeMode="contain" source={{uri: DetailData?.image[1]}}/>
+          <FullWidthPicture uri={DetailData?.image[0]}/>
+          <FullWidthPicture uri={DetailData?.image[1]}/>
+          <FullWidthPicture uri={DetailData?.image[2]}/>
 
-          <Layout style={{height: 700}}/>
+          <Layout style={{height: 300}}/>
+
           
 
           
@@ -349,5 +351,9 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderColor: '#FFC043',
     backgroundColor: 'white',   
+  },
+  image: {   
+    width: window.width,
+    height: window.height
   }
 });
