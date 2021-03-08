@@ -30,6 +30,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   const now = new Date();
 
   const ClickList = item => () => {
+    
     AsyncStorage.setItem('code', item.tourCode);
     AsyncStorage.setItem('id', item.tour_id);
     AsyncStorage.setItem('title', item.title);
@@ -37,6 +38,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   };
 
   const PressChat = item => () => {
+    
     AsyncStorage.setItem('code', item.tourCode);
     AsyncStorage.setItem('id', item.tour_id);
     AsyncStorage.setItem('title', item.title);
@@ -71,8 +73,8 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
   const renderItem = ({item}) => {
 
-    var Day = moment(now - moment(item.date).toDate()).toDate();
-
+    var Day = (now.getTime() - moment(item.date).toDate().getTime())/ 1000 / 60 / 60 / 24;
+    
     
     return(
       <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -88,7 +90,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
           {((now.getDate()- moment(item.date).toDate().getDate()) == 0)? 
               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D - Day</Text> 
             :
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D {((now - moment(item.date).toDate()) > 0)? '+' : '-'} {Math.abs(Day.getDate())}</Text>
+              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D {((now - moment(item.date).toDate()) > 0)? '+' : '-'} {Math.abs(parseInt(Day))}</Text>
           }
           </Layout>  
 
@@ -102,7 +104,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
         </Layout>      
       </TouchableOpacity>
 
-        <Layout style={{position: 'absolute', bottom: 0, right: 0, padding: 45, backgroundColor: '#00FF0000'}}>
+        <Layout style={{position: 'absolute', bottom: 50, right: 40, backgroundColor: '#00FF0000'}}>
           <TouchableOpacity onPress={PressChat(item)}>
             <Image source={require('../../assets/chat_button.png')}/>
           </TouchableOpacity>

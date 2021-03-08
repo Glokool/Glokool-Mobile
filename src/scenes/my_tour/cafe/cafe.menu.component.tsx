@@ -5,11 +5,9 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  Image,
   ScrollView,
 } from 'react-native';
 import {
-
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -23,9 +21,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
+import { FullWidthPicture } from '../../../data/picture.model';
 
 
 export const CafeMenuScreen = (props: CafeMenuScreenProps): LayoutElement => {
@@ -105,7 +103,7 @@ export const CafeMenuScreen = (props: CafeMenuScreenProps): LayoutElement => {
         
         <Layout style={{flex: 9, backgroundColor: 'white', alignItems: 'center'}}>
             <ScrollView contentContainerStyle={{alignItems: 'center'}}>
-                <Image style={{width: '100%', height: undefined, aspectRatio: 0.5, marginBottom: 50}} resizeMode="contain" source={{uri: cafe.menu}}/>
+                <FullWidthPicture uri={cafe.menu}/>
             </ScrollView>            
         </Layout>
 

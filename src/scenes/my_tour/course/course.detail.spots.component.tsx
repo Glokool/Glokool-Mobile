@@ -96,7 +96,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
           <Layout style={{flex: 9, backgroundColor: 'white'}}>
             <FlatList
                 style={{backgroundColor: 'white'}}
-                initialNumToRender={1}
+                initialNumToRender={8}
                 horizontal={true}
                 data={courseData}
                 pagingEnabled

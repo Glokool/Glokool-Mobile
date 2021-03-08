@@ -71,6 +71,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
     //componentwillmount 대신 사용
     React.useEffect(() => {               
         AsyncStorage.getItem('code').then((result) => {
+
             const chat = database().ref('/chats/' + result);
             setChatDB(chat);
             setRoomName(result);
@@ -79,14 +80,38 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
                 .then((response) => {
                     const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
                         .then(function(doc) {
-                            console.log(doc._data)
-                            setGuide(doc._data);    
+                            console.log("안녕", doc);
+
+                            if(doc._data == undefined){
+                                ToastRef.show('Guide not yet assigned :(', 2000);
+                                setTimeout(() => {
+                                    props.navigation.goBack();
+                                }, 2000)
+                                
+                            }
+                        
+                            else{
+                                setGuide(doc._data);
+                                ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
+                            }
+                            
                         })
-                })
+                        .catch((err) => {
+                            ToastRef.show('Guide not yet assigned :(', 2000);
+                            props.navigation.goBack();
+                        })
+                });
+
+            
+            
         });
 
 
-        ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
+        return () => {
+            AsyncStorage.setItem('code', null);
+            AsyncStorage.setItem('id', null);
+            AsyncStorage.setItem('title', null);
+        };
 
         
 
