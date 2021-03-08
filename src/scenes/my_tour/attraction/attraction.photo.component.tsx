@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,11 +6,9 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView,
   Dimensions
 } from 'react-native';
 import {
-  Divider,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -22,12 +19,9 @@ import {
     faLongArrowAltLeft,
     faBars,
     faUser,
-    faArrowRight,
-    faArrowLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
 
@@ -35,7 +29,6 @@ import { SERVER } from '../../../server.component';
 
 
 export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): LayoutElement => {
-  const user = auth().currentUser;
   const info = props.route.params;
   const [iconSelected, setIconSelected] = React.useState(true);
   const [Attraction, setAttraction] = React.useState([]);
@@ -79,13 +72,17 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
         props.navigation.navigate(NavigatorRoute.MY_PAGE)
     }
 
-    const InsideRenderItem = item => () => (
+    const InsideRenderItem = ({item}) => {
+        return(
         <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), alignItems: 'center'}}>
-            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'contain', borderRadius: 10}} source={{uri: item}}/>       
+            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'contain', borderRadius: 10}} source={{uri: item.url}}/>       
         </Layout>
-    )
+        );
+    }
 
-    const renderItem = ({item}) => (
+    const renderItem = ({item}) => {       
+
+        return(
         <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.7)}}>
             <FlatList
                 style={{marginVertical: 15}}
@@ -93,7 +90,7 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
                 horizontal={true}
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                renderItem={InsideRenderItem(item.image)}
+                renderItem={InsideRenderItem}
             />
             <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text>
             <Layout style={{flexDirection: 'row'}}>
@@ -107,7 +104,8 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
             
             
         </Layout>
-    )
+        );
+}
    
   return (
     <React.Fragment>

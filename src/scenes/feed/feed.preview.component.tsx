@@ -70,7 +70,7 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
     axios.get(SERVER + '/api/tour/' + tourKey)
       .then((response) => {
         setDetailData(response.data);
-        console.log(response.data.thumbnail)
+        console.log(response.data.image[9])
       })
 
   }, [])
@@ -158,6 +158,13 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
           <FullWidthPicture uri={DetailData?.image[0]}/>
           <FullWidthPicture uri={DetailData?.image[1]}/>
           <FullWidthPicture uri={DetailData?.image[2]}/>
+          <FullWidthPicture uri={DetailData?.image[3]}/>
+          <FullWidthPicture uri={DetailData?.image[4]}/>
+          <FullWidthPicture uri={DetailData?.image[5]}/>
+          <FullWidthPicture uri={DetailData?.image[6]}/>
+          <FullWidthPicture uri={DetailData?.image[7]}/>
+          <FullWidthPicture uri={DetailData?.image[8]}/>
+          <FullWidthPicture uri={DetailData?.image[9]}/>
 
           <Layout style={{height: 300}}/>
 

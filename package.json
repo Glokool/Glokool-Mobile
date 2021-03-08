@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "fresco-clone": "git clone https://github.com/facebook/fresco.git android/libraries/fresco && cd android/libraries/fresco && git checkout tags/v2.1.0",
+    "fresco-patch": "yarn file-patch ./patches/DecodeProducer.java.diff android/libraries/fresco/imagepipeline/src/main/java/com/facebook/imagepipeline/producers/DecodeProducer.java",
+    "fresco-setup": "yarn fresco-clone && yarn fresco-patch"
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image } from 'react-native';
-import FastImage from 'react-native-fast-image'
 
 
 export const FullWidthPicture = ({ uri }) => {
@@ -15,10 +14,10 @@ export const FullWidthPicture = ({ uri }) => {
     }, [uri]);
   
     return (
-     <FastImage
-       style={{ width: '100%', height: undefined, aspectRatio: ratio }}
+     <Image
+       style={{ width: '100%', height: undefined, aspectRatio: ratio, padding: 0 }}
        resizeMode="contain"
-       source={{uri : uri, priority: FastImage.priority.high}}
+       source={{uri : uri}}
      />
    );
 };
