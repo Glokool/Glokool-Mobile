@@ -123,13 +123,17 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
                       picRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
                         var profile = user?.updateProfile({
                           photoURL: downloadURL,          
-                        })
+                        })         
                         .then(() => {
                           console.log('프로필 업데이트 성공')
                         })
                         .catch(() => {      
                           console.log('프로필 업데이트 실패')
                         })
+
+                        firestore().collection('Users').doc(uid).set({
+                          avatar: downloadURL
+                        }, { merge: true });
 
 
                       });
@@ -140,7 +144,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
 
   React.useEffect(() => {
 
-    setProfile(user?.photoURL);
+    
 
     const updateData = async() => {
       
@@ -148,6 +152,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
         .then(function(doc) {
           
           setUserData(doc._data);
+          setProfile(doc._data.avatar);
           
           
           var date = new Date(doc._data.birthDate.seconds * 1000);
@@ -203,7 +208,12 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             <Layout style={{flex: 3}}/>
             <Layout style={{flex: 1}}>
               <TouchableOpacity onPress={PressPicture}>
-                <Image style={styles.profile} source={{uri: profile}}/>
+                {(profile == undefined || profile == null)?
+                  <Image style={styles.profile} source={require('../../assets/profile.jpg')}/>
+                :
+                  <Image style={styles.profile} source={{uri: profile}}/>
+                }
+               
               </TouchableOpacity>
             </Layout>
           </Layout>

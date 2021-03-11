@@ -46,7 +46,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
     axios.get( SERVER + '/api/tour')
       .then((response)=> {
         setFeedData(response.data);
-        console.log(response.data)
     })
 
     return () => BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
@@ -64,7 +63,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
     
 
   const ClickList = item => () => {
-    console.log(item);
     props.navigation.navigate(SceneRoute.FEED_PREVIEW, item.id)
   };
 
@@ -72,7 +70,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
       <Layout style={styles.ListContainer}>        
         <TouchableOpacity onPress={ClickList(item)}>
           <Layout style={{alignItems: 'center', backgroundColor: '#00FF0000'}}>
-            <Image style={styles.Image} source={{uri: item.thumbnail}}/>
+            <Image style={styles.Image} source={{uri: item.banner}}/>
           </Layout>
           
           <Layout style={{marginHorizontal: 10, backgroundColor: '#00FF0000'}}>
