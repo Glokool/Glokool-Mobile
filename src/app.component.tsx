@@ -14,8 +14,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
-import SplashScreen from 'react-native-splash-screen'
-
+//import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from "react-native-lottie-splash-screen";
 
 // App start 화면
 //

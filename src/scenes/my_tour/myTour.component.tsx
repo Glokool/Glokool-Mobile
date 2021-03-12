@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  FlatList
+  FlatList,
+  BackHandler
 } from 'react-native';
 import {
   Divider,
@@ -22,12 +23,19 @@ import { MyTourScreenProps } from '../../navigation/myTour.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
+import Toast from 'react-native-easy-toast'
+
+var ToastRef;
 
 export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const [loginVisible, setLoginVisible] = React.useState(true);
   const [MyTourData, setMyTourData] = React.useState([]);
   const now = new Date();
+
+  var exitApp = undefined;  
+  var timeout;
+  
 
   const ClickList = item => () => {
     
@@ -46,6 +54,8 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   }
 
   React.useEffect(() => {
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     
     props.navigation.addListener('focus', () => {
       if(user == null){
@@ -68,8 +78,31 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
     return () => {
       setLoginVisible(false);
+      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     }
   }, [])
+
+  const handleBackButton = () => {
+    
+    if (exitApp == undefined || !exitApp){
+      // 한번만 더 누르면 종료
+
+      ToastRef.show('Press one more time to exit', 1000);
+      exitApp = true;
+
+      timeout = setTimeout(() => {
+        exitApp = false;
+      }, 2000);
+    }
+
+    else{
+      clearTimeout(timeout);
+      BackHandler.exitApp();
+    }
+       
+    
+    return true;
+  }
 
   const renderItem = ({item}) => {
 
@@ -90,7 +123,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
           {((now.getDate()- moment(item.date).toDate().getDate()) == 0)? 
               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D - Day</Text> 
             :
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D {((now - moment(item.date).toDate()) > 0)? '+' : '-'} {Math.abs(parseInt(Day))}</Text>
+              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D {((now - moment(item.date).toDate()) > 0)? '+' : '-'} {Math.abs(parseInt(Day) + 1)}</Text>
           }
           </Layout>  
 
@@ -177,7 +210,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
         
               
       </Layout>
-      
+      <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
     </React.Fragment>
     )
   );

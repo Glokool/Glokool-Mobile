@@ -23,11 +23,12 @@ import Toast from 'react-native-easy-toast'
 var ToastRef;
 
 export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
+
   const user = auth().currentUser;
   const [FeedData, setFeedData] = React.useState([]);
   const [exit, setExit] = React.useState(false);
   
-  let time = false;
+  var exitApp = undefined;  
   var timeout;
   
 
@@ -54,9 +55,22 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   const handleBackButton = () => {
     
+    if (exitApp == undefined || !exitApp){
+      // 한번만 더 누르면 종료
 
+      ToastRef.show('Press one more time to exit', 1000);
+      exitApp = true;
 
-    
+      timeout = setTimeout(() => {
+        exitApp = false;
+      }, 2000);
+    }
+
+    else{
+      clearTimeout(timeout);
+      BackHandler.exitApp();
+    }
+       
     
     return true;
   }

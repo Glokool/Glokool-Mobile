@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  BackHandler
 } from 'react-native';
 import {
   Layout,
@@ -28,6 +29,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
 import {SERVER} from '../../server.component';
 import moment from 'moment'
+import Toast from 'react-native-easy-toast'
+
+var ToastRef;
 
 export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
 
@@ -57,9 +61,11 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [guide, setGuide] = React.useState('');
 
-  
-
+  var exitApp = undefined;  
+  var timeout;
+   
   React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
     if (auth().currentUser != null || auth().currentUser != undefined){
       const unsubscribe = props.navigation.addListener('focus', () => {
@@ -68,11 +74,35 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
 
       axios.get(SERVER + '/api/user/tour/' + auth().currentUser.uid)
       .then((response) => {
-        setData(response.data)
+        setData(response.data);
       })
+    };
+
+    return () => BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+
+  }, []);
+
+  const handleBackButton = () => {
+    
+    if (exitApp == undefined || !exitApp){
+      // 한번만 더 누르면 종료
+
+      ToastRef.show('Press one more time to exit', 1000);
+      exitApp = true;
+
+      timeout = setTimeout(() => {
+        exitApp = false;
+      }, 2000);
     }
 
-  }, [])
+    else{
+      clearTimeout(timeout);
+      BackHandler.exitApp();
+    }
+       
+    
+    return true;
+  }
 
   React.useEffect(() => {
 
@@ -160,6 +190,8 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
   }, [])
 
   const renderItem = ({item}) => {
+    var date = (moment(item.date,'YYYY-MM-DD').toDate());
+    
     return(      
         <Layout style={styles.tour}>
           <TouchableOpacity onPress={PressDetail(item)}>
@@ -168,6 +200,7 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
             </Layout>            
             <Layout style={styles.nestedContainer}>
               <Text style={styles.nestedTitle}>{item.title}</Text>
+              <Text style={styles.nestedTime}>{date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}</Text>
             </Layout>
           </TouchableOpacity> 
         </Layout>
@@ -293,11 +326,11 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
               <Layout style={{flexDirection: 'row'}}>
                 <Layout style={{flex: 1, alignItems: 'flex-start'}}>
                   <Text style={styles.detailTitle}>Name</Text>
-                  <Text style={styles.detailTitle}>E-Mail for Voucher</Text>
+                  <Text style={styles.detailTitle}>Voucher</Text>
                   <Text style={styles.detailTitle}>Contact</Text>
 
                 </Layout>
-                <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+                <Layout style={{flex: 3, alignItems: 'flex-end'}}>
                   <Text style={styles.detailDesc}>{detailData.name}</Text>
                   <Text style={styles.detailDesc}>{detailData.email}</Text>
                   <Text style={styles.detailDesc}>{detailData.contact}</Text>
@@ -322,7 +355,8 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
 
         </Modal>
 
-      </Layout>
+        </Layout>
+        <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
       </React.Fragment>
     )    
   );
@@ -404,6 +438,12 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center'
   },
+  nestedTime: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center'
+  },  
   emptyContainer: {
     flex: 5,
     justifyContent: 'center',
