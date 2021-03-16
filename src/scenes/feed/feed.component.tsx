@@ -34,7 +34,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   React.useEffect(() => {
     
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
     if(user != null || user != undefined){
       if(user.emailVerified == false){
@@ -49,7 +49,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
         setFeedData(response.data);
     })
 
-    return () => BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    //return () => //BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
   }, [])
 
 

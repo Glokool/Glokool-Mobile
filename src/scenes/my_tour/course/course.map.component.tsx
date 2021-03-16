@@ -41,6 +41,8 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
             })
     }, [])
 
+    
+
     const PressBack = () => {
       props.navigation.goBack();
     }

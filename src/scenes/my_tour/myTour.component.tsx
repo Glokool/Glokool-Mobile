@@ -42,6 +42,9 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
     AsyncStorage.setItem('code', item.tourCode);
     AsyncStorage.setItem('id', item.tour_id);
     AsyncStorage.setItem('title', item.title);
+    
+    BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    
     props.navigation.navigate(SceneRoute.MY_TOUR_ALL_LOCATION, item);
   };
 
@@ -55,7 +58,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
   React.useEffect(() => {
 
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     
     props.navigation.addListener('focus', () => {
       if(user == null){
@@ -78,7 +81,8 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
     return () => {
       setLoginVisible(false);
-      BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+
+      //BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     }
   }, [])
 
@@ -86,6 +90,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
     
     if (exitApp == undefined || !exitApp){
       // 한번만 더 누르면 종료
+
 
       ToastRef.show('Press one more time to exit', 1000);
       exitApp = true;

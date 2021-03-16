@@ -65,7 +65,7 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
   var timeout;
    
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
     if (auth().currentUser != null || auth().currentUser != undefined){
       const unsubscribe = props.navigation.addListener('focus', () => {
@@ -78,7 +78,7 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
       })
     };
 
-    return () => BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    //return () => {}ㄱ//BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
 
   }, []);
 

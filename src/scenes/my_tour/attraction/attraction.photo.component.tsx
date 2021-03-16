@@ -83,7 +83,7 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
     const renderItem = ({item}) => {       
 
         return(
-        <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.7)}}>
+        <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.72)}}>
             <FlatList
                 style={{marginVertical: 15}}
                 data={item.image}
@@ -100,9 +100,7 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
                 <Layout>
                     <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.description}</Text>
                 </Layout>
-            </Layout>
-            
-            
+            </Layout>         
         </Layout>
         );
 }

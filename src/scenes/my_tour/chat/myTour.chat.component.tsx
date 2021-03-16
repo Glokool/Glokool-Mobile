@@ -43,6 +43,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
     //채팅 메시지 저장을 위한 정보
     const [ChatDB, setChatDB] = React.useState();
     const [guide, setGuide] = React.useState({});
+    const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState();
     const [chatMessages, setChatMessages] = React.useState([]);
     const [fechChat, setFetchChat] = React.useState(false);
@@ -69,7 +70,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
 
 
     //componentwillmount 대신 사용
-    React.useEffect(() => {               
+    React.useEffect(() => {
         AsyncStorage.getItem('code').then((result) => {
 
             const chat = database().ref('/chats/' + result);
@@ -77,11 +78,12 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
             setRoomName(result);
 
             axios.get(SERVER + '/api/user/tour/chat/' + result)
+
                 .then((response) => {
                     const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
                         .then(function(doc) {
-                            console.log("안녕", doc);
-
+                            
+                            
                             if(doc._data == undefined){
                                 ToastRef.show('Guide not yet assigned :(', 2000);
                                 setTimeout(() => {
@@ -105,6 +107,10 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
             
             
         });
+        
+        AsyncStorage.getItem('title').then((result)=> {
+            setTitle(result);
+        })
 
 
         return () => {
@@ -470,7 +476,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
         return(
             <InputToolbar
                 {...props}
-                containerStyle={{borderWidth: 0.5, borderColor: '#C9C9C9', borderRadius: 15, margin: 5}}
+                containerStyle={{borderWidth: 0.5, borderColor: '#C9C9C9', borderRadius: 15, margin: 10}}
             />
         );
     }
@@ -480,7 +486,9 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
         return(
            <Composer
                 {...props}
-                textInputStyle={{justifyContent: 'center'}}
+                placeholder='Chat Message'
+                textInputStyle={{marginVertical: 2, padding: 10}}
+                style={{}}
            />
         );
     }
@@ -527,7 +535,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
 
                     <Layout style={styles.TitleContainer}>
                         <TouchableOpacity onPress={PressGuide}>
-                        <Text style={styles.title}>Gyeongchun Line Forest Path</Text>
+                        <Text style={styles.title}>{title}</Text>
                         <Text style={styles.title}>{guide.name}</Text>
                         </TouchableOpacity>
                     </Layout>   
@@ -555,7 +563,7 @@ export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement =>
                         initialNumToRender: 15
                     }}
                     alwaysShowSend={true}
-                    renderUsernameOnMessage={true}
+                    renderUsernameOnMessage={false}
                     renderInputToolbar={renderInputToolbar}
                     renderSend={renderSend}
                     renderActions={renderActions}
