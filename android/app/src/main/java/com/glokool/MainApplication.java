@@ -3,6 +3,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.smarkets.paypal.RNPaypalPackage;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
 import com.facebook.react.ReactInstanceManager;

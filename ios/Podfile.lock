@@ -643,6 +643,8 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-image-picker (3.3.2):
     - React-Core
+  - react-native-lottie-splash-screen (0.1.12):
+    - React
   - react-native-restart (0.0.20):
     - React-Core
   - react-native-safe-area-context (3.2.0):
@@ -814,6 +816,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-lottie-splash-screen (from `../node_modules/react-native-lottie-splash-screen`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
@@ -925,6 +928,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-lottie-splash-screen:
+    :path: "../node_modules/react-native-lottie-splash-screen"
   react-native-restart:
     :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
@@ -1047,6 +1052,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
   react-native-image-picker: b42940647478bf106ad3c491d6f5d9d40916d865
+  react-native-lottie-splash-screen: c8c8f4da7cdc1bc20c3c7bc8ec2143fb337e6a1b
   react-native-restart: a01029aadfe8e71f9e8205fdb17da2f0a4472d50
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
@@ -1084,6 +1090,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e8c51e63192725c3247fd21d2cae358bf30ff630
+PODFILE CHECKSUM: 80d73f9c347a9d5386d8f7c812c9635501b25fbb
 
 COCOAPODS: 1.10.1
