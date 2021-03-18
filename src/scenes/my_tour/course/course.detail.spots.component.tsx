@@ -151,23 +151,27 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
         
             {/*탑 탭바 */}
             <Layout style={styles.tabbar}>
-                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                 <Layout style={styles.tabbarContainer}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <TouchableOpacity onPress={PressBack}>
                         <FontAwesomeIcon icon={faAngleLeft} style={{color: '#C9C9C9'}} size={28}/>
                     </TouchableOpacity>
                 </Layout>
                 <Layout style={styles.tabbarContainer}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <TouchableOpacity onPress={() => PressOverview()}>
                         <Text style={styles.Title}>Overview</Text>
                     </TouchableOpacity>
                 </Layout>
                 <Layout style={styles.tabbarContainer}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <TouchableOpacity>
                         <Text style={styles.selectTitle}>Spots</Text>
                     </TouchableOpacity>
                 </Layout>
                 <Layout style={styles.tabbarContainer}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
                     <TouchableOpacity onPress={() => PressReview()}>
                         <Text style={styles.Title}>Review</Text>
                     </TouchableOpacity>
