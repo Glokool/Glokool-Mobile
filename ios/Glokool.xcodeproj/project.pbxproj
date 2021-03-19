@@ -23,6 +23,8 @@
 		DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF0FA78525B6B9A600C39905 /* GoogleService-Info.plist */; };
 		DF0FA78D25B6BD2200C39905 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DF0FA78C25B6BD2100C39905 /* Fonts */; };
 		DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */; };
+		DF96D1492604422A0005AD8D /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = DF96D1482604422A0005AD8D /* loading.json */; };
+		DF96D220260444000005AD8D /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF96D21F260444000005AD8D /* Dynamic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,9 @@
 		DF0FA78C25B6BD2100C39905 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		DF96CF972604330C0005AD8D /* Glokool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Glokool.entitlements; path = Glokool/Glokool.entitlements; sourceTree = "<group>"; };
+		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
+		DF96D21E260443FF0005AD8D /* Glokool-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Glokool-Bridging-Header.h"; sourceTree = "<group>"; };
+		DF96D21F260444000005AD8D /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +137,7 @@
 		13B07FAE1A68108700A75B9A /* Glokool */ = {
 			isa = PBXGroup;
 			children = (
+				DF96D1482604422A0005AD8D /* loading.json */,
 				DF96CF972604330C0005AD8D /* Glokool.entitlements */,
 				DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */,
 				DF0FA78525B6B9A600C39905 /* GoogleService-Info.plist */,
@@ -142,6 +148,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				DF96D21F260444000005AD8D /* Dynamic.swift */,
+				DF96D21E260443FF0005AD8D /* Glokool-Bridging-Header.h */,
 			);
 			name = Glokool;
 			sourceTree = "<group>";
@@ -316,7 +324,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = H96A452V5P;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1240;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -364,6 +372,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				DF96D1492604422A0005AD8D /* loading.json in Resources */,
 				DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */,
 				DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */,
 				DF0FA78D25B6BD2200C39905 /* Fonts in Resources */,
@@ -655,6 +664,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF96D220260444000005AD8D /* Dynamic.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -697,6 +707,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D531793E5AF07E457E581B30 /* Pods-Glokool-GlokoolTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -720,6 +731,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A0E9DEC7C6EE09C6DB4510C2 /* Pods-Glokool-GlokoolTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = GlokoolTests/Info.plist;
@@ -743,7 +755,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Glokool/Glokool.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H96A452V5P;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Glokool/Info.plist;
@@ -755,6 +767,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.glokool;
 				PRODUCT_NAME = Glokool;
+				SWIFT_OBJC_BRIDGING_HEADER = "Glokool-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -769,7 +782,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Glokool/Glokool.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = H96A452V5P;
 				INFOPLIST_FILE = Glokool/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -781,6 +794,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.glokool;
 				PRODUCT_NAME = Glokool;
+				SWIFT_OBJC_BRIDGING_HEADER = "Glokool-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

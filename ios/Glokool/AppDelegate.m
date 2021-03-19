@@ -5,7 +5,9 @@
 #import <React/RCTRootView.h>
 #import <Firebase.h>
 #import "RNPaypal.h"
-#import "RNSplashScreen.h"
+#import "RNSplashScreen.h" // here
+ 
+#import "Glokool-Swift.h" // here, change project name to yours
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -54,7 +56,20 @@ static void InitializeFlipper(UIApplication *application) {
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-//  [RNSplashScreen show];
+  Dynamic *t = [Dynamic new];
+  UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"]; // change lottieName to your lottie files name
+  animationView.backgroundColor = [UIColor whiteColor]; // change backgroundColor
+ 
+  // register LottieSplashScreen to RNSplashScreen
+  [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
+ 
+  // play
+  [t playWithAnimationView:animationView];
+ 
+  // If you want the animation layout to be forced to remove when hide is called, use this code
+  [RNSplashScreen setAnimationFinished:true];
+
+
 
   return YES;
 }

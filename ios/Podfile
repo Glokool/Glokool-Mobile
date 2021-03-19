@@ -9,13 +9,13 @@ target 'Glokool' do
   use_react_native!(:path => config["reactNativePath"])
   pod 'Firebase/Analytics'
 
-  
+  pod 'lottie-ios'
 
   pod 'RNAudio', :path => '../node_modules/react-native-audio'
 
   pod 'RNPaypal', :path => '../node_modules/react-native-paypal'
 
-  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+  pod 'react-native-lottie-splash-screen', :path => '../node_modules/react-native-lottie-splash-screen'
 
   target 'GlokoolTests' do
     inherit! :complete
