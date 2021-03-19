@@ -73,7 +73,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
 
 
     const PressReview = (id) => {
-        toastRef.show(`It's Under development.`, 2000);
+        toastRef.show(`The service has just started and there is no review yet :(`, 2000);
         //props.navigation.navigate(SceneRoute.COURSE_DETAIL_REVIEW, props.route.params);
     }
 

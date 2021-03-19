@@ -83,12 +83,12 @@ export const MyPageSettingScreen = (props: MyPageSettingScreenProps): LayoutElem
             </TouchableOpacity> 
           </Layout>
 
-          <Layout style={styles.TouchLayout}>
+          {/* <Layout style={styles.TouchLayout}>
             <TouchableOpacity style={styles.TouchableComponent} onPress={PressNotification}>   
               <FontAwesomeIcon icon={faBell} size={20} style={styles.IconStyle}/>
               <Text style={{fontSize: 20, fontWeight: 'bold'}}>Notification</Text>
             </TouchableOpacity> 
-          </Layout>
+          </Layout> */}
 
           <Layout style={styles.TouchLayout}>
             <TouchableOpacity style={styles.TouchableComponent} onPress={PressPrivacy}>   

@@ -6,7 +6,7 @@ import axios from 'axios'
 import {
   StyleSheet,
   SafeAreaView,
-  Text,
+
   TouchableOpacity,
   Image,
   FlatList,
@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import {
     Divider,
+    Text,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -453,7 +454,6 @@ const styles = StyleSheet.create({
     },
     bubbleTab: {
         borderRadius: 30,
-        
         backgroundColor: '#F5F5F5'
     },
     bubbleSelectedTab: {
