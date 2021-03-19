@@ -14,7 +14,10 @@ import {
   Layout,
   LayoutElement,
   Text,
-  Input
+  Input,
+  Modal,
+  Button,
+  Card
 } from '@ui-kitten/components';
 import { MyPageProfileScreenProps } from '../../navigation/myPage.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -26,11 +29,12 @@ var toastRef;
 export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElement => {
   //Name
   const [name, setName] = React.useState('');
-
+  const [withDrawal, setWithDrawal] = React.useState(false);
+  const user = auth().currentUser;
+  const uid = user?.uid;
   //Date of Birth
   const startDay = new Date(1900, 1, 1);
-  const [date, setDate] = React.useState(new Date());  
-
+  const [date, setDate] = React.useState(new Date()); 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const gender = [
@@ -39,23 +43,20 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
   ];
   const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
   const [profile, setProfile] = React.useState(null);
-
-
   const [userData, setUserData] = React.useState({
     name: '',
     gender: '',
     country: '',
     signupDate: new Date()
   });
-
   const [birthDate, setBirthDate] = React.useState({
     year: '',
     month: '',
     day: ''
   })
 
-  const user = auth().currentUser;
-  const uid = user?.uid;
+  
+  
 
   const PressBack = () => {
     props.navigation.goBack();
@@ -142,6 +143,17 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
       })
   }
 
+  const withDrawalFunction = () => {
+    
+    firestore().collection('Users').doc(uid).delete()
+      .then((result) => {
+        user?.delete();
+        // 유저를 삭제하고 완전히 삭제
+      })
+
+
+  }
+
   React.useEffect(() => {
 
     
@@ -182,6 +194,34 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
       <Layout style={styles.mainContainer}>
+
+      <Modal
+          visible={withDrawal}
+          backdropStyle={styles.backdrop}
+        >
+          <Card disabled={true}>
+            <Text style={{marginVertical: 30}}>Are you Sure?</Text>
+            
+            <Layout style={{flexDirection: 'row'}}>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button style={styles.cancelButton} appearance='outline' onPress={() => {
+                  setWithDrawal(false);
+                }}>
+                  CANCLE
+                </Button>
+              </Layout>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button onPress={() => {
+                  setWithDrawal(false);
+                }}>
+                  MOVE
+                </Button>
+              </Layout>
+              
+            </Layout>
+            
+          </Card>
+        </Modal>
 
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
@@ -264,7 +304,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
 
           <Divider style={{backgroundColor: 'gray', margin: 20}}/>
           
-          <TouchableOpacity style={{marginVertical: 10}}>
+          <TouchableOpacity style={{marginVertical: 10}} onPress={() => setWithDrawal(true)}>
             <Layout style={styles.infoContainer}>            
                 <Layout style={{flex: 1}}>
                   <Text style={styles.title}>Withdrawal</Text>
@@ -330,5 +370,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     alignItems: 'center', 
     justifyContent: 'center'
-  }
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cancelButton: {
+    borderColor: '#FFC043',
+    backgroundColor: 'white',   
+  },
 });
