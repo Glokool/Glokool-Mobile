@@ -453,6 +453,7 @@ const styles = StyleSheet.create({
     },
     bubbleTab: {
         borderRadius: 30,
+        
         backgroundColor: '#F5F5F5'
     },
     bubbleSelectedTab: {
@@ -462,13 +463,13 @@ const styles = StyleSheet.create({
     bubbleSelectedText: {
         fontSize: 12,
         color: 'white',
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 20,
     },
     bubbleText: {
         fontSize: 12,
         color: '#C9C9C9',
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 20,
     },
     touchContainer: {

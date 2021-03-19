@@ -15,7 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 
-//import SplashScreen from "react-native-lottie-splash-screen";
+import SplashScreen from "react-native-splash-screen";
 
 // App start 화면
 //
@@ -24,6 +24,7 @@ const saveTokenToDatabase = async(token) => {
 
   const userId = auth().currentUser?.uid;
 
+  SplashScreen.hide();
 
   // 토큰 정리 (firebase에 저장)
   await firestore()
