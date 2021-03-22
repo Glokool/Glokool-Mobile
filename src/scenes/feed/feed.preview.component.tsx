@@ -18,7 +18,8 @@ import {
   Card,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
-import { faAngleLeft, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { FullWidthPicture } from '../../data/picture.model'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FeedPreviewScreenProps } from '../../navigation/feed.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -26,9 +27,10 @@ import Tags from "react-native-tags";
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component'
 import axios from 'axios';
-import { FullWidthPicture } from '../../data/picture.model';
+
 
 const window = Dimensions.get('window');
+var load = [false, false, false, false, false, false, false, false, false, false];
 
 function isIphoneX() {
   const dimen = Dimensions.get('window');
@@ -41,7 +43,8 @@ function isIphoneX() {
       (dimen.height === 896 || dimen.width === 896))
   );
 }
-export function getStatusBarHeight(skipAndroid) {
+
+function getStatusBarHeight(skipAndroid) {
     return Platform.select({
         ios: isIphoneX() ? 44 : 20,
         android: skipAndroid ? 0 : StatusBar.currentHeight,
@@ -51,8 +54,7 @@ export function getStatusBarHeight(skipAndroid) {
 
 export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement => {
   const user = auth().currentUser;
-  const tourKey = props.route.params;
-  
+  const tourKey = props.route.params;  
   const [DetailData, setDetailData] = React.useState({
     id: "",
     title: "",
@@ -62,20 +64,36 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
     thumbnail: "",
     fee: "",
     image: []
-});
+  });
   const [loginVisible, setLoginVisible] = React.useState(false);
-  const [discount, setDiscount] = React.useState(false);
+  const [preview, setPreview] = React.useState(false);
+  const [ratio, setRatio] = React.useState([]);
 
   React.useEffect(() => {
     axios.get(SERVER + '/api/tour/' + tourKey)
       .then((response) => {
         setDetailData(response.data);
-        console.log(response.data.image[9])
       })
 
-  }, [])
+
+    return () => {
+      load = [false, false, false, false, false, false, false, false, false, false];
+    }
+
+   
+  }, []);
+
+  function getPictureRatio(uri : string , index : number) {
+    var tempRatio : number[] = ratio;
   
- 
+    if (uri) {
+      Image.getSize(uri, (width, height) => {
+         tempRatio[index] =  (width / height);
+         setRatio(tempRatio)
+      });
+   }
+  }  
+
   const PressBack = () => {
     props.navigation.goBack();
   }
@@ -113,134 +131,125 @@ export const FeedPreviewScreen = (props: FeedPreviewScreenProps): LayoutElement 
 
 
   return (
-    <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-          
-      <ScrollView>
-      <Layout style={styles.MainContainer}>
-        
-                  
-          {/*사진만 표시하는 */}              
-            <Image style={{width: '100%', height: '2%',resizeMode: 'stretch'}} source={{uri: DetailData.thumbnail}}/>            
-            <Layout style={styles.bottomBar}>
-              <Layout style={styles.discountLayout}>
-                <Image source={require('../../assets/discount.jpg')}/> 
-              </Layout>
-            </Layout>            
-          
-          
-          <Layout style={styles.TextContainer}>
-            <Text style={styles.Title}>{DetailData.title}</Text>
-            <Text style={styles.subTitle}>📍 {DetailData.location}</Text>
-          </Layout>
-          
 
-          {/*태그가 표시되는 뷰*/}
-          <Layout style={styles.tagContainer}>
-            <Tags
-              initialTags={DetailData.tags}
-              readonly={true}
-              renderTag={({ tag }) => (
-                <Layout style={styles.tag}>
-                  <Text style={styles.tagText}>{tag}</Text>  
-                </Layout>                          
-              )}
-            />
-          </Layout>
+      <React.Fragment>
+        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
 
-          {/*상세 정보를 적는 뷰*/}
-          <Layout style={styles.descContainer}>
-            <Text style={styles.descText}>{DetailData.description}</Text>
-          </Layout>
-
-          <Divider style={{backgroundColor: 'gray', margin: 20}}/>
+        <ScrollView style={{zIndex: 2}}>
+          <Layout style={styles.MainContainer}>
           
-          <FullWidthPicture uri={DetailData?.image[0]}/>
-          <FullWidthPicture uri={DetailData?.image[1]}/>
-          <FullWidthPicture uri={DetailData?.image[2]}/>
-          <FullWidthPicture uri={DetailData?.image[3]}/>
-          <FullWidthPicture uri={DetailData?.image[4]}/>
-          <FullWidthPicture uri={DetailData?.image[5]}/>
-          <FullWidthPicture uri={DetailData?.image[6]}/>
-          <FullWidthPicture uri={DetailData?.image[7]}/>
-          <FullWidthPicture uri={DetailData?.image[8]}/>
-          <FullWidthPicture uri={DetailData?.image[9]}/>
-
-          <Layout style={{height: 300}}/>
-
-          
-
-          
-
-          
-
-        
-      </Layout>
-      </ScrollView>
-      
-      {/*로그인 확인창*/}
-      <Modal
-        visible={loginVisible}
-        backdropStyle={styles.backdrop}
-      >
-        <Card disabled={true}>
-          <Text style={{marginVertical: 30}}>Login is required. Move to the login page?</Text>
-          
-          <Layout style={{flexDirection: 'row'}}>
-            <Layout style={{margin: 15, flex: 1}}>
-              <Button style={styles.cancelButton} appearance='outline'onPress={PressCancel}>
-                CANCLE
-              </Button>
-            </Layout>
-            <Layout style={{margin: 15, flex: 1}}>
-              <Button onPress={PressMove}>
-                MOVE
-              </Button>
+            {/*사진만 표시하는 */}              
+              <Image 
+                style={{width: '100%', height: 300, resizeMode: 'stretch', zIndex: 1}} 
+                source={{uri: DetailData.thumbnail}}
+                onLoadEnd={() => {setPreview(true)}}
+              />            
+              <Layout style={styles.bottomBar}>
+                <Layout style={styles.discountLayout}>
+                  <Image source={require('../../assets/discount.jpg')}/> 
+                </Layout>
+              </Layout>            
+            
+            
+            <Layout style={styles.TextContainer}>
+              <Text style={styles.Title}>{DetailData.title}</Text>
+              <Text style={styles.subTitle}>📍 {DetailData.location}</Text>
             </Layout>
             
+
+            {/*태그가 표시되는 뷰*/}
+            <Layout style={styles.tagContainer}>
+              <Tags
+                initialTags={DetailData.tags}
+                readonly={true}
+                renderTag={({ tag }) => (
+                  <Layout style={styles.tag}>
+                    <Text style={styles.tagText}>{tag}</Text>  
+                  </Layout>                          
+                )}
+              />
+            </Layout>
+
+            {/*상세 정보를 적는 뷰*/}
+            <Layout style={styles.descContainer}>
+              <Text style={styles.descText}>{DetailData.description}</Text>
+            </Layout>
+
+            <Divider style={{backgroundColor: 'gray', margin: 20}}/>
+            
+            <FullWidthPicture uri={DetailData?.image[0]}/>
+            <FullWidthPicture uri={DetailData?.image[1]}/>
+            <FullWidthPicture uri={DetailData?.image[2]}/>
+            <FullWidthPicture uri={DetailData?.image[3]}/>
+            <FullWidthPicture uri={DetailData?.image[4]}/>
+            <FullWidthPicture uri={DetailData?.image[5]}/>
+            <FullWidthPicture uri={DetailData?.image[6]}/>
+            <FullWidthPicture uri={DetailData?.image[7]}/>
+            <FullWidthPicture uri={DetailData?.image[8]}/>
+            <FullWidthPicture uri={DetailData?.image[9]}/>
+
+            <Layout style={{height: 300}}/>
+
+          </Layout>
+
+        </ScrollView>
+        
+        {/*로그인 확인창*/}
+        <Modal
+          visible={loginVisible}
+          backdropStyle={styles.backdrop}
+        >
+          <Card disabled={true}>
+            <Text style={{marginVertical: 30}}>Login is required. Move to the login page?</Text>
+            
+            <Layout style={{flexDirection: 'row'}}>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button style={styles.cancelButton} appearance='outline'onPress={PressCancel}>
+                  CANCLE
+                </Button>
+              </Layout>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button onPress={PressMove}>
+                  MOVE
+                </Button>
+              </Layout>
+              
+            </Layout>
+            
+          </Card>
+        </Modal>
+
+
+
+        {/*바텀 탭 바*/}
+        <Layout style={styles.bottomTabBar}>        
+          <Layout style={styles.feeContainer}>
+            <Text style={{fontSize: 10, color: 'gray', marginTop: 10}}>Guide Fee</Text>
+            <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 5}}>$ {DetailData.fee}</Text>
+          </Layout>
+
+          <Layout style={styles.buttonContainer}>
+            <Button style={styles.button} size='large' onPress={PressBook}>BOOK</Button>
+          </Layout>            
+        </Layout>
+
+
+        {/* 투명 탭바 */}
+        <Layout style={styles.TabBar}>
+          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
+              <FontAwesomeIcon icon={faAngleLeft} style={{color: 'gray'}} size={32}/>
+            </TouchableOpacity>
           </Layout>
           
-        </Card>
-      </Modal>
+          <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
 
-
-
-      {/*바텀 탭 바*/}
-      <Layout style={styles.bottomTabBar}>        
-        <Layout style={styles.feeContainer}>
-          <Text style={{fontSize: 10, color: 'gray', marginTop: 10}}>Guide Fee</Text>
-          <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 5}}>$ {DetailData.fee}</Text>
+          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+          </Layout>
         </Layout>
-
-        <Layout style={styles.buttonContainer}>
-          <Button style={styles.button} size='large' onPress={PressBook}>BOOK</Button>
-        </Layout>            
-      </Layout>
-
-
-      {/* 투명 탭바 */}
-      <Layout style={styles.TabBar}>
-        <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-          <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-          <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
-            <FontAwesomeIcon icon={faAngleLeft} style={{color: 'white'}} size={32}/>
-          </TouchableOpacity>
-        </Layout>
-        
-        <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
-
-        <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-          <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-          <TouchableOpacity style={styles.IconContainer}>
-            <FontAwesomeIcon icon={faEllipsisH} style={{color: 'white'}} size={32}/>
-          </TouchableOpacity>
-        </Layout>
-      </Layout>
-
-      
-      
-
-    </React.Fragment>
+      </React.Fragment>
   );
 };
 
@@ -250,6 +259,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#00ff0000',
+    zIndex : 3
   },
   MainContainer: {
     flex: 9,
@@ -325,7 +335,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopStartRadius: 35,
     flexDirection: 'row',
-
+    zIndex: 3,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { YellowBox, ImageBackground, StyleSheet, } from 'react-native';
+import React from 'react';
+import { LogBox, StyleSheet, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -16,13 +16,10 @@ import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 import SplashScreen from "react-native-lottie-splash-screen";
 
-// App start 화면
-//
 
 const saveTokenToDatabase = async(token) => {
 
   const userId = auth().currentUser?.uid;
-
 
   // 토큰 정리 (firebase에 저장)
   await firestore()
@@ -91,6 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-YellowBox.ignoreWarnings([
-  'RCTRootView cancelTouches',
-]);
+LogBox.ignoreLogs(['Warning: ...']);

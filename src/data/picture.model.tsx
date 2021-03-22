@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 
 
-export const FullWidthPicture = ({ uri }) => {
+export const FullWidthPicture = ({uri}) => {
     const [ratio, setRatio] = React.useState(1);
     
     React.useEffect(() => {
@@ -18,6 +18,7 @@ export const FullWidthPicture = ({ uri }) => {
        style={{ width: '100%', height: undefined, aspectRatio: ratio, padding: 0 }}
        resizeMode="contain"
        source={{uri : uri}}
+      
      />
    );
 };

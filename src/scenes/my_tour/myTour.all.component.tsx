@@ -6,15 +6,14 @@ import axios from 'axios'
 import {
   StyleSheet,
   SafeAreaView,
-
   TouchableOpacity,
   Image,
   FlatList,
   Dimensions
 } from 'react-native';
 import {
-    Divider,
-    Text,
+  Divider,
+  Text,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -454,20 +453,23 @@ const styles = StyleSheet.create({
     },
     bubbleTab: {
         borderRadius: 30,
-        backgroundColor: '#F5F5F5'
+        backgroundColor: '#F5F5F5',
+        padding: 5,
     },
     bubbleSelectedTab: {
         borderRadius: 30,
-        backgroundColor: '#FFC043'
+        backgroundColor: '#FFC043',
+        padding: 5,
     },
     bubbleSelectedText: {
-        fontSize: 12,
+        fontSize: 14,
         color: 'white',
         marginVertical: 5,
         marginHorizontal: 20,
+
     },
     bubbleText: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#C9C9C9',
         marginVertical: 5,
         marginHorizontal: 20,

@@ -35,49 +35,24 @@ export const FeedBookFirstScreen = (props: FeedBookFirstScreenProps): LayoutElem
     const [date, setDate] = React.useState(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2));
     const startDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
     const endDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 32);
-    const [select, setSelect] = React.useState('1');
+    const [select, setSelect] = React.useState('0');
     
 
     const DATA = [
       {
-        title: "1",
+        title: "0",
         startDate: "10AM",
         endDate: "14PM"
       },
       {
-        title: "2",
-        startDate: "11AM",
-        endDate: "15PM"
-      },
-      {
-        title: "3",
-        startDate: "12PM",
-        endDate: "16PM"
-      },
-      {
-        title: "4",
-        startDate: "13PM",
-        endDate: "17PM"
-      },
-      {
-        title: "5",
+        title: "1",
         startDate: "14PM",
         endDate: "18PM"
       },
       {
-        title: "6",
-        startDate: "15PM",
-        endDate: "19PM"
-      },
-      {
-        title: "7",
-        startDate: "16PM",
-        endDate: "20PM"
-      },
-      {
-        title: "8",
-        startDate: "17PM",
-        endDate: "21PM"
+        title: "2",
+        startDate: "18PM",
+        endDate: "22PM"
       }
     ]
 
@@ -90,7 +65,7 @@ export const FeedBookFirstScreen = (props: FeedBookFirstScreenProps): LayoutElem
       date.setHours(date.getHours() + 9);
       
       TripData.day = date;
-      TripData.time = `${DATA[select-1].startDate}~${DATA[select-1].endDate}`;
+      TripData.time = `${DATA[select].startDate}~${DATA[select].endDate}`;
 
       console.log(date)
 
@@ -118,15 +93,13 @@ export const FeedBookFirstScreen = (props: FeedBookFirstScreenProps): LayoutElem
         ((item.title == select)? 
           <TouchableOpacity> 
             <Layout style={styles.selectContainer}>
-              <Text style={{fontSize: 16, color: 'white'}}>{item.startDate}</Text>
-              <Text style={{fontSize: 10, color: 'white'}}>{item.endDate}</Text>     
+              <Text style={{fontSize: 16, color: 'white'}}>{item.startDate} ~ {item.endDate}</Text>
             </Layout>
           </TouchableOpacity>
         :
           <TouchableOpacity onPress={() => setSelect(item.title)}> 
             <Layout style={styles.dateContainer}>
-              <Text style={{fontSize: 16, color: 'black'}}>{item.startDate}</Text>
-              <Text style={{fontSize: 10, color: 'black'}}>~{item.endDate}</Text>     
+              <Text style={{fontSize: 16, color: 'black'}}>{item.startDate} ~ {item.endDate}</Text>
             </Layout>
           </TouchableOpacity>        
         )    
@@ -257,8 +230,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal : 3,
     backgroundColor: '#F5F5F5',
-    width: 64,
-    height: 80,
+    width: 120,
+    height: 50,
   },
   selectContainer: {
     borderRadius: 10,
@@ -266,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal : 3,
     backgroundColor: '#FFC043',
-    width: 64,
-    height: 80,
+    width: 120,
+    height: 50,
   }
 })
