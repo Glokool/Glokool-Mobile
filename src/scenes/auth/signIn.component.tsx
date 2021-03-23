@@ -1,10 +1,9 @@
 import React from 'react';
-import CheckBox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
-  View,
+  TouchableOpacity
 } from 'react-native';
 import {
   Layout,
@@ -12,21 +11,22 @@ import {
   LayoutElement,
   Text,
 } from '@ui-kitten/components';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { Formik, FormikProps } from 'formik';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import { FormInput } from '../../component/form-input.component';
 import { SignInData, SignInSchema } from '../../data/sign-in.model';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route'
-import { CommonActions, StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import Toast from 'react-native-easy-toast';
 
-
 /*
   로그인 화면
 */
-var toastRef;
+var toastRef : any;
 
 export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
@@ -41,7 +41,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   const onFormSubmit = (values: SignInData): void => {
 
     if(values.email == "" || values.password == ""){
-
+      toastRef.show("Email or Password is Empty!");  
     }
     
     else{
@@ -49,11 +49,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
       auth().signInWithEmailAndPassword(values.email, values.password)
         .then((user) => {
-  
-  
+    
           console.log('로그인 화면 - 이메일 인증여부 판단...');
-          toastRef.show("Login Success!");
-  
+          toastRef.show("Login Success!");  
   
           if (user.user.emailVerified == true) {
             props.navigation.dispatch(MainNavigate);
@@ -95,6 +93,10 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
       </TouchableWithoutFeedback>
     );
   };
+
+  const PressBack = () => {
+    props.navigation.replace(NavigatorRoute.MAIN);
+  }
   
   const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (
     <React.Fragment>
@@ -162,6 +164,22 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
             </ScrollView>
             <Toast ref={(toast) => toastRef = toast} position={'bottom'}/>
         </Layout>
+
+      {/* 투명 탭바 */}
+      <Layout style={styles.TabBar}>
+          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
+              <FontAwesomeIcon icon={faAngleLeft} style={{color: 'white'}} size={32}/>
+            </TouchableOpacity>
+          </Layout>
+          
+          <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
+
+          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+          </Layout>
+        </Layout>
     </React.Fragment>
   );
 };
@@ -225,5 +243,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFC043',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  TabBar:{
+    position: 'absolute',
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#00ff0000',
+    zIndex : 3
+  },
+  IconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 15
+  },
 });
