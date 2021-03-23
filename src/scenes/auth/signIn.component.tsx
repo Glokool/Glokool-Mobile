@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import firebase from '@react-native-firebase/firestore';
 import {
   StyleSheet,
   SafeAreaView,
@@ -48,20 +49,35 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
       toastRef.show("LOGIN...", 2000);
 
       auth().signInWithEmailAndPassword(values.email, values.password)
-        .then((user) => {
-    
+        .then((user) => {    
           console.log('로그인 화면 - 이메일 인증여부 판단...');
-          toastRef.show("Login Success!");  
-  
-          if (user.user.emailVerified == true) {
-            props.navigation.dispatch(MainNavigate);
-          }
-          else {
-            props.navigation.reset({
-              index: 0,
-              routes: [{ name: SceneRoute.EMAIL_FAIL}]
-            });
-          }
+          
+
+          firebase().collection('Users').doc(user.user.uid).get()
+              .then((result) => {
+                  if(result.exists == false){
+                    // 유저가 아닌 가이드 회원 (어드민일수 있지만 제외)
+                    toastRef.show(`We're sorry, but you can't log in to the guide account`, 2000)
+                  }
+                  else{
+
+                    if (user.user.emailVerified == true) {
+                      toastRef.show("Login Success!");
+                      props.navigation.dispatch(MainNavigate);
+                    }
+
+                    else {
+                      props.navigation.reset({
+                        index: 0,
+                        routes: [{ name: SceneRoute.EMAIL_FAIL}]
+                      });
+                    }
+
+                  }
+              })
+              .catch((err) => {
+
+              })  
         })
         .catch((error) => {
           var errorMessage = error.message;        

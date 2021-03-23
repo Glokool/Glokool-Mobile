@@ -15,10 +15,10 @@ import {
   LayoutElement,
   Layout,
 } from '@ui-kitten/components';
-import Toast from 'react-native-simple-toast';
+import Toast from 'react-native-easy-toast';
 import { EmailVerificationScreenProps } from '../../navigation/auth.navigator';
 
-
+var ToastRef : any;
 
 export const EmailVerificationScreen = (props: EmailVerificationScreenProps): LayoutElement => {
 
@@ -28,14 +28,17 @@ export const EmailVerificationScreen = (props: EmailVerificationScreenProps): La
   });
 
   const user = auth().currentUser;
-  
-  
-  user?.sendEmailVerification().then(function() {    
-  }).catch(function(error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorMessage)
-  });
+    
+  user?.sendEmailVerification()
+    .then(function() {
+      console.log('이메일 전송 성공')
+      ToastRef.show('Completed sending validation email' ,1500);  
+    })
+    .catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage)
+    });
   
   const NextButton = (): void => {
     props.navigation.dispatch(AuthNavigate);  
@@ -56,7 +59,7 @@ export const EmailVerificationScreen = (props: EmailVerificationScreenProps): La
         </Layout>
         
       </Layout>
-      
+      <Toast ref={(toast) => ToastRef = toast} position={'bottom'}/>
     </React.Fragment>
   );
 };

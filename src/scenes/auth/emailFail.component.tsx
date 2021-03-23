@@ -16,7 +16,9 @@ import {
   Layout,
 } from '@ui-kitten/components';
 import { EmailFailScreenProps } from '../../navigation/auth.navigator';
+import Toast from 'react-native-easy-toast';
 
+var ToastRef : any;
 
 
 export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
@@ -35,6 +37,7 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
     user?.sendEmailVerification()
       .then(function() { 
         console.log('이메일 전송 성공')
+        ToastRef.show('Completed sending validation email' ,1500);
     })
       .catch(function(error) {
       var errorCode = error.code;
@@ -76,7 +79,8 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
         </Layout>
         
       </Layout>
-      
+
+      <Toast ref={(toast) => ToastRef = toast} position={'bottom'}/>      
     </React.Fragment>
   );
 };
