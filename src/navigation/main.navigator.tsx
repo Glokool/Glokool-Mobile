@@ -119,13 +119,19 @@ export const MainNavigator = (): React.ReactElement => (
     >
         <Tab.Screen name={NavigatorRoute.FEED} component={FeedNavigator} 
           options={({ route }) => ({
-            tabBarVisible: getTabBarVisibility(route)
+            tabBarVisible: getTabBarVisibility(route),
+            unmountOnBlur : true
           })}
+          
         />
         <Tab.Screen name={NavigatorRoute.MY_TOUR} component={MyTourNavigator} 
           options={({ route }) => ({
-            tabBarVisible: getTabBarVisibility2(route)
+            tabBarVisible: getTabBarVisibility2(route),
+            unmountOnBlur : true
           })}/>
-        <Tab.Screen name={NavigatorRoute.MY_PAGE} component={MyPageNavigator} />
+        <Tab.Screen name={NavigatorRoute.MY_PAGE} component={MyPageNavigator} 
+          options={({ route }) => ({
+            unmountOnBlur : true
+          })}/>
     </Tab.Navigator>
 );

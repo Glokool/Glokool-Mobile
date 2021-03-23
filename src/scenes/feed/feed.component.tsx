@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   StyleSheet,
   SafeAreaView,
@@ -20,7 +21,7 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import Toast from 'react-native-easy-toast'
 
-var ToastRef;
+var ToastRef : any;
 
 export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
@@ -28,13 +29,23 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   const [FeedData, setFeedData] = React.useState([]);
   const [exit, setExit] = React.useState(false);
   
-  var exitApp = undefined;  
-  var timeout;
+  var exitApp : any = undefined;  
+  var timeout : any;
+
+
+  // 백핸들러 적용을 위한 함수
+  const focusEvent = useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+      
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      }
+    }, [])
+  );
   
 
   React.useEffect(() => {
-    
-    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
     if(user != null || user != undefined){
       if(user.emailVerified == false){
@@ -49,9 +60,10 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
         setFeedData(response.data);
     })
 
-    //return () => //BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-  }, [])
+    return () => {
 
+    }
+  }, []);
 
   const handleBackButton = () => {
     

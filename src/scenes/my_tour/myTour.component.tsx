@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   StyleSheet,
@@ -25,7 +26,7 @@ import { SERVER } from '../../server.component';
 import moment from 'moment';
 import Toast from 'react-native-easy-toast'
 
-var ToastRef;
+var ToastRef : any;
 
 export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   const user = auth().currentUser;
@@ -33,8 +34,19 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
   const [MyTourData, setMyTourData] = React.useState([]);
   const now = new Date();
 
-  var exitApp = undefined;  
-  var timeout;
+  var exitApp : any = undefined;  
+  var timeout : any;
+
+  // 백핸들러 적용을 위한 함수
+  const focusEvent = useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+      
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      }
+    }, [])
+  );
   
 
   const ClickList = item => () => {
@@ -58,8 +70,6 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
   React.useEffect(() => {
 
-    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-    
     props.navigation.addListener('focus', () => {
       if(user == null){
         setLoginVisible(true);
@@ -81,17 +91,13 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
     return () => {
       setLoginVisible(false);
-
-      //BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     }
   }, [])
 
   const handleBackButton = () => {
     
     if (exitApp == undefined || !exitApp){
-      // 한번만 더 누르면 종료
-
-
+      
       ToastRef.show('Press one more time to exit', 1000);
       exitApp = true;
 
@@ -104,7 +110,6 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
       clearTimeout(timeout);
       BackHandler.exitApp();
     }
-       
     
     return true;
   }

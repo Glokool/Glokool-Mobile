@@ -89,3 +89,4 @@ const styles = StyleSheet.create({
 });
 
 LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs(['WARN: ...']);

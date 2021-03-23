@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer } from 'react';
+import React from 'react';
 import auth from '@react-native-firebase/auth'
+import { useFocusEffect } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import {
   StyleSheet,
@@ -31,7 +32,7 @@ import {SERVER} from '../../server.component';
 import moment from 'moment'
 import Toast from 'react-native-easy-toast'
 
-var ToastRef;
+var ToastRef : any;
 
 export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
 
@@ -61,11 +62,21 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [guide, setGuide] = React.useState('');
 
-  var exitApp = undefined;  
-  var timeout;
+  var exitApp : any = undefined;  
+  var timeout : any;
+
+  // 백핸들러 적용을 위한 함수
+  const focusEvent = useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+      
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      }
+    }, [])
+  );
    
   React.useEffect(() => {
-    //BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
     if (auth().currentUser != null || auth().currentUser != undefined){
       const unsubscribe = props.navigation.addListener('focus', () => {
@@ -77,8 +88,6 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
         setData(response.data);
       })
     };
-
-    //return () => {}ㄱ//BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
 
   }, []);
 
