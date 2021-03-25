@@ -89,7 +89,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
     
 
   const ClickList = item => () => {
-    props.navigation.navigate(SceneRoute.FEED_PREVIEW, item.id)
+    props.navigation.navigate(SceneRoute.FEED_TOURBOOK, item.id)
   };
 
   const renderItem = ({item}) => (    

@@ -154,10 +154,25 @@ const getTabBarVisibility2 = (route) => {
   
 }
 
+const FeedVisiblity = (route) => {
+  const routeName = route.state
+  ? route.state.routes[route.state.index].name
+  : '';
+
+
+  if(routeName == 'Feed'){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 
 
 export const MainNavigator = (): React.ReactElement => (
     <Tab.Navigator
+        initialRouteName={'Feed'}
         tabBar={({ state, descriptors, navigation }) =>
           <CustomTabBar
             state={state}
@@ -174,7 +189,7 @@ export const MainNavigator = (): React.ReactElement => (
           })}/>
         <Tab.Screen name={NavigatorRoute.FEED} component={FeedNavigator} 
           options={({ route }) => ({
-            tabBarVisible: getTabBarVisibility(route),
+            tabBarVisible: FeedVisiblity(route),
             unmountOnBlur : true
           })}          
         />

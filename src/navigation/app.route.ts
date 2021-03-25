@@ -24,11 +24,7 @@ export enum SceneRoute {
     MAIN = 'Main',
 
     FEED = 'Feed',
-    FEED_PREVIEW = 'Feed Preview',
-    FEED_BOOK1 = 'Feed Book1',
-    FEED_BOOK2 = 'Feed Book2',
-    FEED_BOOK3 = 'Feed Book3',
-    FEED_BOOK4 = 'Feed Book4',
+    FEED_TOURBOOK = 'Feed Tourbook',
 
     PAY = 'Pay',
     
