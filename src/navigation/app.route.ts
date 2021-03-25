@@ -10,7 +10,8 @@ export enum NavigatorRoute {
     RESTAURANT = 'Restaurant',
     CAFE = 'Cafe',
     COURSE = 'Course',
-    COURSE_DETAIL = 'Course Detail'
+    COURSE_DETAIL = 'Course Detail',
+    BOOK = 'Book'
   }
 
 export enum SceneRoute {
@@ -70,7 +71,11 @@ export enum SceneRoute {
     COURSE_MAP = 'Course Map',
     COURSE_DETAIL_OVERVIEW = 'Course Detail Overview',
     COURSE_DETAIL_SPOTS = 'Course Detail Spots',
-    COURSE_DETAIL_REVIEW = 'Course Detail Review'
+    COURSE_DETAIL_REVIEW = 'Course Detail Review',
+
+    BOOK_DATE = 'Book Date',
+    BOOK_PAY = 'Book Pay',
+    BOOK_PROFILE = 'Book Profile'
 }
 
 

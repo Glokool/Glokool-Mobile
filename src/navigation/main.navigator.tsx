@@ -1,11 +1,12 @@
 import React from 'react';
+import {Layout} from '@ui-kitten/components'
 import {
   faBars,
   faBookmark,
   faUser,
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
-import { NavigatorRoute, SceneRoute } from './app.route';
+import { NavigatorRoute } from './app.route';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BubbleTabBar, {
@@ -15,8 +16,14 @@ import BubbleTabBar, {
 import {FeedNavigator} from './feed.navigator';
 import {MyTourNavigator} from './myTour.navigator';
 import {MyPageNavigator} from './myPage.navigator'
-import { NavigationContainer } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+
+import Feed from '../assets/icon/feed.svg'
+import MyPage from '../assets/icon/MyPage.svg'
+import Guide from '../assets/icon/guide.svg'
+import FeedFull from '../assets/icon/feedFull.svg'
+import MyPageFull from '../assets/icon/MyPageFull.svg'
+import GuideFull from '../assets/icon/guideFull.svg'
 
 const user = auth().currentUser
 
@@ -26,31 +33,73 @@ if (user != null || user != undefined){
 
 const tabs: IBubbleTabConfig[] = [
   {
-    activeColor: '#FFFFFF',
+    activeColor: 'white',
     activeBackgroundColor: '#FFD774',
-    activeIcon: faBars,
+    activeIcon: 'guide',
+    name: 'Guide'
+  },
+  {
+    activeColor: 'white',
+    activeBackgroundColor: '#FFD774',
+    activeIcon: 'feed',
     name: 'Feed'
   },
   {
-    activeColor: '#FFFFFF',
+    activeColor: 'white',
     activeBackgroundColor: '#FFD774',
-    activeIcon: faBookmark,
-    name: 'My Tour'
-  },
-  {
-    activeColor: '#FFFFFF',
-    activeBackgroundColor: '#FFD774',
-    activeIcon: faUser,
+    activeIcon: 'myPage',
     name: 'My Page'
   },
 ];
 
-const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) =>
-  <FontAwesomeIcon
-    icon={icon}
-    color={color}
-    size={20}
-  />;
+const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
+   
+  
+
+  return(
+    <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
+    {(icon == 'feed')?
+      <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
+      {(color == 'white')? 
+        <FeedFull width={20} height={15} style={{marginHorizontal: 5}} />
+      :
+        <Feed width={20} height={15} style={{marginHorizontal: 10}} />
+      }
+      </Layout>      
+    :
+      null
+    }
+
+    {(icon == 'myPage')?
+      <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
+      {(color == 'white')? 
+        <MyPageFull width={20} height={15} style={{marginHorizontal: 5}} />
+      :
+        <MyPage width={20} height={15} style={{marginHorizontal: 10}} />
+      }
+      </Layout>      
+    :
+      null
+    }
+
+    {(icon == 'guide')?
+      <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
+      {(color == 'white')? 
+        <GuideFull width={20} height={15} style={{marginHorizontal: 5}} />
+      :
+        <Guide width={20} height={15} style={{marginHorizontal: 10}} />
+      }
+      </Layout>      
+    :
+      null
+    }
+    
+    
+    
+    </Layout>
+  );
+}
+
 
 const CustomTabBar: React.FC<BottomTabBarProps> = ({
   state, descriptors, navigation
@@ -68,9 +117,9 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
       descriptors={descriptors}
       navigation={navigation}
       tabs={tabs}
-      activeTabSize={200}
+      activeTabSize={170}
       iconRenderer={fontAwesomeIconRenderer}
-      style={{zIndex: 1}}
+      style={{height: 50, borderColor: 'white'}}
     />
   );
 };
@@ -117,21 +166,21 @@ export const MainNavigator = (): React.ReactElement => (
           />
         }
     >
-        <Tab.Screen name={NavigatorRoute.FEED} component={FeedNavigator} 
-          options={({ route }) => ({
-            tabBarVisible: getTabBarVisibility(route),
-            unmountOnBlur : true
-          })}
-          
-        />
+        
         <Tab.Screen name={NavigatorRoute.MY_TOUR} component={MyTourNavigator} 
           options={({ route }) => ({
             tabBarVisible: getTabBarVisibility2(route),
             unmountOnBlur : true
           })}/>
+        <Tab.Screen name={NavigatorRoute.FEED} component={FeedNavigator} 
+          options={({ route }) => ({
+            tabBarVisible: getTabBarVisibility(route),
+            unmountOnBlur : true
+          })}          
+        />
         <Tab.Screen name={NavigatorRoute.MY_PAGE} component={MyPageNavigator} 
           options={({ route }) => ({
             unmountOnBlur : true
-          })}/>
+        })}/>
     </Tab.Navigator>
 );
