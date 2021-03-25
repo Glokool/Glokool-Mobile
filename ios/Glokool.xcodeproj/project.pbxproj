@@ -25,6 +25,7 @@
 		DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */; };
 		DF96D1492604422A0005AD8D /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = DF96D1482604422A0005AD8D /* loading.json */; };
 		DF96D220260444000005AD8D /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF96D21F260444000005AD8D /* Dynamic.swift */; };
+		DFC08D87260C523000ABB059 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFC08D86260C523000ABB059 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
 		DF96D21E260443FF0005AD8D /* Glokool-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Glokool-Bridging-Header.h"; sourceTree = "<group>"; };
 		DF96D21F260444000005AD8D /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		DFC08D86260C523000ABB059 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -150,6 +152,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				DF96D21F260444000005AD8D /* Dynamic.swift */,
 				DF96D21E260443FF0005AD8D /* Glokool-Bridging-Header.h */,
+				DFC08D86260C523000ABB059 /* Launch Screen.storyboard */,
 			);
 			name = Glokool;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */,
 				DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */,
 				DF0FA78D25B6BD2200C39905 /* Fonts in Resources */,
+				DFC08D87260C523000ABB059 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

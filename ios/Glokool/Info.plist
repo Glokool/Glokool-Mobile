@@ -46,7 +46,7 @@
 		<string>Fonts/NotoSansCJKkr-Medium.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>SplashScreen</string>
+	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
