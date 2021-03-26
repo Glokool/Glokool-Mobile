@@ -7,10 +7,9 @@ import BubbleTabBar, {
   IIconRenderer,
 } from 'react-native-bubble-tabbar';
 import {FeedNavigator} from './feed.navigator';
-import {MyTourNavigator} from './myTour.navigator';
+import {GuideNavigator} from './guide.navigator';
 import {MyPageNavigator} from './myPage.navigator'
 import auth from '@react-native-firebase/auth';
-
 import Feed from '../assets/icon/feed.svg'
 import MyPage from '../assets/icon/MyPage.svg'
 import Guide from '../assets/icon/guide.svg'
@@ -137,7 +136,7 @@ const getTabBarVisibility2 = (route) => {
 
   console.log(routeName)
 
-  if(routeName === 'My Tour'|| routeName === ''){
+  if(routeName === 'Guide'|| routeName === ''){
     return true;
   }
 
@@ -175,7 +174,7 @@ export const MainNavigator = (): React.ReactElement => (
           />
         }
     >        
-        <Tab.Screen name={NavigatorRoute.MY_TOUR} component={MyTourNavigator} 
+        <Tab.Screen name={NavigatorRoute.GUIDE} component={GuideNavigator} 
           options={({ route }) => ({
             tabBarVisible: getTabBarVisibility2(route),
             unmountOnBlur : true

@@ -18,8 +18,8 @@ import {
   OverflowMenu,
   Modal,
 } from '@ui-kitten/components';
-import { ImageIcon, VolumeUpIcon} from '../../../component/icon'
-import { MyTourChatScreenProps } from '../../../navigation/myTour.navigator';
+import { ImageIcon, VolumeUpIcon} from '../../component/icon'
+import { GuideChatScreenProps } from '../../navigation/guide.navigator';
 import database from '@react-native-firebase/database';
 import { Bubble, InputToolbar, GiftedChat, Composer, Send, SystemMessage } from 'react-native-gifted-chat'
 import Sound from 'react-native-sound'
@@ -28,17 +28,17 @@ import storage from '@react-native-firebase/storage';
 import { launchImageLibrary } from 'react-native-image-picker/src'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../navigation/app.route';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { SERVER } from '../../../server.component';
+import { SERVER } from '../../server.component';
 import moment from 'moment';
 import Toast from 'react-native-easy-toast';
-import {filterText} from '../../../data/filterChat';
+import {filterText} from '../../data/filterChat';
 
-var ToastRef;
+var ToastRef : any;
 
-export const MyTourChatScreen = (props: MyTourChatScreenProps): LayoutElement => {
+export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
 
     //채팅 메시지 저장을 위한 정보
     const [ChatDB, setChatDB] = React.useState();

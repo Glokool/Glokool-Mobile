@@ -20,7 +20,7 @@ import {
   Button,
 } from '@ui-kitten/components';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import { MyTourScreenProps } from '../../navigation/myTour.navigator';
+import { GuideScreenProps } from '../../navigation/guide.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
@@ -28,7 +28,7 @@ import Toast from 'react-native-easy-toast'
 
 var ToastRef : any;
 
-export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
+export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const [loginVisible, setLoginVisible] = React.useState(true);
   const [MyTourData, setMyTourData] = React.useState([]);
@@ -116,8 +116,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
 
   const renderItem = ({item}) => {
 
-    var Day = (now.getTime() - moment(item.date).toDate().getTime())/ 1000 / 60 / 60 / 24;
-    
+    var Day = (now.getTime() - moment(item.date).toDate().getTime())/ 1000 / 60 / 60 / 24;    
     
     return(
       <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -202,7 +201,7 @@ export const MyTourScreen = (props: MyTourScreenProps): LayoutElement => {
       <Layout style={{backgroundColor: 'white', flex: 1}}>
 
         <Layout style={styles.mainContainer}>
-          <Text style={styles.TextStyle}>{"MY TOUR"}</Text>
+          <Text style={styles.TextStyle}>{"Guide Chat"}</Text>
           <Divider/>
         </Layout>
 

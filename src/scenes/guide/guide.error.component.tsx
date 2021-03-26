@@ -16,14 +16,15 @@ import {
   Button,
 } from '@ui-kitten/components';
 import Clipboard from '@react-native-community/clipboard';
-import { MyTourReportErrorScreenProps } from '../../../navigation/myTour.navigator';
+import { GuideErrorScreenProps } from '../../navigation/guide.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFlag, faAngleLeft, faComment } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
-var toastRef;
 
-export const MyTourReportErrorScreen = (props: MyTourReportErrorScreenProps): LayoutElement => {
+var toastRef : any;
+
+export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement => {
     const [modal, setModal] = React.useState(false);
     const guide = props.route.params;
 

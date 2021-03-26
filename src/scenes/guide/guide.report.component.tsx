@@ -14,14 +14,13 @@ import {
   Button,
 } from '@ui-kitten/components';
 import Toast from 'react-native-easy-toast';
-import { MyTourReportGuideScreenProps } from '../../../navigation/myTour.navigator';
+import { GuideReportScreenProps } from '../../navigation/guide.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
+var ToastRef : any;
 
-var ToastRef;
-
-export const MyTourReportGuideScreen = (props: MyTourReportGuideScreenProps): LayoutElement => {
+export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const guide = props.route.params;
   const [value, setValue] = React.useState('');

@@ -3,7 +3,7 @@ export enum NavigatorRoute {
     EMAIL = 'Email',
     MAIN = 'Main',
     FEED = 'Feed',
-    MY_TOUR = 'MyTour',
+    GUIDE = 'Guide',
     MY_PAGE = 'MyPage',
     PAY = 'Pay',
     ATTRACTION = 'Attraction',
@@ -28,11 +28,10 @@ export enum SceneRoute {
 
     PAY = 'Pay',
     
-    MY_TOUR = 'My Tour',
-    MY_TOUR_INDIVIDUAL = 'My Tour Individual',
-    MY_TOUR_MAP = 'My Tour Map',
-    MY_TOUR_ALL_LOCATION = 'My Tour All Location',
-    MY_TOUR_ALL_STYLE = 'My Tour All Style',
+    GUIDE = 'Guide',
+    GUIDE_CHAT = 'Guide Chat',
+    GUIDE_ERROR = 'Guide Error',
+    GUIDE_REPORT = 'Guide Report',
 
     ATTRACTION_INFO = 'My Tour Attraction Info',
     ATTRACTION_INTRO = 'My Tour Attraction Intro',

@@ -60,18 +60,14 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
     };
 
     const PressNext = () => {
-      var day = new Date();
-      day.setHours(date.getHours() + 9);
+      
+      var day = date;      
       
       var TripData = {
         tourCode: props.route.params.tourCode,
         day: day,
         time: `${DATA[select].startDate}~${DATA[select].endDate}`,
       };
-      
-      
-      TripData.day = day;
-      TripData.time = `${DATA[select].startDate}~${DATA[select].endDate}`;
 
       axios.post(SERVER + '/api/tour/reservation/verification', {
         tour_id: props.route.params.tourCode,
@@ -87,6 +83,11 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
           props.navigation.push(SceneRoute.BOOK_PROFILE, TripData);
         }
       })
+      
+
+
+
+      
 
       
     };
