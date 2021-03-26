@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { CafeInfoScreen, CafeIntroScreen, CafeMenuScreen } from '../scenes/my_tour/cafe'
+import { CafeInfoScreen, CafeIntroScreen, CafeMenuScreen } from '../scenes/feed/cafe'
 
 type CafeNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CAFE_INFO]: undefined;

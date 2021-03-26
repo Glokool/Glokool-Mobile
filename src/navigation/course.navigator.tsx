@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { CourseListScreen, CourseMapScreen } from '../scenes/my_tour/course';
+import { CourseMapScreen } from '../scenes/feed/course';
 import { CourseDetailNavigator } from './course.detail.navigator';
 
 
@@ -26,7 +26,6 @@ const Stack = createStackNavigator();
 
 export const CourseNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name={SceneRoute.COURSE_LIST} component={CourseListScreen}/>    
     <Stack.Screen name={SceneRoute.COURSE_MAP} component={CourseMapScreen}/>
     <Stack.Screen name={NavigatorRoute.COURSE_DETAIL} component={CourseDetailNavigator}/>
   </Stack.Navigator>

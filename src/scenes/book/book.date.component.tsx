@@ -37,7 +37,6 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
     const endDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 32);
     const [select, setSelect] = React.useState('0');
     
-
     const DATA = [
       {
         title: "0",
@@ -61,18 +60,23 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
     };
 
     const PressNext = () => {
-      var TripData = props.route.params;
-      date.setHours(date.getHours() + 9);
+      var day = new Date();
+      day.setHours(date.getHours() + 9);
       
-      TripData.day = date;
+      var TripData = {
+        tourCode: props.route.params.tourCode,
+        day: day,
+        time: `${DATA[select].startDate}~${DATA[select].endDate}`,
+      };
+      
+      
+      TripData.day = day;
       TripData.time = `${DATA[select].startDate}~${DATA[select].endDate}`;
 
-      console.log(date)
-
       axios.post(SERVER + '/api/tour/reservation/verification', {
-        tour_id: TripData.tourCode,
+        tour_id: props.route.params.tourCode,
         day: date,
-        time: `${DATA[select-1].startDate}~${DATA[select-1].endDate}`,
+        time: `${DATA[select].startDate}~${DATA[select].endDate}`,
         uid: user.uid
       }).then((response) => {
         if(response.data.responseKey == true){          
@@ -80,7 +84,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
           toastRef.show('이미 같은시간대에 예약되었습니다.', 2000)
         }
         else{
-          props.navigation.push(SceneRoute.FEED_BOOK2, TripData);
+          props.navigation.push(SceneRoute.BOOK_PROFILE, TripData);
         }
       })
 

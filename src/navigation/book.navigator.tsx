@@ -28,7 +28,7 @@ export interface BookProfileScreenProps {
 
 const Stack = createStackNavigator();
 
-export const FeedNavigator = (): React.ReactElement => (
+export const BookNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.BOOK_DATE} component={BookDateScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_PROFILE} component={BookProfileScreen}/>

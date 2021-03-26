@@ -37,16 +37,14 @@ import { TermsConditionCard } from '../../component/terms&Condition.component'
 var toastRef : any;
 
 export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement => {
-  const user = auth().currentUser;
-  
+  const user = auth().currentUser;  
   const contactType = [
     'Phone Number',
     'Facebook',
     'Instagram',
     'Kakao Talk',
     'Line',
-  ];
-  
+  ];  
   const [contact, setContact] = React.useState('');
   const [eng, setEng] = React.useState(true);
   const [precaution, setPrecation] = React.useState(false);
@@ -56,6 +54,7 @@ export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement 
   const renderOption = (title : String) => (
     <SelectItem title={title}/>
   );
+  
 
   const PressX = () => {
     setPrecation(false);
@@ -124,7 +123,7 @@ export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement 
       }
 
 
-      props.navigation.push(SceneRoute.FEED_BOOK3, TripData);
+      props.navigation.push(SceneRoute.BOOK_PAY, TripData);
     }
    
 

@@ -27,10 +27,16 @@ import {
 } from 'react-native-paypal'; 
 import axios from 'axios';
 import { SERVER } from '../../server.component'
+import Toast from 'react-native-easy-toast';
+
+var ToastRef : any;
 
 export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const Trip = props.route.params;
+  const [tour, setTour] = React.useState({
+    tour: ''
+  });
   const [promotion, setPromotion] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
   const [success, setSuccess] = React.useState<PaypalResponse>({
@@ -41,24 +47,33 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
     lastName: '',
     phone: '',
   });
-
-  // 결제 선택창
   const [paypal, setPaypal] = React.useState(true);
   const [kakao, setKakao] = React.useState(false);
-
-  // 페이팔 거래를 위한 정보 (나중에 지워서 깃허브에 올라감)
   const [token, setToken] = React.useState('sandbox_s9cw8cv5_99sqcyv5st4dpfr2');
 
-  console.log(Trip.day)
+  React.useEffect(() => {
+    
+    axios.get(SERVER + '/api/tour/' + Trip.tourCode)
+      .then((result) => {
+        setTour(result.data)
+      })
+      .catch((err) => {
+
+      })
+
+  }, []);
 
   const paypalPayment = async() => {
+
     var date = new Date();
     date.setHours(date.getHours() + 9);
-    console.log(Trip)
+    console.log('페이팔 시작')
+    
+    
     await requestOneTimePayment(
       token,
       {
-        amount: Trip.money, // 얼마 청구할래?
+        amount: tour.fee, // 얼마 청구할래?
         currency: 'USD',
         localeCode: 'en_US', 
         shippingAddressRequired: false,
@@ -87,8 +102,11 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
       }) 
     })
     .catch((err) => {
+        ToastRef.show('Payment Fail!', 2000)
         console.log('paypal Payment Error: ',err)
-    })
+    }) 
+
+
   };
 
   const kakaoPayment = () => {
@@ -125,8 +143,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
   }
 
   const PressNext = async() => {
-    if(paypal == true){
-      
+    if(paypal == true){      
       paypalPayment();
     }
     else if (kakao == true) {
@@ -169,10 +186,10 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
 
             <Layout style={{flexDirection: 'row'}}>
               <Layout style={{flex: 3}}>
-                <Text>[{Trip.tourName}] Guide fee</Text>
+                <Text>[{tour.title}] Guide fee</Text>
               </Layout>
               <Layout style={{}}>
-                <Text style={{fontWeight: 'bold'}}>$20</Text>
+                <Text style={{fontWeight: 'bold'}}>{`$${tour.fee}`}</Text>
               </Layout>
             </Layout>
 
@@ -198,7 +215,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
               </Layout>
               <Layout style={{flex: 5}}/>
               <Layout style={{flex: 2, alignItems: 'flex-end'}}>
-                <Text style={{fontSize: 28, fontWeight: 'bold', color: '#FFC043'}}>$20</Text>
+                <Text style={{fontSize: 28, fontWeight: 'bold', color: '#FFC043'}}>{`$${tour.fee}`}</Text>
               </Layout>
             </Layout>       
           </Layout>
@@ -211,7 +228,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
                 <Text style={{color: 'gray', fontWeight: 'bold', fontSize: 14}}>Tour Name</Text>
               </Layout>
               <Layout style={{flex: 3, alignItems: 'flex-end'}}>
-                <Text style={{fontSize: 16}}>{Trip.tourName}</Text>
+                <Text style={{fontSize: 16}}>{tour.title}</Text>
               </Layout>
             </Layout>
 
@@ -303,7 +320,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
             <Button style={styles.Button} size='giant' onPress={PressNext}>NEXT</Button>
         </Layout>
 
-
+        <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
       </React.Fragment>
   );
 }

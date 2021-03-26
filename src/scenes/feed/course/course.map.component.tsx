@@ -13,7 +13,7 @@ import {
   LayoutElement,
   Text,
 } from '@ui-kitten/components';
-import { CourseMapScreenProps } from '../../../navigation/course.navigator';
+import { CourseMapScreenProps } from '../../../navigation/feed.navigator';
 import {
     faLongArrowAltLeft,
     faBook,
@@ -26,55 +26,50 @@ import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
 
+import Feed from '../../assets/icon/feed.svg';
+import Guide from '../../assets/icon/guide.svg';
+import MyPage from '../../assets/icon/MyPage.svg';
 
 export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
-    const user = auth().currentUser;
-    const data = props.route.params
-    const [iconSelected, setIconSelected] = React.useState(true);
+
+    const data = props.route.params;
     const [courseData, setCourseData] = React.useState([]);
 
     React.useEffect(() => {
-        axios.get(SERVER + '/api/user/tour/'+ data +'/course/map')
+        axios.get(SERVER + '/api/user/tour/'+ data.params.tourCode +'/course/map')
             .then((response) => {
                 setCourseData(response.data);
-                console.log(response.data)
             })
-    }, [])
 
-    
+    }, []);
+
+    const PressBook = () => {
+        props.navigation.navigate(NavigatorRoute.BOOK, {
+            screen: SceneRoute.BOOK_DATE,
+            params: {
+                tourCode: data.params.tourCode
+            }
+        });
+    }
 
     const PressBack = () => {
       props.navigation.goBack();
     }
-  
-    const PressIcon = () => {
-        if(iconSelected == true){
-            props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-        }
-        else{
-          setIconSelected(!iconSelected);
-        }      
-    }
 
-    const PressLike = () => {
-
-    }
-
-    const PressFeed = () => {
-      props.navigation.navigate(NavigatorRoute.FEED)
+    const PressGuide = () => {
+        props.navigation.navigate(NavigatorRoute.MY_TOUR)
     }
   
     const PressSetting = () => {
         props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-
+    }   
+   
     const renderItem = ({item}) => (
-        <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height - 80)}}>
-            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.8), resizeMode: 'stretch'}} source={{uri: item}}/>  
+        <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height - 1000)}}>
+            <Image style={{width: '100%', height: '100%', resizeMode: 'stretch'}} source={{uri: item}}/>
         </Layout>        
     )
-  
-     
+       
     return (
       <React.Fragment>
           <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
@@ -88,6 +83,10 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
 
               <Layout style={styles.titleContainer}>
                   <Text style={styles.MainTitle}>{courseData.title}'s Map</Text>
+              </Layout>
+
+              <Layout style={styles.tabbarContainer}>
+
               </Layout>
 
 
@@ -110,47 +109,40 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
         
           </Layout>
   
-          <Layout style={{position: 'absolute', bottom: 0, backgroundColor: '#00FF0000', padding: 20, flexDirection:'row'}}>
-              <TouchableOpacity onPress={PressFeed}>
-                  <FontAwesomeIcon icon={faBars} style={{color: 'gray'}} size={20}/>
-              </TouchableOpacity>
-  
-              <Layout style={{flex: 5, backgroundColor: '#00FF0000'}}/>
-  
-              <TouchableOpacity onPress={PressSetting}>
-                  <FontAwesomeIcon icon={faUser} style={{color: 'gray'}} size={20}/>
-              </TouchableOpacity>
-          </Layout>
-  
-  
-          {/*Bottom Tab Bar*/}
-          {((iconSelected)?
-          <Layout style={styles.bottomBar}>
-              <Layout style={styles.iconSelectContainer}>
-                  <TouchableOpacity>
-                      <FontAwesomeIcon icon={faBook} style={{color: 'white'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              <Layout style={styles.iconContainer}>
-                  <TouchableOpacity onPress={PressIcon}>
-                      <FontAwesomeIcon icon={faCommentDots} style={{color: 'gray'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              </Layout>
-          :
-          <Layout style={styles.bottomBar}>
-              <Layout style={styles.iconContainer}>
-                  <TouchableOpacity  onPress={PressIcon}>
-                      <FontAwesomeIcon icon={faBook} style={{color: 'gray'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              <Layout style={styles.iconSelectContainer}>
-                  <TouchableOpacity>
-                      <FontAwesomeIcon icon={faCommentDots} style={{color: 'white'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              </Layout>
-          )}
+          {/*Bottom Tab Bar */}
+            <Layout style={styles.bottomTabBar}>            
+                <Layout style={styles.bottomTab}>
+                    <TouchableOpacity onPress={PressGuide}>
+                        <Guide width={20} height={20}/>
+                    </TouchableOpacity>
+                </Layout>
+
+                <Layout style={{flex: 1}} />     
+
+                <Layout style={styles.bottomTab}>
+                    <TouchableOpacity onPress={PressSetting}>
+                        <MyPage width={20} height={20}/>
+                    </TouchableOpacity>
+                </Layout>
+            </Layout>
+
+            <Layout style={styles.bottomBar}>
+                <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
+                <TouchableOpacity onPress={() => {PressGuide}}>
+                    <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
+                        <Feed width={20} height={20}/>
+                    </Layout>                  
+                </TouchableOpacity>
+                </Layout>
+            
+                <TouchableOpacity onPress={() => {PressBook()}}>
+                    <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
+                        <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
+                    </Layout>
+                </TouchableOpacity>
+                
+            </Layout>
+
           
   
       </React.Fragment>
@@ -182,27 +174,6 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
       smallTitle: {
           fontSize : 14,
           fontWeight: 'bold'
-      },
-      bottomBar: {
-          position: 'absolute',
-          bottom: 0,
-          flex: 1,
-          width: 130,
-          height: 58,
-          marginBottom: 10,
-          flexDirection: 'row',
-          borderRadius: 40,
-          alignSelf: 'center',
-          shadowColor: "#000",
-          shadowOffset: {
-              width: 0,
-              height: 4,
-          },
-          shadowOpacity: 0.30,
-          shadowRadius: 4.65,
-          elevation: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
       },
       iconSelectContainer: {
           borderRadius: 100,
@@ -256,5 +227,41 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
           fontSize: 12,
           fontWeight: 'bold',
           textAlign: 'center'
-      }
+      },bottomTabBar: {
+        position: 'absolute', 
+        bottom: 0, 
+        backgroundColor: 'white', 
+        flexDirection:'row', 
+        height: 50, 
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bottomTab: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    bottomBar: {
+        position: 'absolute',
+        bottom: 0,
+        width : 170,
+        height: 55,
+        marginBottom: 5,
+        borderRadius: 40,
+        flexDirection: 'row',
+        alignSelf: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        zIndex: 5
+    },
   });

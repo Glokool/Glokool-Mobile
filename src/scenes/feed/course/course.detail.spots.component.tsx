@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -13,12 +12,8 @@ import {
   LayoutElement,
   Text,
 } from '@ui-kitten/components';
-import { CourseDetailSpotsScreenProps } from '../../../navigation/course.navigator';
+import { CourseDetailSpotsScreenProps } from '../../../navigation/course.detail.navigator';
 import {
-    faBook,
-    faCommentDots,
-    faUser,
-    faBars,
     faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -26,58 +21,59 @@ import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
 import Toast from 'react-native-easy-toast';
-var toastRef;
 
+import Feed from '../../assets/icon/feed.svg';
+import Guide from '../../assets/icon/guide.svg';
+import MyPage from '../../assets/icon/MyPage.svg';
 
+var toastRef : any;
 
 export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): LayoutElement => {
-    const [iconSelected, setIconSelected] = React.useState(true);
     const [courseData, setCourseData] = React.useState([]);
     
-
-
     React.useEffect(() => {
+               
+        const courseData = props.navigation.dangerouslyGetParent()?.dangerouslyGetState().routes[2].params.list;            
+        setCourseData(courseData);
         
-        
-        const course = props.navigation.dangerouslyGetParent().dangerouslyGetState().routes[1].params.list
-        console.log(course)
-            
-        axios.get(SERVER + '/api/user/tour/' + course.tourCode + '/course/' + course.directory + '/spots')
+        axios.get(SERVER + '/api/user/tour/' + courseData.tourCode + '/course/' + courseData.directory + '/spots')
             .then((response) => {
                 setCourseData(response.data)
+                console.log(response.data)
             })
 
         
     }, [])
 
     const PressBack = () => {
-        props.navigation.pop(4);
-    }
-  
-    const PressIcon = () => {
-        if(iconSelected == true){
-            props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-        }
-        else{
-          setIconSelected(!iconSelected);
-        }      
+        props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
 
-    const PressFeed = () => {
-      props.navigation.navigate(NavigatorRoute.FEED)
+    const PressBook = () => {
+        props.navigation.navigate(NavigatorRoute.BOOK, {
+            screen: SceneRoute.BOOK_DATE,
+            params: {
+                tourCode: CourseData.tourCode
+            }
+        });
+    }  
+  
+    const PressGuide = () => {
+        props.navigation.navigate(NavigatorRoute.MY_TOUR)
     }
   
     const PressSetting = () => {
-      props.navigation.navigate(NavigatorRoute.MY_PAGE)
+        props.navigation.navigate(NavigatorRoute.MY_PAGE)
     }
+  
 
 
-    const PressReview = (id) => {
+    const PressReview = () => {
         toastRef.show(`The service has just started and there is no review yet :(`, 2000);
         //props.navigation.navigate(SceneRoute.COURSE_DETAIL_REVIEW, props.route.params);
     }
 
-    const PressOverview = (id) => {
+    const PressOverview = () => {
         props.navigation.navigate(SceneRoute.COURSE_DETAIL_OVERVIEW, props.route.params);
     }
 
@@ -96,7 +92,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
           <Layout style={{flex: 9, backgroundColor: 'white'}}>
             <FlatList
                 style={{backgroundColor: 'white'}}
-                initialNumToRender={8}
+                initialNumToRender={10}
                 horizontal={true}
                 data={courseData}
                 pagingEnabled
@@ -107,47 +103,39 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
 
           
   
-          <Layout style={{position: 'absolute', bottom: 0, backgroundColor: '#00FF0000', padding: 20, flexDirection:'row'}}>
-              <TouchableOpacity onPress={PressFeed}>
-                  <FontAwesomeIcon icon={faBars} style={{color: 'gray'}} size={20}/>
+        {/*Bottom Tab Bar */}
+        <Layout style={styles.bottomTabBar}>            
+            <Layout style={styles.bottomTab}>
+                <TouchableOpacity onPress={PressGuide}>
+                    <Guide width={20} height={20}/>
+                </TouchableOpacity>
+            </Layout>
+
+            <Layout style={{flex: 1}} />     
+
+            <Layout style={styles.bottomTab}>
+                <TouchableOpacity onPress={PressSetting}>
+                    <MyPage width={20} height={20}/>
+                </TouchableOpacity>
+            </Layout>
+        </Layout>
+
+        <Layout style={styles.bottomBar}>
+            <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
+              <TouchableOpacity onPress={() => {PressGuide}}>
+                  <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
+                    <Feed width={20} height={20}/>
+                  </Layout>                  
               </TouchableOpacity>
-  
-              <Layout style={{flex: 5, backgroundColor: '#00FF0000'}}/>
-  
-              <TouchableOpacity onPress={PressSetting}>
-                  <FontAwesomeIcon icon={faUser} style={{color: 'gray'}} size={20}/>
-              </TouchableOpacity>
-          </Layout>
-  
-  
-          {/*Bottom Tab Bar*/}
-          {((iconSelected)?
-          <Layout style={styles.bottomBar}>
-              <Layout style={styles.iconSelectContainer}>
-                  <TouchableOpacity>
-                      <FontAwesomeIcon icon={faBook} style={{color: 'white'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              <Layout style={styles.iconContainer}>
-                  <TouchableOpacity onPress={PressIcon}>
-                      <FontAwesomeIcon icon={faCommentDots} style={{color: 'gray'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              </Layout>
-          :
-          <Layout style={styles.bottomBar}>
-              <Layout style={styles.iconContainer}>
-                  <TouchableOpacity  onPress={PressIcon}>
-                      <FontAwesomeIcon icon={faBook} style={{color: 'gray'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              <Layout style={styles.iconSelectContainer}>
-                  <TouchableOpacity>
-                      <FontAwesomeIcon icon={faCommentDots} style={{color: 'white'}} size={20}/>
-                  </TouchableOpacity>                
-              </Layout>
-              </Layout>
-          )}
+            </Layout>
+           
+            <TouchableOpacity onPress={() => {PressBook()}}>
+                <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
+                </Layout>
+            </TouchableOpacity>
+            
+        </Layout>
         
             {/*탑 탭바 */}
             <Layout style={styles.tabbar}>
@@ -211,27 +199,6 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
       smallTitle: {
           fontSize : 14,
           fontWeight: 'bold'
-      },
-      bottomBar: {
-          position: 'absolute',
-          bottom: 0,
-          flex: 1,
-          width: 130,
-          height: 58,
-          marginBottom: 10,
-          flexDirection: 'row',
-          borderRadius: 40,
-          alignSelf: 'center',
-          shadowColor: "#000",
-          shadowOffset: {
-              width: 0,
-              height: 4,
-          },
-          shadowOpacity: 0.30,
-          shadowRadius: 4.65,
-          elevation: 8,
-          alignItems: 'center',
-          justifyContent: 'center',
       },
       iconSelectContainer: {
           borderRadius: 100,
@@ -297,5 +264,42 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
             fontSize: 14,
             color: 'gray',
             textAlign: 'center'
+        },
+        bottomTab: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1
+        },
+        bottomBar: {
+            position: 'absolute',
+            bottom: 0,
+            width : 170,
+            height: 55,
+            marginBottom: 5,
+            borderRadius: 40,
+            flexDirection: 'row',
+            alignSelf: 'center',
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 4,
+            },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
+            elevation: 8,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            zIndex: 5
+        },
+        bottomTabBar: {
+            position: 'absolute', 
+            bottom: 0, 
+            backgroundColor: 'white', 
+            flexDirection:'row', 
+            height: 50, 
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
         },
   });

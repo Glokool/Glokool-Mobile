@@ -9,10 +9,10 @@ import {
   Image,
   FlatList,
   Dimensions,
+  Text,
 } from 'react-native';
 import {
   Divider,
-  Text,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -30,6 +30,7 @@ import Drawer from 'react-native-draggable-view';
 import Feed from '../../assets/icon/feed.svg';
 import Guide from '../../assets/icon/guide.svg';
 import MyPage from '../../assets/icon/MyPage.svg';
+import { FullWidthPicture } from '../../data/picture.model';
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const tour = props.route.params;
@@ -37,22 +38,39 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const [iconSelected, setIconSelected] = React.useState(true);
   const [DATA, setDATA] = React.useState([]);
   const [data, setData] = React.useState([]);
-  const [sideBar, setSideBar] = React.useState(false);
+  const [sideBar, setSideBar] = React.useState(true);
+  const [course, setCourse] = React.useState(false); // 트래블 스타일을 클릭했는지 검사
+  const [courseData, setCourseData] = React.useState([]);
 
   const [restaurant, setRestaurant] = React.useState(true);
   const [attraction, setAttraction] = React.useState(false);
   const [cafe, setCafe] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
+  const [thumbnailHeight, setThumbnailHeight] = React.useState(0);
 
-  React.useEffect(() => {
-    axios.get(SERVER + '/api/user/tour/place/tour-id/' + tour)
+  React.useEffect(() => {   
+
+    async function getHeight() {
+        
+        await axios.get(SERVER + '/api/user/tour/place/tour-id/' + tour)
         .then((response) => {
             setDATA(response.data);
             setTitle(response.data[0]);
             setData(response.data.filter(item => {return item.type == 'Restaurant'}));
+            setThumbnailHeight(Dimensions.get('window').height * 0.4)
         })
         .catch((err) => {
+
         });
+        
+        await axios.get(SERVER + '/api/user/tour/' + tour + '/course')
+            .then((response) => {
+                setCourseData(response.data)
+            })        
+        
+    }
+
+    getHeight();
 
   }, [])
 
@@ -152,25 +170,43 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
   }
 
-  const PressFeed = () => {
-      props.navigation.navigate(NavigatorRoute.FEED)
+  const PressGuide = () => {
+      props.navigation.navigate(NavigatorRoute.MY_TOUR)
   }
 
   const PressSetting = () => {
       props.navigation.navigate(NavigatorRoute.MY_PAGE)
   }
 
-  const PressTravelStyles = () => {
-      props.navigation.navigate(NavigatorRoute.COURSE, {
-        screen: SceneRoute.COURSE_LIST,
-        params: { 
-            tourCode: tour.tour_id
-        },
+  const PressCourse = item => () => {
+
+    props.navigation.navigate(NavigatorRoute.COURSE_DETAIL, {
+        list: { 
+            tourCode: tour,
+            directory: item.directory
+        }        
     });
   }
 
+  const PressMap = () => {
+      props.navigation.navigate(SceneRoute.COURSE_MAP, {
+            params: {
+                tourCode: tour
+            }
+      }
+      )
+  }
 
-  //Flat List 렌더링
+  const PressBook = () => {
+      props.navigation.navigate(NavigatorRoute.BOOK, {
+          screen: SceneRoute.BOOK_DATE,
+          params: {
+              tourCode: tour
+          }
+      });
+  }
+
+  //Flat List 렌더링 (레스토랑/카페/어트랙션)
   const renderItem = ({item}) => (
         <TouchableOpacity onPress={PressList(item)}>
           <Layout style={{flexDirection: 'column', padding: 10}}>
@@ -187,50 +223,139 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         </TouchableOpacity>
   );
 
+  //Flat List 렌더링 (코스)
+  const renderCourseItem = ({item}) => (
+    <TouchableOpacity onPress={PressCourse(item)}>
+        <Layout style={{marginVertical: 5, alignItems: 'center', justifyContent: 'center'}}>
+            <Image style={{width: 304, height: 135}} source={{uri: item.banner}}/>
+        </Layout>
+    </TouchableOpacity>        
+  );
+
   
   return (
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
         
             <Drawer
-                initialDrawerSize={0.7}
+                initialDrawerSize={0.8}
                 autoDrawerUp={1} // 1 to auto up, 0 to auto down
-                isInverseDirection={false}
-                finalDrawerHeight={0}
+                isInverseDirection={true}
+                finalDrawerHeight={thumbnailHeight}
                 
                 renderInitDrawerView={() => (  
-                   <Layout style={{width: '100%', height: 10, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 10, justifyContent: 'center', alignItems:'center', borderRadius: 10}}>
+                   <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
                        <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
                     </Layout>
                 )}
                 renderDrawerView={() => (
                     <Layout style={{height: (Dimensions.get('window').height * 1) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
-                    {/*사이드 바 스타일 */}            
-                    {(sideBar)? 
-                        <Layout style={{flex: 15, backgroundColor: '#FEE8AD', alignItems: 'center', justifyContent: 'center'}}>
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
-                                <TouchableOpacity onPress={() => setSideBar(false)}>
-                                    <FontAwesomeIcon icon={faEllipsisV} style={{color: '#FFD774'}} size={20}/>
-                                </TouchableOpacity>
-                            </Layout>
+                        
+                        {/*사이드 바 스타일 */}            
+                        {(sideBar)?
+                        
+                            (course)?
+                            
+                            <Layout style={{flex: 15, backgroundColor: '#F5F5F5', alignItems: 'center', justifyContent: 'center'}}>
+                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
+                                    <TouchableOpacity onPress={() => setSideBar(false)}>
+                                        <FontAwesomeIcon icon={faEllipsisV} style={{color: '#FFD774'}} size={20}/>
+                                    </TouchableOpacity>
+                                </Layout>
 
-                            <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
-                                <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 90}}>
-                                    <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}}>Locations</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 90}} onPress={PressTravelStyles}>
-                                    <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}} numberOfLines={1}>Travel Styles</Text>
-                                </TouchableOpacity>                 
-                            </Layout>
-                        </Layout>
-                    : 
-                        null
-                    }
+                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
+                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 90}} onPress={() => setCourse(false)}>
+                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#D3D3D3'}}>Locations</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 90}}>
+                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}} numberOfLines={1}>Travel Styles</Text>
+                                    </TouchableOpacity>                 
+                                </Layout>
+                            </Layout>                        
+                            
+                            :
+
+                            <Layout style={{flex: 15, backgroundColor: '#FEE8AD', alignItems: 'center', justifyContent: 'center'}}>
+                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
+                                    <TouchableOpacity onPress={() => setSideBar(false)}>
+                                        <FontAwesomeIcon icon={faEllipsisV} style={{color: '#FFD774'}} size={20}/>
+                                    </TouchableOpacity>
+                                </Layout>
+
+                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
+                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 90}}>
+                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}}>Locations</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 90}} onPress={() => setCourse(true)}>
+                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}} numberOfLines={1}>Travel Styles</Text>
+                                    </TouchableOpacity>                 
+                                </Layout>
+                            </Layout>                        
+                        
+                        : 
+                            null
+                        }
                     
 
-                        <Layout style={{flex: 85, borderTopStartRadius: 50, borderTopEndRadius: 50}}>
-            
-                            <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',  borderTopRightRadius: 25, borderTopLeftRadius: 25, backgroundColor: 'white'}}>
+                      
+
+                            {(course)? 
+                                <Layout style=
+                                    {(sideBar)?
+                                        {flex: 85, borderTopEndRadius: 25}
+                                    :
+                                        {flex: 85, borderTopStartRadius: 25, borderTopEndRadius: 25,}
+                                    }
+                                >
+
+                                    {(sideBar)? 
+                                        <Layout style={{flex: 1, padding: 20, paddingBottom: 0, borderTopStartRadius: 25, borderTopEndRadius: 25,}}>                                           
+                                            <TouchableOpacity onPress={() => {PressMap()}} >
+                                                <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
+                                                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
+                                                </Layout>
+                                            </TouchableOpacity>                
+                                        </Layout>
+                                    :
+                                        <Layout style={{flex: 1, padding: 20, paddingBottom: 0, flexDirection: 'row', borderTopStartRadius: 25, borderTopEndRadius: 25,}}>
+                                            <TouchableOpacity style={{flex: 2}} onPress={() => setSideBar(true)}>
+                                                <Layout style={styles.touchIcon}>
+                                                    <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                                </Layout>                            
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity onPress={() => {PressMap()}} style={{flex: 9}}>
+                                                <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
+                                                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
+                                                </Layout>
+                                            </TouchableOpacity>                
+                                        </Layout>
+                                    }
+                                 
+                                    
+
+                                    <Layout style={{flex: 9, padding: 10, backgroundColor: 'white'}}>
+                                        <FlatList
+                                            data={courseData}
+                                            renderItem={renderCourseItem}
+                                            keyExtractor={item => item.id}
+                                            contentContainerStyle={{ paddingBottom: 300 }}
+                                        />
+                                    </Layout>  
+
+                                </Layout>                               
+
+
+                                :
+                                <Layout style=
+                                    {(sideBar)?
+                                        {flex: 85, borderTopEndRadius: 50}
+                                    :
+                                        {flex: 85, borderTopStartRadius: 50, borderTopEndRadius: 50}
+                                    }
+                                >
+
+                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',  borderTopRightRadius: 25, borderTopLeftRadius: 25, backgroundColor: 'white'}}>
                                 {((attraction)? 
                                 /*Bubble Tab bar attraction Selected*/
                                     <Layout style={{flexDirection: 'row', padding: 20}}>
@@ -309,68 +434,82 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                     {(sideBar)?
                                         null
                                     :
-                                    <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
-                                        <Layout style={styles.touchIcon}>
-                                            <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
-                                        </Layout>                            
-                                    </TouchableOpacity>
-                                    }
+                                        <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
+                                            <Layout style={styles.touchIcon}>
+                                                <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                            </Layout>                            
+                                        </TouchableOpacity>
+                                        }
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Attraction</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
+                                            <Layout style={styles.bubbleTab}>
+                                                <Text style={styles.bubbleText}>Attraction</Text>
+                                            </Layout>
+                                        </TouchableOpacity>
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Restaurant</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
+                                            <Layout style={styles.bubbleTab}>
+                                                <Text style={styles.bubbleText}>Restaurant</Text>
+                                            </Layout>
+                                        </TouchableOpacity>
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                        <Layout style={styles.bubbleSelectedTab}>
-                                            <Text style={styles.bubbleSelectedText}>Café</Text>
-                                        </Layout>
-                                    </TouchableOpacity>                
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
+                                            <Layout style={styles.bubbleSelectedTab}>
+                                                <Text style={styles.bubbleSelectedText}>Café</Text>
+                                            </Layout>
+                                        </TouchableOpacity>                
                                 </Layout>   
                                 : 
                                 null)}
-                            </Layout>
+                                </Layout>
 
-                            <Layout style={{flex: 9}}>
-                                <FlatList
-                                    style={{backgroundColor: 'white'}}
-                                    contentContainerStyle={{ paddingBottom: 78 }}
-                                    data={data}
-                                    extraData={refresh}
-                                    renderItem={renderItem}
-                                    keyExtractor={item => item.id}
-                                />
-                            </Layout>
+                                <Layout style={{flex: 9}}>
+                                    <FlatList
+                                        style={{backgroundColor: 'white'}}
+                                        contentContainerStyle={{ paddingBottom: 300 }}
+                                        data={data}
+                                        extraData={refresh}
+                                        renderItem={renderItem}
+                
+                                        keyExtractor={item => item.id}
+                                    />
+                                </Layout>
                             
-                        </Layout>          
-                </Layout>        
+                                </Layout>        
+                            }
+            
+        
+                           
+                        
+
+
+
+                    </Layout>        
                     
                 )}
                 renderContainerView={() => (
                     
-                    <Layout style={{width: '100%', height: 600, position: 'absolute', top: 0, backgroundColor: 'yellow'}}/>
+                    <Layout style={{position: 'relative',width: '100%'}}>
+
+                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.4), top: 0, backgroundColor: '#00FF0000'}}>
+                            <FullWidthPicture uri={title.thumbnail}/>
+                        </Layout>
+
+                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000'}}>
+                            <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
+                            <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{title.tags}</Text>
+                            <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
+                        </Layout>           
+                    </Layout>
                 )}
                 
                 
         />
-        
-        
-        
-
-        
-
 
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -386,14 +525,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {PressGuide}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  
               </TouchableOpacity>
             </Layout>
            
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {PressBook()}}>
                 <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
                     <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
                 </Layout>

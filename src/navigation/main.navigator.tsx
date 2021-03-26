@@ -1,14 +1,7 @@
 import React from 'react';
 import {Layout} from '@ui-kitten/components'
-import {
-  faBars,
-  faBookmark,
-  faUser,
-  faCommentDots,
-} from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute } from './app.route';
 import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BubbleTabBar, {
   IBubbleTabConfig,
   IIconRenderer,
@@ -159,8 +152,9 @@ const FeedVisiblity = (route) => {
   ? route.state.routes[route.state.index].name
   : '';
 
+  console.log(routeName);
 
-  if(routeName == 'Feed'){
+  if(routeName == 'Feed' || routeName == ''){
     return true;
   }
   else{
@@ -180,8 +174,7 @@ export const MainNavigator = (): React.ReactElement => (
             navigation={navigation}
           />
         }
-    >
-        
+    >        
         <Tab.Screen name={NavigatorRoute.MY_TOUR} component={MyTourNavigator} 
           options={({ route }) => ({
             tabBarVisible: getTabBarVisibility2(route),

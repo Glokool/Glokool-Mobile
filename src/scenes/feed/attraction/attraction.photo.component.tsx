@@ -14,8 +14,6 @@ import {
 } from '@ui-kitten/components';
 import { AttractionPhotoScreenProps } from '../../../navigation/attraction.navigator';
 import {
-    faBook,
-    faCommentDots,
     faLongArrowAltLeft,
     faBars,
     faUser,
@@ -25,8 +23,9 @@ import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
 
-
-
+import Feed from '../../../assets/icon/feed.svg';
+import Guide from '../../../assets/icon/guide.svg';
+import MyPage from '../../../assets/icon/MyPage.svg';
 
 export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): LayoutElement => {
   const info = props.route.params;
@@ -41,69 +40,76 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
   }, [])
 
   
-
-  
-    const PressBack = () => {
-        props.navigation.navigate(SceneRoute.MY_TOUR_ALL_LOCATION);
-    }
-
-    const PressIcon = () => {
-        if(iconSelected == true){
-            props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
+  const PressBook = () => {
+    props.navigation.navigate(NavigatorRoute.BOOK, {
+        screen: SceneRoute.BOOK_DATE,
+        params: {
+            tourCode: info.code.tour_id
         }
-        else{
-            setIconSelected(!iconSelected);
-        }      
-    }
-
-    const PressInfo = () => {
-        props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
-    }
-
-    const PressIntro = () => {
-        props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
-    }
-
-    const PressFeed = () => {
-        props.navigation.navigate(NavigatorRoute.FEED)
-    }
-
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-
-    const InsideRenderItem = ({item}) => {
-        return(
-        <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), alignItems: 'center'}}>
-            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'contain', borderRadius: 10}} source={{uri: item.url}}/>       
-        </Layout>
-        );
-    }
-
-    const renderItem = ({item}) => {       
-
-        return(
-        <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.72)}}>
-            <FlatList
-                style={{marginVertical: 15}}
-                data={item.image}
-                horizontal={true}
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                renderItem={InsideRenderItem}
-            />
-            <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text>
-            <Layout style={{flexDirection: 'row'}}>
-                <Layout>
-                    <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
-                </Layout>
-                <Layout>
-                    <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.description}</Text>
-                </Layout>
-            </Layout>         
-        </Layout>
-        );
+    });
+  }
+  
+const PressBack = () => {
+    props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
 }
+
+const PressIcon = () => {
+    if(iconSelected == true){
+        props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
+    }
+    else{
+        setIconSelected(!iconSelected);
+    }      
+}
+
+const PressInfo = () => {
+    props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
+}
+
+const PressIntro = () => {
+    props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
+}
+
+const PressFeed = () => {
+    props.navigation.navigate(NavigatorRoute.FEED)
+}
+
+const PressSetting = () => {
+    props.navigation.navigate(NavigatorRoute.MY_PAGE)
+}
+
+const InsideRenderItem = ({item}) => {
+    return(
+    <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), alignItems: 'center'}}>
+        <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'contain', borderRadius: 10}} source={{uri: item.url}}/>       
+    </Layout>
+    );
+}
+
+const renderItem = ({item}) => {       
+
+    return(
+    <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.72)}}>
+        <FlatList
+            style={{marginVertical: 15}}
+            data={item.image}
+            horizontal={true}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            renderItem={InsideRenderItem}
+        />
+        <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text>
+        <Layout style={{flexDirection: 'row'}}>
+            <Layout>
+                <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
+            </Layout>
+            <Layout>
+                <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.description}</Text>
+            </Layout>
+        </Layout>         
+    </Layout>
+    );
+  }
    
   return (
     <React.Fragment>
@@ -156,35 +162,39 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
             </TouchableOpacity>
         </Layout>
 
-        {/*Bottom Tab Bar*/}
-        {((iconSelected)?
+        {/*Bottom Tab Bar */}
+        <Layout style={styles.bottomTabBar}>            
+            <Layout style={styles.bottomTab}>
+                <TouchableOpacity onPress={PressFeed}>
+                    <Guide width={20} height={20}/>
+                </TouchableOpacity>
+            </Layout>
+
+            <Layout style={{flex: 1}} />     
+
+            <Layout style={styles.bottomTab}>
+                <TouchableOpacity onPress={PressSetting}>
+                    <MyPage width={20} height={20}/>
+                </TouchableOpacity>
+            </Layout>
+        </Layout>
+
         <Layout style={styles.bottomBar}>
-            <Layout style={styles.iconSelectContainer}>
-                <TouchableOpacity>
-                    <FontAwesomeIcon icon={faBook} style={{color: 'white'}} size={20}/>
-                </TouchableOpacity>                
+            <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
+              <TouchableOpacity onPress={() => {PressFeed}}>
+                  <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
+                    <Feed width={20} height={20}/>
+                  </Layout>                  
+              </TouchableOpacity>
             </Layout>
-            <Layout style={styles.iconContainer}>
-                <TouchableOpacity onPress={PressIcon}>
-                    <FontAwesomeIcon icon={faCommentDots} style={{color: 'gray'}} size={20}/>
-                </TouchableOpacity>                
-            </Layout>
-            </Layout>
-        :
-        <Layout style={styles.bottomBar}>
-            <Layout style={styles.iconContainer}>
-                <TouchableOpacity  onPress={PressIcon}>
-                    <FontAwesomeIcon icon={faBook} style={{color: 'gray'}} size={20}/>
-                </TouchableOpacity>                
-            </Layout>
-            <Layout style={styles.iconSelectContainer}>
-                <TouchableOpacity>
-                    <FontAwesomeIcon icon={faCommentDots} style={{color: 'white'}} size={20}/>
-                </TouchableOpacity>                
-            </Layout>
-            </Layout>
-        )}
-        
+           
+            <TouchableOpacity onPress={() => {PressBook()}}>
+                <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
+                </Layout>
+            </TouchableOpacity>
+            
+        </Layout>
 
     </React.Fragment>
   );
@@ -219,27 +229,6 @@ const styles = StyleSheet.create({
     smallTitle: {
         fontSize : 14,
         fontWeight: 'bold'
-    },
-    bottomBar: {
-        position: 'absolute',
-        bottom: 0,
-        flex: 1,
-        width: 130,
-        height: 58,
-        marginBottom: 10,
-        flexDirection: 'row',
-        borderRadius: 40,
-        alignSelf: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
-        elevation: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     iconSelectContainer: {
         borderRadius: 100,
@@ -311,5 +300,42 @@ const styles = StyleSheet.create({
     desc: {
         fontSize: 14,
         textAlign: 'center'
-    }
+    },
+    bottomTab: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    bottomBar: {
+        position: 'absolute',
+        bottom: 0,
+        width : 170,
+        height: 55,
+        marginBottom: 5,
+        borderRadius: 40,
+        flexDirection: 'row',
+        alignSelf: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        zIndex: 5
+    },
+    bottomTabBar: {
+        position: 'absolute', 
+        bottom: 0, 
+        backgroundColor: 'white', 
+        flexDirection:'row', 
+        height: 50, 
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
