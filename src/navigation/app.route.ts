@@ -45,13 +45,6 @@ export enum SceneRoute {
     CAFE_INTRO = 'Cafe Intro',
     CAFE_MENU = 'Cafe Menu',
 
-    MY_TOUR_DETAIL = 'My Tour Detail',
-    MY_TOUR_VERIFICATION = 'My Tour Verification',
-    MY_TOUR_CHAT = 'My Tour Chat',
-    MY_TOUR_REPORT = 'My Tour Report',
-    MY_TOUR_REPORT_ERROR = 'My Tour Report Error',
-    MY_TOUR_REPORT_GUIDE = 'My Tour Report Guide',
-
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',
     MY_PAGE_CUSTOMERSERVICE = 'My Page CurstomerService',

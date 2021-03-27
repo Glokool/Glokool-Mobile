@@ -19,12 +19,16 @@ import {
   Card,
   Button,
 } from '@ui-kitten/components';
+import { fas, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { GuideScreenProps } from '../../navigation/guide.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
 import Toast from 'react-native-easy-toast'
+import DateIcon from '../../assets/icon/date.svg';
+import LocationIcon from '../../assets/icon/location.svg';
 
 var ToastRef : any;
 
@@ -47,26 +51,6 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
       }
     }, [])
   );
-  
-
-  const ClickList = item => () => {
-    
-    AsyncStorage.setItem('code', item.tourCode);
-    AsyncStorage.setItem('id', item.tour_id);
-    AsyncStorage.setItem('title', item.title);
-    
-    BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    
-    props.navigation.navigate(SceneRoute.MY_TOUR_ALL_LOCATION, item);
-  };
-
-  const PressChat = item => () => {
-    
-    AsyncStorage.setItem('code', item.tourCode);
-    AsyncStorage.setItem('id', item.tour_id);
-    AsyncStorage.setItem('title', item.title);
-    props.navigation.navigate(SceneRoute.MY_TOUR_CHAT, item.tourCode);
-  }
 
   React.useEffect(() => {
 
@@ -93,6 +77,18 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
       setLoginVisible(false);
     }
   }, [])
+  
+  const PressChat = item => () => {
+    
+    AsyncStorage.setItem('code', item.tourCode);
+    AsyncStorage.setItem('id', item.tour_id);
+    AsyncStorage.setItem('title', item.title);
+
+    BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    props.navigation.navigate(SceneRoute.GUIDE_CHAT, item.tourCode);
+  }
+
+  
 
   const handleBackButton = () => {
     
@@ -116,43 +112,47 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
 
   const renderItem = ({item}) => {
 
-    var Day = (now.getTime() - moment(item.date).toDate().getTime())/ 1000 / 60 / 60 / 24;    
+    var Day = moment(item.date).toDate();
+    console.log(item);
+
+    // <Image style={styles.Image} source={{uri : item.thumbnail}}/> 
+    // <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>{item.title}</Text>
+    // <Text style={{color: 'white', fontWeight: 'bold', fontSize: 12}}>{item.location}</Text>
     
     return(
-      <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableOpacity onPress={ClickList(item)}>
-        <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-          
-          <Layout style={{alignItems: 'center', margin: 10}}>
-            <Image style={styles.Image} source={{uri : item.thumbnail}}/>     
-          </Layout>
-
-          <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', alignItems: 'center', top: 20}}>
+        <TouchableOpacity onPress={PressChat(item)}>
+        
+        <Layout style={styles.GuideContainer}>
+          <Layout style={{flex: 65, flexDirection: 'column'}}>
             
-          {((now.getDate()- moment(item.date).toDate().getDate()) == 0)? 
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D - Day</Text> 
-            :
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, marginTop: 10}}>D {((now - moment(item.date).toDate()) > 0)? '+' : '-'} {Math.abs(parseInt(Day) + 1)}</Text>
-          }
-          </Layout>  
+            <Layout style={{flex: 1, padding: 20, flexDirection: 'row', alignItems: 'center'}}>
+              <FontAwesomeIcon icon={faSquare} size={16} color={'#FDE2A1'} style={{marginRight: 5}}/>
+              <Text style={{color: 'black', fontWeight: 'bold', fontSize: 16}}>{item.title}</Text>
+            </Layout>
 
+            <Layout style={{flex: 1, padding: 20, paddingTop: 0, alignItems: 'flex-start'}}>
 
-          <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', alignItems: 'center'}}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>{item.title}</Text>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 12}}>{item.location}</Text>
+              <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
+                <DateIcon width={12} height={12} style={{marginRight: 5}}/>
+                <Text style={{color: 'black', fontSize: 12}}>{`${Day.getFullYear()}.${Day.getMonth() + 1}.${Day.getDate()}`}</Text>
+              </Layout>
+              
+              <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
+                <LocationIcon width={12} height={12} style={{marginRight: 5}}/>
+                <Text style={{color: 'black', fontSize: 12}}>{item.location}</Text>
+              </Layout>
+              
+            </Layout>
           </Layout>
 
-              
-        </Layout>      
-      </TouchableOpacity>
+          <Layout style={{flex: 35, alignItems: 'flex-end'}}>
+            <Image style={styles.Image} source={{uri : item.thumbnail}}/> 
+          </Layout>
 
-        <Layout style={{position: 'absolute', bottom: 50, right: 40, backgroundColor: '#00FF0000'}}>
-          <TouchableOpacity onPress={PressChat(item)}>
-            <Image source={require('../../assets/chat_button.png')}/>
-          </TouchableOpacity>
+
         </Layout>
-      </Layout>
-    )
+        </TouchableOpacity>
+      );
     
     };
 
@@ -211,15 +211,16 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
           </Layout>
         :
           <FlatList
-            style={{backgroundColor: '##F5F5F5'}}
+            style={{backgroundColor: '##F5F5F5', width: '100%'}}
             data={MyTourData}
             renderItem={renderItem}
-            keyExtractor={item => item.id}/>   
+            keyExtractor={item => item.id}
+          />   
         }
-        
-              
       </Layout>
       <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
+
+      <Image style={styles.banner} source={require('../../assets/guide_banner.jpg')}/>
     </React.Fragment>
     )
   );
@@ -243,11 +244,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   Image: {
-    margin: 10,
-    borderRadius: 10,
-    marginBottom: 15,
-    width: 350,
-    height: 350,
+    width: '100%',
+    height: 130,
   },
   ImageContainer: {
     borderRadius: 20,
@@ -290,5 +288,27 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderColor: '#FFC043',
     backgroundColor: 'white',   
+  },
+  GuideContainer : {
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    width: '100%',
+    height: 130,
+    borderTopWidth: 1,
+    borderTopColor: '#FFD774',
+    flexDirection: 'row',
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity:  0.4,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  banner: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 130,
+    resizeMode: 'stretch'
   }
 });

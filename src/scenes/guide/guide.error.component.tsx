@@ -33,11 +33,7 @@ export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement =>
     }
 
     const PressGuide = () => {
-      props.navigation.navigate(SceneRoute.MY_TOUR_REPORT_GUIDE, guide);
-    }
-
-    const PressReport = () => {
-      props.navigation.navigate(SceneRoute.MY_TOUR_REPORT);
+      props.navigation.navigate(SceneRoute.GUIDE_REPORT, guide);
     }
 
     const PressEmergency = () => {

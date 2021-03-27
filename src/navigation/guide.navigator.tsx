@@ -49,8 +49,8 @@ const Stack = createStackNavigator();
 
 export const GuideNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name={SceneRoute.GUIDE} component={GuideChatScreen}/>
-    <Stack.Screen name={SceneRoute.GUIDE_CHAT} component={GuideScreen}/>
+    <Stack.Screen name={SceneRoute.GUIDE} component={GuideScreen}/>
+    <Stack.Screen name={SceneRoute.GUIDE_CHAT} component={GuideChatScreen}/>
     <Stack.Screen name={SceneRoute.GUIDE_ERROR} component={GuideErrorScreen}/>
     <Stack.Screen name={SceneRoute.GUIDE_REPORT} component={GuideReportScreen}/>
   </Stack.Navigator>

@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './auth.navigator';
 import { MainNavigator } from './main.navigator';
@@ -10,12 +9,13 @@ import { NavigatorRoute } from './app.route';
 export type AppNavigatorParams = {
   [NavigatorRoute.AUTH]: undefined;
   [NavigatorRoute.MAIN]: undefined;
+  [NavigatorRoute.PAY]: undefined;
+  [NavigatorRoute.BOOK]: undefined;
 }
 
 const Stack = createStackNavigator();
-const user = auth().currentUser
 
-export const AppNavigator = (props): React.ReactElement => (
+export const AppNavigator = (props: React.ReactElement): React.ReactElement => (
   <Stack.Navigator {...props} headerMode='none'>    
     <Stack.Screen name={NavigatorRoute.MAIN} component={MainNavigator}/>
     <Stack.Screen name={NavigatorRoute.PAY} component={PayNavigator}/>

@@ -542,7 +542,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 </Layout>
 
                 
-                <TouchableOpacity style={styles.IconContainer} onPress={() => props.navigation.navigate(SceneRoute.MY_TOUR_REPORT_ERROR, guide)}>
+                <TouchableOpacity style={styles.IconContainer} onPress={() => props.navigation.navigate(SceneRoute.GUIDE_ERROR, guide)}>
                     <Icon style={styles.icon} fill='black' name='info-outline'/>
                 </TouchableOpacity>  
                                           
