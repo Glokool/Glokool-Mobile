@@ -9,7 +9,9 @@ import {
   FlatList,
   Image,
   ScrollView,
-  BackHandler
+  BackHandler,
+  Dimensions,
+  Linking
 } from 'react-native';
 import {
   Layout,
@@ -20,6 +22,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import Toast from 'react-native-easy-toast'
+import Carousel from 'react-native-banner-carousel';
 
 var ToastRef : any;
 
@@ -28,6 +31,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const [FeedData, setFeedData] = React.useState([]);
   const [exit, setExit] = React.useState(false);
+  const BannerWidth = Dimensions.get('window').width;
+  const BannerHeight = 200;
   
   var exitApp : any = undefined;  
   var timeout : any;
@@ -118,9 +123,27 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
       <ScrollView>
         <Layout style={styles.mainContainer}>
-          <Text style={styles.TextStyle}>{"FEED"}</Text>
-          <Text style={styles.Title}>{`Take your bag${"\n"}and find the${"\n"}hidden gems`}</Text>
-          <Text style={styles.smallTitle}>{`English / Chinese Tour Available`}</Text>
+          <Carousel
+              autoplay
+              autoplayTimeout={5000}
+              loop
+              index={0}
+              pageSize={BannerWidth}
+          >
+              <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_01.jpg')}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_02.jpg')}/>
+              </TouchableOpacity>
+              
+
+              <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
+                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_03.jpg')}/>
+              </TouchableOpacity>
+
+          </Carousel>
         </Layout>
 
         <Layout style={{backgroundColor: '#00FF0000'}}>
@@ -144,6 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
+    height: 220
   },
   TextStyle: {    
     fontSize: 20,
