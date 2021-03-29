@@ -16,30 +16,33 @@ import { AttractionIntroScreenProps } from '../../../navigation/attraction.navig
 import {
     faLongArrowAltLeft,
     faArrowRight,
-    faArrowLeft
+    faArrowLeft,
+    faGripLines
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
+import Drawer from 'react-native-draggable-view';
 
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
 
 
+
 export const AttractionIntroScreen = (props: AttractionIntroScreenProps): LayoutElement => {
   const info = props.route.params;
-  const [iconSelected, setIconSelected] = React.useState(true);
+  const [desc, setDesc] = React.useState('');
   const [Attraction, setAttraction] = React.useState([]);
 
 
   React.useEffect(() => {
-    axios.get(SERVER + '/api/attraction/intro/' + info.code.code + '/tour/' + info.code.tour_id)
-        .then((response) =>{
-            setAttraction(response.data);
-            console.log(response.data)
-        })
+        axios.get(SERVER + '/api/attraction/'+ info.code.code +'/intro/tour/' + info.code.tour_id)
+            .then((response) =>{
+                setAttraction(response.data.image);
+                setDesc(response.data.description);
+            })
 
   }, [])
 
@@ -56,15 +59,6 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
 
-    const PressIcon = () => {
-        if(iconSelected == true){
-            props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-        }
-        else{
-            setIconSelected(!iconSelected);
-        }      
-    }
-
     const PressInfo = () => {
         props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
     }
@@ -74,24 +68,24 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
     }
 
     const PressFeed = () => {
-        props.navigation.navigate(NavigatorRoute.FEED)
+        props.navigation.navigate(NavigatorRoute.FEED);
     }
 
     const PressSetting = () => {
         props.navigation.navigate(NavigatorRoute.MY_PAGE)
     }
 
+    const PressGuide = () => {
+        props.navigation.navigate(NavigatorRoute.GUIDE);
+    }
+
     const renderItem = ({item}) => (
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
             <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
-                <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item.image}}/>
+                <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
                 <FontAwesomeIcon icon={faArrowLeft} style={{position: 'absolute', top: '50%', left: '2%', color: 'white'}} size={16}/>
                 <FontAwesomeIcon icon={faArrowRight}  style={{position: 'absolute', top: '50%', right: '2%', color: 'white'}} size={16}/>          
             </Layout>
-            <Layout>
-                <Text style={{fontSize: 14, margin: 20}}>{item.description}</Text>
-            </Layout>
-            <Layout style={{height: 78}}/>
         </Layout>        
     )
    
@@ -124,21 +118,47 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
 
         {/* 내용물*/}
         <Layout style={{flex: 9, backgroundColor: 'white'}}>
-            <FlatList
-                style={{backgroundColor: 'white'}}
-                horizontal={true}
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 78 }}
-                data={Attraction}
-                renderItem={renderItem}
-            />
+
+            <Drawer
+                initialDrawerSize={0.4}
+                autoDrawerUp={1} // 1 to auto up, 0 to auto down
+                isInverseDirection={true}
+                finalDrawerHeight={300}
+                
+                renderInitDrawerView={() => (  
+                   <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                       <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
+                    </Layout>
+                )}
+
+                renderDrawerView={() => (                    
+                    <Layout>
+                        <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
+                    </Layout>
+                )}
+
+                renderContainerView={() => (
+                    <FlatList
+                        style={{backgroundColor: 'white'}}
+                        horizontal={true}
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 78 }}
+                        data={Attraction}
+                        renderItem={renderItem}
+                    />
+                )}
+            />          
+
+            <Layout style={{height: 78}}/>
         </Layout>
+
+        
 
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -154,7 +174,7 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -13,11 +12,7 @@ import {
 } from '@ui-kitten/components';
 import { RestaurantMenuScreenProps } from '../../../navigation/restaurant.navigator';
 import {
-    faBook,
-    faCommentDots,
     faLongArrowAltLeft,
-    faBars,
-    faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
@@ -30,27 +25,24 @@ import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
 
 export const RestaurantMenuScreen = (props: RestaurantMenuScreenProps): LayoutElement => {
-  const user = auth().currentUser;
   const info = props.route.params;
-  const [iconSelected, setIconSelected] = React.useState(true);
   const [Restaurant, setRestaurant] = React.useState({});
 
-  
-  React.useEffect(() => {
+    React.useEffect(() => {
     axios.get(SERVER + '/api/restaurant/menu/' + info.code.code + '/tour/' + info.code.tour_id)
         .then((response) => {
             setRestaurant(response.data)
         })
   }, []);
 
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
-    });
-  } 
+    const PressBook = () => {
+        props.navigation.navigate(NavigatorRoute.BOOK, {
+                screen: SceneRoute.BOOK_DATE,
+                params: {
+                    tourCode: info.code.tour_id
+                }
+            });
+    } 
 
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
@@ -65,11 +57,15 @@ export const RestaurantMenuScreen = (props: RestaurantMenuScreenProps): LayoutEl
     }
 
     const PressFeed = () => {
-        props.navigation.navigate(NavigatorRoute.FEED)
+        props.navigation.navigate(SceneRoute.FEED)
     }
 
     const PressSetting = () => {
         props.navigation.navigate(NavigatorRoute.MY_PAGE)
+    }
+
+    const PressGuide = () => {
+        props.navigation.navigate(NavigatorRoute.GUIDE);
     }
 
 
@@ -115,7 +111,7 @@ export const RestaurantMenuScreen = (props: RestaurantMenuScreenProps): LayoutEl
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -131,7 +127,7 @@ export const RestaurantMenuScreen = (props: RestaurantMenuScreenProps): LayoutEl
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

@@ -29,6 +29,7 @@ import axios from 'axios'
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
+import { StackActions } from '@react-navigation/routers';
 
 export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutElement => {
   const user = auth().currentUser;
@@ -52,6 +53,10 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
     });
   }
 
+  const PressGuide = () => {
+    props.navigation.navigate(NavigatorRoute.GUIDE);
+  }
+
   const PressBack = () => {
     props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
   }
@@ -63,9 +68,10 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
   const PressPhoto = () => {
     props.navigation.navigate(SceneRoute.RESTAURANT_MENU, info);
   }
-
+  
+  
   const PressFeed = () => {
-    props.navigation.navigate(NavigatorRoute.FEED)
+    props.navigation.replace(NavigatorRoute.FEED);
   }
 
   const PressSetting = () => {
@@ -192,7 +198,7 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -208,7 +214,7 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

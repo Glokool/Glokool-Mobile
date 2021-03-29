@@ -213,7 +213,7 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
           <FlatList
             style={{backgroundColor: '##F5F5F5', width: '100%'}}
             data={MyTourData}
-            contentContainerStyle={{marginBottom: 130}}
+            contentContainerStyle={{paddingBottom: 300}}
             renderItem={renderItem}
             keyExtractor={item => item.id}
           />   

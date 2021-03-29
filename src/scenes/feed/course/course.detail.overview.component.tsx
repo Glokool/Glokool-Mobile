@@ -60,7 +60,7 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
     }   
 
     const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.MY_TOUR)
+        props.navigation.navigate(NavigatorRoute.GUIDE)
     }
   
     const PressSetting = () => {
@@ -75,6 +75,10 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
 
     const PressSpots = () => {
         props.navigation.navigate(SceneRoute.COURSE_DETAIL_SPOTS);
+    }
+
+    const PressFeed = () => {
+        props.navigation.navigate(SceneRoute.FEED);
     }
 
 
@@ -110,7 +114,7 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressGuide}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

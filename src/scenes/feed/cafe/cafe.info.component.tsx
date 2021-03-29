@@ -67,11 +67,15 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
   }
 
   const PressFeed = () => {
-    props.navigation.navigate(NavigatorRoute.FEED)
+    props.navigation.navigate(SceneRoute.FEED)
   }
 
-    const PressSetting = () => {
+  const PressSetting = () => {
     props.navigation.navigate(NavigatorRoute.MY_PAGE)
+  }
+
+  const PressGuide = () => {
+    props.navigation.navigate(NavigatorRoute.GUIDE);
   }
 
   const renderItem = ({item}) => (
@@ -191,7 +195,7 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -207,7 +211,7 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

@@ -88,22 +88,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
   }, [attraction, restaurant, cafe])
 
-  const PressBack = () => {
-    props.navigation.goBack();
-  }
-
-  const PressIcon = () => {
-      if(iconSelected == true){
-        props.navigation.navigate(SceneRoute.MY_TOUR_CHAT, tour.tourCode );
-      }
-      else{
-        setIconSelected(!iconSelected);
-      }      
-  }
-
-  const PressRight = () => {
-    props.navigation.navigate(SceneRoute.MY_TOUR_MAP);
-  }
 
   const PressRestaurant = () => {
     if(restaurant == false){
@@ -171,11 +155,11 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   }
 
   const PressGuide = () => {
-      props.navigation.navigate(NavigatorRoute.MY_TOUR)
+      props.navigation.navigate(NavigatorRoute.GUIDE);
   }
 
   const PressSetting = () => {
-      props.navigation.navigate(NavigatorRoute.MY_PAGE)
+      props.navigation.navigate(NavigatorRoute.MY_PAGE);
   }
 
   const PressCourse = item => () => {
@@ -204,6 +188,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
               tourCode: tour
           }
       });
+  }
+
+  const PressFeed = () => {
+    props.navigation.navigate(SceneRoute.FEED);
   }
 
   //Flat List 렌더링 (레스토랑/카페/어트랙션)
@@ -525,7 +513,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressGuide}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

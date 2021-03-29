@@ -29,7 +29,7 @@ import MyPage from '../../assets/icon/MyPage.svg';
 var toastRef : any;
 
 export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): LayoutElement => {
-    const [courseData, setCourseData] = React.useState([]);
+    const [CourseData, setCourseData] = React.useState([]);
     
     React.useEffect(() => {
                
@@ -49,6 +49,10 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
 
+    const PressFeed = () => {
+        props.navigation.navigate(SceneRoute.FEED);
+    }
+
     const PressBook = () => {
         props.navigation.navigate(NavigatorRoute.BOOK, {
             screen: SceneRoute.BOOK_DATE,
@@ -59,7 +63,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
     }  
   
     const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.MY_TOUR)
+        props.navigation.navigate(NavigatorRoute.GUIDE)
     }
   
     const PressSetting = () => {
@@ -94,7 +98,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
                 style={{backgroundColor: 'white'}}
                 initialNumToRender={10}
                 horizontal={true}
-                data={courseData}
+                data={CourseData}
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
                 renderItem={renderItem}
@@ -122,7 +126,7 @@ export const CourseDetailSpotsScreen = (props: CourseDetailSpotsScreenProps): La
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressGuide}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  

@@ -53,13 +53,8 @@ const PressBack = () => {
     props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
 }
 
-const PressIcon = () => {
-    if(iconSelected == true){
-        props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-    }
-    else{
-        setIconSelected(!iconSelected);
-    }      
+const PressGuide = () => {
+    props.navigation.navigate(NavigatorRoute.GUIDE);
 }
 
 const PressInfo = () => {
@@ -71,7 +66,7 @@ const PressIntro = () => {
 }
 
 const PressFeed = () => {
-    props.navigation.navigate(NavigatorRoute.FEED)
+    props.navigation.navigate(NavigatorRoute.FEED);
 }
 
 const PressSetting = () => {
@@ -98,7 +93,15 @@ const renderItem = ({item}) => {
             showsHorizontalScrollIndicator={false}
             renderItem={InsideRenderItem}
         />
-        <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text>
+        {/* <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text> */}
+        <Layout style={{flexDirection: 'row'}}>
+            <Layout>
+                <Text style={{fontSize: 14, marginVertical: 5}}>📌</Text>
+            </Layout>
+            <Layout>
+                <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.location}</Text>
+            </Layout>
+        </Layout>
         <Layout style={{flexDirection: 'row'}}>
             <Layout>
                 <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
@@ -165,7 +168,7 @@ const renderItem = ({item}) => {
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
+                <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
                 </TouchableOpacity>
             </Layout>
@@ -181,7 +184,7 @@ const renderItem = ({item}) => {
 
         <Layout style={styles.bottomBar}>
             <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed}}>
+              <TouchableOpacity onPress={() => {PressFeed()}}>
                   <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
                     <Feed width={20} height={20}/>
                   </Layout>                  
