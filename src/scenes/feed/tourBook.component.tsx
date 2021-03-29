@@ -36,6 +36,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const tour = props.route.params;
   const [title, setTitle] = React.useState({});
   const [iconSelected, setIconSelected] = React.useState(true);
+  const [tag, setTag] = React.useState([]);
   const [DATA, setDATA] = React.useState([]);
   const [data, setData] = React.useState([]);
   const [sideBar, setSideBar] = React.useState(true);
@@ -57,6 +58,12 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
             setDATA(response.data);
             setTitle(response.data[0]);
             setData(response.data.filter(item => {return item.type == 'Restaurant'}));
+
+
+            var tag = response.data[0].tags.toString().replace(/#/g,'');
+            tag = tag.split(',')
+            setTag(tag);
+            
             setThumbnailHeight(Dimensions.get('window').height * 0.4)
         })
         .catch((err) => {
@@ -71,6 +78,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
 
     getHeight();
+
+
+
 
   }, [])
 
@@ -483,9 +493,20 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             <FullWidthPicture uri={title.thumbnail}/>
                         </Layout>
 
-                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000'}}>
+                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
                             <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
-                            <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{title.tags}</Text>
+                            
+                            <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
+                                {(tag.map((item, idx) =>                                  
+                                        <Text style={{fontWeight: "600", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
+                                            {`#`}<Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
+                                        </Text>
+                                                               
+                                ))}
+                            </Layout>
+                            
+            
+                            
                             <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
                         </Layout>           
                     </Layout>
