@@ -50,20 +50,10 @@ export const RestaurantMenuScreen = (props: RestaurantMenuScreenProps): LayoutEl
             tourCode: info.code.tour_id
         }
     });
-  }
- 
+  } 
 
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
-    }
-
-    const PressIcon = () => {
-        if(iconSelected == true){
-            props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-        }
-        else{
-            setIconSelected(!iconSelected);
-        }      
     }
 
     const PressInfo = () => {

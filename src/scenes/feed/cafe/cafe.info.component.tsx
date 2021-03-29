@@ -58,15 +58,6 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
     props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
   }
 
-  const PressIcon = () => {
-      if(iconSelected == true){
-        props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-      }
-      else{
-        setIconSelected(!iconSelected);
-      }      
-  }
-
   const PressIntro = () => {
     props.navigation.navigate(SceneRoute.CAFE_INTRO, info);
   }
@@ -123,7 +114,7 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
         <Layout style={{flex: 9, backgroundColor: 'white'}}>
             <ScrollView>
                 <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri : cafe.thumbnail}}/>
+                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').width), resizeMode: 'stretch'}} source={{uri : cafe.thumbnail}}/>
                     <Layout style={styles.textContainer}>
                         <Text style={styles.MainTitle}>{cafe.name}</Text>
                     </Layout>

@@ -139,8 +139,12 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
               </TouchableOpacity>
               
 
-              <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
+              <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
                 <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_03.jpg')}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
+                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_04.jpg')}/>
               </TouchableOpacity>
 
           </Carousel>

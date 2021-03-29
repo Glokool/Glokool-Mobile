@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Text,
-  SectionList,
   ScrollView,
 } from 'react-native';
 import {
@@ -13,7 +12,8 @@ import {
   LayoutElement,
   Button,
   Calendar,
-  Select,
+  Card,
+  Modal
 } from '@ui-kitten/components';
 import {
   faAngleLeft,
@@ -32,6 +32,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
 
     const now = new Date();
     const user = auth().currentUser;
+    const [loginVisible, setLoginVisible] = React.useState(true);
     const [date, setDate] = React.useState(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2));
     const startDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
     const endDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 32);
@@ -114,6 +115,45 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
 
 
     return (
+      (user == null) ? (
+        //로그인 되지 않았을 경우
+        <React.Fragment>
+          <Layout style={styles.container}>
+          <Modal
+            visible={loginVisible}
+            backdropStyle={styles.backdrop}
+          >
+            <Card disabled={true}>
+              <Text style={{marginVertical: 30}}>Login is required. Would you like to login?</Text>
+              
+              <Layout style={{flexDirection: 'row'}}>
+                <Layout style={{margin: 15, flex: 1}}>
+                  <Button style={styles.cancelButton} appearance='outline' onPress={() => {
+                    props.navigation.goBack();
+                    setLoginVisible(false);
+                  }}>
+                    CANCLE
+                  </Button>
+                </Layout>
+                <Layout style={{margin: 15, flex: 1}}>
+                  <Button onPress={() => {
+                    setLoginVisible(false);
+                    props.navigation.replace(NavigatorRoute.AUTH);
+                  }}>
+                    MOVE
+                  </Button>
+                </Layout>
+                
+              </Layout>
+              
+            </Card>
+          </Modal>
+  
+          </Layout>
+        </React.Fragment>
+      )
+      :
+      (
         <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
 
@@ -182,6 +222,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
           </Layout>
 
         </React.Fragment>
+      )
     );
 }
 
@@ -246,5 +287,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFC043',
     width: 120,
     height: 50,
-  }
+  },
+  container: {
+    flex: 1,
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cancelButton: {
+    borderColor: '#FFC043',
+    backgroundColor: 'white',   
+  },
+  detailTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color : '#9C9C9C',
+    marginVertical: 5
+  },
 })

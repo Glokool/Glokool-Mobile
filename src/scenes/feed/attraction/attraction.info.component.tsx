@@ -117,7 +117,7 @@ export const AttractionInfoScreen = (props: AttractionInfoScreenProps): LayoutEl
         <Layout style={{flex: 9, backgroundColor: 'white'}}>
             <ScrollView>
                 <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch', marginBottom: 10}} source={{uri: Attraction.thumbnail}}/>
+                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').width), resizeMode: 'stretch', marginBottom: 10}} source={{uri: Attraction.thumbnail}}/>
                     <Layout style={styles.textContainer}>
                         <Text style={styles.MainTitle}>{Attraction.name}</Text>
                     </Layout>

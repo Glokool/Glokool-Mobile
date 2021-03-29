@@ -496,7 +496,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                         </Layout>
 
                         <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000'}}>
-                            <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
+                            <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
                             <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{title.tags}</Text>
                             <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
                         </Layout>           

@@ -53,16 +53,7 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
   }
 
   const PressBack = () => {
-      props.navigation.goBack();
-  }
-
-  const PressIcon = () => {
-      if(iconSelected == true){
-        props.navigation.navigate(SceneRoute.MY_TOUR_CHAT);
-      }
-      else{
-        setIconSelected(!iconSelected);
-      }      
+    props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
   }
 
   const PressIntro = () => {
@@ -123,7 +114,7 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
         <Layout style={{flex: 9, backgroundColor: 'white'}}>
             <ScrollView>
                 <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}}  source={{uri: Restaurant.thumbnail}}/>
+                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').width), resizeMode: 'stretch'}}  source={{uri: Restaurant.thumbnail}}/>
                     <Layout style={styles.textContainer}>
                         <Text style={styles.MainTitle}>{Restaurant.name}</Text>
                     </Layout>

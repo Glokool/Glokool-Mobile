@@ -17,6 +17,8 @@ import {
   MenuItem, 
   OverflowMenu,
   Modal,
+  Card,
+  Button
 } from '@ui-kitten/components';
 import { ImageIcon, VolumeUpIcon} from '../../component/icon'
 import { GuideChatScreenProps } from '../../navigation/guide.navigator';
@@ -43,6 +45,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     //채팅 메시지 저장을 위한 정보
     const [ChatDB, setChatDB] = React.useState();
     const [guide, setGuide] = React.useState({});
+    const [guideCheck, setGuideCheck] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState();
     const [chatMessages, setChatMessages] = React.useState([]);
@@ -82,18 +85,18 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 .then((response) => {
                     const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
                         .then(function(doc) {
-                            
-                            
+                                                        
                             if(doc._data == undefined){
-                                ToastRef.show('Guide not yet assigned :(', 2000);
-                                setTimeout(() => {
-                                    props.navigation.goBack();
-                                }, 2000)
-                                
+                                // ToastRef.show('Guide not yet assigned :(', 2000);
+                                // setTimeout(() => {
+                                //     props.navigation.goBack();
+                                // }, 2000)
+                                setGuideCheck(true);                                
                             }
                         
                             else{
                                 setGuide(doc._data);
+                                setGuideCheck(false);
                                 ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
                             }
                             
@@ -511,9 +514,40 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
  
     //실제 렌더링
     return (
+        (guideCheck) ? (
+            //로그인 되지 않았을 경우
+            <React.Fragment>
+              <Layout style={styles.container}>
+              <Modal
+                visible={guideCheck}
+                backdropStyle={styles.backdrop}
+              >
+                <Card disabled={true}>
+                  <Text style={{marginVertical: 30}}>Guide not yet assigned :(</Text>
+                  
+                  <Layout style={{flexDirection: 'row'}}>
+                    <Layout style={{margin: 15, flex: 1}}>
+                      <Button style={styles.cancelButton} appearance='outline' onPress={() => {
+                        props.navigation.goBack();
+                        setGuideCheck(true);
+                      }}>
+                        BACK
+                      </Button>
+                    </Layout>
+                   
+                    
+                  </Layout>
+                  
+                </Card>
+              </Modal>
+      
+              </Layout>
+            </React.Fragment>
+          )
+          :
+        (
         <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        
         <Layout style={styles.Container}>
 
             {/*탭바 디자인*/}
@@ -665,6 +699,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
 
         <Toast ref={(toast) => ToastRef = toast} style={{backgroundColor:'#C9C9C9', margin : 10}} textStyle={{color:'black', textAlign: 'center'}} position={'center'}/>
         </React.Fragment>
+        )
     );
 };
 
@@ -768,8 +803,15 @@ const styles = StyleSheet.create({
         marginBottom: 1,
         width: 40
     },
-    backdrop: {
+    container: {
+        flex: 1,
+    },
+        backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    cancelButton: {
+        borderColor: '#FFC043',
+        backgroundColor: 'white',   
     },
     audioIconContainer: {
         flex: 1,
