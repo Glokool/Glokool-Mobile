@@ -237,9 +237,38 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         
             <Drawer
                 initialDrawerSize={0.8}
-                autoDrawerUp={1} // 1 to auto up, 0 to auto down
+                autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={thumbnailHeight}
+
+                renderContainerView={() => (
+                    
+                    <Layout style={{position: 'relative',width: '100%'}}>
+                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.4), top: 0, backgroundColor: '#00FF0000', borderBottomLeftRadius: 15, borderBottomEndRadius: 15}}>
+                            <FullWidthPicture uri={title.thumbnail}/>
+                        </Layout>
+
+                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
+
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000'}}>
+                                <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
+                                
+                                <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
+                                    {(tag.map((item, idx) =>                                  
+                                            <Text style={{fontWeight: "600", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
+                                                {`#`}<Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
+                                            </Text>                                                               
+                                    ))}
+                                </Layout> 
+                            </Layout>
+
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000'}}>
+                                <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
+                            </Layout>
+                           
+                        </Layout>           
+                    </Layout>
+                )}
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
@@ -485,32 +514,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                     </Layout>        
                     
                 )}
-                renderContainerView={() => (
-                    
-                    <Layout style={{position: 'relative',width: '100%'}}>
-
-                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.4), top: 0, backgroundColor: '#00FF0000'}}>
-                            <FullWidthPicture uri={title.thumbnail}/>
-                        </Layout>
-
-                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
-                            <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
-                            
-                            <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
-                                {(tag.map((item, idx) =>                                  
-                                        <Text style={{fontWeight: "600", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
-                                            {`#`}<Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
-                                        </Text>
-                                                               
-                                ))}
-                            </Layout>
-                            
-            
-                            
-                            <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
-                        </Layout>           
-                    </Layout>
-                )}
+               
                 
                 
         />
