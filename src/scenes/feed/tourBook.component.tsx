@@ -235,7 +235,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             <Drawer
-                initialDrawerSize={0.7}
+                initialDrawerSize={0.8}
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={thumbnailHeight}
@@ -244,15 +244,15 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                     
                     <Layout style={{position: 'relative',width: '100%'}}>
                         <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: '#00FF0000'}}>
-                            <FullWidthPicture uri={title.thumbnail}/>
+                            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch'}} source={{uri: title.thumbnail}}/>
                         </Layout>
 
                         <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
 
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000'}}>
+                            <Layout style={{flex: 1, backgroundColor: '#white'}}>
                                 <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
                                 
-                                <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
+                                <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 10}}>
                                     {(tag.map((item, idx) =>                                  
                                             <Text style={{fontWeight: "600", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
                                                 {`#`}<Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
@@ -261,8 +261,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 </Layout> 
                             </Layout>
 
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000'}}>
-                                <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 60}}>{title.description}</Text>
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', top: '25%'}}>
+                                <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', padding: 10}}>{title.description}</Text>
                             </Layout>
                            
                         </Layout>           
@@ -271,6 +271,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                       
                        <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
                     </Layout>
                 )}
@@ -290,10 +291,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 </Layout>
 
                                 <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
-                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 90}} onPress={() => setCourse(false)}>
+                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}} onPress={() => setCourse(false)}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#D3D3D3'}}>Locations</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 90}}>
+                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 120}}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}} numberOfLines={1}>Travel Styles</Text>
                                     </TouchableOpacity>                 
                                 </Layout>
@@ -309,10 +310,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 </Layout>
 
                                 <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
-                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 90}}>
+                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}}>Locations</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 90}} onPress={() => setCourse(true)}>
+                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 120}} onPress={() => setCourse(true)}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}} numberOfLines={1}>Travel Styles</Text>
                                     </TouchableOpacity>                 
                                 </Layout>
@@ -640,12 +641,12 @@ const styles = StyleSheet.create({
     bubbleTab: {
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-        padding: 5,
+        padding: 0,
     },
     bubbleSelectedTab: {
         borderRadius: 30,
         backgroundColor: '#FFC043',
-        padding: 5,
+        padding: 0,
     },
     bubbleSelectedText: {
         fontSize: 13,
