@@ -12,9 +12,10 @@
     "fresco-patch": "yarn file-patch ./patches/DecodeProducer.java.diff android/libraries/fresco/imagepipeline/src/main/java/com/facebook/imagepipeline/producers/DecodeProducer.java",
     "fresco-setup": "yarn fresco-clone && yarn fresco-patch"
   },
-
   "rnpm": {
-    "assets": ["./assets"]
+    "assets": [
+      "./assets"
+    ]
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
