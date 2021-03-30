@@ -17,12 +17,14 @@ import { CafeIntroScreenProps } from '../../../navigation/cafe.navigator';
 import {
     faLongArrowAltLeft,
     faArrowRight,
-    faArrowLeft
+    faArrowLeft,
+    faGripLines,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
+import Drawer from 'react-native-draggable-view';
 
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
@@ -31,16 +33,18 @@ import MyPage from '../../../assets/icon/MyPage.svg';
 
 export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
 
-  const [iconSelected, setIconSelected] = React.useState(true);
   const info = props.route.params;
   const [cafe, setCafe] = React.useState([]);
+  const [desc, setDesc] = React.useState('');
 
   React.useEffect(() => {
 
-    axios.get(SERVER + '/api/cafe/intro/' + info.code.code + '/tour/' + info.code.tour_id)
-        .then((response) => {
-            setCafe(response.data);
-        });
+    axios.get(SERVER + '/api/cafe/'+ info.code.code +'/intro/tour/' + info.code.tour_id)
+        .then((response) =>{
+            setCafe(response.data.image);
+            setDesc(response.data.description);
+        })
+
     }, []);
   
 
@@ -82,14 +86,10 @@ export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
     const renderItem = ({item}) => (
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
             <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
-                <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item.image}}/>
+                <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
                 <FontAwesomeIcon icon={faArrowLeft} style={{position: 'absolute', top: '50%', left: '2%', color: 'white'}} size={16}/>
                 <FontAwesomeIcon icon={faArrowRight}  style={{position: 'absolute', top: '50%', right: '2%', color: 'white'}} size={16}/>          
             </Layout>
-            <Layout>
-                <Text style={{fontSize: 14, margin: 20}}>{item.description}</Text>
-            </Layout>
-            <Layout style={{height: 78}}/>
         </Layout>        
     )
    
@@ -120,18 +120,43 @@ export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
             </Layout>
         </Layout>
 
+   
         {/* 내용물*/}
         <Layout style={{flex: 9, backgroundColor: 'white'}}>
-            <FlatList
-                style={{backgroundColor: 'white'}}
-                horizontal={true}
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 78 }}
-                data={cafe}
-                renderItem={renderItem}
-            />
+            <Drawer
+                initialDrawerSize={0.4}
+                autoDrawerUp={1} // 1 to auto up, 0 to auto down
+                isInverseDirection={true}
+                finalDrawerHeight={300}
+                
+                renderInitDrawerView={() => (  
+                   <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                       <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
+                    </Layout>
+                )}
+
+                renderDrawerView={() => (                    
+                    <Layout>
+                        <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
+                    </Layout>
+                )}
+
+                renderContainerView={() => (
+                    <FlatList
+                        style={{backgroundColor: 'white'}}
+                        horizontal={true}
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 78 }}
+                        data={cafe}
+                        renderItem={renderItem}
+                    />
+                )}
+            />          
+            <Layout style={{height: 78}}/>
         </Layout>
+
+
 
         {/*Bottom Tab Bar */}
         <Layout style={styles.bottomTabBar}>            

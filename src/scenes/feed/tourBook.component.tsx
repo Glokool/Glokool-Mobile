@@ -234,9 +234,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   return (
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        
             <Drawer
-                initialDrawerSize={0.8}
+                initialDrawerSize={0.7}
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={thumbnailHeight}
@@ -244,7 +243,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 renderContainerView={() => (
                     
                     <Layout style={{position: 'relative',width: '100%'}}>
-                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.4), top: 0, backgroundColor: '#00FF0000', borderBottomLeftRadius: 15, borderBottomEndRadius: 15}}>
+                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: '#00FF0000'}}>
                             <FullWidthPicture uri={title.thumbnail}/>
                         </Layout>
 
@@ -271,7 +270,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 )}
                 
                 renderInitDrawerView={() => (  
-                   <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                   <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
                        <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
                     </Layout>
                 )}
@@ -329,9 +328,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             {(course)? 
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 25}
+                                        {flex: 85}
                                     :
-                                        {flex: 85, borderTopStartRadius: 25, borderTopEndRadius: 25,}
+                                        {flex: 85}
                                     }
                                 >
 
@@ -376,45 +375,44 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 :
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 50}
+                                        {flex: 85, borderTopEndRadius: 10}
                                     :
-                                        {flex: 85, borderTopStartRadius: 50, borderTopEndRadius: 50}
+                                        {flex: 85, borderTopStartRadius: 10, borderTopEndRadius: 10}
                                     }
                                 >
 
-                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',  borderTopRightRadius: 25, borderTopLeftRadius: 25, backgroundColor: 'white'}}>
+                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10}}>
                                 {((attraction)? 
                                 /*Bubble Tab bar attraction Selected*/
                                     <Layout style={{flexDirection: 'row', padding: 20}}>
-                                    {(sideBar)?
-                                        null
-                                    :
-                                        <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
-                                            <Layout style={styles.touchIcon}>
-                                                <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
-                                            </Layout>                            
+                                        {(sideBar)?
+                                            null
+                                        :
+                                            <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
+                                                <Layout style={styles.touchIcon}>
+                                                    <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                                </Layout>                            
+                                            </TouchableOpacity>
+                                        }
+
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
+                                            <Layout style={styles.bubbleSelectedTab}>
+                                                <Text style={styles.bubbleSelectedText}>Attraction</Text>
+                                            </Layout>
                                         </TouchableOpacity>
-                                    }
 
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
+                                            <Layout style={styles.bubbleTab}>
+                                                <Text style={styles.bubbleText}>Restaurant</Text>
+                                            </Layout>
+                                        </TouchableOpacity>
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                        <Layout style={styles.bubbleSelectedTab}>
-                                            <Text style={styles.bubbleSelectedText}>Attraction</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Restaurant</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Café</Text>
-                                        </Layout>
-                                    </TouchableOpacity>                
-                                </Layout>   
+                                        <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
+                                            <Layout style={styles.bubbleTab}>
+                                                <Text style={styles.bubbleText}>Café</Text>
+                                            </Layout>
+                                        </TouchableOpacity>                
+                                    </Layout>   
                                 : 
                                 null)}
 
@@ -610,24 +608,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         zIndex: 5
     },
-    iconSelectContainer: {
-        borderRadius: 100,
-        width: 40,
-        height: 40,
-        backgroundColor: '#FFC043',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 10,
-    },   
-    iconContainer: {
-        borderRadius: 100,
-        width: 40,
-        height: 40,
-        backgroundColor: 'white',
-        marginHorizontal: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     dateTitle: {
         fontSize: 12,
         color: '#FFC043'
@@ -672,7 +652,6 @@ const styles = StyleSheet.create({
         color: 'white',
         marginVertical: 5,
         marginHorizontal: 15,
-
     },
     bubbleText: {
         fontSize: 13,

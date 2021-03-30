@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,30 +6,24 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView,
   Dimensions
 } from 'react-native';
 import {
-  Divider,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
 import { RestaurantIntroScreenProps } from '../../../navigation/restaurant.navigator';
 import {
-    faBook,
-    faCommentDots,
     faLongArrowAltLeft,
-    faBars,
-    faUser,
     faArrowRight,
-    faArrowLeft
+    faArrowLeft,
+    faGripLines
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
-import { InfoIcon } from '../../../component/icon';
+import Drawer from 'react-native-draggable-view';
 
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
@@ -38,147 +31,169 @@ import MyPage from '../../../assets/icon/MyPage.svg';
 
 
 export const RestaurantIntroScreen = (props: RestaurantIntroScreenProps): LayoutElement => {
-  const user = auth().currentUser;
-  const info = props.route.params;
-  const [iconSelected, setIconSelected] = React.useState(true);
-  const [Restaurant, setRestaurant] = React.useState([]);
-
-
-  React.useEffect(() => {
-
-    axios.get(SERVER + '/api/restaurant/intro/' + info.code.code + '/tour/' + info.code.tour_id)
-        .then((response) => {
-            setRestaurant(response.data);
-            console.log(response.data)
-        });
-  }, []);
-
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
-    });
-  }
-
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE);
-    }
-
-    const PressBack = () => {
-        props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
-    }
-
-    const PressInfo = () => {
-        props.navigation.navigate(SceneRoute.RESTAURANT_INFO, info);
-    }
-
-    const PressPhoto = () => {
-        props.navigation.navigate(SceneRoute.RESTAURANT_MENU, info);
-    }
-
-    const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED)
-    }
-
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-
-    const renderItem = ({item}) => (
-        <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
-            <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
-                <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item.image}}/>
-                <FontAwesomeIcon icon={faArrowLeft} style={{position: 'absolute', top: '50%', left: '2%', color: 'white'}} size={16}/>
-                <FontAwesomeIcon icon={faArrowRight}  style={{position: 'absolute', top: '50%', right: '2%', color: 'white'}} size={16}/>          
-            </Layout>
-            <Layout>
-                <Text style={{fontSize: 14, margin: 20}}>{item.description}</Text>
-            </Layout>
-            <Layout style={{height: 78}}/>
-        </Layout>        
-    )
-   
-  return (
-    <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        {/*탑 탭바 */}
-        <Layout style={styles.tabbar}>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faLongArrowAltLeft} style={{color: 'black'}} size={28}/>
+    const info = props.route.params;
+    const [restaurant, setRestaurant] = React.useState([]);
+    const [desc, setDesc] = React.useState('');
+  
+    React.useEffect(() => {
+  
+      axios.get(SERVER + '/api/restaurant/'+ info.code.code +'/intro/tour/' + info.code.tour_id)
+          .then((response) =>{
+                setRestaurant(response.data.image);
+              setDesc(response.data.description);
+          })
+  
+      }, []);
+    
+  
+      const PressBook = () => {
+          props.navigation.navigate(NavigatorRoute.BOOK, {
+              screen: SceneRoute.BOOK_DATE,
+              params: {
+                  tourCode: info.code.tour_id
+              }
+          });
+      }
+  
+      const PressGuide = () => {
+          props.navigation.navigate(NavigatorRoute.GUIDE);
+      }
+    
+  
+      const PressBack = () => {
+          props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
+      }
+  
+  
+      const PressInfo = () => {
+          props.navigation.navigate(SceneRoute.RESTAURANT_INFO, info);
+      }
+  
+      const PressPhoto = () => {
+          props.navigation.navigate(SceneRoute.RESTAURANT_MENU, info);
+      }
+  
+      const PressFeed = () => {
+          props.navigation.navigate(SceneRoute.FEED)
+      }
+  
+      const PressSetting = () => {
+          props.navigation.navigate(NavigatorRoute.MY_PAGE)
+      }
+  
+      const renderItem = ({item}) => (
+          <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
+              <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
+                  <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
+                  <FontAwesomeIcon icon={faArrowLeft} style={{position: 'absolute', top: '50%', left: '2%', color: 'white'}} size={16}/>
+                  <FontAwesomeIcon icon={faArrowRight}  style={{position: 'absolute', top: '50%', right: '2%', color: 'white'}} size={16}/>          
+              </Layout>
+          </Layout>        
+      )
+     
+    return (
+      <React.Fragment>
+          <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+          {/*탑 탭바 */}
+          <Layout style={styles.tabbar}>
+              <Layout style={styles.tabbarContainer}>
+                  <TouchableOpacity onPress={PressBack}>
+                      <FontAwesomeIcon icon={faLongArrowAltLeft} style={{color: 'black'}} size={28}/>
+                  </TouchableOpacity>
+              </Layout>
+              <Layout style={styles.tabbarContainer}>
+                  <TouchableOpacity onPress={PressInfo}>
+                      <Text style={styles.Title}>Information</Text>
+                  </TouchableOpacity>
+              </Layout>
+              <Layout style={styles.tabbarContainer}>
+                  <TouchableOpacity>
+                      <Text style={styles.selectTitle}>Introduction</Text>
+                  </TouchableOpacity>
+              </Layout>
+              <Layout style={styles.tabbarContainer}>
+                  <TouchableOpacity onPress={PressPhoto}>
+                      <Text style={styles.Title}>Menu</Text>
+                  </TouchableOpacity>
+              </Layout>
+          </Layout>
+  
+     
+          {/* 내용물*/}
+          <Layout style={{flex: 9, backgroundColor: 'white'}}>
+              <Drawer
+                  initialDrawerSize={0.4}
+                  autoDrawerUp={1} // 1 to auto up, 0 to auto down
+                  isInverseDirection={true}
+                  finalDrawerHeight={300}
+                  
+                  renderInitDrawerView={() => (  
+                     <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                         <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
+                      </Layout>
+                  )}
+  
+                  renderDrawerView={() => (                    
+                      <Layout>
+                          <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
+                      </Layout>
+                  )}
+  
+                  renderContainerView={() => (
+                      <FlatList
+                          style={{backgroundColor: 'white'}}
+                          horizontal={true}
+                          pagingEnabled
+                          showsHorizontalScrollIndicator={false}
+                          contentContainerStyle={{ paddingBottom: 78 }}
+                          data={restaurant}
+                          renderItem={renderItem}
+                      />
+                  )}
+              />          
+              <Layout style={{height: 78}}/>
+          </Layout>
+  
+  
+  
+          {/*Bottom Tab Bar */}
+          <Layout style={styles.bottomTabBar}>            
+              <Layout style={styles.bottomTab}>
+                  <TouchableOpacity onPress={PressGuide}>
+                      <Guide width={20} height={20}/>
+                  </TouchableOpacity>
+              </Layout>
+  
+              <Layout style={{flex: 1}} />     
+  
+              <Layout style={styles.bottomTab}>
+                  <TouchableOpacity onPress={PressSetting}>
+                      <MyPage width={20} height={20}/>
+                  </TouchableOpacity>
+              </Layout>
+          </Layout>
+  
+          <Layout style={styles.bottomBar}>
+              <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
+                <TouchableOpacity onPress={() => {PressFeed()}}>
+                    <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
+                      <Feed width={20} height={20}/>
+                    </Layout>                  
                 </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressInfo}>
-                    <Text style={styles.Title}>Information</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity>
-                    <Text style={styles.selectTitle}>Introduction</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressPhoto}>
-                    <Text style={styles.Title}>Menu</Text>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
-
-        {/* 내용물*/}
-        <Layout style={{flex: 9, backgroundColor: 'white'}}>
-            <FlatList
-                style={{backgroundColor: 'white'}}
-                horizontal={true}
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 78 }}
-                data={Restaurant}
-                renderItem={renderItem}
-            />
-        </Layout>
-
-        {/*Bottom Tab Bar */}
-        <Layout style={styles.bottomTabBar}>            
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressGuide}>
-                    <Guide width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={{flex: 1}} />     
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressSetting}>
-                    <MyPage width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
-
-        <Layout style={styles.bottomBar}>
-            <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed()}}>
-                  <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
-                    <Feed width={20} height={20}/>
-                  </Layout>                  
+              </Layout>
+             
+              <TouchableOpacity onPress={() => {PressBook()}}>
+                  <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
+                      <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
+                  </Layout>
               </TouchableOpacity>
-            </Layout>
-           
-            <TouchableOpacity onPress={() => {PressBook()}}>
-                <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
-                </Layout>
-            </TouchableOpacity>
-            
-        </Layout>
-
-        
-
-    </React.Fragment>
-  );
-};
+              
+          </Layout>
+          
+  
+      </React.Fragment>
+    );
+  };
 
 const styles = StyleSheet.create({
     canvas: {
