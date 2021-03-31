@@ -43,8 +43,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const [course, setCourse] = React.useState(false); // 트래블 스타일을 클릭했는지 검사
   const [courseData, setCourseData] = React.useState([]);
 
-  const [restaurant, setRestaurant] = React.useState(true);
-  const [attraction, setAttraction] = React.useState(false);
+  const [restaurant, setRestaurant] = React.useState(false);
+  const [attraction, setAttraction] = React.useState(true); // 어트랙션부터 표기
   const [cafe, setCafe] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const [thumbnailHeight, setThumbnailHeight] = React.useState(0);
@@ -57,7 +57,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         .then((response) => {
             setDATA(response.data);
             setTitle(response.data[0]);
-            setData(response.data.filter(item => {return item.type == 'Restaurant'}));
+            setData(response.data.filter(item => {return item.type == 'Attraction'}));
 
 
             var tag = response.data[0].tags.toString().replace(/#/g,'');
@@ -235,7 +235,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             <Drawer
-                initialDrawerSize={0.8}
+                initialDrawerSize={0.7}
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={thumbnailHeight}
@@ -247,22 +247,22 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch'}} source={{uri: title.thumbnail}}/>
                         </Layout>
 
-                        <Layout style={{position: 'absolute',justifyContent: 'center', alignItems: 'center', padding: 40, backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
-
-                            <Layout style={{flex: 1, backgroundColor: '#white'}}>
+                        <Layout style={{position: 'absolute', justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
+                            
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
-                                
+                                                               
                                 <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 10}}>
                                     {(tag.map((item, idx) =>                                  
-                                            <Text style={{fontWeight: "600", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
-                                                {`#`}<Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
+                                            <Text style={{fontWeight: "700", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
+                                                {`#`}<Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
                                             </Text>                                                               
                                     ))}
                                 </Layout> 
                             </Layout>
 
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', top: '25%'}}>
-                                <Text style={{fontWeight: "600", fontSize: 16, color: 'white', textAlign: 'center', padding: 10}}>{title.description}</Text>
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', padding: 5}}>{title.description}</Text>
                             </Layout>
                            
                         </Layout>           
@@ -276,7 +276,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                     </Layout>
                 )}
                 renderDrawerView={() => (
-                    <Layout style={{height: (Dimensions.get('window').height * 1) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
+                    <Layout style={{height: (Dimensions.get('window').height) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
                         
                         {/*사이드 바 스타일 */}            
                         {(sideBar)?
@@ -641,23 +641,23 @@ const styles = StyleSheet.create({
     bubbleTab: {
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-        padding: 0,
+        padding: 10,
     },
     bubbleSelectedTab: {
         borderRadius: 30,
         backgroundColor: '#FFC043',
-        padding: 0,
+        padding: 10,
     },
     bubbleSelectedText: {
         fontSize: 13,
         color: 'white',
-        marginVertical: 5,
+        marginVertical: 0,
         marginHorizontal: 15,
     },
     bubbleText: {
         fontSize: 13,
         color: '#C9C9C9',
-        marginVertical: 5,
+        marginVertical: 0,
         marginHorizontal: 15,
     },
     touchContainer: {
