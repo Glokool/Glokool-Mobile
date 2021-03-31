@@ -250,7 +250,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                         <Layout style={{position: 'absolute', justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
                             
                             <Layout style={{flex: 1, backgroundColor: '#00FF0000', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Bold'}}>{title.title}</Text>
+                                <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
                                                                
                                 <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 10}}>
                                     {(tag.map((item, idx) =>                                  
@@ -329,9 +329,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             {(course)? 
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85}
+                                        {flex: 85, borderTopEndRadius: 10}
                                     :
-                                        {flex: 85}
+                                        {flex: 85, borderTopStartRadius: 10, borderTopEndRadius: 10}
                                     }
                                 >
 
@@ -641,23 +641,23 @@ const styles = StyleSheet.create({
     bubbleTab: {
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-        padding: 10,
+
     },
     bubbleSelectedTab: {
         borderRadius: 30,
         backgroundColor: '#FFC043',
-        padding: 10,
+        
     },
     bubbleSelectedText: {
         fontSize: 13,
         color: 'white',
-        marginVertical: 0,
+        marginVertical: 5,
         marginHorizontal: 15,
     },
     bubbleText: {
         fontSize: 13,
         color: '#C9C9C9',
-        marginVertical: 0,
+        marginVertical: 5,
         marginHorizontal: 15,
     },
     touchContainer: {
