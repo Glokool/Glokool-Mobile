@@ -3,6 +3,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import {
   Layout,
@@ -16,7 +17,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 export const MyPageFAQScreen = (props: MyPageFAQScreenProps): LayoutElement => {

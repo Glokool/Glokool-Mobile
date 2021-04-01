@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {
   Layout,
@@ -16,7 +17,6 @@ import { PrivacyConfirmData, PrivacyConfirmSchema } from '../../data/privacy.con
 import { FormInput } from '../../component/privacy.component';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import Toast from 'react-native-easy-toast';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { MyPagePrivacyConfirmScreenProps } from '../../navigation/myPage.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { SceneRoute } from '../../navigation/app.route'
@@ -26,7 +26,7 @@ import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 
-var toastRef;
+var toastRef : any;
 
 export const MyPagePrivacyConfirmScreen = (props: MyPagePrivacyConfirmScreenProps): LayoutElement => {
   

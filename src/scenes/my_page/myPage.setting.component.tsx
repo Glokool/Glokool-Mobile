@@ -17,7 +17,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
-var toastRef;
+
+
+var toastRef : any;
 
 
 export const MyPageSettingScreen = (props: MyPageSettingScreenProps): LayoutElement => {

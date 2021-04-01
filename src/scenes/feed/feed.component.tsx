@@ -30,9 +30,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   const user = auth().currentUser;
   const [FeedData, setFeedData] = React.useState([]);
-  const [exit, setExit] = React.useState(false);
   const BannerWidth = Dimensions.get('window').width;
-  const BannerHeight = 200;
+  const BannerHeight = (Dimensions.get('window').width / 2.043);
   
   var exitApp : any = undefined;  
   var timeout : any;
@@ -131,20 +130,20 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
               pageSize={BannerWidth}
           >
               <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_01.jpg')}/>
+                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.jpg')}/>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_02.jpg')}/>
+                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.jpg')}/>
               </TouchableOpacity>
               
 
               <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_03.jpg')}/>
+                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.jpg')}/>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight}} source={require('../../assets/feed_banner_04.jpg')}/>
+                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.jpg')}/>
               </TouchableOpacity>
 
           </Carousel>

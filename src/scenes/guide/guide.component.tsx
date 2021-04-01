@@ -220,7 +220,7 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
         }
       </Layout>
       <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
-
+    
       <Image style={styles.banner} source={require('../../assets/guide_banner.jpg')}/>
     </React.Fragment>
     )

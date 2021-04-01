@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  BackHandler
+  BackHandler,
+  FlatList
 } from 'react-native';
 import {
   Layout,
@@ -26,7 +27,6 @@ import {
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import { FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
 import {SERVER} from '../../server.component';
 import moment from 'moment'

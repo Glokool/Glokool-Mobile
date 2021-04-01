@@ -36,7 +36,7 @@ export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement =>
       props.navigation.navigate(SceneRoute.GUIDE_REPORT, guide);
     }
 
-    const PressEmergency = () => {
+      const PressEmergency = () => {
       setModal(!modal);
     }
 

@@ -3,6 +3,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import {
   Layout,
@@ -15,7 +16,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 import { SceneRoute } from '../../navigation/app.route';
 import { TermsConditionCard } from '../../component/terms&Condition.component';
 import { privacyPolicycard } from '../../component/privacyPolicy.component';

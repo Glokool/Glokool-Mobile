@@ -24,7 +24,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { launchImageLibrary } from 'react-native-image-picker/src';
 import Toast from 'react-native-easy-toast';
-var toastRef;
+
+var toastRef : any;
 
 export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElement => {
   //Name

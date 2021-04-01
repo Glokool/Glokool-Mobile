@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView, 
+  TouchableWithoutFeedback
 } from 'react-native';
 import {
   CheckBox,
@@ -27,7 +29,6 @@ import { Formik, FormikProps } from 'formik';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import { FormInformation } from '../../component/form-information.component';
 import { SignUpData, SignUpSchema } from '../../data/sign-up.model';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/countryTypes'
 import { SignUpScreenProps } from '../../navigation/auth.navigator';

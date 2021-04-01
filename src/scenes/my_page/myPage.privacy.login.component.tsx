@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {
   Layout,
@@ -16,7 +17,6 @@ import { PrivacyData, PrivacySchema } from '../../data/privacy.model';
 import { FormInput } from '../../component/privacy.component';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import Toast from 'react-native-easy-toast';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { MyPagePrivacyLoginScreenProps } from '../../navigation/myPage.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';

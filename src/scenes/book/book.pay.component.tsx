@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   Image,
+  ScrollView
 } from 'react-native';
 import {
   Layout,
@@ -20,7 +21,6 @@ import {
 import { NavigatorRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { BookPayScreenProps } from '../../navigation/book.navigator';
-import { ScrollView } from 'react-native-gesture-handler';
 import { 
   requestOneTimePayment,
   PaypalResponse,

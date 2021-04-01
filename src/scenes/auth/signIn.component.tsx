@@ -4,7 +4,9 @@ import firebase from '@react-native-firebase/firestore';
 import {
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView, 
+  TouchableWithoutFeedback
 } from 'react-native';
 import {
   Layout,
@@ -20,7 +22,6 @@ import { FormInput } from '../../component/form-input.component';
 import { SignInData, SignInSchema } from '../../data/sign-in.model';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import Toast from 'react-native-easy-toast';
 
