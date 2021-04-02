@@ -101,3 +101,8 @@ export const CloseIcon = (props): IconElement => (
   <Icon {...props} name='close-outline'/>
 );
 
+export const MapIcon = (props): IconElement => (
+  <Icon {...props} fill='#FFC043' name='map-outline'/>
+);
+
+

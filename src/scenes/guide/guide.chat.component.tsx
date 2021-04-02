@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Platform,
+  PermissionsAndroid,
+  Alert
 } from 'react-native';
 import {
   Icon,
@@ -20,7 +22,7 @@ import {
   Card,
   Button
 } from '@ui-kitten/components';
-import { ImageIcon, VolumeUpIcon} from '../../component/icon'
+import { ImageIcon, VolumeUpIcon, MapIcon } from '../../component/icon'
 import { GuideChatScreenProps } from '../../navigation/guide.navigator';
 import database from '@react-native-firebase/database';
 import { Bubble, InputToolbar, GiftedChat, Composer, Send, SystemMessage } from 'react-native-gifted-chat'
@@ -37,6 +39,8 @@ import { SERVER } from '../../server.component';
 import moment from 'moment';
 import Toast from 'react-native-easy-toast';
 import {filterText} from '../../data/filterChat';
+import Geolocation from '@react-native-community/geolocation';
+import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 
 var ToastRef : any;
 
@@ -49,8 +53,14 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState();
     const [chatMessages, setChatMessages] = React.useState([]);
+    const [map, setMap] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
+    const [location, setLocation] = React.useState({
+        lon: '',
+        lat: ''
+    })
     const user = auth().currentUser;
+
 
     //가이드 정보 모달
     const [guideVisible, setGuideVisible] = React.useState(false);
@@ -71,56 +81,68 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const [audioPath, setAudioPath] = React.useState('');
 
 
-
     //componentwillmount 대신 사용
     React.useEffect(() => {
-        AsyncStorage.getItem('code').then((result) => {
-
-            const chat = database().ref('/chats/' + result);
-            setChatDB(chat);
-            setRoomName(result);
-
-            axios.get(SERVER + '/api/user/tour/chat/' + result)
-
-                .then((response) => {
-                    const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
-                        .then(function(doc) {
-                                                        
-                            if(doc._data == undefined){
-                                // ToastRef.show('Guide not yet assigned :(', 2000);
-                                // setTimeout(() => {
-                                //     props.navigation.goBack();
-                                // }, 2000)
-                                setGuideCheck(true);                                
-                            }
-                        
-                            else{
-                                setGuide(doc._data);
-                                setGuideCheck(false);
-                                ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
-                            }
-                            
-                        })
-                        .catch((err) => {
-                            ToastRef.show('Guide not yet assigned :(', 2000);
-                            props.navigation.goBack();
-                        })
-                });
-
+        async function ChatRoomInit() {
             
-            
-        });
-        
-        AsyncStorage.getItem('title').then((result)=> {
-            setTitle(result);
-        })
+            if (Platform.OS === 'ios'){
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                    {
+                      title: "Glokool Guide Location Permission",
+                      message:
+                        "If you want to share your current location with the guide, grant permission",
+                      buttonNeutral: "Ask Me Later",
+                      buttonNegative: "Cancel",
+                      buttonPositive: "OK"
+                    }
+                );                
+            }
 
+            await AsyncStorage.getItem('code').then((result) => {
+
+                const chat = database().ref('/chats/' + result);
+                setChatDB(chat);
+                setRoomName(result);
+    
+                axios.get(SERVER + '/api/user/tour/chat/' + result)
+    
+                    .then((response) => {
+                        const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
+                            .then(function(doc) {
+                                                            
+                                if(doc._data == undefined){
+                                    setGuideCheck(true);                                
+                                }                            
+                                else{
+                                    setGuide(doc._data);
+                                    setGuideCheck(false);
+                                    ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
+                                }
+                                
+                            })
+                            .catch((err) => {
+                                ToastRef.show('Guide not yet assigned :(', 2000);
+                                props.navigation.goBack();
+                            })
+                    });                  
+                
+            });
+            
+            await AsyncStorage.getItem('title').then((result)=> {
+                setTitle(result);
+            });
+        }
+
+        ChatRoomInit();
 
         return () => {
             AsyncStorage.setItem('code', null);
             AsyncStorage.setItem('id', null);
             AsyncStorage.setItem('title', null);
         };
+
+        
 
         
 
@@ -448,9 +470,29 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                     await ImageSend();
                     setVisible2(false);
                 }}/>
+                <MenuItem title='My location' accessoryLeft={MapIcon} onPress={async() => {
+                    await LocationMessage();
+                    setMap(true);
+                    setVisible2(false);
+                }}/>
             </OverflowMenu>
         );
     };
+
+
+    // 현재 나의 위치 전송
+    const LocationMessage = async() => {
+        Geolocation.getCurrentPosition(
+            position => {
+              setLocation({
+                  lon: position.coords.latitude,
+                  lat: position.coords.longitude,
+              })
+            },
+            error => Alert.alert('Error', JSON.stringify(error)),
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+            );        
+    }
             
             
     // 대화창 (텍스트일 경우에만)
@@ -698,6 +740,24 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
         
 
         <Toast ref={(toast) => ToastRef = toast} style={{backgroundColor:'#C9C9C9', margin : 10}} textStyle={{color:'black', textAlign: 'center'}} position={'center'}/>
+        {(map)?
+            <Layout style={{flex: 1, position: 'absolute'}}>
+                <MapView
+                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                style={{width: 500 , height: 500}}
+                region={{
+                    latitude: 37.8025259,
+                    longitude: -122.4351431,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                }}
+                >
+                </MapView>
+            </Layout>
+        :
+            null
+        }
+
         </React.Fragment>
         )
     );
