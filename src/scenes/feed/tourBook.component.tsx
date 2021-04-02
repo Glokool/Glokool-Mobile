@@ -239,11 +239,12 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 renderContainerView={() => (
                     
                     <Layout style={{position: 'relative',width: '100%'}}>
+                        
                         <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: '#00FF0000'}}>
                             <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch'}} source={{uri: title.thumbnail}}/>
                         </Layout>
 
-                        <Layout style={{position: 'absolute', justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000', flexWrap: 'wrap'}}>
+                        <Layout style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000'}}>
                             
                             <Layout style={{flex: 1, backgroundColor: '#00FF0000', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
