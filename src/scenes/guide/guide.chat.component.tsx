@@ -9,7 +9,8 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 import {
   Icon,
@@ -31,7 +32,7 @@ import { AudioRecorder, AudioUtils } from "react-native-audio";
 import storage from '@react-native-firebase/storage';
 import { launchImageLibrary } from 'react-native-image-picker/src'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlay, faStop, faMap } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -40,7 +41,7 @@ import moment from 'moment';
 import Toast from 'react-native-easy-toast';
 import {filterText} from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
-import MapView, { PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 var ToastRef : any;
 
@@ -53,7 +54,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState();
     const [chatMessages, setChatMessages] = React.useState([]);
-    const [map, setMap] = React.useState(false);
+    const [mapvisible, setMapvisible] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
     const [location, setLocation] = React.useState({
         lon: '',
@@ -171,10 +172,10 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 const message = {};
                 message._id = node._id;
                 message.text = node.messageType === "message" ? node.text : "";
+                message.location = node.messageType === "location" ? node.location : {};
                 message.createdAt = node.createdAt;
                 message.user = {
                     _id: node.user._id,
-                    // 바꿔야 됌
                 };
                 message.image = node.messageType === "image" ? node.image : "";
                 message.audio = node.messageType === "audio" ? node.audio : "";
@@ -188,13 +189,6 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     
       }, [ChatDB]);
     
-
-    
-    
-       
-
-    //메시지 아이디 생성기 (출처: https://github.com/liplylie/ReactNativeChatImageAudio/blob/master/src/components/chat.js)
-    //메시지 구분을 위한 임시 조치 (시간, uid를 넣어서 만들면 될 듯)
     const messageIdGenerator = () => {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
             let r = (Math.random() * 16) | 0,
@@ -472,7 +466,6 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 }}/>
                 <MenuItem title='My location' accessoryLeft={MapIcon} onPress={async() => {
                     await LocationMessage();
-                    setMap(true);
                     setVisible2(false);
                 }}/>
             </OverflowMenu>
@@ -484,10 +477,23 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const LocationMessage = async() => {
         Geolocation.getCurrentPosition(
             position => {
-              setLocation({
-                  lon: position.coords.latitude,
-                  lat: position.coords.longitude,
-              })
+                
+                const MessageID = messageIdGenerator();
+                const message = {
+                    _id : MessageID,
+                    createdAt : new Date().getTime(),
+                    user: {
+                        _id: user?.uid
+                    },
+                    location: {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    },
+                    messageType : 'location'
+                };
+
+                ChatDB.update({messages: [message, ...chatMessages]});
+
             },
             error => Alert.alert('Error', JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
@@ -495,25 +501,47 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     }
             
             
-    // 대화창 (텍스트일 경우에만)
+    // 대화창 
     const renderBubble = (props) => {
         return(
             <Bubble 
-                {...props}
-                wrapperStyle={{
-                    left:{
-                        backgroundColor: '#F5F5F5',
-                        fontColor: 'black',
-                        fontWeight: 'bold'
-                    },
-                    right: {
-                        backgroundColor: '#FFC043',
-                        fontWeight: 'bold'
-                    }
-                }}
+            {...props}
+            wrapperStyle={{
+                left:{
+                    backgroundColor: '#F5F5F5',
+                    fontColor: 'black',
+                    fontWeight: 'bold'
+                },
+                right: {
+                    backgroundColor: '#FFC043',
+                    fontWeight: 'bold'
+                }
+            }}
             />
-
         );
+    }
+
+    const renderCustomBubble = (props) => {
+        if(props.currentMessage.messageType == 'location'){
+            return(
+                <TouchableOpacity onPress={() => {displayMap(props.currentMessage)}}>
+                    <Layout style={{backgroundColor: '#00FF0000', margin: 'auto', flexDirection: 'row', padding: 5}}>
+                        <FontAwesomeIcon icon={faMap} size={20} style={{color: 'white', marginHorizontal: 5}}/>
+                        <Text style={{color: 'white'}}>My Location</Text>
+                    </Layout>
+                </TouchableOpacity>
+            )
+        }
+    }
+
+    const displayMap = (props) => {
+
+        console.log(props)
+        setLocation({
+            lon: props.location.lon,
+            lat: props.location.lat,            
+        })
+        setMapvisible(true);
     }
 
     //입력 창 확인
@@ -553,6 +581,23 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const PressGuide = () => {
         setGuideVisible(true);
     }
+
+    // 맵 뷰 헤더
+    const Header = (props) => (
+        <Layout style={{flexDirection: 'row', padding: 20}}>
+          <Layout style={{flex: 1, alignItems: 'flex-start'}}>
+            <Text style={{fontSize: 16, fontWeight: 'bold', alignItems: 'center'}}>My Location</Text>
+          </Layout>
+                      
+          
+          <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+            <TouchableOpacity onPress={() => setMapvisible(false)}>
+              <FontAwesomeIcon icon={faTimes} size={28}/>
+            </TouchableOpacity> 
+          </Layout>
+          
+        </Layout>      
+    );
  
     //실제 렌더링
     return (
@@ -648,7 +693,8 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                     renderComposer={renderComposer}
                     renderSystemMessage={onRenderSystemMessage}
                     renderMessageAudio={renderAudio}
-                    renderAvatar={null}         
+                    renderAvatar={null}
+                    renderCustomView={renderCustomBubble}     
                 />
 
             </Layout>
@@ -734,30 +780,38 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 
             </Modal>
 
+            <Modal
+                visible={mapvisible}
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => setMapvisible(false)}
+            >
+                <Card disabled={true} header={Header}>                    
+                    <MapView
+                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                        style={{width: Dimensions.get('window').width * 0.9, height: Dimensions.get('window').height * 0.8}}
+                        region={{
+                            latitude: parseFloat(location.lat),
+                            longitude: parseFloat(location.lon),
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.0121,
+                    }}
+                    >
+                        <Marker
+                            coordinate={{ latitude : parseFloat(location.lat) , longitude : parseFloat(location.lon) }}
+                            title={'My Location'}
+                        />
+                    </MapView>
+                </Card>
+            </Modal>
+
+            
+
 
             
         </Layout>
         
 
         <Toast ref={(toast) => ToastRef = toast} style={{backgroundColor:'#C9C9C9', margin : 10}} textStyle={{color:'black', textAlign: 'center'}} position={'center'}/>
-        {(map)?
-            <Layout style={{flex: 1, position: 'absolute'}}>
-                <MapView
-                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                style={{width: 500 , height: 500}}
-                region={{
-                    latitude: 37.8025259,
-                    longitude: -122.4351431,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                }}
-                >
-                </MapView>
-            </Layout>
-        :
-            null
-        }
-
         </React.Fragment>
         )
     );
