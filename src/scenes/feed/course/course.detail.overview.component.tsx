@@ -29,9 +29,9 @@ var toastRef : any;
 
 export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProps): LayoutElement => {
 
-    const [iconSelected, setIconSelected] = React.useState(true);
     const [CourseData, setCourseData] = React.useState({});
     const [overview, setOverview] = React.useState();
+    
 
     React.useEffect(() => {
         const courseData = props.navigation.dangerouslyGetParent()?.dangerouslyGetState().routes[2].params.list;

@@ -30,18 +30,26 @@ import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
 
 export const AttractionInfoScreen = (props: AttractionInfoScreenProps): LayoutElement => {
-  const [Attraction, setAttraction] = React.useState({});
+  
   const info = props.route.params;
-  const [iconSelected, setIconSelected] = React.useState(true);
+  const [refresh, setRefresh] = React.useState(false);
+  const [Attraction, setAttraction] = React.useState({
+      tags: []
+  });
+  const [tag, setTag] = React.useState([]);
 
 
-  React.useEffect(() => {
-
-    axios.get(SERVER + '/api/attraction/info/' + info.code.code + '/tour/' + info.code.tour_id)
+  async function downloadAttraction() {
+    await axios.get(SERVER + '/api/attraction/info/' + info.code.code + '/tour/' + info.code.tour_id)
         .then((response) => {
-            setAttraction(response.data)
+            setAttraction(response.data);
+            setTag(response.data.tags);
         })
 
+  }
+
+  React.useEffect(() => {
+    downloadAttraction();
   }, []);
 
   const PressBook = () => {
@@ -121,17 +129,22 @@ export const AttractionInfoScreen = (props: AttractionInfoScreenProps): LayoutEl
                 </Layout>
 
                  {/*태그가 표시되는 뷰*/}
-                <Layout style={styles.tagContainer}>
-                    <Tags                    
-                    initialTags={Attraction.tags}
-                    readonly={true}
-                    renderTag={({ tag }) => (
-                        <Layout style={styles.tag}>
-                        <Text style={styles.tagText}>{tag}</Text>  
-                        </Layout>                          
-                    )}
+                 {(tag.length != 0)? 
+                     <Tags                    
+                        initialTags={tag}
+                        readonly={true}
+                        containerStyle={{justifyContent: 'center', marginVertical: 10}}
+                        renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
+                            <Layout style={styles.tag}>
+                                <Text style={styles.tagText}>{tag}</Text>  
+                            </Layout>                          
+                        )}
                     />
-                </Layout>
+                    :
+                    null
+                 }
+                
+
 
                 {/*디스크립션 뷰*/}
                 <Layout style={{padding: 10}}>
@@ -282,10 +295,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000'
     },
     tagContainer: {
-        marginHorizontal: 15,
-        marginVertical: 20,
-        padding: 5,
-        alignItems: 'center'
     },
     tag: {
         borderColor: 'gray',
@@ -293,12 +302,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         marginVertical: 5,
         borderRadius: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        color: 'black'
     },
       tagText: {
         marginHorizontal: 10,
         marginVertical: 5,
-        fontSize: 12
+        fontSize: 14
     },
     desc: {
         fontSize: 14,

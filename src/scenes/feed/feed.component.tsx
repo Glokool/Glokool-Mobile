@@ -97,22 +97,17 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   };
 
   const renderItem = ({item}) => (    
-      <Layout style={styles.ListContainer}>        
-        <TouchableOpacity onPress={ClickList(item)}>
+             
+        <TouchableOpacity onPress={ClickList(item)} style={styles.ListContainer}>
           <Layout style={{alignItems: 'center', backgroundColor: '#00FF0000'}}>
             <Image style={styles.Image} source={{uri: item.banner}}/>
           </Layout>
           
-          <Layout style={{marginHorizontal: 10, backgroundColor: '#00FF0000'}}>
+          <Layout style={{backgroundColor: '#00FF0000', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={styles.ListTitle}>{item.title}</Text>
-            
-            <Layout style={styles.IconContainer}>
-              <Text style={styles.iconTitle}>📍 {item.location}</Text>
-            </Layout>            
+            <Text style={styles.iconTitle}>{item.location}</Text>
           </Layout>
-        </TouchableOpacity> 
-      
-      </Layout>
+        </TouchableOpacity>     
       
   );
 
@@ -149,9 +144,9 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
           </Carousel>
         </Layout>
 
-        <Layout style={{backgroundColor: '#00FF0000'}}>
+        <Layout style={{backgroundColor: 'white'}}>
           <FlatList
-            style={{backgroundColor: '#00ff0000'}}
+            style={{backgroundColor: 'white'}}
             data={FeedData}
             renderItem={renderItem}
             keyExtractor={item => item.key}
@@ -194,7 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex: 1,
     margin: 15,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#00FF0000'
   },
   Image: {
     margin: 10,
@@ -206,8 +201,10 @@ const styles = StyleSheet.create({
   },
   ListTitle: {
     margin: 10,
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center'
   },
   IconContainer: {
     flexDirection: 'row',
@@ -218,9 +215,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   iconTitle: {
-    fontSize: 12,
+    fontSize: 14,
     marginHorizontal: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center'
   },
   Desc: {
     fontSize: 12,

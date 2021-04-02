@@ -29,18 +29,18 @@ import axios from 'axios'
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
-import { StackActions } from '@react-navigation/routers';
+
 
 export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutElement => {
-  const user = auth().currentUser;
   const info = props.route.params;
+  const [tag, setTag] = React.useState([]);
   const [Restaurant, setRestaurant] = React.useState({});
-  const [iconSelected, setIconSelected] = React.useState(true);
 
   React.useEffect(() => {
     axios.get(SERVER + '/api/restaurant/info/' + info.code.code + '/tour/' + info.code.tour_id)
         .then((response) => {
-            setRestaurant(response.data)
+            setRestaurant(response.data);
+            setTag(response.data.tags);
         })
   }, []);  
 
@@ -132,17 +132,23 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
                 </Layout>
 
                  {/*태그가 표시되는 뷰*/}
-                <Layout style={styles.tagContainer}>
-                    <Tags                    
-                    initialTags={Restaurant.tags}
-                    readonly={true}
-                    renderTag={({ tag }) => (
-                        <Layout style={styles.tag}>
-                        <Text style={styles.tagText}>{tag}</Text>  
-                        </Layout>                          
-                    )}
+                 {(tag.length != 0)? 
+                     <Tags                    
+                        initialTags={tag}
+                        readonly={true}
+                        containerStyle={{justifyContent: 'center', marginVertical: 10}}
+                        renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
+                            <Layout style={styles.tag}>
+                                <Text style={styles.tagText}>{tag}</Text>  
+                            </Layout>                          
+                        )}
                     />
-                </Layout>
+                    :
+                    null
+                 }
+                
+
+
 
                 {/*디스크립션 뷰*/}
                 <Layout style={{padding: 10}}>
