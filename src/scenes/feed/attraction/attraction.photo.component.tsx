@@ -75,8 +75,8 @@ const PressSetting = () => {
 
 const InsideRenderItem = ({item}) => {
     return(
-    <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), alignItems: 'center'}}>
-        <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), resizeMode: 'contain', borderRadius: 10}} source={{uri: item.url}}/>       
+    <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center', padding: 5}}>
+        <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch'}} source={{uri: item.url}}/>       
     </Layout>
     );
 }
@@ -84,7 +84,7 @@ const InsideRenderItem = ({item}) => {
 const renderItem = ({item}) => {       
 
     return(
-    <Layout style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.72)}}>
+    <Layout style={{width: (Dimensions.get('window').width)}}>
         <FlatList
             style={{marginVertical: 15}}
             data={item.image}
@@ -93,21 +93,20 @@ const renderItem = ({item}) => {
             showsHorizontalScrollIndicator={false}
             renderItem={InsideRenderItem}
         />
-        {/* <Text style={{fontSize: 14, marginVertical: 5}}>📌 {item.location}</Text> */}
-        <Layout style={{flexDirection: 'row'}}>
+        <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
             <Layout>
                 <Text style={{fontSize: 14, marginVertical: 5}}>📌</Text>
             </Layout>
             <Layout>
-                <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.location}</Text>
+                <Text style={{fontSize: 14, marginLeft: 2}}>{item.location}</Text>
             </Layout>
         </Layout>
-        <Layout style={{flexDirection: 'row'}}>
+        <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
             <Layout>
                 <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
             </Layout>
             <Layout>
-                <Text style={{fontSize: 14, marginBottom: 30, marginLeft: 2}}>{item.description}</Text>
+                <Text style={{fontSize: 14, marginLeft: 2}}>{item.description}</Text>
             </Layout>
         </Layout>         
     </Layout>
@@ -142,12 +141,12 @@ const renderItem = ({item}) => {
         </Layout>
 
         {/* 내용물*/}
-        <Layout style={{flex: 9, backgroundColor: 'white', padding: 10}}>  
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10}}>Photo Spot Recommendations</Text>
-            <Text style={{fontSize: 14, marginBottom: 10}}>Take your best photo refer to our recommendation!</Text>                    
+        <Layout style={{flex: 9, backgroundColor: 'white'}}>  
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10, marginLeft: 10}}>Photo Spot Recommendations</Text>
+            <Text style={{fontSize: 14, marginBottom: 10, marginLeft: 10}}>Take your best photo refer to our recommendation!</Text>                    
             <FlatList
                 style={{backgroundColor: 'white'}}
-                contentContainerStyle={{ paddingBottom: 78 }}
+                contentContainerStyle={{}}
                 data={Attraction}
                 renderItem={renderItem}
             />

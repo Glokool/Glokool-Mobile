@@ -267,7 +267,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                        <BAR width={20} height={20} color='black'/>
+                        <FontAwesomeIcon icon={faGripLines} size={20}/>
                     </Layout>
                 )}
                 renderDrawerView={() => (
@@ -281,7 +281,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             <Layout style={{flex: 15, backgroundColor: '#F5F5F5', alignItems: 'center', justifyContent: 'center'}}>
                                 <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
                                     <TouchableOpacity onPress={() => setSideBar(false)}>
-                                        <FontAwesomeIcon icon={faEllipsisV} style={{color: '#FFD774'}} size={20}/>
+                                        <FontAwesomeIcon icon={faEllipsisH} style={{color: '#FFD774'}} size={20}/>
                                     </TouchableOpacity>
                                 </Layout>
 
