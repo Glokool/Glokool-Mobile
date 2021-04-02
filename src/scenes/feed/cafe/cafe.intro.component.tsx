@@ -15,7 +15,7 @@ import {
 } from '@ui-kitten/components';
 import { CafeIntroScreenProps } from '../../../navigation/cafe.navigator';
 import {
-    faLongArrowAltLeft,
+    faAngleLeft,
     faArrowRight,
     faArrowLeft,
     faGripLines,
@@ -100,7 +100,7 @@ export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
         <Layout style={styles.tabbar}>
             <Layout style={styles.tabbarContainer}>
                 <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faLongArrowAltLeft} style={{color: 'black'}} size={28}/>
+                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
                 </TouchableOpacity>
             </Layout>
             <Layout style={styles.tabbarContainer}>

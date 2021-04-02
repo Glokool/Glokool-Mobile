@@ -18,7 +18,7 @@ import {
 import { RestaurantInfoScreenProps } from '../../../navigation/restaurant.navigator';
 import {
     faHeart,
-    faLongArrowAltLeft,
+    faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { SceneRoute, NavigatorRoute } from '../../../navigation/app.route';
@@ -96,7 +96,7 @@ export const RestaurantInfoScreen = (props: RestaurantInfoScreenProps): LayoutEl
         <Layout style={styles.tabbar}>
             <Layout style={styles.tabbarContainer}>
                 <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faLongArrowAltLeft} style={{color: 'black'}} size={28}/>
+                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
                 </TouchableOpacity>
             </Layout>
             <Layout style={styles.tabbarContainer}>

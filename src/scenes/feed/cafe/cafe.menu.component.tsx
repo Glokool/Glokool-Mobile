@@ -12,7 +12,7 @@ import {
 } from '@ui-kitten/components';
 import { CafeMenuScreenProps } from '../../../navigation/cafe.navigator';
 import {
-    faLongArrowAltLeft,
+    faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
@@ -80,7 +80,7 @@ export const CafeMenuScreen = (props: CafeMenuScreenProps): LayoutElement => {
         <Layout style={styles.tabbar}>
             <Layout style={styles.tabbarContainer}>
                 <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faLongArrowAltLeft} style={{color: 'black'}} size={28}/>
+                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
                 </TouchableOpacity>
             </Layout>
             <Layout style={styles.tabbarContainer}>
