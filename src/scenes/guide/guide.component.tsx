@@ -35,6 +35,7 @@ var ToastRef : any;
 export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const [loginVisible, setLoginVisible] = React.useState(true);
+  const [startTime, setStartTime] = React.useState([]);
   const [MyTourData, setMyTourData] = React.useState([]);
   const now = new Date();
 
@@ -65,7 +66,17 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
 
     axios.get( SERVER + '/api/user/tour/' + user?.uid )
       .then((response)=> {
-        setMyTourData(response.data);
+
+        var temp = response.data;
+
+        temp.forEach((item, index) => {
+          var string = item.tourCode.split("-");
+          var time = string[2][0] + string[2][1] + ':00'
+
+          temp[index].time = time;
+        })
+
+        setMyTourData(temp);
       })
       .catch((err) => {
         console.log(err);
@@ -113,7 +124,6 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
   const renderItem = ({item}) => {
 
     var Day = moment(item.date).toDate();
-    console.log(item);
 
     // <Image style={styles.Image} source={{uri : item.thumbnail}}/> 
     // <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>{item.title}</Text>
@@ -134,12 +144,12 @@ export const GuideScreen = (props: GuideScreenProps): LayoutElement => {
 
               <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
                 <DateIcon width={12} height={12} style={{marginRight: 5}}/>
-                <Text style={{color: 'black', fontSize: 12}}>{`${Day.getFullYear()}.${Day.getMonth() + 1}.${Day.getDate()}`}</Text>
+                <Text style={{color: 'black', fontSize: 12, fontWeight: 'bold'}}>{`${Day.getFullYear()}.${Day.getMonth() + 1}.${Day.getDate()} ${item.time} (4h)`}</Text>
               </Layout>
               
               <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
                 <LocationIcon width={12} height={12} style={{marginRight: 5}}/>
-                <Text style={{color: 'black', fontSize: 12}}>{item.location}</Text>
+                <Text style={{color: 'black', fontSize: 10, fontWeight: 'bold'}}>{item.location}</Text>
               </Layout>
               
             </Layout>
@@ -246,7 +256,7 @@ const styles = StyleSheet.create({
   },
   Image: {
     width: '100%',
-    height: 130,
+    height: 128,
   },
   ImageContainer: {
     borderRadius: 20,
@@ -295,7 +305,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     width: '100%',
     height: 130,
-    borderTopWidth: 1,
+    borderTopWidth: 2,
     borderTopColor: '#FFD774',
     flexDirection: 'row',
     marginBottom: 10,
