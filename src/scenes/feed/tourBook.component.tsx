@@ -12,7 +12,6 @@ import {
   Text,
 } from 'react-native';
 import {
-  Divider,
   Layout,
   LayoutElement,
 } from '@ui-kitten/components';
@@ -207,7 +206,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         <TouchableOpacity onPress={PressList(item)}>
           <Layout style={{flexDirection: 'column', padding: 10}}>
              <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Image style={{width: (Dimensions.get('window').width * 0.75), height: (Dimensions.get('window').height * 0.15), resizeMode: 'stretch', borderRadius: 1}}source={{uri: item.banner}}/>
+                <Image style={{width: (Dimensions.get('window').width * 0.75), height: (Dimensions.get('window').height * 0.15), resizeMode: 'stretch', borderRadius: 5}}source={{uri: item.banner}}/>
              </Layout> 
 
              <Layout style={{flexDirection: 'column', flex: 2, alignItems: 'flex-start', justifyContent: 'center',padding: 10}}>
@@ -215,7 +214,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 <Text style={styles.desc}>{item.description}</Text>
              </Layout>                       
           </Layout>
-          <Divider style={{backgroundColor: '#C9C9C9', marginHorizontal: 10}}/>
         </TouchableOpacity>
   );
 
@@ -287,7 +285,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                     </TouchableOpacity>
                                 </Layout>
 
-                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
+                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 10}}>
                                     <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}} onPress={() => setCourse(false)}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#D3D3D3'}}>Locations</Text>
                                     </TouchableOpacity>
@@ -306,7 +304,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                     </TouchableOpacity>
                                 </Layout>
 
-                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 40}}>
+                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 10}}>
                                     <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}}>
                                         <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}}>Locations</Text>
                                     </TouchableOpacity>
