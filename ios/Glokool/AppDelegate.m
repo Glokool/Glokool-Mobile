@@ -8,6 +8,7 @@
 #import "RNSplashScreen.h" // here
  
 #import "Glokool-Swift.h" // here, change project name to yours
+#import <GoogleMaps/GoogleMaps.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -34,6 +35,8 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyCRMnPLQDqrELKLx5kAkX3zXSmC6ZVZgxA"];
+  
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }

@@ -31,7 +31,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   const user = auth().currentUser;
   const [FeedData, setFeedData] = React.useState([]);
   const BannerWidth = Dimensions.get('window').width;
-  const BannerHeight = (Dimensions.get('window').width / 2.043);
+  const BannerHeight = 260;
   
   var exitApp : any = undefined;  
   var timeout : any;

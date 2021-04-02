@@ -35,6 +35,25 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Use to inform the guide of your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Use to inform the guide of your location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use to inform the guide of your location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This sample uses the microphone to record your speech and convert it to text.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -86,7 +86,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     React.useEffect(() => {
         async function ChatRoomInit() {
             
-            if (Platform.OS === 'ios'){
+            if (Platform.OS === 'android'){
                 const granted = await PermissionsAndroid.request(
                     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                     {
@@ -98,6 +98,9 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                       buttonPositive: "OK"
                     }
                 );                
+            }
+            else {
+                
             }
 
             await AsyncStorage.getItem('code').then((result) => {
