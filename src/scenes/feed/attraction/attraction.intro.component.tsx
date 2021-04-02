@@ -31,7 +31,7 @@ import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
 import Left from '../../../assets/icon/leftArrow.svg';
 import Right from '../../../assets/icon/rightArrow.svg';
-
+import BAR from '../../assets/icon/bar.svg';
 
 
 export const AttractionIntroScreen = (props: AttractionIntroScreenProps): LayoutElement => {
@@ -137,7 +137,7 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                       <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
+                       <BAR width={25} height={15}/>
                     </Layout>
                 )}
 

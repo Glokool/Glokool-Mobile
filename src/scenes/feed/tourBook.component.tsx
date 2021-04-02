@@ -268,7 +268,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                        <FontAwesomeIcon icon={faGripLines} size={20}/>
+                        <BAR width={25} height={15}/>
                     </Layout>
                 )}
                 renderDrawerView={() => (
