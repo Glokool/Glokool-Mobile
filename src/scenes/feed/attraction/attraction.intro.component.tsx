@@ -29,6 +29,8 @@ import Drawer from 'react-native-draggable-view';
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
 import MyPage from '../../../assets/icon/MyPage.svg';
+import Left from '../../../assets/icon/leftArrow.svg';
+import Right from '../../../assets/icon/rightArrow.svg';
 
 
 
@@ -84,8 +86,8 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
             <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
                 <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
-                <FontAwesomeIcon icon={faArrowLeft} style={{position: 'absolute', top: '50%', left: '2%', color: 'white'}} size={16}/>
-                <FontAwesomeIcon icon={faArrowRight}  style={{position: 'absolute', top: '50%', right: '2%', color: 'white'}} size={16}/>          
+                <Left style={{position: 'absolute', top: '50%', left: '2%'}} width={25} height={15}color={'white'}/>
+                <Right style={{position: 'absolute', top: '50%', right: '2%'}} width={25} height={15} color={'white'}/>  
             </Layout>
         </Layout>        
     )
