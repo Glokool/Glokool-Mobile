@@ -30,7 +30,7 @@ import Drawer from 'react-native-draggable-view';
 import Feed from '../../assets/icon/feed.svg';
 import Guide from '../../assets/icon/guide.svg';
 import MyPage from '../../assets/icon/MyPage.svg';
-import { FullWidthPicture } from '../../data/picture.model';
+
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const tour = props.route.params;

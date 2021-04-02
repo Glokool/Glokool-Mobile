@@ -24,6 +24,8 @@ import { SERVER } from '../../server.component';
 import Toast from 'react-native-easy-toast'
 import Carousel from 'react-native-banner-carousel';
 
+import LocationIcon from '../../assets/icon/location.svg';
+
 var ToastRef : any;
 
 export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
@@ -105,7 +107,12 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
           
           <Layout style={{backgroundColor: '#00FF0000', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={styles.ListTitle}>{item.title}</Text>
-            <Text style={styles.iconTitle}>{item.location}</Text>
+            
+            <Layout style={{flexDirection: 'row', backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center'}}>
+              <LocationIcon width={12} height={12} style={{marginRight: 5, marginHorizontal: 5, marginBottom: 10,}}/>
+              <Text style={styles.iconTitle}>{item.location}</Text>
+            </Layout>
+            
           </Layout>
         </TouchableOpacity>     
       
