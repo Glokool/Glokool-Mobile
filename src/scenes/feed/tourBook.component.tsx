@@ -30,6 +30,7 @@ import Drawer from 'react-native-draggable-view';
 import Feed from '../../assets/icon/feed.svg';
 import Guide from '../../assets/icon/guide.svg';
 import MyPage from '../../assets/icon/MyPage.svg';
+import BAR from '../../assets/icon/bar.svg';
 
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
@@ -78,9 +79,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
 
     getHeight();
-
-
-
 
   }, [])
 
@@ -271,8 +269,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                       
-                       <FontAwesomeIcon icon={faGripLines} size={20} color={'gray'}/>
+                        <BAR width={20} height={20} color='black'/>
                     </Layout>
                 )}
                 renderDrawerView={() => (
@@ -303,9 +300,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             :
 
                             <Layout style={{flex: 15, backgroundColor: '#FEE8AD', alignItems: 'center', justifyContent: 'center'}}>
-                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
+                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center', padding: 20}}>
                                     <TouchableOpacity onPress={() => setSideBar(false)}>
-                                        <FontAwesomeIcon icon={faEllipsisV} style={{color: '#FFD774'}} size={20}/>
+                                        <FontAwesomeIcon icon={faEllipsisH} style={{color: '#FFD774'}} size={20}/>
                                     </TouchableOpacity>
                                 </Layout>
 
@@ -391,7 +388,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                         :
                                             <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
                                                 <Layout style={styles.touchIcon}>
-                                                    <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                                    <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
                                                 </Layout>                            
                                             </TouchableOpacity>
                                         }
@@ -426,7 +423,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                     :
                                     <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
                                         <Layout style={styles.touchIcon}>
-                                            <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                            <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
                                         </Layout>                            
                                     </TouchableOpacity>
                                     }
@@ -462,7 +459,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                     :
                                         <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
                                             <Layout style={styles.touchIcon}>
-                                                <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+                                                <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
                                             </Layout>                            
                                         </TouchableOpacity>
                                         }
@@ -641,24 +638,26 @@ const styles = StyleSheet.create({
     bubbleTab: {
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-
+        padding: 5
     },
     bubbleSelectedTab: {
         borderRadius: 30,
         backgroundColor: '#FFC043',
-        
+        padding: 5
     },
     bubbleSelectedText: {
         fontSize: 13,
         color: 'white',
         marginVertical: 5,
         marginHorizontal: 15,
+        fontWeight: 'bold'
     },
     bubbleText: {
         fontSize: 13,
         color: '#C9C9C9',
         marginVertical: 5,
         marginHorizontal: 15,
+        fontWeight: 'bold'
     },
     touchContainer: {
         marginHorizontal: 5
@@ -677,7 +676,6 @@ const styles = StyleSheet.create({
     touchIcon: {
         width: 30, 
         height: 30, 
-        justifyContent: 'center', 
-        alignItems:'center'
+        padding: 5
     },
 });
