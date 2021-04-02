@@ -28,19 +28,19 @@ const tabs: IBubbleTabConfig[] = [
     activeColor: 'white',
     activeBackgroundColor: '#FFD774',
     activeIcon: 'guide',
-    name: 'Guide'
+    name: 'GUIDE'
   },
   {
     activeColor: 'white',
     activeBackgroundColor: '#FFD774',
     activeIcon: 'feed',
-    name: 'Feed'
+    name: 'FEED'
   },
   {
     activeColor: 'white',
     activeBackgroundColor: '#FFD774',
     activeIcon: 'myPage',
-    name: 'My Page'
+    name: 'MY PAGE'
   },
 ];
 
