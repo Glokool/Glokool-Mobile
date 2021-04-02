@@ -123,8 +123,15 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
             <Drawer
                 initialDrawerSize={0.4}
                 autoDrawerUp={1} // 1 to auto up, 0 to auto down
-                isInverseDirection={true}
-                finalDrawerHeight={300}
+                isInverseDirection={false}
+                finalDrawerHeight={100}
+                onDragDown={() => {
+                    console.log('드래그 다운')
+                }}
+                onRelease={()=> {
+                    console.log('릴리즈')
+                }}
+                
                 
                 renderInitDrawerView={() => (  
                    <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
@@ -133,7 +140,7 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
                 )}
 
                 renderDrawerView={() => (                    
-                    <Layout>
+                    <Layout style={{height: Dimensions.get('window').height}}>
                         <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
                     </Layout>
                 )}
