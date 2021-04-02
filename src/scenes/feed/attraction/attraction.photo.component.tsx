@@ -75,7 +75,7 @@ const PressSetting = () => {
 
 const InsideRenderItem = ({item}) => {
     return(
-    <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center', padding: 5}}>
+    <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center'}}>
         <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch'}} source={{uri: item.url}}/>       
     </Layout>
     );
@@ -84,7 +84,7 @@ const InsideRenderItem = ({item}) => {
 const renderItem = ({item}) => {       
 
     return(
-    <Layout style={{width: (Dimensions.get('window').width)}}>
+    <Layout style={{width: (Dimensions.get('window').width), paddingVertical: 20}}>
         <FlatList
             style={{marginVertical: 15}}
             data={item.image}
@@ -142,11 +142,11 @@ const renderItem = ({item}) => {
 
         {/* 내용물*/}
         <Layout style={{flex: 9, backgroundColor: 'white'}}>  
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10, marginLeft: 10}}>Photo Spot Recommendations</Text>
-            <Text style={{fontSize: 14, marginBottom: 10, marginLeft: 10}}>Take your best photo refer to our recommendation!</Text>                    
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10, marginLeft: 20}}>Photo Spot Recommendations</Text>
+            <Text style={{fontSize: 14, marginBottom: 10, marginLeft: 20}}>Take your best photo refer to our recommendation!</Text>                    
             <FlatList
                 style={{backgroundColor: 'white'}}
-                contentContainerStyle={{}}
+                contentContainerStyle={{paddingBottom: 200}}
                 data={Attraction}
                 renderItem={renderItem}
             />
