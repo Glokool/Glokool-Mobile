@@ -478,9 +478,13 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
 
     // 현재 나의 위치 전송
     const LocationMessage = async() => {
+
+        ToastRef.show('Turning on GPS....', 2000);
+
         Geolocation.getCurrentPosition(
             position => {
-                
+
+                               
                 const MessageID = messageIdGenerator();
                 const message = {
                     _id : MessageID,
@@ -499,7 +503,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
 
             },
             error => Alert.alert('Error', JSON.stringify(error)),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+                {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
             );        
     }
             
