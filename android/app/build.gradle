@@ -227,7 +227,6 @@ dependencies {
     }
 
     implementation project(':react-native-restart')
-    implementation project(':react-native-lottie-splash-screen')
     implementation "com.braintreepayments.api:braintree:3.14.1"
 }
 
