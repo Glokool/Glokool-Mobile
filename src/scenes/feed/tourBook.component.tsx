@@ -235,13 +235,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={thumbnailHeight}
+                style={{backgroundColor: 'white'}}
 
                 renderContainerView={() => (
                     
-                    <Layout style={{position: 'relative',width: '100%'}}>
+                    <Layout style={{position: 'relative',width: '100%', height: '100%', backgroundColor: 'white'}}>
                         
-                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: '#00FF0000'}}>
-                            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch'}} source={{uri: title.thumbnail}}/>
+                        <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: 'white'}}>
+                            <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch', borderBottomLeftRadius: 15, borderBottomRightRadius: 15}} source={{uri: title.thumbnail}}/>
                         </Layout>
 
                         <Layout style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000'}}>
@@ -325,9 +326,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             {(course)? 
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 10}
+                                        {flex: 85, borderTopEndRadius: 15}
                                     :
-                                        {flex: 85, borderTopStartRadius: 10, borderTopEndRadius: 10}
+                                        {flex: 85, borderTopStartRadius: 15, borderTopEndRadius: 15}
                                     }
                                 >
 
@@ -355,14 +356,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                         </Layout>
                                     }
                                  
-                                    
+                                
 
                                     <Layout style={{flex: 9, padding: 10, backgroundColor: 'white'}}>
                                         <FlatList
                                             data={courseData}
                                             renderItem={renderCourseItem}
                                             keyExtractor={item => item.id}
-                                            contentContainerStyle={{ paddingBottom: 300 }}
+                                            contentContainerStyle={{ paddingBottom: 500 }}
                                         />
                                     </Layout>  
 
@@ -372,14 +373,20 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 :
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 10}
+                                        {flex: 85, borderTopEndRadius: 15}
                                     :
-                                        {flex: 85, borderTopStartRadius: 10, borderTopEndRadius: 10}
+                                        {flex: 85, borderTopStartRadius: 15, borderTopEndRadius: 15}
                                     }
                                 >
 
-                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10}}>
-                                {((attraction)? 
+                                <Layout style=
+                                    {(sideBar)?
+                                        {flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopEndRadius: 15}
+                                        :
+                                        {flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}
+                                    }
+                                >
+                                    {((attraction)? 
                                 /*Bubble Tab bar attraction Selected*/
                                     <Layout style={{flexDirection: 'row', padding: 20}}>
                                         {(sideBar)?
@@ -488,7 +495,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 <Layout style={{flex: 9}}>
                                     <FlatList
                                         style={{backgroundColor: 'white'}}
-                                        contentContainerStyle={{ paddingBottom: 300 }}
+                                        contentContainerStyle={{ paddingBottom: 500 }}
                                         data={data}
                                         extraData={refresh}
                                         renderItem={renderItem}

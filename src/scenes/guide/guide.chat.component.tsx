@@ -86,24 +86,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     React.useEffect(() => {
         async function ChatRoomInit() {
             
-            if (Platform.OS === 'android'){
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                    {
-                      title: "Glokool Guide Location Permission",
-                      message:
-                        "If you want to share your current location with the guide, grant permission",
-                      buttonNeutral: "Ask Me Later",
-                      buttonNegative: "Cancel",
-                      buttonPositive: "OK"
-                    }
-                );                
-            }
-            else {
-                
-            }
-
-            await AsyncStorage.getItem('code').then((result) => {
+               await AsyncStorage.getItem('code').then((result) => {
 
                 const chat = database().ref('/chats/' + result);
                 setChatDB(chat);
@@ -481,30 +464,52 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
 
         ToastRef.show('Turning on GPS....', 2000);
 
-        Geolocation.getCurrentPosition(
-            position => {
-
-                               
-                const MessageID = messageIdGenerator();
-                const message = {
-                    _id : MessageID,
-                    createdAt : new Date().getTime(),
-                    user: {
-                        _id: user?.uid
+        if (Platform.OS === 'android'){
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                {
+                  title: "Glokool Guide Location Permission",
+                  message:
+                    "If you want to share your current location with the guide, grant permission",
+                  buttonNeutral: "Ask Me Later",
+                  buttonNegative: "Cancel",
+                  buttonPositive: "OK"
+                }
+            );
+            
+            if (granted === PermissionsAndroid.RESULTS.GRANTED){
+                await Geolocation.getCurrentPosition(
+                    position => {
+                                       
+                        const MessageID = messageIdGenerator();
+                        const message = {
+                            _id : MessageID,
+                            createdAt : new Date().getTime(),
+                            user: {
+                                _id: user?.uid
+                            },
+                            location: {
+                                lat: position.coords.latitude,
+                                lon: position.coords.longitude
+                            },
+                            messageType : 'location'
+                        };
+        
+                        ChatDB.update({messages: [message, ...chatMessages]});
+        
                     },
-                    location: {
-                        lat: position.coords.latitude,
-                        lon: position.coords.longitude
-                    },
-                    messageType : 'location'
-                };
+                    error => {
+                        console.log("The location could not be loaded because ", error.message),
+                        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+                    });
+            }
+            else{
+                ToastRef.show('GPS Permission Denied...', 2000);
+            }
+        }
 
-                ChatDB.update({messages: [message, ...chatMessages]});
 
-            },
-            error => Alert.alert('Error', JSON.stringify(error)),
-                {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-            );        
+        
     }
             
             
