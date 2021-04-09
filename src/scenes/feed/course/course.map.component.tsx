@@ -25,6 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
+import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
 
 import Feed from '../../assets/icon/feed.svg';
 import Guide from '../../assets/icon/guide.svg';
@@ -113,39 +114,9 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
         
           </Layout>
   
-          {/*Bottom Tab Bar */}
-            <Layout style={styles.bottomTabBar}>            
-                <Layout style={styles.bottomTab}>
-                    <TouchableOpacity onPress={PressGuide}>
-                        <Guide width={20} height={20}/>
-                    </TouchableOpacity>
-                </Layout>
-
-                <Layout style={{flex: 1}} />     
-
-                <Layout style={styles.bottomTab}>
-                    <TouchableOpacity onPress={PressSetting}>
-                        <MyPage width={20} height={20}/>
-                    </TouchableOpacity>
-                </Layout>
-            </Layout>
-
-            <Layout style={styles.bottomBar}>
-                <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-                <TouchableOpacity onPress={() => {PressFeed()}}>
-                    <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
-                        <Feed width={20} height={20}/>
-                    </Layout>                  
-                </TouchableOpacity>
-                </Layout>
-            
-                <TouchableOpacity onPress={() => {PressBook()}}>
-                    <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
-                        <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
-                    </Layout>
-                </TouchableOpacity>
-                
-            </Layout>
+          <TourBookBottomBar>
+              {data.params.tourCode}
+          </TourBookBottomBar>
 
           
   

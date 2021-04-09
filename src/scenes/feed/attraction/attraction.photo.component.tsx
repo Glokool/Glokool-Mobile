@@ -21,8 +21,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import axios from 'axios';
+import axios from 'axios'; 
 import { SERVER } from '../../../server.component';
+import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components'
 
 import Feed from '../../../assets/icon/feed.svg';
 import Guide from '../../../assets/icon/guide.svg';
