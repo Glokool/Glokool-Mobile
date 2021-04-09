@@ -11,7 +11,8 @@ export enum NavigatorRoute {
     CAFE = 'Cafe',
     COURSE = 'Course',
     COURSE_DETAIL = 'Course Detail',
-    BOOK = 'Book'
+    BOOK = 'Book',
+    BOARD = 'Board'
   }
 
 export enum SceneRoute {
@@ -25,8 +26,13 @@ export enum SceneRoute {
 
     FEED = 'Feed',
     FEED_TOURBOOK = 'Feed Tourbook',
+    FEED_BOTTOMBAR = 'Feed Bottombar',
 
     PAY = 'Pay',
+
+    BOARD = 'Board',
+    BOARD_CREATE = 'Board Create',
+
     
     GUIDE = 'Guide',
     GUIDE_CHAT = 'Guide Chat',

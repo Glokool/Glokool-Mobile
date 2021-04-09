@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { Children } from 'react';
 import { SERVER } from '../../server.component';
 import axios from 'axios'
 import {
@@ -16,10 +15,10 @@ import {
   LayoutElement,
 } from '@ui-kitten/components';
 import { TourBookScreenProps } from '../../navigation/feed.navigator';
+import { TourBookBottomBar } from '../../component/tourBook.bottombar.components'
 import {
     faEllipsisH,
     faEllipsisV,
-    faGripLines
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
@@ -522,7 +521,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         />
 
         {/*Bottom Tab Bar */}
-        <Layout style={styles.bottomTabBar}>            
+        <TourBookBottomBar>
+            {tour}
+        </TourBookBottomBar>
+        {/* <Layout style={styles.bottomTabBar}>            
             <Layout style={styles.bottomTab}>
                 <TouchableOpacity onPress={PressGuide}>
                     <Guide width={20} height={20}/>
@@ -552,8 +554,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                     <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
                 </Layout>
             </TouchableOpacity>
-            
-        </Layout>
+        </Layout> */}
 
     </React.Fragment>
   );

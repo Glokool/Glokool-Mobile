@@ -95,10 +95,15 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 axios.get(SERVER + '/api/user/tour/chat/' + result)
     
                     .then((response) => {
+
+                        console.log(response.data.guideUID)
+
                         const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
                             .then(function(doc) {
-                                                            
-                                if(doc._data == undefined){
+
+                                
+                                
+                                if(doc._data == undefined){                                    
                                     setGuideCheck(true);                                
                                 }                            
                                 else{
@@ -109,6 +114,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                                 
                             })
                             .catch((err) => {
+                                
                                 ToastRef.show('Guide not yet assigned :(', 2000);
                                 props.navigation.goBack();
                             })
