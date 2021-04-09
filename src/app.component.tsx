@@ -36,7 +36,7 @@ const saveTokenToDatabase = async(token) => {
 export default(): React.ReactFragment => {
   React.useEffect(() => {
 
-    SplashScreen.hide()
+    
 
     
     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -48,6 +48,10 @@ export default(): React.ReactFragment => {
       .then(token => {
         return saveTokenToDatabase(token);
     });
+
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 2000)
 
     
 

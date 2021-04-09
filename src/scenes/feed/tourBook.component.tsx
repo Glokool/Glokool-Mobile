@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { SERVER } from '../../server.component';
 import axios from 'axios'
 import {
   StyleSheet,
-  SafeAreaView,
+  Platform,
   TouchableOpacity,
   Image,
   FlatList,
@@ -24,8 +23,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Drawer from 'react-native-draggable-view';
-
-
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Feed from '../../assets/icon/feed.svg';
 import Guide from '../../assets/icon/guide.svg';
 import MyPage from '../../assets/icon/MyPage.svg';
@@ -48,6 +46,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const [cafe, setCafe] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const [thumbnailHeight, setThumbnailHeight] = React.useState(0);
+
+  const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
   React.useEffect(() => {   
 
@@ -229,14 +229,13 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   
   return (
     <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             <Drawer
                 initialDrawerSize={0.7}
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
-                finalDrawerHeight={thumbnailHeight}
+                finalDrawerHeight={statusBarHeight}
                 style={{backgroundColor: 'white'}}
-
+                
                 renderContainerView={() => (
                     
                     <Layout style={{position: 'relative',width: '100%', height: '100%', backgroundColor: 'white'}}>
@@ -267,10 +266,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                     </Layout>
                 )}
                 
-                renderInitDrawerView={() => (  
-                   <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                        <BAR width={25} height={15}/>
-                    </Layout>
+                renderInitDrawerView={() => (
+
+                    
+                        <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>    
+                            <BAR width={25} height={15}/>
+                        </Layout>
+                 
+                   
                 )}
                 renderDrawerView={() => (
                     <Layout style={{height: (Dimensions.get('window').height) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
@@ -644,12 +647,12 @@ const styles = StyleSheet.create({
     bubbleTab: {
         borderRadius: 30,
         backgroundColor: '#F5F5F5',
-        padding: 5
+        
     },
     bubbleSelectedTab: {
         borderRadius: 30,
         backgroundColor: '#FFC043',
-        padding: 5
+        
     },
     bubbleSelectedText: {
         fontSize: 13,

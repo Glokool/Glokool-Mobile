@@ -18,7 +18,6 @@ target 'Glokool' do
 
   pod 'RNPaypal', :path => '../node_modules/react-native-paypal'
 
-  pod 'react-native-lottie-splash-screen', :path => '../node_modules/react-native-lottie-splash-screen'
 
   target 'GlokoolTests' do
     inherit! :complete
