@@ -38,7 +38,7 @@ export const TourBookBottomBar = (tour : any) => {
     }
 
     const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED);
+        navigation.navigate(SceneRoute.FEED);
     }
 
     return(
