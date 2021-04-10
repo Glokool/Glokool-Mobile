@@ -31,7 +31,8 @@ export enum SceneRoute {
     PAY = 'Pay',
 
     BOARD = 'Board',
-    BOARD_CREATE = 'Board Create',
+    BOARD_POST_CREATE = 'Board Post Create',
+    BOARD_POST_DETAIL = 'Board Post Detail',
 
     
     GUIDE = 'Guide',

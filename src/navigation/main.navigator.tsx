@@ -8,7 +8,8 @@ import BubbleTabBar, {
 } from 'react-native-bubble-tabbar';
 import {FeedNavigator} from './feed.navigator';
 import {GuideNavigator} from './guide.navigator';
-import {MyPageNavigator} from './myPage.navigator'
+import {MyPageNavigator} from './myPage.navigator';
+import {BoardNavigator} from './board.navigator';
 import auth from '@react-native-firebase/auth';
 import Feed from '../assets/icon/feed.svg'
 import MyPage from '../assets/icon/MyPage.svg'
@@ -39,6 +40,12 @@ const tabs: IBubbleTabConfig[] = [
   {
     activeColor: 'white',
     activeBackgroundColor: '#FFD774',
+    activeIcon: 'board',
+    name: 'BOARD'
+  },
+  {
+    activeColor: 'white',
+    activeBackgroundColor: '#FFD774',
     activeIcon: 'myPage',
     name: 'MY PAGE'
   },
@@ -46,8 +53,6 @@ const tabs: IBubbleTabConfig[] = [
 
 const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
    
-  
-
   return(
     <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
     {(icon == 'feed')?
@@ -85,6 +90,18 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     :
       null
     }
+
+    {(icon == 'board')?
+      <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
+      {(color == 'white')? 
+        <GuideFull width={20} height={15} style={{marginHorizontal: 5}} />
+      :
+        <Guide width={20} height={15} style={{marginHorizontal: 10}} />
+      }
+      </Layout>      
+    :
+      null
+    }
     
     
     
@@ -109,7 +126,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
       descriptors={descriptors}
       navigation={navigation}
       tabs={tabs}
-      activeTabSize={170}
+      activeTabSize={140}
       iconRenderer={fontAwesomeIconRenderer}
       style={{height: 50, borderColor: 'white'}}
     />
@@ -117,17 +134,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
 };
 const Tab = createBottomTabNavigator();
 
-const getTabBarVisibility = (route) => {
-  const routeName = route.state
-  ? route.state.routes[route.state.index].name
-  : '';
-
-  if (routeName === 'Feed Preview' || routeName === 'Feed Book1' || routeName === 'Feed Book2' || routeName === 'Feed Book3' || routeName === 'Feed Book4' || routeName === 'Pay') {
-    return false;
-  }
-  
-  return true;
-};
 
 const getTabBarVisibility2 = (route) => {
   const routeName = route.state
@@ -185,6 +191,10 @@ export const MainNavigator = (): React.ReactElement => (
             unmountOnBlur : true
           })}          
         />
+        <Tab.Screen name={NavigatorRoute.BOARD} component={BoardNavigator} 
+          options={({ route }) => ({
+            unmountOnBlur : true
+        })}/>
         <Tab.Screen name={NavigatorRoute.MY_PAGE} component={MyPageNavigator} 
           options={({ route }) => ({
             unmountOnBlur : true
