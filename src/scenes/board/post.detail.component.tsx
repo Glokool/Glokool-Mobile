@@ -24,9 +24,12 @@ var ToastRef : any;
 
 export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement => {
     
-    const data = props.route.params;
+    const content = props.route.params.item;
+    const type = props.route.params.type;
 
-    console.log(data);
+    const day = content.item.title;
+
+    console.log(day);
 
 
     React.useEffect(() => {
@@ -46,7 +49,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
     return(
        <React.Fragment>
-
+        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
          {/* top Tab bar*/}
         <Layout style={styles.TopTabBar}>
           
@@ -67,7 +70,15 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           
           <Layout style={styles.profileContainer}>
             <Image style={styles.profileImage} source={require('../../assets/profile/profile_01.png')}/>
+
+            <Layout>
+
+              <Text>{content.item.writer}</Text>
+              <Text></Text>
+            </Layout>
           </Layout>
+
+
         </Layout>
 
  
@@ -111,8 +122,8 @@ const styles = StyleSheet.create({
     padding: 30
   },
   profileImage: {
-    width: 32,
-    height: 32,
+    width: 42,
+    height: 42,
     resizeMode: 'stretch'
   }
 })

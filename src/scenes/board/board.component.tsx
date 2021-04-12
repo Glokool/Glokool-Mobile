@@ -216,6 +216,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     return(
        <React.Fragment>
+          <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
            {/* Top Tab Bar - 자유게시판 등등 선택 기능 */}
            <Layout style={styles.TopTabBarContainer}>
 
