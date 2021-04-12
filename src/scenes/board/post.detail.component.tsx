@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   TopTabBar: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
+    padding: 20,
     position: 'absolute',
     top: 0,
     width: '100%',
@@ -92,13 +92,11 @@ const styles = StyleSheet.create({
   },
   leftIcon: {
     flex: 1,
-    padding: 10,
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
   rightIcon: {
     flex: 1,
-    padding: 10,
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
