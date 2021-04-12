@@ -11,7 +11,8 @@ import {
   ScrollView,
   BackHandler,
   Dimensions,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 import {
   Layout,
@@ -23,10 +24,11 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import Toast from 'react-native-easy-toast'
 import Carousel from 'react-native-banner-carousel';
-
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LocationIcon from '../../assets/icon/location.svg';
 
 var ToastRef : any;
+const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
 export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 

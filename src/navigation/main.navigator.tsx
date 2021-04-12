@@ -17,6 +17,7 @@ import Guide from '../assets/icon/guide.svg'
 import FeedFull from '../assets/icon/feedFull.svg'
 import MyPageFull from '../assets/icon/MyPageFull.svg'
 import GuideFull from '../assets/icon/guideFull.svg'
+import Board from '../assets/icon/board.svg';
 
 const user = auth().currentUser
 
@@ -94,9 +95,9 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     {(icon == 'board')?
       <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
       {(color == 'white')? 
-        <GuideFull width={20} height={15} style={{marginHorizontal: 5}} />
+        <Board width={20} height={15} style={{marginHorizontal: 5}} />
       :
-        <Guide width={20} height={15} style={{marginHorizontal: 10}} />
+        <Board width={20} height={15} style={{marginHorizontal: 10}} />
       }
       </Layout>      
     :

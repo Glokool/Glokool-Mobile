@@ -144,7 +144,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.rightIcon} onPress={PressReport}>
-            <FontAwesomeIcon icon={faExclamationTriangle} size={24}/>
+            {/* <FontAwesomeIcon icon={faExclamationTriangle} size={24}/> */}
           </TouchableOpacity>
         </Layout>
 

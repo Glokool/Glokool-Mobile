@@ -172,7 +172,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     }
 
     const PressWrite = () => {
-      props.navigation.navigate(SceneRoute.BOARD_POST_CREATE);
+      props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, displayValue);
     }
 
     const RenderBoard = (item) => {
