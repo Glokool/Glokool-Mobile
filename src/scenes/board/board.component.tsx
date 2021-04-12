@@ -23,7 +23,7 @@ import {
   SelectItem 
 } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPencilAlt, faSearch, faSyncAlt, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faPencilAlt, faSearch, faSyncAlt, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 
@@ -200,10 +200,10 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
               </Layout>
 
               <Layout style={styles.footerSideContainer2}>
-                 <FontAwesomeIcon icon={faThumbsUp} size={10} color={'#02EA00'}/>
+                 <FontAwesomeIcon icon={faThumbsUp} size={10} color={'#FFD774'}/>
                  <Text style={styles.iconNum}>{item.item.plus}</Text>
-                 <FontAwesomeIcon icon={faThumbsDown} size={10} color={'#FF4141'}/>
-                 <Text style={styles.iconNum}>{item.item.minus}</Text>
+                 <FontAwesomeIcon icon={faCommentAlt} size={10} color={'#C9C9C9'}/>
+                 <Text style={styles.iconNum}>{item.item.comment.length}</Text>
               </Layout>              
             </Layout>
 
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
   post: {
     width: '100%',
     height: undefined,
-    padding: 10,
+    padding: 15,
   },
   postTitle: {
     fontWeight: 'bold',
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   },
   iconNum: {
     marginLeft: 2,
-    marginRight: 5
+    marginRight: 10
   },
   customBottomBar: {
     flexDirection: 'row',
