@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { PostCreateScreenProps } from '../../navigation/board.navigator'
 import {
   StyleSheet,
@@ -11,7 +12,8 @@ import {
   ScrollView,
   BackHandler,
   Dimensions,
-  Linking
+  Linking,
+  DeviceEventEmitter
 } from 'react-native';
 import {
   Button,
@@ -31,13 +33,45 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
 
+    React.useEffect(() => {
+      return () => {
+        DeviceEventEmitter.emit('out');
+      }
+    }, []);
 
     const PressBack = () => {
       props.navigation.goBack()
     }
 
     const PressPost = () => {
+      
+      const user = auth().currentUser
+      const data = {
+        title: title,
+        content: content,
+        writer: user?.displayName,
+        writerUID: user?.uid,
+        writerAvatar: user?.photoURL,
+        writeDate: new Date(),
+        plus: [],
+        comment: []
+      }
+      
+      if(Title === 'Free Board'){
+        
+        const doc = firestore().collection("FreeBoard").doc();
 
+        doc.set(data);
+      }
+
+      else if (Title === 'QnA Board'){
+                
+        const doc = firestore().collection("QnABoard").doc();
+
+        doc.set(data);
+      }
+
+      props.navigation.goBack();
       
     }
 
@@ -92,6 +126,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
 
           </Layout>
 
+          
 
 
        </React.Fragment>

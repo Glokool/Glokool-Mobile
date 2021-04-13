@@ -18,6 +18,7 @@ import FeedFull from '../assets/icon/feedFull.svg'
 import MyPageFull from '../assets/icon/MyPageFull.svg'
 import GuideFull from '../assets/icon/guideFull.svg'
 import Board from '../assets/icon/board.svg';
+import BoardFull from '../assets/icon/BoardFull.svg'
 
 const user = auth().currentUser
 
@@ -59,9 +60,9 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     {(icon == 'feed')?
       <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
       {(color == 'white')? 
-        <FeedFull width={20} height={15} style={{marginHorizontal: 5}} />
+        <FeedFull width={24} height={24} style={{marginHorizontal: 5}} />
       :
-        <Feed width={20} height={15} style={{marginHorizontal: 10}} />
+        <Feed width={24} height={24} style={{marginHorizontal: 10}} />
       }
       </Layout>      
     :
@@ -71,9 +72,9 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     {(icon == 'myPage')?
       <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
       {(color == 'white')? 
-        <MyPageFull width={20} height={15} style={{marginHorizontal: 5}} />
+        <MyPageFull width={24} height={24} style={{marginHorizontal: 5}} />
       :
-        <MyPage width={20} height={15} style={{marginHorizontal: 10}} />
+        <MyPage width={24} height={24} style={{marginHorizontal: 10}} />
       }
       </Layout>      
     :
@@ -83,9 +84,9 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     {(icon == 'guide')?
       <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
       {(color == 'white')? 
-        <GuideFull width={20} height={15} style={{marginHorizontal: 5}} />
+        <GuideFull width={24} height={24} style={{marginHorizontal: 5}} />
       :
-        <Guide width={20} height={15} style={{marginHorizontal: 10}} />
+        <Guide width={24} height={24} style={{marginHorizontal: 10}} />
       }
       </Layout>      
     :
@@ -95,9 +96,9 @@ const fontAwesomeIconRenderer = ({ icon, color }: IIconRenderer) => {
     {(icon == 'board')?
       <Layout style={{backgroundColor: '#0000FF00', justifyContent: 'center', alignItems: 'center'}}>
       {(color == 'white')? 
-        <Board width={20} height={15} style={{marginHorizontal: 5}} />
+        <BoardFull width={24} height={24} style={{marginHorizontal: 5}} />
       :
-        <Board width={20} height={15} style={{marginHorizontal: 10}} />
+        <Board width={24} height={24} style={{marginHorizontal: 10}} />
       }
       </Layout>      
     :
@@ -127,7 +128,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({
       descriptors={descriptors}
       navigation={navigation}
       tabs={tabs}
-      activeTabSize={140}
+      activeTabSize={130}
       iconRenderer={fontAwesomeIconRenderer}
       style={{height: 50, borderColor: 'white'}}
     />

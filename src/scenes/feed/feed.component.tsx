@@ -34,6 +34,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   const user = auth().currentUser;
   const [FeedData, setFeedData] = React.useState([]);
+  const [data, setData] = React.useState([]);
+  const [selectButton, setSelectButton] = React.useState('all');
   const BannerWidth = Dimensions.get('window').width;
   const BannerHeight = 260;
   
@@ -66,12 +68,35 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
     axios.get( SERVER + '/api/tour')
       .then((response)=> {
         setFeedData(response.data);
+        console.log(response.data)
+        setData(response.data);
     })
 
     return () => {
 
     }
   }, []);
+
+  React.useEffect(() => {
+
+    if(selectButton === 'seoul'){
+      setData(FeedData.filter(item => {return item.region === 'seoul'}));
+    }
+    else if (selectButton === 'jeolla'){
+      setData(FeedData.filter(item => {return item.region === 'jeolla'}));
+    }
+    else {
+      setData(FeedData)
+    }
+    
+
+
+
+  }, [selectButton])
+
+
+
+
 
   const handleBackButton = () => {
     
@@ -94,7 +119,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
     
     return true;
   }
-    
+
+     
 
   const ClickList = item => () => {
     props.navigation.navigate(SceneRoute.FEED_TOURBOOK, item.id)
@@ -153,10 +179,33 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
           </Carousel>
         </Layout>
 
+        <Layout style={styles.seperateContainer}>
+          <Image source={require('../../assets/polygon_yellow.png')}/>
+
+          <TouchableOpacity style={styles.selectContainer} onPress={() => setSelectButton('all')}>
+            <Text style={(selectButton === 'all')? styles.selectTitle : styles.unSelectTitle}>All</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.selectContainer} onPress={() => setSelectButton('seoul')}>
+            <Text style={(selectButton === 'seoul')? styles.selectTitle : styles.unSelectTitle}>Seoul</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.selectContainer} onPress={() => setSelectButton('jeolla')}>
+            <Text style={(selectButton === 'jeolla')? styles.selectTitle : styles.unSelectTitle}>Jeolla</Text>
+          </TouchableOpacity>
+
+
+
+
+
+
+
+        </Layout>
+
         <Layout style={{backgroundColor: 'white'}}>
           <FlatList
             style={{backgroundColor: 'white'}}
-            data={FeedData}
+            data={data}
             renderItem={renderItem}
             keyExtractor={item => item.key}
           />
@@ -236,5 +285,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 15,
     marginBottom: 20,
+  },
+  seperateContainer: {
+    width: '100%',
+    height: 30,
+    flexDirection: 'row',
+    padding: 5,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  selectContainer:{
+    marginHorizontal: 15
+  },
+  selectTitle:{
+    color: 'black'
+  },
+  unSelectTitle:{
+    color: 'gray'
   }
 });

@@ -13,7 +13,8 @@ import {
   BackHandler,
   Dimensions,
   Linking,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  DeviceEventEmitter
 } from 'react-native';
 import {
   Button,
@@ -41,14 +42,15 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
     const [value, setValue] = React.useState('');
     const [loginVisible, setLoginVisible] = React.useState(false);
 
-    const day = moment(content.date).toDate();
+    const day = new Date(content.writeDate.seconds * 1000);
 
-    console.log(content)
+    console.log(day);
 
     React.useEffect(() => {
-
-    }, [])
-
+      return () => {
+        DeviceEventEmitter.emit('out');
+      }
+    }, []);
 
     const PressBack = () => {
       props.navigation.goBack()
@@ -96,7 +98,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
   
         }
         else{
-          const comment = firestore().collection('QnABoard').doc(content.index);
+          const comment = firestore().collection('QnABoard').doc(content.id);
 
           await comment.update({
             comment: firestore.FieldValue.arrayUnion({
@@ -264,6 +266,13 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '100%',
     backgroundColor: 'white'
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cancelButton: {
+    borderColor: '#FFC043',
+    backgroundColor: 'white',   
   },
   leftIcon: {
     flex: 1,

@@ -231,7 +231,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   return (
     <React.Fragment>
             <Drawer
-                initialDrawerSize={0.7}
+                initialDrawerSize={0.8}
                 autoDrawerUp={0} // 1 to auto up, 0 to auto down
                 isInverseDirection={true}
                 finalDrawerHeight={statusBarHeight}
@@ -249,18 +249,18 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             
                             <Layout style={{flex: 1, backgroundColor: '#00FF0000', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
                                 <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
-                                                               
-                                <Layout style={{flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 10}}>
-                                    {(tag.map((item, idx) =>                                  
-                                            <Text style={{fontWeight: "700", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
-                                                {`#`}<Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
-                                            </Text>                                                               
-                                    ))}
-                                </Layout> 
                             </Layout>
 
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', padding: 5}}>{title.description}</Text>
+                            <Layout style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
+                                    <Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', padding: 5}}>{title.description}</Text>
+                                </Layout> 
+
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', flexWrap: 'wrap', padding: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                                {(tag.map((item, idx) =>                                  
+                                        <Text style={{fontWeight: "700", fontSize: 16, color: '#FFD774', textAlign: 'center', marginTop: 0}}>
+                                            {`#`}<Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
+                                        </Text>                                                               
+                                ))}
                             </Layout>
                            
                         </Layout>           
@@ -330,9 +330,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             {(course)? 
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 15}
+                                        styles.topRadiusContainer1
                                     :
-                                        {flex: 85, borderTopStartRadius: 15, borderTopEndRadius: 15}
+                                        styles.topRaiusContainer2
                                     }
                                 >
 
@@ -377,9 +377,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 :
                                 <Layout style=
                                     {(sideBar)?
-                                        {flex: 85, borderTopEndRadius: 15}
+                                        styles.topRadiusContainer1
                                     :
-                                        {flex: 85, borderTopStartRadius: 15, borderTopEndRadius: 15}
+                                        styles.topRaiusContainer2
                                     }
                                 >
 
@@ -690,4 +690,14 @@ const styles = StyleSheet.create({
         height: 30, 
         padding: 5
     },
+    topRadiusContainer1:{
+        flex: 85,
+        borderTopEndRadius: 15
+    },
+    topRaiusContainer2:{
+        flex: 85, 
+        borderTopStartRadius: 15, 
+        borderTopEndRadius: 15
+    }
+
 });

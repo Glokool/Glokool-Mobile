@@ -1,6 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
 import { useFocusEffect } from '@react-navigation/native';
 import { BoardScreenProps } from '../../navigation/board.navigator'
 import {
@@ -13,19 +14,30 @@ import {
   ScrollView,
   BackHandler,
   Dimensions,
+  DeviceEventEmitter
 } from 'react-native';
 import { 
+  Button,
+  Card,
   Divider,
   IndexPath, 
+  Input, 
   Layout, 
   LayoutElement,
+  Modal,
   Select, 
   SelectItem 
 } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCommentAlt, faPencilAlt, faSearch, faSyncAlt, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { SceneRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
+
+import Refresh from '../../assets/board/refresh.svg';
+import Search from '../../assets/board/search.svg';
+import Post from '../../assets/board/post.svg';
+import Comment from '../../assets/board/comment.svg';
+import Good from '../../assets/board/good.svg';
 
 var ToastRef : any;
 var exitApp : any = undefined;
@@ -42,78 +54,99 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     ];
     const displayValue = BoardSelect[selectedBoard.row];
     const [refresh, setRefresh] = React.useState(false);
+    const [search, setSearch] = React.useState('');
+    const [data, setData] = React.useState([]);
     const [freeBoard, setFreeBoard] = React.useState([]);
     const [qnaBoard, setQnaBoard] = React.useState([]);
-
-    // const [freeBoard, setFreeBoard] = React.useState([{
-    //   index: 0,
-    //   title: '',
-    //   content: '',
-    //   writer: '',
-    //   writerAvatar: '',
-    //   writeDate: new Date(),
-    //   plus: 0,
-    //   minus: 0,
-    //   comment: [
-    //     {
-    //       writer: '',
-    //       writeDate: new Date(),
-    //       writerAvatar: '',
-    //       content: ''
-    //     }
-    //   ]
-    // }]);
-    // const [qnaBoard, setQnaBoard] = React.useState([{
-    //   title: '',
-    //   content: '',
-    //   writer: '',
-    //   writerAvatar: '',
-    //   writeDate: new Date(),
-    //   plus: 0,
-    //   minus: 0,
-    //   comment: [
-    //     {
-    //       writer: '',
-    //       writeDate: new Date(),
-    //       writerAvatar: '',
-    //       content: ''
-    //     }
-    //   ]
-    // }]);
+    const [searchVisible, setSearchVisible] = React.useState(false);
+    const [loginVisible, setLoginVisible] = React.useState(false);
 
     // 비동기 함수 실행을 위한 함수 분리
     // 보드 데이터 다운로드
     // 향후 바로 데이터로 교체할 것
+
     async function downloadFreeBoard() {
         const Free = await firestore().collection('FreeBoard').get();
         const QnA = await firestore().collection('QnABoard').get();
 
         var FreeBoard = [];
+        console.log('프리보드 다운로드')
 
         Free.forEach((doc) => {
           
-          FreeBoard.push(doc.data());
+          var tempData = doc.data();
+          tempData.id = doc.id
+
+          FreeBoard.push(tempData);
         });
 
-        setFreeBoard(FreeBoard.reverse()); 
+        FreeBoard.sort(function (a, b) { 
+          return a.writeDate.seconds < b.writeDate.seconds ? -1 : a.writeDate.seconds > b.writeDate.seconds ? 1 : 0;  
+        });
+
+        setFreeBoard(FreeBoard.reverse());
+        setData(FreeBoard.reverse());
     }
 
-    async function downloadQnABoard() {
+        async function downloadQnABoard() {
+
+        console.log('QnA 다운로드')
         const QnA = await firestore().collection('QnABoard').get();
         var QnABoard = [];
         
         QnA.forEach((doc) => {
-          QnABoard.push(doc);
+          var tempData = doc.data();
+          tempData.id = doc.id
+
+          QnABoard.push(tempData);
         });    
 
+        QnABoard.sort(function (a, b) { 
+          return a.writeDate.seconds < b.writeDate.seconds ? -1 : a.writeDate.seconds > b.writeDate.seconds ? 1 : 0;  
+        });
+
+
         setQnaBoard(QnABoard.reverse());
+        setData(QnABoard.reverse());
     }
 
     React.useEffect(() => {
         
         downloadFreeBoard();
 
+        DeviceEventEmitter.addListener('out', () => {
+          console.log('들었다!')
+
+          if(displayValue === 'Free Board'){
+            downloadFreeBoard();
+          }
+          
+          else{
+            downloadQnABoard();
+          }
+        })
+
     }, []);
+
+    React.useEffect(() => {
+      PressRefresh();
+
+    }, [displayValue]);
+
+    React.useEffect(() => {
+
+      const tempData = data;
+
+      if(displayValue === 'Free Board'){
+        setData(freeBoard.filter(item => {return item.title.toLowerCase().indexOf(search.toLowerCase() ) != -1}));
+      }
+      
+      else{
+        setData(qnaBoard.filter(item => {return item.title.toLowerCase().indexOf(search.toLowerCase() ) != -1}));
+      }
+
+
+    }, [search])
 
 
    
@@ -154,6 +187,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     };
 
     const PressRefresh = () => {
+
       if(displayValue === 'Free Board'){
           downloadFreeBoard();
       }
@@ -169,10 +203,22 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
           item: item, 
           type: displayValue
         });
+
+      
     }
+      
 
     const PressWrite = () => {
-      props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, displayValue);
+      if(auth().currentUser != null){
+
+        props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, displayValue);
+
+      }
+       
+      else{
+        setLoginVisible(true);
+      }
+      
     }
 
     const RenderBoard = (item) => {
@@ -200,14 +246,14 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
               </Layout>
 
               <Layout style={styles.footerSideContainer2}>
-                 <FontAwesomeIcon icon={faThumbsUp} size={10} color={'#FFD774'}/>
-                 <Text style={styles.iconNum}>{item.item.plus}</Text>
-                 <FontAwesomeIcon icon={faCommentAlt} size={10} color={'#C9C9C9'}/>
+                 <Good style={styles.smallIcon}/>
+                 <Text style={styles.iconNum}>{item.item.plus.length}</Text>
+                 <Comment style={styles.smallIcon}/>
                  <Text style={styles.iconNum}>{item.item.comment.length}</Text>
               </Layout>              
             </Layout>
 
-            <Divider style={{width: '100%', backgroundColor: 'gray', marginVertical: 5}}/>
+            <Divider style={{width: '100%', backgroundColor: 'gray', marginTop: 5}}/>
         </Layout>
         </TouchableOpacity>
       );
@@ -225,36 +271,34 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                 <Select
                   style={styles.BoardSelect}
                   size='large'
-                  status='primary'
+                  status='ghost'
                   value={displayValue}
                   selectedIndex={selectedBoard}
                   onSelect={index => setSelectedBoard(index)}>
-                  <SelectItem title={'Free Board'}/>
-                  <SelectItem title={'QnA Board'}/>
+                  <SelectItem title={'Free Board'} style={styles.selectItem}/>
+                  <SelectItem title={'QnA Board'} style={styles.selectItem}/>
                 </Select>
               </Layout>
 
               <Layout style={styles.SelectIconContainer}>
                 <TouchableOpacity style={styles.TouchIcon} onPress={() => PressRefresh()}>
-                  <FontAwesomeIcon icon={faSyncAlt} size={20}/>
+                  <Refresh/>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.TouchIcon} onPress={() => PressSearch()}>
-                  <FontAwesomeIcon icon={faSearch} size={20} />
+                <TouchableOpacity style={styles.TouchIcon} onPress={() => setSearchVisible(true)}>
+                  <Search/>
                 </TouchableOpacity>
 
               </Layout>
            </Layout>
 
            {/* 게시판 내용 표기 Flat List */}
-           
-               
-          {(displayValue === 'Free Board')? 
+                     
             <Layout style={styles.BoardContainer}>
               
-              {(freeBoard.length != 0)?
+              {(data.length != 0)?
                 <FlatList
-                  data={freeBoard}
+                  data={data}
                   style={{backgroundColor: 'white', width: '100%'}}
                   contentContainerStyle={{paddingBottom: 300}}
                   renderItem={RenderBoard}
@@ -267,42 +311,55 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
               }
               
             </Layout>        
-          : 
-            null
-          }
-
-          {(displayValue === 'QnA Board')? 
-            
-            <Layout style={styles.BoardContainer}>
-              {(qnaBoard.length != 0)?
-                  <FlatList
-                  data={qnaBoard}
-                  style={{backgroundColor: 'white', width: '100%'}}
-                  contentContainerStyle={{paddingBottom: 300}}
-                  renderItem={RenderBoard}
-                  keyExtractor={item => item.index}
-                  />
-
-                :
-                
-                <Text style={{fontSize: 16, color: 'gray', fontWeight: 'bold', textAlign: 'center'}}>There are no posts here yet. Why don't you try one?</Text>
-
-            
-              }
-              
-            </Layout>           
-          : 
-            null
-          }
-               
-
-           
+                    
 
            {/* 커스텀 바텀 바 (글쓰기 버튼) */}
            <TouchableOpacity style={styles.customBottomBar} onPress={() => PressWrite()}>
-                <FontAwesomeIcon icon={faPencilAlt} size={16} color={'#FFD774'} style={{marginRight: 15}}/>
-                <Text style={{fontSize: 16, fontWeight: 'bold', color: '#9C9C9C'}}>Writing</Text>
+                <Post />
            </TouchableOpacity>
+           
+          <Modal
+            visible={loginVisible}
+            backdropStyle={styles.backdrop}
+          >
+          <Card disabled={true}>
+            <Text style={{marginVertical: 30}}>Login is required. Would you like to login?</Text>
+            
+            <Layout style={{flexDirection: 'row'}}>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button style={styles.cancelButton} appearance='outline' onPress={() => {
+                  setLoginVisible(false);
+                }}>
+                  CANCLE
+                </Button>
+              </Layout>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button onPress={() => {
+                  setLoginVisible(false);
+                  props.navigation.replace(NavigatorRoute.AUTH);
+                }}>
+                  MOVE
+                </Button>
+              </Layout>
+              
+            </Layout>
+            
+          </Card>
+        </Modal>
+
+        <Modal
+            visible={searchVisible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={() => setSearchVisible(false)}
+          >
+          <Card disabled={true}>            
+            <Input
+              placeholder='Place your Text'              
+              value={search}
+              onChangeText={nextValue => setSearch(nextValue)}
+            />                       
+          </Card>
+        </Modal>
            
 
 
@@ -319,6 +376,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10
   },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cancelButton: {
+    borderColor: '#FFC043',
+    backgroundColor: 'white',   
+  },
   SelectBoardContainer: {
     flex: 1,
     flexDirection: 'row'
@@ -331,13 +395,19 @@ const styles = StyleSheet.create({
   TouchIcon: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 20
+    marginHorizontal: 10
   },
   BoardSelect: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#00ff0000',
+    borderColor: '#00ff0000',
+  },
+  selectItem: {
+    backgroundColor: 'white',
+    borderColor: 'white',
+    color: 'red'
   },
   BoardContainer: {
     flex: 9,
@@ -378,18 +448,17 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   customBottomBar: {
-    flexDirection: 'row',
     position: 'absolute',
-    bottom: 25,
-    left: '32.5%',
-    borderRadius: 15,
-    width: '35%',
-    height: '5%',
-    backgroundColor: '#C9C9C9',
+    bottom: 10,
+    right: 0,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#9C9C9C',
-    borderWidth: 0.5
+  },
+  smallIcon: {
+    width: 12,
+    height: 12,
+    marginRight: 5
   }
 
 
