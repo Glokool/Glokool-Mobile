@@ -165,20 +165,20 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
                   pageSize={BannerWidth}
               >
                   <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/1.png')}/>
+                    <Image style={{width: BannerWidth, height: 300, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/1.png')}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/2.png')}/>
+                    <Image style={{width: BannerWidth, height: 300, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/2.png')}/>
                   </TouchableOpacity>
                   
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/3.png')}/>
+                    <Image style={{width: BannerWidth, height: 300, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/3.png')}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/4.png')}/>
+                    <Image style={{width: BannerWidth, height: 300, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/4.png')}/>
                   </TouchableOpacity>
 
               </Carousel>
