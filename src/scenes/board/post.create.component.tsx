@@ -107,7 +107,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
           </Layout>
 
           <Layout style={styles.mainContainer}>
-
+          <ScrollView>
           <Input
             placeholder='Title'
             value={title}
@@ -124,6 +124,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
             onChangeText={nextValue => setContent(nextValue)}
           />
 
+          </ScrollView>
           </Layout>
 
           

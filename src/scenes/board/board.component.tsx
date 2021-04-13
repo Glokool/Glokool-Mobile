@@ -50,7 +50,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
   
     const [selectedBoard, setSelectedBoard] = React.useState(new IndexPath(0));
     const BoardSelect = [
-      'Free Board',
+      'Gloo Board',
       'QnA Board'
     ];
     
@@ -136,7 +136,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     React.useEffect(() => {
 
-      if(BoardSelect[selectedBoard.row] === 'Free Board'){
+      if(BoardSelect[selectedBoard.row] === 'Gloo Board'){
         setData(freeBoard.filter(item => {return item.title.toLowerCase().indexOf(search.toLowerCase() ) != -1}));
       }
       
@@ -181,7 +181,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     const PressRefresh = (value) => {
 
-      if(value === 'Free Board'){
+      if(value === 'Gloo Board'){
           downloadFreeBoard();
       }
       
@@ -276,7 +276,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                   value={BoardSelect[selectedBoard.row]}
                   selectedIndex={selectedBoard}
                   onSelect={index => PressSelect(index)}>
-                  <SelectItem title={'Free Board'} style={styles.selectItem}/>
+                  <SelectItem title={'Gloo Board'} style={styles.selectItem}/>
                   <SelectItem title={'QnA Board'} style={styles.selectItem}/>
                 </Select>
               </Layout>

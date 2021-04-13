@@ -219,9 +219,12 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
           <Layout style={styles.profileContainer} >
 
+            {(content.writerAvatar === '')? 
+              <Image style={styles.profileImage} source={require('../../assets/profile/profile_01.png')}/>
+            : 
+              <Image style={styles.profileImage} source={{uri: content.writerAvatar}}/>
+            }
             
-            <Image style={styles.profileImage} source={require('../../assets/profile/profile_01.png')}/>
-
             <Layout style={styles.profileTextContainer}>
               <Text style={styles.nickname}>{content.writer}</Text>
               <Text style={styles.date}>{`${day.getMonth() + 1}/${day.getDate()} ${day.getHours()}:${day.getMinutes()}`}</Text>
@@ -255,7 +258,11 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             <Layout style={styles.commentContainer}>
 
               <Layout style={styles.commentProfileContainer}>
-                <Image style={styles.commentProfileImage} source={require('../../assets/profile/profile_02.png')}/>
+                {(item.writerAvatar === '')? 
+                  <Image style={styles.profileImage} source={require('../../assets/profile/profile_03.png')}/>
+                : 
+                  <Image style={styles.profileImage} source={{uri: item.writerAvatar}}/>
+                }
                 <Text style={styles.commentProfileText}>{item.writer}</Text>
               </Layout>
 
@@ -359,6 +366,7 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 42,
     height: 42,
+    borderRadius: 50,
     resizeMode: 'stretch',
     justifyContent: 'center'
   },
