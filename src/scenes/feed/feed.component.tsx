@@ -42,7 +42,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   var exitApp : any = undefined;  
   var timeout : any;
 
-  console.log(statusBarHeight);
+
 
   // 백핸들러 적용을 위한 함수
   const focusEvent = useFocusEffect(
@@ -150,35 +150,73 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   return (
     <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+      
       <ScrollView>
-        <Layout style={styles.mainContainer}>
-          <Carousel
-              autoplay
-              autoplayTimeout={5000}
-              loop
-              index={0}
-              pageSize={BannerWidth}
-          >
-              <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.jpg')}/>
-              </TouchableOpacity>
+        
 
-              <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.jpg')}/>
-              </TouchableOpacity>
-              
+          {(statusBarHeight >= 40)? 
+            <Layout style={styles.mainContainer}>
+              <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+              <Carousel
+                  autoplay
+                  autoplayTimeout={5000}
+                  loop
+                  index={0}
+                  pageSize={BannerWidth}
+              >
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/1.png')}/>
+                  </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.jpg')}/>
-              </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/2.png')}/>
+                  </TouchableOpacity>
+                  
 
-              <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.jpg')}/>
-              </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/3.png')}/>
+                  </TouchableOpacity>
 
-          </Carousel>
-        </Layout>
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/4.png')}/>
+                  </TouchableOpacity>
+
+              </Carousel>
+            </Layout>
+          
+          :
+
+            <Layout style={styles.mainContainer}>
+              <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+              <Carousel
+                  autoplay
+                  autoplayTimeout={5000}
+                  loop
+                  index={0}
+                  pageSize={BannerWidth}
+              >
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.jpg')}/>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.jpg')}/>
+                  </TouchableOpacity>
+                  
+
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.jpg')}/>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.jpg')}/>
+                  </TouchableOpacity>
+
+              </Carousel>
+            </Layout>
+          }
+          
+        
 
         <Layout style={styles.seperateContainer}>
           <Image source={require('../../assets/polygon_yellow.png')}/>

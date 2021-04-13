@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native';
 import { BoardScreenProps } from '../../navigation/board.navigator'
 import {
@@ -47,12 +47,13 @@ var timeout : any;
 
 export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
+  
     const [selectedBoard, setSelectedBoard] = React.useState(new IndexPath(0));
     const BoardSelect = [
       'Free Board',
       'QnA Board'
     ];
-    const displayValue = BoardSelect[selectedBoard.row];
+    
     const [refresh, setRefresh] = React.useState(false);
     const [search, setSearch] = React.useState('');
     const [data, setData] = React.useState([]);
@@ -67,10 +68,8 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     async function downloadFreeBoard() {
         const Free = await firestore().collection('FreeBoard').get();
-        const QnA = await firestore().collection('QnABoard').get();
 
         var FreeBoard = [];
-        console.log('프리보드 다운로드')
 
         Free.forEach((doc) => {
           
@@ -80,17 +79,23 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
           FreeBoard.push(tempData);
         });
 
-        FreeBoard.sort(function (a, b) { 
-          return a.writeDate.seconds < b.writeDate.seconds ? -1 : a.writeDate.seconds > b.writeDate.seconds ? 1 : 0;  
+        FreeBoard.sort(function(a, b) {
+          var keyA = new Date(a.writeDate.toDate()),
+              keyB = new Date(b.writeDate.toDate());
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
         });
 
-        setFreeBoard(FreeBoard.reverse());
-        setData(FreeBoard.reverse());
+        FreeBoard.reverse()
+
+        setFreeBoard(FreeBoard);
+        setData(FreeBoard);
     }
 
-        async function downloadQnABoard() {
+    async function downloadQnABoard() {
 
-        console.log('QnA 다운로드')
         const QnA = await firestore().collection('QnABoard').get();
         var QnABoard = [];
         
@@ -101,43 +106,37 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
           QnABoard.push(tempData);
         });    
 
-        QnABoard.sort(function (a, b) { 
-          return a.writeDate.seconds < b.writeDate.seconds ? -1 : a.writeDate.seconds > b.writeDate.seconds ? 1 : 0;  
+        QnABoard.sort(function(a, b) {
+          var keyA = new Date(a.writeDate.toDate()),
+              keyB = new Date(b.writeDate.toDate());
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
         });
 
+        QnABoard.reverse()
 
-        setQnaBoard(QnABoard.reverse());
-        setData(QnABoard.reverse());
+        setQnaBoard(QnABoard);
+        setData(QnABoard);
     }
 
     React.useEffect(() => {
-        
-        downloadFreeBoard();
 
-        DeviceEventEmitter.addListener('out', () => {
-          console.log('들었다!')
+      PressRefresh(BoardSelect[selectedBoard.row]);
 
-          if(displayValue === 'Free Board'){
-            downloadFreeBoard();
-          }
+      DeviceEventEmitter.addListener('out', () => {
+        const displayValue = AsyncStorage.getItem('table')
+          .then((result) => {
+            PressRefresh(result);
+          })
           
-          else{
-            downloadQnABoard();
-          }
-        })
-
+      });
     }, []);
 
     React.useEffect(() => {
-      PressRefresh();
 
-    }, [displayValue]);
-
-    React.useEffect(() => {
-
-      const tempData = data;
-
-      if(displayValue === 'Free Board'){
+      if(BoardSelect[selectedBoard.row] === 'Free Board'){
         setData(freeBoard.filter(item => {return item.title.toLowerCase().indexOf(search.toLowerCase() ) != -1}));
       }
       
@@ -147,10 +146,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
 
     }, [search])
-
-
-   
-
+  
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -161,6 +157,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
         }
         }, [])
     );
+    
 
     const handleBackButton = () => {
     
@@ -182,13 +179,9 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
         return true;
     };
 
-    const PressSearch = () => {
+    const PressRefresh = (value) => {
 
-    };
-
-    const PressRefresh = () => {
-
-      if(displayValue === 'Free Board'){
+      if(value === 'Free Board'){
           downloadFreeBoard();
       }
       
@@ -198,20 +191,28 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     }
 
     const PressPost = (item) => {
+
+      AsyncStorage.setItem('table', BoardSelect[selectedBoard.row]);
       props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL,
         {
           item: item, 
-          type: displayValue
+          type: BoardSelect[selectedBoard.row]
         });
 
       
+    }
+
+    const PressSelect = (value) => {
+
+        setSelectedBoard(value);
+        PressRefresh(BoardSelect[value.row]);
     }
       
 
     const PressWrite = () => {
       if(auth().currentUser != null){
 
-        props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, displayValue);
+        props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, BoardSelect[selectedBoard.row]);
 
       }
        
@@ -223,8 +224,9 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     const RenderBoard = (item) => {
       
-      const day = moment(item.item.date).toDate();
-          
+      const day = item.item.writeDate.toDate();
+
+         
       return(
         <TouchableOpacity onPress={() => PressPost(item)}>
         <Layout style={styles.post}>
@@ -271,17 +273,16 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                 <Select
                   style={styles.BoardSelect}
                   size='large'
-                  status='ghost'
-                  value={displayValue}
+                  value={BoardSelect[selectedBoard.row]}
                   selectedIndex={selectedBoard}
-                  onSelect={index => setSelectedBoard(index)}>
+                  onSelect={index => PressSelect(index)}>
                   <SelectItem title={'Free Board'} style={styles.selectItem}/>
                   <SelectItem title={'QnA Board'} style={styles.selectItem}/>
                 </Select>
               </Layout>
 
               <Layout style={styles.SelectIconContainer}>
-                <TouchableOpacity style={styles.TouchIcon} onPress={() => PressRefresh()}>
+                <TouchableOpacity style={styles.TouchIcon} onPress={() => PressRefresh(BoardSelect[selectedBoard.row])}>
                   <Refresh/>
                 </TouchableOpacity>
 
