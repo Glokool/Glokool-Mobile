@@ -156,7 +156,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
           {(statusBarHeight >= 40)? 
             <Layout style={styles.mainContainer}>
-              <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+              
               <Carousel
                   autoplay
                   autoplayTimeout={5000}
