@@ -42,6 +42,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   var exitApp : any = undefined;  
   var timeout : any;
 
+  console.log(statusBarHeight);
 
   // 백핸들러 적용을 위한 함수
   const focusEvent = useFocusEffect(

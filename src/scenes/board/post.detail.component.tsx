@@ -23,6 +23,7 @@ import {
   Input,
   Layout,
   LayoutElement,
+  ListItem,
   Modal,
 } from '@ui-kitten/components';
 import { EditIcon } from '../../component/icon'
@@ -30,6 +31,7 @@ import { faAngleLeft, faExclamationTriangle, faThumbsDown, faThumbsUp } from '@f
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import moment from 'moment';
 import { NavigatorRoute } from '../../navigation/app.route';
+import Good from '../../assets/board/good.svg';
 
 var ToastRef : any;
 
@@ -132,7 +134,65 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
         <Icon {...props} name={'edit-outline'}/>
       </TouchableWithoutFeedback>
     );
+    
 
+    const PressPlus = async() => {
+
+      const user = auth().currentUser;
+
+      if(user === null){
+        setLoginVisible(true);
+      }
+      else{
+
+        
+        if(content.plus.indexOf(user.uid) === -1){
+          if(type === 'Free Board'){
+            const plus = firestore().collection('FreeBoard').doc(content.id);
+
+            await plus.update({
+              plus: firestore.FieldValue.arrayUnion(user.uid)
+            })
+              .then((result) => {
+
+                
+                plus.get()
+                  .then((response) => {
+                    console.log(response)
+                    setContent(response.data());
+                  })
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+    
+          }
+          else{
+            const plus = firestore().collection('QnABoard').doc(content.id);
+
+            await plus.update({
+              plus: firestore.FieldValue.arrayUnion(user.uid)
+            })
+              .then((result) => {
+
+  
+                plus.get()
+                  .then((response) => {
+                    console.log(response)
+                    setContent(response.data());
+                  })
+              })
+              .catch((err) => {
+                //console.log(err)
+              })
+    
+          }
+
+        }
+
+      }
+
+    }
 
 
     return(
@@ -169,13 +229,14 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
             <Layout style={styles.iconContainer}>
 
-              <TouchableOpacity style={styles.touchIconLeft}>
-                <FontAwesomeIcon icon={faThumbsUp} size={20} color={'black'}/>
+              <TouchableOpacity style={styles.touchIconLeft} onPress={() => PressPlus()}>
+                <Good width={20} height={20}/>
+                <Text style={{marginLeft: 10, color: '#FFA757', fontWeight: 'bold'}}>{content.plus.length}</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.touchIconRight}>
-                <FontAwesomeIcon icon={faThumbsDown} size={20} color={'black'}/>
-              </TouchableOpacity>                 
+              <Layout style={styles.touchIconRight}>
+
+              </Layout>                 
               
             </Layout>
           </Layout>
@@ -324,6 +385,7 @@ const styles = StyleSheet.create({
     height: 42,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row'
   },
   touchIconRight: {
     marginLeft: 5,
