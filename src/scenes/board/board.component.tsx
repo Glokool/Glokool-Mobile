@@ -128,6 +128,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
       DeviceEventEmitter.addListener('out', () => {
         const displayValue = AsyncStorage.getItem('table')
           .then((result) => {
+            console.log(result)
             PressRefresh(result);
           })
           
@@ -192,6 +193,8 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     const PressPost = (item) => {
 
+      
+
       AsyncStorage.setItem('table', BoardSelect[selectedBoard.row]);
       props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL,
         {
@@ -212,6 +215,8 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     const PressWrite = () => {
       if(auth().currentUser != null){
 
+        
+        AsyncStorage.setItem('table', BoardSelect[selectedBoard.row]);
         props.navigation.navigate(SceneRoute.BOARD_POST_CREATE, BoardSelect[selectedBoard.row]);
 
       }

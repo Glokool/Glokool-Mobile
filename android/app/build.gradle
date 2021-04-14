@@ -136,7 +136,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         versionCode 1702
-        versionName "1.702"
+        versionName "1.703"
     }
     splits {
         abi {
