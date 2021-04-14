@@ -57,7 +57,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
         comment: []
       }
       
-      if(Title === 'Free Board'){
+      if(Title === 'Gloo Board'){
         
         const doc = firestore().collection("FreeBoard").doc();
 
