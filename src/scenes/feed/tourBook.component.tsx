@@ -11,8 +11,11 @@ import {
   Text,
 } from 'react-native';
 import {
+    IndexPath,
   Layout,
   LayoutElement,
+  MenuItem, 
+  OverflowMenu
 } from '@ui-kitten/components';
 import { TourBookScreenProps } from '../../navigation/feed.navigator';
 import { TourBookBottomBar } from '../../component/tourBook.bottombar.components'
@@ -30,11 +33,18 @@ import Guide from '../../assets/icon/guide.svg';
 import MyPage from '../../assets/icon/MyPage.svg';
 import BAR from '../../assets/icon/bar.svg';
 
+const overflowData = [
+    { title: 'Locations' },
+    { title: 'Travel Styles' },
+];
+
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const tour = props.route.params;
   const [title, setTitle] = React.useState({});
-  const [iconSelected, setIconSelected] = React.useState(true);
+  const [overflowVisible, setOverflowVislbe] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+  
   const [tag, setTag] = React.useState([]);
   const [DATA, setDATA] = React.useState([]);
   const [data, setData] = React.useState([]);
@@ -129,8 +139,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     setRefresh(!refresh);
   }
 
-
-
   const PressList = item => () => {
 
     if(item.type == 'Attraction'){
@@ -162,14 +170,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
   }
 
-  const PressGuide = () => {
-      props.navigation.navigate(NavigatorRoute.GUIDE);
-  }
-
-  const PressSetting = () => {
-      props.navigation.navigate(NavigatorRoute.MY_PAGE);
-  }
-
   const PressCourse = item => () => {
 
     props.navigation.navigate(NavigatorRoute.COURSE_DETAIL, {
@@ -189,25 +189,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
       )
   }
 
-  const PressBook = () => {
-      props.navigation.navigate(NavigatorRoute.BOOK, {
-          screen: SceneRoute.BOOK_DATE,
-          params: {
-              tourCode: tour
-          }
-      });
-  }
 
-  const PressFeed = () => {
-    props.navigation.navigate(SceneRoute.FEED);
-  }
 
   //Flat List 렌더링 (레스토랑/카페/어트랙션)
   const renderItem = ({item}) => (
         <TouchableOpacity onPress={PressList(item)}>
           <Layout style={{flexDirection: 'column', padding: 10}}>
              <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Image style={{width: (Dimensions.get('window').width * 0.75), height: (Dimensions.get('window').height * 0.15), resizeMode: 'stretch', borderRadius: 5}}source={{uri: item.banner}}/>
+                <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.2), resizeMode: 'stretch', borderRadius: 5}}source={{uri: item.banner}}/>
              </Layout> 
 
              <Layout style={{flexDirection: 'column', flex: 2, alignItems: 'flex-start', justifyContent: 'center',padding: 10}}>
@@ -222,11 +211,30 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const renderCourseItem = ({item}) => (
     <TouchableOpacity onPress={PressCourse(item)}>
         <Layout style={{marginVertical: 5, alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={{width: 304, height: 135}} source={{uri: item.banner}}/>
+            <Image style={{width: 340, height: 140}} source={{uri: item.banner}}/>
         </Layout>
     </TouchableOpacity>        
   );
 
+  //오버플로우 메뉴 토글 버튼
+  const OverflowRenderToggle = () => (
+    <TouchableOpacity style={{justifyContent: 'center', alignItems: 'flex-end', marginHorizontal: 5}} onPress={() => setOverflowVislbe(!overflowVisible)}>
+        {(overflowVisible)?
+            <Layout style={styles.touchIcon}>
+                <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
+            </Layout>  
+            :
+            <Layout style={styles.touchIcon}>
+                <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
+            </Layout>
+        }                                  
+    </TouchableOpacity>
+  )
+
+  const onItemSelect = (index) => {
+    setSelectedIndex(index);
+    setOverflowVislbe(false);
+  };
   
   return (
     <React.Fragment>
@@ -268,141 +276,75 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 )}
                 
                 renderInitDrawerView={() => (
-
-                    
-                        <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>    
-                            <BAR width={25} height={15}/>
-                        </Layout>
-                 
-                   
+                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>    
+                        <BAR width={25} height={15}/>
+                    </Layout>
                 )}
+
                 renderDrawerView={() => (
                     <Layout style={{height: (Dimensions.get('window').height) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
-                        
-                        {/*사이드 바 스타일 */}            
-                        {(sideBar)?
-                        
-                            (course)?
+                                  
+                        {(selectedIndex.row === 1)? 
                             
-                            <Layout style={{flex: 15, backgroundColor: '#F5F5F5', alignItems: 'center', justifyContent: 'center'}}>
-                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center'}}>
-                                    <TouchableOpacity onPress={() => setSideBar(false)}>
-                                        <FontAwesomeIcon icon={faEllipsisH} style={{color: '#FFD774'}} size={20}/>
+                            <Layout style={styles.topRaiusContainer2}>        
+                                <Layout style={{flex: 1, padding: 10, paddingBottom: 0, flexDirection: 'row', borderTopStartRadius: 25, borderTopEndRadius: 25,}}>
+                                
+                                    <OverflowMenu
+                                        anchor={OverflowRenderToggle}
+                                        backdropStyle={styles.backdrop}
+                                        visible={overflowVisible}
+                                        placement={'bottom end'}
+                                        selectedIndex={selectedIndex}
+                                        onSelect={onItemSelect}                                    
+                                        onBackdropPress={() => setOverflowVislbe(false)}>
+                                        <MenuItem title='Locations'/>
+                                        <MenuItem title='Travel Styles'/>
+                                    </OverflowMenu>
+
+                                    <TouchableOpacity onPress={() => {PressMap()}} style={{flex: 8, justifyContent: 'center', marginHorizontal: 5}}>
+                                        <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
+                                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
+                                        </Layout>
                                     </TouchableOpacity>
+                                               
                                 </Layout>
 
-                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 10}}>
-                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}} onPress={() => setCourse(false)}>
-                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#D3D3D3'}}>Locations</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 120}}>
-                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}} numberOfLines={1}>Travel Styles</Text>
-                                    </TouchableOpacity>                 
+                                <Layout style={{flex: 9, padding: 10, backgroundColor: 'white'}}>
+                                    <FlatList
+                                        data={courseData}
+                                        renderItem={renderCourseItem}
+                                        keyExtractor={item => item.id}
+                                        contentContainerStyle={{ paddingBottom: 500 }}
+                                    />
                                 </Layout>
-                            </Layout>                        
-                            
+
+                            </Layout>          
+
                             :
 
-                            <Layout style={{flex: 15, backgroundColor: '#FEE8AD', alignItems: 'center', justifyContent: 'center'}}>
-                                <Layout style={{flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center', padding: 20}}>
-                                    <TouchableOpacity onPress={() => setSideBar(false)}>
-                                        <FontAwesomeIcon icon={faEllipsisH} style={{color: '#FFD774'}} size={20}/>
-                                    </TouchableOpacity>
-                                </Layout>
+                            /* 기본 투어 내용  어트랙션 - 레스토랑 - 카페*/
 
-                                <Layout style={{flex: 9, backgroundColor: '#00FF0000', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: 10}}>
-                                    <TouchableOpacity style={{marginBottom: 60, transform: [{rotate: '270deg'}],  width: 120}}>
-                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: '#FFD774'}}>Locations</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={{marginTop: 60, transform: [{rotate: '270deg'}], width: 120}} onPress={() => setCourse(true)}>
-                                        <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}} numberOfLines={1}>Travel Styles</Text>
-                                    </TouchableOpacity>                 
-                                </Layout>
-                            </Layout>                        
-                        
-                        : 
-                            null
-                        }
-                    
+                            <Layout style={styles.topRaiusContainer2}>
 
-                      
-
-                            {(course)? 
-                                <Layout style=
-                                    {(sideBar)?
-                                        styles.topRadiusContainer1
-                                    :
-                                        styles.topRaiusContainer2
-                                    }
-                                >
-
-                                    {(sideBar)? 
-                                        <Layout style={{flex: 1, padding: 20, paddingBottom: 0, borderTopStartRadius: 25, borderTopEndRadius: 25,}}>                                           
-                                            <TouchableOpacity onPress={() => {PressMap()}} >
-                                                <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
-                                                </Layout>
-                                            </TouchableOpacity>                
-                                        </Layout>
-                                    :
-                                        <Layout style={{flex: 1, padding: 20, paddingBottom: 0, flexDirection: 'row', borderTopStartRadius: 25, borderTopEndRadius: 25,}}>
-                                            <TouchableOpacity style={{flex: 2}} onPress={() => setSideBar(true)}>
-                                                <Layout style={styles.touchIcon}>
-                                                    <FontAwesomeIcon icon={faEllipsisH} width={20} height={20} color={'#FFD774'}/>
-                                                </Layout>                            
-                                            </TouchableOpacity>
-
-                                            <TouchableOpacity onPress={() => {PressMap()}} style={{flex: 9}}>
-                                                <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
-                                                </Layout>
-                                            </TouchableOpacity>                
-                                        </Layout>
-                                    }
-                                 
-                                
-
-                                    <Layout style={{flex: 9, padding: 10, backgroundColor: 'white'}}>
-                                        <FlatList
-                                            data={courseData}
-                                            renderItem={renderCourseItem}
-                                            keyExtractor={item => item.id}
-                                            contentContainerStyle={{ paddingBottom: 500 }}
-                                        />
-                                    </Layout>  
-
-                                </Layout>                               
-
-
-                                :
-                                <Layout style=
-                                    {(sideBar)?
-                                        styles.topRadiusContainer1
-                                    :
-                                        styles.topRaiusContainer2
-                                    }
-                                >
-
-                                <Layout style=
-                                    {(sideBar)?
-                                        {flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopEndRadius: 15}
-                                        :
-                                        {flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}
-                                    }
-                                >
+                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
+            
+                                    
                                     {((attraction)? 
-                                /*Bubble Tab bar attraction Selected*/
-                                    <Layout style={{flexDirection: 'row', padding: 20}}>
-                                        {(sideBar)?
-                                            null
-                                        :
-                                            <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
-                                                <Layout style={styles.touchIcon}>
-                                                    <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
-                                                </Layout>                            
-                                            </TouchableOpacity>
-                                        }
-
+                                    /*Bubble Tab bar attraction Selected*/
+                                    <Layout style={{flexDirection: 'row'}}>
+                                        
+                                        <OverflowMenu
+                                            anchor={OverflowRenderToggle}
+                                            backdropStyle={styles.backdrop}
+                                            visible={overflowVisible}
+                                            placement={'bottom end'}
+                                            selectedIndex={selectedIndex}
+                                            onSelect={onItemSelect}                                    
+                                            onBackdropPress={() => setOverflowVislbe(false)}>
+                                            <MenuItem title='Locations'/>
+                                            <MenuItem title='Travel Styles'/>
+                                        </OverflowMenu>
+                                        
                                         <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
                                             <Layout style={styles.bubbleSelectedTab}>
                                                 <Text style={styles.bubbleSelectedText}>Attraction</Text>
@@ -421,59 +363,29 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                             </Layout>
                                         </TouchableOpacity>                
                                     </Layout>   
-                                : 
-                                null)}
 
-                                {((restaurant)? 
-                                /*Bubble Tab bar restaurant Selected*/
-                                <Layout style={{flexDirection: 'row', padding: 20}}>
-                                    
-                                    {(sideBar)?
-                                        null
-                                    :
-                                    <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
-                                        <Layout style={styles.touchIcon}>
-                                            <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
-                                        </Layout>                            
-                                    </TouchableOpacity>
-                                    }
-                                    
+                                    : 
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Attraction</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
+                                    null  // 어트랙션을 고르지 않았을 때 공백
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                        <Layout style={styles.bubbleSelectedTab}>
-                                            <Text style={styles.bubbleSelectedText}>Restaurant</Text>
-                                        </Layout>
-                                    </TouchableOpacity>
+                                    )}
 
-                                    <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                        <Layout style={styles.bubbleTab}>
-                                            <Text style={styles.bubbleText}>Café</Text>
-                                        </Layout>
-                                    </TouchableOpacity>                
-                                </Layout>   
-                                : 
-                                null)}
-
-                                {((cafe)? 
-                                /*Bubble Tab bar cafe Selected*/
-                                <Layout style={{flexDirection: 'row', padding: 20}}>
-
-                                    {(sideBar)?
-                                        null
-                                    :
-                                        <TouchableOpacity style={{marginVertical: 5, marginHorizontal: 15}} onPress={() => setSideBar(true)}>
-                                            <Layout style={styles.touchIcon}>
-                                                <FontAwesomeIcon icon={faEllipsisV} width={20} height={20} color={'#FFD774'}/>
-                                            </Layout>                            
-                                        </TouchableOpacity>
-                                        }
-
+                                    {((restaurant)? 
+                                    /*Bubble Tab bar restaurant Selected*/
+                                    <Layout style={{flexDirection: 'row', padding: 20}}>
+                                        
+                                        <OverflowMenu
+                                            anchor={OverflowRenderToggle}
+                                            backdropStyle={styles.backdrop}
+                                            visible={overflowVisible}
+                                            placement={'bottom end'}
+                                            selectedIndex={selectedIndex}
+                                            onSelect={onItemSelect}                                    
+                                            onBackdropPress={() => setOverflowVislbe(false)}>
+                                            <MenuItem title='Locations'/>
+                                            <MenuItem title='Travel Styles'/>
+                                        </OverflowMenu>
+                                                  
                                         <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
                                             <Layout style={styles.bubbleTab}>
                                                 <Text style={styles.bubbleText}>Attraction</Text>
@@ -481,19 +393,63 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                         </TouchableOpacity>
 
                                         <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                            <Layout style={styles.bubbleTab}>
-                                                <Text style={styles.bubbleText}>Restaurant</Text>
+                                            <Layout style={styles.bubbleSelectedTab}>
+                                                <Text style={styles.bubbleSelectedText}>Restaurant</Text>
                                             </Layout>
                                         </TouchableOpacity>
 
                                         <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                            <Layout style={styles.bubbleSelectedTab}>
-                                                <Text style={styles.bubbleSelectedText}>Café</Text>
+                                            <Layout style={styles.bubbleTab}>
+                                                <Text style={styles.bubbleText}>Café</Text>
                                             </Layout>
                                         </TouchableOpacity>                
-                                </Layout>   
-                                : 
-                                null)}
+                                    </Layout>   
+                                    
+                                    : 
+
+                                    null // 레스토랑을 고르지 않았을 때 공백
+                                    
+                                    )}
+
+                                    {((cafe)? 
+                                        /*Bubble Tab bar cafe Selected*/
+                                        <Layout style={{flexDirection: 'row', padding: 20}}> 
+                                            <OverflowMenu
+                                                anchor={OverflowRenderToggle}
+                                                backdropStyle={styles.backdrop}
+                                                visible={overflowVisible}
+                                                placement={'bottom end'}
+                                                selectedIndex={selectedIndex}
+                                                onSelect={onItemSelect}                                    
+                                                onBackdropPress={() => setOverflowVislbe(false)}>
+                                                <MenuItem title='Locations'/>
+                                                <MenuItem title='Travel Styles'/>
+                                            </OverflowMenu>
+
+                                            <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
+                                                <Layout style={styles.bubbleTab}>
+                                                    <Text style={styles.bubbleText}>Attraction</Text>
+                                                </Layout>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
+                                                <Layout style={styles.bubbleTab}>
+                                                    <Text style={styles.bubbleText}>Restaurant</Text>
+                                                </Layout>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
+                                                <Layout style={styles.bubbleSelectedTab}>
+                                                    <Text style={styles.bubbleSelectedText}>Café</Text>
+                                                </Layout>
+                                            </TouchableOpacity>                
+                                        </Layout>   
+                                        
+                                        : 
+
+                                        null //카페를 고르지 않았을 때 공백
+
+                                        )}
                                 </Layout>
 
                                 <Layout style={{flex: 9}}>
@@ -507,59 +463,18 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                         keyExtractor={item => item.id}
                                     />
                                 </Layout>
-                            
-                                </Layout>        
-                            }
-            
-        
-                           
                         
-
-
-
-                    </Layout>        
-                    
-                )}
-               
-                
-                
-        />
+                            </Layout>        
+                        }
+        
+                    </Layout> 
+                )}   
+            />
 
         {/*Bottom Tab Bar */}
         <TourBookBottomBar>
             {tour}
         </TourBookBottomBar>
-        {/* <Layout style={styles.bottomTabBar}>            
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressGuide}>
-                    <Guide width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={{flex: 1}} />     
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressSetting}>
-                    <MyPage width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
-
-        <Layout style={styles.bottomBar}>
-            <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed()}}>
-                  <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
-                    <Feed width={20} height={20}/>
-                  </Layout>                  
-              </TouchableOpacity>
-            </Layout>
-           
-            <TouchableOpacity onPress={() => {PressBook()}}>
-                <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
-                </Layout>
-            </TouchableOpacity>
-        </Layout> */}
 
     </React.Fragment>
   );
@@ -654,25 +569,24 @@ const styles = StyleSheet.create({
     },
     bubbleSelectedTab: {
         borderRadius: 30,
-        backgroundColor: '#FFC043',
-        
+        backgroundColor: '#FFC043',        
     },
     bubbleSelectedText: {
         fontSize: 13,
         color: 'white',
-        marginVertical: 5,
-        marginHorizontal: 15,
+        marginVertical: 8,
+        marginHorizontal: 20,
         fontWeight: 'bold'
     },
     bubbleText: {
         fontSize: 13,
         color: '#C9C9C9',
-        marginVertical: 5,
-        marginHorizontal: 15,
+        marginVertical: 8,
+        marginHorizontal: 20,
         fontWeight: 'bold'
     },
     touchContainer: {
-        marginHorizontal: 5
+        marginHorizontal: 10
     },
     type: {
         fontSize: 10
@@ -698,6 +612,9 @@ const styles = StyleSheet.create({
         flex: 85, 
         borderTopStartRadius: 15, 
         borderTopEndRadius: 15
-    }
+    },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 
 });
