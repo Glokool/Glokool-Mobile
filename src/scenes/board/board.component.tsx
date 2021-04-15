@@ -206,7 +206,6 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     }
 
     const PressSelect = (value) => {
-
         setSelectedBoard(value);
         PressRefresh(BoardSelect[value.row]);
     }

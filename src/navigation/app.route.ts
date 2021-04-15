@@ -33,6 +33,8 @@ export enum SceneRoute {
     BOARD = 'Board',
     BOARD_POST_CREATE = 'Board Post Create',
     BOARD_POST_DETAIL = 'Board Post Detail',
+    BOARD_POST_REPORT = 'Board Post Report',
+    BOARD_POST_MODIFY = 'Board Post Modify',
 
     
     GUIDE = 'Guide',

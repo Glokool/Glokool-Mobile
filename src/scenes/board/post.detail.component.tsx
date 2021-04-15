@@ -7,12 +7,8 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  FlatList,
   Image,
   ScrollView,
-  BackHandler,
-  Dimensions,
-  Linking,
   TouchableWithoutFeedback,
   DeviceEventEmitter
 } from 'react-native';
@@ -23,32 +19,48 @@ import {
   Input,
   Layout,
   LayoutElement,
-  ListItem,
   Modal,
+  MenuItem, 
+  OverflowMenu,
+  IndexPath
 } from '@ui-kitten/components';
-import { EditIcon } from '../../component/icon'
-import { faAngleLeft, faExclamationTriangle, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import moment from 'moment';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Good from '../../assets/board/good.svg';
+import Toast from 'react-native-easy-toast';
 
 var ToastRef : any;
 
 export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement => {
-    
-    
+        
     const type = props.route.params.type;
-
+    const user = auth().currentUser;
     const [content, setContent] = React.useState(props.route.params.item.item);
+    const [selectedIndex, setSelectedIndex] = React.useState(null);
     const [value, setValue] = React.useState('');
     const [loginVisible, setLoginVisible] = React.useState(false);
-
+    const [deleteVisible, setDeleteVisible] = React.useState(false);
+    const [menuVisible, setMenuVisible] = React.useState(false);
     const day = new Date(content.writeDate.seconds * 1000);
 
-    console.log(day);
-
     React.useEffect(() => {
+      DeviceEventEmitter.addListener('ModifyEnd', () => {
+        if(type === 'Gloo Board'){
+          const doc = firestore().collection('FreeBoard').doc(content.id).get()
+            .then((response) => {
+              setContent(response.data());
+            })
+        }
+        else{
+          const doc = firestore().collection('QnABoard').doc(content.id).get()
+            .then((response) => {
+              setContent(response.data());
+            })
+        }
+      });
+
       return () => {
         DeviceEventEmitter.emit('out');
       }
@@ -58,21 +70,14 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
       props.navigation.goBack()
     }
 
-    const PressReport = () => {
-
-    }
-
     const PressComment = async() => {
       
       if(auth().currentUser === null){
         setLoginVisible(true);
       }
       else{
-
-
-
-        if(type === 'Free Board'){
-          const comment = firestore().collection('FreeBoard').doc(content.index + '');
+        if(type === 'Gloo Board'){
+          const comment = firestore().collection('FreeBoard').doc(content.id);
 
           console.log(content)
 
@@ -85,7 +90,6 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             })
           })
             .then((result) => {
-              //console.log(result);
               setValue('');
 
               comment.get()
@@ -95,7 +99,8 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                 })
             })
             .catch((err) => {
-              //console.log(err)
+              ToastRef.show('This post has already been deleted', 2000);
+              props.navigation.goBack();
             })
   
         }
@@ -121,7 +126,8 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                 })
             })
             .catch((err) => {
-              
+              ToastRef.show('This post has already been deleted', 2000);
+              props.navigation.goBack();
             })
   
         }
@@ -147,15 +153,13 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
         
         if(content.plus.indexOf(user.uid) === -1){
-          if(type === 'Free Board'){
+          if(type === 'Gloo Board'){
             const plus = firestore().collection('FreeBoard').doc(content.id);
 
             await plus.update({
               plus: firestore.FieldValue.arrayUnion(user.uid)
             })
-              .then((result) => {
-
-                
+              .then((result) => {                
                 plus.get()
                   .then((response) => {
                     console.log(response)
@@ -163,7 +167,8 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                   })
               })
               .catch((err) => {
-                console.log(err)
+                ToastRef.show('This post has already been deleted', 2000);
+                props.navigation.goBack();
               })
     
           }
@@ -173,9 +178,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             await plus.update({
               plus: firestore.FieldValue.arrayUnion(user.uid)
             })
-              .then((result) => {
-
-  
+              .then((result) => {  
                 plus.get()
                   .then((response) => {
                     console.log(response)
@@ -183,7 +186,8 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                   })
               })
               .catch((err) => {
-                //console.log(err)
+                ToastRef.show('This post has already been deleted', 2000);
+                props.navigation.goBack();
               })
     
           }
@@ -192,6 +196,55 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
       }
 
+    }
+
+    const renderOverflow = () => (
+      <TouchableOpacity style={styles.rightIcon} onPress={() => setMenuVisible(true)}>
+            <FontAwesomeIcon icon={faEllipsisV} size={24}/>
+      </TouchableOpacity>
+    );
+
+    const onItemSelect = (index) => {
+      setMenuVisible(false);
+
+      if(content.writerUID === user?.uid){// 0번 : 수정 1번 : 삭제
+        if(index.row === 0){
+          console.log('수정')
+          props.navigation.navigate(SceneRoute.BOARD_POST_MODIFY,
+            {
+              param: {
+                id: content.id,
+                type: type
+              }              
+            }
+          );
+        }
+        else{
+          setDeleteVisible(true);
+        }
+      }
+      else{ //0번 신고
+          
+          props.navigation.navigate(SceneRoute.BOARD_POST_REPORT,
+            {
+              param: {
+                id: content.id,
+                type: type
+              }              
+            }
+          );
+      }
+    };
+
+    const DeletePost = () => {      
+      if(type === 'Gloo Board'){
+        const Doc = firestore().collection('FreeBoard').doc(content.id).delete();
+        props.navigation.goBack();        
+      }
+      else{
+        const Doc = firestore().collection('QnABoard').doc(content.id).delete();
+        props.navigation.goBack(); 
+      }     
     }
 
 
@@ -205,9 +258,31 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             <FontAwesomeIcon icon={faAngleLeft} size={26}/>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.rightIcon} onPress={PressReport}>
-            {/* <FontAwesomeIcon icon={faExclamationTriangle} size={24}/> */}
-          </TouchableOpacity>
+          {(content.writerUID === user?.uid)? 
+            <OverflowMenu
+              anchor={renderOverflow}
+              backdropStyle={styles.backdrop}
+              visible={menuVisible}
+              placement={'bottom end'}
+              selectedIndex={selectedIndex}
+              onSelect={onItemSelect}                                    
+              onBackdropPress={() => setMenuVisible(false)}>
+              <MenuItem title='Modify'/>
+              <MenuItem title='Delete'/>
+            </OverflowMenu> 
+          :
+            <OverflowMenu
+              anchor={renderOverflow}
+              backdropStyle={styles.backdrop}
+              visible={menuVisible}
+              placement={'bottom end'}
+              selectedIndex={selectedIndex}
+              onSelect={onItemSelect}                                    
+              onBackdropPress={() => setMenuVisible(false)}>
+              <MenuItem title='Report'/>
+            </OverflowMenu> 
+          }
+                   
         </Layout>
 
         {/* 메인 컨텐츠 컨테이너 */}
@@ -282,9 +357,6 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             />
           </Layout>
 
-
-   
-
           </ScrollView>
         </Layout>
 
@@ -316,13 +388,43 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             
           </Card>
         </Modal>
+
+        <Modal
+            visible={deleteVisible}
+            backdropStyle={styles.backdrop}
+          >
+          <Card disabled={true}>
+            <Text style={{marginVertical: 30}}>Are you sure you want to delete it?</Text>
+            
+            <Layout style={{flexDirection: 'row'}}>
+              <Layout style={{margin: 10, flex: 1}}>
+                <Button style={styles.cancelButton} 
+                  appearance='outline'
+                  size='small'
+                  onPress={() => {
+                    setDeleteVisible(false);
+                  }}>
+                  CANCLE
+                </Button>
+              </Layout>
+              <Layout style={{margin: 10, flex: 1}}>
+                <Button
+                  size='small'
+                  onPress={() => {
+                    setDeleteVisible(false);
+                    DeletePost();
+                  }}>
+                  DELETE
+                </Button>
+              </Layout>
+              
+            </Layout>
+            
+          </Card>
+        </Modal>
         
-
- 
-
-
-
-
+        <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
+          
        </React.Fragment>
     );
 }
