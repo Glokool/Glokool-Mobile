@@ -320,6 +320,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </Layout>
 
           <Layout style={styles.contentContainer}>
+            <Text style={{fontSize: 15, fontWeight: 'bold', marginBottom: 5}}>{content.title}</Text>
             <Text>
               {content.content}
             </Text>
