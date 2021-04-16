@@ -197,20 +197,20 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
                   pageSize={BannerWidth}
               >
                   <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.jpg')}/>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.png')}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.jpg')}/>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.png')}/>
                   </TouchableOpacity>
                   
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.jpg')}/>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.png')}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.jpg')}/>
+                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.png')}/>
                   </TouchableOpacity>
               </Carousel>
             </Layout>
