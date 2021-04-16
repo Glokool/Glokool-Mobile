@@ -200,7 +200,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
     const renderOverflow = () => (
       <TouchableOpacity style={styles.rightIcon} onPress={() => setMenuVisible(true)}>
-            <FontAwesomeIcon icon={faEllipsisV} size={24}/>
+            <FontAwesomeIcon icon={faEllipsisV} size={24} color={'#FFD774'}/>
       </TouchableOpacity>
     );
 
@@ -255,8 +255,12 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
         <Layout style={styles.TopTabBar}>
           
           <TouchableOpacity style={styles.leftIcon} onPress={PressBack}>
-            <FontAwesomeIcon icon={faAngleLeft} size={26}/>
+            <FontAwesomeIcon icon={faAngleLeft} size={26} color={'#FFD774'}/>
           </TouchableOpacity>
+
+          <Layout style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{textAlign: 'center', fontSize: 16, fontWeight: 'bold'}}>{type}</Text>
+          </Layout>
 
           {(content.writerUID === user?.uid)? 
             <OverflowMenu
@@ -320,7 +324,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </Layout>
 
           <Layout style={styles.contentContainer}>
-            <Text style={{fontSize: 15, fontWeight: 'bold', marginBottom: 5}}>{content.title}</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 5}}>{content.title}</Text>
             <Text>
               {content.content}
             </Text>

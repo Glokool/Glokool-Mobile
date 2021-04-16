@@ -406,13 +406,11 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00ff0000',
-    borderColor: '#00ff0000',
   },
   selectItem: {
     backgroundColor: 'white',
-    borderColor: 'white',
-    color: 'red'
+    borderColor: '#00FF0000',
+    borderWidth: 1
   },
   BoardContainer: {
     flex: 9,
