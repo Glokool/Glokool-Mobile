@@ -63,20 +63,9 @@
 		<string>Fonts/NotoSansCJKkr-Regular.otf</string>
 		<string>Fonts/NotoSansCJKkr-Bold.otf</string>
 		<string>Fonts/NotoSansCJKkr-Medium.otf</string>
+		<string>Fonts/BrandonGrotesque-Black.ttf</string>
+		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-    <key>NSExceptionDomains</key>
-    <dict>
-        <key>localhost</key>
-        <dict>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-    </dict>
-</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

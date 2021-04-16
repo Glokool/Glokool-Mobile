@@ -20,9 +20,9 @@
 		5C8C7901CE7E67800E1E6C3A /* libPods-Glokool-GlokoolTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D740FADE5A9A5F1EB3DA095F /* libPods-Glokool-GlokoolTests.a */; };
 		9E7799DE8A80ADD41289276F /* libPods-Glokool-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49AF51ECDADD60F5009B7CC9 /* libPods-Glokool-tvOS.a */; };
 		DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF0FA78525B6B9A600C39905 /* GoogleService-Info.plist */; };
-		DF0FA78D25B6BD2200C39905 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DF0FA78C25B6BD2100C39905 /* Fonts */; };
 		DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */; };
 		DF96D1492604422A0005AD8D /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = DF96D1482604422A0005AD8D /* loading.json */; };
+		DFF62C392629DEF30038D300 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFF62C382629DEF30038D300 /* Fonts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,10 +68,10 @@
 		D531793E5AF07E457E581B30 /* Pods-Glokool-GlokoolTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Glokool-GlokoolTests.debug.xcconfig"; path = "Target Support Files/Pods-Glokool-GlokoolTests/Pods-Glokool-GlokoolTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D740FADE5A9A5F1EB3DA095F /* libPods-Glokool-GlokoolTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Glokool-GlokoolTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF0FA78525B6B9A600C39905 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		DF0FA78C25B6BD2100C39905 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		DF96CF972604330C0005AD8D /* Glokool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Glokool.entitlements; path = Glokool/Glokool.entitlements; sourceTree = "<group>"; };
 		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
+		DFF62C382629DEF30038D300 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -169,8 +169,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				DF0FA78B25B6BC9700C39905 /* Fonts */,
-				DF0FA78C25B6BD2100C39905 /* Fonts */,
+				DFF62C382629DEF30038D300 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Glokool */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* GlokoolTests */,
@@ -207,13 +206,6 @@
 				996AC716B8AE0A311D1B9102 /* Pods-Glokool-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		DF0FA78B25B6BC9700C39905 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,8 +357,8 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				DF96D1492604422A0005AD8D /* loading.json in Resources */,
 				DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */,
+				DFF62C392629DEF30038D300 /* Fonts in Resources */,
 				DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */,
-				DF0FA78D25B6BD2200C39905 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
