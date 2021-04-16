@@ -16,9 +16,6 @@ import {
 import { CafeIntroScreenProps } from '../../../navigation/cafe.navigator';
 import {
     faAngleLeft,
-    faArrowRight,
-    faArrowLeft,
-    faGripLines,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
@@ -27,9 +24,6 @@ import axios from 'axios';
 import Drawer from 'react-native-draggable-view';
 import {TourBookBottomBar} from '../../../component/tourBook.bottombar.components'
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
 import Left from '../../../assets/icon/leftArrow.svg';
 import Right from '../../../assets/icon/rightArrow.svg';
 import BAR from '../../assets/icon/bar.svg';
@@ -51,20 +45,6 @@ export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
     }, []);
   
 
-    const PressBook = () => {
-        props.navigation.navigate(NavigatorRoute.BOOK, {
-            screen: SceneRoute.BOOK_DATE,
-            params: {
-                tourCode: info.code.tour_id
-            }
-        });
-    }
-
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE);
-    }
-  
-
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
@@ -78,20 +58,11 @@ export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {
         props.navigation.navigate(SceneRoute.CAFE_MENU, info);
     }
 
-    const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED)
-    }
-
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
 
     const renderItem = ({item}) => (
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
             <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
                 <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
-                <Left style={{position: 'absolute', top: '50%', left: '2%'}} width={25} height={15}color={'white'}/>
-                <Right style={{position: 'absolute', top: '50%', right: '2%'}} width={25} height={15} color={'white'}/>  
             </Layout>
         </Layout>        
     )

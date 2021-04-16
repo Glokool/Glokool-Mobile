@@ -71,6 +71,10 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
     }
 
     const PressComment = async() => {
+
+      if(value === ''){
+        return false
+      }
       
       if(auth().currentUser === null){
         setLoginVisible(true);
@@ -78,8 +82,6 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
       else{
         if(type === 'Gloo Board'){
           const comment = firestore().collection('FreeBoard').doc(content.id);
-
-          console.log(content)
 
           await comment.update({
             comment: firestore.FieldValue.arrayUnion({
@@ -324,7 +326,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </Layout>
 
           <Layout style={styles.contentContainer}>
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 5}}>{content.title}</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 15}}>{content.title}</Text>
             <Text>
               {content.content}
             </Text>
@@ -338,12 +340,14 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             <Layout style={styles.commentContainer}>
 
               <Layout style={styles.commentProfileContainer}>
+                
                 {(item.writerAvatar === '')? 
                   <Image style={styles.profileImage} source={require('../../assets/profile/profile_03.png')}/>
                 : 
                   <Image style={styles.profileImage} source={{uri: item.writerAvatar}}/>
                 }
                 <Text style={styles.commentProfileText}>{item.writer}</Text>
+                
               </Layout>
 
               <Layout>
@@ -351,18 +355,19 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                 <Text style={styles.commentDate}>{`${moment(item.writeDate).toDate().getMonth() + 1}/${moment(item.writeDate).toDate().getDate()} ${moment(item.writeDate).toDate().getHours()}:${moment(item.writeDate).toDate().getMinutes()}`}</Text>
               </Layout>
             </Layout>          
-          )}
+          )}          
+          </ScrollView>
 
           <Layout style={styles.inputContainer}>
             <Input
               placeholder='Place your Text'
               value={value}
               accessoryRight={RenderIcon}
+              style={styles.input}
               onChangeText={nextValue => setValue(nextValue)}
             />
           </Layout>
 
-          </ScrollView>
         </Layout>
 
         <Modal
@@ -541,10 +546,11 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    padding: 30,
-
+    padding: 20,
   },
   input: {
-    width: '100%'
+    width: '100%',
+    borderColor:'#00FF0000',
+    borderRadius: 15
   }
 })

@@ -23,38 +23,26 @@ import { SERVER } from '../../../server.component';
 import Drawer from 'react-native-draggable-view';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
 import Left from '../../../assets/icon/leftArrow.svg';
 import Right from '../../../assets/icon/rightArrow.svg';
 import BAR from '../../assets/icon/bar.svg';
 
 
 export const AttractionIntroScreen = (props: AttractionIntroScreenProps): LayoutElement => {
-  const info = props.route.params;
-  const [desc, setDesc] = React.useState('');
-  const [Attraction, setAttraction] = React.useState([]);
+    const info = props.route.params;
+    const [desc, setDesc] = React.useState('');
+    const [Attraction, setAttraction] = React.useState([]);
 
 
-  React.useEffect(() => {
-        axios.get(SERVER + '/api/attraction/'+ info.code.code +'/intro/tour/' + info.code.tour_id)
-            .then((response) =>{
-                setAttraction(response.data.image);
-                setDesc(response.data.description);
-            })
+    React.useEffect(() => {
+            axios.get(SERVER + '/api/attraction/'+ info.code.code +'/intro/tour/' + info.code.tour_id)
+                .then((response) =>{
+                    setAttraction(response.data.image);
+                    setDesc(response.data.description);
+                })
 
-  }, [])
+    }, [])
 
-    const PressBook = () => {
-        props.navigation.navigate(NavigatorRoute.BOOK, {
-            screen: SceneRoute.BOOK_DATE,
-            params: {
-                tourCode: info.code.tour_id
-            }
-        });
-    }
-  
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
@@ -67,24 +55,10 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
         props.navigation.navigate(SceneRoute.ATTRACTION_PHOTO, info);
     }
 
-    const PressFeed = () => {
-        props.navigation.navigate(NavigatorRoute.FEED);
-    }
-
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE);
-    }
-
     const renderItem = ({item}) => (
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.8)}}>
             <Layout style={{ width: Dimensions.get('window').width, height: (Dimensions.get('window').height * 0.6)}}>
                 <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.6), resizeMode: 'stretch'}} source={{uri: item}}/>
-                <Left style={{position: 'absolute', top: '50%', left: '2%'}} width={25} height={15}color={'white'}/>
-                <Right style={{position: 'absolute', top: '50%', right: '2%'}} width={25} height={15} color={'white'}/>  
             </Layout>
         </Layout>        
     )
@@ -163,10 +137,8 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
         
         <TourBookBottomBar>
             {info.code.tour_id}
-        </TourBookBottomBar>
-       
+        </TourBookBottomBar>      
         
-
     </React.Fragment>
   );
 };

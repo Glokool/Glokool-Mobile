@@ -255,13 +255,13 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
                         <Layout style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000'}}>
                             
-                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontWeight: "700", fontSize: 20, color: 'white', textAlign: 'center'}}>{title.title}</Text>
+                            <Layout style={{flex: 1, backgroundColor: '#00FF0000', paddingHorizontal: 10, paddingTop: 10, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Black'}}>{title.title}</Text>
                             </Layout>
 
-                            <Layout style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20}}>
-                                    <Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', padding: 5}}>{title.description}</Text>
-                                </Layout> 
+                            <Layout style={{flex: 2, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20,}}>
+                                <Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', paddingHorizontal: 5}}>{title.description}</Text>
+                            </Layout> 
 
                             <Layout style={{flex: 1, backgroundColor: '#00FF0000', flexWrap: 'wrap', padding: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
                                 {(tag.map((item, idx) =>                                  
@@ -276,13 +276,13 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 )}
                 
                 renderInitDrawerView={() => (
-                    <Layout style={{width: '100%', height: 20, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>    
+                    <Layout style={styles.dragBar}>    
                         <BAR width={25} height={15}/>
                     </Layout>
                 )}
 
                 renderDrawerView={() => (
-                    <Layout style={{height: (Dimensions.get('window').height) ,backgroundColor: '#00FF0000', flexDirection: 'row'}}>
+                    <Layout style={styles.drawBar}>
                                   
                         {(selectedIndex.row === 1)? 
                             
@@ -611,10 +611,28 @@ const styles = StyleSheet.create({
     topRaiusContainer2:{
         flex: 85, 
         borderTopStartRadius: 15, 
-        borderTopEndRadius: 15
+        borderTopEndRadius: 15,
+        
+
+        
     },
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+    dragBar: {
+        width: '100%', 
+        height: 20, 
+        position: 'absolute', 
+        backgroundColor: '#00FF0000', 
+        zIndex: 20, 
+        justifyContent: 'center', 
+        alignItems:'center',
+    },
+    drawBar : {
+        height: (Dimensions.get('window').height),
+        backgroundColor: '#00FF0000',
+        flexDirection: 'row',
+    }
 
+    
 });

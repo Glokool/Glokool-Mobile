@@ -37,7 +37,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   const [data, setData] = React.useState([]);
   const [selectButton, setSelectButton] = React.useState('all');
   const BannerWidth = Dimensions.get('window').width;
-  const BannerHeight = 260;
+  const BannerHeight = 200;
   
   var exitApp : any = undefined;  
   var timeout : any;
@@ -212,7 +212,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
                   <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
                     <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.jpg')}/>
                   </TouchableOpacity>
-
               </Carousel>
             </Layout>
           }
@@ -263,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    height: 230
+    height: 200
   },
   TextStyle: {    
     fontSize: 20,
