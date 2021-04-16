@@ -586,7 +586,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     touchContainer: {
-        marginHorizontal: 10
+        marginHorizontal: 8
     },
     type: {
         fontSize: 10
