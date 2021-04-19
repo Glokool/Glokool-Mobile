@@ -20,24 +20,19 @@ import {
 } from '@ui-kitten/components';
 import { PasswordResetScreenProps } from '../../navigation/auth.navigator';
 
-
-
 export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElement => {
 
-  const [button, setButton] = React.useState(false);
-
+  const [sendbutton, setButton] = React.useState(false);
 
   const AuthNavigate = CommonActions.reset({
     index: 0,
     routes: [{name: NavigatorRoute.AUTH}],
   });
 
-
   const PressBack = (): void => {
     auth().signOut();
     props.navigation.dispatch(AuthNavigate);  
   };
-
 
   const onFormSubmit = (values: PasswordData): void => {
     if(values.email == ''){
@@ -46,6 +41,7 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
     else{
         auth().sendPasswordResetEmail(values.email)
           .then(function() {
+            setButton(true);
             props.navigation.dispatch(AuthNavigate);
           })
           .catch((error) => {
@@ -67,10 +63,10 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
       </Layout>
 
       <Layout style={{padding: 20}}>
-        <Button style={styles.nextButton} disabled={button} onPress={props.handleSubmit}>
+        <Button style={styles.nextButton} disabled={sendbutton} onPress={props.handleSubmit}>
           SEND THE EMAIL
         </Button>
-        <Button style={styles.nextButton} disabled={button} onPress={PressBack}>
+        <Button style={styles.nextButton} onPress={PressBack}>
           Back To Login
         </Button>
       </Layout>
@@ -111,11 +107,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  container2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   nextButton: {
     height: 56,
     backgroundColor: '#FFC043',
@@ -127,13 +118,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginVertical: 10,
-  },
-  smallTitle :{
-    alignItems: 'flex-start',
-    marginHorizontal: 10,
-    marginVertical: 5,
-    color: '#FFFFFF',
-    fontSize: 16
   },
   formControl: {
     marginVertical: 8,

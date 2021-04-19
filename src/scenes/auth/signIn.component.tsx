@@ -25,14 +25,10 @@ import { CommonActions } from '@react-navigation/native';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import Toast from 'react-native-easy-toast';
 
-/*
-  로그인 화면
-*/
 var toastRef : any;
 
 export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
-  //비밀번호 보이기 안보이기
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
   const MainNavigate = CommonActions.reset({
@@ -102,7 +98,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const renderPasswordIcon = (props): React.ReactElement => {
+  const renderPasswordIcon = (props : any) : React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
       <TouchableWithoutFeedback onPress={onPasswordIconPress}>

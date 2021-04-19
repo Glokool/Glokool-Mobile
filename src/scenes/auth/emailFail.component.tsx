@@ -25,7 +25,6 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
 
   const [button, setButton] = React.useState(false);
 
-
   const AuthNavigate = CommonActions.reset({
     index: 0,
     routes: [{name: NavigatorRoute.AUTH}],
@@ -42,6 +41,7 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
       .catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
+
       console.log(errorMessage)
     });
 
@@ -58,7 +58,8 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
 
     return () => {
       auth().signOut;
-    }
+    };
+
   }, [])
 
   return (
@@ -91,11 +92,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-  },
-  container2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   nextButton: {
     width: 360,

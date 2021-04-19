@@ -1,5 +1,5 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {
   StyleSheet,
@@ -42,7 +42,6 @@ const useDatepickerState = (initialDate = null) => {
   return { date, onSelect: setDate };
 };
 
-
 export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   //내부 로직용 (비밀번호 디스플레이), 
@@ -55,6 +54,11 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   //약관용
   const [termsCondition, setTermsCondition] = React.useState(false);
   const [privacyPolicy, setPrivacyPolicy] = React.useState(false);
+
+  const [startDay, setStartDay] = React.useState(new Date(1900, 1, 1));
+  const [yesterDay, setYesterDay] = React.useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1))
+  const minMaxPickerState = useDatepickerState();
+
 
   const PressTerms = () => {
      setTermsCondition(true)
@@ -69,7 +73,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     setPrivacyPolicy(false);
   }
 
-  const TermsConditionsHeader = (props) => (
+  const TermsConditionsHeader = (props : any) => (
     <Layout style={{flexDirection: 'row', padding: 20}}>
       <Layout style={{flex: 1, alignItems: 'flex-start'}}>
         <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Terms and Conditions</Text>
@@ -85,7 +89,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     </Layout>      
   );
 
-  const PrivacyPolicyHeader = (props) => (
+  const PrivacyPolicyHeader = (props : any) => (
     <Layout style={{flexDirection: 'row', padding: 20}}>
       <Layout style={{flex: 1, alignItems: 'flex-start'}}>
         <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Privacy Policy</Text>
@@ -105,10 +109,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
 
   //Date of Birth
-  const startDay = new Date(1900, 1, 1);
-  const now = new Date();
-  const minMaxPickerState = useDatepickerState();
-  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
@@ -142,7 +143,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     setCountry(country)
   }
 
-  const profileUpdate = (user, values: SignUpData) => {
+  const profileUpdate = (user : FirebaseAuthTypes.User, values: SignUpData) => {
 
     var profile = user.updateProfile({
       displayName : values.name,
@@ -156,7 +157,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     })
   };
 
-  const profileDocUpdate = (user, values: SignUpData) => {
+  const profileDocUpdate = (user : FirebaseAuthTypes.User, values: SignUpData) => {
 
     var userDocument = firestore()
       .collection('Users')
@@ -200,7 +201,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const renderPasswordIcon = (props): React.ReactElement => {
+  const renderPasswordIcon = (props : any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
       <TouchableWithoutFeedback onPress={onPasswordIconPress}>
@@ -209,7 +210,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     );
   };
 
-  const renderPasswordIcon2 = (props): React.ReactElement => {
+  const renderPasswordIcon2 = (props: any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
       <TouchableWithoutFeedback onPress={onPasswordIconPress}>
@@ -304,7 +305,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         <Datepicker
           placeholder='Date of Birth'
           min={startDay}
-          max={yesterday}
+          max={yesterDay}
           {...minMaxPickerState}
         />
         
@@ -381,12 +382,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'left'
   },
-  termsTitle: {
-    fontSize: 14,
-    textAlign: 'left',
-    fontWeight: 'bold',
-    marginVertical: 4,
-  },
   termsSmallTitle: {
     fontSize: 13,
     textAlign: 'left',
@@ -404,11 +399,6 @@ const styles = StyleSheet.create({
     fontWeight : 'bold',
     marginVertical : 20,
   },
-  ViewContainer1: {
-    backgroundColor: '#FFFFFF',
-    flex:1,
-    alignItems: 'center',
-  },
   container: {
     backgroundColor: '#FFFFFF',
     flex:1,
@@ -421,10 +411,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '95%',
   },
-  resetPasswordContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   formControl: {
     marginVertical: 4,
   },
@@ -432,14 +418,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: '#FFC043',
     borderColor: '#FFC043',
-  },
-  noAccountButton: {
-    alignSelf: 'center',
-  },
-  textStyle: {
-    fontWeight: 'bold', 
-    fontSize: 18, 
-    margin: 8
   },
   smallTitle :{
     marginVertical: 10,
@@ -459,13 +437,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 100,
-  },
-  pictureButton: {
-    width: 90,
-    height: 40,
-    margin: 10,
-    backgroundColor: '#FFC043',
-    borderColor: '#FFC043',
   },
   countrypicker: {
     borderRadius: 3,

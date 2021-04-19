@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogBox, StyleSheet, } from 'react-native';
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -17,7 +17,8 @@ import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen'
 
 
-const saveTokenToDatabase = async(token) => {
+
+const saveTokenToDatabase = async(token : any) => {
 
   const userId = auth().currentUser?.uid;
 
@@ -28,16 +29,10 @@ const saveTokenToDatabase = async(token) => {
     .update({
       tokens: firestore.FieldValue.arrayUnion(token),
     });
-
-
 };
-
 
 export default(): React.ReactFragment => {
   React.useEffect(() => {
-
-    
-
     
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
@@ -52,9 +47,7 @@ export default(): React.ReactFragment => {
     setTimeout(() => {
       SplashScreen.hide();
     }, 2000)
-
     
-
     return () => {
       unsubscribe;
       messaging().onTokenRefresh(token => {
@@ -63,8 +56,6 @@ export default(): React.ReactFragment => {
     }
   }, [])
   
-  
-
   return (
     <React.Fragment>
       <IconRegistry icons={EvaIconsPack}/>
@@ -82,12 +73,6 @@ export default(): React.ReactFragment => {
     </React.Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  appBar: {
-    flex: 1,
-  },
-});
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreLogs(['WARN: ...']);

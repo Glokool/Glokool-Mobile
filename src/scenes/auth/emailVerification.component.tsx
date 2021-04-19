@@ -49,7 +49,8 @@ export const EmailVerificationScreen = (props: EmailVerificationScreenProps): La
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
       <Layout style={styles.container}>
         <Image style={{marginVertical: 20}}source={require('../../assets/Verification.png')}/>
-        <Text style={styles.title}>Please check your e-mail {user?.email} and click</Text>
+        <Text style={styles.title}>Please check your e-mail</Text>
+        <Text style={styles.title}>{user?.email}</Text>
         <Text style={styles.title}>the link we sent to complete sign up.</Text>
 
         <Layout>
