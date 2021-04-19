@@ -18,7 +18,7 @@ import {
 import {
   faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { BookDateScreenProps } from '../../navigation/book.navigator';
 import { FlatList } from 'react-native-gesture-handler';
@@ -93,7 +93,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
       
     };
 
-    const RenderItem = (item) => {
+    const RenderItem = (item : any) => {
 
       return(
         ((item.title == select)? 
@@ -232,10 +232,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
   },
-  MainContainer: {
-    flex: 9,
-    backgroundColor: 'white'
-  },
   IconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -258,17 +254,6 @@ const styles = StyleSheet.create({
   },
   Button: {
     width: '100%',
-  },
-  dayContainer: {
-    flex: 1,
-    color: '#FFC043',
-    justifyContent: 'center',
-    alignItems: 'center',
-    aspectRatio: 1,
-  },
-  value: {
-    fontSize: 12,
-    fontWeight: '400',
   },
   dateContainer: {
     borderRadius: 10,
@@ -297,11 +282,5 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderColor: '#FFC043',
     backgroundColor: 'white',   
-  },
-  detailTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color : '#9C9C9C',
-    marginVertical: 5
-  },
+  }
 })

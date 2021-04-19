@@ -109,35 +109,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
 
   };
 
-  const kakaoPayment = () => {
-    var date = new Date();
-    date.setHours(date.getHours() + 9);
-    /*
-    axios.post(SERVER + '/api/tour/reservation', {
-      tour_id: Trip.tourCode,
-      email: Trip.email,
-      name: Trip.name,
-      uid: user?.uid,
-      contactType: Trip.contactType,
-      contact: Trip.contact,
-      day: Trip.day,
-      time: Trip.time,
-      money: Trip.money,
-      paymentID: response.nonce,
-      paymentDate: date
-    })
-    .then(() => {      
-      props.navigation.replace(NavigatorRoute.PAY);
-    })  
-    .catch((err) => {
-      console.log('Error: ',err)
-    })
-    */
-
-    props.navigation.replace(NavigatorRoute.PAY);
-  };
-
-  
+   
   const PressBack = () => {
     props.navigation.goBack();
   }
@@ -147,7 +119,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
       paypalPayment();
     }
     else if (kakao == true) {
-      kakaoPayment();
+      
     }
   };
 
@@ -174,9 +146,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
         </Layout>
 
         {/*내 용*/}
-        
-
-        
+                
         <Layout style={{flex: 9, overflow: 'hidden'}}>
           <ScrollView>
           {/*금액 표시*/}
@@ -326,58 +296,55 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
 }
 
 const styles = StyleSheet.create({
-TabBar:{
-  flex: 1,
-  flexDirection: 'row',
-  backgroundColor: 'white',
-},
-MainContainer: {
-  flex: 9,
-  backgroundColor: 'white'
-},
-IconContainer: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  margin: 15,
-  flex: 1,
-},
-title: {
-  fontWeight: 'bold',
-  fontSize: 16
-},
-statusBar: {
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-ButtonContainer: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: 10
-},
-Button: {
-  width: '100%',
-},
-billContainer: {
-  padding: 20,
-  borderBottomRightRadius: 15,
-  borderBottomLeftRadius: 15,
-  shadowColor: '#000',
-  shadowOffset: { width: 1, height: 1 },
-  shadowOpacity:  0.4,
-  shadowRadius: 3,
-  elevation: 5,
-},
-payTitle: {
-  fontSize: 16,
-  marginVertical: 15,
-  fontWeight: 'bold'
-},
-payTitle2: {
-  fontSize: 16,
-  marginVertical: 10,
-},
-radio: {
-  margin: 30,
-},
+  TabBar:{
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+
+  IconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 15,
+    flex: 1,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  statusBar: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ButtonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
+  },
+  Button: {
+    width: '100%',
+  },
+  billContainer: {
+    padding: 20,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity:  0.4,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  payTitle: {
+    fontSize: 16,
+    marginVertical: 15,
+    fontWeight: 'bold'
+  },
+  payTitle2: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  radio: {
+    margin: 30,
+  },
 })

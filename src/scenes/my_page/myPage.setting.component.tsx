@@ -13,7 +13,7 @@ import {
 import { MyPageSettingScreenProps } from '../../navigation/myPage.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
-  faAngleLeft, faBell, faQuestionCircle, faSignOutAlt, faUnlockAlt, faUserAlt
+  faAngleLeft, faQuestionCircle, faSignOutAlt, faUnlockAlt, faUserAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';

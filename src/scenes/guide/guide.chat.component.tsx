@@ -9,7 +9,6 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
-  Alert,
   Dimensions
 } from 'react-native';
 import {

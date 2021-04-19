@@ -19,7 +19,7 @@ import {
   Card,
   Button,
 } from '@ui-kitten/components';
-import { fas, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { GuideScreenProps } from '../../navigation/guide.navigator';

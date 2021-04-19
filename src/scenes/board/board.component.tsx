@@ -193,19 +193,15 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     const PressPost = (item) => {
 
-      
-
       AsyncStorage.setItem('table', BoardSelect[selectedBoard.row]);
       props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL,
-        {
+      {
           item: item, 
           type: BoardSelect[selectedBoard.row]
-        });
-
-      
+      });      
     }
 
-    const PressSelect = (value) => {
+    const PressSelect = (value : IndexPath) => {
         setSelectedBoard(value);
         PressRefresh(BoardSelect[value.row]);
     }
@@ -226,7 +222,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
       
     }
 
-    const RenderBoard = (item) => {
+    const RenderBoard = (item : any) => {
       
       const day = item.item.writeDate.toDate();
 
