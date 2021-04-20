@@ -93,7 +93,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
 
 
-  const PressList = item => () => {
+  const PressList = (item : any) => () => {
 
     if(item.type == 'Attraction'){
         props.navigation.navigate(NavigatorRoute.ATTRACTION, {
@@ -275,7 +275,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             
                                 {(category === 'Course')? 
                                     <Layout style={{flex: 9}}>
-                                        <TouchableOpacity onPress={() => {PressMap()}} style={{justifyContent: 'center', marginHorizontal: 20}}>
+                                        <TouchableOpacity onPress={() => {PressMap()}} style={{justifyContent: 'center', marginHorizontal: 20, marginVertical: 10}}>
                                             <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
                                                 <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
                                             </Layout>

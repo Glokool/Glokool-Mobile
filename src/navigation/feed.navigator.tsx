@@ -18,6 +18,16 @@ type FeedNavigatorParams = AppNavigatorParams & {
       tourCode: string
     }
   };
+  [SceneRoute.FEED_DETAIL]: {
+    params: {
+      code: string
+    }
+  };
+  [SceneRoute.FEED_DETAIL_REVIEW]: {
+    params: {
+      code: string
+    }
+  };
   [NavigatorRoute.COURSE]: {
     screen: string;
     params: {
@@ -31,28 +41,28 @@ type FeedNavigatorParams = AppNavigatorParams & {
     }    
   };
   [NavigatorRoute.ATTRACTION]: {
-    screen: string;
+    screen: SceneRoute;
     params: {
       code: any,
       tourCode: string
     }
   };
   [NavigatorRoute.RESTAURANT]: {
-    screen: string;
+    screen: SceneRoute;
     params: {
       code: any,
       tourCode: string
     }
   };
   [NavigatorRoute.CAFE]: {
-    screen: string;
+    screen: SceneRoute;
     params: {
       code: any,
       tourCode: string
     }
   };
   [NavigatorRoute.BOOK]: {
-    screen: string;
+    screen: SceneRoute;
     params: {
       tourCode: string
     }

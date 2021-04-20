@@ -30,6 +30,8 @@ export enum SceneRoute {
     FEED = 'Feed',
     FEED_TOURBOOK = 'Feed Tourbook',
     FEED_BOTTOMBAR = 'Feed Bottombar',
+    FEED_DETAIL = 'Feed Detail',
+    FEED_DETAIL_REVIEW = 'Feed Detail Review',
 
     PAY = 'Pay',
 
