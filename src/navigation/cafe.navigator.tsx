@@ -6,6 +6,7 @@ import { AppNavigatorParams } from './app.navigator';
 import { CafeInfoScreen, CafeIntroScreen, CafeMenuScreen } from '../scenes/feed/cafe'
 
 type CafeNavigatorParams = AppNavigatorParams & {
+  
   [SceneRoute.CAFE_INFO]: undefined;
   [SceneRoute.CAFE_INTRO]: undefined;
   [SceneRoute.CAFE_MENU]: undefined;

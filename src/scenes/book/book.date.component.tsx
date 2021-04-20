@@ -74,7 +74,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
         tour_id: props.route.params.tourCode,
         day: date,
         time: `${DATA[select].startDate}~${DATA[select].endDate}`,
-        uid: user.uid
+        uid: user?.uid
       }).then((response) => {
         if(response.data.responseKey == true){          
           //중복이 있을 경우
@@ -208,9 +208,6 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
                 horizontal={true}
               />
             </Layout>
-
-
-
           </ScrollView>
           </Layout>
           

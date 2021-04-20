@@ -28,15 +28,8 @@ import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Drawer from 'react-native-draggable-view';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-import Feed from '../../assets/icon/feed.svg';
-import Guide from '../../assets/icon/guide.svg';
-import MyPage from '../../assets/icon/MyPage.svg';
-import BAR from '../../assets/icon/bar.svg';
 
-const overflowData = [
-    { title: 'Locations' },
-    { title: 'Travel Styles' },
-];
+import BAR from '../../assets/icon/bar.svg';
 
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
@@ -48,22 +41,16 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const [tag, setTag] = React.useState([]);
   const [DATA, setDATA] = React.useState([]);
   const [data, setData] = React.useState([]);
-  const [sideBar, setSideBar] = React.useState(true);
-  const [course, setCourse] = React.useState(false); // 트래블 스타일을 클릭했는지 검사
+  const [category, setCategory] = React.useState('Restaurant');
   const [courseData, setCourseData] = React.useState([]);
 
-  const [restaurant, setRestaurant] = React.useState(false);
-  const [attraction, setAttraction] = React.useState(true); // 어트랙션부터 표기
-  const [cafe, setCafe] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const [thumbnailHeight, setThumbnailHeight] = React.useState(0);
 
   const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
   React.useEffect(() => {   
-
-    async function getHeight() {
-        
+    async function getHeight() {        
         await axios.get(SERVER + '/api/user/tour/place/tour-id/' + tour)
         .then((response) => {
             setDATA(response.data);
@@ -84,60 +71,27 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         await axios.get(SERVER + '/api/user/tour/' + tour + '/course')
             .then((response) => {
                 setCourseData(response.data)
-            })        
-        
+            })                
     }
 
     getHeight();
 
   }, [])
 
-
   React.useEffect(() => {
-    if (attraction == true){
+    if (category === 'Attraction'){
         setData(DATA.filter(item => {return item.type == 'Attraction'}));
     }
-    else if (restaurant == true){
+    else if (category === 'Restaurant'){
         setData(DATA.filter(item => {return item.type == 'Restaurant'}));
     }
-    else{
+    else if (category === 'Cafe'){
         setData(DATA.filter(item => {return item.type == 'Cafe'}));
     }
 
-  }, [attraction, restaurant, cafe])
+  }, [category]);
 
 
-  const PressRestaurant = () => {
-    if(restaurant == false){
-        setRestaurant(true);
-    }
-
-
-    setAttraction(false);
-    setCafe(false);
-    setRefresh(!refresh);
-  }
-
-  const PressAttraction = () => {
-    if(attraction == false){
-        setAttraction(true);
-    }
-
-
-    setRestaurant(false);
-    setCafe(false);
-    setRefresh(!refresh);
-  }
-
-  const PressCafe = () => {
-    if(cafe == false){
-        setCafe(true);
-    }
-
-    setAttraction(false);
-    setRestaurant(false);
-    setRefresh(!refresh);
-  }
 
   const PressList = item => () => {
 
@@ -211,7 +165,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const renderCourseItem = ({item}) => (
     <TouchableOpacity onPress={PressCourse(item)}>
         <Layout style={{marginVertical: 5, alignItems: 'center', justifyContent: 'center'}}>
-            <Image style={{width: 340, height: 140}} source={{uri: item.banner}}/>
+            <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.2), resizeMode: 'stretch',}} source={{uri: item.banner}}/>
         </Layout>
     </TouchableOpacity>        
   );
@@ -283,190 +237,77 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
                 renderDrawerView={() => (
                     <Layout style={styles.drawBar}>
-                                  
-                        {(selectedIndex.row === 1)? 
-                            
-                            <Layout style={styles.topRaiusContainer2}>        
-                                <Layout style={{flex: 1, padding: 10, paddingBottom: 0, flexDirection: 'row', borderTopStartRadius: 25, borderTopEndRadius: 25,}}>
-                                
-                                    <OverflowMenu
-                                        anchor={OverflowRenderToggle}
-                                        backdropStyle={styles.backdrop}
-                                        visible={overflowVisible}
-                                        placement={'bottom end'}
-                                        selectedIndex={selectedIndex}
-                                        onSelect={onItemSelect}                                    
-                                        onBackdropPress={() => setOverflowVislbe(false)}>
-                                        <MenuItem title='Locations'/>
-                                        <MenuItem title='Travel Styles'/>
-                                    </OverflowMenu>
 
-                                    <TouchableOpacity onPress={() => {PressMap()}} style={{flex: 8, justifyContent: 'center', marginHorizontal: 5}}>
-                                        <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
-                                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
+                        <Layout style={styles.topRaiusContainer2}>
+
+                            <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
+                            
+                                <Layout style={{flexDirection: 'row', padding: 20}}>
+                                    
+                                    <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Course')}>
+                                        <Layout style={(category === 'Course')? styles.bubbleSelectedTab : styles.bubbleTab}>
+                                            <Text style={(category === 'Course')? styles.bubbleSelectedText : styles.bubbleText}>Course</Text>
                                         </Layout>
                                     </TouchableOpacity>
-                                               
-                                </Layout>
+                                                
+                                    <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Attraction')}>
+                                        <Layout style={(category === 'Attraction')? styles.bubbleSelectedTab : styles.bubbleTab}>
+                                            <Text style={(category === 'Attraction')? styles.bubbleSelectedText : styles.bubbleText}>Attraction</Text>
+                                        </Layout>
+                                    </TouchableOpacity>
 
-                                <Layout style={{flex: 9, padding: 10, backgroundColor: 'white'}}>
-                                    <FlatList
-                                        data={courseData}
-                                        renderItem={renderCourseItem}
-                                        keyExtractor={item => item.id}
-                                        contentContainerStyle={{ paddingBottom: 500 }}
-                                    />
-                                </Layout>
+                                    <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Restaurant')}>
+                                        <Layout style={(category === 'Restaurant')? styles.bubbleSelectedTab : styles.bubbleTab}>
+                                            <Text style={(category === 'Restaurant')? styles.bubbleSelectedText : styles.bubbleText}>Restaurant</Text>
+                                        </Layout>
+                                    </TouchableOpacity>
 
-                            </Layout>          
+                                    <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Cafe')}>
+                                        <Layout style={(category === 'Cafe')? styles.bubbleSelectedTab : styles.bubbleTab}>
+                                            <Text style={(category === 'Cafe')? styles.bubbleSelectedText : styles.bubbleText}>Cafe</Text>
+                                        </Layout>
+                                    </TouchableOpacity>                
+                                </Layout>   
+                                
 
-                            :
+                            </Layout>
 
-                            /* 기본 투어 내용  어트랙션 - 레스토랑 - 카페*/
-
-                            <Layout style={styles.topRaiusContainer2}>
-
-                                <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
-            
-                                    
-                                    {((attraction)? 
-                                    /*Bubble Tab bar attraction Selected*/
-                                    <Layout style={{flexDirection: 'row'}}>
-                                        
-                                        <OverflowMenu
-                                            anchor={OverflowRenderToggle}
-                                            backdropStyle={styles.backdrop}
-                                            visible={overflowVisible}
-                                            placement={'bottom end'}
-                                            selectedIndex={selectedIndex}
-                                            onSelect={onItemSelect}                                    
-                                            onBackdropPress={() => setOverflowVislbe(false)}>
-                                            <MenuItem title='Locations'/>
-                                            <MenuItem title='Travel Styles'/>
-                                        </OverflowMenu>
-                                        
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                            <Layout style={styles.bubbleSelectedTab}>
-                                                <Text style={styles.bubbleSelectedText}>Attraction</Text>
+                            
+                                {(category === 'Course')? 
+                                    <Layout style={{flex: 9}}>
+                                        <TouchableOpacity onPress={() => {PressMap()}} style={{justifyContent: 'center', marginHorizontal: 20}}>
+                                            <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
+                                                <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
                                             </Layout>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                            <Layout style={styles.bubbleTab}>
-                                                <Text style={styles.bubbleText}>Restaurant</Text>
-                                            </Layout>
-                                        </TouchableOpacity>
+                                        <FlatList
+                                            data={courseData}
+                                            renderItem={renderCourseItem}
+                                            keyExtractor={item => item.id}
+                                            contentContainerStyle={{ paddingBottom: 500 }}
+                                        />
 
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                            <Layout style={styles.bubbleTab}>
-                                                <Text style={styles.bubbleText}>Café</Text>
-                                            </Layout>
-                                        </TouchableOpacity>                
-                                    </Layout>   
-
-                                    : 
-
-                                    null  // 어트랙션을 고르지 않았을 때 공백
-
-                                    )}
-
-                                    {((restaurant)? 
-                                    /*Bubble Tab bar restaurant Selected*/
-                                    <Layout style={{flexDirection: 'row', padding: 20}}>
+                                    </Layout>
+                                : 
+                                    <Layout style={{flex: 9}}>
                                         
-                                        <OverflowMenu
-                                            anchor={OverflowRenderToggle}
-                                            backdropStyle={styles.backdrop}
-                                            visible={overflowVisible}
-                                            placement={'bottom end'}
-                                            selectedIndex={selectedIndex}
-                                            onSelect={onItemSelect}                                    
-                                            onBackdropPress={() => setOverflowVislbe(false)}>
-                                            <MenuItem title='Locations'/>
-                                            <MenuItem title='Travel Styles'/>
-                                        </OverflowMenu>
-                                                  
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                            <Layout style={styles.bubbleTab}>
-                                                <Text style={styles.bubbleText}>Attraction</Text>
-                                            </Layout>
-                                        </TouchableOpacity>
+                                        <FlatList
+                                            style={{backgroundColor: 'white'}}
+                                            contentContainerStyle={{ paddingBottom: 500 }}
+                                            data={data}
+                                            extraData={refresh}
+                                            renderItem={renderItem}
+                                            keyExtractor={item => item.id}
+                                        />
 
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                            <Layout style={styles.bubbleSelectedTab}>
-                                                <Text style={styles.bubbleSelectedText}>Restaurant</Text>
-                                            </Layout>
-                                        </TouchableOpacity>
+                                    </Layout>
+                                
+                                }
 
-                                        <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                            <Layout style={styles.bubbleTab}>
-                                                <Text style={styles.bubbleText}>Café</Text>
-                                            </Layout>
-                                        </TouchableOpacity>                
-                                    </Layout>   
-                                    
-                                    : 
+                    
+                        </Layout>        
 
-                                    null // 레스토랑을 고르지 않았을 때 공백
-                                    
-                                    )}
-
-                                    {((cafe)? 
-                                        /*Bubble Tab bar cafe Selected*/
-                                        <Layout style={{flexDirection: 'row', padding: 20}}> 
-                                            <OverflowMenu
-                                                anchor={OverflowRenderToggle}
-                                                backdropStyle={styles.backdrop}
-                                                visible={overflowVisible}
-                                                placement={'bottom end'}
-                                                selectedIndex={selectedIndex}
-                                                onSelect={onItemSelect}                                    
-                                                onBackdropPress={() => setOverflowVislbe(false)}>
-                                                <MenuItem title='Locations'/>
-                                                <MenuItem title='Travel Styles'/>
-                                            </OverflowMenu>
-
-                                            <TouchableOpacity style={styles.touchContainer} onPress={PressAttraction}>
-                                                <Layout style={styles.bubbleTab}>
-                                                    <Text style={styles.bubbleText}>Attraction</Text>
-                                                </Layout>
-                                            </TouchableOpacity>
-
-                                            <TouchableOpacity style={styles.touchContainer} onPress={PressRestaurant}>
-                                                <Layout style={styles.bubbleTab}>
-                                                    <Text style={styles.bubbleText}>Restaurant</Text>
-                                                </Layout>
-                                            </TouchableOpacity>
-
-                                            <TouchableOpacity style={styles.touchContainer} onPress={PressCafe}>
-                                                <Layout style={styles.bubbleSelectedTab}>
-                                                    <Text style={styles.bubbleSelectedText}>Café</Text>
-                                                </Layout>
-                                            </TouchableOpacity>                
-                                        </Layout>   
-                                        
-                                        : 
-
-                                        null //카페를 고르지 않았을 때 공백
-
-                                        )}
-                                </Layout>
-
-                                <Layout style={{flex: 9}}>
-                                    <FlatList
-                                        style={{backgroundColor: 'white'}}
-                                        contentContainerStyle={{ paddingBottom: 500 }}
-                                        data={data}
-                                        extraData={refresh}
-                                        renderItem={renderItem}
-                
-                                        keyExtractor={item => item.id}
-                                    />
-                                </Layout>
-                        
-                            </Layout>        
-                        }
-        
                     </Layout> 
                 )}   
             />
@@ -563,26 +404,26 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     bubbleTab: {
-        borderRadius: 30,
+        borderRadius: 10,
         backgroundColor: '#F5F5F5',
         
     },
     bubbleSelectedTab: {
-        borderRadius: 30,
+        borderRadius: 10,
         backgroundColor: '#FFC043',        
     },
     bubbleSelectedText: {
-        fontSize: 13,
+        fontSize: 12,
         color: 'white',
         marginVertical: 8,
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         fontWeight: 'bold'
     },
     bubbleText: {
-        fontSize: 13,
+        fontSize: 12,
         color: '#C9C9C9',
         marginVertical: 8,
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         fontWeight: 'bold'
     },
     touchContainer: {

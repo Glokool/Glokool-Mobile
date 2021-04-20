@@ -459,7 +459,4 @@ const styles = StyleSheet.create({
     height: 12,
     marginRight: 5
   }
-
-
-
 });

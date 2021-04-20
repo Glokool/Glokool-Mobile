@@ -6,7 +6,9 @@ import { AppNavigatorParams } from './app.navigator';
 import { BookDateScreen, BookPayScreen, BookProfileScreen } from '../scenes/book';
 
 type BookNavigatorParams = AppNavigatorParams & {
-  [SceneRoute.BOOK_DATE]: undefined;
+  [SceneRoute.BOOK_DATE]: {    
+      tourCode : string,
+  };
   [SceneRoute.BOOK_PAY]: undefined;
   [SceneRoute.BOOK_PROFILE]: undefined;
 }

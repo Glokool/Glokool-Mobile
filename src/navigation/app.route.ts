@@ -12,10 +12,13 @@ export enum NavigatorRoute {
     COURSE = 'Course',
     COURSE_DETAIL = 'Course Detail',
     BOOK = 'Book',
-    BOARD = 'Board'
+    BOARD = 'Board',
+    HOME = 'Home'
   }
 
 export enum SceneRoute {
+    HOME = 'Home',
+
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
     EMAIL_VERIFICATION = 'Email Verification',
