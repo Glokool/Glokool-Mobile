@@ -1,11 +1,17 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createMaterialTopTabNavigator, MaterialTopTabNavigationProp } from '@react-navigation/material-top-tabs';
-import { SceneRoute } from './app.route';
+import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { CourseDetailOverviewScreen, CourseDetailSpotsScreen } from '../scenes/feed/course'
 
 type CourseDetailNavigatorParams = AppNavigatorParams & {
+    [NavigatorRoute.COURSE]: {
+      screen: string,
+      params: {
+        tourCode : string
+      }
+    };
     [SceneRoute.COURSE_DETAIL_OVERVIEW]: undefined;
     [SceneRoute.COURSE_DETAIL_SPOTS]: undefined;
   }
@@ -22,15 +28,15 @@ export interface CourseDetailOverviewScreenProps {
     
   const Tab = createMaterialTopTabNavigator();
 
-  function MyTabBar({ state, descriptors, navigation, position }) {
+  function MyTabBar({ state, descriptors, navigation, position } : any) {
     return(
       null
     );
   }
        
-  export const CourseDetailNavigator = ({ navigation, route }) => (
+  export const CourseDetailNavigator = ({ navigation, route } : any) => (
     <Tab.Navigator tabBar={props => <MyTabBar {...props} />} swipeEnabled={route.state && route.state.index == 1 ? false : true}>
       <Tab.Screen name={SceneRoute.COURSE_DETAIL_OVERVIEW} component={CourseDetailOverviewScreen} />
-      <Tab.Screen name={SceneRoute.COURSE_DETAIL_SPOTS} component={CourseDetailSpotsScreen} options={{gestureEnabled: false}}/>
+      <Tab.Screen name={SceneRoute.COURSE_DETAIL_SPOTS} component={CourseDetailSpotsScreen} options={{gestureEnabled : false}}/>
     </Tab.Navigator>
   );

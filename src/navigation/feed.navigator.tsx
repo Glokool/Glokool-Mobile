@@ -28,32 +28,30 @@ type FeedNavigatorParams = AppNavigatorParams & {
       code: string
     }
   };
-  [NavigatorRoute.COURSE]: {
-    screen: string;
-    params: {
-      tourCode: string
-    }
-  };
+
   [NavigatorRoute.COURSE_DETAIL]: { 
     list: { 
       tourCode: string,
       directory: string
     }    
   };
+
   [NavigatorRoute.ATTRACTION]: {
-    screen: SceneRoute;
+    screen: string;
     params: {
       code: any,
       tourCode: string
     }
   };
+
   [NavigatorRoute.RESTAURANT]: {
-    screen: SceneRoute;
+    screen: string;
     params: {
       code: any,
       tourCode: string
     }
   };
+
   [NavigatorRoute.CAFE]: {
     screen: SceneRoute;
     params: {

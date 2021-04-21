@@ -29,9 +29,7 @@ export const filterText = (text) => {
       console.log('욕설 감지');
       return false;
     }
-
-
   }
-
+  
   return true;
 } ;

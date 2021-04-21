@@ -16,7 +16,7 @@ export interface HomeScreenProps {
 
 const Stack = createStackNavigator();
 
-export const BookNavigator = (): React.ReactElement => (
+export const HomeNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.HOME} component={HomeScreen}/>
   </Stack.Navigator>

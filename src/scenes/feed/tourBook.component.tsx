@@ -11,11 +11,8 @@ import {
   Text,
 } from 'react-native';
 import {
-    IndexPath,
   Layout,
   LayoutElement,
-  MenuItem, 
-  OverflowMenu
 } from '@ui-kitten/components';
 import { TourBookScreenProps } from '../../navigation/feed.navigator';
 import { TourBookBottomBar } from '../../component/tourBook.bottombar.components'
@@ -28,24 +25,20 @@ import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import Drawer from 'react-native-draggable-view';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-
 import BAR from '../../assets/icon/bar.svg';
-
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const tour = props.route.params;
-  const [title, setTitle] = React.useState({});
-  const [overflowVisible, setOverflowVislbe] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  
+  const [title, setTitle] = React.useState({
+      title: '',
+      description: '',
+  });
+  const [overflowVisible, setOverflowVislbe] = React.useState(false);  
   const [tag, setTag] = React.useState([]);
   const [DATA, setDATA] = React.useState([]);
   const [data, setData] = React.useState([]);
-  const [category, setCategory] = React.useState('Restaurant');
+  const [category, setCategory] = React.useState('Attraction');
   const [courseData, setCourseData] = React.useState([]);
-
-  const [refresh, setRefresh] = React.useState(false);
-  const [thumbnailHeight, setThumbnailHeight] = React.useState(0);
 
   const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
@@ -60,13 +53,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
             var tag = response.data[0].tags.toString().replace(/#/g,'');
             tag = tag.split(',')
-            setTag(tag);
+            setTag(tag);           
             
-            setThumbnailHeight(Dimensions.get('window').height * 0.4)
         })
-        .catch((err) => {
 
-        });
         
         await axios.get(SERVER + '/api/user/tour/' + tour + '/course')
             .then((response) => {
@@ -124,7 +114,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
   }
 
-  const PressCourse = item => () => {
+  const PressCourse = (item : any) => () => {
 
     props.navigation.navigate(NavigatorRoute.COURSE_DETAIL, {
         list: { 
@@ -139,14 +129,14 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
             params: {
                 tourCode: tour
             }
-      }
+        }
       )
   }
 
 
 
   //Flat List 렌더링 (레스토랑/카페/어트랙션)
-  const renderItem = ({item}) => (
+  const renderItem = ({item} : any) => (
         <TouchableOpacity onPress={PressList(item)}>
           <Layout style={{flexDirection: 'column', padding: 10}}>
              <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -162,7 +152,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   );
 
   //Flat List 렌더링 (코스)
-  const renderCourseItem = ({item}) => (
+  const renderCourseItem = ({item} : any) => (
     <TouchableOpacity onPress={PressCourse(item)}>
         <Layout style={{marginVertical: 5, alignItems: 'center', justifyContent: 'center'}}>
             <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.2), resizeMode: 'stretch',}} source={{uri: item.banner}}/>
@@ -185,11 +175,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     </TouchableOpacity>
   )
 
-  const onItemSelect = (index) => {
-    setSelectedIndex(index);
-    setOverflowVislbe(false);
-  };
-  
   return (
     <React.Fragment>
             <Drawer
@@ -296,7 +281,6 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                             style={{backgroundColor: 'white'}}
                                             contentContainerStyle={{ paddingBottom: 500 }}
                                             data={data}
-                                            extraData={refresh}
                                             renderItem={renderItem}
                                             keyExtractor={item => item.id}
                                         />

@@ -59,8 +59,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
   React.useEffect(() => {
 
-    getWeatherInfo();
-
     if(user != null || user != undefined){
       if(user.emailVerified == false){
         auth().signOut();
