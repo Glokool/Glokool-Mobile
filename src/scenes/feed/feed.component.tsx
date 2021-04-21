@@ -12,7 +12,8 @@ import {
   BackHandler,
   Dimensions,
   Linking,
-  Platform
+  Platform,
+  PermissionsAndroid
 } from 'react-native';
 import {
   Layout,
@@ -21,11 +22,12 @@ import {
 import { FeedScreenProps } from '../../navigation/feed.navigator';
 import { SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, WEATHERKEY } from '../../server.component';
 import Toast from 'react-native-easy-toast'
 import Carousel from 'react-native-banner-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LocationIcon from '../../assets/icon/location.svg';
+import Geolocation from '@react-native-community/geolocation';
 
 var ToastRef : any;
 const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
@@ -43,7 +45,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   var timeout : any;
 
 
-
   // 백핸들러 적용을 위한 함수
   const focusEvent = useFocusEffect(
     React.useCallback(() => {
@@ -57,6 +58,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   
 
   React.useEffect(() => {
+
+    getWeatherInfo();
 
     if(user != null || user != undefined){
       if(user.emailVerified == false){
