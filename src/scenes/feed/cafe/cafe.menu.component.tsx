@@ -21,39 +21,22 @@ import { SERVER } from '../../../server.component';
 import { FullWidthPicture } from '../../../data/picture.model';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components'
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
-
 export const CafeMenuScreen = (props: CafeMenuScreenProps): LayoutElement => {
-  const [iconSelected, setIconSelected] = React.useState(true);
-  const info = props.route.params;
-  const [cafe, setCafe] = React.useState({});
-  
-  React.useEffect(() => {
-    axios.get(SERVER + '/api/cafe/menu/' + info.code.code + '/tour/' + info.code.tour_id)
-        .then((response) => {
-            setCafe(response.data)
-        })
-  }, []);
 
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
-        });
-    }  
-  
-
+    const info = props.route.params;
+    const [cafe, setCafe] = React.useState({});
+    
+    React.useEffect(() => {
+        axios.get(SERVER + '/api/cafe/menu/' + info.code.code + '/tour/' + info.code.tour_id)
+            .then((response) => {
+                setCafe(response.data)
+            })
+    }, []);
+ 
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
 
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE);
-    }
 
     const PressInfo = () => {
         props.navigation.navigate(SceneRoute.CAFE_INFO, info);
@@ -63,17 +46,6 @@ export const CafeMenuScreen = (props: CafeMenuScreenProps): LayoutElement => {
         props.navigation.navigate(SceneRoute.CAFE_INTRO, info);
     }
 
-    const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED)
-    }
-
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-
-
-
-   
   return (
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>

@@ -1,6 +1,4 @@
 import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -28,11 +26,6 @@ import axios from 'axios';
 import { SERVER } from '../../../server.component';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components'
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
-
-
 export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
   
   const info = props.route.params;
@@ -48,15 +41,6 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
         })
   }, []);
 
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
-    });
-  }  
-
   const PressBack = () => {
     props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
   }
@@ -69,19 +53,8 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
     props.navigation.navigate(SceneRoute.CAFE_MENU, info);
   }
 
-  const PressFeed = () => {
-    props.navigation.navigate(SceneRoute.FEED)
-  }
 
-  const PressSetting = () => {
-    props.navigation.navigate(NavigatorRoute.MY_PAGE)
-  }
-
-  const PressGuide = () => {
-    props.navigation.navigate(NavigatorRoute.GUIDE);
-  }
-
-  const renderItem = ({item}) => (
+  const renderItem = ({item} : any) => (
     <Layout style={{flex: 1, flexDirection: 'column', margin: 10}}>
         <Image style={{width: 110, height: 110, marginBottom: 5}} source={{uri : item.image}}/>
         <Text style={{fontSize: 16, marginBottom: 5, textAlign:'left'}}>{item.name}</Text>
@@ -89,7 +62,6 @@ export const CafeInfoScreen = (props: CafeInfoScreenProps): LayoutElement => {
     </Layout>
   );
 
-   
   return (
     <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
@@ -345,5 +317,5 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-    },
+    }
 });

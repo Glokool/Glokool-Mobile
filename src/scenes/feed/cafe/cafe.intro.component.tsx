@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -18,14 +17,12 @@ import {
     faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
 import Drawer from 'react-native-draggable-view';
 import {TourBookBottomBar} from '../../../component/tourBook.bottombar.components'
 
-import Left from '../../../assets/icon/leftArrow.svg';
-import Right from '../../../assets/icon/rightArrow.svg';
 import BAR from '../../assets/icon/bar.svg';
 
 export const CafeIntroScreen = (props: CafeIntroScreenProps): LayoutElement => {

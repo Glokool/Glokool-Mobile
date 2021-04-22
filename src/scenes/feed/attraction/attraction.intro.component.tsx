@@ -23,8 +23,6 @@ import { SERVER } from '../../../server.component';
 import Drawer from 'react-native-draggable-view';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
 
-import Left from '../../../assets/icon/leftArrow.svg';
-import Right from '../../../assets/icon/rightArrow.svg';
 import BAR from '../../assets/icon/bar.svg';
 
 
@@ -63,84 +61,84 @@ export const AttractionIntroScreen = (props: AttractionIntroScreenProps): Layout
         </Layout>        
     )
    
-  return (
-    <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        {/*탑 탭바 */}
-        <Layout style={styles.tabbar}>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
-                </TouchableOpacity>
+    return (
+        <React.Fragment>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            {/*탑 탭바 */}
+            <Layout style={styles.tabbar}>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressBack}>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressInfo}>
+                        <Text style={styles.Title}>Information</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity>
+                        <Text style={styles.selectTitle}>Introduction</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressPhoto}>
+                        <Text style={styles.Title}>Insta worthy</Text>
+                    </TouchableOpacity>
+                </Layout>
             </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressInfo}>
-                    <Text style={styles.Title}>Information</Text>
-                </TouchableOpacity>
+
+            {/* 내용물*/}
+            <Layout style={{flex: 9, backgroundColor: 'white'}}>
+
+                <Drawer
+                    initialDrawerSize={0.4}
+                    autoDrawerUp={1} // 1 to auto up, 0 to auto down
+                    isInverseDirection={false}
+                    finalDrawerHeight={100}
+                    onDragDown={() => {
+                        console.log('드래그 다운')
+                    }}
+                    onRelease={()=> {
+                        console.log('릴리즈')
+                    }}
+                    
+                    
+                    renderInitDrawerView={() => (  
+                    <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
+                        <BAR width={25} height={15}/>
+                        </Layout>
+                    )}
+
+                    renderDrawerView={() => (                    
+                        <Layout style={{height: Dimensions.get('window').height}}>
+                            <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
+                        </Layout>
+                    )}
+
+                    renderContainerView={() => (
+                        <FlatList
+                            style={{backgroundColor: 'white'}}
+                            horizontal={true}
+                            pagingEnabled
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 78 }}
+                            data={Attraction}
+                            renderItem={renderItem}
+                        />
+                    )}
+                />          
+
+                <Layout style={{height: 78}}/>
             </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity>
-                    <Text style={styles.selectTitle}>Introduction</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressPhoto}>
-                    <Text style={styles.Title}>Insta worthy</Text>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
 
-        {/* 내용물*/}
-        <Layout style={{flex: 9, backgroundColor: 'white'}}>
-
-            <Drawer
-                initialDrawerSize={0.4}
-                autoDrawerUp={1} // 1 to auto up, 0 to auto down
-                isInverseDirection={false}
-                finalDrawerHeight={100}
-                onDragDown={() => {
-                    console.log('드래그 다운')
-                }}
-                onRelease={()=> {
-                    console.log('릴리즈')
-                }}
-                
-                
-                renderInitDrawerView={() => (  
-                   <Layout style={{width: '100%', height: 20, padding: 10, position: 'absolute', backgroundColor: '#00FF0000', zIndex: 20, justifyContent: 'center', alignItems:'center'}}>
-                       <BAR width={25} height={15}/>
-                    </Layout>
-                )}
-
-                renderDrawerView={() => (                    
-                    <Layout style={{height: Dimensions.get('window').height}}>
-                        <Text style={{fontSize: 14, margin: 20}}>{desc}</Text>
-                    </Layout>
-                )}
-
-                renderContainerView={() => (
-                    <FlatList
-                        style={{backgroundColor: 'white'}}
-                        horizontal={true}
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingBottom: 78 }}
-                        data={Attraction}
-                        renderItem={renderItem}
-                    />
-                )}
-            />          
-
-            <Layout style={{height: 78}}/>
-        </Layout>
-
-        
-        <TourBookBottomBar>
-            {info.code.tour_id}
-        </TourBookBottomBar>      
-        
-    </React.Fragment>
-  );
+            
+            <TourBookBottomBar>
+                {info.code.tour_id}
+            </TourBookBottomBar>      
+            
+        </React.Fragment>
+    );
 };
 
 const styles = StyleSheet.create({

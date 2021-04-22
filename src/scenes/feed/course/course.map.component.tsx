@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
   SafeAreaView,
@@ -16,20 +15,11 @@ import {
 import { CourseMapScreenProps } from '../../../navigation/feed.navigator';
 import {
     faLongArrowAltLeft,
-    faBook,
-    faCommentDots,
-    faUser,
-    faBars
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
-
-import Feed from '../../assets/icon/feed.svg';
-import Guide from '../../assets/icon/guide.svg';
-import MyPage from '../../assets/icon/MyPage.svg';
 
 export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
 
@@ -41,35 +31,13 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
             .then((response) => {
                 setCourseData(response.data);
             })
-
     }, []);
-
-    const PressBook = () => {
-        props.navigation.navigate(NavigatorRoute.BOOK, {
-            screen: SceneRoute.BOOK_DATE,
-            params: {
-                tourCode: data.params.tourCode
-            }
-        });
-    }
-
-    const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED);
-    }
 
     const PressBack = () => {
       props.navigation.goBack();
     }
 
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE)
-    }
-  
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }   
-   
-    const renderItem = ({item}) => (
+    const renderItem = ({item} : any) => (
         <Layout style={{width: Dimensions.get('window').width, height: (Dimensions.get('window').height - 1000)}}>
             <Image style={{width: '100%', height: '100%', resizeMode: 'stretch'}} source={{uri: item}}/>
         </Layout>        
@@ -118,8 +86,6 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
               {data.params.tourCode}
           </TourBookBottomBar>
 
-          
-  
       </React.Fragment>
     );
   };

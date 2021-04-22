@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
@@ -45,20 +46,21 @@ type FeedNavigatorParams = AppNavigatorParams & {
   };
 
   [NavigatorRoute.RESTAURANT]: {
-    screen: string;
+    screen: never;
     params: {
       code: any,
       tourCode: string
     }
   };
 
-  [NavigatorRoute.CAFE]: {
+  [NavigatorRoute.CAFE]: NavigatorScreenParams<{
     screen: SceneRoute;
     params: {
       code: any,
-      tourCode: string
+      tourCode: any
     }
-  };
+  }>;
+  
   [NavigatorRoute.BOOK]: {
     screen: SceneRoute;
     params: {
@@ -80,6 +82,11 @@ export interface TourBookScreenProps {
 export interface CourseMapScreenProps {
   navigation: StackNavigationProp<FeedNavigatorParams, SceneRoute.COURSE_MAP>;
   route: RouteProp<FeedNavigatorParams, SceneRoute.COURSE_MAP>;
+}
+
+export interface CafeInfoScreenProps {
+  navigation: StackNavigationProp<FeedNavigatorParams, SceneRoute.CAFE_INFO>;
+  route: RouteProp<FeedNavigatorParams, SceneRoute.CAFE_INFO>;
 }
 
 const Stack = createStackNavigator();

@@ -25,165 +25,140 @@ import { SERVER } from '../../../server.component';
 import axios from 'axios';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
-
 export const AttractionInfoScreen = (props: AttractionInfoScreenProps): LayoutElement => {
   
-  const info = props.route.params;
-  const [refresh, setRefresh] = React.useState(false);
-  const [Attraction, setAttraction] = React.useState({
-      tags: []
-  });
-  const [tag, setTag] = React.useState([]);
-
-
-  async function downloadAttraction() {
-    await axios.get(SERVER + '/api/attraction/info/' + info.code.code + '/tour/' + info.code.tour_id)
-        .then((response) => {
-            setAttraction(response.data);
-            setTag(response.data.tags);
-        })
-
-  }
-
-  React.useEffect(() => {
-    downloadAttraction();
-  }, []);
-
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
+    const info = props.route.params;
+    const [Attraction, setAttraction] = React.useState({
+        tags: []
     });
+    const [tag, setTag] = React.useState([]);
+
+
+    async function downloadAttraction() {
+        await axios.get(SERVER + '/api/attraction/info/' + info.code.code + '/tour/' + info.code.tour_id)
+            .then((response) => {
+                setAttraction(response.data);
+                setTag(response.data.tags);
+            })
+
+    }
+
+    React.useEffect(() => {
+        downloadAttraction();
+    }, []);
+
+
+    
+    const PressBack = () => {
+        props.navigation.goBack();
+    }
+
+    const PressIntro = () => {
+        props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
+    }
+
+    const PressPhoto = () => {
+        props.navigation.navigate(SceneRoute.ATTRACTION_PHOTO, info);
     }
     
-  const PressBack = () => {
-    props.navigation.goBack();
-  }
-
-  const PressIntro = () => {
-    props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
-  }
-
-  const PressPhoto = () => {
-    props.navigation.navigate(SceneRoute.ATTRACTION_PHOTO, info);
-  }
-
-  const PressFeed = () => {
-    props.navigation.navigate(NavigatorRoute.FEED);
-  }
-
-  const PressGuide = () => {
-    props.navigation.navigate(NavigatorRoute.GUIDE);
-  }
-
-  const PressSetting = () => {
-    props.navigation.navigate(NavigatorRoute.MY_PAGE)
-  }
-
-   
-  return (
-    <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        {/*탑 탭바 */}
-        <Layout style={styles.tabbar}>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
-                </TouchableOpacity>
+    return (
+        <React.Fragment>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            {/*탑 탭바 */}
+            <Layout style={styles.tabbar}>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressBack}>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity>
+                        <Text style={styles.selectTitle}>Information</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressIntro}>
+                        <Text style={styles.Title}>Introduction</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressPhoto}>
+                        <Text style={styles.Title}>Insta worthy</Text>
+                    </TouchableOpacity>
+                </Layout>
             </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity>
-                    <Text style={styles.selectTitle}>Information</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressIntro}>
-                    <Text style={styles.Title}>Introduction</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressPhoto}>
-                    <Text style={styles.Title}>Insta worthy</Text>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
 
-        {/* 내용물*/}
-        <Layout style={{flex: 9, backgroundColor: 'white'}}>
-            <ScrollView>
-                <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
-                    <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').width), resizeMode: 'stretch', marginBottom: 10}} source={{uri: Attraction.thumbnail}}/>
-                    <Layout style={styles.textContainer}>
-                        <Text style={styles.MainTitle}>{Attraction.name}</Text>
+            {/* 내용물*/}
+            <Layout style={{flex: 9, backgroundColor: 'white'}}>
+                <ScrollView>
+                    <Layout style={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').width), resizeMode: 'stretch', marginBottom: 10}} source={{uri: Attraction.thumbnail}}/>
+                        <Layout style={styles.textContainer}>
+                            <Text style={styles.MainTitle}>{Attraction.name}</Text>
+                        </Layout>
+                        <Layout style={styles.icon}>
+                            <TouchableOpacity>
+                                <FontAwesomeIcon icon={faHeart} style={{color: 'white', borderColor: 'white'}} size={24}/>
+                            </TouchableOpacity>                        
+                        </Layout>
                     </Layout>
-                    <Layout style={styles.icon}>
-                        <TouchableOpacity>
-                            <FontAwesomeIcon icon={faHeart} style={{color: 'white', borderColor: 'white'}} size={24}/>
-                        </TouchableOpacity>                        
+
+                    {/*태그가 표시되는 뷰*/}
+                    {(tag.length != 0)? 
+                        <Tags                    
+                            initialTags={tag}
+                            readonly={true}
+                            containerStyle={{justifyContent: 'center', marginVertical: 10}}
+                            renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
+                                <Layout style={styles.tag}>
+                                    <Text style={styles.tagText}>{tag}</Text>  
+                                </Layout>                          
+                            )}
+                        />
+                        :
+                        null
+                    }
+                    
+
+
+                    {/*디스크립션 뷰*/}
+                    <Layout style={{padding: 10}}>
+                        <Text style={styles.desc}>{Attraction.description}</Text>
                     </Layout>
-                </Layout>
 
-                 {/*태그가 표시되는 뷰*/}
-                 {(tag.length != 0)? 
-                     <Tags                    
-                        initialTags={tag}
-                        readonly={true}
-                        containerStyle={{justifyContent: 'center', marginVertical: 10}}
-                        renderTag={({ tag, index, onPress, deleteTagOnPress, readonly }) => (
-                            <Layout style={styles.tag}>
-                                <Text style={styles.tagText}>{tag}</Text>  
-                            </Layout>                          
-                        )}
-                    />
-                    :
-                    null
-                 }
-                
+                    <Layout style={{padding: 10, marginVertical: 20}}>
+                        <Divider style={{backgroundColor: 'gray'}}/>
+                    </Layout>
 
+                    {/*Location View*/}
+                    <Layout style={{padding: 20}}>
+                        <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Location</Text>
+                        <Text style={{fontSize: 16, marginBottom: 5}}>{Attraction.location}</Text>
+                        <Image style={{width: (Dimensions.get('window').width * 0.9), height:(Dimensions.get('window').width * 0.3), resizeMode: 'stretch'}}  resizeMode='contain' source={{uri: Attraction.mapImage}}/>                                
+                    </Layout>
 
-                {/*디스크립션 뷰*/}
-                <Layout style={{padding: 10}}>
-                    <Text style={styles.desc}>{Attraction.description}</Text>
-                </Layout>
+                    <Layout style={{padding: 20}}>
+                        <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Entrance Fee</Text>
+                        <Text style={{fontSize: 16}}>{Attraction.entranceFee}</Text>
+                    </Layout>
 
-                <Layout style={{padding: 10, marginVertical: 20}}>
-                    <Divider style={{backgroundColor: 'gray'}}/>
-                </Layout>
+                    <Layout style={{padding: 20}}>
+                        <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Note</Text>
+                        <Text style={{fontSize: 16, textAlign:'left'}}>{Attraction.note}</Text>
+                    </Layout>
 
-                {/*Location View*/}
-                <Layout style={{padding: 20}}>
-                    <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Location</Text>
-                    <Text style={{fontSize: 16, marginBottom: 5}}>{Attraction.location}</Text>
-                    <Image style={{width: (Dimensions.get('window').width * 0.9), height:(Dimensions.get('window').width * 0.3), resizeMode: 'stretch'}}  resizeMode='contain' source={{uri: Attraction.mapImage}}/>                                
-                </Layout>
+                    {/*마지막 바텀바 위로 올리기 위한 것*/}
+                    <Layout style={{height: 70, backgroundColor: 'white'}}/>
+                </ScrollView>            
+            </Layout>
 
-                <Layout style={{padding: 20}}>
-                    <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Entrance Fee</Text>
-                    <Text style={{fontSize: 16}}>{Attraction.entranceFee}</Text>
-                </Layout>
+            <TourBookBottomBar>
+                {info.code.tour_id}
+            </TourBookBottomBar>
+            
 
-                <Layout style={{padding: 20}}>
-                    <Text style={{fontSize: 12, color: 'gray', fontWeight: 'bold'}}>Note</Text>
-                    <Text style={{fontSize: 16, textAlign:'left'}}>{Attraction.note}</Text>
-                </Layout>
-
-                {/*마지막 바텀바 위로 올리기 위한 것*/}
-                <Layout style={{height: 70, backgroundColor: 'white'}}/>
-            </ScrollView>            
-        </Layout>
-
-        <TourBookBottomBar>
-            {info.code.tour_id}
-        </TourBookBottomBar>
-        
-
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 };
 
 const styles = StyleSheet.create({

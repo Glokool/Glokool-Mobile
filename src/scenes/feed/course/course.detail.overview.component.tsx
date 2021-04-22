@@ -16,15 +16,11 @@ import {
     faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../../navigation/app.route';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
 import Toast from 'react-native-easy-toast';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components';
-
-import Feed from '../../assets/icon/feed.svg';
-import Guide from '../../assets/icon/guide.svg';
-import MyPage from '../../assets/icon/MyPage.svg';
 
 var toastRef : any;
 
@@ -33,7 +29,6 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
     const [CourseData, setCourseData] = React.useState({});
     const [overview, setOverview] = React.useState();
     
-
     React.useEffect(() => {
         const courseData = props.navigation.dangerouslyGetParent()?.dangerouslyGetState().routes[2].params.list;
         setCourseData(courseData);
@@ -42,32 +37,11 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
             .then((response) => {
                 setOverview(response.data.overview);
         })
-      
-
-
     }, [])
   
     const PressBack = () => {
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
-
-    const PressBook = () => {
-        props.navigation.navigate(NavigatorRoute.BOOK, {
-            screen: SceneRoute.BOOK_DATE,
-            params: {
-                tourCode: CourseData.tourCode
-            }
-        });
-    }   
-
-    const PressGuide = () => {
-        props.navigation.navigate(NavigatorRoute.GUIDE)
-    }
-  
-    const PressSetting = () => {
-        props.navigation.navigate(NavigatorRoute.MY_PAGE)
-    }
-  
 
     const PressReview = () => {
         toastRef.show(`The service has just started and there is no review yet :(`, 2000);
@@ -76,10 +50,6 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
 
     const PressSpots = () => {
         props.navigation.navigate(SceneRoute.COURSE_DETAIL_SPOTS);
-    }
-
-    const PressFeed = () => {
-        props.navigation.navigate(SceneRoute.FEED);
     }
 
 
@@ -123,15 +93,6 @@ export const CourseDetailOverviewScreen = (props: CourseDetailOverviewScreenProp
                             <Text style={styles.Title}>Review</Text>
                         </TouchableOpacity>
             </Layout>
-
-        
-
-
-
-
-
-
-
 
         </Layout>
 

@@ -14,9 +14,6 @@ import {
 } from '@ui-kitten/components';
 import { AttractionPhotoScreenProps } from '../../../navigation/attraction.navigator';
 import {
-    faLongArrowAltLeft,
-    faBars,
-    faUser,
     faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -25,183 +22,123 @@ import axios from 'axios';
 import { SERVER } from '../../../server.component';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components'
 
-import Feed from '../../../assets/icon/feed.svg';
-import Guide from '../../../assets/icon/guide.svg';
-import MyPage from '../../../assets/icon/MyPage.svg';
 
 export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): LayoutElement => {
-  const info = props.route.params;
-  const [iconSelected, setIconSelected] = React.useState(true);
-  const [Attraction, setAttraction] = React.useState([]);
 
-  React.useEffect(() => {
-        axios.get(SERVER + '/api/attraction/photo-spot/' + info.code.code + '/tour/' + info.code.tour_id)      
-        .then((response) => {
-            setAttraction(response.data)
-        })
-  }, [])
+    const info = props.route.params;
+    const [Attraction, setAttraction] = React.useState([]);
 
-  
-  const PressBook = () => {
-    props.navigation.navigate(NavigatorRoute.BOOK, {
-        screen: SceneRoute.BOOK_DATE,
-        params: {
-            tourCode: info.code.tour_id
-        }
-    });
-  }
-  
-const PressBack = () => {
-    props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
-}
+    React.useEffect(() => {
+            axios.get(SERVER + '/api/attraction/photo-spot/' + info.code.code + '/tour/' + info.code.tour_id)      
+            .then((response) => {
+                setAttraction(response.data)
+            })
+    }, [])
 
-const PressGuide = () => {
-    props.navigation.navigate(NavigatorRoute.GUIDE);
-}
 
-const PressInfo = () => {
-    props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
-}
+    const PressBack = () => {
+        props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
+    }
 
-const PressIntro = () => {
-    props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
-}
 
-const PressFeed = () => {
-    props.navigation.navigate(NavigatorRoute.FEED);
-}
 
-const PressSetting = () => {
-    props.navigation.navigate(NavigatorRoute.MY_PAGE)
-}
+    const PressInfo = () => {
+        props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
+    }
 
-const InsideRenderItem = ({item}) => {
-    return(
-    <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center'}}>
-        <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch'}} source={{uri: item.url}}/>       
-    </Layout>
-    );
-}
+    const PressIntro = () => {
+        props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
+    }
 
-const renderItem = ({item}) => {       
 
-    return(
-    <Layout style={{width: (Dimensions.get('window').width), paddingVertical: 20}}>
-        <FlatList
-            style={{marginVertical: 15}}
-            data={item.image}
-            horizontal={true}
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            renderItem={InsideRenderItem}
-        />
-        <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
-            <Layout>
-                <Text style={{fontSize: 14, marginVertical: 5}}>📌</Text>
-            </Layout>
-            <Layout>
-                <Text style={{fontSize: 14, marginLeft: 2}}>{item.location}</Text>
-            </Layout>
+
+    const InsideRenderItem = ({item}) => {
+        return(
+        <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center'}}>
+            <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch'}} source={{uri: item.url}}/>       
         </Layout>
-        <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
-            <Layout>
-                <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
-            </Layout>
-            <Layout>
-                <Text style={{fontSize: 14, marginLeft: 2}}>{item.description}</Text>
-            </Layout>
-        </Layout>         
-    </Layout>
-    );
-  }
-   
-  return (
-    <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        {/*탑 탭바 */}
-        <Layout style={styles.tabbar}>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressBack}>
-                    <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressInfo}>
-                    <Text style={styles.Title}>Information</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity onPress={PressIntro}>
-                    <Text style={styles.Title}>Introduction</Text>
-                </TouchableOpacity>
-            </Layout>
-            <Layout style={styles.tabbarContainer}>
-                <TouchableOpacity>
-                    <Text style={styles.selectTitle}>Insta worthy</Text>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
+        );
+    }
 
-        {/* 내용물*/}
-        <Layout style={{flex: 9, backgroundColor: 'white'}}>  
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10, marginLeft: 20}}>Photo Spot Recommendations</Text>
-            <Text style={{fontSize: 14, marginBottom: 10, marginLeft: 20}}>Take your best photo refer to our recommendation!</Text>                    
-            <FlatList
-                style={{backgroundColor: 'white'}}
-                contentContainerStyle={{paddingBottom: 200}}
-                data={Attraction}
-                renderItem={renderItem}
-            />
-        </Layout>
+    const renderItem = ({item}) => {       
 
-        <Layout style={{position: 'absolute', bottom: 0, backgroundColor: '#00FF0000', padding: 20, flexDirection:'row'}}>
-            <TouchableOpacity onPress={PressFeed}>
-                <FontAwesomeIcon icon={faBars} style={{color: 'gray'}} size={20}/>
-            </TouchableOpacity>
-
-            <Layout style={{flex: 5, backgroundColor: '#00FF0000'}}/>
-
-            <TouchableOpacity onPress={PressSetting}>
-                <FontAwesomeIcon icon={faUser} style={{color: 'gray'}} size={20}/>
-            </TouchableOpacity>
-        </Layout>
-
-        {/*Bottom Tab Bar */}
-        <Layout style={styles.bottomTabBar}>            
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressGuide}>
-                    <Guide width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={{flex: 1}} />     
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressSetting}>
-                    <MyPage width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
-
-        <Layout style={styles.bottomBar}>
-            <Layout style={{backgroundColor: 'white', borderRadius: 40, flex: 1, justifyContent: 'center', alignItems: 'center', padding: 10}}>
-              <TouchableOpacity onPress={() => {PressFeed()}}>
-                  <Layout style={{width: 30, height: 30, justifyContent: 'center', alignItems: 'center'}}>
-                    <Feed width={20} height={20}/>
-                  </Layout>                  
-              </TouchableOpacity>
-            </Layout>
-           
-            <TouchableOpacity onPress={() => {PressBook()}}>
-                <Layout style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40, marginRight: 10}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 14, color: 'white'}}>BOOK</Text>
+        return(
+            <Layout style={{width: (Dimensions.get('window').width), paddingVertical: 20}}>
+                <FlatList
+                    style={{marginVertical: 15}}
+                    data={item.image}
+                    horizontal={true}
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={InsideRenderItem}
+                />
+                <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
+                    <Layout>
+                        <Text style={{fontSize: 14, marginVertical: 5}}>📌</Text>
+                    </Layout>
+                    <Layout>
+                        <Text style={{fontSize: 14, marginLeft: 2}}>{item.location}</Text>
+                    </Layout>
                 </Layout>
-            </TouchableOpacity>
-            
-        </Layout>
+                <Layout style={{flexDirection: 'row', paddingHorizontal: 15}}>
+                    <Layout>
+                        <Text style={{fontSize: 14 }} numberOfLines={1}>✔️</Text>
+                    </Layout>
+                    <Layout>
+                        <Text style={{fontSize: 14, marginLeft: 2}}>{item.description}</Text>
+                    </Layout>
+                </Layout>         
+            </Layout>
+        );
+    }
+   
+    return (
+        <React.Fragment>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+            {/*탑 탭바 */}
+            <Layout style={styles.tabbar}>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressBack}>
+                        <FontAwesomeIcon icon={faAngleLeft} style={{color: 'black'}} size={28}/>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressInfo}>
+                        <Text style={styles.Title}>Information</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity onPress={PressIntro}>
+                        <Text style={styles.Title}>Introduction</Text>
+                    </TouchableOpacity>
+                </Layout>
+                <Layout style={styles.tabbarContainer}>
+                    <TouchableOpacity>
+                        <Text style={styles.selectTitle}>Insta worthy</Text>
+                    </TouchableOpacity>
+                </Layout>
+            </Layout>
 
-    </React.Fragment>
-  );
+            {/* 내용물*/}
+            <Layout style={{flex: 9, backgroundColor: 'white'}}>  
+                <Text style={{fontSize: 16, fontWeight: 'bold', marginVertical: 10, marginLeft: 20}}>Photo Spot Recommendations</Text>
+                <Text style={{fontSize: 14, marginBottom: 10, marginLeft: 20}}>Take your best photo refer to our recommendation!</Text>                    
+                <FlatList
+                    style={{backgroundColor: 'white'}}
+                    contentContainerStyle={{paddingBottom: 200}}
+                    data={Attraction}
+                    renderItem={renderItem}
+                />
+            </Layout>
+
+            
+
+            <TourBookBottomBar>
+                {info.code.tour_id}
+            </TourBookBottomBar>   
+
+        </React.Fragment>
+    );
 };
 
 const styles = StyleSheet.create({
