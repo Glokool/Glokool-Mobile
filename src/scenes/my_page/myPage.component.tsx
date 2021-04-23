@@ -295,7 +295,7 @@ export const MyPageScreen = (props: MyPageScreenProps): LayoutElement => {
             :
             <Layout style={styles.listContainer}>
               <FlatList
-                style={{backgroundColor: '#00FF0000', }}
+                style={{backgroundColor: '#00FF0000'}}
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}

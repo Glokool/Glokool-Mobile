@@ -37,8 +37,8 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
       style={{ 
         flexDirection: 'row',
         backgroundColor: 'white',
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
         borderTopColor: "#fff",
         borderTopWidth: 0.5,
         shadowColor: "rgba(0, 0, 0, 0.19)",
