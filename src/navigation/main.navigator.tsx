@@ -19,6 +19,7 @@ import MyPage from '../assets/icon/BottomBar/MyPage.svg';
 import TravelFull from '../assets/icon/BottomBar/TravelFull.svg';
 import Travel from '../assets/icon/BottomBar/Travel.svg';
 import { getTabBarHeight } from '@react-navigation/bottom-tabs/lib/typescript/src/views/BottomTabBar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,12 +32,10 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
   }
 
   return (
-    <SafeAreaView>
+    <View>
     <View 
       style={{ 
         flexDirection: 'row',
-        position: 'absolute',
-        bottom: 0,
         backgroundColor: 'white',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
@@ -135,8 +134,10 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
           </TouchableOpacity>
         );
       })}
+      
     </View>
-    </SafeAreaView >
+    <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}/>
+    </View>
   );
 }
 
@@ -175,9 +176,6 @@ export const MainNavigator = (): React.ReactElement => (
       <Tab.Navigator
         tabBar={props => <MyTabBar {...props}/>}
         initialRouteName={'HOME'}
-        sceneContainerStyle={{
-          marginBottom: 50
-        }}
       >
         <Tab.Screen name={'TRAVEL'} component={GuideNavigator} 
           options={({ route }) => ({
