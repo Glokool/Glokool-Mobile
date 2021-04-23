@@ -66,7 +66,7 @@ export default(): React.ReactFragment => {
         >
         <SafeAreaProvider>
           <NavigationContainer>
-            <AppNavigator/>
+            <AppNavigator />
           </NavigationContainer>
         </SafeAreaProvider>
       </ApplicationProvider>

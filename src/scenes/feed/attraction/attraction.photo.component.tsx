@@ -17,7 +17,7 @@ import {
     faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../../navigation/app.route';
 import axios from 'axios'; 
 import { SERVER } from '../../../server.component';
 import { TourBookBottomBar } from '../../../component/tourBook.bottombar.components'
@@ -40,8 +40,6 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
         props.navigation.navigate(SceneRoute.FEED_TOURBOOK);
     }
 
-
-
     const PressInfo = () => {
         props.navigation.navigate(SceneRoute.ATTRACTION_INFO, info);
     }
@@ -50,9 +48,7 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
         props.navigation.navigate(SceneRoute.ATTRACTION_INTRO, info);
     }
 
-
-
-    const InsideRenderItem = ({item}) => {
+    const InsideRenderItem = ({item} : any) => {
         return(
         <Layout style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height * 0.5), alignItems: 'center', justifyContent: 'center'}}>
             <Image style={{width: (Dimensions.get('window').width * 0.9), height: (Dimensions.get('window').height * 0.5), resizeMode: 'stretch'}} source={{uri: item.url}}/>       
@@ -60,7 +56,7 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
         );
     }
 
-    const renderItem = ({item}) => {       
+    const renderItem = ({item} : any) => {       
 
         return(
             <Layout style={{width: (Dimensions.get('window').width), paddingVertical: 20}}>
@@ -130,8 +126,6 @@ export const AttractionPhotoScreen = (props: AttractionPhotoScreenProps): Layout
                     renderItem={renderItem}
                 />
             </Layout>
-
-            
 
             <TourBookBottomBar>
                 {info.code.tour_id}

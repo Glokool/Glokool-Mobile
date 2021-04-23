@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="35" viewBox="0 0 70 35">
+  <g id="BOARD_아이콘_선택" data-name="BOARD 아이콘 선택" transform="translate(686 -1325)">
+    <rect id="사각형_2004" data-name="사각형 2004" width="70" height="35" rx="17" transform="translate(-686 1325)" fill="#ffd774"/>
+    <g id="BOARD_아이콘_면" data-name="BOARD 아이콘 면" transform="translate(-664 1329.676)">
+      <path id="패스_1599" data-name="패스 1599" d="M776.06,345.418v8.839a7.2,7.2,0,0,1-7.2,7.193h-8.828c-1.774,0-3.741-1.785-3.335-1.785H767.36a6.9,6.9,0,0,0,6.9-6.9V342.084C774.265,341.667,776.06,343.623,776.06,345.418Z" transform="translate(-750.406 -335.803)" fill="#fff"/>
+      <path id="패스_1600" data-name="패스 1600" d="M773.252,342.585v9.651a6.411,6.411,0,0,1-6.413,6.413h-9.651a6.1,6.1,0,0,1-1.828-.278,6.4,6.4,0,0,1-4.553-6.135v-9.619a6.418,6.418,0,0,1,6.413-6.413h9.619a6.41,6.41,0,0,1,6.135,4.553A6.107,6.107,0,0,1,773.252,342.585Z" transform="translate(-750.807 -336.204)" fill="#fff"/>
+      <path id="패스_1601" data-name="패스 1601" d="M766.588,343.675h-5.344a.8.8,0,0,1,0-1.6h5.344a.8.8,0,1,1,0,1.6Z" transform="translate(-750.144 -335.8)" fill="#ffd774"/>
+      <path id="패스_1602" data-name="패스 1602" d="M766.588,350.675h-5.344a.8.8,0,0,1,0-1.6h5.344a.8.8,0,1,1,0,1.6Z" transform="translate(-750.144 -335.319)" fill="#ffd774"/>
+      <circle id="타원_351" data-name="타원 351" cx="1.603" cy="1.603" r="1.603" transform="translate(5.221 5.47)" fill="#ffd774"/>
+      <circle id="타원_352" data-name="타원 352" cx="1.603" cy="1.603" r="1.603" transform="translate(5.221 12.952)" fill="#ffd774"/>
+    </g>
+  </g>
+</svg>
