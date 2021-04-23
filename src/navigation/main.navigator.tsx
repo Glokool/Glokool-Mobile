@@ -6,7 +6,7 @@ import {GuideNavigator} from './guide.navigator';
 import {MyPageNavigator} from './myPage.navigator';
 import {BoardNavigator} from './board.navigator';
 import {HomeNavigator} from './home.navigator';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 
 import BoardFull from '../assets/icon/BottomBar/BoardFull.svg';
 import Board from '../assets/icon/BottomBar/Board.svg';
@@ -31,6 +31,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
   }
 
   return (
+    <SafeAreaView>
     <View 
       style={{ 
         flexDirection: 'row',
@@ -135,6 +136,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
         );
       })}
     </View>
+    </SafeAreaView >
   );
 }
 
