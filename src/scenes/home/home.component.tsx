@@ -74,13 +74,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     }
 
     return(
-      <Layout style={{ margin: 10}}>
+      <Layout style={{ padding: 10, borderWidth: 2, borderColor: 'red' ,justifyContent: 'center', alignItems: 'center'}}>
         
         <TouchableOpacity onPress={() => PressTour(item.id)}>
           <Image source={{ uri : item.banner}} style={{ width: 250, height: 330, resizeMode: 'stretch', borderRadius: 5 }}/>
         </TouchableOpacity>
 
-        <Layout style={{ alignItems: 'center', bottom: 50, backgroundColor: '#00FF0000'}}>
+        <Layout style={{ position: 'absolute', alignItems: 'center', justifyContent: 'center',bottom: 10, backgroundColor: '#00FF0000'}}>
           <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black', color: 'white' }}>{item.title}</Text>
         </Layout>
 
@@ -130,11 +130,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             data={tour}
             renderItem={renderTour}
             horizontal={true}
+            
             keyExtractor={item => item.id}
             getItemLayout={(data, index) => (
-              {length: 300, offset: 190 * index, index}
+              {length: 350, offset: 270 * index, index}
             )}
-            initialScrollIndex={1}
+            initialScrollIndex={0.75}
           />
 
         </Layout>
