@@ -113,7 +113,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         {/* 투어 추천 */}
         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
 
-          <Layout style={{ flex: 1, }}>
+          <Layout style={{ flex: 1 }}>
             <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Recommend Tour</Text>
           </Layout>
 
@@ -132,7 +132,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             horizontal={true}
             keyExtractor={item => item.id}
             getItemLayout={(data, index) => (
-              {length: 300, offset: 200 * index, index}
+              {length: 300, offset: 190 * index, index}
             )}
             initialScrollIndex={1}
           />
