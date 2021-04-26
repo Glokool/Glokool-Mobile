@@ -193,15 +193,15 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
       </ScrollView>
       
-      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingBottom: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
+      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
           
-          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
             <SafeAreaView style={{flex: 0}} />
             <Image source={require('../../assets/glokoolLogo.png')}/>
           </Layout>
           
           <TouchableOpacity onPress={() => props.navigation.navigate('MY PAGE')} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-            <SafeAreaView style={{flex: 1}} />         
+            <SafeAreaView style={{flex: 0}} />         
               {(auth().currentUser)?
                 (auth().currentUser?.photoURL != '')?
                 <Image source={{uri : auth().currentUser?.photoURL}} style={{ width: 34, height: 34, borderRadius: 50 }}/>
