@@ -108,14 +108,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
 
   return(
-    <Layout>
+    <Layout style={{ alignItems : 'flex-start'}}>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
         <SafeAreaView style={{ flex: 0, backgroundColor: 'white'}} />
 
-        <Layout style={{ width: '100%', height: 70,}} />
+        <Layout style={{ width: '100%', height: 70}} />
 
           {/* 투어 추천 */}
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
