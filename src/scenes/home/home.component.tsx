@@ -197,6 +197,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       </ScrollView>
       
       <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 70, alignItems: 'center', padding: 20, flexDirection: 'row'}}>
+          <SafeAreaView style={{flex: 0}} />
 
           <Layout style={{ flex: 1 }}>
             <Image source={require('../../assets/glokoolLogo.png')} />
