@@ -118,7 +118,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
 
             <Layout style={{ flex: 1 }}>
-              <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Recommend Tour</Text>
+              <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Find Your Tour</Text>
             </Layout>
 
             <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}} onPress={() => props.navigation.navigate('FEED') }>
@@ -156,7 +156,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             >
               {(banner.map((item) =>   
                 <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
-                  <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5}} source={item.image}/>
+                  <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5 }} source={item.image}/>
                 </TouchableOpacity>
               ))}
                 
@@ -167,11 +167,11 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         {/* 컨텐츠 */}
         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
 
-          <Layout style={{ flex: 1, }}>
-            <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Contents</Text>
+          <Layout style={{ flex: 3 }}>
+            <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Must See Contents</Text>
           </Layout>
 
-          <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
             <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }}>SEE MORE</Text>
           </TouchableOpacity>       
 
@@ -226,12 +226,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    height: 120,
+    height: 140,
   },
   banner: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#FFD774',
     width: Dimensions.get('window').width * 0.8,
+    height: 110,
+    padding: 2,
   },
 });
