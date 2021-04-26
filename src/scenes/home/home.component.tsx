@@ -12,9 +12,6 @@ import { PageIndicatorConfig } from "react-native-banner-carousel/out/Carousel"
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 
 
-
-
-
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
   const [content, setContent] = React.useState([]);
@@ -109,13 +106,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
   return(
     <Layout style={{ alignItems : 'flex-start'}}>
+      
 
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-        <SafeAreaView style={{ flex: 0, backgroundColor: 'white'}} />
 
-        <Layout style={{ width: '100%', height: 70}} />
+        <Layout style={{ width: '100%', height: 80}} />
 
           {/* 투어 추천 */}
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
@@ -142,7 +139,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               getItemLayout={(data, index) => (
                 {length: 350, offset: 270 * index, index}
               )}
-              initialScrollIndex={0.75}
+              initialScrollIndex={0.7}
             />
 
           </Layout>
@@ -196,14 +193,15 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
       </ScrollView>
       
-      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 70, alignItems: 'center', padding: 20, flexDirection: 'row'}}>
-          <SafeAreaView style={{flex: 0}} />
-
-          <Layout style={{ flex: 1 }}>
-            <Image source={require('../../assets/glokoolLogo.png')} />
+      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingBottom: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
+          
+          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+            <SafeAreaView style={{flex: 0}} />
+            <Image source={require('../../assets/glokoolLogo.png')}/>
           </Layout>
           
-          <TouchableOpacity onPress={() => props.navigation.navigate('MY PAGE')}>          
+          <TouchableOpacity onPress={() => props.navigation.navigate('MY PAGE')} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+            <SafeAreaView style={{flex: 1}} />         
               {(auth().currentUser)?
                 (auth().currentUser?.photoURL != '')?
                 <Image source={{uri : auth().currentUser?.photoURL}} style={{ width: 34, height: 34, borderRadius: 50 }}/>
