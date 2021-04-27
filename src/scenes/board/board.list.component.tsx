@@ -83,6 +83,7 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
 
 
     const PressPost = (item : any) => {
+
       props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL,
         {
           param: {
@@ -120,10 +121,10 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
                   <Image source={require('../../assets/profile/profile_04.png')} style={{ width: 35, height: 35, resizeMode: 'stretch', borderRadius: 50 }}/>
                 }
 
-                {(item.item.writerType === 'K')?
+                {(item.item.writerType === 'Korean')?
                   <KoreanMini style={{ position: 'absolute', bottom: 0, right: -10 }}/>
                 :
-                 (item.item.writerType === 'R')?
+                 (item.item.writerType === 'Resident')?
                   <ResidentMini style={{ position: 'absolute', bottom: 0, right: -10 }}/>
                 :
                   <TravelerMini style={{ position: 'absolute', bottom: 0, right: -10 }}/>
@@ -202,6 +203,7 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
                 <FlatList
                   data={data}
                   style={{backgroundColor: 'white', width: '100%'}}
+                  showsVerticalScrollIndicator={false}
                   contentContainerStyle={{paddingBottom: 300}}
                   renderItem={RenderBoard}
                   keyExtractor={item => item.index}

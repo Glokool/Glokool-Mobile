@@ -46,7 +46,6 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
         shadowRadius: 30,
         elevation: 5,
         shadowOpacity: 1,
-
       }}
     >
       {state.routes.map((route, index) => {

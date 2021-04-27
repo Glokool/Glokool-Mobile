@@ -139,7 +139,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     }
 
     return(
-        <ScrollView style={{backgroundColor : 'white'}}>
+        <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
             
             {/* 캐러셀 */}
@@ -188,6 +188,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                             renderItem={renderContent}
                             keyExtractor={item => item.id}
                             horizontal={true}
+                            showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{ backgroundColor: '#00FF0000', padding: 0 }}
                         />
 

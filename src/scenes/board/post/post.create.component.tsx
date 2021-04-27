@@ -24,20 +24,10 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
-var ToastRef : any;
-
 export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement => {
-
-    const Title = props.route.params;
 
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
-
-    React.useEffect(() => {
-      return () => {
-        DeviceEventEmitter.emit('out');
-      }
-    }, []);
 
     const PressBack = () => {
       props.navigation.goBack()
@@ -56,20 +46,10 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
         plus: [],
         comment: []
       }
-      
-      if(Title === 'Gloo Board'){
-        
-        const doc = firestore().collection("FreeBoard").doc();
+             
+      const doc = firestore().collection("QnABoard").doc();
+      doc.set(data);
 
-        doc.set(data);
-      }
-
-      else if (Title === 'QnA Board'){
-                
-        const doc = firestore().collection("QnABoard").doc();
-
-        doc.set(data);
-      }
 
       props.navigation.goBack();
       
@@ -90,7 +70,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
             </TouchableOpacity>
 
             <Layout style={styles.titleContainer}>
-              <Text>{Title}</Text>
+              <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black' }}>QnA Board</Text>
             </Layout>
             
 
@@ -126,9 +106,6 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
 
           </ScrollView>
           </Layout>
-
-          
-
 
        </React.Fragment>
     );

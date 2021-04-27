@@ -158,6 +158,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               data={tour}
               renderItem={renderTour}
               horizontal={true}
+              showsHorizontalScrollIndicator={false}
               initialNumToRender={3}
               keyExtractor={item => item.id}
               getItemLayout={(data, index) => (
@@ -211,6 +212,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             renderItem={renderContent}
             keyExtractor={item => item.id}
             horizontal={true}
+            showsHorizontalScrollIndicator={false}
           />
 
         </Layout>
@@ -226,6 +228,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
       </ScrollView>
       
+
+      {/* 탑 탭 바 */}
       <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
           
           <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
@@ -261,8 +265,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               </Layout>
               
           </Layout>
-
-
 
       </Layout>
 

@@ -37,6 +37,10 @@ import { faTimes}  from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 import { privacyPolicycard } from '../../component/privacyPolicy.component'
 
+import KoreanMini from '../../assets/board/Korean_Mini.svg';
+import TravlerMini from '../../assets/board/Travler_Mini.svg';
+import ResidentMini from '../../assets/board/Resident_Mini.svg';
+
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
   return { date, onSelect: setDate };
@@ -105,11 +109,28 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     </Layout>      
   );
   
+  //Type
+  const [selectedTypeIndex, setSelectedTypeIndex] = React.useState(new IndexPath(0));
+  const type = [
+    'Travler',
+    'Resident',
+    'Korean'
+  ];
+  const displayTypeValue = type[selectedTypeIndex.row];
 
+  const TravelIcon = () => (
+    <TravlerMini />
+  )
 
+  const KoreanIcon = () => (
+    <KoreanMini />
+  )
 
-  //Date of Birth
+  const ResidentIcon = () => (
+    <ResidentMini />
+  )
 
+  
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
@@ -119,15 +140,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     'Female',
     'Prefer not to say'
   ];
-
   const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
-
-  
-
-  // 프로필용 사진 업로드
-  const [picCheck, setPicCheck] = React.useState<boolean>(false);
-  const [imageUrl, setImageUrl] = React.useState('');
-  const defaultImage = require('../../assets/profile.jpg')
 
   // 나라 선택용 플래그
   const [countryCode, setCountryCode] = React.useState<CountryCode>(null)
@@ -168,7 +181,9 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         gender : gender[selectedIndex.row],
         country : country.name,
         signupDate : new Date(),  //가입한 날짜
-        birthDate : minMaxPickerState.date
+        birthDate : minMaxPickerState.date,
+        avatar: '',
+        type: type[selectedTypeIndex.row]
       })
       .then(() => {
         console.log('프로필 문서 업데이트 성공')
@@ -195,7 +210,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         console.log(error)
       });
   };
-      
+
 
   const onPasswordIconPress = (): void => {
     setPasswordVisible(!passwordVisible);
@@ -222,7 +237,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   const renderForm = (props: FormikProps<SignUpData>): React.ReactFragment => (
     // 
     <React.Fragment>
-      <ScrollView>     
+      <ScrollView  showsVerticalScrollIndicator={false}>     
       <View style={{flex: 1}}>
         <Text style={styles.smallTitle}>Name</Text>
         <FormInformation
@@ -253,6 +268,18 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
           secureTextEntry={!passwordVisible}
           accessoryRight={renderPasswordIcon2}
         />
+
+        <Text style={styles.smallTitle}>Type</Text>
+        <Select
+          selectedIndex={selectedTypeIndex}
+          onSelect={index => setSelectedTypeIndex(index)}
+          placeholder={'Please select a Type'}
+          value={displayTypeValue}
+        >
+          <SelectItem accessoryLeft={TravelIcon} title='Traveler'/>
+          <SelectItem accessoryLeft={ResidentIcon} title='Resident'/>
+          <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
+        </Select>
 
         <View style={{justifyContent: 'center', marginVertical: 15}}>
           <View style={styles.checkboxContainer}>

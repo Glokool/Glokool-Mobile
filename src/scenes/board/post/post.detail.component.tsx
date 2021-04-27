@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { PostDetailScreenProps } from '../../navigation/board.navigator'
+import { PostDetailScreenProps } from '../../../navigation/board.navigator'
 import {
   StyleSheet,
   SafeAreaView,
@@ -27,7 +27,7 @@ import {
 import { faAngleLeft, faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import moment from 'moment';
-import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import Good from '../../assets/board/good.svg';
 import Toast from 'react-native-easy-toast';
 
@@ -35,9 +35,8 @@ var ToastRef : any;
 
 export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement => {
         
-    const type = props.route.params.type;
     const user = auth().currentUser;
-    const [content, setContent] = React.useState(props.route.params.item.item);
+    const [content, setContent] = React.useState(props.route.params.param.item);
     const [selectedIndex, setSelectedIndex] = React.useState(null);
     const [value, setValue] = React.useState('');
     const [loginVisible, setLoginVisible] = React.useState(false);
@@ -46,24 +45,16 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
     const day = new Date(content.writeDate.seconds * 1000);
 
     React.useEffect(() => {
+      
       DeviceEventEmitter.addListener('ModifyEnd', () => {
-        if(type === 'Gloo Board'){
-          const doc = firestore().collection('FreeBoard').doc(content.id).get()
-            .then((response) => {
-              setContent(response.data());
-            })
-        }
-        else{
-          const doc = firestore().collection('QnABoard').doc(content.id).get()
-            .then((response) => {
-              setContent(response.data());
-            })
-        }
+
+        const doc = firestore().collection('QnABoard').doc(content.id).get()
+          .then((response) => {
+            setContent(response.data());
+          })
+        
       });
 
-      return () => {
-        DeviceEventEmitter.emit('out');
-      }
     }, []);
 
     const PressBack = () => {
@@ -79,60 +70,32 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
       if(auth().currentUser === null){
         setLoginVisible(true);
       }
-      else{
-        if(type === 'Gloo Board'){
-          const comment = firestore().collection('FreeBoard').doc(content.id);
+      else{       
 
-          await comment.update({
-            comment: firestore.FieldValue.arrayUnion({
-              writer: auth().currentUser?.displayName,
-              writerDate: new Date(),
-              writerAvatar: auth().currentUser?.photoURL,
-              content: value
-            })
+        const comment = firestore().collection('QnABoard').doc(content.id);
+
+        await comment.update({
+          comment: firestore.FieldValue.arrayUnion({
+            writer: auth().currentUser?.displayName,
+            writerDate: new Date(),
+            writerAvatar: auth().currentUser?.photoURL,
+            content: value
           })
-            .then((result) => {
-              setValue('');
+        })
+          .then((result) => {
+            //console.log(result);
+            setValue('');
 
-              comment.get()
-                .then((response) => {
-                  console.log(response)
-                  setContent(response.data());
-                })
-            })
-            .catch((err) => {
-              ToastRef.show('This post has already been deleted', 2000);
-              props.navigation.goBack();
-            })
-  
-        }
-        else{
-          const comment = firestore().collection('QnABoard').doc(content.id);
-
-          await comment.update({
-            comment: firestore.FieldValue.arrayUnion({
-              writer: auth().currentUser?.displayName,
-              writerDate: new Date(),
-              writerAvatar: auth().currentUser?.photoURL,
-              content: value
-            })
+            comment.get()
+              .then((response) => {
+                console.log(response)
+                setContent(response.data());
+              })
           })
-            .then((result) => {
-              //console.log(result);
-              setValue('');
-
-              comment.get()
-                .then((response) => {
-                  console.log(response)
-                  setContent(response.data());
-                })
-            })
-            .catch((err) => {
-              ToastRef.show('This post has already been deleted', 2000);
-              props.navigation.goBack();
-            })
-  
-        }
+          .catch((err) => {
+            ToastRef.show('This post has already been deleted', 2000);
+            props.navigation.goBack();
+          })        
         
       }
     }
@@ -155,49 +118,25 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
         
         if(content.plus.indexOf(user.uid) === -1){
-          if(type === 'Gloo Board'){
-            const plus = firestore().collection('FreeBoard').doc(content.id);
+          
+          const plus = firestore().collection('QnABoard').doc(content.id);
 
-            await plus.update({
-              plus: firestore.FieldValue.arrayUnion(user.uid)
+          await plus.update({
+            plus: firestore.FieldValue.arrayUnion(user.uid)
+          })
+            .then((result) => {  
+              plus.get()
+                .then((response) => {
+                  console.log(response)
+                  setContent(response.data());
+                })
             })
-              .then((result) => {                
-                plus.get()
-                  .then((response) => {
-                    console.log(response)
-                    setContent(response.data());
-                  })
-              })
-              .catch((err) => {
-                ToastRef.show('This post has already been deleted', 2000);
-                props.navigation.goBack();
-              })
-    
-          }
-          else{
-            const plus = firestore().collection('QnABoard').doc(content.id);
-
-            await plus.update({
-              plus: firestore.FieldValue.arrayUnion(user.uid)
+            .catch((err) => {
+              ToastRef.show('This post has already been deleted', 2000);
+              props.navigation.goBack();
             })
-              .then((result) => {  
-                plus.get()
-                  .then((response) => {
-                    console.log(response)
-                    setContent(response.data());
-                  })
-              })
-              .catch((err) => {
-                ToastRef.show('This post has already been deleted', 2000);
-                props.navigation.goBack();
-              })
-    
-          }
-
         }
-
       }
-
     }
 
     const renderOverflow = () => (
@@ -216,7 +155,6 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             {
               param: {
                 id: content.id,
-                type: type
               }              
             }
           );
@@ -231,7 +169,6 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             {
               param: {
                 id: content.id,
-                type: type
               }              
             }
           );
@@ -239,14 +176,8 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
     };
 
     const DeletePost = () => {      
-      if(type === 'Gloo Board'){
-        const Doc = firestore().collection('FreeBoard').doc(content.id).delete();
-        props.navigation.goBack();        
-      }
-      else{
-        const Doc = firestore().collection('QnABoard').doc(content.id).delete();
-        props.navigation.goBack(); 
-      }     
+      const Doc = firestore().collection('QnABoard').doc(content.id).delete();
+      props.navigation.goBack();          
     }
 
 
@@ -261,7 +192,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </TouchableOpacity>
 
           <Layout style={{flex: 3, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{textAlign: 'center', fontSize: 16, fontWeight: 'bold'}}>{type}</Text>
+            <Text style={{textAlign: 'center', fontSize: 16, fontWeight: 'bold'}}>QnA Board</Text>
           </Layout>
 
           {(content.writerUID === user?.uid)? 
