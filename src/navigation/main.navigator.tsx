@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigatorRoute } from './app.route';
 import { BottomTabBarOptions, BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {FeedNavigator} from './feed.navigator';
 import {GuideNavigator} from './guide.navigator';
@@ -18,8 +17,6 @@ import MyPageFull from '../assets/icon/BottomBar/MyPageFull.svg';
 import MyPage from '../assets/icon/BottomBar/MyPage.svg';
 import TravelFull from '../assets/icon/BottomBar/TravelFull.svg';
 import Travel from '../assets/icon/BottomBar/Travel.svg';
-import { getTabBarHeight } from '@react-navigation/bottom-tabs/lib/typescript/src/views/BottomTabBar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +29,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
   }
 
   return (
-    <View>
+    <View style={{ marginTop: -10 }}>
     <View 
       style={{ 
         flexDirection: 'row',
@@ -49,6 +46,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
         shadowRadius: 30,
         elevation: 5,
         shadowOpacity: 1,
+
       }}
     >
       {state.routes.map((route, index) => {
@@ -89,7 +87,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 , justifyContent : 'center', alignItems: 'center' , margin : 10}}
+            style={{ flex: 1 , justifyContent : 'center', alignItems: 'center' , margin : 10 }}
           >
             <View style={{ borderRadius: 25, backgroundColor : isFocused ? '#FFD774' : 'white', width: 70, height: 35, justifyContent : 'center', alignItems: 'center'}}>
               {

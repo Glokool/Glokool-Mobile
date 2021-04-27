@@ -60,7 +60,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
 
 
-  }, [])
+  }, []);
 
   const PressLogin = () => {
     if(auth().currentUser){
@@ -121,17 +121,16 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
         <Layout style={{ width: '100%', height: 80 }} />
 
-          <ImageBackground source={require('../../assets/HomeBackground1.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
+          <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
             <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>
               
-
-                  <Layout style={{ alignItems: 'flex-start', backgroundColor: '#00FF0000', padding :20}}>
-                    <Image source={require('../../assets/HomeMainChat.png')} />
+                  <Layout style={{ alignItems: 'flex-start', backgroundColor: '#00FF0000', marginLeft: 20, marginVertical: 0}}>
+                    <Image source={require('../../assets/home/Home_Chat_01.png')} />
                   </Layout>
                   
-                  <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', paddingHorizontal: 20, paddingBottom: 10}}>
-                    <Image source={require('../../assets/HomeMainChat2.png')} />
+                  <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
+                    <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
                   </TouchableOpacity>
 
             </Layout>
@@ -150,7 +149,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
           </Layout>
 
-          </ImageBackground>
+          
 
           <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
 
@@ -168,7 +167,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             />
 
           </Layout>
-
+          
 
           {/* 캐러셀 */}
           <Layout style={styles.mainContainer}>
@@ -188,11 +187,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             </Carousel>
 
           </Layout>
+        
+
 
         {/* 컨텐츠 */}
-        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10 }}>
+        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>
 
-          <Layout style={{ flex: 3 }}>
+          <Layout style={{ flex: 3, backgroundColor: '#00FF0000' }}>
             <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Must See Contents</Text>
           </Layout>
 
@@ -216,11 +217,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
         <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, marginVertical: 10 }} onPress={() => props.navigation.navigate('BOARD')}>
 
-          <Image source={require('../../assets/Banner.png')} />
+          <Image source={require('../../assets/home/Home_QnA_Banner.png')} style={{ width: '100%' }}/>
 
         </TouchableOpacity>
 
 
+        </ImageBackground>
 
       </ScrollView>
       
@@ -237,9 +239,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 <Layout style={styles.loginContainer} onTouchStart={() => {PressLogin()}}>
                   {(auth().currentUser)? 
-                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Black', marginHorizontal: 15}} numberOfLines={1}>{`Hi ! I'm ${auth().currentUser?.displayName}`}</Text>
+                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 15}} numberOfLines={1}>{`Hi ! I'm ${auth().currentUser?.displayName}`}</Text>
                   :
-                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Black', color: '#B8B7B5', marginHorizontal: 15}}>{`Login`}</Text>
+                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', color: '#B8B7B5', marginHorizontal: 15}}>{`Login`}</Text>
                   }                  
                 </Layout>
 
@@ -274,7 +276,7 @@ const styles = StyleSheet.create({
   mainContainer:{
     justifyContent:'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#00FF0000',
     borderRadius: 15,
     height: 140,
     marginVertical: 10

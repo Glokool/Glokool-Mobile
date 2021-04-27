@@ -18,8 +18,6 @@ export enum NavigatorRoute {
 
 export enum SceneRoute {
     HOME = 'Home',
-    CONTENT = 'Content',
-    CONTENT_LIST = 'Content List',
 
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
@@ -38,11 +36,15 @@ export enum SceneRoute {
     PAY = 'Pay',
 
     BOARD = 'Board',
+    BOARD_LIST = 'Board List',
     BOARD_POST_CREATE = 'Board Post Create',
     BOARD_POST_DETAIL = 'Board Post Detail',
     BOARD_POST_REPORT = 'Board Post Report',
     BOARD_POST_MODIFY = 'Board Post Modify',
 
+    CONTENT = 'Content',
+    CONTENT_LIST = 'Content List',
+    CONTENT_DETAIL = 'Content Detail',
     
     GUIDE = 'Guide',
     GUIDE_CHAT = 'Guide Chat',

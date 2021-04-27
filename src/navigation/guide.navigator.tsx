@@ -9,6 +9,7 @@ import {
   GuideErrorScreen,
   GuideReportScreen
 } from '../scenes/guide';
+import { Layout } from '@ui-kitten/components';
 
 type GuideNavigatorParams = AppNavigatorParams & {
   [SceneRoute.GUIDE]: undefined;
