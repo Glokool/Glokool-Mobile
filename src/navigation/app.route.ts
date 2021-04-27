@@ -18,6 +18,8 @@ export enum NavigatorRoute {
 
 export enum SceneRoute {
     HOME = 'Home',
+    CONTENT = 'Content',
+    CONTENT_LIST = 'Content List',
 
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
