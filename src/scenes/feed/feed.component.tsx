@@ -13,7 +13,8 @@ import {
   Dimensions,
   Linking,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid,
+  ImageBackground
 } from 'react-native';
 import {
   Layout,
@@ -160,68 +161,7 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
       <ScrollView>
         
-
-          {(statusBarHeight >= 40)? 
-            <Layout style={styles.mainContainer}>
-              
-              <Carousel
-                  autoplay
-                  autoplayTimeout={5000}
-                  loop
-                  index={0}
-                  pageSize={BannerWidth}
-              >
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/1.png')}/>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/2.png')}/>
-                  </TouchableOpacity>
-                  
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/3.png')}/>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/notchCarousel/4.png')}/>
-                  </TouchableOpacity>
-
-              </Carousel>
-            </Layout>
-          
-          :
-
-            <Layout style={styles.mainContainer}>
-              <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-              <Carousel
-                  autoplay
-                  autoplayTimeout={5000}
-                  loop
-                  index={0}
-                  pageSize={BannerWidth}
-              >
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_01.png')}/>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://glokool.com')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_02.png')}/>
-                  </TouchableOpacity>
-                  
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_03.png')}/>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity onPress={() => {Linking.openURL('https://www.instagram.com/glokool_official/')}}>
-                    <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch'}} source={require('../../assets/feed_banner_04.png')}/>
-                  </TouchableOpacity>
-              </Carousel>
-            </Layout>
-          }
-          
+        <ImageBackground source={require('../.././assets/feed/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
         
 
         <Layout style={styles.seperateContainer}>
@@ -239,22 +179,18 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
             <Text style={(selectButton === 'jeolla')? styles.selectTitle : styles.unSelectTitle}>Jeolla</Text>
           </TouchableOpacity>
 
-
-
-
-
-
-
         </Layout>
 
-        <Layout style={{backgroundColor: 'white'}}>
+        <Layout style={{backgroundColor: '#00FF0000'}}>
           <FlatList
-            style={{backgroundColor: 'white'}}
+            style={{backgroundColor: '#00FF0000'}}
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item.key}
           />
-        </Layout>             
+        </Layout>
+
+        </ImageBackground>          
       </ScrollView>
 
       <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
@@ -338,7 +274,8 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 20,
     alignItems: 'center',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor: '#00FF0000'
   },
   selectContainer:{
     marginHorizontal: 15

@@ -4,6 +4,6 @@
       <rect width="72" height="20" rx="10" stroke="none"/>
       <rect x="0.5" y="0.5" width="71" height="19" rx="9.5" fill="none"/>
     </g>
-    <text id="Traveler-2" data-name="Traveler" transform="translate(228 741)" fill="#9fdfff" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-26.345" y="15">Traveler</tspan></text>
+    <text id="Traveler-2" data-name="Traveler" transform="translate(255 756)" fill="#9fdfff" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-26.345" y="0">Traveler</tspan></text>
   </g>
 </svg>

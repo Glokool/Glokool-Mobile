@@ -142,8 +142,10 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white', marginBottom: 5 }} />
             
+            <ImageBackground source={require('../../assets/board/background.png')}  style={{ width: '100%' }} resizeMode={'stretch'}>
+
             {/* 캐러셀 */}
-            <Layout style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Layout style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000'}}>
                 <Layout style={styles.mainContainer}>
 
                     <Carousel
@@ -164,38 +166,35 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
                 </Layout>
             </Layout>
-                   
 
-            <ImageBackground source={require('../../assets/board/background.png')}  style={{ width: '100%' }} resizeMode={'stretch'}>
+            <Layout style={{ padding: 30, backgroundColor: '#00FF0000' }}>
 
-                <Layout style={{ padding: 30, backgroundColor: '#00FF0000' }}>
+                {/* 컨텐츠 표시 */}
+                <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10, backgroundColor: '#00FF0000' }}>
 
-                    {/* 컨텐츠 표시 */}
-                    <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginVertical: 10, backgroundColor: '#00FF0000' }}>
-
-                        <Layout style={{ flex: 3, backgroundColor: '#00FF0000' }}>
-                            <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', color: '#F9D783' }}>Contents to See</Text>
-                        </Layout>
-
-                        <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#00FF0000', borderWidth: 1, borderColor: '#F9D783', borderRadius: 20 }}>
-                            <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Medium', color: '#FFD878', backgroundColor: '#00FF0000' }} onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>MORE</Text>
-                        </TouchableOpacity>       
-
+                    <Layout style={{ flex: 3, backgroundColor: '#00FF0000' }}>
+                        <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', color: '#F9D783' }}>Contents to See</Text>
                     </Layout>
 
-                    <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10, backgroundColor: '#00FF0000' }}>
+                    <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#00FF0000', borderWidth: 1, borderColor: '#F9D783', borderRadius: 20 }}>
+                        <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Medium', color: '#FFD878', backgroundColor: '#00FF0000' }} onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>MORE</Text>
+                    </TouchableOpacity>       
 
-                        <FlatList
-                            style={{backgroundColor: '#00FF0000', padding: 0}}
-                            data={content}
-                            renderItem={renderContent}
-                            keyExtractor={item => item.id}
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{ backgroundColor: '#00FF0000', padding: 0 }}
-                        />
+                </Layout>
 
-                    </Layout>
+                <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10, backgroundColor: '#00FF0000' }}>
+
+                    <FlatList
+                        style={{backgroundColor: '#00FF0000', padding: 0}}
+                        data={content}
+                        renderItem={renderContent}
+                        keyExtractor={item => item.id}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ backgroundColor: '#00FF0000', padding: 0 }}
+                    />
+
+                </Layout>
 
 
                 {/* Q&A 게시판 확인 */}
