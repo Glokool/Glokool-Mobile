@@ -50,9 +50,7 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
       const doc = firestore().collection("QnABoard").doc();
       doc.set(data);
 
-
-      props.navigation.goBack();
-      
+      props.navigation.goBack();      
     }
 
 

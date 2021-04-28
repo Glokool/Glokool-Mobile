@@ -27,35 +27,21 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 export const PostModifyScreen = (props: PostModifyScreenProps ): LayoutElement => {
 
     const ID = props.route.params.param.id;
-    const TYPE = props.route.params.param.type;
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
     const [data, setData] = React.useState({});
 
     React.useEffect(() => {
       
-      if(TYPE === 'Gloo Board'){
-        const Doc = firestore().collection('FreeBoard').doc(ID).get()
-          .then((result) => {
-            setData(result.data());
-            setTitle(result.data().title);
-            setContent(result.data().content);
-          })
-          .catch((err) => {
-            props.navigation.goBack();
-          })
-      }
-      else{
-        const Doc = firestore().collection('QnABoard').doc(ID).get()
-          .then((result) => {
-            setData(result.data());
-            setTitle(result.data().title);
-            setContent(result.data().content);
-          })
-          .catch((err) => {
-            props.navigation.goBack();
-          })
-      }
+      const Doc = firestore().collection('QnABoard').doc(ID).get()
+        .then((result) => {
+          setData(result.data());
+          setTitle(result.data().title);
+          setContent(result.data().content);
+        })
+        .catch((err) => {
+          props.navigation.goBack();
+        })
 
       return () => {
         DeviceEventEmitter.emit('ModifyEnd');
@@ -76,17 +62,12 @@ export const PostModifyScreen = (props: PostModifyScreenProps ): LayoutElement =
         writer: user?.displayName,
         writerUID: user?.uid,
         writerAvatar: user?.photoURL,
-      }
+      }      
       
-      if(TYPE === 'Gloo Board'){
-        const doc = firestore().collection("FreeBoard").doc(ID);
-        doc.update(data);
-      }
-
-      else if (TYPE === 'QnA Board'){                
-        const doc = firestore().collection("QnABoard").doc(ID);
-        doc.update(data);
-      }
+      
+      const doc = firestore().collection("QnABoard").doc(ID);
+      doc.update(data);
+      
       props.navigation.goBack();      
     }
 
@@ -103,7 +84,7 @@ export const PostModifyScreen = (props: PostModifyScreenProps ): LayoutElement =
             </TouchableOpacity>
 
             <Layout style={styles.titleContainer}>
-              <Text>{TYPE}</Text>
+              <Text>QnA Board</Text>
             </Layout>
             
 

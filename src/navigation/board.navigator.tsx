@@ -11,9 +11,7 @@ type BoardNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOARD_LIST] : undefined;
   [SceneRoute.BOARD_POST_CREATE]: undefined;
   [SceneRoute.BOARD_POST_DETAIL]: {
-    param: {
-      item : any
-    }
+    item: any;
   };
   [SceneRoute.BOARD_POST_REPORT]: {
     param: {
@@ -30,8 +28,8 @@ type BoardNavigatorParams = AppNavigatorParams & {
 
   [SceneRoute.CONTENT_LIST] : undefined;
   [SceneRoute.CONTENT_DETAIL] : {
-    param: {
-      id : string
+    params: {
+      item : any,
     }
   }
 }

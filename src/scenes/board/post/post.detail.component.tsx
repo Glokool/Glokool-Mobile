@@ -22,21 +22,62 @@ import {
   Modal,
   MenuItem, 
   OverflowMenu,
-  IndexPath
 } from '@ui-kitten/components';
 import { faAngleLeft, faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import moment from 'moment';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import Good from '../../assets/board/good.svg';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 import Toast from 'react-native-easy-toast';
 
+import Korean from '../../../assets/board/Korean.svg';
+import Resident from '../../../assets/board/Resident.svg';
+import Travler from '../../../assets/board/Travler.svg';
+import Good from '../../assets/board/good.svg';
+import Comment from '../../assets/board/comment.svg';
+import KoreanMini from '../../../assets/board/Korean_Mini.svg';
+import ResidentMini from '../../../assets/board/Resident_Mini.svg';
+import TravlerMini from '../../../assets/board/Travler_Mini.svg';
+
+
 var ToastRef : any;
+
+interface Comment {
+  content: string,
+  writer: string,
+  writerAvatar: string | null,
+  writerDate: string,
+  writerUID: string,
+}
+
+interface Report {
+  content: string,
+  type: string,
+  writeDate: string,
+  writer: string,
+  writerAvatar: string | null,
+  writerUID: string
+}
+
+interface BoardDocument {
+  comment: Array<Comment>,
+  plus: Array<string>,
+  report: Array<Report>,
+  title: string,
+  writeDate: string,
+  writer: string,
+  writerAvatar: string,
+  writerUID: string,
+  content: string,
+  writerType: string
+}
 
 export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement => {
         
     const user = auth().currentUser;
-    const [content, setContent] = React.useState(props.route.params.param.item);
+    const ID = props.route.params.id
+    const [content, setContent] = React.useState<BoardDocument>(props.route.params);
     const [selectedIndex, setSelectedIndex] = React.useState(null);
     const [value, setValue] = React.useState('');
     const [loginVisible, setLoginVisible] = React.useState(false);
@@ -44,15 +85,20 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
     const [menuVisible, setMenuVisible] = React.useState(false);
     const day = new Date(content.writeDate.seconds * 1000);
 
-    React.useEffect(() => {
-      
-      DeviceEventEmitter.addListener('ModifyEnd', () => {
-
-        const doc = firestore().collection('QnABoard').doc(content.id).get()
+    async function ModifyEnd() {
+      const doc = await firestore().collection('QnABoard').doc(ID).get()
           .then((response) => {
             setContent(response.data());
           })
-        
+          .catch((err => {
+            console.log(err)
+          }))
+    }
+
+    React.useEffect(() => {      
+      
+      DeviceEventEmitter.addListener('ModifyEnd', () => {
+        ModifyEnd();
       });
 
     }, []);
@@ -72,30 +118,42 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
       }
       else{       
 
-        const comment = firestore().collection('QnABoard').doc(content.id);
+        const comment = firestore().collection('QnABoard').doc(ID);
 
-        await comment.update({
-          comment: firestore.FieldValue.arrayUnion({
-            writer: auth().currentUser?.displayName,
-            writerDate: new Date(),
-            writerAvatar: auth().currentUser?.photoURL,
-            content: value
-          })
-        })
+        const user = firestore().collection('Users').doc(auth().currentUser.uid).get()
           .then((result) => {
-            //console.log(result);
-            setValue('');
 
-            comment.get()
-              .then((response) => {
-                console.log(response)
-                setContent(response.data());
+            const type = result.data().type
+
+            comment.update({
+              comment: firestore.FieldValue.arrayUnion({
+                writer: auth().currentUser?.displayName,
+                writerUID: auth().currentUser?.uid,
+                writerDate: new Date(),
+                writerAvatar: auth().currentUser?.photoURL,
+                type: type,
+                content: value
               })
+            })
+              .then((res) => {
+    
+                setValue('');    
+                comment.get()
+                  .then((response) => {
+                    console.log(response)
+                    setContent(response.data());
+                  })
+
+              })
+              .catch((err) => {
+                console.log(err);
+                ToastRef.show('Error!!', 2000);
+              })        
           })
-          .catch((err) => {
-            ToastRef.show('This post has already been deleted', 2000);
-            props.navigation.goBack();
-          })        
+
+
+
+        
         
       }
     }
@@ -238,8 +296,21 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             }
             
             <Layout style={styles.profileTextContainer}>
+              
               <Text style={styles.nickname}>{content.writer}</Text>
-              <Text style={styles.date}>{`${day.getMonth() + 1}/${day.getDate()} ${day.getHours()}:${day.getMinutes()}`}</Text>
+
+              <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                {(content.writeType === 'Korean')?
+                  <Korean/>
+                :
+                (content.writeType === 'Resident')?
+                  <Resident/>
+                :
+                  <Travler />
+                }
+                <Text style={styles.date}>{`${day.getMonth() + 1}/${day.getDate()} ${day.getHours()}:${day.getMinutes()}`}</Text>
+              </Layout>
+              
             </Layout>
 
             <Layout style={styles.iconContainer}>
@@ -250,15 +321,16 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
               </TouchableOpacity>
               
               <Layout style={styles.touchIconRight}>
-
+                <Comment width={20} height={20}/>
+                <Text style={{marginLeft: 10, color: '#9FDFFF', fontWeight: 'bold'}}>{content.comment.length}</Text>
               </Layout>                 
               
             </Layout>
           </Layout>
 
           <Layout style={styles.contentContainer}>
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 15}}>{content.title}</Text>
-            <Text>
+            <Text style={{fontSize: 19, fontFamily: 'IBMPlexSansKR-SemiBold', marginBottom: 10}}>{content.title}</Text>
+            <Text style={{fontSize: 15, fontFamily: 'IBMPlexSansKR-Medium'}}>
               {content.content}
             </Text>
 
@@ -272,11 +344,31 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
 
               <Layout style={styles.commentProfileContainer}>
                 
-                {(item.writerAvatar === '')? 
-                  <Image style={styles.profileImage} source={require('../../assets/profile/profile_03.png')}/>
-                : 
-                  <Image style={styles.profileImage} source={{uri: item.writerAvatar}}/>
-                }
+                <Layout>
+                  <Layout style={(item.writerUID === content.writerUID)? { borderWidth: 1, borderColor: '#FFD774', borderRadius: 50, padding: 2, overflow: 'hidden' } : { padding : 2}}>                
+                    {(item.writerAvatar === '')? 
+                      <Layout>
+                        <Image style={styles.profileImage} source={require('../../assets/profile/profile_03.png')}/>
+                      </Layout>
+                    : 
+                      <Layout>
+                        <Image style={styles.profileImage} source={{uri: item.writerAvatar}}/> 
+                      </Layout>
+                    }
+                  </Layout>
+
+                  <Layout style={{ position: 'absolute', bottom: 0, right: -10, backgroundColor: '#00FF0000' }}>
+                    {(item.type === 'Korean')? 
+                      <KoreanMini /> 
+                    : 
+                      (item.type === 'Resident')?
+                      <ResidentMini />
+                    :
+                      <TravlerMini />
+                    }
+                  </Layout>
+                </Layout>
+
                 <Text style={styles.commentProfileText}>{item.writer}</Text>
                 
               </Layout>
@@ -289,6 +381,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           )}          
           </ScrollView>
 
+          <KeyboardAwareScrollView>
           <Layout style={styles.inputContainer}>
             <Input
               placeholder='Place your Text'
@@ -298,6 +391,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
               onChangeText={nextValue => setValue(nextValue)}
             />
           </Layout>
+          </KeyboardAwareScrollView>
 
         </Layout>
 
@@ -404,27 +498,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: 20,
-
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   profileImage: {
     width: 42,
     height: 42,
     borderRadius: 50,
     resizeMode: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: '#00FF0000'
   },
   profileTextContainer:{
-    height: 42,
+    height: 60,
     marginLeft: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   nickname: {
-    fontSize: 12,
-    fontWeight: 'bold'
+    fontSize: 14,
+    fontFamily: 'IBMPlexSansKR-SemiBold',
   },
   date: {
     fontSize: 10,
-    color: 'gray'
+    color: 'gray',
+    marginLeft: 5
   },
   iconContainer: {
     flex: 1,
@@ -443,18 +541,19 @@ const styles = StyleSheet.create({
     height: 42,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row'
   },
   contentContainer: {
     flex: 9,
     padding: 30
   },
   commentContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingVertical: 5
   },
   commentProfileContainer:{
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   commentProfileImage: {
     width: 28,
@@ -463,15 +562,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   commentProfileText:{
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexSansKR-SemiBold',
     fontSize: 14,
     marginLeft: 10
   },
   commentContent: {
+    fontFamily: 'IBMPlexSansKR-Text',
     fontSize: 12,
     marginVertical: 5,
   },
   commentDate: {
+    fontFamily: 'IBMPlexSansKR-Text',
     fontSize: 12,
     color: 'gray'
   },

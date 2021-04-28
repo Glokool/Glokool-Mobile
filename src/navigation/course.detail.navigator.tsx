@@ -16,7 +16,7 @@ type CourseDetailNavigatorParams = AppNavigatorParams & {
     [SceneRoute.COURSE_DETAIL_SPOTS]: undefined;
   }
 
-export interface CourseDetailOverviewScreenProps {
+  export interface CourseDetailOverviewScreenProps {
     navigation: MaterialTopTabNavigationProp<CourseDetailNavigatorParams, SceneRoute.COURSE_DETAIL_OVERVIEW>;
     route: RouteProp<CourseDetailNavigatorParams, SceneRoute.COURSE_DETAIL_OVERVIEW>;
   }

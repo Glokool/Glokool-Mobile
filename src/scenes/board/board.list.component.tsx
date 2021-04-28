@@ -82,15 +82,9 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
   
 
 
-    const PressPost = (item : any) => {
-
-      props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL,
-        {
-          param: {
-            item: item
-          }          
-        }
-      );      
+    const PressPost = ({item} : any) => {
+      console.log(item);
+      props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL, item);
     }
 
     const PressWrite = () => {

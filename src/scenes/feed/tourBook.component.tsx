@@ -17,6 +17,7 @@ import {
 import { TourBookScreenProps } from '../../navigation/feed.navigator';
 import { TourBookBottomBar } from '../../component/tourBook.bottombar.components'
 import {
+    faAngleLeft,
     faEllipsisH,
     faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
@@ -26,9 +27,13 @@ import Drawer from 'react-native-draggable-view';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import BAR from '../../assets/icon/bar.svg';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
-  const tour = props.route.params;
+  
+  const tour = props.route.params.params.tourCode;
+
+  
   const [title, setTitle] = React.useState({
       title: '',
       description: '',
@@ -65,6 +70,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
 
     getHeight();
+
+    console.log('출력해',tour);
 
   }, [])
 
@@ -208,9 +215,13 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                             {`#`}<Text style={{fontWeight: "700", fontSize: 16, color: 'white', textAlign: 'center', marginTop: 20}}>{item}</Text> <Text> </Text>
                                         </Text>                                                               
                                 ))}
-                            </Layout>
-                           
-                        </Layout>           
+                            </Layout>                           
+                        </Layout>
+
+                        <TouchableOpacity style={{ position: 'absolute', top: 10, left: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => props.navigation.goBack()}>
+                            <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}} />
+                            <FontAwesomeIcon icon={faAngleLeft} size={32} color={'white'}/>
+                        </TouchableOpacity>      
                     </Layout>
                 )}
                 
@@ -296,9 +307,9 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 )}   
             />
 
-        {/*Bottom Tab Bar */}
+       
         <TourBookBottomBar>
-            {tour}
+             {tour}
         </TourBookBottomBar>
 
     </React.Fragment>

@@ -28,7 +28,6 @@ var ToastRef : any;
 export const PostReportScreen = (props: PostReportScreenProps ): LayoutElement => {
 
     const ID = props.route.params.param.id;
-    const TYPE = props.route.params.param.type;
     const [selectedBoard, setSelectedBoard] = React.useState(new IndexPath(0));
     const BoardSelect = [
       'Advertisement',
@@ -59,39 +58,19 @@ export const PostReportScreen = (props: PostReportScreenProps ): LayoutElement =
         writerAvatar: user?.photoURL,
         writeDate: new Date(),
       }
-      
-      if(TYPE === 'Gloo Board'){
-        const doc = firestore().collection('FreeBoard').doc(ID);
+      const doc = firestore().collection('QnABoard').doc(ID);
 
-        await doc.update({
-          report: firestore.FieldValue.arrayUnion(data)
+      await doc.update({
+        report: firestore.FieldValue.arrayUnion(data)
+      })
+        .then((result) => { 
+          props.navigation.goBack();
         })
-          .then((result) => {                
-            props.navigation.goBack();
-          })
-          .catch((err) => {
-            ToastRef.show('This post has already been deleted', 2000);
-            props.navigation.goBack();
-          })
-
-      }
-      else{
-        const doc = firestore().collection('QnABoard').doc(ID);
-
-        await doc.update({
-          report: firestore.FieldValue.arrayUnion(data)
+        .catch((err) => {
+          ToastRef.show('This post has already been deleted', 2000);
+          props.navigation.goBack();
         })
-          .then((result) => { 
-            props.navigation.goBack();
-          })
-          .catch((err) => {
-            ToastRef.show('This post has already been deleted', 2000);
-            props.navigation.goBack();
-          })
 
-      }
-      
-      
     }
 
     const PressSelect = (value : IndexPath) => {

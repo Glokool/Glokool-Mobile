@@ -71,11 +71,26 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     }
   }
 
+  const PressQnA = () => {
+    props.navigation.navigate('BOARD', {
+      screen: SceneRoute.BOARD_LIST
+    });
+
+
+  }
+
 
   const renderTour = ({item}) => {
 
     const PressTour = (id: string) => {
-
+      props.navigation.navigate('FEED', {
+        screen: SceneRoute.FEED_TOURBOOK,
+        params: {
+          params:{
+            tourCode: id
+          }
+        }
+      });
     }
 
     return(
@@ -143,7 +158,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Find Your Tour</Text>
             </Layout>
 
-            <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#00FF0000'}} onPress={() => props.navigation.navigate('FEED') }>
+            <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#00FF0000'}} onPress={() => props.navigation.navigate('FEED', {
+              screen: SceneRoute.FEED
+            }) }>
               <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }}>SEE MORE</Text>
             </TouchableOpacity>      
 
@@ -217,7 +234,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
         </Layout>
 
-        <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, marginVertical: 10 }} onPress={() => props.navigation.navigate('BOARD')}>
+        <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, marginVertical: 10 }} onPress={() => {PressQnA()}}>
 
           <Image source={require('../../assets/home/Home_QnA_Banner.png')} style={{ width: '100%' }}/>
 

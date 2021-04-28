@@ -13,7 +13,13 @@ import { CourseMapScreen } from '../scenes/feed/course';
 
 type FeedNavigatorParams = AppNavigatorParams & {
   [SceneRoute.FEED]: undefined;
-  [SceneRoute.FEED_TOURBOOK]: undefined;
+  
+  [SceneRoute.FEED_TOURBOOK]: {
+    params: {
+      tourCode: string;
+    }
+  };
+
   [SceneRoute.COURSE_MAP]: {
     params: {
       tourCode: string

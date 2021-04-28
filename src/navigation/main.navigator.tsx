@@ -17,6 +17,10 @@ import MyPageFull from '../assets/icon/BottomBar/MyPageFull.svg';
 import MyPage from '../assets/icon/BottomBar/MyPage.svg';
 import TravelFull from '../assets/icon/BottomBar/TravelFull.svg';
 import Travel from '../assets/icon/BottomBar/Travel.svg';
+import { AppNavigatorParams } from './app.navigator';
+import { SceneRoute } from './app.route';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -168,35 +172,35 @@ const FeedVisiblity = (route) => {
   }
 }
 
+
 export const MainNavigator = (): React.ReactElement => (
     
-      <Tab.Navigator
-        tabBar={props => <MyTabBar {...props}/>}
-        initialRouteName={'HOME'}
-      >
+    <Tab.Navigator
+      tabBar={props => <MyTabBar {...props}/>}
+      initialRouteName={'HOME'}
+    >
         <Tab.Screen name={'TRAVEL'} component={GuideNavigator} 
           options={({ route }) => ({
             tabBarVisible: GuideVisiblity(route),
-            unmountOnBlur : true
+            unmountOnBlur : false
           })}/>
         <Tab.Screen name={'FEED'} component={FeedNavigator} 
           options={({ route }) => ({
-            tabBarVisible: FeedVisiblity(route),
-            unmountOnBlur : true
+            unmountOnBlur : false
           })}          
         />
         <Tab.Screen 
           name={'HOME'} 
           component={HomeNavigator} 
           options={({ route }) => ({
-            unmountOnBlur : true
+            unmountOnBlur : false
           })}
         />
         <Tab.Screen 
           name={'BOARD'}          
           component={BoardNavigator} 
           options={({ route }) => ({
-            unmountOnBlur : true
+            unmountOnBlur : false
           })}
         />
         <Tab.Screen name={'MY PAGE'} component={MyPageNavigator} 

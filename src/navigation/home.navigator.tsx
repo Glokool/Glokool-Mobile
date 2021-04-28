@@ -7,6 +7,15 @@ import { HomeScreen } from '../scenes/home';
 
 type HomeNavigatorParams = AppNavigatorParams & {
     [SceneRoute.HOME] : undefined;
+    ['BOARD']: {
+      screen: SceneRoute;
+    }
+    ['FEED'] : {
+      screen: SceneRoute;
+      params: {
+        tourCode: string;
+      };
+    }
 }
   
 export interface HomeScreenProps {

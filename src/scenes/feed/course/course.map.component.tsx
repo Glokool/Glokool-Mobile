@@ -75,11 +75,7 @@ export const CourseMapScreen = (props: CourseMapScreenProps): LayoutElement => {
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
                     renderItem={renderItem}
-            />    
-  
-            {/*마지막 바텀바 위로 올리기 위한 것*/}
-            <Layout style={{height: 70, backgroundColor: 'white'}}/>
-        
+            />  
           </Layout>
   
           <TourBookBottomBar>

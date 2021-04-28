@@ -124,13 +124,18 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
      
 
-  const ClickList = item => () => {
-    props.navigation.navigate(SceneRoute.FEED_TOURBOOK, item.id)
+  const ClickList = (id : string) => {
+
+    props.navigation.navigate(SceneRoute.FEED_TOURBOOK, {
+      params: {
+        tourCode: id
+      }
+    });
   };
 
   const renderItem = ({item}) => (    
              
-        <TouchableOpacity onPress={ClickList(item)} style={styles.ListContainer}>
+        <TouchableOpacity onPress={() => {ClickList(item.id)}} style={styles.ListContainer}>
           <Layout style={{alignItems: 'center', backgroundColor: '#00FF0000'}}>
             <Image style={styles.Image} source={{uri: item.banner}}/>
           </Layout>

@@ -1,7 +1,7 @@
 import React from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { BoardScreenProps } from '../../navigation/board.navigator';
-import { Layout, LayoutElement } from '@ui-kitten/components'
+import { Divider, Layout, LayoutElement } from '@ui-kitten/components'
 import { 
     Dimensions,
     Image,
@@ -140,27 +140,30 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
     return(
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+            <SafeAreaView style={{ flex: 0, backgroundColor: 'white', marginBottom: 5 }} />
             
             {/* 캐러셀 */}
-            <Layout style={styles.mainContainer}>
-                <Carousel
-                    autoplay
-                    autoplayTimeout={5000}
-                    loop
-                    index={0}
-                    pageSize={BannerWidth}
-                >
-                {(banner.map((item) =>   
-                    <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
-                        <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5 }} source={item.image}/>
-                    </TouchableOpacity>
-                ))}
-                    
-                </Carousel>
+            <Layout style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Layout style={styles.mainContainer}>
 
+                    <Carousel
+                        autoplay
+                        autoplayTimeout={5000}
+                        loop
+                        index={0}
+                        pageSize={BannerWidth}
+                        
+                    >
+                    {(banner.map((item) =>   
+                        <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
+                            <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5 }} source={item.image}/>
+                        </TouchableOpacity>
+                    ))}
+                        
+                    </Carousel>
+
+                </Layout>
             </Layout>
-
                    
 
             <ImageBackground source={require('../../assets/board/background.png')}  style={{ width: '100%' }} resizeMode={'stretch'}>
@@ -259,7 +262,9 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
                                 </Layout>
 
-                            </Layout> 
+                            </Layout>
+
+                            <Divider style={{width: '70%', backgroundColor: '#EEEEEE', marginVertical: 5}} />
 
                         </Layout>
                     )}
@@ -304,14 +309,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 15,
         height: 140,
-        marginVertical: 10
+        marginVertical: 10,
+        borderWidth: 2,
+        borderColor: '#FFD774',
+        width: '81%',
+        zIndex: 100
     },
     banner: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 15,
+        borderRadius: 20,
         width: Dimensions.get('window').width * 0.8,
         height: 110,
         padding: 2,
+        zIndex: 0
     },
 });

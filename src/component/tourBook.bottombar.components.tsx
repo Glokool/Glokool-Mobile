@@ -48,33 +48,6 @@ export const TourBookBottomBar = (tour : any) => {
 
     return(
         <React.Fragment>
-        <Layout style={styles.bottomTabBar}>            
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressGuide}>
-                    <Guide width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressFeed}>
-                    <Feed width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={styles.bottomTab}></Layout>
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressBoard}>
-                    <Board width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-
-            <Layout style={styles.bottomTab}>
-                <TouchableOpacity onPress={PressSetting}>
-                    <MyPage width={20} height={20}/>
-                </TouchableOpacity>
-            </Layout>
-        </Layout>
 
             <Layout style={styles.bottomBar}>            
                 <TouchableOpacity onPress={() => {PressBook()}} style={{backgroundColor: '#FFD774', borderRadius: 50, justifyContent: 'center', alignItems: 'center', padding: 10, width: 100, height: 40}}>
