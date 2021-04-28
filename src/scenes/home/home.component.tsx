@@ -1,7 +1,8 @@
 import React from "react"
-import { Layout, LayoutElement } from "@ui-kitten/components"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button, Card, Layout, LayoutElement, Modal } from "@ui-kitten/components"
 import { HomeScreenProps } from "../../navigation/home.navigator"
-import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList } from "react-native"
+import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, PermissionsAndroid, Platform } from "react-native"
 import Carousel from "react-native-banner-carousel"
 import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
@@ -9,11 +10,13 @@ import { SERVER } from "../../server.component"
 import auth from '@react-native-firebase/auth';
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 
+var ToastRef : any;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
   const [content, setContent] = React.useState([]);
   const [tour, setTour] = React.useState([]);
+  const [permissionVisible, setPermissionVisible] = React.useState(false);
   const BannerWidth = Dimensions.get('window').width * 0.8;
   const BannerHeight = 110;
 
@@ -34,32 +37,44 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       url : 'https://www.instagram.com/glokool_official/',
       image: require('../../assets/feed_banner_04.png'),
     },
-  ]
+  ];
+
+
+  async function initHomeScreen() {
+    axios.get(SERVER + '/api/contents')
+    .then((result) => {
+      setContent(result.data);
+    })
+    .catch((err) => {
+
+    })
+
+  axios.get(SERVER + '/api/tour/recommend')
+    .then((result) => {
+      setTour(result.data);
+      console.log(result.data)
+    })
+    .catch((err) => {
+
+    })
+    
+  await AsyncStorage.getItem('PermissionCheck')
+    .then((result) => {
+      if(result == 'check'){
+        setPermissionVisible(false);
+      }
+      else{
+        if(Platform.OS === 'android'){
+          setPermissionVisible(true);
+        }        
+      }
+    });
+
+  }
   
 
   React.useEffect(() => {
-
-    axios.get(SERVER + '/api/contents')
-      .then((result) => {
-        setContent(result.data);
-      })
-      .catch((err) => {
-
-      })
-
-    axios.get(SERVER + '/api/tour/recommend')
-      .then((result) => {
-        setTour(result.data);
-        console.log(result.data)
-      })
-      .catch((err) => {
-
-      })
-    
-
-
-
-
+    initHomeScreen();
   }, []);
 
   const PressLogin = () => {
@@ -123,31 +138,58 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     );
   }
 
+  const PermissionRequest = async() => {
+
+    if (Platform.OS === "android") {
+      await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      ]).then((result)=>{
+          if (result['android.permission.CAMERA']
+          && result['android.permission.WRITE_EXTERNAL_STORAGE']
+          && result['android.permission.READ_EXTERNAL_STORAGE']
+          && result['android.permission.RECORD_AUDIO']
+          && result['android.permission.ACCESS_FINE_LOCATION']
+          && result['android.permission.ACCESS_COARSE_LOCATION']
+          === 'granted') {
+              console.log("모든 권한 획득");
+          } else{
+              console.log("권한거절");
+          }
+      })
+    
+  }
+
+      
+    // );
+
+  }
+
 
 
 
   return(
     <Layout style={{ alignItems : 'flex-start'}}>
       
-
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-
         <Layout style={{ width: '100%', height: 80 }} />
 
           <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
-            <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>
-              
-                  <Layout style={{ alignItems: 'flex-start', backgroundColor: '#00FF0000', marginLeft: 20, marginVertical: 0}}>
-                    <Image source={require('../../assets/home/Home_Chat_01.png')} />
-                  </Layout>
-                  
-                  <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
-                    <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
-                  </TouchableOpacity>
-
+            <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>              
+                <Layout style={{ alignItems: 'flex-start', backgroundColor: '#00FF0000', marginLeft: 20, marginVertical: 0}}>
+                  <Image source={require('../../assets/home/Home_Chat_01.png')} />
+                </Layout>
+                
+                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
+                  <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
+                </TouchableOpacity>
             </Layout>
          
 
@@ -164,9 +206,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }}>SEE MORE</Text>
             </TouchableOpacity>      
 
-          </Layout>
-
-          
+          </Layout>          
 
           <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
 
@@ -284,6 +324,98 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           </Layout>
 
       </Layout>
+
+      <Modal
+          visible={permissionVisible}
+          backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ padding: 10 }}
+        >
+          <Card disabled={true} style={{borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
+
+            <Layout style={{ alignItems: 'center'}}>
+              <Image source={require('../../assets/home/PermissionLogo.png')} style={{marginVertical: 10 }}/>
+            </Layout>
+            
+
+            <Layout style={{justifyContent: 'center', alignItems: 'flex-start', padding: 10}}>              
+
+              <Text style={{marginVertical: 10, textAlign: 'center', fontSize: 24, fontFamily: 'IBMPlexSansKR-Medium'}}>Glokool needs access to permissions below</Text>
+
+
+              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
+
+                <Image source={require('../../assets/home/Places.png')} />
+
+                <Layout style={{marginLeft: 10}}>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Location</Text>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Share your location with guide</Text>
+                </Layout>
+
+              </Layout>
+
+              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
+
+                <Image source={require('../../assets/home/Photos.png')} />
+
+                <Layout style={{marginLeft: 10}}>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Files</Text>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>{`Share images to Q&A board`}</Text>
+                </Layout>
+
+              </Layout>
+
+              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
+
+                <Image source={require('../../assets/home/Camera.png')} />
+
+                <Layout style={{marginLeft: 10}}>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Camera</Text>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Send pictures to chat</Text>
+                </Layout>
+
+              </Layout>
+
+              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5, marginBottom: 10}}>
+
+                <Image source={require('../../assets/home/Microphone.png')} />
+
+                <Layout style={{marginLeft: 10}}>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Microphone</Text>
+                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Send voice message to chat</Text>
+                </Layout>
+
+              </Layout>
+
+            
+
+
+            </Layout>
+
+            <Layout style={{flexDirection: 'row'}}>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button style={{ borderColor: '#D2D2D2', backgroundColor: '#D2D2D2', borderRadius: 10 }} onPress={() => {
+                  setPermissionVisible(false);
+                  AsyncStorage.setItem('PermissionCheck', 'check');
+                }}>
+                  Skip
+                </Button>
+              </Layout>
+              <Layout style={{margin: 15, flex: 1}}>
+                <Button 
+                style={{ borderRadius: 10 }}
+                onPress={() => {
+                  setPermissionVisible(false);
+                  AsyncStorage.setItem('PermissionCheck', 'check');
+                  PermissionRequest();
+                }}>
+                  Continue
+                </Button>
+              </Layout>
+              
+            </Layout>
+            
+          </Card>
+        </Modal>
 
 
     </Layout>

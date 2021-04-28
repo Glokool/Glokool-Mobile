@@ -470,17 +470,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
         ToastRef.show('Turning on GPS....', 2000);
 
         if (Platform.OS === 'android'){
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                {
-                  title: "Glokool Guide Location Permission",
-                  message:
-                    "If you want to share your current location with the guide, grant permission",
-                  buttonNeutral: "Ask Me Later",
-                  buttonNegative: "Cancel",
-                  buttonPositive: "OK"
-                }
-            );
+            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
             
             if (granted === PermissionsAndroid.RESULTS.GRANTED){
                 await Geolocation.getCurrentPosition(
