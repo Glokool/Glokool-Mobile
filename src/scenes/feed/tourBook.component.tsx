@@ -9,6 +9,7 @@ import {
   FlatList,
   Dimensions,
   Text,
+  ScrollView,
 } from 'react-native';
 import {
   Layout,
@@ -20,6 +21,7 @@ import {
     faAngleLeft,
     faEllipsisH,
     faEllipsisV,
+    faMap,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
@@ -28,6 +30,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import BAR from '../../assets/icon/bar.svg';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useIsFocused } from '@react-navigation/core';
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   
@@ -44,36 +47,48 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   const [data, setData] = React.useState([]);
   const [category, setCategory] = React.useState('Attraction');
   const [courseData, setCourseData] = React.useState([]);
-
+  const isFocused = useIsFocused();
   const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
-  React.useEffect(() => {   
-    async function getHeight() {        
-        await axios.get(SERVER + '/api/user/tour/place/tour-id/' + tour)
-        .then((response) => {
-            setDATA(response.data);
-            setTitle(response.data[0]);
-            setData(response.data.filter(item => {return item.type == 'Attraction'}));
+
+  async function getHeight() {        
+    await axios.get(SERVER + '/api/user/tour/place/tour-id/' + tour)
+    .then((response) => {
+        setDATA(response.data);
+        setTitle(response.data[0]);
+        setData(response.data.filter(item => {return item.type == 'Attraction'}));
 
 
-            var tag = response.data[0].tags.toString().replace(/#/g,'');
-            tag = tag.split(',')
-            setTag(tag);           
-            
-        })
-
+        var tag = response.data[0].tags.toString().replace(/#/g,'');
+        tag = tag.split(',')
+        setTag(tag);           
         
-        await axios.get(SERVER + '/api/user/tour/' + tour + '/course')
-            .then((response) => {
-                setCourseData(response.data)
-            })                
-    }
+    })
+
+    
+    await axios.get(SERVER + '/api/user/tour/' + tour + '/course')
+        .then((response) => {
+            setCourseData(response.data)
+        })                
+}
+
+
+
+  React.useEffect(() => {   
+    
+    getHeight();
+
+  }, []);
+
+  React.useEffect(() => {
 
     getHeight();
 
-    console.log('출력해',tour);
+  }, [isFocused])
 
-  }, [])
+  
+
+
 
   React.useEffect(() => {
     if (category === 'Attraction'){
@@ -87,6 +102,8 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
     }
 
   }, [category]);
+
+
 
 
 
@@ -239,6 +256,15 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                             <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
                             
                                 <Layout style={{flexDirection: 'row', padding: 20}}>
+
+                                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                    
+                                    <TouchableOpacity style={styles.touchContainer} onPress={() => PressMap()}>
+                                        <Layout style={{backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', padding: 10,borderRadius: 20, borderWidth: 1, borderColor: '#FFD774', height: 32}}>
+                                            <FontAwesomeIcon icon={faMap} size={15} color={'#FFD774'} />
+                                        </Layout>
+                                    </TouchableOpacity>
+
                                     
                                     <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Course')}>
                                         <Layout style={(category === 'Course')? styles.bubbleSelectedTab : styles.bubbleTab}>
@@ -262,32 +288,25 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                         <Layout style={(category === 'Cafe')? styles.bubbleSelectedTab : styles.bubbleTab}>
                                             <Text style={(category === 'Cafe')? styles.bubbleSelectedText : styles.bubbleText}>Cafe</Text>
                                         </Layout>
-                                    </TouchableOpacity>                
-                                </Layout>   
-                                
+                                    </TouchableOpacity>       
+
+                                    </ScrollView>   
+                                </Layout>
 
                             </Layout>
 
                             
                                 {(category === 'Course')? 
                                     <Layout style={{flex: 9}}>
-                                        <TouchableOpacity onPress={() => {PressMap()}} style={{justifyContent: 'center', marginHorizontal: 20, marginVertical: 10}}>
-                                            <Layout style={{borderRadius: 10, backgroundColor:'#FCCA67', alignItems: 'center', justifyContent: 'center'}}>
-                                                <Text style={{color: 'white', fontWeight: 'bold', fontSize: 16, marginVertical: 15}}>Look up Full Map</Text>
-                                            </Layout>
-                                        </TouchableOpacity>
-
                                         <FlatList
                                             data={courseData}
                                             renderItem={renderCourseItem}
                                             keyExtractor={item => item.id}
                                             contentContainerStyle={{ paddingBottom: 500 }}
                                         />
-
                                     </Layout>
                                 : 
-                                    <Layout style={{flex: 9}}>
-                                        
+                                    <Layout style={{flex: 9}}>                                        
                                         <FlatList
                                             style={{backgroundColor: 'white'}}
                                             contentContainerStyle={{ paddingBottom: 500 }}
@@ -295,9 +314,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                             renderItem={renderItem}
                                             keyExtractor={item => item.id}
                                         />
-
-                                    </Layout>
-                                
+                                    </Layout>                                
                                 }
 
                     
@@ -399,13 +416,14 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     bubbleTab: {
-        borderRadius: 10,
+        borderRadius: 20,
         backgroundColor: '#F5F5F5',
-        
+        height: 32,
     },
     bubbleSelectedTab: {
-        borderRadius: 10,
-        backgroundColor: '#FFC043',        
+        borderRadius: 20,
+        backgroundColor: '#FFC043',
+        height: 32,
     },
     bubbleSelectedText: {
         fontSize: 12,

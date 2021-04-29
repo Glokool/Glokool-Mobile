@@ -1,7 +1,7 @@
 import React from 'react'
 import { Layout, LayoutElement, Text } from "@ui-kitten/components";
 import { ContentDetailScreenProps } from '../../../navigation/board.navigator';
-import { Dimensions, Image, ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../../navigation/app.route';
@@ -9,13 +9,16 @@ import Carousel from 'react-native-banner-carousel';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useIsFocused } from '@react-navigation/core';
 
 
 export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElement => {
 
-    const contentID = props.route.params.id;
+    const [contentID, setContentID] = React.useState(props.route.params.id);
     const [content, setContent] = React.useState(null);
+    const [glopick, setGlopick] = React.useState(null);
     const BannerSize = Dimensions.get('window').width;
+    const isFocused = useIsFocused();
 
     React.useEffect(() => {
         axios.get(SERVER + '/api/contents/' + contentID)
@@ -26,7 +29,28 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
         .catch((err) => {
             console.log(err);
         })
+
+        axios.get(SERVER + '/api/contents/fixed')
+        .then((result) => {
+            setGlopick(result.data);
+            console.log(result.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
     }, []);
+
+    React.useEffect(() => {
+        axios.get(SERVER + '/api/contents/' + contentID)
+        .then((result) => {
+            setContent(result.data);
+            console.log(result.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }, [isFocused, contentID])
 
     return(
         <ScrollView style={{backgroundColor: 'white'}}>
@@ -70,6 +94,18 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
                     
                     <Text style={{ fontFamily: 'BrandonGrotesque-Black', color: '#FFD774', fontSize: 22 }}>More Content</Text>
 
+                    <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginBottom: 20 }}>
+                
+                        <TouchableOpacity style={styles.gloPick} onPress={() => setContentID(glopick[0].id)}>                    
+                            <Image source={{ uri : glopick[0].image }} style={styles.glopickImage}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.gloPick} onPress={() => setContentID(glopick[1].id)}>              
+                            <Image source={{ uri : glopick[1].image }} style={styles.glopickImage}/>
+                        </TouchableOpacity>
+
+                    </Layout>
+
                 </Layout>
             </Layout>
 
@@ -85,3 +121,33 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    gloPick: {
+        marginTop: 10,
+        backgroundColor: '#00FF0000' 
+    },
+    glopickImage:{
+        width : 180, 
+        height: 180,
+        borderRadius: 10,
+        margin: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.36,
+        shadowRadius: 6.68,
+        elevation: 11,
+        backgroundColor: '#00FF0000',
+        zIndex: 20
+    },
+    content: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00FF0000' 
+    }
+
+
+});

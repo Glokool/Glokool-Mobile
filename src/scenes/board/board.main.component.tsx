@@ -128,7 +128,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
     const renderContent = ({item}) => {
 
         const PressContent = (id : string) => {
-
+            props.navigation.navigate(SceneRoute.CONTENT_DETAIL, { id })
         }
 
         return(

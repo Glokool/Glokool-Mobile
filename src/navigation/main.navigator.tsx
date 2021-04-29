@@ -186,7 +186,7 @@ export const MainNavigator = (): React.ReactElement => (
           })}/>
         <Tab.Screen name={'FEED'} component={FeedNavigator} 
           options={({ route }) => ({
-            unmountOnBlur : false
+            unmountOnBlur : false,
           })}          
         />
         <Tab.Screen 
@@ -203,7 +203,7 @@ export const MainNavigator = (): React.ReactElement => (
             unmountOnBlur : false
           })}
         />
-        <Tab.Screen name={'MY PAGE'} component={MyPageNavigator} 
+        <Tab.Screen name={'MY PAGE'} component={MyPageNavigator}          
           options={({ route }) => ({
             unmountOnBlur : true
         })}/>

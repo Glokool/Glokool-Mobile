@@ -24,6 +24,15 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
           .catch((err) => {
             console.log(err);
           })
+          
+        axios.get(SERVER + '/api/contents/fixed')
+          .then((result) => {
+            setGlopick(result.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          
  
     }, [])
 
@@ -70,14 +79,16 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
 
             {/* 글로픽 두개 화면 */}
             {(content.length != 0)?
-            <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginBottom: 20 }}>
 
-                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(content[0].id)}>                    
-                    <Image source={{ uri : content[0].image }} style={styles.glopickImage}/>
+            (glopick.length != 0)?
+            <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginBottom: 20 }}>
+                
+                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(glopick[0].id)}>                    
+                    <Image source={{ uri : glopick[0].image }} style={styles.glopickImage}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(content[1].id)}>                  
-                    <Image source={{ uri : content[1].image }} style={styles.glopickImage}/>
+                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(glopick[1].id)}>                  
+                    <Image source={{ uri : glopick[1].image }} style={styles.glopickImage}/>
                 </TouchableOpacity>
 
                 <Layout style={{ position: 'absolute', top: 0, left: 65, backgroundColor: '#00FF0000' }}>
@@ -89,6 +100,8 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
                 </Layout>
 
             </Layout>
+            : 
+                null
             :
                 null
             }
