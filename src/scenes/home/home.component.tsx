@@ -435,7 +435,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 style={{ borderRadius: 10 }}
                 onPress={() => {
                   setPermissionVisible(false);
-                  AsyncStorage.setItem('PermissionCheck', 'check');
+                  AsyncStorage.setItem('PermissionCheck',  JSON.stringify('check'));
                   PermissionRequest();
                 }}>
                   Continue
