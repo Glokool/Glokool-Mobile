@@ -339,7 +339,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           
           <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
             <SafeAreaView style={{flex: 0}} />
-            <Image source={require('../../assets/glokoolLogo.png')}/>
+            <Image source={require('../../assets/glokoolLogo.png')} style={{ width: Dimensions.get('window').width * 0.35 }} resizeMode={'stretch'}/>
           </Layout>
           
           <Layout style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000'}}>
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#00FF0000',
     borderRadius: 15,
-    height: 140,
+    height: 120,
     width : Dimensions.get('window').width,
     marginVertical: 10,
   },
@@ -503,6 +503,6 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     borderBottomStartRadius: 15,
-    maxWidth: 150
+    maxWidth: 140
   }
 });

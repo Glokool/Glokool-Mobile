@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native';
 import {
   Divider,
@@ -17,13 +18,20 @@ import {
   Input,
   Modal,
   Button,
-  Card
+  Card,
+  Select,
+  SelectItem
 } from '@ui-kitten/components';
 import { MyPageProfileScreenProps } from '../../navigation/myPage.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { launchImageLibrary } from 'react-native-image-picker/src';
 import Toast from 'react-native-easy-toast';
+
+import KoreanMini from '../../assets/board/Korean_Mini.svg';
+import TravlerMini from '../../assets/board/Travler_Mini.svg';
+import ResidentMini from '../../assets/board/Resident_Mini.svg';
+import { NavigatorRoute } from '../../navigation/app.route';
 
 var toastRef : any;
 
@@ -54,7 +62,27 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
     year: '',
     month: '',
     day: ''
-  })
+  });
+  const [selectedTypeIndex, setSelectedTypeIndex] = React.useState(new IndexPath(0));
+  const type = [
+    'Travler',
+    'Resident',
+    'Korean'
+  ];
+  const displayTypeValue = type[selectedTypeIndex.row];
+
+  const TravelIcon = () => (
+    <TravlerMini />
+  )
+
+  const KoreanIcon = () => (
+    <KoreanMini />
+  )
+
+  const ResidentIcon = () => (
+    <ResidentMini />
+  )
+
 
   
   
@@ -196,34 +224,6 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
       <Layout style={styles.mainContainer}>
 
-      <Modal
-          visible={withDrawal}
-          backdropStyle={styles.backdrop}
-        >
-          <Card disabled={true}>
-            <Text style={{marginVertical: 30}}>Are you Sure?</Text>
-            
-            <Layout style={{flexDirection: 'row'}}>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button style={styles.cancelButton} appearance='outline' onPress={() => {
-                  setWithDrawal(false);
-                }}>
-                  CANCLE
-                </Button>
-              </Layout>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button onPress={() => {
-                  setWithDrawal(false);
-                }}>
-                  MOVE
-                </Button>
-              </Layout>
-              
-            </Layout>
-            
-          </Card>
-        </Modal>
-
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
@@ -263,13 +263,34 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             <Layout style={{flex: 1}}>
               <Text style={styles.title}>User Name</Text>
             </Layout>
-            <Layout style={{flex: 1}}/>
-            <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+
+            <Layout style={{flex: 2, alignItems: 'flex-end'}}>
               <Input
+                style={{maxWidth : (Dimensions.get('window').width * 0.5)}}
                 value={name}
                 onChangeText={nextValue => setName(nextValue)}
               />
               {/*<Text style={styles.title}>{userData?.name}</Text>*/}
+            </Layout>
+          </Layout>
+
+          <Layout style={styles.infoContainer}>
+            <Layout style={{flex: 1}}>
+              <Text style={styles.title}>User Type</Text>
+            </Layout>
+            
+            <Layout style={{flex: 2, alignItems: 'flex-end'}}>
+              <Select
+                selectedIndex={selectedTypeIndex}
+                style={{minWidth : (Dimensions.get('window').width * 0.5)}}
+                onSelect={index => setSelectedTypeIndex(index)}
+                placeholder={'Please select a Type'}
+                value={displayTypeValue}
+              >
+                <SelectItem accessoryLeft={TravelIcon} title='Traveler'/>
+                <SelectItem accessoryLeft={ResidentIcon} title='Resident'/>
+                <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
+              </Select>
             </Layout>
           </Layout>
 
@@ -303,6 +324,11 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             </Layout>
           </Layout>
 
+          
+
+          
+
+
           <Divider style={{backgroundColor: 'gray', margin: 20}}/>
           
           <TouchableOpacity style={{marginVertical: 10}} onPress={() => setWithDrawal(true)}>
@@ -327,6 +353,43 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
       </Layout>
 
       <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+
+      <Modal
+        visible={withDrawal}
+        backdropStyle={styles.backdrop}
+      >
+        <Card disabled={true}>
+
+          <Text style={{marginVertical: 30}}>Are you Sure?</Text>
+          
+          <Layout style={{flexDirection: 'row', minWidth: Dimensions.get('window').width * 0.8 }}>
+            <Layout style={{marginHorizontal :5, flex: 1}}>
+              <Button 
+                style={styles.cancelButton} 
+                
+                onPress={() => {
+                  setWithDrawal(false);
+                }}
+              >
+                <Text>{`Cancel`}</Text>
+              </Button>
+            </Layout>
+            <Layout style={{marginHorizontal :5 ,flex: 1}}>
+              <Button onPress={() => {
+                setWithDrawal(false);
+                // auth().currentUser?.delete();
+                // auth().signOut();
+                props.navigation.navigate(NavigatorRoute.HOME);
+              }}>
+                YES
+              </Button>
+            </Layout>
+            
+          </Layout>
+          
+        </Card>
+      </Modal>
+      
     </React.Fragment>
   );
 };
@@ -377,6 +440,6 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     borderColor: '#FFC043',
-    backgroundColor: 'white',   
+    backgroundColor: 'white',  
   },
 });

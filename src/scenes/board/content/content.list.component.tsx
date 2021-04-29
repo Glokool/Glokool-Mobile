@@ -91,11 +91,11 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
                     <Image source={{ uri : glopick[1].image }} style={styles.glopickImage}/>
                 </TouchableOpacity>
 
-                <Layout style={{ position: 'absolute', top: 0, left: 65, backgroundColor: '#00FF0000' }}>
+                <Layout style={{ position: 'absolute', top: 0, left: 75, backgroundColor: '#00FF0000' }}>
                     <Image source={require('../../../assets/content/glo.png')} style={{ width: 65, height: 29 }} />
                 </Layout>
 
-                <Layout style={{ position: 'absolute', top: 0, right: 65, backgroundColor: '#00FF0000' }}>
+                <Layout style={{ position: 'absolute', top: 0, right: 75, backgroundColor: '#00FF0000' }}>
                         <Image source={require('../../../assets/content/pick.png')} style={{ width: 65, height: 29 }} />
                 </Layout>
 
