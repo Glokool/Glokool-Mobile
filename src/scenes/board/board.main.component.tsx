@@ -147,7 +147,6 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
             {/* 캐러셀 */}
             <Layout style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000'}}>
                 <Layout style={styles.mainContainer}>
-
                     <Carousel
                         autoplay
                         autoplayTimeout={5000}
@@ -156,14 +155,12 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                         pageSize={BannerWidth}
                         
                     >
-                    {(banner.map((item) =>   
-                        <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
-                            <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5 }} source={item.image}/>
-                        </TouchableOpacity>
-                    ))}
-                        
+                        {(banner.map((item) =>   
+                            <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
+                                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5, backgroundColor: '#00FF0000' }} source={item.image}/>
+                            </TouchableOpacity>
+                        ))}                        
                     </Carousel>
-
                 </Layout>
             </Layout>
 
@@ -183,7 +180,6 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                 </Layout>
 
                 <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10, backgroundColor: '#00FF0000' }}>
-
                     <FlatList
                         style={{backgroundColor: '#00FF0000', padding: 0}}
                         data={content}
@@ -193,7 +189,6 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ backgroundColor: '#00FF0000', padding: 0 }}
                     />
-
                 </Layout>
 
 
@@ -212,7 +207,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
                    
                    {qnaBoard.map((item, index) => 
-                        <Layout style={{ marginVertical: 10, backgroundColor: '#00FF0000' }}>
+                        <TouchableOpacity style={{ marginVertical: 10, backgroundColor: '#00FF0000' }} onPress={() => props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL, item)}>
                     
                             <Layout style={{ justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row', maxWidth: '80%', backgroundColor: '#00FF0000' }}>
                                     <Layout>
@@ -263,9 +258,9 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
 
                             </Layout>
 
-                            <Divider style={{width: '70%', backgroundColor: '#EEEEEE', marginVertical: 5}} />
+                            <Divider style={{width: '100%', backgroundColor: '#EEEEEE', marginVertical: 5}} />
 
-                        </Layout>
+                        </TouchableOpacity>
                     )}
                   
 

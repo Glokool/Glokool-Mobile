@@ -2,13 +2,15 @@ import React from "react"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Card, Layout, LayoutElement, Modal } from "@ui-kitten/components"
 import { HomeScreenProps } from "../../navigation/home.navigator"
-import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, PermissionsAndroid, Platform } from "react-native"
+import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, PermissionsAndroid, Platform, BackHandler } from "react-native"
 import Carousel from "react-native-banner-carousel"
 import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
 import { SERVER } from "../../server.component"
 import auth from '@react-native-firebase/auth';
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
+import { useFocusEffect } from "@react-navigation/native";
+import Toast from 'react-native-easy-toast'
 
 var ToastRef : any;
 
@@ -19,7 +21,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
   const [permissionVisible, setPermissionVisible] = React.useState(false);
   const BannerWidth = Dimensions.get('window').width * 0.8;
   const BannerHeight = 110;
-
   const banner = [
     {
       url : 'https://glokool.com',
@@ -38,6 +39,39 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       image: require('../../assets/feed_banner_04.png'),
     },
   ];
+
+  var exitApp : any = undefined;  
+  var timeout : any;
+
+  const focusEvent = useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+      
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+      }
+    }, [])
+  );
+
+  const handleBackButton = () => {
+    
+    if (exitApp == undefined || !exitApp){
+
+      ToastRef.show('Press one more time to exit', 1000);
+      exitApp = true;
+
+      timeout = setTimeout(() => {
+        exitApp = false;
+      }, 2000);
+    }
+
+    else{
+      clearTimeout(timeout);
+      BackHandler.exitApp();
+    }       
+    
+    return true;
+  }
 
 
   async function initHomeScreen() {
@@ -160,8 +194,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           } else{
               console.log("권한거절");
           }
-      })
-    
+      })    
   }
 
       
@@ -202,7 +235,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
             <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#00FF0000'}} onPress={() => props.navigation.navigate('FEED', {
               screen: SceneRoute.FEED
-            }) }>
+            })}>
               <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }}>SEE MORE</Text>
             </TouchableOpacity>      
 
@@ -256,7 +289,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           </Layout>
 
           <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-            <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }} onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>SEE MORE</Text>
+            <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }} onPress={() => props.navigation.navigate('BOARD', { screen: SceneRoute.CONTENT_LIST })}>SEE MORE</Text>
           </TouchableOpacity>       
 
         </Layout>
@@ -386,9 +419,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
               </Layout>
 
-            
-
-
             </Layout>
 
             <Layout style={{flexDirection: 'row'}}>
@@ -416,7 +446,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             
           </Card>
         </Modal>
-
+      
+      <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
 
     </Layout>
 
@@ -449,7 +480,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,    
     elevation: 6,
-
     padding: 5, 
     justifyContent: 'center', 
     alignItems: 'center', 

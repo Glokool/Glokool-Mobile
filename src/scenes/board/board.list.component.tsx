@@ -83,7 +83,6 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
 
 
     const PressPost = ({item} : any) => {
-      console.log(item);
       props.navigation.navigate(SceneRoute.BOARD_POST_DETAIL, item);
     }
 
@@ -169,7 +168,7 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
            
            <Layout style={styles.TopTabBarContainer}>
 
-              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-start', flex: 1 }} onPress={() => props.navigation.goBack()}>
+              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'flex-start', flex: 1 }} onPress={() => props.navigation.navigate(SceneRoute.BOARD)}>
                 <FontAwesomeIcon icon={faAngleLeft} size={20} />
               </TouchableOpacity>
               

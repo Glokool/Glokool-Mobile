@@ -10,11 +10,6 @@ import {
   Image,
   ScrollView,
   BackHandler,
-  Dimensions,
-  Linking,
-  Platform,
-  PermissionsAndroid,
-  ImageBackground
 } from 'react-native';
 import {
   Layout,
@@ -23,15 +18,11 @@ import {
 import { FeedScreenProps } from '../../navigation/feed.navigator';
 import { SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
-import { SERVER, WEATHERKEY } from '../../server.component';
+import { SERVER } from '../../server.component';
 import Toast from 'react-native-easy-toast'
-import Carousel from 'react-native-banner-carousel';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import LocationIcon from '../../assets/icon/location.svg';
-import Geolocation from '@react-native-community/geolocation';
 
 var ToastRef : any;
-const statusBarHeight = (Platform.OS === 'ios')? getStatusBarHeight() : getStatusBarHeight(true);
 
 export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
 
@@ -39,14 +30,10 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   const [FeedData, setFeedData] = React.useState([]);
   const [data, setData] = React.useState([]);
   const [selectButton, setSelectButton] = React.useState('all');
-  const BannerWidth = Dimensions.get('window').width;
-  const BannerHeight = 200;
-  
+
   var exitApp : any = undefined;  
   var timeout : any;
 
-
-  // 백핸들러 적용을 위한 함수
   const focusEvent = useFocusEffect(
     React.useCallback(() => {
       BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -158,12 +145,8 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   return (
     <React.Fragment>
       
-
       <ScrollView>
         
-        <ImageBackground source={require('../.././assets/feed/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
-        
-
         <Layout style={styles.seperateContainer}>
           <Image source={require('../../assets/polygon_yellow.png')}/>
 
@@ -178,7 +161,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
           <TouchableOpacity style={styles.selectContainer} onPress={() => setSelectButton('jeolla')}>
             <Text style={(selectButton === 'jeolla')? styles.selectTitle : styles.unSelectTitle}>Jeolla</Text>
           </TouchableOpacity>
-
         </Layout>
 
         <Layout style={{backgroundColor: '#00FF0000'}}>
@@ -190,7 +172,6 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
           />
         </Layout>
 
-        </ImageBackground>          
       </ScrollView>
 
       <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
