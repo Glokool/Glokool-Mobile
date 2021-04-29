@@ -1,14 +1,13 @@
 import React from 'react'
 import { Layout, LayoutElement, Text } from "@ui-kitten/components";
 import { ContentDetailScreenProps } from '../../../navigation/board.navigator';
-import { Dimensions, Image, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, ImageBackground, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../../navigation/app.route';
 import Carousel from 'react-native-banner-carousel';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
-import { ScrollView } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/core';
 
 
@@ -16,7 +15,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
 
     const [contentID, setContentID] = React.useState(props.route.params.id);
     const [content, setContent] = React.useState(null);
-    const [glopick, setGlopick] = React.useState(null);
+    const [glopick, setGlopick] = React.useState([]);
     const BannerSize = Dimensions.get('window').width;
     const isFocused = useIsFocused();
 
@@ -24,7 +23,6 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
         axios.get(SERVER + '/api/contents/' + contentID)
         .then((result) => {
             setContent(result.data);
-            console.log(result.data)
         })
         .catch((err) => {
             console.log(err);
@@ -94,6 +92,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
                     
                     <Text style={{ fontFamily: 'BrandonGrotesque-Black', color: '#FFD774', fontSize: 22 }}>More Content</Text>
 
+                    {(glopick.length != 0)?
                     <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginBottom: 20 }}>
                 
                         <TouchableOpacity style={styles.gloPick} onPress={() => setContentID(glopick[0].id)}>                    
@@ -105,6 +104,10 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
                         </TouchableOpacity>
 
                     </Layout>
+                    :
+                    null
+                    }
+                    
 
                 </Layout>
             </Layout>
@@ -128,8 +131,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000' 
     },
     glopickImage:{
-        width : 180, 
-        height: 180,
+        width : Dimensions.get('window').width * 0.4, 
+        height: Dimensions.get('window').width * 0.4,
         borderRadius: 10,
         margin: 10,
         shadowColor: "#000",

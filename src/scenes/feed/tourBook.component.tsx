@@ -34,9 +34,7 @@ import { useIsFocused } from '@react-navigation/core';
 
 export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
   
-  const tour = props.route.params.params.tourCode;
-
-  
+  const tour = props.route.params.params.tourCode;  
   const [title, setTitle] = React.useState({
       title: '',
       description: '',
@@ -255,7 +253,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
                             <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
                             
-                                <Layout style={{flexDirection: 'row', padding: 20}}>
+                                <Layout style={{flexDirection: 'row', padding: 10 }}>
 
                                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                     

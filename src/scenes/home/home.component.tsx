@@ -1,7 +1,20 @@
 import React from "react"
 import { Button, Card, Layout, LayoutElement, Modal } from "@ui-kitten/components"
 import { HomeScreenProps } from "../../navigation/home.navigator"
-import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, PermissionsAndroid, Platform, BackHandler } from "react-native"
+import { 
+  Dimensions, 
+  Image, 
+  ImageBackground, 
+  Linking, 
+  ScrollView, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  FlatList, 
+  PermissionsAndroid, 
+  Platform, 
+  BackHandler 
+} from "react-native"
 import Carousel from "react-native-banner-carousel"
 import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
@@ -218,7 +231,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
             <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>              
-                <Layout style={{ alignItems: 'flex-start', backgroundColor: '#00FF0000', marginLeft: 20, marginVertical: 0}}>
+                <Layout style={{ justifyContent: 'center', backgroundColor: '#00FF0000', marginLeft: 2, marginVertical: 0}}>
                   <Image source={require('../../assets/home/Home_Chat_01.png')} />
                 </Layout>
                 
@@ -256,7 +269,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               getItemLayout={(data, index) => (
                 {length: 350, offset: 270 * index, index}
               )}
-              initialScrollIndex={0.7}
+              initialScrollIndex={0.8}
             />
 
           </Layout>
@@ -463,7 +476,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#00FF0000',
     borderRadius: 15,
     height: 140,
-    marginVertical: 10
+    width : Dimensions.get('window').width,
+    marginVertical: 10,
   },
   banner: {
     justifyContent: 'center',

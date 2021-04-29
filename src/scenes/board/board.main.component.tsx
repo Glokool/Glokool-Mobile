@@ -1,7 +1,7 @@
 import React from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { BoardScreenProps } from '../../navigation/board.navigator';
-import { Divider, Layout, LayoutElement } from '@ui-kitten/components'
+import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
 import { 
     Dimensions,
     Image,
@@ -10,10 +10,11 @@ import {
     SafeAreaView, 
     StyleSheet, 
     Text, 
-    TouchableOpacity 
+    TouchableOpacity,
+    FlatList, 
+    ScrollView
 } from 'react-native';
 import Carousel from 'react-native-banner-carousel';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';

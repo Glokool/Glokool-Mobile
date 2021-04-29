@@ -20,18 +20,17 @@ import {
   Modal,
 } from '@ui-kitten/components';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import Refresh from '../../assets/board/refresh.svg';
-import Search from '../../assets/board/search.svg';
-import Post from '../../assets/board/post.svg';
-import Comment from '../../assets/board/comment.svg';
-import Good from '../../assets/board/good.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 import KoreanMini from '../../assets/board/Korean_Mini.svg';
 import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import TravelerMini from '../../assets/board/Travler_Mini.svg';
-
+import Refresh from '../../assets/board/refresh.svg';
+import Search from '../../assets/board/search.svg';
+import Post from '../../assets/board/post.svg';
+import Comment from '../../assets/board/comment.svg';
+import Good from '../../assets/board/good.svg';
 
 export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
 

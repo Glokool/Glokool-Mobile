@@ -17,10 +17,6 @@ import MyPageFull from '../assets/icon/BottomBar/MyPageFull.svg';
 import MyPage from '../assets/icon/BottomBar/MyPage.svg';
 import TravelFull from '../assets/icon/BottomBar/TravelFull.svg';
 import Travel from '../assets/icon/BottomBar/Travel.svg';
-import { AppNavigatorParams } from './app.navigator';
-import { SceneRoute } from './app.route';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 

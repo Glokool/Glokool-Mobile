@@ -3,18 +3,18 @@ import { Layout, LayoutElement, Text } from "@ui-kitten/components"
 import { ContentListScreenProps } from '../../../navigation/board.navigator'
 import { SERVER } from '../../../server.component'
 import axios from 'axios'
-import { FlatList, Image, ImageBackground, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { FlatList, Image, ImageBackground, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { SceneRoute } from '../../../navigation/app.route'
 
+const BannerSize = Dimensions.get('window').width * 0.4;
 
 export const ContentListScreen = (props: ContentListScreenProps): LayoutElement => {
 
     const [content, setContent] = React.useState([]);
     const [glopick, setGlopick] = React.useState([]);
+    
 
     React.useEffect(() => {
         axios.get(SERVER + '/api/contents')
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000' 
     },
     glopickImage:{
-        width : 180, 
-        height: 180,
+        width : BannerSize, 
+        height: BannerSize,
         borderRadius: 10,
         margin: 10,
         shadowColor: "#000",
