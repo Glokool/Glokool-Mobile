@@ -52,6 +52,11 @@
 		<string>Fonts/NotoSansCJKkr-Medium.otf</string>
 		<string>Fonts/BrandonGrotesque-Black.ttf</string>
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
+		<string>Fonts/BrandonGrotesque-Medium.ttf</string>
+		<string>Fonts/IBMPlexSansKR-SemiBold.ttf</string>
+		<string>Fonts/IBMPlexSansKR-Medium.ttf</string>
+		<string>Fonts/IBMPlexSansKR-Text.ttf</string>
+		<string>Fonts/IBMPlexSansKR-Bold.ttf</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
