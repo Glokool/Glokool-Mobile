@@ -145,7 +145,10 @@ export const FeedScreen = (props: FeedScreenProps): LayoutElement => {
   return (
     <React.Fragment>
       
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: 'white' }} showsVerticalScrollIndicator={false}>
+
+        <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }}/>
+        <Image source={require('../../assets/feed/title.png')} style={{ width: '100%', marginBottom: -30}} />
         
         <Layout style={styles.seperateContainer}>
           <Image source={require('../../assets/polygon_yellow.png')}/>

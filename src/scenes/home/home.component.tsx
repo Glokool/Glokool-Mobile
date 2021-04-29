@@ -1,5 +1,4 @@
 import React from "react"
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Card, Layout, LayoutElement, Modal } from "@ui-kitten/components"
 import { HomeScreenProps } from "../../navigation/home.navigator"
 import { Dimensions, Image, ImageBackground, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, PermissionsAndroid, Platform, BackHandler } from "react-native"
@@ -92,17 +91,17 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
     })
     
-  await AsyncStorage.getItem('PermissionCheck')
-    .then((result) => {
-      if(result == 'check'){
-        setPermissionVisible(false);
-      }
-      else{
-        if(Platform.OS === 'android'){
-          setPermissionVisible(true);
-        }        
-      }
-    });
+  // await AsyncStorage.getItem('PermissionCheck')
+  //   .then((result) => {
+  //     if(result == 'check'){
+  //       setPermissionVisible(false);
+  //     }
+  //     else{
+  //       if(Platform.OS === 'android'){
+  //         setPermissionVisible(true);
+  //       }        
+  //     }
+  //   });
 
   }
   
@@ -162,7 +161,10 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
   const renderContent = ({item}) => {
 
     const PressContent = (id : string) => {
-
+      props.navigation.navigate('BOARD', {
+        screen: SceneRoute.CONTENT_DETAIL,
+        params: { id : id}
+      })
     }
 
     return(
@@ -194,12 +196,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           } else{
               console.log("권한거절");
           }
-      })    
-  }
-
-      
-    // );
-
+      })   
+    }
+    else{
+      console.log('ios 는 권한설정 안함');
+    }
+    
   }
 
 
@@ -425,7 +427,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               <Layout style={{margin: 15, flex: 1}}>
                 <Button style={{ borderColor: '#D2D2D2', backgroundColor: '#D2D2D2', borderRadius: 10 }} onPress={() => {
                   setPermissionVisible(false);
-                  AsyncStorage.setItem('PermissionCheck', JSON.stringify('check'));
+                  //AsyncStorage.setItem('PermissionCheck', JSON.stringify('check'));
                 }}>
                   Skip
                 </Button>
@@ -435,7 +437,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 style={{ borderRadius: 10 }}
                 onPress={() => {
                   setPermissionVisible(false);
-                  AsyncStorage.setItem('PermissionCheck',  JSON.stringify('check'));
+                  //AsyncStorage.setItem('PermissionCheck',  JSON.stringify('check'));
                   PermissionRequest();
                 }}>
                   Continue
