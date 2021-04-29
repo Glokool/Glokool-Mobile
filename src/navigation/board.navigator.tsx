@@ -28,9 +28,7 @@ type BoardNavigatorParams = AppNavigatorParams & {
 
   [SceneRoute.CONTENT_LIST] : undefined;
   [SceneRoute.CONTENT_DETAIL] : {
-    params: {
-      item : any,
-    }
+    id: string;
   }
 }
 

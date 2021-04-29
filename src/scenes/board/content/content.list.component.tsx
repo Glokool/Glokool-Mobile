@@ -29,10 +29,14 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
     const renderContent = ({item}) => {
 
         return(
-            <TouchableOpacity style={styles.content}>
+            <TouchableOpacity style={styles.content} onPress={() => {PressContent(item.id)}}>
                 <Image source={{ uri : item.image }} style={styles.glopickImage}/>
             </TouchableOpacity>
         )
+    }
+
+    const PressContent = (id : string) => {
+        props.navigation.navigate(SceneRoute.CONTENT_DETAIL, { id })
     }
 
 
@@ -67,11 +71,11 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
             {(content.length != 0)?
             <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginBottom: 20 }}>
 
-                <TouchableOpacity style={styles.gloPick}>                    
+                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(content[0].id)}>                    
                     <Image source={{ uri : content[0].image }} style={styles.glopickImage}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.gloPick}>               
+                <TouchableOpacity style={styles.gloPick} onPress={() => PressContent(content[1].id)}>                  
                     <Image source={{ uri : content[1].image }} style={styles.glopickImage}/>
                 </TouchableOpacity>
 
