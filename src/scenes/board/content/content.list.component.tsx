@@ -23,7 +23,8 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
           })
           .catch((err) => {
             console.log(err);
-          })     
+          })
+ 
     }, [])
 
     const renderContent = ({item}) => {
@@ -49,7 +50,7 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
             <ImageBackground source={require('../../../assets/content/background.png')} style={{ width: '100%' }} resizeMode={'stretch'} >
 
             {/* Top 바 */}
-            <Layout style={{ height: 50, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000' }}>
+            <Layout style={{ height: 70, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000' }}>
 
                 <Layout style={{ flex: 1 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.BOARD)}>

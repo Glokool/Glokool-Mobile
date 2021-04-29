@@ -425,7 +425,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               <Layout style={{margin: 15, flex: 1}}>
                 <Button style={{ borderColor: '#D2D2D2', backgroundColor: '#D2D2D2', borderRadius: 10 }} onPress={() => {
                   setPermissionVisible(false);
-                  AsyncStorage.setItem('PermissionCheck', 'check');
+                  AsyncStorage.setItem('PermissionCheck', JSON.stringify('check'));
                 }}>
                   Skip
                 </Button>
