@@ -39,7 +39,10 @@ import Comment from '../../assets/board/comment.svg';
 import KoreanMini from '../../../assets/board/Korean_Mini.svg';
 import ResidentMini from '../../../assets/board/Resident_Mini.svg';
 import TravlerMini from '../../../assets/board/Travler_Mini.svg';
-
+import Good_Default from '../../assets/board/Good_default.svg';
+import Modify from '../../assets/board/Modify.svg';
+import Delete from '../../assets/board/Delete.svg';
+import Report from '../../assets/board/Report.svg';
 
 var ToastRef : any;
 
@@ -203,42 +206,31 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
       </TouchableOpacity>
     );
 
-    const onItemSelect = (index) => {
-      setMenuVisible(false);
-
-      if(content.writerUID === user?.uid){// 0번 : 수정 1번 : 삭제
-        if(index.row === 0){
-          console.log('수정')
-          props.navigation.navigate(SceneRoute.BOARD_POST_MODIFY,
-            {
-              param: {
-                id: content.id,
-              }              
-            }
-          );
+    const PressModify = () => {
+      props.navigation.navigate(SceneRoute.BOARD_POST_MODIFY,
+        {
+          param: {
+            id: content.id,
+          }              
         }
-        else{
-          setDeleteVisible(true);
-        }
-      }
-      else{ //0번 신고
-          
-          props.navigation.navigate(SceneRoute.BOARD_POST_REPORT,
-            {
-              param: {
-                id: content.id,
-              }              
-            }
-          );
-      }
-    };
+      );
+    }
 
     const DeletePost = () => {      
       const Doc = firestore().collection('QnABoard').doc(content.id).delete();
       props.navigation.goBack();          
     }
 
-
+    const PressReport = () => {
+      props.navigation.navigate(SceneRoute.BOARD_POST_REPORT,
+        {
+          param: {
+            id: content.id,
+          }              
+        }
+      );
+    }
+   
     return(
        <React.Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
@@ -254,28 +246,25 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
           </Layout>
 
           {(content.writerUID === user?.uid)? 
-            <OverflowMenu
-              anchor={renderOverflow}
-              backdropStyle={styles.backdrop}
-              visible={menuVisible}
-              placement={'bottom end'}
-              selectedIndex={selectedIndex}
-              onSelect={onItemSelect}                                    
-              onBackdropPress={() => setMenuVisible(false)}>
-              <MenuItem title='Modify'/>
-              <MenuItem title='Delete'/>
-            </OverflowMenu> 
+            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+              
+              <TouchableOpacity style={{marginHorizontal: 5}} onPress={() => {PressModify()}}>
+                <Modify width={20} />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{marginHorizontal: 5}} onPress={() => {setDeleteVisible(true)}}>
+                <Delete width={20} />
+              </TouchableOpacity>
+            
+            </Layout>
           :
-            <OverflowMenu
-              anchor={renderOverflow}
-              backdropStyle={styles.backdrop}
-              visible={menuVisible}
-              placement={'bottom end'}
-              selectedIndex={selectedIndex}
-              onSelect={onItemSelect}                                    
-              onBackdropPress={() => setMenuVisible(false)}>
-              <MenuItem title='Report'/>
-            </OverflowMenu> 
+            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                
+              <TouchableOpacity style={{marginHorizontal: 5}} onPress={() => {PressReport()}}>
+                <Report width={20} height={20}/>
+              </TouchableOpacity>
+
+            </Layout>
           }
                    
         </Layout>
@@ -300,15 +289,15 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
               <Text style={styles.nickname}>{content.writer}</Text>
 
               <Layout style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                {(content.writeType === 'Korean')?
+                {(content.writerType === 'Korean')?
                   <Korean/>
                 :
-                (content.writeType === 'Resident')?
+                (content.writerType === 'Resident')?
                   <Resident/>
                 :
                   <Travler />
                 }
-                <Text style={styles.date}>{`${day.getMonth() + 1}/${day.getDate()} ${day.getHours()}:${day.getMinutes()}`}</Text>
+                <Text style={styles.date}>{`${((day.getMonth() + 1) >= 10 ? (day.getMonth() + 1) : '0' + (day.getMonth() + 1))}/${((day.getDate()) >= 10 ? (day.getDate()) : '0' + (day.getDate()))} ${((day.getHours()) >= 10 ? (day.getHours()) : '0' + (day.getHours()))}:${((day.getMinutes()) >= 10 ? (day.getMinutes()) : '0' + (day.getMinutes()))}`}</Text>
               </Layout>
               
             </Layout>
@@ -369,13 +358,16 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                   </Layout>
                 </Layout>
 
-                <Text style={styles.commentProfileText}>{item.writer}</Text>
-                
+                <Layout style={{ justifyContent: 'center', marginLeft: 15}}>
+                  <Text style={styles.commentProfileText}>{item.writer}</Text>
+                  <Text style={styles.commentDate}>
+                    {`${((moment(item.writeDate).toDate().getMonth() + 1) >= 10 ? (moment(item.writeDate).toDate().getMonth() + 1) : '0' + (moment(item.writeDate).toDate().getMonth() + 1))}/${((moment(item.writeDate).toDate().getDate()) >= 10 ? (moment(item.writeDate).toDate().getDate()) : '0' + (moment(item.writeDate).toDate().getDate()))} ${((moment(item.writeDate).toDate().getHours()) >= 10 ? (moment(item.writeDate).toDate().getHours()) : '0' + (moment(item.writeDate).toDate().getHours()))}:${((moment(item.writeDate).toDate().getMinutes()) >= 10 ? (moment(item.writeDate).toDate().getMinutes()) : '0' + (moment(item.writeDate).toDate().getMinutes()))}`}
+                  </Text>  
+                </Layout>
               </Layout>
 
               <Layout>
-                <Text style={styles.commentContent}>{item.content}</Text>
-                <Text style={styles.commentDate}>{`${moment(item.writeDate).toDate().getMonth() + 1}/${moment(item.writeDate).toDate().getDate()} ${moment(item.writeDate).toDate().getHours()}:${moment(item.writeDate).toDate().getMinutes()}`}</Text>
+                <Text style={styles.commentContent}>{item.content}</Text>           
               </Layout>
             </Layout>          
           )}          
@@ -564,12 +556,13 @@ const styles = StyleSheet.create({
   commentProfileText:{
     fontFamily: 'IBMPlexSansKR-SemiBold',
     fontSize: 14,
-    marginLeft: 10
+    marginBottom: -10
   },
   commentContent: {
     fontFamily: 'IBMPlexSansKR-Text',
     fontSize: 12,
     marginVertical: 5,
+    marginLeft: 3
   },
   commentDate: {
     fontFamily: 'IBMPlexSansKR-Text',
@@ -579,10 +572,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
     padding: 20,
+    backgroundColor: '#00FF0000'
   },
   input: {
     width: '100%',
     borderColor:'#00FF0000',
-    borderRadius: 15
+    borderRadius: 15,
+    marginTop: 0,
+    marginBottom: 10
   }
 })

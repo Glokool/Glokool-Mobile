@@ -34,21 +34,27 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
     }
 
     const PressPost = () => {
-      
+          
       const user = auth().currentUser
-      const data = {
-        title: title,
-        content: content,
-        writer: user?.displayName,
-        writerUID: user?.uid,
-        writerAvatar: user?.photoURL,
-        writeDate: new Date(),
-        plus: [],
-        comment: []
-      }
+      const userData = firestore().collection("Users").doc(user?.uid).get()
+        .then((result => {
+          const data = {
+            title: title,
+            content: content,
+            writer: user?.displayName,
+            writerUID: user?.uid,
+            writerAvatar: user?.photoURL,
+            writeDate: new Date(),
+            writerType: result.data().type,
+            plus: [],
+            comment: []            
+          }
+          const doc = firestore().collection("QnABoard").doc();
+          doc.set(data);
+        }))
+      
              
-      const doc = firestore().collection("QnABoard").doc();
-      doc.set(data);
+      
 
       props.navigation.goBack();      
     }

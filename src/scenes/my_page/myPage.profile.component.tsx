@@ -32,6 +32,7 @@ import KoreanMini from '../../assets/board/Korean_Mini.svg';
 import TravlerMini from '../../assets/board/Travler_Mini.svg';
 import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import { NavigatorRoute } from '../../navigation/app.route';
+import { ScrollView } from 'react-native-gesture-handler';
 
 var toastRef : any;
 
@@ -96,7 +97,14 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
       displayName: name,          
     })
     .then(() => {
-      console.log('프로필 업데이트 성공')
+      console.log('프로필 업데이트 성공');
+
+      const doc = firestore().collection('Users').doc(user.uid).update({
+        name: name,
+        type: displayTypeValue
+      });
+        
+
       toastRef.show('Profile Update Success', 2000);
       props.navigation.goBack();
     })
@@ -173,11 +181,17 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
   }
 
   const withDrawalFunction = () => {
+
+    setWithDrawal(false);
     
     firestore().collection('Users').doc(uid).delete()
       .then((result) => {
-        user?.delete();
-        // 유저를 삭제하고 완전히 삭제
+        user?.delete();        
+        auth().signOut();
+        props.navigation.navigate(NavigatorRoute.HOME);
+      })
+      .catch((err) => {
+        toastRef.show('Withdrawal Fail! Please Try Again', 1000)
       })
 
 
@@ -185,16 +199,13 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
 
   React.useEffect(() => {
 
-    
-
     const updateData = async() => {
       
       await firestore().collection('Users').doc(uid).get()
         .then(function(doc) {
           
           setUserData(doc._data);
-          setProfile(doc._data.avatar);
-          
+                
           
           var date = new Date(doc._data.birthDate.seconds * 1000);
           console.log(date.getDay())
@@ -206,6 +217,19 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             month: date.getMonth() + 1,
             day: date.getDate()
           })
+
+          const Type = doc._data.type;
+          setProfile(doc._data.avatar)
+
+          if(Type === 'Korean'){
+            setSelectedTypeIndex(new IndexPath(2));
+          }
+          else if (Type === 'Resident'){
+            setSelectedTypeIndex(new IndexPath(1));
+          }
+          else{
+            setSelectedTypeIndex(new IndexPath(0));
+          }
           
           
         })
@@ -237,11 +261,9 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
           <Layout style={{flex:1}}/>         
         </Layout>
 
+        
         <Layout style={styles.Container}>
-          <Layout style={{marginHorizontal: 20, marginVertical: 10}}>
-            <Text style={styles.title}>Profile</Text>
-          </Layout>
-
+          <ScrollView>
           <Layout style={styles.photoContainer}>
             <Layout style={{flex: 1}}>
               <Text style={styles.title}>Photo</Text>
@@ -347,7 +369,9 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             </Layout>
           </TouchableOpacity> 
 
+          </ScrollView>
 
+          <Layout style={{height: 30}}/>
         </Layout>
 
       </Layout>
@@ -376,10 +400,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             </Layout>
             <Layout style={{marginHorizontal :5 ,flex: 1}}>
               <Button onPress={() => {
-                setWithDrawal(false);
-                // auth().currentUser?.delete();
-                // auth().signOut();
-                props.navigation.navigate(NavigatorRoute.HOME);
+                withDrawalFunction()
               }}>
                 YES
               </Button>

@@ -230,16 +230,20 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
           <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
+          {/* 최초 채팅 */}
+          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'red' }}>    
+
             <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>              
                 <Layout style={{ justifyContent: 'center', backgroundColor: '#00FF0000', marginLeft: 2, marginVertical: 0}}>
                   <Image source={require('../../assets/home/Home_Chat_01.png')} />
                 </Layout>
                 
-                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
+                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0, borderWidth: 1, borderColor: 'red' }}>
                   <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
                 </TouchableOpacity>
             </Layout>
-         
+
+          </Layout>
 
           {/* 투어 추천 */}
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>

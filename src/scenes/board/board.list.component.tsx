@@ -98,7 +98,13 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
 
     const RenderBoard = (item : any) => {
       
-      const day = item.item.writeDate.toDate();
+      const date = item.item.writeDate.toDate();
+      
+      var month = (1 + date.getMonth())
+      month = month >= 10 ? month : '0' + month;
+
+      var day = date.getDate();
+      day = day >= 10 ? day : '0' + day;      
          
       return(
         <TouchableOpacity onPress={() => PressPost(item)}>
@@ -142,7 +148,7 @@ export const BoardListScreen = (props: BoardListScreenProps): LayoutElement => {
               
               <Layout style={styles.footerSideContainer}>
                 <Text style={styles.postInfo}>
-                    {`${day.getMonth() + 1}.${day.getDate()} | ${item.item.writer}`}
+                    {`${month}.${day} | ${item.item.writer}`}
                 </Text>                
               </Layout>
 
