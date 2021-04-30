@@ -1,6 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import { PostCreateScreenProps } from '../../../navigation/board.navigator'
 import {
   StyleSheet,
@@ -10,10 +11,6 @@ import {
   FlatList,
   Image,
   ScrollView,
-  BackHandler,
-  Dimensions,
-  Linking,
-  DeviceEventEmitter
 } from 'react-native';
 import {
   Button,
@@ -23,6 +20,7 @@ import {
 } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement => {
 
@@ -43,14 +41,16 @@ export const PostCreateScreen = (props: PostCreateScreenProps ): LayoutElement =
             content: content,
             writer: user?.displayName,
             writerUID: user?.uid,
-            writerAvatar: user?.photoURL,
+            writerAvatar: result.data().avatar,
             writeDate: new Date(),
             writerType: result.data().type,
             plus: [],
             comment: []            
           }
+
           const doc = firestore().collection("QnABoard").doc();
           doc.set(data);
+
         }))
       
              

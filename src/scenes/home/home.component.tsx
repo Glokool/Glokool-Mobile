@@ -226,19 +226,19 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-        <Layout style={{ width: '100%', height: 80 }} />
+        <Layout style={{ width: '100%', height: 100 }} />
 
           <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
           {/* 최초 채팅 */}
-          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'red' }}>    
+          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center' }}>    
 
             <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>              
                 <Layout style={{ justifyContent: 'center', backgroundColor: '#00FF0000', marginLeft: 2, marginVertical: 0}}>
                   <Image source={require('../../assets/home/Home_Chat_01.png')} />
                 </Layout>
                 
-                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0, borderWidth: 1, borderColor: 'red' }}>
+                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
                   <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
                 </TouchableOpacity>
             </Layout>
@@ -339,14 +339,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       
 
       {/* 탑 탭 바 */}
-      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
+      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 100, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
           
           <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
             <SafeAreaView style={{flex: 0}} />
-            <Image source={require('../../assets/glokoolLogo.png')} style={{ width: Dimensions.get('window').width * 0.35 }} resizeMode={'stretch'}/>
+            <Image source={require('../../assets/glokoolLogo.png')} style={{ width: Dimensions.get('window').width * 0.35, marginVertical: 10 }} resizeMode={'stretch'}/>
           </Layout>
           
-          <Layout style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000'}}>
+          <Layout style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginVertical: 10}}>
             <SafeAreaView style={{flex: 0}} />
               <Layout style={{ flexDirection: 'row', backgroundColor: '#00FF0000' }}>
 

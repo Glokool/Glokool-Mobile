@@ -133,7 +133,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
               const reference = storage().ref();
               setProfile(response.uri);
               
-              const picRef = reference.child(`profile/${uid}.${imageType[1]}`).putFile(response.uri);
+              const picRef = reference.child(`profile/${uid}`).putFile(response.uri);
               picRef.on(storage.TaskEvent.STATE_CHANGED,
                   function(snapshot) {
                       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;

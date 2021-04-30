@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import { PostDetailScreenProps } from '../../../navigation/board.navigator'
 import {
@@ -43,6 +44,7 @@ import Good_Default from '../../assets/board/Good_default.svg';
 import Modify from '../../assets/board/Modify.svg';
 import Delete from '../../assets/board/Delete.svg';
 import Report from '../../assets/board/Report.svg';
+import { UrlTile } from 'react-native-maps';
 
 var ToastRef : any;
 
@@ -230,6 +232,24 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
         }
       );
     }
+
+
+    function renderImage(uid: string) {
+
+      var imageRef = storage().ref(`profile/${uid}`);
+      var url : string = '';
+
+      console.log('이미지 검색 시작', uid);
+
+      return imageRef.getDownloadURL()
+        .then((result) => {
+            console.log('결과', result);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+      
+    }
    
     return(
        <React.Fragment>
@@ -281,7 +301,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
             {(content.writerAvatar === '')? 
               <Image style={styles.profileImage} source={require('../../assets/profile/profile_01.png')}/>
             : 
-              <Image style={styles.profileImage} source={{uri: content.writerAvatar}}/>
+              <Image style={styles.profileImage} source={{ uri : content.writerAvatar }}/>
             }
             
             <Layout style={styles.profileTextContainer}>
@@ -341,7 +361,7 @@ export const PostDetailScreen = (props: PostDetailScreenProps): LayoutElement =>
                       </Layout>
                     : 
                       <Layout>
-                        <Image style={styles.profileImage} source={{uri: item.writerAvatar}}/> 
+                        <Image style={styles.profileImage} source={{ uri: item.writerAvatar}}/> 
                       </Layout>
                     }
                   </Layout>
@@ -556,7 +576,7 @@ const styles = StyleSheet.create({
   commentProfileText:{
     fontFamily: 'IBMPlexSansKR-SemiBold',
     fontSize: 14,
-    marginBottom: -10
+    marginBottom: 0
   },
   commentContent: {
     fontFamily: 'IBMPlexSansKR-Text',
