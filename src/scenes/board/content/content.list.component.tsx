@@ -46,7 +46,8 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
     }
 
     const PressContent = (id : string) => {
-        props.navigation.navigate(SceneRoute.CONTENT_DETAIL, { id })
+        
+        props.navigation.navigate(SceneRoute.CONTENT_DETAIL, { id } )
     }
 
 

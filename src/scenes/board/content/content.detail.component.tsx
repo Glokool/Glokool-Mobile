@@ -20,6 +20,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
     const isFocused = useIsFocused();
 
     React.useEffect(() => {
+
         axios.get(SERVER + '/api/contents/' + contentID)
         .then((result) => {
             setContent(result.data);
@@ -40,7 +41,10 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
     }, []);
 
     React.useEffect(() => {
-        axios.get(SERVER + '/api/contents/' + contentID)
+
+        setContentID(props.route.params.id);
+
+        axios.get(SERVER + '/api/contents/' + props.route.params.id)
         .then((result) => {
             setContent(result.data);
             console.log(result.data)
