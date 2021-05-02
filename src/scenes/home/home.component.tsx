@@ -329,9 +329,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
         </Layout>
 
-        <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, marginVertical: 10 }} onPress={() => {PressQnA()}}>
+        <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10, width: '100%' }} onPress={() => {PressQnA()}}>
 
-          <Image source={require('../../assets/home/Home_QnA_Banner.png')} style={{ width: '100%' }}/>
+          <Image source={require('../../assets/home/Home_QnA_Banner.png')} style={{ width: '100%', resizeMode: 'stretch' }}/>
 
         </TouchableOpacity>
 
