@@ -59,22 +59,8 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
             <ScrollView>
             <ImageBackground source={require('../../../assets/content/background.png')} style={{ width: '100%' }} resizeMode={'stretch'} >
 
-            {/* Top 바 */}
-            <Layout style={{ height: 70, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000' }}>
-
-                <Layout style={{ flex: 1 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.BOARD)}>
-                        <FontAwesomeIcon icon={faAngleLeft} size={20}/>
-                    </TouchableOpacity>                    
-                </Layout>
-
-                <Layout style={{ flex: 5, alignItems: 'center', justifyContent: 'center'}} >
-                    <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', textAlign: 'center' }}>Full Content</Text>
-                </Layout>
-
-                <Layout style={{ flex: 1 }} />
-
-            </Layout>
+            <Layout style={{ height: 70, backgroundColor: '#00FF0000'}} />
+            
 
             
 
@@ -120,6 +106,23 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
 
             </ImageBackground>
             </ScrollView>
+
+            {/* Top 바 */}
+            <Layout style={{ height: 70, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000', position: 'absolute', top : 0 }}>
+
+                <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.BOARD)}>
+                        <FontAwesomeIcon icon={faAngleLeft} size={20}/>
+                    </TouchableOpacity>                    
+                </Layout>
+
+                <Layout style={{ flex: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00FF0000'}} >
+                    <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', textAlign: 'center' }}>Full Content</Text>
+                </Layout>
+
+                <Layout style={{ flex: 1 }} />
+
+            </Layout>
 
         </Layout>
     );

@@ -238,7 +238,11 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                   <Image source={require('../../assets/home/Home_Chat_01.png')} />
                 </Layout>
                 
-                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }}>
+                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }} 
+                  onPress={() => {props.navigation.navigate('BOARD', {
+                                    screen: SceneRoute.CONTENT_DETAIL,
+                                    params: { id : '1'}
+                })}}>
                   <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
                 </TouchableOpacity>
             </Layout>
