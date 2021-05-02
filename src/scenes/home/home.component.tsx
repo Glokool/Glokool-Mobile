@@ -221,31 +221,30 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
 
   return(
-    <Layout style={{ alignItems : 'flex-start'}}>
+    <Layout style={{ alignItems : 'flex-start', width : '100%' }}>
       
       <ScrollView
         showsVerticalScrollIndicator={false}
+        style={{ width : '100%' }}
       >
-        <Layout style={{ width: '100%', height: 100 }} />
+        <Layout style={{ width: '100%', height: 80 }} />
 
           <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
             
           {/* 최초 채팅 */}
-          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center' }}>    
+          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', width: '100%' }}>    
 
-            <Layout style={{ backgroundColor: '#00FF0000', marginVertical: 10 }}>              
-                <Layout style={{ justifyContent: 'center', backgroundColor: '#00FF0000', marginLeft: 2, marginVertical: 0}}>
-                  <Image source={require('../../assets/home/Home_Chat_01.png')} />
-                </Layout>
-                
-                <TouchableOpacity style={{ alignItems: 'flex-end', backgroundColor: '#00FF0000', marginVertical: 0 }} 
-                  onPress={() => {props.navigation.navigate('BOARD', {
+            <Layout style={{ backgroundColor: '#00FF0000', width: '90%'}}>
+              <Image source={require('../../assets/home/Home_Chat_01.png')} style={{ width: '100%', resizeMode: 'stretch' }} />
+            </Layout>
+
+            <TouchableOpacity style={{ backgroundColor: '#00FF0000', width: '90%', marginRight: -10 }} 
+                onPress={() => {props.navigation.navigate('BOARD', {
                                     screen: SceneRoute.CONTENT_DETAIL,
                                     params: { id : '1'}
                 })}}>
-                  <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ height: 50 }} />
-                </TouchableOpacity>
-            </Layout>
+                <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ width: '100%', resizeMode: 'stretch' }} />
+            </TouchableOpacity>
 
           </Layout>
 
@@ -343,7 +342,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       
 
       {/* 탑 탭 바 */}
-      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 100, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
+      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
           
           <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
             <SafeAreaView style={{flex: 0}} />
