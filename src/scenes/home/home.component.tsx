@@ -344,7 +344,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       {/* 탑 탭 바 */}
       <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
           
-          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
+          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#00FF0000'}}>
             <SafeAreaView style={{flex: 0}} />
             <Image source={require('../../assets/glokoolLogo.png')} style={{ width: Dimensions.get('window').width * 0.35, marginVertical: 10 }} resizeMode={'stretch'}/>
           </Layout>

@@ -112,7 +112,7 @@ export const ContentListScreen = (props: ContentListScreenProps): LayoutElement 
 
                 
 
-                <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
+                <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#00FF0000' }}>
                     <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center', }} />
                     <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.BOARD)}>
                         <FontAwesomeIcon icon={faAngleLeft} size={20}/>

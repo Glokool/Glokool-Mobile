@@ -120,7 +120,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
             {/* Top 바 */}
             <Layout style={{ height: 70, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000', position: 'absolute', top: 0 }}>
 
-            <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
+            <Layout style={{ flex: 1, backgroundColor: '#00FF0000', alignItems: 'center', justifyContent: 'center', }}>
                 <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000'}} />
                 <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>
                     <FontAwesomeIcon icon={faAngleLeft} size={20}/>
