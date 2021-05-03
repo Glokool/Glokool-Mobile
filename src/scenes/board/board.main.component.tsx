@@ -158,7 +158,7 @@ export const BoardScreen = (props: BoardScreenProps): LayoutElement => {
                     >
                         {(banner.map((item) =>   
                             <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
-                                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5, backgroundColor: '#00FF0000' }} source={item.image}/>
+                                <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5, backgroundColor: '#00FF0000', borderTopLeftRadius: 8, borderTopRightRadius: 8 }} source={item.image}/>
                             </TouchableOpacity>
                         ))}                        
                     </Carousel>
