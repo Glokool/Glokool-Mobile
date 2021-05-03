@@ -55,9 +55,14 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
     }, [isFocused, contentID])
 
     return(
+        <Layout style={{ backgroundColor: '#00FF0000'}}>
+        
+               
         <ScrollView style={{backgroundColor: 'white'}}>
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+            
             <ImageBackground source={require('../../../assets/content/background.png')} style={{ width: '100%' }} resizeMode={'stretch'} >
+            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+            
 
             <Layout  style={{ height : 70, backgroundColor: '#00FF0000' }}/>
 
@@ -107,26 +112,27 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
             :
             null
             }
+            
+            </ImageBackground>
+            
+        </ScrollView>
 
             {/* Top 바 */}
             <Layout style={{ height: 70, width: '100%' , flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10, backgroundColor: '#00FF0000', position: 'absolute', top: 0 }}>
 
-                <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>
-                        <FontAwesomeIcon icon={faAngleLeft} size={20}/>
-                    </TouchableOpacity>                    
-                </Layout>
-
-                <Layout style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#00FF0000'}} >
-                    <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', textAlign: 'center' }}>Content</Text>
-                </Layout>
-
+            <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.CONTENT_LIST)}>
+                    <FontAwesomeIcon icon={faAngleLeft} size={20}/>
+                </TouchableOpacity>                    
             </Layout>
 
+            <Layout style={{ flex: 6, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: '#00FF0000'}} >
+                <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-Black', textAlign: 'center' }}>Content</Text>
+            </Layout>
 
-
-            </ImageBackground>
-        </ScrollView>
+            </Layout>
+        
+        </Layout>
     );
 }
 
