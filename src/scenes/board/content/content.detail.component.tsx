@@ -77,7 +77,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
         <Layout style={{ backgroundColor: '#00FF0000'}}>
         
                
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
             
             <ImageBackground source={require('../../../assets/content/background.png')} style={{ width: '100%' }} resizeMode={'stretch'} >
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
