@@ -234,7 +234,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                         </Layout>
 
                         
-                        <TouchableOpacity style={{ position: 'absolute', top: 10, left: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => props.navigation.goBack()}>
+                        <TouchableOpacity style={{ position: 'absolute', top: 10, left: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => props.navigation.navigate(SceneRoute.FEED)}>
                             <SafeAreaView style={{backgroundColor: '#00FF0000'}} />
                             <FontAwesomeIcon icon={faAngleLeft} size={32} color={'white'}/>
                         </TouchableOpacity>      
