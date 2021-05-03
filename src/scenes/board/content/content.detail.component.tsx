@@ -16,6 +16,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
     const [contentID, setContentID] = React.useState(props.route.params.id);
     const [content, setContent] = React.useState(null);
     const [glopick, setGlopick] = React.useState([]);
+    const [refresh, setRefresh] = React.useState(false);
     const BannerSize = Dimensions.get('window').width;
     const isFocused = useIsFocused();
 
@@ -41,9 +42,7 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
     }, []);
 
     React.useEffect(() => {
-
-        setContentID(props.route.params.id);
-
+        
         axios.get(SERVER + '/api/contents/' + props.route.params.id)
         .then((result) => {
             setContent(result.data);
@@ -52,7 +51,27 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
         .catch((err) => {
             console.log(err);
         })
-    }, [isFocused, contentID])
+
+        setRefresh(!refresh);        
+
+    }, [isFocused]);
+
+    React.useEffect(() => {
+        
+        axios.get(SERVER + '/api/contents/' + contentID)
+        .then((result) => {
+            setContent(result.data);
+            console.log(result.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+        setRefresh(!refresh);        
+
+    }, [contentID])
+
+
 
     return(
         <Layout style={{ backgroundColor: '#00FF0000'}}>
@@ -75,11 +94,11 @@ export const ContentDetailScreen = (props: ContentDetailScreenProps): LayoutElem
                     index={0}
                     pageSize={BannerSize}
                 >                
-                {(content.images.map((item) =>   
-                    <Layout style={{ width : Dimensions.get('window').width, height: Dimensions.get('window').width }}>
-                        <Image style={{width: BannerSize, height: BannerSize, resizeMode: 'stretch',}} source={{uri: item}}/>
-                    </Layout>
-                ))}
+                    {(content.images.map((item) =>   
+                        <Layout style={{ width : Dimensions.get('window').width, height: Dimensions.get('window').width }}>
+                            <Image style={{width: BannerSize, height: BannerSize, resizeMode: 'stretch',}} source={{uri: item}}/>
+                        </Layout>
+                    ))}
                 </Carousel>
 
                 <Text style={{ fontFamily : 'IBMPlexSansKR-Medium', fontSize: 16, marginTop: 20, marginBottom: 0, textAlign: 'center', backgroundColor: '#00FF0000'}}>{content.title}</Text>
