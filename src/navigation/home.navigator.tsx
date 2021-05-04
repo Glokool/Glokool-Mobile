@@ -9,6 +9,9 @@ type HomeNavigatorParams = AppNavigatorParams & {
     [SceneRoute.HOME] : undefined;
     ['BOARD']: {
       screen: SceneRoute;
+      params : {
+        id: string;
+      }
     }
     ['FEED'] : {
       screen: SceneRoute;
