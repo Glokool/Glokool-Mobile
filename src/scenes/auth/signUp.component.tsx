@@ -33,7 +33,7 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/countryTypes'
 import { SignUpScreenProps } from '../../navigation/auth.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faTimes}  from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faTimes}  from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 import { privacyPolicycard } from '../../component/privacyPolicy.component'
 
@@ -134,12 +134,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const gender = [
-    '-',
-    'Male',
-    'Female',
-    'Prefer not to say'
-  ];
+  const gender = [ 'Male', 'Female'];
   const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
 
   // 나라 선택용 플래그
@@ -281,6 +276,41 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
           <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
         </Select>
 
+        <Text style={styles.smallTitle}>Sex</Text>
+        <Select
+          selectedIndex={selectedIndex}
+          onSelect={index => setSelectedIndex(index)}
+          placeholder={'Please select a gender'}
+          value={displayValue}
+        >
+          <SelectItem title='Male'/>
+          <SelectItem title='Female'/>
+        </Select>
+        
+        <Text style={styles.smallTitle}>Date of Birth</Text>
+        <Datepicker
+          placeholder='Date of Birth'
+          min={startDay}
+          max={yesterDay}
+          {...minMaxPickerState}
+        />
+        
+        <Text style={styles.smallTitle}>Nationality</Text>
+        <Layout style={styles.countrypicker}>
+          <CountryPicker
+            {...{
+              countryCode,
+              withFilter,
+              withFlag,
+              withCountryNameButton,
+              withAlphaFilter,
+              withCallingCode,
+              withEmoji,
+              onSelect,
+            }}     
+          />
+        </Layout>
+
         <View style={{justifyContent: 'center', marginVertical: 15}}>
           <View style={styles.checkboxContainer}>
             <CheckBox
@@ -309,49 +339,9 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
           </View>    
         </View>
 
-        <Divider style={{backgroundColor: '#C9C9C9', marginVertical: 10}}/>
       </View>   
       
-      <View style={{flex:1}}>
-        <Text style={styles.title}>Optional</Text>
-        
-        <Text style={styles.smallTitle}>Sex</Text>
-        <Select
-          selectedIndex={selectedIndex}
-          onSelect={index => setSelectedIndex(index)}
-          placeholder={'Please select a gender'}
-          value={displayValue}
-        >
-          <SelectItem title='-'/>
-          <SelectItem title='Male'/>
-          <SelectItem title='Female'/>
-          <SelectItem title='Prefer not to say'/>
-        </Select>
-        
-        <Text style={styles.smallTitle}>Date of Birth</Text>
-        <Datepicker
-          placeholder='Date of Birth'
-          min={startDay}
-          max={yesterDay}
-          {...minMaxPickerState}
-        />
-        
-        <Text style={styles.smallTitle}>Nationality</Text>
-        <Layout style={styles.countrypicker}>
-          <CountryPicker
-            {...{
-              countryCode,
-              withFilter,
-              withFlag,
-              withCountryNameButton,
-              withAlphaFilter,
-              withCallingCode,
-              withEmoji,
-              onSelect,
-            }}     
-          />
-        </Layout>        
-      </View>         
+       
       
     </ScrollView>
 
@@ -370,7 +360,11 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+
+      <Layout style={{ height: 50 }} />
+
       <Layout style={styles.container}>
+               
         <Layout style={styles.formContainer}>
           <Formik
             initialValues={SignUpData.empty()}
@@ -398,6 +392,16 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
             {privacyPolicycard()}
           </Card>
         </Modal>
+      </Layout>
+
+      <Layout style={{ position: 'absolute', top: 0,  width: '100%', flexDirection: 'row', alignItems: 'center', height: 50}}>
+
+        <TouchableOpacity style={{ marginLeft: 10, marginVertical: 10}} onPress={() => {props.navigation.goBack()}}>
+          <FontAwesomeIcon icon={faAngleLeft} size={28} />
+        </TouchableOpacity>
+
+        <Text style={{ marginLeft : 10, marginVertical: 10, fontSize: 16, fontWeight: 'bold' }}>Glokool - Sign Up</Text>
+
       </Layout>
            
     </React.Fragment>

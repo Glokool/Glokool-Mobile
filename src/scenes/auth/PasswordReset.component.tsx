@@ -86,7 +86,7 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
       <Layout style={styles.container}>
         <Image style={{marginVertical: 20}}source={require('../../assets/Verification.png')}/>
-        <Text style={styles.title}>리셋을 원하는 이메일 주소를 입력하세요</Text>
+        <Text style={styles.title}>Your Email</Text>
           <Layout style={styles.InputContainer}>
             <Formik
               initialValues={PasswordData.empty()}
