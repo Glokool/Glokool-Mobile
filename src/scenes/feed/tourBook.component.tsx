@@ -205,10 +205,10 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                 isInverseDirection={true}
                 finalDrawerHeight={statusBarHeight}
                 style={{backgroundColor: 'white'}}
-                
+                onRelease={() => console.log('이건뭐누')}
                 renderContainerView={() => (
                     
-                    <Layout style={{position: 'relative',width: '100%', height: '100%', backgroundColor: 'white'}}>
+                    <Layout style={{position: 'relative',width: '100%', height: '100%', backgroundColor: 'white', zIndex: -2}}>
                         
                         <Layout style={{position : 'relative', width: '100%', height: (Dimensions.get('window').height* 0.6), top: 0, backgroundColor: 'white'}}>
                             <Image style={{width: (Dimensions.get('window').width), height: (Dimensions.get('window').height* 0.6), resizeMode: 'stretch', borderBottomLeftRadius: 15, borderBottomRightRadius: 15}} source={{uri: title.thumbnail}}/>
@@ -217,7 +217,7 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                         <Layout style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', width: '100%', height: (Dimensions.get('window').height* 0.6), backgroundColor: '#00FF0000'}}>
                             
                             <Layout style={{flex: 1, backgroundColor: '#00FF0000', paddingHorizontal: 10, paddingTop: 10, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontSize: 20, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Black'}}>{title.title}</Text>
+                                
                             </Layout>
 
                             <Layout style={{flex: 2, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#00FF0000', justifyContent: 'center', marginVertical: 20,}}>
@@ -232,19 +232,11 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
                                 ))}
                             </Layout>                           
                         </Layout>
-
-                        
-                        <TouchableOpacity style={{ position: 'absolute', top: 10, left: 10, justifyContent: 'center', alignItems: 'center'}} onPress={() => props.navigation.navigate(SceneRoute.FEED)}>
-                            <SafeAreaView style={{backgroundColor: '#00FF0000'}} />
-                            <FontAwesomeIcon icon={faAngleLeft} size={32} color={'white'}/>
-                        </TouchableOpacity>      
                     </Layout>
                 )}
                 
                 renderInitDrawerView={() => (
-                    <Layout style={styles.dragBar}>    
-                        <BAR width={25} height={15}/>
-                    </Layout>
+                    <Layout style={{ width: '100%', height: 30, backgroundColor: '#00FF0000', alignSelf: 'center', zIndex: 10, position: 'absolute'}} />
                 )}
 
                 renderDrawerView={() => (
@@ -252,17 +244,13 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
 
                         <Layout style={styles.topRaiusContainer2}>
 
-                            <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15}}>
+                            <Layout style={{flex: 1, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'white', marginTop: 10, borderTopStartRadius: 15 ,borderTopEndRadius: 15, zIndex: 0}}>
                             
                                 <Layout style={{flexDirection: 'row', padding: 10 }}>
 
                                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                     
-                                    <TouchableOpacity style={styles.touchContainer} onPress={() => PressMap()}>
-                                        <Layout style={{backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', padding: 10,borderRadius: 20, borderWidth: 1, borderColor: '#FFD774', height: 32}}>
-                                            <FontAwesomeIcon icon={faMap} size={15} color={'#FFD774'} />
-                                        </Layout>
-                                    </TouchableOpacity>
+
 
                                     
                                     <TouchableOpacity style={styles.touchContainer} onPress={() => setCategory('Course')}>
@@ -327,6 +315,33 @@ export const TourBookScreen = (props: TourBookScreenProps): LayoutElement => {
         <TourBookBottomBar>
              {tour}
         </TourBookBottomBar>
+
+        
+        {/* 탑 탭 바 Top Tab Bar */}
+        <Layout style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 80, backgroundColor: '#00FF0000', flexDirection: 'row', padding: 25, zIndex: -1 }} >
+
+            <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems:'flex-start', backgroundColor: '#00FF0000', flexDirection: 'row' }}>
+                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center'}} onPress={() => props.navigation.navigate(SceneRoute.FEED)}>
+                    <Layout style={{ backgroundColor: '#00FF0000' }}>
+                        <FontAwesomeIcon icon={faAngleLeft} size={32} color={'white'}/>
+                    </Layout>                    
+                </TouchableOpacity>
+
+                <Text style={{fontSize: 23, color: 'white', textAlign: 'center', fontFamily: 'BrandonGrotesque-Black', marginLeft: 10, marginTop: 0}}>{title.title}</Text>
+            </Layout>        
+
+
+            <Layout style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'flex-start',backgroundColor: '#00FF0000' }}>
+                <TouchableOpacity style={styles.touchContainer} onPress={() => PressMap()}>
+                    <Layout style={{backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', padding: 10, borderRadius: 20, borderWidth: 1, borderColor: '#FFD774', height: 32, width: 54}}>
+                        <FontAwesomeIcon icon={faMap} size={15} color={'#FFD774'} />
+                    </Layout>
+                </TouchableOpacity>
+            </Layout>
+
+        </Layout>
+
+
 
     </React.Fragment>
   );

@@ -180,6 +180,8 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     
       }, [ChatDB]);
     
+
+      
     const messageIdGenerator = () => {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
             let r = (Math.random() * 16) | 0,

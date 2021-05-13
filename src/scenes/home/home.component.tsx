@@ -252,7 +252,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>
 
             <Layout style={{ flex: 1,  backgroundColor: '#00FF0000' }}>
-              <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Find Your Tour</Text>
+              <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Locals' favorites</Text>
             </Layout>
 
             <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#00FF0000'}} onPress={() => props.navigation.navigate('FEED', {
@@ -307,7 +307,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>
 
           <Layout style={{ flex: 3, backgroundColor: '#00FF0000' }}>
-            <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Must See Contents</Text>
+            <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Must Check Contents</Text>
           </Layout>
 
           <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
