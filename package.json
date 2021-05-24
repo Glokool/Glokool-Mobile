@@ -7,10 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
-    "fresco-clone": "git clone https://github.com/facebook/fresco.git android/libraries/fresco && cd android/libraries/fresco && git checkout tags/v2.1.0",
-    "fresco-patch": "yarn file-patch ./patches/DecodeProducer.java.diff android/libraries/fresco/imagepipeline/src/main/java/com/facebook/imagepipeline/producers/DecodeProducer.java",
-    "fresco-setup": "yarn fresco-clone && yarn fresco-patch"
+    "lint": "eslint ."
   },
   "rnpm": {
     "assets": [
@@ -52,11 +49,11 @@
     "iamport-react-native": "^1.6.3",
     "moment": "^2.29.1",
     "react": "16.13.1",
-    "react-native": "0.63.4",
+    "react-native": "^0.64.1",
     "react-native-actions-sheet": "^0.4.2",
     "react-native-audio": "^4.3.0",
     "react-native-banner-carousel": "^1.0.3",
-    "react-native-bubble-tabbar": "0.0.11",
+    "react-native-bubble-tabbar": "^0.1.0",
     "react-native-cli": "^2.0.1",
     "react-native-country-picker-modal": "^2.0.0",
     "react-native-draggable-view": "^0.0.6",
@@ -72,7 +69,7 @@
     "react-native-maps": "0.27.1",
     "react-native-options-menu": "^2.0.2",
     "react-native-paypal": "^3.1.1",
-    "react-native-reanimated": "^1.13.2",
+    "react-native-reanimated": "^2.1.0",
     "react-native-restart": "0.0.20",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.16.1",
@@ -83,9 +80,9 @@
     "react-native-svg-transformer": "^0.14.3",
     "react-native-tab-view": "^2.15.2",
     "react-native-tags": "^2.2.0",
-    "react-native-webview": "^11.6.1",
-    "react-native-windows": "^0.63.20",
-    "rnpm": "^1.9.0",
+    "react-native-webview": "^11.6.2",
+    "react-native-windows": "^0.64.8",
+    "rnpm": "^1.5.1",
     "styled-components": "^5.2.1",
     "svg-arc-to-cubic-bezier": "^3.2.0",
     "yup": "^0.32.8"
