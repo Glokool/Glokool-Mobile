@@ -20,7 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { BookDateScreenProps } from '../../navigation/book.navigator';
+import { BookDateScreenProps } from '../../navigation/Book.navigator';
 import { FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { SERVER } from '../../server.component'

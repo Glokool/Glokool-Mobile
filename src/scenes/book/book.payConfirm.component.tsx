@@ -13,7 +13,7 @@ import {
   LayoutElement,
 } from '@ui-kitten/components';
 import { NavigatorRoute} from '../../navigation/app.route';
-import { BookPayConfirmScreenProps } from '../../navigation/pay.navigator';
+import { BookPayConfirmScreenProps } from '../../navigation/Pay.navigator';
 
 
 export const BookPayConfirmScreen = (props: BookPayConfirmScreenProps): LayoutElement => {

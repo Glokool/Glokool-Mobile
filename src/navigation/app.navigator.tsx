@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './auth.navigator';
-import { MainNavigator } from './main.navigator';
-import { PayNavigator } from './pay.navigator'
-import { BookNavigator } from './book.navigator';
+import { MainNavigator } from './Main.navigator';
+import { PayNavigator } from './Pay.navigator'
+import { BookNavigator } from './Book.navigator';
 import { NavigatorRoute } from './app.route';
 
 export type AppNavigatorParams = {

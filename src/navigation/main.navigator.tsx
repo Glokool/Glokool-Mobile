@@ -1,22 +1,24 @@
 import React from 'react';
-import { BottomTabBarOptions, BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {FeedNavigator} from './feed.navigator';
-import {GuideNavigator} from './guide.navigator';
-import {MyPageNavigator} from './myPage.navigator';
-import {BoardNavigator} from './board.navigator';
-import {HomeNavigator} from './home.navigator';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-
-import BoardFull from '../assets/icon/BottomBar/BoardFull.svg';
-import Board from '../assets/icon/BottomBar/Board.svg';
-import HomeFull from '../assets/icon/BottomBar/HomeFull.svg';
-import Home from '../assets/icon/BottomBar/Home.svg';
-import FeedFull from '../assets/icon/BottomBar/FeedFull.svg';
-import Feed from '../assets/icon/BottomBar/Feed.svg';
-import MyPageFull from '../assets/icon/BottomBar/MyPageFull.svg';
-import MyPage from '../assets/icon/BottomBar/MyPage.svg';
-import TravelFull from '../assets/icon/BottomBar/TravelFull.svg';
-import Travel from '../assets/icon/BottomBar/Travel.svg';
+import { RouteProp } from '@react-navigation/core';
+import { 
+  BottomTabBarOptions, 
+  BottomTabBarProps, 
+  createBottomTabNavigator 
+} from '@react-navigation/bottom-tabs';
+import { 
+  SafeAreaView, 
+  Text, 
+  TouchableOpacity, 
+  View 
+} from 'react-native';
+import {
+  HomeNavigator,
+  ChatNavigator,
+  SeriesNavigator,
+  MyNavigator
+} from './ScreenNavigator';
+import { Chat, Chat_S, Home, Home_S, MyPage, MyPage_S, Series, Series_S } from '../assets/icon/BottomNavigation'
+import { NavigatorRoute } from './app.route';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,9 +26,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
   
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
-  if (focusedOptions.tabBarVisible === false) {
-    return null;
-  }
+  if (focusedOptions.tabBarVisible === false) return null
 
   return (
     <View style={{ marginTop: -10 }}>
@@ -34,8 +34,6 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
       style={{ 
         flexDirection: 'row',
         backgroundColor: 'white',
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
         borderTopColor: "#fff",
         borderTopWidth: 0.5,
         shadowColor: "rgba(0, 0, 0, 0.19)",
@@ -88,35 +86,29 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
             onLongPress={onLongPress}
             style={{ flex: 1 , justifyContent : 'center', alignItems: 'center' , margin : 10 }}
           >
-            <View style={{ borderRadius: 25, backgroundColor : isFocused ? '#FFD774' : 'white', width: 70, height: 35, justifyContent : 'center', alignItems: 'center'}}>
+            <View style={{ borderRadius: 25, width: 70, height: 35, justifyContent : 'center', alignItems: 'center'}}>
               {
-                (label === 'TRAVEL')?
+                (label === NavigatorRoute.HOME)?
                   (isFocused)?
-                  <TravelFull />
-                  :
-                  <Travel />
-                :
-                (label === 'FEED')?
-                  (isFocused)?
-                  <FeedFull />
-                  :
-                  <Feed />
-                :
-                (label === 'HOME')?
-                  (isFocused)?
-                  <HomeFull />
+                  <Home_S />
                   :
                   <Home />
                 :
-                (label === 'BOARD')?
+                (label === NavigatorRoute.CHAT)?
                   (isFocused)?
-                  <BoardFull />
+                  <Chat_S />
                   :
-                  <Board />
+                  <Chat />
                 :
-                (label === 'MY PAGE')?
+                (label === NavigatorRoute.SERIES)?
                   (isFocused)?
-                  <MyPageFull />
+                  <Series_S />
+                  :
+                  <Series />
+                :                
+                (label === NavigatorRoute.MY)?
+                  (isFocused)?
+                  <MyPage_S />
                   :
                   <MyPage />
                 :
@@ -125,15 +117,15 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
             </View>
             
 
-            <Text style={{ color: isFocused ? '#FFD774' : '#C6C6C6' , textAlign: 'center', fontSize : 11, fontWeight: 'bold'}}>
+            <Text style={{ color: isFocused ? '#7777FF' : '#C6C6C6' , textAlign: 'center', fontSize : 11, fontWeight: 'bold'}}>
               {label}
             </Text>
           </TouchableOpacity>
         );
       })}
       
-    </View>
-    <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}/>
+      </View>
+      <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}/>
     </View>
   );
 }
@@ -155,53 +147,37 @@ const GuideVisiblity = (route) => {
   
 }
 
-const FeedVisiblity = (route) => {
-  const routeName = route.state
-  ? route.state.routes[route.state.index].name
-  : '';
 
-  if(routeName == 'Feed' || routeName == ''){
-    return true;
-  }
-  else{
-    return false;
-  }
-}
-
-
-export const MainNavigator = (): React.ReactElement => (
-    
+export const MainNavigator = (): React.ReactElement => (    
     <Tab.Navigator
       tabBar={props => <MyTabBar {...props}/>}
       initialRouteName={'HOME'}
     >
-        <Tab.Screen name={'TRAVEL'} component={GuideNavigator} 
-          options={({ route }) => ({
-            tabBarVisible: GuideVisiblity(route),
-            unmountOnBlur : false
-          })}/>
-        <Tab.Screen name={'FEED'} component={FeedNavigator} 
-          options={({ route }) => ({
-            unmountOnBlur : false,
-          })}          
-        />
-        <Tab.Screen 
-          name={'HOME'} 
-          component={HomeNavigator} 
-          options={({ route }) => ({
-            unmountOnBlur : false
-          })}
-        />
-        <Tab.Screen 
-          name={'BOARD'}          
-          component={BoardNavigator} 
-          options={({ route }) => ({
-            unmountOnBlur : false
-          })}
-        />
-        <Tab.Screen name={'MY PAGE'} component={MyPageNavigator}          
-          options={({ route }) => ({
-            unmountOnBlur : true
-        })}/>
+      <Tab.Screen 
+        name={NavigatorRoute.HOME} 
+        component={HomeNavigator} 
+        options={({ route }) => ({ unmountOnBlur : false })}
+      />
+      <Tab.Screen 
+        name={NavigatorRoute.CHAT}
+        component={ChatNavigator} 
+        options={({ route }) => ({
+          tabBarVisible: GuideVisiblity(route),
+          unmountOnBlur : false
+        })}
+      />
+      <Tab.Screen 
+        name={NavigatorRoute.SERIES}
+        component={SeriesNavigator} 
+        options={({ route }) => ({
+          unmountOnBlur : false,
+        })}          
+      />        
+      <Tab.Screen 
+        name={NavigatorRoute.MY}
+        component={MyNavigator}          
+        options={({ route }) => ({
+          unmountOnBlur : true
+      })}/>
     </Tab.Navigator>
 );

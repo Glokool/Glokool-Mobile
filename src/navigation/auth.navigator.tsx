@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { SignupScreen, SigninScreen, EmailVerificationScreen, EmailFailScreen, PasswordResetScreen } from '../scenes/auth';
+import { SignupScreen, SigninScreen, EmailVerificationScreen, EmailFailScreen, PasswordResetScreen } from '../scenes/Auth';
 
 type AuthNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SIGN_IN]: undefined;

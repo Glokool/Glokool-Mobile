@@ -20,7 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { BookPayScreenProps } from '../../navigation/book.navigator';
+import { BookPayScreenProps } from '../../navigation/Book.navigator';
 import { 
   requestOneTimePayment,
   PaypalResponse,

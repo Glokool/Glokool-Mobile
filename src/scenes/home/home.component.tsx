@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Card, Layout, LayoutElement, Modal } from "@ui-kitten/components"
-import { HomeScreenProps } from "../../navigation/home.navigator"
+import { HomeScreenProps } from "../../navigation/ScreenNavigator/Home.navigator"
 import { 
   Dimensions, 
   Image, 
@@ -20,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
 import { SERVER } from "../../server.component"
 import auth from '@react-native-firebase/auth';
+import { Logo } from '../../assets/icon/Home';
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-easy-toast'
@@ -87,36 +88,16 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
 
   async function initHomeScreen() {
-    axios.get(SERVER + '/api/contents')
-    .then((result) => {
-      setContent(result.data);
-    })
-    .catch((err) => {
 
-    })
-
-  axios.get(SERVER + '/api/tour/recommend')
-    .then((result) => {
-      setTour(result.data);
-      console.log(result.data)
-    })
-    .catch((err) => {
-
-    })
+    await axios.get(SERVER + '/api/tour/recommend')
+      .then((result) => {
+        setTour(result.data);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     
-  // await AsyncStorage.getItem('PermissionCheck')
-  //   .then((result) => {
-  //     if(result == 'check'){
-  //       setPermissionVisible(false);
-  //     }
-  //     else{
-  //       if(Platform.OS === 'android'){
-  //         setPermissionVisible(true);
-  //       }        
-  //     }
-  //   });
-
-  }
+  };
   
 
   React.useEffect(() => {
@@ -144,14 +125,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
   const renderTour = ({item}) => {
 
     const PressTour = (id: string) => {
-      props.navigation.navigate('FEED', {
-        screen: SceneRoute.FEED_TOURBOOK,
-        params: {
-          params:{
-            tourCode: id
-          }
-        }
-      });
+      // props.navigation.navigate('FEED', {
+      //   screen: SceneRoute.FEED_TOURBOOK,
+      //   params: {
+      //     params:{
+      //       tourCode: id
+      //     }
+      //   }
+      // });
     }
 
     return(
@@ -215,10 +196,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
       console.log('ios 는 권한설정 안함');
     }
     
-  }
-
-
-
+  };
 
   return(
     <Layout style={{ alignItems : 'flex-start', width : '100%' }}>
@@ -346,7 +324,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
           
           <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#00FF0000'}}>
             <SafeAreaView style={{flex: 0}} />
-            <Image source={require('../../assets/glokoolLogo.png')} style={{ width: Dimensions.get('window').width * 0.35, marginVertical: 10 }} resizeMode={'stretch'}/>
+            <Logo />
           </Layout>
           
           <Layout style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginVertical: 10}}>
@@ -363,14 +341,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
 
 
-                <TouchableOpacity onPress={() => props.navigation.navigate('MY PAGE')} style={{ backgroundColor: '#00FF0000'}}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(NavigatorRoute.MY)} style={{ backgroundColor: '#00FF0000'}}>
                   {(auth().currentUser)?
                     (auth().currentUser?.photoURL != '')?
                     <Image source={{uri : auth().currentUser?.photoURL}} style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#00FF0000' }}/>
                     :
-                    <Image source={require('../../assets/profile/profile_05.png')} style={{ width: 34, height: 34, backgroundColor: '#00FF0000' }}/>
+                    <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
                   :
-                    <Image source={require('../../assets/profile/profile_06.png')} style={{ width: 34, height: 34, backgroundColor: '#00FF0000' }}/>
+                    <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
                   }
                 </TouchableOpacity>
                 
@@ -380,94 +358,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
       </Layout>
 
-      <Modal
-          visible={permissionVisible}
-          backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-          style={{ padding: 10 }}
-        >
-          <Card disabled={true} style={{borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}>
 
-            <Layout style={{ alignItems: 'center'}}>
-              <Image source={require('../../assets/home/PermissionLogo.png')} style={{marginVertical: 10 }}/>
-            </Layout>
-            
-
-            <Layout style={{justifyContent: 'center', alignItems: 'flex-start', padding: 10}}>              
-
-              <Text style={{marginVertical: 10, textAlign: 'center', fontSize: 24, fontFamily: 'IBMPlexSansKR-Medium'}}>Glokool needs access to permissions below</Text>
-
-
-              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
-
-                <Image source={require('../../assets/home/Places.png')} />
-
-                <Layout style={{marginLeft: 10}}>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Location</Text>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Share your location with guide</Text>
-                </Layout>
-
-              </Layout>
-
-              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
-
-                <Image source={require('../../assets/home/Photos.png')} />
-
-                <Layout style={{marginLeft: 10}}>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Files</Text>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>{`Share images to Q&A board`}</Text>
-                </Layout>
-
-              </Layout>
-
-              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5 }}>
-
-                <Image source={require('../../assets/home/Camera.png')} />
-
-                <Layout style={{marginLeft: 10}}>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Camera</Text>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Send pictures to chat</Text>
-                </Layout>
-
-              </Layout>
-
-              <Layout style={{ flexDirection:'row', justifyContent: 'center', alignItems: 'center', marginVertical: 5, marginBottom: 10}}>
-
-                <Image source={require('../../assets/home/Microphone.png')} />
-
-                <Layout style={{marginLeft: 10}}>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-SemiBold', fontSize: 18, marginVertical: -5}}>Microphone</Text>
-                  <Text style={{fontFamily: 'IBMPlexSansKR-Medium', fontSize: 15, color: '#A1A1A1', marginVertical: -5}}>Send voice message to chat</Text>
-                </Layout>
-
-              </Layout>
-
-            </Layout>
-
-            <Layout style={{flexDirection: 'row'}}>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button style={{ borderColor: '#D2D2D2', backgroundColor: '#D2D2D2', borderRadius: 10 }} onPress={() => {
-                  setPermissionVisible(false);
-                  //AsyncStorage.setItem('PermissionCheck', JSON.stringify('check'));
-                }}>
-                  Skip
-                </Button>
-              </Layout>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button 
-                style={{ borderRadius: 10 }}
-                onPress={() => {
-                  setPermissionVisible(false);
-                  //AsyncStorage.setItem('PermissionCheck',  JSON.stringify('check'));
-                  PermissionRequest();
-                }}>
-                  Continue
-                </Button>
-              </Layout>
-              
-            </Layout>
-            
-          </Card>
-        </Modal>
       
       <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
 
@@ -495,21 +386,8 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   loginContainer: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,    
-    elevation: 6,
-    padding: 5, 
     justifyContent: 'center', 
     alignItems: 'center', 
-    marginRight: 10,  
-    borderTopStartRadius: 15,
-    borderTopEndRadius: 15,
-    borderBottomStartRadius: 15,
-    maxWidth: 140
+    marginRight: 5,
   }
 });

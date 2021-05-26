@@ -13,56 +13,37 @@ export enum NavigatorRoute {
     COURSE_DETAIL = 'Course Detail',
     BOOK = 'Book',
     BOARD = 'Board',
-    HOME = 'Home'
+    
+    HOME = 'Home',
+    CHAT = 'Chat',
+    SERIES = 'Series',
+    MY = 'My'
   }
 
 export enum SceneRoute {
+
+    //Home Navigator
     HOME = 'Home',
 
+    //Chat Navigator
+    CHAT = 'Chat',
+    CHAT_ROOM = 'Chat Room',
+    CHAT_ERROR_REPORT = 'Chat Error Report',
+
+    //Series Navigator
+    SERIES = 'Series',
+    SERIES_HIDDEN_GEM = 'Series Hidden Gem',
+    SERIES_A = 'Series_A',
+    SERIES_B = 'SERIES_B',
+
+    //Auth Navigator
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
     EMAIL_VERIFICATION = 'Email Verification',
     EMAIL_FAIL = 'Email Fail',
     PASSWORD = 'Password',
     
-    MAIN = 'Main',
-
-    FEED = 'Feed',
-    FEED_TOURBOOK = 'Feed Tourbook',
-    FEED_BOTTOMBAR = 'Feed Bottombar',
-    FEED_DETAIL = 'Feed Detail',
-    FEED_DETAIL_REVIEW = 'Feed Detail Review',
-
-    PAY = 'Pay',
-
-    BOARD = 'Board',
-    BOARD_LIST = 'Board List',
-    BOARD_POST_CREATE = 'Board Post Create',
-    BOARD_POST_DETAIL = 'Board Post Detail',
-    BOARD_POST_REPORT = 'Board Post Report',
-    BOARD_POST_MODIFY = 'Board Post Modify',
-
-    CONTENT = 'Content',
-    CONTENT_LIST = 'Content List',
-    CONTENT_DETAIL = 'Content Detail',
-    
-    GUIDE = 'Guide',
-    GUIDE_CHAT = 'Guide Chat',
-    GUIDE_ERROR = 'Guide Error',
-    GUIDE_REPORT = 'Guide Report',
-
-    ATTRACTION_INFO = 'My Tour Attraction Info',
-    ATTRACTION_INTRO = 'My Tour Attraction Intro',
-    ATTRACTION_PHOTO = 'My Tour Attraction Photo',
-
-    RESTAURANT_INFO = 'My Tour Restaurant Info',
-    RESTAURANT_INTRO = 'My Tour Restaurant Intro',
-    RESTAURANT_MENU = 'My Tour Restaurant Menu',
-
-    CAFE_INFO = 'Cafe Info',
-    CAFE_INTRO = 'Cafe Intro',
-    CAFE_MENU = 'Cafe Menu',
-
+    //My Navigator
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',
     MY_PAGE_CUSTOMERSERVICE = 'My Page CurstomerService',
@@ -73,11 +54,8 @@ export enum SceneRoute {
     MY_PAGE_PROFILE = 'My Page Profile',
     MY_PAGE_FAQ = 'My Page FAQ',
 
-    COURSE_LIST = 'Course List',
-    COURSE_MAP = 'Course Map',
-    COURSE_DETAIL_OVERVIEW = 'Course Detail Overview',
-    COURSE_DETAIL_SPOTS = 'Course Detail Spots',
-    COURSE_DETAIL_REVIEW = 'Course Detail Review',
+
+    PAY = 'Pay',
 
     BOOK_DATE = 'Book Date',
     BOOK_PAY = 'Book Pay',

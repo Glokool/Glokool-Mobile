@@ -29,7 +29,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { BookProfileScreenProps } from '../../navigation/book.navigator';
+import { BookProfileScreenProps } from '../../navigation/Book.navigator';
 import Toast from 'react-native-easy-toast';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 
