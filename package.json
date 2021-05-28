@@ -39,6 +39,7 @@
     "@react-navigation/material-top-tabs": "^5.3.15",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@types/react-native-snap-carousel": "^3.8.3",
     "@types/react-native-tags": "^2.2.0",
     "@ui-kitten/components": "^5.1.0",
     "@ui-kitten/eva-icons": "^5.1.0",

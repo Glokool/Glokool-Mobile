@@ -14,7 +14,6 @@ import {
     FlatList, 
     ScrollView
 } from 'react-native';
-import Carousel from 'react-native-banner-carousel';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
@@ -24,6 +23,7 @@ import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import TravlerMini from '../../assets/board/Travler_Mini.svg';
 import Comment from '../../assets/board/comment.svg';
 import Good from '../../assets/board/good.svg';
+import Carousel from 'react-native-snap-carousel';
 
 interface Comment {
     content: string,
@@ -81,48 +81,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [content, setContent] = React.useState([]);
     const [qnaBoard, setQnaBoard] = React.useState<Array<BoardDocument>>([]);
 
-    async function init_BoardMain() {
-        axios.get(SERVER + '/api/contents')
-          .then((result) => {
-            setContent(result.data);
-          })
-          .catch((err) => {
-    
-        })     
-        
-        const QnA = await firestore().collection('QnABoard').get();
-        var QnABoard : Array<BoardDocument> = [];
-        
-        QnA.forEach((doc) => {
-            var tempData = doc.data();
-            tempData.id = doc.id
-  
-            QnABoard.push(tempData);
-          });    
-  
-          QnABoard.sort(function(a, b) {
-            var keyA = new Date(a.writeDate.toDate()),
-                keyB = new Date(b.writeDate.toDate());
-            // Compare the 2 dates
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-            return 0;
-          });
-  
-          QnABoard.reverse()
-
-          var data = [];
-          data.push(QnABoard[0]);
-          data.push(QnABoard[1]);
-  
-          setQnaBoard(data);
-          setRefresh(!refresh);
-    }
-
-
     React.useEffect(() => {    
-
-        init_BoardMain();
 
     }, []);
 
@@ -141,32 +100,19 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     return(
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
-           
+           <Layout style={styles.seriesHideen}>
+               <Text>{`Hiddenw Gems in Korea`}</Text>
+           </Layout>
         </ScrollView>
     );
 
 }
 
 const styles = StyleSheet.create({
-    mainContainer:{
-        justifyContent:'center',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 15,
-        height: 140,
-        marginVertical: 10,
-        borderWidth: 2,
-        borderColor: '#FFD774',
-        width: '81%',
-        zIndex: 100
+    seriesHideen:{
+        width: Dimensions.get('window').width,
+        marginTop: 50,
+        
     },
-    banner: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 20,
-        width: Dimensions.get('window').width * 0.8,
-        height: 110,
-        padding: 2,
-        zIndex: 0
-    },
+
 });

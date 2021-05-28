@@ -1652,6 +1652,14 @@
   "resolved" "https://registry.npmjs.org/@types/react-native-audio/-/react-native-audio-4.3.3.tgz"
   "version" "4.3.3"
 
+"@types/react-native-snap-carousel@^3.8.3":
+  "integrity" "sha512-oAcURkSGLLBVeLDiBGBRURqmIHzdVA7EeZkgFLmXpYqdth31tIfLcAnkAlMTwOjo3Guh3ym9PgF8w4LsCE98ig=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-snap-carousel/-/react-native-snap-carousel-3.8.3.tgz"
+  "version" "3.8.3"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-tags@^2.2.0":
   "integrity" "sha512-ErkojyeEdwPvJqJKxTPBIHR/jtfXUh8Mk4pkj7fO4PEKBthVHddABR+ccd/SWaj9QG3JqJv2s2skUOSoi+sUOw=="
   "resolved" "https://registry.npmjs.org/@types/react-native-tags/-/react-native-tags-2.2.0.tgz"
