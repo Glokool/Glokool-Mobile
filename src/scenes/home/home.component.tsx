@@ -20,10 +20,11 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
 import { SERVER } from "../../server.component"
 import auth from '@react-native-firebase/auth';
-import { Logo } from '../../assets/icon/Home';
+import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-easy-toast'
+import { HomeTopTabBar } from "../../component/Home/Home.TopTabBar"
 
 var ToastRef : any;
 
@@ -32,8 +33,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
   const [content, setContent] = React.useState([]);
   const [tour, setTour] = React.useState([]);
   const [permissionVisible, setPermissionVisible] = React.useState(false);
-  const BannerWidth = Dimensions.get('window').width * 0.8;
-  const BannerHeight = 110;
+
+  const GloChat3 = 'Click to Start'
+
   const banner = [
     {
       url : 'https://glokool.com',
@@ -86,8 +88,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     return true;
   }
 
+  React.useEffect(() => {
+    InitHomeScreen();
+  }, []);
 
-  async function initHomeScreen() {
+
+  async function InitHomeScreen() {
 
     await axios.get(SERVER + '/api/tour/recommend')
       .then((result) => {
@@ -97,271 +103,83 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         console.log(err)
       })
     
-  };
-  
+  };  
 
-  React.useEffect(() => {
-    initHomeScreen();
-  }, []);
-
-  const PressLogin = () => {
-    if(auth().currentUser){
-      null;
-    }
-    else{
-      props.navigation.replace(NavigatorRoute.AUTH)
-    }
-  }
-
-  const PressQnA = () => {
-    props.navigation.navigate('BOARD', {
-      screen: SceneRoute.BOARD_LIST
-    });
-
-
+  function PressGloChatAD() {
+    props.navigation.navigate(NavigatorRoute.CHAT);
   }
 
 
-  const renderTour = ({item}) => {
-
-    const PressTour = (id: string) => {
-      // props.navigation.navigate('FEED', {
-      //   screen: SceneRoute.FEED_TOURBOOK,
-      //   params: {
-      //     params:{
-      //       tourCode: id
-      //     }
-      //   }
-      // });
-    }
-
-    return(
-      <Layout style={{ padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-        
-        <TouchableOpacity onPress={() => PressTour(item.id)}>
-          <Image source={{ uri : item.banner}} style={{ width: 250, height: 330, resizeMode: 'stretch', borderRadius: 5 }}/>
-        </TouchableOpacity>
-
-        <Layout style={{ position: 'absolute', alignItems: 'center', justifyContent: 'center',bottom: 20, backgroundColor: '#00FF0000'}}>
-          <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black', color: 'white' }}>{item.title}</Text>
-        </Layout>
 
 
-      </Layout>
-    )
-
-  }
-
-  const renderContent = ({item}) => {
-
-    const PressContent = (id : string) => {
-      props.navigation.navigate('BOARD', {
-        screen: SceneRoute.CONTENT_DETAIL,
-        params: { id : id}
-      })
-    }
-
-    return(
-      <TouchableOpacity style={{ margin: 10 }} onPress={() => {PressContent(item.id)}}>
-        <Image source={{ uri : item.image}} style={{ width: 216, height: 216, borderRadius: 15, resizeMode: 'stretch'}}/>
-      </TouchableOpacity>
-    );
-  }
-
-  const PermissionRequest = async() => {
-
-    if (Platform.OS === "android") {
-      await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      ]).then((result)=>{
-          if (result['android.permission.CAMERA']
-          && result['android.permission.WRITE_EXTERNAL_STORAGE']
-          && result['android.permission.READ_EXTERNAL_STORAGE']
-          && result['android.permission.RECORD_AUDIO']
-          && result['android.permission.ACCESS_FINE_LOCATION']
-          && result['android.permission.ACCESS_COARSE_LOCATION']
-          === 'granted') {
-              console.log("모든 권한 획득");
-          } else{
-              console.log("권한거절");
-          }
-      })   
-    }
-    else{
-      console.log('ios 는 권한설정 안함');
-    }
-    
-  };
 
   return(
     <Layout style={{ alignItems : 'flex-start', width : '100%' }}>
+
+      <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
       
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ width : '100%' }}
       >
-        <Layout style={{ width: '100%', height: 80 }} />
+          <Layout style={{ width: '100%', height: 80 }} /> 
 
-          <ImageBackground source={require('../../assets/home/background.png')} style={{ width: '100%' }} resizeMode={'stretch'}>
+          {/* 타이틀 텍스트 */}
+          <Layout style={styles.TitleTextContainer}>
+            <Text style={styles.TitleText1}>
+              {`Ask us whatever, whenever`}
+            </Text>
             
-          {/* 최초 채팅 */}
-          <Layout style={{ backgroundColor: '#00FF0000', justifyContent: 'center', alignItems: 'center', width: '100%' }}>    
+            <Text style={styles.TitleText2}>
+              {`Glokool gets you goin' in Korea.`}
+            </Text>
+          </Layout>
 
-            <Layout style={{ backgroundColor: '#00FF0000', width: '90%'}}>
-              <Image source={require('../../assets/home/Home_Chat_01.png')} style={{ width: '100%', resizeMode: 'stretch' }} />
+          {/* 글로챗 광고 */}
+          <Layout style={styles.GloChatADContainer}>
+
+            <Layout style={styles.GloChatContainer1}>
+              <Text style={styles.GloChat1}>{`What are some popular${`\n`}restaurants nearby?`}</Text>
             </Layout>
 
-            <TouchableOpacity style={{ backgroundColor: '#00FF0000', width: '90%', marginRight: -10 }} 
-                onPress={() => {props.navigation.navigate('BOARD', {
-                                    screen: SceneRoute.CONTENT_DETAIL,
-                                    params: { id : '8'}
-                })}}>
-                <Image source={require('../../assets/home/Home_Chat_02.png')} style={{ width: '100%', resizeMode: 'stretch' }} />
-            </TouchableOpacity>
+            <Layout style={styles.GloChatContainer2}>
+              <Text style={styles.GloChat2}>{`There are..`}</Text>
+            </Layout>
+
+            <Layout style={styles.GloChatContainer3} onTouchStart={() => PressGloChatAD()}>
+              <Text style={styles.GloChat3}>{`Click to Start `}</Text>
+              <Text style={styles.GloChat3_1}>{`Glo-Chat`}</Text>
+              <Text style={styles.GloChat3}>{`!   `}</Text>
+              <AngleRightDouble style={styles.GloChatIcon} />
+            </Layout>
 
           </Layout>
 
-          {/* 투어 추천 */}
-          <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>
-
-            <Layout style={{ flex: 1,  backgroundColor: '#00FF0000' }}>
-              <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Locals' favorites</Text>
-            </Layout>
-
-            <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', backgroundColor: '#00FF0000'}} onPress={() => props.navigation.navigate('FEED', {
-              screen: SceneRoute.FEED
-            })}>
-              <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }}>SEE MORE</Text>
-            </TouchableOpacity>      
-
-          </Layout>          
-
-          <Layout style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
-
-            <FlatList
-              style={{backgroundColor: '#00FF0000'}}
-              data={tour}
-              renderItem={renderTour}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              initialNumToRender={3}
-              keyExtractor={item => item.id}
-              getItemLayout={(data, index) => (
-                {length: 350, offset: 270 * index, index}
-              )}
-              initialScrollIndex={0.8}
-            />
-
-          </Layout>
-          
+                   
 
           {/* 캐러셀 */}
-          <Layout style={styles.mainContainer}>
+          <Layout style={styles.CarouselContainer}>
             <Carousel
                 autoplay
                 autoplayTimeout={5000}
                 loop
                 index={0}
-                pageSize={BannerWidth}
+                pageSize={Dimensions.get('window').width}
             >
               {(banner.map((item) =>   
-                <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.banner}>
-                  <Image style={{width: BannerWidth, height: BannerHeight, resizeMode: 'stretch', borderRadius: 5 }} source={item.image}/>
+                <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.Carousel}>
+                  <Image style={styles.CarouselImage} source={item.image}/>
                 </TouchableOpacity>
-              ))}
-                
+              ))}                
             </Carousel>
-
           </Layout>
+
+          <Layout style={{ width: '100%', height: 80 }} />
         
-
-
-        {/* 컨텐츠 */}
-        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 30, marginVertical: 10, backgroundColor: '#00FF0000' }}>
-
-          <Layout style={{ flex: 3, backgroundColor: '#00FF0000' }}>
-            <Text style={{ fontSize: 25, fontFamily: 'BrandonGrotesque-Black' }}>Must Check Contents</Text>
-          </Layout>
-
-          <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-            <Text style={{ fontSize: 15, fontFamily: 'BrandonGrotesque-Black', color: '#FFD878' }} onPress={() => props.navigation.navigate('BOARD', { screen: SceneRoute.CONTENT_LIST })}>SEE MORE</Text>
-          </TouchableOpacity>       
-
-        </Layout>
-
-        <Layout style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingRight: 30, marginVertical: 10 }}>
-
-          <FlatList
-            style={{backgroundColor: '#00FF0000'}}
-            data={content}
-            renderItem={renderContent}
-            keyExtractor={item => item.id}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-          />
-
-        </Layout>
-
-        <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10, width: '100%' }} onPress={() => {PressQnA()}}>
-
-          <Image source={require('../../assets/home/Home_QnA_Banner.png')} style={{ width: '100%', resizeMode: 'stretch' }}/>
-
-        </TouchableOpacity>
-
-
-        </ImageBackground>
-
       </ScrollView>
+
+      <HomeTopTabBar navigation={props.navigation} route={props.route}></HomeTopTabBar>
       
-
-      {/* 탑 탭 바 */}
-      <Layout style={{ position: 'absolute', top: 0, width: '100%', height: 80, paddingVertical: 20, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
-          
-          <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#00FF0000'}}>
-            <SafeAreaView style={{flex: 0}} />
-            <Logo />
-          </Layout>
-          
-          <Layout style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#00FF0000', marginVertical: 10}}>
-            <SafeAreaView style={{flex: 0}} />
-              <Layout style={{ flexDirection: 'row', backgroundColor: '#00FF0000' }}>
-
-                <Layout style={styles.loginContainer} onTouchStart={() => {PressLogin()}}>
-                  {(auth().currentUser)? 
-                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 15}} numberOfLines={1}>{`Hi ! I'm ${auth().currentUser?.displayName}`}</Text>
-                  :
-                    <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', color: '#B8B7B5', marginHorizontal: 15}}>{`Login`}</Text>
-                  }                  
-                </Layout>
-
-
-
-                <TouchableOpacity onPress={() => props.navigation.navigate(NavigatorRoute.MY)} style={{ backgroundColor: '#00FF0000'}}>
-                  {(auth().currentUser)?
-                    (auth().currentUser?.photoURL != '')?
-                    <Image source={{uri : auth().currentUser?.photoURL}} style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#00FF0000' }}/>
-                    :
-                    <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
-                  :
-                    <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
-                  }
-                </TouchableOpacity>
-                
-              </Layout>
-              
-          </Layout>
-
-      </Layout>
-
-
-      
-      <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
-
     </Layout>
 
   )
@@ -377,17 +195,120 @@ const styles = StyleSheet.create({
     width : Dimensions.get('window').width,
     marginVertical: 10,
   },
-  banner: {
+  TitleTextContainer: {
+    marginHorizontal: 40,
+    marginVertical: 20
+  },
+  TitleText1: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 23
+  },
+  TitleText2: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 26
+  },
+  GloChatADContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  GloChatContainer1: {
+    alignSelf: 'flex-start',
+    marginLeft: 30,
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    borderBottomStartRadius: 5,
+    borderBottomEndRadius: 15,
+    padding: 10,
+    width: '55%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  GloChat1 : {
+    fontFamily: 'BrandonGrotesque-Medium',
+    fontSize: 21
+  },
+  GloChatContainer2: {
+    alignSelf: 'flex-end',
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    marginRight: 30,
+    marginTop : -10,
+    padding: 10,
+    width: '30%',
+    backgroundColor: '#F7F7F7',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  GloChat2 : {
+    fontFamily: 'BrandonGrotesque-Medium',
+    fontSize: 21
+  },
+
+  GloChatContainer3: {
+    alignSelf: 'flex-end',
     justifyContent: 'center',
+    flexDirection: 'row',
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    borderBottomStartRadius: 15,
+    borderBottomEndRadius: 5,
+    marginRight: 30,
+    marginTop : -10,
+    padding: 10,
+    width: '60%',
+    backgroundColor: '#292434',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  GloChat3 : {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#8797FF',
+  },
+  GloChat3_1 : {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#FFFFFF',
+  },
+  GloChatIcon : {
+    alignSelf: 'center',
+  },
+
+
+  CarouselContainer: {
+    justifyContent:'center',
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#00FF0000'
+  },
+  Carousel: {
+    justifyContent:'center',
     alignItems: 'center',
     borderRadius: 15,
+  },
+  CarouselImage: {
     width: Dimensions.get('window').width * 0.8,
     height: 110,
-    padding: 2,
-  },
-  loginContainer: {
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    marginRight: 5,
+    resizeMode: 'stretch',
+    borderRadius: 10,
   }
 });
