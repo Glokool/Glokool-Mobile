@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookPayConfirmScreen } from '../scenes/book';
+import { BookPayConfirmScreen } from '../scenes/Book';
 
 type PayNavigatorParams = AppNavigatorParams & {
   [SceneRoute.PAY]: undefined;
