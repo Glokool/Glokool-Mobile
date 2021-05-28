@@ -13,7 +13,7 @@ import {
   MyPagePrivacyScreen,
   MyPageProfileScreen,
   MyPageFAQScreen
-} from '../../scenes/My';
+} from '../../scenes/My1';
 
 type MyPageNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY_PAGE]: undefined;

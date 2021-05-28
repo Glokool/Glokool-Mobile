@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
-import { HomeScreen } from '../../scenes/Home';
+import { HomeScreen } from '../../scenes/Home1';
 
 type HomeNavigatorParams = AppNavigatorParams & {
     [SceneRoute.HOME] : undefined;

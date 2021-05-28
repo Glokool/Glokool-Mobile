@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookDateScreen, BookPayScreen, BookProfileScreen } from '../scenes/Book';
+import { BookDateScreen, BookPayScreen, BookProfileScreen } from '../scenes/Book1';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    

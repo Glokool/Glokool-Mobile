@@ -5,7 +5,7 @@ import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import { 
   ChatScreen
-} from '../../scenes/Chat';
+} from '../../scenes/Chat1';
 
 const Stack = createStackNavigator();
 

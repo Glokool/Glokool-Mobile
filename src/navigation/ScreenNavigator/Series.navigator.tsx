@@ -5,7 +5,7 @@ import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import {
   SeriesScreen
-} from '../../scenes/Series'
+} from '../../scenes/Series1'
 
 const Stack = createStackNavigator();
 
