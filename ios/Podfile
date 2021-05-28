@@ -16,10 +16,12 @@ target 'Glokool' do
 
   pod 'RNPaypal', :path => '../node_modules/react-native-paypal'
 
+  pod 'Braintree/DataCollector'
+
+
 
   pod 'IamportReactNative', :path => '../node_modules/iamport-react-native'
 
-  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   target 'GlokoolTests' do
     inherit! :complete
