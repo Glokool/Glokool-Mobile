@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AuthNavigator } from './auth.navigator';
+import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
 import { PayNavigator } from './Pay.navigator'
 import { BookNavigator } from './Book.navigator';
