@@ -104,17 +104,15 @@
 	<string>App would lite to use your photo Library for Chat function</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Fonts/NotoSansCJKkr-Regular.otf</string>
-		<string>Fonts/NotoSansCJKkr-Bold.otf</string>
-		<string>Fonts/NotoSansCJKkr-Medium.otf</string>
-		<string>Fonts/BrandonGrotesque-Black.ttf</string>
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
-		<string>Fonts/BrandonGrotesque-Medium.ttf</string>
 		<string>Fonts/BrandonGrotesque-BoldItalic.ttf</string>
-		<string>Fonts/IBMPlexSansKR-SemiBold.ttf</string>
-		<string>Fonts/IBMPlexSansKR-Medium.ttf</string>
-		<string>Fonts/IBMPlexSansKR-Text.ttf</string>
-		<string>Fonts/IBMPlexSansKR-Bold.ttf</string>
+		<string>Fonts/BrandonGrotesque-Medium.ttf</string>
+		<string>Fonts/IBMPlesSansKR-Bold.ttf</string>
+		<string>Fonts/IBMPlesSansKR-Medium.ttf</string>
+		<string>Fonts/IBMPlesSansKR-SemiBold.ttf</string>
+		<string>Fonts/IBMPlesSansKR-Text.ttf</string>
+		<string>Fonts/NotoSans-SemiCondensed.ttf</string>
+		<string>Fonts/NotoSans-SemiCondensedSemiBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
