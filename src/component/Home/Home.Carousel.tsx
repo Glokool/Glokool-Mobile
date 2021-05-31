@@ -66,8 +66,8 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                 containerCustomStyle={styles.CarouselInsideContainer}
                 loop={true}
                 autoplay={true}
-                autoplayDelay={500}
-                autoplayInterval={3000}
+                autoplayDelay={1500}
+                autoplayInterval={4000}
                 onSnapToItem={(index : number) => setCarouselIndex(index) }
             />
                 <Pagination
@@ -78,7 +78,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                   dotStyle={styles.CarouselDot}
                   inactiveDotColor={'black'}
                   inactiveDotOpacity={0.4}
-                  inactiveDotScale={0.6}
+                  inactiveDotScale={1}
                 />
         </Layout>
     )
@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
     },
     CarouselDotContainer: {
         position: 'absolute',
-        bottom : -10,
-        left: 10,
+        bottom : -15,
+        left: -2,
         backgroundColor: '#00FF0000'
     },
     CarouselDot: {
-        width: 20,
-        height: 8,
+        width: 13,
+        height: 4,
         borderRadius: 30,        
     },
     ItemContainer: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     TitleContainer: {
         position: 'absolute',
         backgroundColor: '#00FF0000',
-        bottom: 50,
+        bottom: 25,
         left: 25
     },
     Title : {
@@ -137,14 +137,13 @@ const styles = StyleSheet.create({
         marginTop: -5,
         fontSize: 24
     },
-
     ImageContainer: {
         width: ImageSize,
         height: ImageSize,
-        resizeMode: 'stretch',
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 25,
+        resizeMode: 'cover',
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 50,
     }
 })
