@@ -1,84 +1,150 @@
 import React from 'react'
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { Layout, LayoutElement } from "@ui-kitten/components"
+import { Layout, LayoutElement, Text } from "@ui-kitten/components"
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 type HomeCarousel_Item = {
     title: '',
     type: '',
     image: '',
-    id: ''
+    _id: ''
 }
+
+const ImageSize = Dimensions.get('window').width * 0.85;
 
 export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
 
-    const [entries, setEntries] = React.useState<Array<HomeCarousel_Item>>([]);
+    const [content, setContent] = React.useState<Array<HomeCarousel_Item>>([]);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
     const [activeSlide, setActiveSlide] = React.useState<Number>(0);
 
-    const ImageWidth = Dimensions.get('window').width * 0.85;
-    const ImageHeight = ImageWidth;
-
     React.useEffect(() => {
+        InitHomeCarousel();
 
-        axios.get(SERVER + '/api/main')
-            .then((result) => {
-                console.log(result.data)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+    }, []);
 
-    }, [])
+    async function InitHomeCarousel() {
+        var Content = await axios.get(SERVER + '/api/home');
+        setContent(Content.data);
+    }
 
-    const Pagination = () => {
+    const RenderCarousel = ({item}) => {
 
         return(
-            <Pagination
-                dotsLength={entries.length}
-                activeDotIndex={activeSlide}
-                containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
-                dotStyle={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 8,
-                    backgroundColor: 'rgba(255, 255, 255, 0.92)'
-                }}
-                inactiveDotStyle={{
-                    // Define styles for inactive dots here
-                }}
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={0.6}
-            />
+            <TouchableOpacity style={styles.ItemContainer}>
+                <Image source={{ uri : item.image }} style={styles.ImageContainer} />
+
+                <Layout style={styles.TitleContainer}>
+                    <Layout style={styles.TypeContainer}>
+                        {(item.type === 'tour')? <Text></Text> : (item.type === 'blog')? <Text></Text> : <Text></Text>}
+                        <Text style={styles.Type}>{(item.type === 'tour')? `GLOKOOL Service` : (item.type === 'blog')? `Day Trip with Glokool`: 'Series B'}</Text>
+                    </Layout>
+                    <Text style={styles.Title}>{item.title}</Text>
+                </Layout>
+
+            </TouchableOpacity>    
         )
     }
 
-    const RenderItem = ( item : HomeCarousel_Item, index : Number) => {
-        <Layout style={styles.ImageContainer}>
-            <Image width={ImageWidth} height={ImageHeight} resizeMode={'stretch'} source={{uri : item.image}} />
-        </Layout>        
-    }
-
     return (
-            <Layout>
-                <Carousel
-                  data={entries}
-                  renderItem={RenderItem}
-                  onSnapToItem={(index : Number) => setActiveSlide(index) }
+        <Layout style={styles.CarouselContainer}>
+            <Carousel
+                data={content}
+                layout={'default'}
+                renderItem={RenderCarousel}
+                style={styles.Carousel}
+                sliderWidth={Dimensions.get('window').width - 30}
+                itemWidth={ImageSize}
+                hasParallaxImages={false}
+                firstItem={0}
+                inactiveSlideScale={0.8}
+                inactiveSlideOpacity={0.7}
+                inactiveSlideShift={0}
+                containerCustomStyle={styles.CarouselInsideContainer}
+                loop={true}
+                autoplay={true}
+                autoplayDelay={500}
+                autoplayInterval={3000}
+                onSnapToItem={(index : number) => setCarouselIndex(index) }
+            />
+                <Pagination
+                  dotsLength={content.length}
+                  containerStyle={styles.CarouselDotContainer}
+                  activeDotIndex={carouselIndex}
+                  dotColor={'#FFFFFF'}
+                  dotStyle={styles.CarouselDot}
+                  inactiveDotColor={'black'}
+                  inactiveDotOpacity={0.4}
+                  inactiveDotScale={0.6}
                 />
-                { Pagination }
-            </Layout>
+        </Layout>
     )
 }
 
 const styles = StyleSheet.create({
+    CarouselContainer: {
+        marginLeft: 30,
+        height: ImageSize,
+        width: '100%',
+        backgroundColor: '#00FF0000'
+    },
+    Carousel: {
+        height: ImageSize,
+        backgroundColor: '#00FF0000',
+    },
+    CarouselInsideContainer: {
+        marginLeft: -16
+    },
+    CarouselDotContainer: {
+        position: 'absolute',
+        bottom : -10,
+        left: 10,
+        backgroundColor: '#00FF0000'
+    },
+    CarouselDot: {
+        width: 20,
+        height: 8,
+        borderRadius: 30,        
+    },
+    ItemContainer: {
+        width: ImageSize,
+        height: ImageSize,
+        backgroundColor: '#00FF0000',
+    },
+    TypeContainer: {
+        flexDirection: 'row',
+        backgroundColor: '#00FF0000',
+        marginBottom: 0
+    },
+    Type: {
+        color: '#E6E6E6',
+        fontFamily : 'NotoSans-SemiCondensedSemiBold',
+        fontSize: 14,
+        marginBottom: 0
+    },
+    TitleContainer: {
+        position: 'absolute',
+        backgroundColor: '#00FF0000',
+        bottom: 50,
+        left: 25
+    },
+    Title : {
+        color: '#FFFFFF',
+        fontFamily : 'BrandonGrotesque-BoldItalic',
+        marginTop: -5,
+        fontSize: 24
+    },
+
     ImageContainer: {
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
-        borderBottomStartRadius: 15,
-        borderBottomEndRadius: 5,
+        width: ImageSize,
+        height: ImageSize,
+        resizeMode: 'stretch',
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 25,
     }
 })

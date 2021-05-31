@@ -16,25 +16,17 @@ import {
   BackHandler 
 } from "react-native"
 import Carousel from "react-native-banner-carousel"
-import { SafeAreaView } from "react-native-safe-area-context"
 import axios from "axios"
 import { SERVER } from "../../server.component"
-import auth from '@react-native-firebase/auth';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-easy-toast'
-import { HomeTopTabBar } from "../../component/Home/Home.TopTabBar"
+import { HomeTopTabBar, HomeCarousel } from "../../component/Home"
 
 var ToastRef : any;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
-
-  const [content, setContent] = React.useState([]);
-  const [tour, setTour] = React.useState([]);
-  const [permissionVisible, setPermissionVisible] = React.useState(false);
-
-  const GloChat3 = 'Click to Start'
 
   const banner = [
     {
@@ -88,23 +80,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     return true;
   }
 
-  React.useEffect(() => {
-    InitHomeScreen();
-  }, []);
-
-
-  async function InitHomeScreen() {
-
-    await axios.get(SERVER + '/api/tour/recommend')
-      .then((result) => {
-        setTour(result.data);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    
-  };  
-
   function PressGloChatAD() {
     props.navigation.navigate(NavigatorRoute.CHAT);
   }
@@ -134,6 +109,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               {`Glokool gets you goin' in Korea.`}
             </Text>
           </Layout>
+
+          <HomeCarousel navigation={props.navigation} route={props.route}/>
 
           {/* 글로챗 광고 */}
           <Layout style={styles.GloChatADContainer}>
