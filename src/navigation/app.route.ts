@@ -44,6 +44,7 @@ export enum SceneRoute {
     PASSWORD = 'Password',
     
     //My Navigator
+    MY = 'My',
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',
     MY_PAGE_CUSTOMERSERVICE = 'My Page CurstomerService',
@@ -54,6 +55,8 @@ export enum SceneRoute {
     MY_PAGE_PROFILE = 'My Page Profile',
     MY_PAGE_FAQ = 'My Page FAQ',
 
+    //공통 인수
+    LOGIN_CHECK = 'Login Check',
 
     PAY = 'Pay',
 

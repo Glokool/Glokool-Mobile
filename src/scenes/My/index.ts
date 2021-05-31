@@ -1,4 +1,4 @@
-export { MyPageScreen } from './myPage.component';
+export { MYScreen } from './My.component'
 export { MyPageSettingScreen } from './myPage.setting.component';
 export { MyPageProfileScreen } from './myPage.profile.component';
 export { MyPageCustomerServiceScreen } from './myPage.CustomerService.component';

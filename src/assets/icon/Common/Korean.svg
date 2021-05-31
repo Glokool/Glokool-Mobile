@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="63" height="20" viewBox="0 0 63 20">
+  <g id="Korean" transform="translate(-219 -741)">
+    <g id="사각형_2031" data-name="사각형 2031" transform="translate(219 741)" fill="none" stroke="#ffa757" stroke-width="1">
+      <rect width="63" height="20" rx="10" stroke="none"/>
+      <rect x="0.5" y="0.5" width="62" height="19" rx="9.5" fill="none"/>
+    </g>
+    <text id="Korean-2" data-name="Korean" transform="translate(251 756)" fill="#ffa757" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-22.874" y="0">Korean</tspan></text>
+  </g>
+</svg>

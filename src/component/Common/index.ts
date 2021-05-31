@@ -1,0 +1,1 @@
+export {LoginCheck} from './LoginCheck.component';
