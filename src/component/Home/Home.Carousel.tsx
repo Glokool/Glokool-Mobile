@@ -23,7 +23,6 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
 
     React.useEffect(() => {
         InitHomeCarousel();
-
     }, []);
 
     async function InitHomeCarousel() {
