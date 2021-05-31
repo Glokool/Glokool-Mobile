@@ -101,10 +101,10 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     return(
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
            <Layout style={styles.seriesHidden}>
-               <Layout>
+               <Layout >
                     <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
                </Layout>
-               <Layout>
+               <Layout style={styles.moreBtnLayout}>
                     <Text style={styles.moreBtnTxt}>{`More`}</Text>
                </Layout>
            </Layout>
@@ -119,12 +119,16 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:250,
         flexDirection:'row',
-        justifyContent:'center'
+        alignItems:'center'
     },
     seriesHiddenTxt:{
         fontFamily:'IBMPlexSansKR-SemiBold',
         fontSize:17,
         color: '#000000',
+    },
+    moreBtnLayout:{
+        // marginLeft:30
+        textAlign:'right'
     },
     moreBtn:{
         textAlign:'right',
