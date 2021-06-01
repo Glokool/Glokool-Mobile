@@ -12,7 +12,7 @@ import {
   Icon,
   Divider
 } from '@ui-kitten/components';
-import { MyPageFAQScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MyPageFAQScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft

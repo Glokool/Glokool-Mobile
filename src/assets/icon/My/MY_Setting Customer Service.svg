@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="23.358" viewBox="0 0 25 23.358">
+  <g id="MY_Setting_Customer_Service" data-name="MY_Setting Customer Service" transform="translate(-41.239 -273.073)">
+    <g id="그룹_1354" data-name="그룹 1354" transform="translate(2.239 3)">
+      <g id="사각형_2439" data-name="사각형 2439" transform="translate(39 279)" fill="#fff" stroke="#77f" stroke-width="2">
+        <rect width="6" height="12" rx="3" stroke="none"/>
+        <rect x="1" y="1" width="4" height="10" rx="2" fill="none"/>
+      </g>
+      <g id="사각형_2440" data-name="사각형 2440" transform="translate(58 279)" fill="#fff" stroke="#77f" stroke-width="2">
+        <rect width="6" height="12" rx="3" stroke="none"/>
+        <rect x="1" y="1" width="4" height="10" rx="2" fill="none"/>
+      </g>
+      <g id="사각형_2441" data-name="사각형 2441" transform="translate(50 289)" fill="#77f" stroke="#77f" stroke-width="2">
+        <rect width="6" height="4" rx="2" stroke="none"/>
+        <rect x="1" y="1" width="4" height="2" rx="1" fill="none"/>
+      </g>
+      <path id="패스_2013" data-name="패스 2013" d="M0-4.4s-.923-9.534,8.312-9.426S16.081-4.4,16.081-4.4" transform="translate(43.529 284.896)" fill="none" stroke="#77f" stroke-width="2"/>
+      <path id="패스_2014" data-name="패스 2014" d="M0,0A6.659,6.659,0,0,0,3.014,1.109,4.087,4.087,0,0,0,5.522,0" transform="translate(54.558 291.324) rotate(-30)" fill="none" stroke="#77f" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

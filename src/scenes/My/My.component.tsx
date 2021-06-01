@@ -14,16 +14,19 @@ import {
   Divider,
   Layout,
   LayoutElement,
-  styled,
   Text,
 } from '@ui-kitten/components';
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { LoginCheck } from '../../component/Common';
 import { Traveler, Korean, Resident } from '../../assets/icon/Common';
-import { Receipt } from '../../assets/icon/My';
+import { Receipt, Receipt_Large, Setting_Btn, Comment_Btn, Bookmark_Btn } from '../../assets/icon/My';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
+import { ScrollView } from 'react-native-gesture-handler';
+import { PaidDetail } from '../../component/My/PaidDetail';
+import { ReservationInfo } from '.';
+import { SceneRoute } from '../../navigation/app.route';
 
 var ToastRef : any;
 
@@ -40,59 +43,12 @@ type FirebaseUserInfo = {
   signupDate: Date,  
 }
 
-type ReservationInfo = {
-    user: {
-      uid: String, 
-      name: String, 
-      email: String, 
-      contact: String, 
-    },
-    refund: {
-      check: Boolean, 
-      complete :  Boolean,
-      createdAt: Date,
-      completedAt: Date, 
-    },
-    guide: {
-        uid: String, 
-        name:  String,
-        score: Number, 
-    },
-    day: Date,
-    lang: String,
-    money: String,
-    paymentID: String,
-    paymentDate: Date 
-}
-
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
   const user = auth().currentUser;
-  const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([{
-    user: {
-      uid: '',
-      name: '',
-      email: '',
-      contact: '',
-    },
-    refund: {
-      check: false,
-      complete : false,
-      createdAt: new Date(),
-      completedAt: new Date()
-    },
-    guide: {
-        uid: '',
-        name: '',
-        score: 0
-    },
-    day: new Date(),
-    lang: 'eng',
-    money: 0,
-    paymentID: '',
-    paymentDate: new Date()
-    }
-  ]);
+  const [visible, setVisible] = React.useState<boolean>(false);
+  const [refundCode, setRefundCode] = React.useState<string>('');
+  const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([]);
   const [userInfo, setUserInfo] = React.useState<FirebaseUserInfo>({
     type : '',
     avatar: '',
@@ -153,11 +109,21 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     return true;
   }
 
- 
+  function PressDetail(item : ReservationInfo){
 
+    console.log('눌렀다!')
+    setRefundCode(item._id);
+    setVisible(true);
+    
 
+    setTimeout(() => {
 
+      setVisible(false);
 
+    }, 1000)
+  }
+
+  console.log('렌더링', visible);
 
   return (
     (user == null) ? (
@@ -166,78 +132,110 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
       :
     (
       <Layout>
-        <SafeAreaView />
-        <Layout style={styles.Container}>
+        <SafeAreaView />      
 
-          <Layout style={styles.ProfileContainer}>
-            {(user.photoURL === '')?
-              <Image source={require('../../assets/profile/profile_01.png')} style={styles.profileImage} /> 
-            :
-              <Image source={{uri : user.photoURL}} style={styles.profileImage} /> 
-            }
-            
-            <Text style={styles.profileTitle}>{user.displayName}</Text>
-            
-            {(userInfo.type === 'Korean')? <Korean/> : (userInfo.type === 'Resident')? <Resident /> : <Traveler />}
+        <PaidDetail navigation={props.navigation} visible={visible} refundCode={refundCode} />
 
-          </Layout>
-
-        </Layout>
-
-        <Layout style={styles.ButtonContainer}>
+        <Layout style={styles.MainContainer}>
           
-          <TouchableOpacity style={styles.Button}>
-            <Text style={styles.ButtonText}>Setting</Text>
-          </TouchableOpacity>
+          <Layout style={styles.Container}>
 
-          <TouchableOpacity style={styles.Button}>
-            <Text style={styles.ButtonText}>Comment</Text>
-          </TouchableOpacity>
+            <Layout style={styles.ProfileContainer}>
+              {(user.photoURL === '')?
+                <Image source={require('../../assets/profile/profile_01.png')} style={styles.profileImage} /> 
+              :
+                <Image source={{uri : user.photoURL}} style={styles.profileImage} /> 
+              }
+              
+              <Text style={styles.profileTitle}>{user.displayName}</Text>
+              
+              {(userInfo.type === 'Korean')? <Korean/> : (userInfo.type === 'Resident')? <Resident /> : <Traveler />}
 
-          <TouchableOpacity style={styles.Button}>
-            <Text style={styles.ButtonText}>Bookmark</Text>
-          </TouchableOpacity>
-
-        </Layout>
-
-        <Layout style={styles.SmallTitleContainer}>
-
-          <Layout style={styles.TextTitleContainer}>
-            <Receipt style={styles.TextTitleIcon}/>
-            <Text style={styles.TextTitle}>Paid Chat List</Text>
-          </Layout>
-
-          <Layout style={styles.DividerContainer}>
-            <Divider style={styles.Divider} />
-          </Layout>
-
-        </Layout>
-
-        {(reservationInfo.slice(0, 2).map((item, index) => (
-          <Layout style={styles.PaidContainer}>
-            <Layout style={styles.PaidContainer1}>
-              <Layout style={styles.PaidTitleContainer1}>
-                <Text style={styles.PaidTitle}>Payment</Text>
-                <Text style={styles.PaidDesc}>{moment(item.paymentDate).format('YYYY . MM . DD')}</Text>
-              </Layout>
-
-              <Layout style={styles.PaidTitleContainer2}>
-                <Text style={styles.PaidTitle}>Trip Date</Text>
-                <Text style={styles.PaidDesc}>{moment(item.paymentDate).format('YYYY . MM . DD')}</Text>
-              </Layout>
             </Layout>
 
-            <Layout style={styles.PaidContainer2}>
-            </Layout>
           </Layout>
-        )))}
 
+          <Layout style={styles.ButtonContainer}>
+            
+            <TouchableOpacity style={styles.Button}>
+              <Setting_Btn style={styles.ButtonIcon}/>
+              <Text style={styles.ButtonText}>Setting</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.Button}>
+              <Comment_Btn style={styles.ButtonIcon}/>
+              <Text style={styles.ButtonText}>Comment</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.Button}>
+              <Bookmark_Btn style={styles.ButtonIcon}/>
+              <Text style={styles.ButtonText}>Bookmark</Text>
+            </TouchableOpacity>
+
+          </Layout>
+
+          <Layout style={styles.SmallTitleContainer}>
+
+            <Layout style={styles.TextTitleContainer}>
+              <Receipt style={styles.TextTitleIcon}/>
+              <Text style={styles.TextTitle}>Paid Chat List</Text>
+            </Layout>
+
+            <Layout style={styles.DividerContainer}>
+              <Divider style={styles.Divider} />
+            </Layout>
+
+          </Layout>
+
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+                {(reservationInfo.length === 0)? 
+                    <Layout style={styles.emptyContainer}>
+                        <Receipt_Large/>
+                        <Text style={styles.emptyText}>There is no 'Paid list' .</Text>
+                    </Layout>
+                : 
+                    (reservationInfo.slice(0,3).map((item, index) => (
+                    <TouchableOpacity onPress={() => PressDetail(item)}>
+                        <Layout style={(item.refund.complete === true)? styles.PaidContainerC : styles.PaidContainer}>     
+                            <Layout style={styles.PaidInfoContainer}>
+                                <Layout style={styles.PaidTitleContainer1}>
+                                <Text style={styles.PaidTitle}>Payment</Text>
+                                <Text style={styles.PaidTitle}>Trip Date</Text>                
+                                </Layout>
+    
+                                <Layout style={styles.PaidTitleContainer2}>
+                                <Text style={(item.refund.complete === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.paymentDate).format('YY . MM . DD')}</Text>
+                                <Text style={(item.refund.check === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.paymentDate).format('YY . MM . DD')}</Text>
+                                </Layout>
+                            </Layout>
+    
+                                        
+                            <Layout style={styles.PaidInfoContainer}>
+                                <Layout style={styles.PaidTitleContainer1}>
+                                <Text style={styles.PaidTitle}>{` `}</Text>
+                                <Text style={(item.refund.complete === true)? styles.RefundCompleted : styles.RefundProgress}>{(item.refund.check === false)? '' : (item.refund.complete === true)? `Refund Completed` : `Refund in progress`}</Text>              
+                                </Layout>         
+                            </Layout>
+                        </Layout>  
+                    </TouchableOpacity>
+                )))}
+              </ScrollView>
+
+          <TouchableOpacity style={styles.ViewPaymentButton} onPress={() => props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)}>
+              <Text style={styles.ViewPaymentButtonText}>{`View previous payments >`}</Text>
+          </TouchableOpacity>
+
+
+        </Layout>
       </Layout>
     )
   );
 };
 
 const styles = StyleSheet.create({
+    MainContainer: {
+      backgroundColor: 'white'
+    },
     Container: {
       marginHorizontal: 30,
       alignItems: 'center',
@@ -281,6 +279,9 @@ const styles = StyleSheet.create({
       shadowRadius: 1.41,
       elevation: 2,
     },
+    ButtonIcon: {
+      marginTop: 10
+    },
     ButtonText: {
       fontFamily: 'IBMPlexSansKR-Medium',
       fontSize: 16,
@@ -313,6 +314,7 @@ const styles = StyleSheet.create({
     },
     PaidContainer: {
       width: '100%',
+      flexDirection: 'row',
       marginVertical: 5,
       shadowColor: "#000",
       shadowOffset: {
@@ -323,27 +325,94 @@ const styles = StyleSheet.create({
       shadowRadius: 1.41,
       elevation: 2,
     },
-    PaidContainer2: {
-
+    PaidContainerC: {
+      width: '100%',
+      flexDirection: 'row',
+      backgroundColor: '#F8F8F8',
+      marginVertical: 5,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.20,
+      shadowRadius: 1.41,
+      elevation: 2,
+    },
+    PaidInfoContainer: {
+      flexDirection: 'row',
+      backgroundColor: '#00FF0000',
+      flex: 1
     },
     PaidTitleContainer1: {
-      marginBottom: 1,
-      flexDirection: 'row',
-      marginLeft: 30
+      flex: 1,
+      backgroundColor: '#00FF0000',
+      marginLeft: 30,
+      marginBottom: 10,
+      marginTop: 10,
+      flexDirection: 'column'
     },
     PaidTitleContainer2: {
-      marginTop: 1,
-      flexDirection: 'row',
-      marginLeft: 30
+      flex: 1,
+      backgroundColor: '#00FF0000',
+      marginTop: 10,
+      marginBottom: 10,
+      flexDirection: 'column'
     },
     PaidTitle: {
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: 'IBMPlexSansKR-Medium',
       color: '#BCBCBC'
     },
+    PaidTitleR: {
+      fontSize: 14,
+      fontFamily: 'IBMPlexSansKR-Medium',
+      color: '#AEAEAE'
+    },
     PaidDesc: {
-      fontSize: 16,
+      fontSize: 14,
       fontFamily: 'IBMPlexSansKR-Medium',
       color: 'black'
+    },
+    PaidDescR: {
+      fontSize: 14,
+      fontFamily: 'IBMPlexSansKR-Medium',
+      color: '#AEAEAE'
+    },
+    RefundProgress: {
+      fontSize: 14,
+      fontFamily: 'IBMPlexSansKR-Medium',
+      color: '#7777FF'
+    },
+    RefundCompleted: {
+      fontSize: 14,
+      fontFamily: 'IBMPlexSansKR-Medium',
+      color: '#AEAEAE'
+    },
+    ViewPaymentButton: {
+      alignSelf: 'flex-end',
+      marginRight: 32,
+      marginTop: 10,
+      marginBottom: 50
+    },
+    ViewPaymentButtonText: {
+      fontSize: 17,
+      fontFamily: 'IBMPlexSansKR-Medium',
+      color: '#AEAEAE'
+    },
+    emptyContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 50
+    },
+    emptyText: {
+      marginTop: 10,
+      textAlign: 'center',
+      fontFamily: 'IBMPlexSansKR-Medium',
+      fontSize: 16,
+      color: '#AEAEAE'
+    },
+    scroll: {
+      maxHeight: 180,
     }
 });

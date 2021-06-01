@@ -45,6 +45,11 @@ export enum SceneRoute {
     
     //My Navigator
     MY = 'My',
+    MY_SETTING = 'My Setting',
+    REFUND_POLICY = 'Refund Policy',
+    PAID_CHAT_LIST = 'Paid Chat List',
+
+
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',
     MY_PAGE_CUSTOMERSERVICE = 'My Page CurstomerService',

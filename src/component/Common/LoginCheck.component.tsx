@@ -16,30 +16,30 @@ export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
                 visible={visible}
                 backdropStyle={styles.backdrop}
             >
-            <Card disabled={true}>
-                <Text style={{marginVertical: 30}}>Login is required. Would you like to login?</Text>
-                
-                <Layout style={{flexDirection: 'row'}}>
-                <Layout style={{margin: 15, flex: 1}}>
-                    <Button style={styles.cancelButton} appearance='outline' onPress={() => {
-                    props.navigation.goBack();
-                    setVisible(false);
-                    }}>
-                    CANCLE
-                    </Button>
-                </Layout>
-                <Layout style={{margin: 15, flex: 1}}>
-                    <Button onPress={() => {
-                    setVisible(false);
-                    props.navigation.replace(NavigatorRoute.AUTH);
-                    }}>
-                    MOVE
-                    </Button>
-                </Layout>
-                
-                </Layout>
-                
-            </Card>
+                <Card disabled={true}>
+                    <Text style={{marginVertical: 30}}>Login is required. Would you like to login?</Text>
+                    
+                    <Layout style={{flexDirection: 'row'}}>
+                    <Layout style={{margin: 15, flex: 1}}>
+                        <Button style={styles.cancelButton} appearance='outline' onPress={() => {
+                        props.navigation.goBack();
+                        setVisible(false);
+                        }}>
+                        CANCLE
+                        </Button>
+                    </Layout>
+                    <Layout style={{margin: 15, flex: 1}}>
+                        <Button onPress={() => {
+                        setVisible(false);
+                        props.navigation.replace(NavigatorRoute.AUTH);
+                        }}>
+                        MOVE
+                        </Button>
+                    </Layout>
+                    
+                    </Layout>
+                    
+                </Card>
             </Modal>
 
         </Layout>
