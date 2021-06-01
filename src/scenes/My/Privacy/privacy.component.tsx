@@ -9,14 +9,14 @@ import {
   LayoutElement,
   Text
 } from '@ui-kitten/components';
-import { MyPagePrivacyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PrivacyProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 
 
-export const MyPagePrivacyScreen = (props: MyPagePrivacyScreenProps): LayoutElement => {
+export const Privacy = (props: PrivacyProps): LayoutElement => {
   
     const PressBack = () => {
     props.navigation.goBack();

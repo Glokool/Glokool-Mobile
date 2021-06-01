@@ -157,7 +157,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
           <Layout style={styles.ButtonContainer}>
             
-            <TouchableOpacity style={styles.Button}>
+            <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.MY_SETTING)}>
               <Setting_Btn style={styles.ButtonIcon}/>
               <Text style={styles.ButtonText}>Setting</Text>
             </TouchableOpacity>

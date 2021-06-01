@@ -13,19 +13,19 @@ import {
   Button
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
-import { PrivacyData, PrivacySchema } from '../../data/privacy.model';
-import { FormInput } from '../../component/privacy.component';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
+import { PrivacyData, PrivacySchema } from '../../../data/privacy.model';
+import { FormInput } from '../../../component/privacy.component';
+import { EyeIcon, EyeOffIcon } from '../../../component/icon';
 import Toast from 'react-native-easy-toast';
-import { MyPagePrivacyLoginScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PrivacyLoginProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { CommonActions } from '@react-navigation/native';
-import { SceneRoute } from '../../navigation/app.route'
+import { SceneRoute } from '../../../navigation/app.route'
 
-var toastRef;
+var toastRef : any;
 
-export const MyPagePrivacyLoginScreen = (props: MyPagePrivacyLoginScreenProps): LayoutElement => {
+export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
 
   //뒤로 돌아가지 못하게
   const PrivacyNavigator = CommonActions.reset({

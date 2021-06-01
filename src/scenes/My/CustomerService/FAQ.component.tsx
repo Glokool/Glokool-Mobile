@@ -12,14 +12,14 @@ import {
   Icon,
   Divider
 } from '@ui-kitten/components';
-import { MyPageFAQScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { FAQProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 
 
-export const MyPageFAQScreen = (props: MyPageFAQScreenProps): LayoutElement => {
+export const FAQ = (props: FAQProps): LayoutElement => {
   const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
   const [signInVisible, setSignInVisible] = React.useState(false);
   const [tourVisible, setTourVisible] = React.useState(false);
@@ -27,27 +27,13 @@ export const MyPageFAQScreen = (props: MyPageFAQScreenProps): LayoutElement => {
   const [chatVisible, setChatVisible] = React.useState(false);
   const [myPageVisible, setMyPageVisible] = React.useState(false);
 
+  function PressBack() {
+    props.navigation.goBack();
+  }
 
-
-    const PressBack = () => {
-      props.navigation.goBack();
-    }
-
-    const PressAboutUs = () => {
-      setAboutUsVisible(!aboutUsVisible)
-    }
-
-    const PressTermsOfService = () => {
-
-    }
-
-    const PressPrivacyPolicy = () => {
-      
-    }
-    
-    const PressFnA = () => {
-      
-    }
+  function PressAboutUs() {
+    setAboutUsVisible(!aboutUsVisible)
+  }
     
     return (
     <React.Fragment>

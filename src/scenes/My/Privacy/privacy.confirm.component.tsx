@@ -13,13 +13,13 @@ import {
   Button
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
-import { PrivacyConfirmData, PrivacyConfirmSchema } from '../../data/privacy.confirm.model';
-import { FormInput } from '../../component/privacy.component';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
+import { PrivacyConfirmData, PrivacyConfirmSchema } from '../../../data/privacy.confirm.model';
+import { FormInput } from '../../../component/privacy.component';
+import { EyeIcon, EyeOffIcon } from '../../../component/icon';
 import Toast from 'react-native-easy-toast';
-import { MyPagePrivacyConfirmScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PrivacyConfirmProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { SceneRoute } from '../../navigation/app.route'
+import { SceneRoute } from '../../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
 
 import {
@@ -28,7 +28,7 @@ import {
 
 var toastRef : any;
 
-export const MyPagePrivacyConfirmScreen = (props: MyPagePrivacyConfirmScreenProps): LayoutElement => {
+export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
   
   //뒤로 돌아가지 못하게
   const PrivacyNavigator = CommonActions.reset({
@@ -45,6 +45,7 @@ export const MyPagePrivacyConfirmScreen = (props: MyPagePrivacyConfirmScreenProp
 
    const renderPasswordIcon = (props): React.ReactElement => {
      const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
+     
      return (
        <TouchableWithoutFeedback onPress={onPasswordIconPress}>
          <IconComponent {...props}/>

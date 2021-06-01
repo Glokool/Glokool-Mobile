@@ -49,6 +49,15 @@ export enum SceneRoute {
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
 
+    //My - Privacy
+    PRIVACY = 'Privacy',
+    PRIVACY_CONFIRM = 'Privacy Confirm',
+    PRIVACY_LOGIN = 'Privacy Login',
+
+    //My - Customer Service
+    CUSTOMER_SERVICE = 'Customer Service',
+    FAQ = 'FAQ',
+
 
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',

@@ -11,17 +11,18 @@ import {
   Text,
   Icon
 } from '@ui-kitten/components';
-import { MyPageCustomerServiceScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { CustomerServiceProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../navigation/app.route';
-import { TermsConditionCard } from '../../component/terms&Condition.component';
-import { privacyPolicycard } from '../../component/privacyPolicy.component';
+import { SceneRoute } from '../../../navigation/app.route';
+import { TermsConditionCard } from '../../../component/terms&Condition.component';
+import { privacyPolicycard } from '../../../component/privacyPolicy.component';
+import { AngleLeft } from '../../../assets/icon/Common';
 
 
-export const MyPageCustomerServiceScreen = (props: MyPageCustomerServiceScreenProps): LayoutElement => {
+export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
   const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
   const [termsofService, setTermsofService] = React.useState(false);
   const [privacy, setPrivacy] = React.useState(false);
@@ -55,7 +56,7 @@ export const MyPageCustomerServiceScreen = (props: MyPageCustomerServiceScreenPr
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
             <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+              <AngleLeft />
             </TouchableOpacity>
           </Layout>
           <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
@@ -84,7 +85,7 @@ export const MyPageCustomerServiceScreen = (props: MyPageCustomerServiceScreenPr
             <Layout>              
                 <Layout style={styles.aboutTitleContainer}>
                   <Text style={styles.aboutTitle}>Buiness Name</Text>
-                  <Text style={styles.aboutDesc}>Holeinone</Text>
+                  <Text style={styles.aboutDesc}>Glokool</Text>
                 </Layout>
 
                 <Layout style={styles.aboutTitleContainer}>
@@ -134,7 +135,7 @@ export const MyPageCustomerServiceScreen = (props: MyPageCustomerServiceScreenPr
           </TouchableOpacity>
 
           {termsofService?
-            <Layout style={{padding: 10}}>
+            <Layout style={{marginHorizontal: 30}}>
               {TermsConditionCard()}
             </Layout>
             
@@ -155,7 +156,7 @@ export const MyPageCustomerServiceScreen = (props: MyPageCustomerServiceScreenPr
           </TouchableOpacity>
 
           {privacy?
-            <Layout style={{padding: 10}}>
+            <Layout style={{marginHorizontal: 30}}>
               {privacyPolicycard()}
             </Layout>
             
@@ -191,9 +192,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  TextStyle: {    
+  TextStyle: {
+    fontFamily: 'IBMPlexSans-SemiBold',
     fontSize: 20,
-    fontWeight: 'bold'
   },
   Container : {
     flex: 8,

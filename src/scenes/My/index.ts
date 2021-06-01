@@ -3,11 +3,13 @@ export { PaidChatList } from './PaidChatList.component';
 export { MySetting } from './My.Setting.component';
 
 //Customer Service
-export {  }
+export { CustomerService } from './CustomerService/CustomerService.component'
+export { FAQ } from './CustomerService/FAQ.component'; 
 
-
-export { MyPageProfileScreen } from './My.Profile.component';
-export { MyPageFAQScreen } from './CustomerService/FAQ.component'; 
+//Privacy
+export { Privacy } from './Privacy/Privacy.component';
+export { PrivacyConfirm } from './Privacy/Privacy.confirm.component';
+export { PrivacyLogin } from './Privacy/Privacy.login.component'
 
 
 export type ReservationInfo = {

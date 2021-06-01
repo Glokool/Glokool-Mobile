@@ -16,10 +16,8 @@ import {
   faAngleLeft, faQuestionCircle, faSignOutAlt, faUnlockAlt, faUserAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import Toast from 'react-native-easy-toast';
-
-
-var toastRef : any;
+import { Profile, Logout, CustomerService, Privacy} from '../../assets/icon/My'
+import { AngleLeft } from '../../assets/icon/Common';
 
 export const MySetting = (props: MYSettingProps): LayoutElement => {
   const PressBack = () => {
@@ -27,15 +25,15 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   const PressProfile = () => {
-    props.navigation.navigate(SceneRoute.MY_PAGE_PROFILE);
+    // props.navigation.navigate(SceneRoute.MY_PAGE_PROFILE);
   }
 
   const PressPrivacy = () => {
-    props.navigation.navigate(SceneRoute.MY_PAGE_PRIVACY_LOGIN);
+    props.navigation.navigate(SceneRoute.PRIVACY_LOGIN);
   }
 
   const PressCustomer = () => {
-    props.navigation.navigate(SceneRoute.MY_PAGE_CUSTOMERSERVICE);
+    props.navigation.navigate(SceneRoute.CUSTOMER_SERVICE);
   }
 
   const PressLogout = () => {
@@ -59,7 +57,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
             <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+              <AngleLeft />
             </TouchableOpacity>
           </Layout>
           <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
@@ -72,30 +70,40 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         <Layout style={styles.Container}>
           
           <Layout style={styles.TouchLayout}>
-            <TouchableOpacity style={styles.TouchableComponent} onPress={PressProfile}>   
-              <FontAwesomeIcon icon={faUserAlt} size={20} style={styles.IconStyle}/>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Profile</Text>
+            <TouchableOpacity style={styles.TouchableComponent} onPress={PressProfile}> 
+              <Layout style={styles.ButtonIcon}>
+                <Profile />
+              </Layout> 
+              
+              <Text style={styles.ButtonText}>Profile</Text>
             </TouchableOpacity> 
           </Layout>
 
           <Layout style={styles.TouchLayout}>
-            <TouchableOpacity style={styles.TouchableComponent} onPress={PressPrivacy}>   
-              <FontAwesomeIcon icon={faUnlockAlt} size={20} style={styles.IconStyle}/>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Privacy</Text>
+            <TouchableOpacity style={styles.TouchableComponent} onPress={PressPrivacy}>
+              <Layout style={styles.ButtonIcon}>
+                <Privacy />
+              </Layout>
+              
+              <Text style={styles.ButtonText}>Privacy</Text>
             </TouchableOpacity> 
           </Layout>
 
           <Layout style={styles.TouchLayout}>
             <TouchableOpacity style={styles.TouchableComponent} onPress={PressCustomer}>   
-              <FontAwesomeIcon icon={faQuestionCircle} size={20} style={styles.IconStyle}/>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Customer Service</Text>
+              <Layout style={styles.ButtonIcon}>
+                <CustomerService />
+              </Layout>
+              <Text style={styles.ButtonText}>Customer Service</Text>
             </TouchableOpacity> 
           </Layout>
 
           <Layout style={styles.TouchLayout}>
             <TouchableOpacity style={styles.TouchableComponent} onPress={PressLogout}>   
-              <FontAwesomeIcon icon={faSignOutAlt} size={20} style={styles.IconStyle}/>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Logout</Text>
+              <Layout style={styles.ButtonIcon}>
+                <Logout />
+              </Layout>
+              <Text style={styles.ButtonText}>Logout</Text>
             </TouchableOpacity> 
           </Layout>
 
@@ -104,7 +112,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         </Layout>
         
       </Layout>
-      <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+
     </React.Fragment>
   );
 };
@@ -121,17 +129,18 @@ const styles = StyleSheet.create({
   Container:{
     flex: 8,
     backgroundColor: 'white',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginHorizontal: 30
   },
-  TextStyle: {    
+  TextStyle: {
+    fontFamily: 'IBMPlexSansKR-SemiBold',
     fontSize: 20,
-    fontWeight: 'bold'
   },
   TouchLayout: {
     flex:1, 
     flexDirection: 'column', 
     marginHorizontal: 5, 
-    marginVertical: 10
+    marginVertical: 15
   },
   TouchableComponent: {
     flex:1, 
@@ -139,6 +148,17 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'flex-start'
   },
+  ButtonIcon: {
+    flex: 1,
+    justifyContent: 'center',
+    marginRight: 20,
+    alignItems: 'center'
+  },
+  ButtonText: {
+    flex: 9,
+    fontFamily: 'IBMPlexSansKR-Medium',
+    fontSize: 20
+  },  
   IconStyle: {
     marginHorizontal: 25, 
     justifyContent: 'center'
