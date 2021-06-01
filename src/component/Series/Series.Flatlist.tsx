@@ -4,19 +4,26 @@ import {
     FlatList, 
     ScrollView,
     View,
+    Image,
+    Dimensions,  
+    StyleSheet, 
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { Layout } from '@ui-kitten/components';
+import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
+import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type Series_Item = {
+    banner: '',
     title: '',
-    type: '',
-    image: '',
-    _id: ''
+    _id: '',
+    loc:'',
+    region:'',
 }
 
-export const SeriesFlatlist = () => {
+const SeriesImgW = Dimensions.get('window').width * 0.42;
+
+export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
 
     React.useEffect(() => {
@@ -26,10 +33,15 @@ export const SeriesFlatlist = () => {
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/main-tours');
         setContent(Content.data);
+        console.log(Content.data);
     }
 
-    const renderTour = ({ content }) => (
-        <View
+    const renderTour = ({ item }) => {
+
+      console.log(item, '플랫 리스트');
+
+      return(
+        <Layout
           style={{
             flexDirection: "row",
             justifyContent: "center",
@@ -37,26 +49,49 @@ export const SeriesFlatlist = () => {
           }}
         >
           <TouchableOpacity>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Image source={{ url: content.banner }} />
-            </View>
+            <Layout style={styles.SeriesStyle} >
+              <Image source={{ uri: item.banner }} style={styles.SeriesImgStyle} />
+              <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
+            </Layout>
           </TouchableOpacity>
-        </View>
-      );
+        </Layout>
+      )
+    };
 
 
     return (
-        <div>
             <Layout>
                 <FlatList
-                data={renderTour}
+                data={content}
                 renderItem={renderTour}
                 style={{ margin: 20 }}
-                numColumns={4}
+                showsHorizontalScrollIndicator={false}
+                horizontal
                 />
             </Layout>
-        </div>
     )
 }
+
+const styles = StyleSheet.create({
+  SeriesStyle: {
+    justifyContent: "center", 
+    alignItems: "center",
+    
+  },
+  SeriesImgStyle: {
+    width: SeriesImgW,
+    height: SeriesImgW*1.2,
+    borderRadius: 10,
+    position:'relative'
+  },
+  SeriesTxtStyle:{
+    position: 'absolute',
+    bottom: 10,
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 20,
+    color: '#FFFFFF',
+  },
+
+})
 
 

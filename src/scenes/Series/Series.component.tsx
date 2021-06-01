@@ -32,6 +32,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     return(
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
+
+            {/* hidden gems title */}
            <Layout style={styles.seriesHidden}>
                <Layout >
                     <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
@@ -43,7 +45,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
           
 
           {/* hidden gems in korea */}
-          <SeriesFlatlist   />
+          <SeriesFlatlist  navigation={props.navigation} route={props.route} />
         </ScrollView>
     );
 

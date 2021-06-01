@@ -28,6 +28,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
     async function InitHomeCarousel() {
         var Content = await axios.get(SERVER + '/api/home');
         setContent(Content.data);
+        console.log(Content.data);
     }
 
     const RenderCarousel = ({item}) => {
