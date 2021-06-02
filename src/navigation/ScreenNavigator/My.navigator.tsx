@@ -4,7 +4,7 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import { 
-  CustomerService,
+  CustomerServiceComponent,
   FAQ,
   MYScreen,
   MySetting,
@@ -12,6 +12,7 @@ import {
   Privacy,
   PrivacyConfirm,
   PrivacyLogin,
+  MyProfile
 } from '../../scenes/My';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 
@@ -25,11 +26,17 @@ type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.PRIVACY_LOGIN] : undefined;
   [SceneRoute.CUSTOMER_SERVICE] : undefined;
   [SceneRoute.FAQ] : undefined;
+  [SceneRoute.MY_PROFILE] : undefined;
 };
 
 export interface MyScreenProps {
   navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
   route: RouteProp<MyNavigatorParams, SceneRoute.MY>;
+}
+
+export interface MYProfileProps {
+  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY_PROFILE>;
+  route: RouteProp<MyNavigatorParams, SceneRoute.MY_PROFILE>;
 }
 
 export interface MYSettingProps {
@@ -83,12 +90,14 @@ const Stack = createStackNavigator();
 
 export const MyNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
+    
     <Stack.Screen name={SceneRoute.MY} component={MYScreen}/>
     <Stack.Screen name={SceneRoute.MY_SETTING} component={MySetting}/>
+    <Stack.Screen name={SceneRoute.MY_PROFILE} component={MyProfile}/>
     <Stack.Screen name={SceneRoute.REFUND_POLICY} component={RefundPolicy}/>
     <Stack.Screen name={SceneRoute.PAID_CHAT_LIST} component={PaidChatList}/>
 
-    <Stack.Screen name={SceneRoute.CUSTOMER_SERVICE} component={CustomerService}/>
+    <Stack.Screen name={SceneRoute.CUSTOMER_SERVICE} component={CustomerServiceComponent}/>
     <Stack.Screen name={SceneRoute.FAQ} component={FAQ}/>
 
     <Stack.Screen name={SceneRoute.PRIVACY} component={Privacy}/>

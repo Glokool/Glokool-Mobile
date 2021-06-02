@@ -25,7 +25,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   const PressProfile = () => {
-    // props.navigation.navigate(SceneRoute.MY_PAGE_PROFILE);
+    props.navigation.navigate(SceneRoute.MY_PROFILE);
   }
 
   const PressPrivacy = () => {
@@ -56,7 +56,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack}>
+            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
               <AngleLeft />
             </TouchableOpacity>
           </Layout>

@@ -22,7 +22,7 @@ import {
   Select,
   SelectItem
 } from '@ui-kitten/components';
-import { MyPageProfileScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MyProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { launchImageLibrary } from 'react-native-image-picker/src';
@@ -33,10 +33,12 @@ import TravlerMini from '../../assets/board/Travler_Mini.svg';
 import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AngleLeft } from '../../assets/icon/Common';
+import { Profile } from '../../assets/icon/My';
 
 var toastRef : any;
 
-export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElement => {
+export const MyProfile = (props: MyProfileProps): LayoutElement => {
   //Name
   const [name, setName] = React.useState('');
   const [withDrawal, setWithDrawal] = React.useState(false);
@@ -246,30 +248,43 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
+      
       <Layout style={styles.mainContainer}>
 
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
+              <AngleLeft />
             </TouchableOpacity>
           </Layout>
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
-            <Text style={styles.TextStyle}>SETTINGS</Text>
+          <Layout style={{flex:3, alignItems:'center', justifyContent: 'flex-start',  flexDirection:'row'}}>
+            <Profile style={{marginRight: 10}}/>
+            <Text style={styles.TextStyle}>Profile</Text>
           </Layout>
           <Layout style={{flex:1}}/>         
         </Layout>
 
         
         <Layout style={styles.Container}>
-          <ScrollView>
+          <ScrollView style={{marginHorizontal: 15}}>
+          
           <Layout style={styles.photoContainer}>
-            <Layout style={{flex: 1}}>
+            
+            <Layout style={{flex: 4}}>
               <Text style={styles.title}>Photo</Text>
+
+              <Layout style={styles.miniProfileContainer}>
+                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+              </Layout>
+              
             </Layout>
-            <Layout style={{flex: 3}}/>
-            <Layout style={{flex: 1}}>
+
+            <Layout style={{flex: 1, marginRight: 15}}>
               <TouchableOpacity onPress={PressPicture}>
                 {(profile == undefined || profile == null)?
                   <Image style={styles.profile} source={require('../../assets/profile.jpg')}/>
@@ -279,6 +294,7 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
                
               </TouchableOpacity>
             </Layout>
+
           </Layout>
 
           <Layout style={styles.infoContainer}>
@@ -346,71 +362,18 @@ export const MyPageProfileScreen = (props: MyPageProfileScreenProps): LayoutElem
             </Layout>
           </Layout>
 
-          
-
-          
-
-
-          <Divider style={{backgroundColor: 'gray', margin: 20}}/>
-          
-          <TouchableOpacity style={{marginVertical: 10}} onPress={() => setWithDrawal(true)}>
-            <Layout style={styles.infoContainer}>            
-                <Layout style={{flex: 1}}>
-                  <Text style={styles.title}>Withdrawal</Text>
-                </Layout>                      
-            </Layout>
-          </TouchableOpacity>  
-
-          <TouchableOpacity onPress={PressChange}>
-            <Layout style={styles.infoContainer}>            
-                <Layout style={{flex: 1}}>
-                  <Text style={styles.title}>Change The Profile</Text>
-                </Layout>                       
-            </Layout>
-          </TouchableOpacity> 
+          <Layout style={{height: 60}} />
 
           </ScrollView>
 
-          <Layout style={{height: 30}}/>
+          <TouchableOpacity style={styles.SaveButton} onPress={() => PressChange()}>
+            <Text style={styles.ButtonText}>Save the Profile</Text>             
+          </TouchableOpacity> 
+
         </Layout>
 
       </Layout>
-
-      <Toast ref={(toast) => toastRef = toast} position={'center'}/>
-
-      <Modal
-        visible={withDrawal}
-        backdropStyle={styles.backdrop}
-      >
-        <Card disabled={true}>
-
-          <Text style={{marginVertical: 30}}>Are you Sure?</Text>
-          
-          <Layout style={{flexDirection: 'row', minWidth: Dimensions.get('window').width * 0.8 }}>
-            <Layout style={{marginHorizontal :5, flex: 1}}>
-              <Button 
-                style={styles.cancelButton} 
-                
-                onPress={() => {
-                  setWithDrawal(false);
-                }}
-              >
-                <Text>{`Cancel`}</Text>
-              </Button>
-            </Layout>
-            <Layout style={{marginHorizontal :5 ,flex: 1}}>
-              <Button onPress={() => {
-                withDrawalFunction()
-              }}>
-                YES
-              </Button>
-            </Layout>
-            
-          </Layout>
-          
-        </Card>
-      </Modal>
-      
+    
     </React.Fragment>
   );
 };
@@ -429,13 +392,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'column'
   },
-  TextStyle: {    
+  TextStyle: { 
+    fontFamily: 'IBMPlexSansKR-Medium',   
     fontSize: 20,
-    fontWeight: 'bold'
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontFamily: 'IBMPlexSansKR-Medium',
+    color: '#7777FF'
   },
   photoContainer: {
     flexDirection: 'row',
@@ -448,6 +412,16 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 100
+  },
+  miniProfileContainer: {
+    flexDirection: 'row',
+    marginTop: 10
+  },
+  miniProfile: {
+    width: 34,
+    height: 34,
+    borderRadius: 100,
+    marginRight: 5,
   },
   infoContainer: {
     flexDirection: 'row',
@@ -463,4 +437,22 @@ const styles = StyleSheet.create({
     borderColor: '#FFC043',
     backgroundColor: 'white',  
   },
+  SaveButton: {
+    position: 'absolute',
+    bottom: 10,
+    left: 30,
+    width: Dimensions.get('window').width - 60,
+    height: 50,
+    borderWidth: 1.5,
+    borderColor: '#8797FF',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  ButtonText: {
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 22,
+    color: '#8797FF'
+  }
 });

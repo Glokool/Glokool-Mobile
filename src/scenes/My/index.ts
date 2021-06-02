@@ -1,9 +1,10 @@
 export { MYScreen } from './My.component'
 export { PaidChatList } from './PaidChatList.component';
 export { MySetting } from './My.Setting.component';
+export { MyProfile} from './My.Profile.component';
 
 //Customer Service
-export { CustomerService } from './CustomerService/CustomerService.component'
+export { CustomerServiceComponent } from './CustomerService/CustomerService.component'
 export { FAQ } from './CustomerService/FAQ.component'; 
 
 //Privacy

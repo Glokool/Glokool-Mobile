@@ -29,6 +29,7 @@ import moment from 'moment';
 import Toast from 'react-native-easy-toast'
 import DateIcon from '../../assets/icon/date.svg';
 import LocationIcon from '../../assets/icon/location.svg';
+import { LoginCheck } from '../../component/Common';
 
 var ToastRef : any;
 
@@ -124,11 +125,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
   const renderItem = ({item}) => {
 
     var Day = moment(item.date).toDate();
-
-    // <Image style={styles.Image} source={{uri : item.thumbnail}}/> 
-    // <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>{item.title}</Text>
-    // <Text style={{color: 'white', fontWeight: 'bold', fontSize: 12}}>{item.location}</Text>
-    
+   
     return(
         <TouchableOpacity onPress={PressChat(item)}>
         
@@ -168,41 +165,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
   return (
     (user == null) ? (
-      //로그인 되지 않았을 경우
-      <React.Fragment>
-        <Layout style={styles.container}>
-        <Modal
-          visible={loginVisible}
-          backdropStyle={styles.backdrop}
-        >
-          <Card disabled={true}>
-            <Text style={{marginVertical: 30}}>Login is required. Would you like to login?</Text>
-            
-            <Layout style={{flexDirection: 'row'}}>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button style={styles.cancelButton} appearance='outline' onPress={() => {
-                  props.navigation.goBack();
-                  setLoginVisible(false);
-                }}>
-                  CANCLE
-                </Button>
-              </Layout>
-              <Layout style={{margin: 15, flex: 1}}>
-                <Button onPress={() => {
-                  setLoginVisible(false);
-                  props.navigation.replace(NavigatorRoute.AUTH);
-                }}>
-                  MOVE
-                </Button>
-              </Layout>
-              
-            </Layout>
-            
-          </Card>
-        </Modal>
-
-        </Layout>
-      </React.Fragment>
+      <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
     )
       :
     (

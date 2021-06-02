@@ -1,4 +1,5 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,7 +10,10 @@ import {
   Layout,
   LayoutElement,
   Text,
-  Icon
+  Icon,
+  Modal,
+  Card,
+  Button
 } from '@ui-kitten/components';
 import { CustomerServiceProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -18,11 +22,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../../navigation/app.route';
 import { TermsConditionCard } from '../../../component/terms&Condition.component';
+import { CustomerService } from '../../../assets/icon/My'
 import { privacyPolicycard } from '../../../component/privacyPolicy.component';
 import { AngleLeft } from '../../../assets/icon/Common';
 
 
-export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
+export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutElement => {
+
+  const [visible, setVisible] = React.useState(false);
   const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
   const [termsofService, setTermsofService] = React.useState(false);
   const [privacy, setPrivacy] = React.useState(false);
@@ -43,8 +50,10 @@ export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
       setPrivacy(!privacy)
     }
     
-    const PressFAQ = () => {
-      props.navigation.navigate(SceneRoute.MY_PAGE_FAQ);
+    async function Withdrawal() {
+      
+
+
     }
     
     return (
@@ -54,21 +63,24 @@ export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
 
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
+
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack}>
+            <TouchableOpacity onPress={PressBack} style={{padding : 10}}>
               <AngleLeft />
             </TouchableOpacity>
           </Layout>
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
-            <Text style={styles.TextStyle}>SETTINGS</Text>
+
+          <Layout style={{flex:3, alignItems:'center', justifyContent: 'flex-start', flexDirection: 'row'}}>
+            <CustomerService style={{marginHorizontal: 10}}/>
+            <Text style={styles.TextStyle}>Customer Service</Text>
           </Layout>
-          <Layout style={{flex:1}}/>         
+  
         </Layout>
 
         {/*고객 서비스 부문 표현*/}
         
         <Layout style={styles.Container}>
-          <ScrollView>        
+          <ScrollView style={{marginHorizontal: 15}}>        
           <TouchableOpacity onPress={PressAboutUs}>
             <Layout style={styles.buttonContainer}>
               <Layout style={styles.buttonTextContainer}>
@@ -165,7 +177,7 @@ export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
           }
 
 
-          <TouchableOpacity onPress={PressFAQ}>
+          <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.FAQ)}>
             <Layout style={styles.buttonContainer}>
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>FAQ</Text>
@@ -176,9 +188,48 @@ export const CustomerService = (props: CustomerServiceProps): LayoutElement => {
               </Layout>
             </Layout>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setVisible(!visible)}>
+            <Layout style={styles.buttonContainer}>
+              <Layout style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>Withdrawal</Text>
+              </Layout>
+              <Layout style={{flex: 5}}/>
+              <Layout style={styles.buttonIconContainer}>
+                <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
+              </Layout>
+            </Layout>
+          </TouchableOpacity>
+
+
           </ScrollView>
         </Layout>
       </Layout>
+
+      <Modal
+        visible={visible}
+        backdropStyle={{backgroundColor : 'rgba(0, 0, 0, 0.5)'}}  
+      >
+            <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}>
+              
+              <Text style={styles.modalTitle}>Are you sure?</Text>
+
+              <Text style={styles.modalDesc}>{`Do you really want to withdrawal 'Glokool'?${'\n'}Your account will disappear :(`}</Text>
+              
+              <Layout style={{flexDirection: 'row'}}>
+
+                <TouchableOpacity style={styles.StayButon} onPress={() => setVisible(false)}>
+                  <Text style={styles.StayButonText}>Stay</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.WithdrawalButton}>
+                  <Text style={styles.WithdrawalButtonText}>WithDrawal</Text>
+                </TouchableOpacity>
+                    
+              </Layout>
+                    
+            </Card>
+      </Modal>
     </React.Fragment>
   );
 };
@@ -198,7 +249,7 @@ const styles = StyleSheet.create({
   },
   Container : {
     flex: 8,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   buttonContainer: {
     width: '100%', 
@@ -217,20 +268,62 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontFamily: 'IBMPlexSansKR-Medium',
+    fontSize: 20,
   },
   aboutTitleContainer: {
     marginVertical: 15, 
     marginHorizontal: 30,
   },
   aboutTitle: {
+    fontFamily: 'IBMPlexSansKR-Medium',
     color: 'gray',
     fontSize: 16,
-    fontWeight: 'bold',
   },
   aboutDesc: {
+    fontFamily: 'IBMPlexSansKR-Text',
     fontSize: 16,
-    fontWeight: 'bold',
-  }
+  },
+  StayButon: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#8797FF',
+    borderRadius: 10,
+    height: 50,
+    marginRight: 5,
+    flex: 1
+  },
+  modalTitle: {
+    fontFamily : 'BrandonGrotesque-Bold',
+    fontSize: 22,
+    color: '#8797FF'
+  },
+  modalDesc: {
+    fontFamily : 'IBMPlexSansKR-Medium',
+    fontSize: 15,
+    color: '#AEAEAE',
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  StayButonText: {
+    fontFamily : 'BrandonGrotesque-Bold',
+    fontSize: 22,
+    color: '#8797FF'
+  },
+  WithdrawalButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#292434',
+    borderRadius: 10,
+    height: 50,
+    marginLeft: 5,
+    flex: 1
+  },
+  WithdrawalButtonText: {
+    fontFamily : 'BrandonGrotesque-Bold',
+    fontSize: 22,
+    color: '#8797FF'
+  },
 });

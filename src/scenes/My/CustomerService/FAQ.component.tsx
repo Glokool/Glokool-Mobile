@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
+import { AngleLeft } from '../../../assets/icon/Common';
 
 
 export const FAQ = (props: FAQProps): LayoutElement => {
@@ -43,12 +44,12 @@ export const FAQ = (props: FAQProps): LayoutElement => {
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
           <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
+              <AngleLeft />
             </TouchableOpacity>
           </Layout>
           <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
-            <Text style={styles.TextStyle}>SETTINGS</Text>
+            <Text style={styles.TextStyle}>FAQ</Text>
           </Layout>
           <Layout style={{flex:1}}/>         
         </Layout>
@@ -56,26 +57,14 @@ export const FAQ = (props: FAQProps): LayoutElement => {
         {/*고객 서비스 부문 표현*/}
         
         <Layout style={styles.Container}>
-          <ScrollView>
+          <ScrollView style={{marginHorizontal: 15}} showsVerticalScrollIndicator={false}>
 
-          <TouchableOpacity>
-            <Layout style={styles.buttonContainer}>
-              <Layout style={styles.buttonTextContainer}>
-                <Text style={styles.buttonText}>FAQ</Text>
-              </Layout>
-              <Layout style={{flex: 5}}/>
-              <Layout style={styles.buttonIconContainer}/>
-                
-            </Layout>
-          </TouchableOpacity>
-
-
-          <TouchableOpacity onPress={PressAboutUs}>
+          <TouchableOpacity onPress={PressAboutUs} style={styles.button}>
             <Layout style={styles.buttonContainer}>
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>About Glokool</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -102,12 +91,12 @@ export const FAQ = (props: FAQProps): LayoutElement => {
           }
           
           {/* 사인 인 설명 */}
-          <TouchableOpacity onPress={() => setSignInVisible(!signInVisible)}>
+          <TouchableOpacity onPress={() => setSignInVisible(!signInVisible)} style={styles.button}>
             <Layout style={styles.buttonContainer}>
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>Sign In</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -142,12 +131,12 @@ export const FAQ = (props: FAQProps): LayoutElement => {
             <Layout/>
           }
 
-          <TouchableOpacity onPress={() => setTourVisible(!tourVisible)}>
+          <TouchableOpacity onPress={() => setTourVisible(!tourVisible)} style={styles.button}>
             <Layout style={styles.buttonContainer}>
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>Tour</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -188,7 +177,7 @@ export const FAQ = (props: FAQProps): LayoutElement => {
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>Guide Book</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -250,7 +239,7 @@ export const FAQ = (props: FAQProps): LayoutElement => {
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>Chat</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -313,7 +302,7 @@ export const FAQ = (props: FAQProps): LayoutElement => {
               <Layout style={styles.buttonTextContainer}>
                 <Text style={styles.buttonText}>My Page</Text>
               </Layout>
-              <Layout style={{flex: 5}}/>
+              <Layout style={styles.emptyContainer}/>
               <Layout style={styles.buttonIconContainer}>
                 <Icon style={{width: 30, height: 30}} fill='black' name='arrow-ios-downward-outline'/>
               </Layout>
@@ -362,31 +351,39 @@ export const FAQ = (props: FAQProps): LayoutElement => {
 const styles = StyleSheet.create({
   mainContainer:{
     flex: 1,
-    backgroundColor: 'white',
   },
   Tabbar: {
     flex: 1,
     flexDirection: 'row',
   },
-  TextStyle: {    
+  TextStyle: {
+    fontFamily: 'IBMPlexSansKR-Medium',
     fontSize: 20,
-    fontWeight: 'bold'
   },
   Container : {
     flex: 8,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+
   },
   buttonContainer: {
     width: '100%', 
     flexDirection: 'row',
+    backgroundColor: '#F8F8F8',
+    marginVertical: 10
   },
   buttonTextContainer: {
+    backgroundColor: '#00FF0000',
     alignItems: 'flex-start', 
     justifyContent: 'center',
     marginVertical: 15, 
     marginHorizontal: 30,
   },
+  emptyContainer: {
+    flex: 5,
+    backgroundColor: '#00FF0000',
+  },
   buttonIconContainer: {
+    backgroundColor: '#00FF0000',
     alignItems: 'flex-end',
     justifyContent: 'center',
     marginVertical: 15,
@@ -397,8 +394,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: 20,
+    fontFamily: 'IBMPlexSansKR-Medium',
+    color: '#7777FF'
   },
   TitleContainer: {
     marginVertical: 30, 
@@ -409,12 +407,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   aboutTitle: {
+    fontFamily: 'IBMPlexSansKR-Medium',
     color: 'black',
     fontSize: 16,
-    fontWeight: 'bold',
     marginVertical: 10
   },
   aboutDesc: {
+    fontFamily: 'IBMPlexSansKR-Text',
     fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#00FF0000'
   }
 });
