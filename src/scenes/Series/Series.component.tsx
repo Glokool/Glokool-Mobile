@@ -14,14 +14,14 @@ import {
     ScrollView,
     View,
 } from 'react-native';
-import { SeriesFlatlistProps } from "../../navigation/ScreenNavigator/Series.navigator"
+import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import { SeriesAFlatlist, SeriesBFlatlist, SeriesFlatlist } from '../../component/Series';
 
-export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
+export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [refresh, setRefresh] = React.useState(true);
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
@@ -45,12 +45,12 @@ export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
           <SeriesFlatlist  navigation={props.navigation} route={props.route} />
 
 
-            {/* seriesA title */}
+            {/* seriesA title - 카드뉴스*/}
             <Layout style={styles.seriesHidden}>
                <Layout style={styles.seriesHiddenLayout}>
                     <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
                </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A)}>
                     <Text style={styles.moreBtnTxt}>{`More`}</Text>
                </TouchableOpacity>
            </Layout>
@@ -58,12 +58,12 @@ export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
 
 
 
-            {/* seriesB title */}
+            {/* seriesB title - 블로그 */}
             <Layout style={styles.seriesHidden}>
                <Layout style={styles.seriesHiddenLayout}>
                     <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
                </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+               <TouchableOpacity style={styles.moreBtnLayout} >
                     <Text style={styles.moreBtnTxt}>{`More`}</Text>
                </TouchableOpacity>
            </Layout>
@@ -78,18 +78,21 @@ export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
 
 const styles = StyleSheet.create({
     seriesHidden1:{
-        width: Dimensions.get('window').width * 0.8,
         alignSelf:'center',
         marginTop:200,
         flexDirection:'row',
         alignItems:'center',
+        marginLeft: 35,
+        marginRight: 35,
     },
 
     seriesHidden:{
-        width: Dimensions.get('window').width * 0.8,
         alignSelf:'center',
         flexDirection:'row',
-        alignItems:'center',        
+        alignItems:'center',   
+        marginTop: 40,     
+        marginLeft: 35,
+        marginRight: 35,
     },
     seriesHiddenLayout:{
     },
@@ -97,8 +100,6 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-SemiBold',
         fontSize:17,
         color: '#000000',
-        borderColor: 'red',
-        
     },
     moreBtnLayout:{
         justifyContent:'flex-end',

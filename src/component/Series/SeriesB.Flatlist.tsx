@@ -33,38 +33,33 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog');
         setContent(Content.data);
-        console.log(Content.data);
     }
 
     const renderTour = ({ item }) => {
 
-      console.log(item, '플랫 리스트');
 
       return(
-        <Layout
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            margin: 15,
-          }}
-        >
           <TouchableOpacity>
             <Layout style={styles.SeriesStyle} >
               <Image source={{ uri: item.cover }} style={styles.SeriesImgStyle} />
               <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
             </Layout>
           </TouchableOpacity>
-        </Layout>
       )
     };
 
 
     return (
-            <Layout>
+            <Layout  
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginLeft: 35,
+              marginTop: 5,
+            }}>
                 <FlatList
                 data={content}
                 renderItem={renderTour}
-                style={{ margin: 20 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 />
@@ -75,7 +70,7 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
 const styles = StyleSheet.create({
   SeriesStyle: {
     justifyContent: "center", 
-    
+    marginRight: 10,
   },
   SeriesImgStyle: {
     width: SeriesImgW*0.27,
