@@ -23,12 +23,12 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
 
     React.useEffect(() => {
         InitHomeCarousel();
-
     }, []);
 
     async function InitHomeCarousel() {
         var Content = await axios.get(SERVER + '/api/home');
         setContent(Content.data);
+        console.log(Content.data);
     }
 
     const RenderCarousel = ({item}) => {

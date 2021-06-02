@@ -19,6 +19,21 @@ export interface SeriesScreenProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES>;
 }
 
+export interface SeriesFlatlistProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+}
+
+export interface SeriesAFlatlistProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+}
+
+export interface SeriesBFlatlistProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+}
+
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>
