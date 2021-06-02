@@ -14,14 +14,14 @@ import {
     ScrollView,
     View,
 } from 'react-native';
-import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
+import { SeriesFlatlistProps } from "../../navigation/ScreenNavigator/Series.navigator"
 
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
-import { SeriesFlatlist } from '../../component/Series';
+import { SeriesAFlatlist, SeriesBFlatlist, SeriesFlatlist } from '../../component/Series';
 
-export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
+export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
     const [refresh, setRefresh] = React.useState(true);
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
@@ -34,44 +34,76 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
 
             {/* hidden gems title */}
-           <Layout style={styles.seriesHidden}>
-               <Layout >
+           <Layout style={styles.seriesHidden1}>
+               <Layout style={styles.seriesHiddenLayout}>
                     <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
                </Layout>
                <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
                     <Text style={styles.moreBtnTxt}>{`More`}</Text>
                </TouchableOpacity>
            </Layout>
-          
-
-          {/* hidden gems in korea */}
           <SeriesFlatlist  navigation={props.navigation} route={props.route} />
+
+
+            {/* seriesA title */}
+            <Layout style={styles.seriesHidden}>
+               <Layout style={styles.seriesHiddenLayout}>
+                    <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
+               </Layout>
+               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+                    <Text style={styles.moreBtnTxt}>{`More`}</Text>
+               </TouchableOpacity>
+           </Layout>
+          <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
+
+
+
+            {/* seriesB title */}
+            <Layout style={styles.seriesHidden}>
+               <Layout style={styles.seriesHiddenLayout}>
+                    <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
+               </Layout>
+               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+                    <Text style={styles.moreBtnTxt}>{`More`}</Text>
+               </TouchableOpacity>
+           </Layout>
+          <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
+           
+
+
         </ScrollView>
     );
 
 }
 
 const styles = StyleSheet.create({
+    seriesHidden1:{
+        width: Dimensions.get('window').width * 0.8,
+        alignSelf:'center',
+        marginTop:200,
+        flexDirection:'row',
+        alignItems:'center',
+    },
+
     seriesHidden:{
         width: Dimensions.get('window').width * 0.8,
         alignSelf:'center',
-        marginTop:250,
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',        
+    },
+    seriesHiddenLayout:{
     },
     seriesHiddenTxt:{
         fontFamily:'IBMPlexSansKR-SemiBold',
         fontSize:17,
         color: '#000000',
+        borderColor: 'red',
+        
     },
     moreBtnLayout:{
-        // alignSelf: 'flex-end',
-        // justifyContent:'flex-end'
-        marginLeft:90
-    },
-    moreBtn:{
-        textAlign:'right',
-        width:'30%'
+        justifyContent:'flex-end',
+        flexDirection: 'row',
+        flex: 1,
     },
     moreBtnTxt:{
         color:'#AFAFAF',

@@ -11,19 +11,19 @@ import {
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
-import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SeriesBFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type Series_Item = {
-    banner: '',
-    title: '',
+    cover: '',
+    desc: '',
     _id: '',
-    loc:'',
-    region:'',
+    title:'',
+    comments:'',
 }
 
-const SeriesImgW = Dimensions.get('window').width * 0.42;
+const SeriesImgW = Dimensions.get('window').width;
 
-export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
+export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
 
     React.useEffect(() => {
@@ -31,11 +31,14 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     }, []);
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/api/main-tours');
+        var Content = await axios.get(SERVER + '/api/blog');
         setContent(Content.data);
+        console.log(Content.data);
     }
 
     const renderTour = ({ item }) => {
+
+      console.log(item, '플랫 리스트');
 
       return(
         <Layout
@@ -47,7 +50,7 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
         >
           <TouchableOpacity>
             <Layout style={styles.SeriesStyle} >
-              <Image source={{ uri: item.banner }} style={styles.SeriesImgStyle} />
+              <Image source={{ uri: item.cover }} style={styles.SeriesImgStyle} />
               <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
             </Layout>
           </TouchableOpacity>
@@ -72,21 +75,21 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
 const styles = StyleSheet.create({
   SeriesStyle: {
     justifyContent: "center", 
-    alignItems: "center",
     
   },
   SeriesImgStyle: {
-    width: SeriesImgW,
-    height: SeriesImgW*1.2,
+    width: SeriesImgW*0.27,
+    height: SeriesImgW*0.27,
     borderRadius: 10,
-    position:'relative'
   },
   SeriesTxtStyle:{
-    position: 'absolute',
-    bottom: 10,
-    fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 20,
-    color: '#FFFFFF',
+    fontFamily: 'IBMPlexSansKR-Medium',
+    fontSize: 15,
+    color: '#000000',
+    marginTop: 2, 
+    width: SeriesImgW*0.27,
+    justifyContent: 'flex-start'
+
   },
 
 })
