@@ -31,47 +31,58 @@ export const SeriesScreen = (props: SeriesFlatlistProps): LayoutElement => {
       }
 
     return(
-        <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
+        <React.Fragment>
+            <SafeAreaView style={{backgroundColor: '#00FF0000', flex: 0}} />
 
-            {/* hidden gems title */}
-           <Layout style={styles.seriesHidden1}>
-               <Layout style={styles.seriesHiddenLayout}>
-                    <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
-               </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
-                    <Text style={styles.moreBtnTxt}>{`More`}</Text>
-               </TouchableOpacity>
-           </Layout>
-          <SeriesFlatlist  navigation={props.navigation} route={props.route} />
+            <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
 
-
-            {/* seriesA title */}
-            <Layout style={styles.seriesHidden}>
-               <Layout style={styles.seriesHiddenLayout}>
-                    <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
-               </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
-                    <Text style={styles.moreBtnTxt}>{`More`}</Text>
-               </TouchableOpacity>
-           </Layout>
-          <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
+                {/* hidden gems title */}
+                <Layout style={styles.seriesHidden1}>
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
+                    </Layout>
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
+                </Layout>
+                
+                <SeriesFlatlist  navigation={props.navigation} route={props.route} />
 
 
+                {/* seriesA title */}
+                <Layout style={styles.seriesHidden}>
+                    
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
+                    </Layout>
+                    
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
+                
+                </Layout>
+                
+                <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
 
-            {/* seriesB title */}
-            <Layout style={styles.seriesHidden}>
-               <Layout style={styles.seriesHiddenLayout}>
-                    <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
-               </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
-                    <Text style={styles.moreBtnTxt}>{`More`}</Text>
-               </TouchableOpacity>
-           </Layout>
-          <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
-           
 
 
-        </ScrollView>
+                {/* seriesB title */}
+                <Layout style={styles.seriesHidden}>
+
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
+                    </Layout>
+
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
+
+                </Layout>
+
+                <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
+            
+            </ScrollView>
+        </React.Fragment>
     );
 
 }

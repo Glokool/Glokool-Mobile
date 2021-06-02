@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="144" viewBox="0 0 414 144">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_2474" data-name="사각형 2474" width="414" height="144" transform="translate(0 352)" fill="#fff"/>
+    </clipPath>
+    <filter id="선_130" x="331.286" y="34.113" width="35.536" height="35.536" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_131" x="338.828" y="70.631" width="41.5" height="20.5" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_132" x="303.828" y="19.631" width="20.5" height="33.5" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-3"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_133" x="259.311" y="33.115" width="34.533" height="33.533" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-4"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_134" x="252.828" y="70.631" width="40.5" height="20.5" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-5"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-5"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_135" x="274.31" y="92.113" width="29.536" height="29.536" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-6"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-6"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_137" x="330.286" y="99.113" width="36.536" height="36.536" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-7"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-7"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="선_136" x="303.828" y="99.631" width="20.5" height="35.5" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-8"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-8"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="타원_104" x="280.635" y="47.07" width="66.621" height="66.621" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-9"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-9"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="날씨위젯_맑음_" data-name="날씨위젯(맑음)" transform="translate(0 -352)" clip-path="url(#clip-path)">
+    <g id="그룹_1414" data-name="그룹 1414">
+      <rect id="사각형_2469" data-name="사각형 2469" width="414" height="143.628" transform="translate(0 352)" fill="#f8f8f8"/>
+      <circle id="타원_592" data-name="타원 592" cx="15.941" cy="15.941" r="15.941" transform="translate(38.921 381.272)" fill="#fff"/>
+      <circle id="타원_590" data-name="타원 590" cx="25.5" cy="25.5" r="25.5" transform="translate(-21.216 411.151)" fill="#fff"/>
+      <circle id="타원_591" data-name="타원 591" cx="22.328" cy="22.328" r="22.328" transform="translate(328.03 378.881)" fill="#fff"/>
+      <g id="그룹_1401" data-name="그룹 1401" transform="translate(-7.225 376.573)">
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_130)">
+          <line id="선_130-2" data-name="선 130" y1="14" x2="14" transform="translate(342.05 41.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_131)">
+          <line id="선_131-2" data-name="선 131" x2="21" transform="translate(349.08 77.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_132)">
+          <line id="선_132-2" data-name="선 132" y1="13" transform="translate(314.08 26.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_133)">
+          <line id="선_133-2" data-name="선 133" x1="13" y1="12" transform="translate(270.08 40.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_134)">
+          <line id="선_134-2" data-name="선 134" x1="20" transform="translate(263.08 77.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_135)">
+          <line id="선_135-2" data-name="선 135" x1="8" y2="8" transform="translate(285.08 99.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_137)">
+          <line id="선_137-2" data-name="선 137" x2="15" y2="15" transform="translate(341.05 106.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, 7.23, -24.57)" filter="url(#선_136)">
+          <line id="선_136-2" data-name="선 136" y2="15" transform="translate(314.08 106.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        </g>
+      </g>
+      <g id="그룹_1403" data-name="그룹 1403" transform="translate(282.582 398.213)">
+        <g id="그룹_636" data-name="그룹 636" transform="translate(0 0)">
+          <path id="합치기_1" data-name="합치기 1" d="M31.168,0A31.168,31.168,0,1,1,0,31.168,31.168,31.168,0,0,1,31.168,0Z" fill="#8e9dff"/>
+          <path id="합치기_8" data-name="합치기 8" d="M31.168,0A31.168,31.168,0,1,1,0,31.168,31.168,31.168,0,0,1,31.168,0Z" transform="translate(0 0)" fill="#8e9dff" opacity="0.84"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, -282.58, -46.21)" filter="url(#타원_104)">
+          <ellipse id="타원_104-2" data-name="타원 104" cx="24.311" cy="24.311" rx="24.311" ry="24.311" transform="translate(289.64 53.07)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="그룹_1402" data-name="그룹 1402" transform="translate(429.565 681.298) rotate(180)" opacity="0.8">
+        <line id="선_138" data-name="선 138" x1="7.103" transform="translate(49.776 223.231)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="3"/>
+        <circle id="타원_356" data-name="타원 356" cx="16.245" cy="16.245" r="16.245" transform="translate(12.222 206.987)" fill="#8e9cff"/>
+        <line id="선_140" data-name="선 140" x1="4.972" y1="4.901" transform="translate(43.963 239.568)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="3"/>
+        <line id="선_141" data-name="선 141" x1="4.972" y2="4.901" transform="translate(41.963 200.574)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="3"/>
+        <line id="선_142" data-name="선 142" y2="8.523" transform="translate(28.467 192.05)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="3"/>
+        <line id="선_143" data-name="선 143" y2="6.464" transform="translate(28.467 245.889)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="3"/>
+      </g>
+      <g id="그룹_1404" data-name="그룹 1404" transform="translate(-17.908 247.273)" opacity="0.8">
+        <line id="선_138-2" data-name="선 138" x1="5" transform="translate(38 214)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="2"/>
+        <circle id="타원_356-2" data-name="타원 356" cx="13" cy="13" r="13" transform="translate(10 201)" fill="#8e9dff"/>
+        <line id="선_140-2" data-name="선 140" x1="3.5" y1="3.45" transform="translate(32.5 225.5)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="2"/>
+        <line id="선_141-2" data-name="선 141" x1="3.5" y2="3.45" transform="translate(32.5 198.05)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="2"/>
+        <line id="선_142-2" data-name="선 142" y2="6" transform="translate(23 192.05)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="2"/>
+        <line id="선_143-2" data-name="선 143" y2="4.55" transform="translate(23 229.95)" fill="none" stroke="#8e9cff" stroke-linecap="round" stroke-width="2"/>
+        <circle id="타원_589" data-name="타원 589" cx="8.5" cy="8.5" r="8.5" transform="translate(14.5 205.5)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -8,9 +8,9 @@ export { CustomerServiceComponent } from './CustomerService/CustomerService.comp
 export { FAQ } from './CustomerService/FAQ.component'; 
 
 //Privacy
-export { Privacy } from './Privacy/Privacy.component';
-export { PrivacyConfirm } from './Privacy/Privacy.confirm.component';
-export { PrivacyLogin } from './Privacy/Privacy.login.component'
+export { Privacy } from './Privacy/privacy.component';
+export { PrivacyConfirm } from './Privacy/privacy.confirm.component';
+export { PrivacyLogin } from './Privacy/privacy.login.component'
 
 
 export type ReservationInfo = {

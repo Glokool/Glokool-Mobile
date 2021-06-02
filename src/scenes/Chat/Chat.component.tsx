@@ -25,20 +25,20 @@ import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import moment from 'moment';
-import Toast from 'react-native-easy-toast'
-import DateIcon from '../../assets/icon/date.svg';
-import LocationIcon from '../../assets/icon/location.svg';
 import { LoginCheck } from '../../component/Common';
+import { WeatherComponent } from '../../component/Chat/weather.component';
+import { ChatListNow } from '../../component/Chat/chat.list.now.component';
+import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
+import { Discount } from '../../assets/icon/Common';
 
 var ToastRef : any;
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
+  
   const user = auth().currentUser;
-  const [loginVisible, setLoginVisible] = React.useState(true);
-  const [startTime, setStartTime] = React.useState([]);
-  const [MyTourData, setMyTourData] = React.useState([]);
-  const now = new Date();
+  
+  const [now, setNow] = React.useState<boolean>(true);
+
 
   var exitApp : any = undefined;  
   var timeout : any;
@@ -53,54 +53,6 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
       }
     }, [])
   );
-
-  React.useEffect(() => {
-
-    props.navigation.addListener('focus', () => {
-      if(user == null){
-        setLoginVisible(true);
-      }
-      else{
-        setLoginVisible(false);
-      }
-    });
-
-    axios.get( SERVER + '/api/user/tour/' + user?.uid )
-      .then((response)=> {
-
-        var temp = response.data;
-
-        temp.forEach((item, index) => {
-          var string = item.tourCode.split("-");
-          var time = string[2][0] + string[2][1] + ':00'
-
-          temp[index].time = time;
-        })
-
-        setMyTourData(temp);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-
-   
-
-    return () => {
-      setLoginVisible(false);
-    }
-  }, [])
-  
-  const PressChat = item => () => {
-    
-    AsyncStorage.setItem('code', item.tourCode);
-    AsyncStorage.setItem('id', item.tour_id);
-    AsyncStorage.setItem('title', item.title);
-
-    BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-    props.navigation.navigate(SceneRoute.GUIDE_CHAT, item.tourCode);
-  }
-
-  
 
   const handleBackButton = () => {
     
@@ -122,167 +74,168 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     return true;
   }
 
-  const renderItem = ({item}) => {
-
-    var Day = moment(item.date).toDate();
-   
-    return(
-        <TouchableOpacity onPress={PressChat(item)}>
-        
-        <Layout style={styles.GuideContainer}>
-          <Layout style={{flex: 65, flexDirection: 'column'}}>
-            
-            <Layout style={{flex: 1, padding: 20, flexDirection: 'row', alignItems: 'center'}}>
-              <FontAwesomeIcon icon={faSquare} size={16} color={'#FDE2A1'} style={{marginRight: 5}}/>
-              <Text style={{color: 'black', fontWeight: 'bold', fontSize: 16}}>{item.title}</Text>
-            </Layout>
-
-            <Layout style={{flex: 1, padding: 20, paddingTop: 0, alignItems: 'flex-start'}}>
-
-              <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
-                <DateIcon width={12} height={12} style={{marginRight: 5}}/>
-                <Text style={{color: 'black', fontSize: 12, fontWeight: 'bold'}}>{`${Day.getFullYear()}.${Day.getMonth() + 1}.${Day.getDate()} ${item.time} (4h)`}</Text>
-              </Layout>
-              
-              <Layout style={{flexDirection: 'row', alignItems: 'center'}}>
-                <LocationIcon width={12} height={12} style={{marginRight: 5}}/>
-                <Text style={{color: 'black', fontSize: 10, fontWeight: 'bold'}}>{item.location}</Text>
-              </Layout>
-              
-            </Layout>
-          </Layout>
-
-          <Layout style={{flex: 35, alignItems: 'flex-end'}}>
-            <Image style={styles.Image} source={{uri : item.thumbnail}}/> 
-          </Layout>
-
-
-        </Layout>
-        </TouchableOpacity>
-      );
-    
-    };
-
   return (
     (user == null) ? (
       <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
     )
       :
     (
-    <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
-      <Layout style={{backgroundColor: 'white', flex: 1}}>
+    <Layout style={styles.MainContainer}>
 
-        <Layout style={styles.mainContainer}>
-          <Text style={styles.TextStyle}>{"Guide Chat"}</Text>
-          <Divider/>
-        </Layout>
+      <WeatherComponent />
 
-        {(MyTourData.length == 0)?
-          <Layout style={{flex: 9, alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{fontSize: 16, fontWeight: 'bold', color: '#C9C9C9'}}>There are no tours available :(</Text>
-          </Layout>
-        :
-          <FlatList
-            style={{backgroundColor: '##F5F5F5', width: '100%'}}
-            data={MyTourData}
-            contentContainerStyle={{paddingBottom: 300}}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />   
-        }
+      <Layout style={styles.TextButtonContainer}>
+
+        <TouchableOpacity onPress={() => setNow(true)}>
+          <Text style={(now === true)? styles.TextButtonS : styles.TextButton }>NOW</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setNow(false)}>
+          <Text style={(now === false)? styles.TextButtonS : styles.TextButton }>RECENT</Text>
+        </TouchableOpacity>
+
       </Layout>
-      <Toast ref={(toast) => ToastRef = toast} position={'center'}/>
-    
-      <Image style={styles.banner} source={require('../../assets/guide_banner.jpg')}/>
-    </React.Fragment>
+
+      {(now === true)?
+        <ChatListNow navigation={props.navigation} route={props.route}/>
+        :
+        <ChatListRecent navigation={props.navigation} route={props.route}/>
+      }
+
+      <Layout style={styles.AdContainer}>
+        <Text style={styles.AdTitle}>Travel Assistant Service</Text>
+
+        <Layout style={styles.AdContainer1}>
+          
+          <Layout style={styles.AdContainer2}>
+            <Layout style={styles.DiscountContainer}>
+              <Layout>
+                <Discount/>
+                <Layout style={styles.DiscountNotContainer}>
+                  <Text style={styles.DiscountNot}>20,000</Text>
+                </Layout>
+              </Layout>
+              <Text style={styles.DiscountPer}>75%</Text>
+            </Layout>
+
+            <Text style={styles.Cost}>5,000<Text style={styles.KRW}>KRW <Text style={styles.KRWElse}>/ Per DAY</Text></Text></Text>
+          </Layout>
+
+          <Layout style={styles.AdContainer2}>
+            <TouchableOpacity style={styles.BookButton}>
+
+            </TouchableOpacity>
+          </Layout>
+        </Layout>
+        
+        
+        
+      </Layout>
+
+
+
+
+    </Layout>
     )
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer:{
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  TextStyle: {    
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 20,
-    marginHorizontal: 20,
-  },
-  ListContainer: {
-    width: '85%',
-    height: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  Image: {
-    width: '100%',
-    height: 128,
-  },
-  ImageContainer: {
-    borderRadius: 20,
-  },
-  TitleContainer: {
-    flex: 3,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    
-  },
-  StatusContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center'
-  },
-  Profile: {
-    width: 60,
-    height: 60,
-    borderRadius: 100,
-    margin: 12,
-  },
-  title: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginHorizontal: 10,
-  },
-  alert: {
-    width: 10,
-    height: 10,
-    borderRadius: 100,
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  container: {
-    flex: 1,
-  },
-  backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  cancelButton: {
-    borderColor: '#FFC043',
-    backgroundColor: 'white',   
-  },
-  GuideContainer : {
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    width: '100%',
-    height: 130,
-    borderTopWidth: 2,
-    borderTopColor: '#FFD774',
-    flexDirection: 'row',
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity:  0.4,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-  banner: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 130,
-    resizeMode: 'stretch'
-  }
+    MainContainer: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'white'
+    },
+    TextButtonContainer: {
+      marginLeft: 20,
+      flexDirection: 'row'
+    },
+    TextButton: {
+      padding: 10,
+      color: '#D2D2D2',
+      fontFamily: 'BrandonGrotesque-Medium',
+      fontSize: 18,
+    },
+    TextButtonS: {
+      padding: 10,
+      color: 'black',
+      fontFamily: 'BrandonGrotesque-Medium',
+      fontSize: 18,
+    },
+    AdContainer: {
+      position: 'absolute',
+      width: '100%',
+      height: 140,
+      bottom: 0,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+      borderTopRightRadius: 10
+    },
+    AdContainer1: {
+      flexDirection: 'row'
+    },
+    AdContainer2: {
+      flex: 1
+    },
+    AdTitle: {
+      fontFamily: 'BrandonGrotesque-BoldItalic',
+      fontSize: 23,
+      color: '#7777FF',
+      marginLeft: 30,
+      marginVertical: 15,
+    },
+    DiscountContainer: {
+      flexDirection: 'row',
+      marginLeft: 30,
+      justifyContent: 'flex-start',
+      alignItems: 'center'
+    },
+    DiscountNotContainer: {
+      position: 'absolute',
+      top: '-25%',
+      backgroundColor: '#00FF0000'
+    },
+    DiscountNot: {
+      fontFamily: 'BrandonGrotesque-Bold',
+      fontSize : 16,
+      marginLeft: 5
+    },
+    DiscountPer: {
+      fontFamily: 'BrandonGrotesque-Bold',
+      fontSize: 25,
+      color: '#7777FF',
+      marginLeft: 10
+    },
+    Cost: {
+      fontFamily: 'BrandonGrotesque-Bold',
+      fontSize: 22,
+      marginLeft: 30
+    },
+    KRW : {
+      fontFamily: 'BrandonGrotesque-Bold',
+      fontSize: 16,
+    },
+    KRWElse: {
+      fontFamily: 'IBMPlexSansKR-SemiBold',
+      fontSize: 17,
+    },
+    BookButton: {
+      borderRadius: 15,
+      borderWidth: 2,
+      borderColor: '#8596FF',
+      backgroundColor: '#252525',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 160,
+      height: 50,
+      alignSelf: 'flex-end',
+      marginRight: 30
+    },
+
 });

@@ -6,5 +6,6 @@ import Resident_Mini from './Resident_Mini.svg';
 import Resident from './Resident.svg';
 import Delete from './Delete.svg';
 import AngleLeft from './AngleLeft.svg';
+import Discount from './Discount.svg'
 
-export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft}
+export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount}

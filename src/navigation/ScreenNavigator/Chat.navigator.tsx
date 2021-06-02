@@ -18,6 +18,20 @@ export interface ChatScreenProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
 }
 
+export interface WeatherComponentProps {
+
+}
+
+export interface ChatListNowProps {
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
+}
+
+export interface ChatListRecentProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
+}
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen}/>
