@@ -33,12 +33,20 @@ import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
 
 var ToastRef : any;
 
+type PriceData = {
+  active: boolean, 
+  discountedPrice: number, 
+  price: string,
+  discount: number,
+}
+
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
   
   const user = auth().currentUser;
   
   const [now, setNow] = React.useState<boolean>(true);
   const [ad, setAD] = React.useState<boolean>(true);
+  const [price, setPrice] = React.useState<PriceData>();
 
 
   var exitApp : any = undefined;  
@@ -54,6 +62,30 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
       }
     }, [])
   );
+
+  React.useEffect(() => {
+    InitResSetting();
+  }, [])
+
+  async function InitResSetting() {
+    
+    var config = {
+      Method: 'get',
+      url: SERVER + '/api/price',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      }
+    };
+
+    var result = await axios(config);
+    setPrice({
+      active: result.data.active,
+      discountedPrice: result.data.discountedPrice, 
+      price: result.data.price,
+      discount: result.data.discount
+    });
+
+  }
 
   const handleBackButton = () => {
     
@@ -128,13 +160,13 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
               <Layout>
                 <Discount/>
                 <Layout style={styles.DiscountNotContainer}>
-                  <Text style={styles.DiscountNot}>20,000</Text>
+                  <Text style={styles.DiscountNot}>{price?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                 </Layout>
               </Layout>
-              <Text style={styles.DiscountPer}>75%</Text>
+              <Text style={styles.DiscountPer}>{price?.discount}%</Text>
             </Layout>
 
-            <Text style={styles.Cost}>5,000<Text style={styles.KRW}>KRW <Text style={styles.KRWElse}>/ Per DAY</Text></Text></Text>
+            <Text style={styles.Cost}>{price?.discountedPrice}<Text style={styles.KRW}>KRW <Text style={styles.KRWElse}>/ Per DAY</Text></Text></Text>
           </Layout>
 
           <Layout style={styles.AdContainer2}>
