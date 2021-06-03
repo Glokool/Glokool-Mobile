@@ -14,14 +14,14 @@ import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type Series_Item = {
-    banner: '',
-    title: '',
-    _id: '',
-    loc:'',
-    region:'',
+    banner: string,
+    title: string,
+    _id: string,
+    loc: string,
+    region: string,
 }
 
-const SeriesImgW = Dimensions.get('window').width * 0.42;
+const SeriesImgW = Dimensions.get('window').width;
 
 export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
@@ -38,30 +38,27 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     const renderTour = ({ item }) => {
 
       return(
-        <Layout
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            margin: 15,
-          }}
-        >
           <TouchableOpacity>
             <Layout style={styles.SeriesStyle} >
               <Image source={{ uri: item.banner }} style={styles.SeriesImgStyle} />
               <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
             </Layout>
           </TouchableOpacity>
-        </Layout>
       )
     };
 
 
     return (
-            <Layout>
+            <Layout
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginLeft: 35,
+              marginTop: 5,
+            }}>
                 <FlatList
                 data={content}
                 renderItem={renderTour}
-                style={{ margin: 20 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 />
@@ -73,11 +70,12 @@ const styles = StyleSheet.create({
   SeriesStyle: {
     justifyContent: "center", 
     alignItems: "center",
+    marginRight: 10,
     
   },
   SeriesImgStyle: {
-    width: SeriesImgW,
-    height: SeriesImgW*1.2,
+    width: SeriesImgW * 0.42,
+    height: SeriesImgW * 0.42 *1.2,
     borderRadius: 10,
     position:'relative'
   },
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
     fontFamily: 'BrandonGrotesque-BoldItalic',
     fontSize: 20,
     color: '#FFFFFF',
+   
   },
 
 })

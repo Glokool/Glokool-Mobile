@@ -42,7 +42,7 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
           <TouchableOpacity >
             <Layout style={styles.SeriesStyle} >
               <Image source={{ uri: item.image }} style={styles.SeriesImgStyle} />
-              <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
+              <Text style={styles.SeriesTxtStyle} numberOfLines={2}>{item.title}</Text>
             </Layout>
           </TouchableOpacity>
       )
@@ -54,12 +54,12 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
             style={{
               flexDirection: "row",
               justifyContent: "center",
-              marginLeft: 15,
+              marginLeft: 35,
+              marginTop: 5,
             }}>
                 <FlatList
                 data={content}
                 renderItem={renderTour}
-                style={{ margin: 20 }}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 />
@@ -70,7 +70,7 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
 const styles = StyleSheet.create({
   SeriesStyle: {
     justifyContent: "center", 
-    
+    marginRight: 10,
   },
   SeriesImgStyle: {
     width: SeriesImgW*0.27,
@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
   SeriesTxtStyle:{
     fontFamily: 'IBMPlexSansKR-Medium',
     fontSize: 15,
+    width: SeriesImgW*0.27,
     color: '#000000',
-    marginTop: 2,
+    marginVertical: 0,
     justifyContent: 'flex-start'
   },
 
