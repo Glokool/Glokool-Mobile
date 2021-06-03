@@ -14,14 +14,14 @@ import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type Series_Item = {
-    banner: '',
-    title: '',
-    _id: '',
-    loc:'',
-    region:'',
+    banner: string,
+    title: string,
+    _id: string,
+    loc: string,
+    region: string,
 }
 
-const SeriesImgW = Dimensions.get('window').width * 0.42;
+const SeriesImgW = Dimensions.get('window').width;
 
 export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
     
   },
   SeriesImgStyle: {
-    width: SeriesImgW,
-    height: SeriesImgW*1.2,
+    width: SeriesImgW * 0.42,
+    height: SeriesImgW * 0.42 *1.2,
     borderRadius: 10,
     position:'relative'
   },

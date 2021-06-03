@@ -41,6 +41,11 @@ export interface SeriesADetailProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
 }
 
+export interface SeriesADetailContentProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
+}
+
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>

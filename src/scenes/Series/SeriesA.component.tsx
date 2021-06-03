@@ -15,9 +15,14 @@ import {
 } from 'react-native';
 import { SeriesADetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
+import { SERVER } from '../../server.component';
+import axios from 'axios';
+import { SeriesADetail } from '../../component/Series';
 
 
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
+    
+
     return (
         <ScrollView style={{backgroundColor: '#ffffff'}}>
             <Layout>
@@ -29,6 +34,7 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
                     {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
                 </Text>
             </Layout>
+            <SeriesADetail navigation={props.navigation} route={props.route} />
         </ScrollView>
     )
 }
