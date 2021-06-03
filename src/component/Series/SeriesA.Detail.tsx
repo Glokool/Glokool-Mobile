@@ -107,17 +107,22 @@ const styles = StyleSheet.create({
     },
     SeriesBottomLayout: {
         flexDirection:'row',
-        marginLeft: 20
+        marginLeft: 20,
+        flex: 1,
     },
     SeriesDateTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
+        alignSelf: 'flex-start',
+
     },
     SeriesCountTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
+        alignSelf: 'flex-end',
+
     },
    
 })
