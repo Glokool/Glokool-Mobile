@@ -12,7 +12,8 @@ import {
   Privacy,
   PrivacyConfirm,
   PrivacyLogin,
-  MyProfile
+  MyProfile,
+  BookmarkList
 } from '../../scenes/My';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 
@@ -27,6 +28,7 @@ type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CUSTOMER_SERVICE] : undefined;
   [SceneRoute.FAQ] : undefined;
   [SceneRoute.MY_PROFILE] : undefined;
+  [SceneRoute.BOOKMARK_LIST] : undefined;
 };
 
 export interface MyScreenProps {
@@ -84,6 +86,11 @@ export interface FAQProps {
   route: RouteProp<MyNavigatorParams, SceneRoute.FAQ>;
 }
 
+export interface BookmarkListProps {
+  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
+  route: RouteProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
+}
+
 
 
 const Stack = createStackNavigator();
@@ -92,6 +99,7 @@ export const MyNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     
     <Stack.Screen name={SceneRoute.MY} component={MYScreen}/>
+    <Stack.Screen name={SceneRoute.BOOKMARK_LIST} component={BookmarkList}/>
     <Stack.Screen name={SceneRoute.MY_SETTING} component={MySetting}/>
     <Stack.Screen name={SceneRoute.MY_PROFILE} component={MyProfile}/>
     <Stack.Screen name={SceneRoute.REFUND_POLICY} component={RefundPolicy}/>
@@ -103,6 +111,7 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY} component={Privacy}/>
     <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm}/>
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin}/>
+
 
   </Stack.Navigator>
 );

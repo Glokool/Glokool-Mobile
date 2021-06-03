@@ -26,9 +26,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
 
-    function PressHiddenGems() {
-        
-      }
 
     return(
         <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
@@ -38,7 +35,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                <Layout style={styles.seriesHiddenLayout}>
                     <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
                </Layout>
-               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => PressHiddenGems()}>
+               <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM)}>
                     <Text style={styles.moreBtnTxt}>{`More`}</Text>
                </TouchableOpacity>
            </Layout>

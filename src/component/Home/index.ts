@@ -1,2 +1,2 @@
-export {HomeTopTabBar} from './Home.TopTabBar';
-export {HomeCarousel} from './Home.Carousel';
+export { HomeTopTabBar } from './Home.TopTabBar';
+export { HomeCarousel } from './Home.Carousel';

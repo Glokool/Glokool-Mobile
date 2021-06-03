@@ -14,11 +14,11 @@ import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesAFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type Series_Item = {
-    image: '',
-    plus: '',
-    _id: '',
-    title:'',
-    comments:'',
+    image: string,
+    plus: string,
+    _id: string,
+    title:string,
+    comments: string,
 }
 
 const SeriesImgW = Dimensions.get('window').width;

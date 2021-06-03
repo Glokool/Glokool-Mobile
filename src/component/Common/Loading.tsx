@@ -5,10 +5,9 @@ import { Layout, LayoutElement } from '@ui-kitten/components';
 
 export const Loading = () : LayoutElement => {
 
-
     return(
         <Layout style={styles.MainContainer}>
-            
+            <LottieView source={require('../../assets/loading.json')} autoPlay loop />
         </Layout>
     )
 }
@@ -19,6 +18,6 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     }
 })

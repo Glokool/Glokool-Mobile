@@ -12,6 +12,9 @@ export { Privacy } from './Privacy/privacy.component';
 export { PrivacyConfirm } from './Privacy/privacy.confirm.component';
 export { PrivacyLogin } from './Privacy/privacy.login.component'
 
+//BookmarkList
+export { BookmarkList } from './Bookmark/Bookmark.List.component';
+
 
 export type ReservationInfo = {
     user: {

@@ -20,7 +20,7 @@ type Series_Item = {
     count: number,
     _id: string,
     title: string,
-    createdAt: date,
+    createdAt: Date,
 }
 
 
