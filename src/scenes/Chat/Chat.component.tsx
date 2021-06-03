@@ -29,7 +29,7 @@ import { LoginCheck } from '../../component/Common';
 import { WeatherComponent } from '../../component/Chat/weather.component';
 import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
-import { Discount } from '../../assets/icon/Common';
+import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
 
 var ToastRef : any;
 
@@ -38,6 +38,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
   const user = auth().currentUser;
   
   const [now, setNow] = React.useState<boolean>(true);
+  const [ad, setAD] = React.useState<boolean>(true);
 
 
   var exitApp : any = undefined;  
@@ -102,8 +103,23 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         <ChatListRecent navigation={props.navigation} route={props.route}/>
       }
 
-      <Layout style={styles.AdContainer}>
-        <Text style={styles.AdTitle}>Travel Assistant Service</Text>
+
+      {(ad === true)? 
+      <Layout style={styles.AdContainer}>        
+        <Layout style={styles.AdContainer1}>
+
+          <Layout>
+            <Text style={styles.AdTitle}>Travel Assistant Service</Text>
+          </Layout>
+          
+
+          <Layout style={styles.upDownButtonContainer}>
+            <TouchableOpacity style={styles.upDownButton} onPress={() => setAD(false)}>
+              <AngleDown />
+            </TouchableOpacity>
+          </Layout>
+
+        </Layout>
 
         <Layout style={styles.AdContainer1}>
           
@@ -123,14 +139,28 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
           <Layout style={styles.AdContainer2}>
             <TouchableOpacity style={styles.BookButton}>
-
+              <Text style={styles.BookButtonText}>BOOK Glochat</Text>
             </TouchableOpacity>
           </Layout>
-        </Layout>
-        
-        
-        
+        </Layout>      
+      
       </Layout>
+        :
+
+      <Layout style={styles.AdContainerDown}>
+        
+        <Text style={styles.AdTitle2}>Travel Assistant Service</Text>
+
+        <TouchableOpacity style={styles.upButton} onPress={() => setAD(true)}>
+          <AngleUp_W />
+        </TouchableOpacity>
+
+        
+      </Layout>      
+
+      }
+
+      
 
 
 
@@ -165,7 +195,7 @@ const styles = StyleSheet.create({
     AdContainer: {
       position: 'absolute',
       width: '100%',
-      height: 140,
+      height: 150,
       bottom: 0,
       shadowColor: "#000",
       shadowOffset: {
@@ -175,18 +205,45 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
       elevation: 4,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10
+    },
+    AdContainerDown: {
+      position: 'absolute',
+      width: '100%',
+      height: 70,
+      bottom: 0,
+      backgroundColor: '#7777FF',
+      flexDirection: 'row',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+      borderTopLeftRadius: 10,
       borderTopRightRadius: 10
     },
     AdContainer1: {
-      flexDirection: 'row'
+      flexDirection: 'row',
     },
     AdContainer2: {
-      flex: 1
+      flex: 1,
+      justifyContent: 'center'
     },
     AdTitle: {
       fontFamily: 'BrandonGrotesque-BoldItalic',
       fontSize: 23,
       color: '#7777FF',
+      marginLeft: 30,
+      marginVertical: 15,
+    },
+    AdTitle2: {
+      fontFamily: 'BrandonGrotesque-BoldItalic',
+      fontSize: 23,
+      color: '#FFFFFF',
       marginLeft: 30,
       marginVertical: 15,
     },
@@ -235,7 +292,29 @@ const styles = StyleSheet.create({
       width: 160,
       height: 50,
       alignSelf: 'flex-end',
+      marginRight: 20
+    },
+    BookButtonText: {
+      fontFamily: 'BrandonGrotesque-BoldItalic',
+      fontSize: 22,
+      color: '#7777FF',
+    },
+    upDownButtonContainer: {
+      flex: 1,
+      justifyContent: 'center'
+    },
+    upDownButton: {
+      padding: 10,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
       marginRight: 30
     },
+    upButton: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'flex-end',
+      padding: 10,
+      marginRight: 30
+    }
 
 });

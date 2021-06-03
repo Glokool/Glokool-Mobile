@@ -7,5 +7,7 @@ import Resident from './Resident.svg';
 import Delete from './Delete.svg';
 import AngleLeft from './AngleLeft.svg';
 import Discount from './Discount.svg'
+import AngleDown from './AngleDown.svg';
+import AngleUp_W from './AngleUp_White.svg'
 
-export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount}
+export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W}
