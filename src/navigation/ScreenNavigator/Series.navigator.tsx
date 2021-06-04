@@ -8,6 +8,7 @@ import {
   SeriesHiddenGemScreen,
   SeriesScreen,
 } from '../../scenes/Series'
+import { SeriesHiddenGemDetailScreen } from '../../scenes/Series/SeriesHiddenGem.detail.component';
 
 
 const Stack = createStackNavigator();
@@ -17,6 +18,9 @@ type SeriesNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SERIES]: undefined;
   [SceneRoute.SERIES_A]: undefined;
   [SceneRoute.SERIES_HIDDEN_GEM]: undefined;
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
+    TourCode: string;
+  }
 }
 
 export interface SeriesScreenProps {
@@ -59,10 +63,22 @@ export interface HiddenGemInKoreaFlatListProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM>;
 }
 
+export interface SeriesHiddenGemDetailProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL>;
+}
+
+export interface SeriesCarouselProps {
+  
+}
+
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>
+
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM} component={SeriesHiddenGemScreen}/>
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen}/>
+
     <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen}/>
   </Stack.Navigator>
 );

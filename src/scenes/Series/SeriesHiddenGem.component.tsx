@@ -6,12 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AngleLeft } from '../../assets/icon/Common';
 import { HiddenGem } from '../../assets/icon/Series';
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
+import { SceneRoute } from '../../navigation/app.route';
 import { SeriesHiddenGemProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 
 export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElement => {
-
-
 
     return(
         <Layout>
@@ -27,7 +26,7 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
 
             <Layout style={styles.TopTabBar}>
 
-                <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+                <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL)}>
                     <SafeAreaView style={{flex: 0}} />
                     <AngleLeft />
                 </TouchableOpacity>

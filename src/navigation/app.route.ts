@@ -33,6 +33,7 @@ export enum SceneRoute {
     //Series Navigator
     SERIES = 'Series',
     SERIES_HIDDEN_GEM = 'Series Hidden Gem',
+    SERIES_HIDDEN_GEM_DETAIL = 'Series Hidden Gem Detail',
     SERIES_A = 'Series_A',
     SERIES_B = 'SERIES_B',
 
