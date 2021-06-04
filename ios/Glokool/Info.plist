@@ -109,12 +109,12 @@
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
 		<string>Fonts/BrandonGrotesque-BoldItalic.ttf</string>
 		<string>Fonts/BrandonGrotesque-Medium.ttf</string>
+		<string>Fonts/BrandonGrotesque-MediumItalic.ttf</string>
 		<string>Fonts/IBMPlexSansKR-Bold.ttf</string>
 		<string>Fonts/IBMPlexSansKR-Medium.ttf</string>
 		<string>Fonts/IBMPlexSansKR-SemiBold.ttf</string>
 		<string>Fonts/IBMPlexSansKR-Text.ttf</string>
-		<string></string>
-		<string>Fonts/NotoSans-SemiCondensed.ttf</string>
+		<string>Fonts/IBMPlexSansKR-Text.ttf</string>		
 		<string>Fonts/NotoSans-SemiCondensedSemiBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

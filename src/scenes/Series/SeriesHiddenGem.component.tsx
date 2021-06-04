@@ -22,11 +22,15 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
                 <Text style={styles.smallTitleText}>let's Introduce this Series bold and concisely</Text>
 
                 <HiddenGemInKoreaFlatList navigation={props.navigation} route={props.route} />
+
+
             </Layout>
+
+        
 
             <Layout style={styles.TopTabBar}>
 
-                <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL)}>
+                <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
                     <SafeAreaView style={{flex: 0}} />
                     <AngleLeft />
                 </TouchableOpacity>

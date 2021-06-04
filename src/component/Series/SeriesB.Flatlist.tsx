@@ -60,6 +60,7 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
                 <FlatList
                 data={content}
                 renderItem={renderTour}
+                contentContainerStyle={{paddingRight: 20}}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 />

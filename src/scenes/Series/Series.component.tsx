@@ -33,45 +33,46 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
             <SeriesCarousel />        
 
-            <ScrollView style={{backgroundColor : 'white'}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{backgroundColor : 'white', height: '100%'}} showsVerticalScrollIndicator={false}>
 
-            {/* hidden gems title */}
-            <Layout style={styles.seriesHidden1}>
-                <Layout style={styles.seriesHiddenLayout}>
-                        <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
+                {/* hidden gems title */}
+                <Layout style={styles.seriesHidden1}>
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
+                    </Layout>
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM)}>
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
                 </Layout>
-                <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM)}>
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                </TouchableOpacity>
-            </Layout>
-            <SeriesFlatlist  navigation={props.navigation} route={props.route} />
+
+                <SeriesFlatlist  navigation={props.navigation} route={props.route} />
 
 
                 {/* seriesA title - 카드뉴스*/}
                 <Layout style={styles.seriesHidden}>
-                <Layout style={styles.seriesHiddenLayout}>
-                        <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
+                    </Layout>
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A)}>
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
                 </Layout>
-                <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A)}>
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                </TouchableOpacity>
-            </Layout>
-            <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
+                <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
 
 
 
                 {/* seriesB title - 블로그 */}
                 <Layout style={styles.seriesHidden}>
-                <Layout style={styles.seriesHiddenLayout}>
-                        <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
+                    <Layout style={styles.seriesHiddenLayout}>
+                            <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
+                    </Layout>
+                    <TouchableOpacity style={styles.moreBtnLayout} >
+                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    </TouchableOpacity>
                 </Layout>
-                <TouchableOpacity style={styles.moreBtnLayout} >
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                </TouchableOpacity>
-            </Layout>
-            <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
-            
+                <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
 
+                <Layout style={{height: 220}} />
 
             </ScrollView>
 

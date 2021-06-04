@@ -7,6 +7,7 @@ import { HomeScreen } from '../../scenes/Home';
 
 type HomeNavigatorParams = AppNavigatorParams & {
     [SceneRoute.HOME] : undefined;
+    
 }
   
 export interface HomeScreenProps {

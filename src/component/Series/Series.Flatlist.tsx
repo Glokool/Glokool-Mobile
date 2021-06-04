@@ -1,4 +1,5 @@
 import React from 'react'
+import auth from '@react-native-firebase/auth'
 import { 
     TouchableOpacity,
     FlatList, 
@@ -12,6 +13,7 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SceneRoute } from '../../navigation/app.route';
 
 type Series_Item = {
     banner: string,
@@ -20,6 +22,14 @@ type Series_Item = {
     loc: string,
     region: string,
 }
+
+/*
+[{"_id": "60b4642c230e71b5684266f7", 
+"banner": "https://glokool-api.s3.ap-northeast-2.amazonaws.com/tour/60b4642c230e71b5684266f7/preview/16225374526929dd01e7a-4dc9.png", 
+"loc": "3, Dapsimni-ro, Dongdaemun-gu, Seoul, Korea", 
+"region": "seoul", 
+"title": "test2"}, 
+*/
 
 const SeriesImgW = Dimensions.get('window').width;
 
@@ -31,18 +41,32 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
     }, []);
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/api/main-tours');
-        setContent(Content.data);
+      
+      const config = {
+        Method: "get",
+        url: SERVER + "/api/main-tours",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+      };
+
+      var Content = await axios(config);
+      setContent(Content.data);
     }
 
-    const renderTour = ({ item }) => {
 
+
+    const renderTour = (item : {index: number, item: Series_Item}) => {
+
+ 
       return(
-          <TouchableOpacity>
-            <Layout style={styles.SeriesStyle} >
-              <Image source={{ uri: item.banner }} style={styles.SeriesImgStyle} />
-              <Text style={styles.SeriesTxtStyle}>{item.title}</Text>
+          <TouchableOpacity style={styles.ImageContainer} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, {TourCode : item.item._id})}}>
+            <Image source={{uri : item.item.banner}} style={styles.Image} resizeMode={'stretch'}/>
+
+            <Layout style={styles.TitleContainer}>
+              <Text style={styles.TitleText}>{item.item.title}</Text>
             </Layout>
+
           </TouchableOpacity>
       )
     };
@@ -59,6 +83,7 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
                 <FlatList
                 data={content}
                 renderItem={renderTour}
+                contentContainerStyle={{paddingRight: 20}}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 />
@@ -84,9 +109,31 @@ const styles = StyleSheet.create({
     bottom: 10,
     fontFamily: 'BrandonGrotesque-BoldItalic',
     fontSize: 20,
-    color: '#FFFFFF',
-   
+    color: '#FFFFFF',   
   },
+  ImageContainer: {
+    width: SeriesImgW * 0.42,
+    height: SeriesImgW * 0.52,
+    borderRadius: 10,
+    marginRight: 10
+  },
+  Image: {
+    width: SeriesImgW * 0.42,
+    height: SeriesImgW * 0.52,
+    borderRadius: 10,
+  },
+  TitleContainer: {
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
+    backgroundColor: '#00FF0000'
+  },
+  TitleText: {
+    fontFamily : 'BrandonGrotesque-BoldItalic',
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
+  }
 
 })
 

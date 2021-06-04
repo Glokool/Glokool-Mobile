@@ -92,8 +92,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     
     if (exitApp == undefined || !exitApp){
       // 한번만 더 누르면 종료
-
-      ToastRef.show('Press one more time to exit', 1000);
       exitApp = true;
 
       timeout = setTimeout(() => {

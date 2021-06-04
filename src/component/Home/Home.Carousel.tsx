@@ -5,12 +5,13 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 type HomeCarousel_Item = {
-    title: '',
-    type: '',
-    image: '',
-    _id: ''
+    title: string,
+    type: string,
+    image: string,
+    _id: string
 }
 
 const ImageSize = Dimensions.get('window').width * 0.85;
@@ -28,21 +29,33 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
     async function InitHomeCarousel() {
         var Content = await axios.get(SERVER + '/api/home');
         setContent(Content.data);
-        console.log(Content.data);
     }
 
-    const RenderCarousel = ({item}) => {
+    function PressCarousel(type : string, id : string) {        
+
+        if(type === 'tour'){
+            props.navigation.navigate(
+                NavigatorRoute.SERIES, 
+                { 
+                    screen: SceneRoute.SERIES_HIDDEN_GEM_DETAIL,
+                    params: { TourCode : id }            
+                }
+            );
+        }
+    }
+
+    const RenderCarousel = (item : { item : HomeCarousel_Item, index : number }) => {
 
         return(
-            <TouchableOpacity style={styles.ItemContainer}>
-                <Image source={{ uri : item.image }} style={styles.ImageContainer} />
+            <TouchableOpacity style={styles.ItemContainer} onPress={() => PressCarousel(item.item.type, item.item._id)}>
+                <Image source={{ uri : item.item.image }} style={styles.ImageContainer} />
 
                 <Layout style={styles.TitleContainer}>
                     <Layout style={styles.TypeContainer}>
-                        {(item.type === 'tour')? <Text></Text> : (item.type === 'blog')? <Text></Text> : <Text></Text>}
-                        <Text style={styles.Type}>{(item.type === 'tour')? `GLOKOOL Service` : (item.type === 'blog')? `Day Trip with Glokool`: 'Series B'}</Text>
+                        {(item.item.type === 'tour')? <Text></Text> : (item.item.type === 'blog')? <Text></Text> : <Text></Text>}
+                        <Text style={styles.Type}>{(item.item.type === 'tour')? `GLOKOOL Service` : (item.item.type === 'blog')? `Day Trip with Glokool`: 'Series B'}</Text>
                     </Layout>
-                    <Text style={styles.Title}>{item.title}</Text>
+                    <Text style={styles.Title}>{item.item.title}</Text>
                 </Layout>
 
             </TouchableOpacity>    
