@@ -114,14 +114,16 @@ const styles = StyleSheet.create({
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
-        alignSelf: 'flex-start',
-
+        // alignSelf: 'flex-start',
+        justifyContent: 'flex-start'
     },
     SeriesCountTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
-        alignSelf: 'flex-end',
+        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        flex: 1,
 
     },
    
