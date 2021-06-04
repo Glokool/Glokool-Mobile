@@ -13,6 +13,8 @@ import axios from 'axios';
 import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesADetailContentProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from "moment";
+import { SceneRoute } from '../../navigation/app.route';
+import { string } from 'yup/lib/locale';
 
 
 type Series_Item = {
@@ -37,7 +39,6 @@ export const SeriesADetail = (props : SeriesADetailContentProps) : LayoutElement
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents');
         var Data = Content.data;
-        console.log(new Date(Content.data))
         // Content.data.sort(function (a, b) {
         //     return new Date(a.createdAt) - new Date(b.createdAt);
         //   });
@@ -49,13 +50,17 @@ export const SeriesADetail = (props : SeriesADetailContentProps) : LayoutElement
     return (
         <Layout style={styles.SeriesContainer} >
             {(content.map((item) =>
-                <TouchableOpacity style={styles.SeriesInnerContainer}>
+                <TouchableOpacity style={styles.SeriesInnerContainer} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id: item._id})}>
                     <Image style={styles.SeriesImage} source={{uri: item.image}} />
                     <Layout style={styles.SeriesLayout}>
                         <Text style={styles.SeriesTxtStyle} numberOfLines = {2}>{item.title}</Text>
                         <Layout style={styles.SeriesBottomLayout}>
-                            <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY-MM-DD")}</Text>
-                            <Text style={styles.SeriesCountTxtStyle}>{item.count}</Text>
+                            <Layout style={styles.SeriesDateLayoutStyle}>
+                                <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY-MM-DD")}</Text>
+                            </Layout>
+                            <Layout style={styles.SeriesCountLayoutStyle}>
+                                <Text style={styles.SeriesCountTxtStyle}>{item.count}</Text>
+                            </Layout>
                         </Layout>
                     </Layout>
                 </TouchableOpacity>
@@ -93,9 +98,9 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
     },
     SeriesLayout: {
-        width: '70%',
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
+        width: '70%',
     },
     SeriesTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -107,25 +112,31 @@ const styles = StyleSheet.create({
     },
     SeriesBottomLayout: {
         flexDirection:'row',
-        marginLeft: 20,
         flex: 1,
+        marginLeft: 20,
+        marginRight: 20,
+        alignItems: 'flex-end',
+        marginBottom: 10,
     },
     SeriesDateTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
-        // alignSelf: 'flex-start',
-        justifyContent: 'flex-start'
     },
     SeriesCountTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
-        justifyContent: 'flex-end',
+    },
+    SeriesDateLayoutStyle: {
         flexDirection: 'row',
         flex: 1,
-
+        justifyContent: 'flex-start',
     },
-   
+    SeriesCountLayoutStyle: {
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'flex-end',
+    },   
 })
 
