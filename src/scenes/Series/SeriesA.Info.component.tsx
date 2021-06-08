@@ -12,19 +12,35 @@ import {
     FlatList, 
     ScrollView,
     View,
+    TextInput
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AngleLeft, PurpleArrow } from '../../assets/icon/Common';
+import { CommentSending } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
+import { SeriesAComments } from '../../component/Series';
 
+type Comments_Item = {
+    writer: {
+        uid: string,
+        name: string,
+        avatar: string,
+        grade: string,
+    },
+    comment: string,
+    parentComment: string,
+    isDeleted: Boolean,
+    createdAt: Date,
+    updatedAt: Date,
+}
 
 type Series_Item = {
     images: Array<string> ,
-    comments: string,
+    comments: Array<Comments_Item>,
     _id: string,
     count:string,
     desc: string,
@@ -33,11 +49,14 @@ type Series_Item = {
     title: string,
     createdAt: Date,
 }
+
 const windowWidth = Dimensions.get('window').width;
 export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
     const Id = props.route.params.Id;
     const [content, setContent] = React.useState<Series_Item>();
     const [image, setImage] = React.useState<Array<string>>([]);
+    const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
+    const [nowComment, setNowComment] = React.useState();
 
     React.useEffect(() => {
         InitSeries();
@@ -46,8 +65,9 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
         setContent(Content.data);
-        setImage(Content.data.images)
-        console.log(Content.data.createdAt)
+        setImage(Content.data.images);
+        setComments(Content.data.comments);
+        console.log(Content.data)
     }
 
     const RenderCarousel = ({item}) => {
@@ -58,8 +78,16 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         )
     }
 
+    const HandleComment = (e) => {
+        setNowComment(e.target.value);
+    }
+
+    const CommentSendingPress = () => {
+
+    }
+
     return (
-        <ScrollView style={{backgroundColor: '#ffffff'}}>
+        <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
             <Layout style={styles.TopContainerLayout}>
                 <AngleLeft style={styles.AngleLeft} onPress={() => props.navigation.goBack()} />
             </Layout>
@@ -122,9 +150,53 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             </Layout>
 
             {/* 보라색 배경 아래 얇은 그레이 선 */}
-            <Layout style={styles.GrayLineContainerLayoutStyle}>
+            <Layout style={styles.GrayLineContainerLayoutStyle}></Layout>
 
+            {/* Comments */}
+            {/* <SeriesAComments comments ={comments}/> */}
+            <Layout style={styles.CommentsConainer}>
+                <Layout style={styles.CommentsInnerConainer}>
+                    {/* comments title */}
+                    <Layout style={styles.CommentsTitleLayout}>
+                        <Text style={styles.CommentsTitleTxt}>Comments</Text>
+                    </Layout>
+                    
+                    {/* comments content */}
+                    {(comments.map((item) =>
+                        <Layout>
+                            <Layout style={styles.CommentsAuthorContainerLayout}>
+                                <Layout></Layout>
+                                <Layout>
+                                    <Layout>{item.writer.name}</Layout>
+                                    <Layout>{moment(item.createdAt).format("MM/DD hh:mm")}</Layout>
+                                    {/* 좋아요 표시 */}
+                                    <Layout></Layout>
+                                </Layout>
+                                <Layout></Layout>
+                            </Layout>
+                            <Layout style={styles.CommentsContentContainerLayout}>
+                                {item.parentComment}
+                            </Layout>
+                        </Layout>
+                    ))}
+                </Layout>
+
+                {/* 댓글 입력 */}
+                <Layout style={styles.CommentsTextLayout}>
+                    <TextInput  style={styles.CommentsTextInput}
+                    // underlineColorAndroid="transparent"
+                    placeholder="Write your comment"
+                    placeholderTextColor="#D1D1D1"
+                    autoCapitalize="none" 
+                    onChangeText={HandleComment}
+                    value = {nowComment}
+                    ></TextInput>
+                    <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
+                        <CommentSending  />
+                    </TouchableOpacity>
+                </Layout>
             </Layout>
+
         </ScrollView>
     )
 }
@@ -233,7 +305,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginLeft: 20,
         marginRight: 20,
-       
     },
     PurpleTopTxtStyle: {
         color:'#FFFFFF',
@@ -266,5 +337,44 @@ const styles = StyleSheet.create({
         backgroundColor: '#EBEBEB',
         height: 12,
     },
+    CommentsInnerConainer:{
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 15
+    },
+    CommentsTitleLayout: {
+    },
+    CommentsTitleTxt:{
+        fontFamily:'BrandonGrotesque-Bold',
+        fontSize:20,
+        color: '#000000',
+    },
+    CommentsContentContainerLayout:{
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
+        color: '#5D5959',
+    },
+    CommentsTextLayout:{
+        margin: 15,
+
+    },
+    CommentsTextInput: {
+        height: 49,
+        borderColor: "#D1D1D1",
+        borderWidth: 1.5,
+        borderRadius: 30,
+        paddingLeft: 20,
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
+        position: 'relative',
+      },
+    CommentSendingTouch: {
+        position: 'absolute',
+        right: 3,
+        top: 3,
+        // borderWidth: 1,
+        // borderColor: 'red',
+    },
+    
 })
 
