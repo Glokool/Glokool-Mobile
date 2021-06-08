@@ -34,6 +34,7 @@ export enum SceneRoute {
     SERIES = 'Series',
     SERIES_HIDDEN_GEM = 'Series Hidden Gem',
     SERIES_HIDDEN_GEM_DETAIL = 'Series Hidden Gem Detail',
+    SERIES_HIDDEN_GEM_DETAIL_ATTR = 'Series Hidden Gem Detail Attr',
     SERIES_A = 'Series_A',
     SERIES_A_DETAIL = 'Series_A Detail',
     SERIES_B = 'SERIES_B',

@@ -2,15 +2,24 @@ import React from 'react';
 import { Dimensions, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { HiddenGemInKoreaDetailListProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SceneRoute } from '../../navigation/app.route';
 
 const WindowWidth = Dimensions.get('window').width
 
 export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListProps) : LayoutElement => {
 
+    function PressDetail(placeCode : string) {
+        
+
+        if(props.type === 'attr'){
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+        }
+    }
+
     return(
         <Layout>
             {(props.data?.map((item, index) => 
-                <TouchableOpacity style={styles.DataContainer}>
+                <TouchableOpacity style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
 
                     <Image source={{ uri : item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
 

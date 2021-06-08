@@ -1,0 +1,475 @@
+
+import React from 'react';
+import { SeriesHiddenGemContentAttrProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { AngleDown, AngleLeft, AngleUp } from '../../assets/icon/Common';
+import axios from 'axios';
+import { SERVER } from '../../server.component';
+import { Contact, GlokoolService, Location, Sns, Time } from '../../assets/icon/Series';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+
+
+const WindowSize = Dimensions.get('window').width
+
+type IntroData = {
+    _id : string;
+    author: string;
+    img: string;
+}
+
+type photoSpot = {
+    _id : string;
+    desc: string;
+    images: Array<photoSpotImage>;
+    location : string;
+}
+
+type photoSpotImage = {
+    _id : string;
+    author: string;
+    img : string;
+}
+
+type AttractionData = {
+    _id : string;
+    banner : string;
+    count : number;
+    cover : string;
+    cretedAt : Date;
+    desc : string;
+    editorNote: Array<string>;
+    entryFee: string;
+    glokoolService: Array<string>;
+    intro : Array<IntroData>;
+    lat: string;
+    lon: string;
+    loc: string;
+    note: string;
+    phone: string;
+    plus: Array<string>;
+    sns: string;
+    tag: Array<string>;
+    time: {
+        breakTime: string;
+        everyTime: string;
+    }
+    title: string;
+    visible: boolean;
+    photoSpot: Array<photoSpot>;
+
+}
+
+export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrProps) : LayoutElement => {
+
+    const TourCode = props.route.params.TourCode;
+    const PlaceCode = props.route.params.PlaceCode;
+    const ScrollVewRef = React.useRef(null);
+
+    const [data, setData] = React.useState<AttractionData>();
+    const [selectedButton, setSelectedButton] = React.useState<number>(0);
+    const [Glochat, setGlochat] = React.useState<boolean>(true);
+
+    const [infoPos, setInfoPos] = React.useState<number>(0);
+
+    React.useEffect(() => {
+
+        InitContentAttr();
+
+    }, [])
+
+    React.useEffect(() => {
+        console.log(infoPos)
+
+    }, [infoPos]);
+
+
+
+
+    async function InitContentAttr() {
+
+        var ContentAttr = await axios.get(SERVER + '/api/tours/' + TourCode + '/attractions/' + PlaceCode);
+        setData(ContentAttr.data);    
+
+    }
+
+    function PressTopTabBarButton(index : number) {
+        setSelectedButton(index);
+        console.log(infoPos);
+        ScrollVewRef.current.scrollTo({ x: 0, y: infoPos, animated: true });
+    }
+
+
+    return(
+
+        <Layout style={styles.MainContainer}>
+        
+            <ScrollView ref={ScrollVewRef} style={styles.MainContainer} showsVerticalScrollIndicator={false}>
+
+                <Layout style={{height: 60}} />
+
+                {/* 썸네일 이미지 */}
+                <Image source={{uri : data?.banner}} style={styles.Thumbnail} resizeMode={'stretch'} />
+
+                {/* 타이틀 컨테이너 */}
+                <Layout style={styles.TitleContainer}>
+                    <Text style={styles.TitleText}>{data?.title}</Text>
+                    <Text style={styles.DescText}>{data?.desc}</Text>
+                </Layout>
+
+                {/* 글로챗 컨테이너 */}
+                <Layout style={styles.GlochatContainer}>
+
+                    <TouchableOpacity style={styles.GlochatButtonContainer} onPress={() => setGlochat(!Glochat)}>
+
+                        <Layout style={styles.GlochatTextContainer}>
+                            <GlokoolService />
+                            <Text style={styles.GloChatText}>  Glo-Chat Service</Text>
+                        </Layout>
+
+                        {Glochat? 
+                            <AngleDown />
+                        :
+                            <AngleUp />
+                        }                        
+
+                    </TouchableOpacity>
+
+                    {Glochat? 
+
+                        data?.glokoolService.map((item, index) => (
+                            <Text style={styles.IndexText}>{index + 1}<Text>{`    ${item}`}</Text> </Text>
+                        ))                    
+                    :
+                        null
+                    }
+
+                </Layout>
+
+                {/* 글로챗 광고 컨테이너 */}
+                <Layout style={styles.GloChatADContainer}>
+                    
+                    <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
+
+                    <TouchableOpacity style={styles.GloChatButton}>
+                        <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
+                    </TouchableOpacity>
+
+                </Layout>
+
+
+                {/* 인포메이션 컨테이너 */}
+                <Layout style={styles.InfoContainer} onLayout={(e) => {setInfoPos(e.nativeEvent.layout.y)}}>
+
+                    <Layout style={styles.LocationContainer}>
+                        <Location />  
+                        <Text style={styles.InfoDetailText}>{`  ${data?.loc}`}</Text>
+                    </Layout>
+
+
+                    {(data === undefined)? 
+                        null                    
+                    :
+                        <MapView
+                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                        style={{width: WindowSize - 60, height : WindowSize * 0.38, borderRadius: 15, marginBottom: 20}}
+                        region={{
+                            latitude: parseFloat(data?.lat),
+                            longitude: parseFloat(data?.lon),
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.0121,
+                        }}
+                        >
+                            <Marker
+                                coordinate={{ latitude : parseFloat(data?.lat), longitude : parseFloat(data?.lon) }}
+                                title={data.title}
+                            />
+                        </MapView>
+                    }
+                    
+
+
+
+                    <Layout style={styles.InfoDetailContainer5}>
+                        <Time />
+                        <Layout style={styles.InfoDetailContainer3}>
+                            <Text style={styles.InfoDetailText}>  EveryDay</Text>
+                            <Text style={styles.InfoDetailText}>  Break Time</Text>
+                        </Layout>
+
+                        <Layout style={styles.InfoDetailContainer4}>
+                            <Text style={styles.InfoDetailText}>{`${data?.time.everyTime}`}</Text>
+                            <Text style={styles.InfoDetailText}>{`${data?.time.everyTime}`}</Text>
+                        </Layout>     
+                    </Layout>
+
+                    
+                    <Layout style={styles.InfoDetailContainer}>
+                        <Layout style={styles.InfoDetailContainer1}>
+                            <Contact />
+                            <Text style={styles.InfoDetailText}>  Call</Text>
+                        </Layout>
+
+                        <Layout style={styles.InfoDetailContainer2}>
+                            <Text style={styles.InfoDetailText}> {`${data?.phone}`}</Text>
+                        </Layout>     
+                    </Layout>
+
+                    
+                    <Layout style={styles.InfoDetailContainer}>
+                        <Layout style={styles.InfoDetailContainer1}>
+                            <Sns />
+                            <Text style={styles.InfoDetailText}>  Sns</Text>
+                        </Layout>
+
+                        <Layout style={styles.InfoDetailContainer2}>
+                            <Text style={styles.InfoDetailText}> {`${data?.sns.slice(2,)}`}</Text>
+                        </Layout>     
+                    </Layout>
+
+                    
+                    <Layout style={styles.InfoDetailContainer}>
+                        <Layout style={styles.InfoDetailContainer1}>
+                            <Contact />
+                            <Text style={styles.InfoDetailText}>  Entrance</Text>
+                        </Layout>
+
+                        <Layout style={styles.InfoDetailContainer2}>
+                            <Text style={styles.InfoDetailText}> {`${data?.entryFee}  KRW`}</Text>
+                        </Layout>     
+                    </Layout>
+
+                    <Layout style={styles.NoteContainer}>
+                        <Text style={styles.NoteText}>{data?.note}</Text>                    
+                    </Layout>    
+
+                </Layout>
+
+
+                
+
+
+
+
+
+                <Layout style={styles.BottomContainer} />
+
+            </ScrollView>
+
+            <Layout style={styles.TopTabBar}>
+
+                <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
+                    <AngleLeft />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(0)}>
+                    <Text style={(selectedButton === 0)? styles.TextButton_S : styles.TextButton}>Info</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(1)}>
+                    <Text style={(selectedButton === 1)? styles.TextButton_S : styles.TextButton}>Detail</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>
+                    <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
+                </TouchableOpacity>
+
+            </Layout>
+
+        </Layout>
+    );
+}
+
+const styles = StyleSheet.create({
+    MainContainer: {
+        flex : 1,
+        backgroundColor: 'white'
+    },
+    TopTabBar: {
+        position: 'absolute',
+        width: '100%',
+        top: 0,
+        height: 60,
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center'      
+    },
+    Button : {
+        padding: 15,
+    },
+    TextButton: {
+        fontFamily: 'BrandonGrotesque-Medium',
+        fontSize: 18,
+        color: '#8C8C8C'
+    },
+    TextButton_S: {
+        fontFamily: 'BrandonGrotesque-Medium',
+        fontSize: 18,
+        color: 'black'
+    },
+    Thumbnail : {
+        width: WindowSize,
+        height: WindowSize
+    },
+    TitleContainer:{
+        marginHorizontal: 30,
+    },
+    TitleText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 25,
+        textAlign: 'left',
+        marginTop: 30,
+        marginBottom: 0
+    },
+    DescText: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 17,
+        textAlign: 'left',
+        marginTop: 0,
+        marginBottom: 10
+    },
+    GlochatContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
+        elevation: 1,
+        marginBottom: 30
+    },
+    GlochatTextContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    GlochatButtonContainer: {
+        marginHorizontal: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    GloChatText: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 20,
+    },
+    BottomContainer: {
+        marginBottom: 100
+    },
+    IndexText: {
+        marginLeft: 30,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        color: '#8797FF'
+    },
+    GlochatText: {
+        fontFamily: 'IBMPlexSansKR-Text',
+        fontSize: 16,
+        color: 'black'
+    },
+    GloChatADContainer: {
+        backgroundColor: '#7777FF',
+        width: '100%',
+        height: 70,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    GloChatADText: {
+        flex: 1,
+        fontFamily: 'BrandonGrotesque-Medium',
+        fontSize: 16,
+        color: '#FFFFFF',
+        marginLeft: 30
+    },
+    GloChatButton: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 13,
+        marginRight: 30,
+        alignItems: 'center'
+    },
+    GloChatButtonText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 20,
+        color: '#7777FF',
+        marginVertical: 5,
+    },
+    InfoContainer: {
+        marginHorizontal: 30,
+        marginVertical: 30,
+    },
+    ContainerTitle: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    ContainerTitleText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 25,
+        color: '#7777FF',
+    },
+    Divider: {
+        backgroundColor: '#7777FF',
+        flex: 1,
+        marginLeft: 20,
+    },
+    InfoDetailContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginVertical: 10
+    },
+    LocationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },  
+    InfoDetailContainer1: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    InfoDetailContainer2: {
+        flex: 2,
+    },
+    InfoDetailContainer3: {
+        flex: 1,
+        justifyContent: 'center',
+        marginTop: -5
+    },
+    InfoDetailContainer4: {
+        flex: 2,
+        marginTop: -5,
+        marginLeft: -12
+    },
+    InfoDetailContainer5: {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        marginVertical: 10
+    },
+    InfoDetailText: {
+        flex : 1,
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 14,
+    },
+    InfoDetailText2: {
+        flex : 2,
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 14,
+    },
+    TimeContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    NoteContainer: {
+        justifyContent: 'center',
+        borderRadius: 15,
+        backgroundColor: '#8797FF',
+        marginVertical: 20
+    },
+    NoteText: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        color: 'white',
+        marginVertical: 10,
+        marginHorizontal: 25
+    }
+})

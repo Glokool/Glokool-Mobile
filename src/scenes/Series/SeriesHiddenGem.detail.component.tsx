@@ -57,6 +57,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
         const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode + '/places');
         setData(HiddenGemDetailData.data);
+
     }
 
     async function PressPlus() {
@@ -101,12 +102,12 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                 <Layout style={styles.DetailDataContainer}>
                     {(selectedButton === 0)? // 어트랙션을 선택했을 때                        
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.attraction} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.attraction} type={'attr'} />
                     :
                      (selectedButton === 1)? // 레스토랑을 선택했을 때
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.restaurant} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.restaurant} type={'rest'} />
                     :
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} tyle={'cafe'} />
                     }
 
                 </Layout>
@@ -120,27 +121,30 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
 
             {/* 탑 탭 바 */}
-
-            {(Height >= 300)? 
-            <Layout style={styles.TopTabBar}>
+            {(Height >= ImageSize - 100)? 
+            <Layout style={styles.TopTabBar_B}>
 
                     <Layout style={styles.TopTabBarContainer}>
                         
                         <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                             <AngleLeft />
                         </TouchableOpacity>
 
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                         <Text style={styles.TitleText_B}>{data?.tour.title}</Text>
 
                     </Layout>
 
                     <Layout style={styles.TopTabBarContainer2}>
-                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        
                         <TouchableOpacity style={styles.BookmarkButton}>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                             <Bookmark />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.PlusButton}>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                             <Plus />
                         </TouchableOpacity>
 
@@ -155,20 +159,24 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                 <Layout style={styles.TopTabBarContainer}>
                     
                     <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                         <AngleLeft_W />
                     </TouchableOpacity>
 
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                     <Text style={styles.TitleText}>{data?.tour.title}</Text>
 
                 </Layout>
 
                 <Layout style={styles.TopTabBarContainer2}>
-                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+
                     <TouchableOpacity style={styles.BookmarkButton}>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                         <Bookmark_W />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.PlusButton}>
+                         <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                         <Plus_W />
                     </TouchableOpacity>
 
@@ -202,6 +210,15 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         backgroundColor: '#00FF0000',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    TopTabBar_B: {
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        height: 50,
+        backgroundColor: 'white',
         alignItems: 'center',
         flexDirection: 'row',
     },

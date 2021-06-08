@@ -94,7 +94,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                   inactiveDotScale={1}
                 />
         </Layout>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

@@ -28,25 +28,6 @@ var ToastRef : any;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
-  const banner = [
-    {
-      url : 'https://glokool.com',
-      image: require('../../assets/feed_banner_01.png'),
-    },
-    {
-      url : 'https://glokool.com',
-      image: require('../../assets/feed_banner_02.png'),
-    },
-    {
-      url : 'https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q',
-      image: require('../../assets/feed_banner_03.png'),
-    },
-    {
-      url : 'https://www.instagram.com/glokool_official/',
-      image: require('../../assets/feed_banner_04.png'),
-    },
-  ];
-
   var exitApp : any = undefined;  
   var timeout : any;
 
