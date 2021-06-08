@@ -16,5 +16,7 @@ import Count from './Count.svg';
 import Map from './Map.svg';
 import Plus from './Plus.svg';
 import Bookmark from './Bookmark.svg';
+import PurpleArrow from './PurpleArrow.svg';
 
-export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark}
+export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark, PurpleArrow}
+
