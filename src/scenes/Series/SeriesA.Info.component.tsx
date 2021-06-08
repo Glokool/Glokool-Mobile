@@ -13,9 +13,10 @@ import {
     ScrollView,
     View,
 } from 'react-native';
+import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { AngleLeft } from '../../assets/icon/Common';
+import { AngleLeft, PurpleArrow } from '../../assets/icon/Common';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
@@ -104,17 +105,25 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             </Layout>
 
             {/* 보라색 배경 */}
-            <Layout style={styles.PurpleContainerLayoutStyle}>
+            <Layout style={styles.PurpleContainerLayoutStyle} >
+                <PurpleArrow style={styles.PurpleArrow} />
                 <Layout style={styles.PurpleTopLayoutStyle}>
                     <Text style={styles.PurpleTopTxtStyle}>
                         {`Can't find the information you need?`}
                         {"\n"}
                         {`Ask our travel assistants for more! `}
                     </Text>
-                    <Layout style={styles.PurpleBottomLayoutStyle}>
-                        <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                    <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                        <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                            <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                        </Layout>
                     </Layout>
                 </Layout>
+            </Layout>
+
+            {/* 보라색 배경 아래 얇은 그레이 선 */}
+            <Layout style={styles.GrayLineContainerLayoutStyle}>
+
             </Layout>
         </ScrollView>
     )
@@ -212,27 +221,50 @@ const styles = StyleSheet.create({
         backgroundColor: '#7777FF',
         width: windowWidth,
         height: 122,
+        position: 'relative',
+    },
+    PurpleArrow:{
+        position: 'absolute',
+        top: -20,
+        left: 20,
     },
     PurpleTopLayoutStyle: {
         backgroundColor: '#00FF0000',
-        marginTop: 20,
+        marginTop: 15,
         marginLeft: 20,
+        marginRight: 20,
+       
     },
     PurpleTopTxtStyle: {
         color:'#FFFFFF',
         fontFamily:'BrandonGrotesque-Medium',
         fontSize:18,
     },
+    PurpleBottomContainerLayoutStyle: {
+        backgroundColor: '#00FF0000',
+        alignItems: 'flex-end',
+    },
     PurpleBottomLayoutStyle: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#ffffff',
         width: windowWidth * 0.46,
-        marginTop: 20,
-        marginLeft: 20,
+        height: 42,
+        lineHeight: 42,
+        marginTop: 5,
+        borderRadius: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     PurpleBottomTxtStyle: {
         color:'#7777FF',
-        fontFamily:'BrandonGrotesque-Medium',
-        fontSize:18,
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize:20,
+        // lineHeight: 42,
+        // height: 42,
+    },
+    GrayLineContainerLayoutStyle:{
+        width: windowWidth,
+        backgroundColor: '#EBEBEB',
+        height: 12,
     },
 })
 
