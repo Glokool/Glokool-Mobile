@@ -10,53 +10,42 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { AngleLeft_W, Bookmark_W, Map, Plus_W } from '../../assets/icon/Common';
+import { AngleLeft, AngleLeft_W, Bookmark, Bookmark_W, Map, Plus, Plus_W } from '../../assets/icon/Common';
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
+import { HiddenGemInKoreaDetailList } from '../../component/Series/HiddenGemInKoreaDetail.List';
 
 const ImageSize = Dimensions.get('window').width;
 
-// // {"__v": 49, 
-// "_id": "60b82e5c71a060226da193f4", 
-// "banner": "https://glokool-api.s3.ap-northeast-2.amazonaws.com/tour/60b82e5c71a060226da193f4/preview/1622683228659e7431384-d35e.png", 
-// "count": 4,
-//  "cover": "https://glokool-api.s3.ap-northeast-2.amazonaws.com/tour/60b82e5c71a060226da193f4/preview/1622683228666be4d13ce-1c88.png", 
-//  "createdAt": "2021-06-03T01:20:28.546Z", "desc": "Day and night of Songnidan-gil: Where green nature welcomes you                    
-//   ", "isDeleted": false, 
-//   "lat": 37.509082, 
-//   "loc": "23, Baekjegobun-ro 43-gil, Songpa-gu, Seoul, Korea",
-//    "lon": 127.10825, 
-//    "rate": 0, 
-//    "rateCount": 0, 
-//    "region": "seoul",
-//     "tag": ["picnic", "trendy", "cityview"], 
-//     "title": "Songnidan-gil", 
-//     "visible": true}
-// 
-
 type TourData = {
-    _id : string,
-    banner: string,
-    count: number,
-    cover: string,
-    createdAt: string,
-    desc : string,
-    isDeleted: boolean,
-    lat: string,
-    lon: string,
-    loc: string,
-    rate: string,
-    rateCount: string,
-    region: string,
-    tag: Array<string>,
-    title: string,
-    visible: boolean
+    tourCode : string;
+    title : string;
+    cover: string;
+    desc : string;
+    tag: Array<string>;
 }
+
+type DetailData = {
+    banner: string;
+    desc: string;
+    visible: boolean;
+    title: string;
+    placeCode: string;
+}
+
+type GlokoolTourData = {
+    tour : TourData;
+    attraction : Array<DetailData>;
+    restaurant: Array<DetailData>;
+    cafe : Array<DetailData>;
+}
+
 
 export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) : LayoutElement => {
 
     const TourCode = props.route.params.TourCode;
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [data, setData] = React.useState<TourData>();
+    const [ListData, setListData] = React.useState<DetailData>();
+    const [data, setData] = React.useState<GlokoolTourData>();
     const [Height, setHeight] = React.useState<number>(0);
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
 
@@ -65,7 +54,8 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
     }, []);
 
     async function InitHiddenGemDetail() {
-        const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode);
+
+        const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode + '/places');
         setData(HiddenGemDetailData.data);
     }
 
@@ -79,10 +69,10 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
             <ScrollView showsVerticalScrollIndicator={false} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
                 {/* 탑 이미지 */}
                 <Layout style={styles.TopImageContainer}>
-                    <Image source={{ uri : data?.banner }} style={styles.TopImageContainer} resizeMode={'stretch'}/>
+                    <Image source={{ uri : data?.tour.cover }} style={styles.TopImageContainer} resizeMode={'stretch'}/>
 
                     <Layout style={styles.DescContainer}>
-                        <Text style={styles.DescText}>{data?.desc}</Text>
+                        <Text style={styles.DescText}>{data?.tour.desc}</Text>
                     </Layout>
                 </Layout>
 
@@ -107,15 +97,59 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                 </Layout>
 
+                {/* 리스트 뷰 */}
 
+                <Layout style={styles.DetailDataContainer}>
+                    {(selectedButton === 0)? // 어트랙션을 선택했을 때                        
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.attraction} />
+                    :
+                     (selectedButton === 1)? // 레스토랑을 선택했을 때
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.restaurant} />
+                    :
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} />
+                    }
+
+                </Layout>
 
 
             </ScrollView>
+
+
 
             
 
 
             {/* 탑 탭 바 */}
+
+            {(Height >= 300)? 
+            <Layout style={styles.TopTabBar}>
+
+                    <Layout style={styles.TopTabBarContainer}>
+                        
+                        <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+                            <AngleLeft />
+                        </TouchableOpacity>
+
+                        <Text style={styles.TitleText_B}>{data?.tour.title}</Text>
+
+                    </Layout>
+
+                    <Layout style={styles.TopTabBarContainer2}>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        <TouchableOpacity style={styles.BookmarkButton}>
+                            <Bookmark />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.PlusButton}>
+                            <Plus />
+                        </TouchableOpacity>
+
+                    </Layout>
+
+            </Layout>
+
+            :
+
             <Layout style={styles.TopTabBar}>
 
                 <Layout style={styles.TopTabBarContainer}>
@@ -124,7 +158,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                         <AngleLeft_W />
                     </TouchableOpacity>
 
-                    <Text style={styles.TitleText}>{data?.title}</Text>
+                    <Text style={styles.TitleText}>{data?.tour.title}</Text>
 
                 </Layout>
 
@@ -141,6 +175,10 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                 </Layout>
                 
             </Layout>
+            }
+            
+
+           
 
 
         </Layout>
@@ -188,6 +226,12 @@ const styles = StyleSheet.create({
         fontSize: 23,
         marginLeft: 30
     },
+    TitleText_B:{
+        color: 'black',
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 23,
+        marginLeft: 30
+    },
     BookmarkButton: {
         padding: 10,
         marginRight: 10
@@ -227,6 +271,11 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
         color: 'black'
+    },
+    DetailDataContainer: {
+        width: '100%',
+        backgroundColor: 'green',
+        marginBottom: 100
     }
 
 });

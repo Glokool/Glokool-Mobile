@@ -15,7 +15,6 @@ import {
   Platform, 
   BackHandler 
 } from "react-native"
-import Carousel from "react-native-banner-carousel"
 import axios from "axios"
 import { SERVER } from "../../server.component"
 import { AngleRightDouble } from '../../assets/icon/Home';
@@ -23,6 +22,7 @@ import { NavigatorRoute, SceneRoute } from "../../navigation/app.route"
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-easy-toast'
 import { HomeTopTabBar, HomeCarousel } from "../../component/Home"
+import { AdBanner } from "../../component/Common/AdBanner.component"
 
 var ToastRef : any;
 
@@ -132,26 +132,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
           </Layout>
 
-                   
-
-          {/* 캐러셀 */}
-          <Layout style={styles.CarouselContainer}>
-            <Carousel
-                autoplay
-                autoplayTimeout={5000}
-                loop
-                index={0}
-                pageSize={Dimensions.get('window').width}
-            >
-              {(banner.map((item) =>   
-                <TouchableOpacity onPress={() => {Linking.openURL(item.url)}} style={styles.Carousel}>
-                  <Image style={styles.CarouselImage} source={item.image}/>
-                </TouchableOpacity>
-              ))}                
-            </Carousel>
-          </Layout>
-
-          <Layout style={{ width: '100%', height: 80 }} />
+          <AdBanner />
         
       </ScrollView>
 

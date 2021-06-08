@@ -14,5 +14,7 @@ import Plus_W from './Plus_White.svg';
 import Bookmark_W from './Bookmark_White.svg';
 import Count from './Count.svg';
 import Map from './Map.svg';
+import Plus from './Plus.svg';
+import Bookmark from './Bookmark.svg';
 
-export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map}
+export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark}

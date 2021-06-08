@@ -81,6 +81,20 @@ export interface SeriesCarouselProps {
   
 }
 
+export type DetailData = {
+  banner: string;
+  desc: string;
+  visible: boolean;
+  title: string;
+  placeCode: string;
+}
+
+export interface HiddenGemInKoreaDetailListProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL>;
+  data: Array<DetailData> | undefined;
+}
+
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>
