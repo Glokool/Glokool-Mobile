@@ -36,6 +36,7 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
                 </Layout>
                 <SeriesADetail navigation={props.navigation} route={props.route} />
             </ScrollView>
+
                 {/* 탑탭바 */}
                 <Layout style={styles.ContainerLayoutAngleLeft}>
                     <SafeAreaView style={{flex:1, backgroundColor: '#ffffff'}} />
@@ -59,18 +60,16 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
         position: 'absolute',
         top: 0,
-
     },
     ContainerAngleLeft: {
         // width: 20,
         marginLeft: 20,
         padding: 20,
-        
     },
     AngleLeft: {
     },
     TopLayout: {
-        marginTop: 20,
+        marginTop: 100,
         marginLeft: 30,
         marginRight: 20,
     },

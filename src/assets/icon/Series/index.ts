@@ -6,6 +6,15 @@ import Location from './Location.svg';
 import Sns from './Sns.svg';
 import Time from './Time.svg';
 import CommentSending from './CommentSending.svg';
+import Comments1 from './Comments1.svg';
+import Comments2 from './Comments2.svg';
+import Comments3 from './Comments3.svg';
+import Comments4 from './Comments4.svg';
+import Comments5 from './Comments5.svg';
+import Comments6 from './Comments6.svg';
+import Comments6_s from './Comments6_s.svg';
+import CountNum from './CountNum.svg';
+import CountNum_Purple from './CountNum_Purple.svg';
 
 
 export {
@@ -16,5 +25,14 @@ export {
     Location,
     Sns,
     Time,
-    CommentSending
+    CommentSending,
+    Comments1,
+    Comments2,
+    Comments3,
+    Comments4,
+    Comments5,
+    Comments6,
+    Comments6_s,
+    CountNum,
+    CountNum_Purple
 }
