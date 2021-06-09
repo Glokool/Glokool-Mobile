@@ -17,7 +17,7 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
     }
 
     return(
-        <Layout>
+        <Layout style={{backgroundColor: '#00FF0000'}}>
             {(props.data?.map((item, index) => 
                 <TouchableOpacity style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
 
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginHorizontal: 30,
         borderRadius: 10,
-        backgroundColor: '#00FF0000'
+        backgroundColor: 'white'
     },
     ImageContainer: {
         width: WindowWidth - 60,

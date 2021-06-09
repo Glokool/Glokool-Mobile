@@ -131,8 +131,11 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                             <AngleLeft />
                         </TouchableOpacity>
 
-                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <Text style={styles.TitleText_B}>{data?.tour.title}</Text>
+                        <Layout style={{backgroundColor: '#00ff0000'}}>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                            <Text style={styles.TitleText_B}>{data?.tour.title}</Text>
+                        </Layout>
+                        
 
                     </Layout>
 
@@ -163,8 +166,10 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                         <AngleLeft_W />
                     </TouchableOpacity>
 
-                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    <Text style={styles.TitleText}>{data?.tour.title}</Text>
+                    <Layout style={{backgroundColor: '#00ff0000'}}>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        <Text style={styles.TitleText}>{data?.tour.title}</Text>
+                    </Layout>
 
                 </Layout>
 
@@ -291,7 +296,7 @@ const styles = StyleSheet.create({
     },
     DetailDataContainer: {
         width: '100%',
-        backgroundColor: 'green',
+        backgroundColor: '#00FF0000',
         marginBottom: 100
     }
 

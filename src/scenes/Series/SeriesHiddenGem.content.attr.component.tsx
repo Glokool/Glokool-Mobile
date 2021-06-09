@@ -259,7 +259,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 </Layout>
 
                 {/* 디테일 컨테이너 */}
-                <Layout style={styles.InfoContainer} onLayout={(e) => {setDetailPos(e.nativeEvent.layout.y)}}>
+                <Layout style={styles.DetailContainer} onLayout={(e) => {setDetailPos(e.nativeEvent.layout.y)}}>
 
                     <Layout style={styles.ContainerTitle}>
                         <Text style={styles.ContainerTitleText}>Detail</Text>
@@ -325,19 +325,26 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
             <Layout style={styles.TopTabBar}>
 
-                <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
-                    <AngleLeft />
-                </TouchableOpacity>
+                <Layout>
+                    <SafeAreaView style={{flex: 0}} />
+                    <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
+                        <AngleLeft style={{marginVertical: 10}}/>
+                    </TouchableOpacity>
+                </Layout>
+                
 
                 <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(0)}>
+                    <SafeAreaView style={{flex: 0}} />
                     <Text style={(selectedButton === 0)? styles.TextButton_S : styles.TextButton}>Info</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(1)}>
+                    <SafeAreaView style={{flex: 0}} />
                     <Text style={(selectedButton === 1)? styles.TextButton_S : styles.TextButton}>Detail</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>
+                    <SafeAreaView style={{flex: 0}} />
                     <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
                 </TouchableOpacity>
 
@@ -360,7 +367,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        alignItems: 'center'      
+        alignItems: 'center',
     },
     Button : {
         padding: 15,
@@ -591,5 +598,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: -10,
         lineHeight: 30
+    },
+    DetailContainer: {
+        marginLeft: 30,
+        marginVertical: 30
     }
 })
