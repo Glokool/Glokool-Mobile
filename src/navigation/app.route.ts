@@ -37,7 +37,7 @@ export enum SceneRoute {
     SERIES_HIDDEN_GEM_DETAIL_ATTR = 'Series Hidden Gem Detail Attr',
     SERIES_A = 'Series_A',
     SERIES_A_DETAIL = 'Series_A Detail',
-    SERIES_B = 'SERIES_B',
+    SERIES_B = 'Series_B',
     SERIES_B_DETAIL = 'Series_B Detail',
 
     //Auth Navigator

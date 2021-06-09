@@ -64,10 +64,10 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 {/* seriesB title - 블로그 */}
                 <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>
-                            <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
+                        <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
                     </Layout>
-                    <TouchableOpacity style={styles.moreBtnLayout} >
-                            <Text style={styles.moreBtnTxt}>{`More`}</Text>
+                    <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B)} >
+                        <Text style={styles.moreBtnTxt}>{`Morde`}</Text>
                     </TouchableOpacity>
                 </Layout>
                 <SeriesBFlatlist  navigation={props.navigation} route={props.route} />

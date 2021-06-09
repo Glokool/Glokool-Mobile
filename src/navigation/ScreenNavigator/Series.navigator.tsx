@@ -6,6 +6,7 @@ import { AppNavigatorParams } from '../app.navigator';
 import {
   SeriesAInfoScreen,
   SeriesAScreen,
+  SeriesBScreen,
   SeriesHiddenGemContentAttr,
   SeriesHiddenGemScreen,
   SeriesScreen,
@@ -22,6 +23,7 @@ type SeriesNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SERIES_A_DETAIL]: {
     Id: string,
   };
+  [SceneRoute.SERIES_B]: undefined;
   [SceneRoute.SERIES_HIDDEN_GEM]: undefined;
   [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
     TourCode: string;
@@ -70,6 +72,11 @@ export interface SeriesADetailInfoProps {
 export interface SeriesADetailInfoCommentsProps {
   navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
+}
+
+export interface SeriesBDetailProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
 }
 
 export interface SeriesHiddenGemProps {
@@ -121,5 +128,6 @@ export const SeriesNavigator = (): React.ReactElement => (
 
     <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen}/>
     <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen}/>
+    <Stack.Screen name={SceneRoute.SERIES_B} component={SeriesBScreen}/>
   </Stack.Navigator>
 );

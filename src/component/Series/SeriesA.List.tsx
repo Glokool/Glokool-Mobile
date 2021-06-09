@@ -28,7 +28,7 @@ type Series_Item = {
 
 const SeriesImgW = Dimensions.get('window').width;
 
-export const SeriesADetail = (props : SeriesADetailContentProps) : LayoutElement => {
+export const SeriesAList = (props : SeriesADetailContentProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
     const [image, setImage] = React.useState();
 
