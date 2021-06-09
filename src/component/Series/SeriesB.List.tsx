@@ -11,14 +11,14 @@ import {
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
-import { SeriesADetailContentProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SeriesBDetailContentProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from "moment";
 import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
 
 
 type Series_Item = {
-    image: string,
+    cover: string,
     count: number,
     _id: string,
     title: string,
@@ -27,10 +27,10 @@ type Series_Item = {
 
 
 const SeriesImgW = Dimensions.get('window').width;
+const SeriesImgH = Dimensions.get('window').height;
 
-export const SeriesBList = (props : SeriesADetailContentProps) : LayoutElement => {
+export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
-    const [image, setImage] = React.useState();
 
     React.useEffect(() => {
         InitSeries();
@@ -50,8 +50,8 @@ export const SeriesBList = (props : SeriesADetailContentProps) : LayoutElement =
     return (
         <Layout style={styles.SeriesContainer} >
             {(content.map((item) =>
-                <TouchableOpacity style={styles.SeriesInnerContainer} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id: item._id})}>
-                    <Image style={styles.SeriesImage} source={{uri: item.image}} />
+                <TouchableOpacity style={styles.SeriesInnerContainer} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id})}>
+                    <Image style={styles.SeriesImage} source={{uri: item.cover}} />
                     <Layout style={styles.SeriesLayout}>
                         <Text style={styles.SeriesTxtStyle} numberOfLines = {2}>{item.title}</Text>
                         <Layout style={styles.SeriesBottomLayout}>
@@ -73,6 +73,8 @@ export const SeriesBList = (props : SeriesADetailContentProps) : LayoutElement =
 const styles = StyleSheet.create({
     SeriesContainer: {
         marginTop: 30,
+        backgroundColor: '#ffffff',
+        height: SeriesImgH,
     },
     SeriesInnerContainer: {
         marginLeft: 30,

@@ -25,6 +25,7 @@ import moment from "moment";
 import { SeriesAComments } from '../../component/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import qs from "query-string";
 
 
 
@@ -63,6 +64,7 @@ type Series_Item = {
 
 const windowWidth = Dimensions.get('window').width;
 export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
+    const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
     const [content, setContent] = React.useState<Series_Item>();
@@ -70,6 +72,8 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
+    const user = auth().currentUser;
+    const uid = user?.uid;
 
     React.useEffect(() => {
         InitSeries();
@@ -77,6 +81,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     
     React.useEffect(() => {
         InitSeries();
+        ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: false });
     },[Id]);
     
     async function InitSeries() {
@@ -95,159 +100,198 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             </TouchableOpacity>    
         )
     }
+    const CommentSendingPress = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        const data = qs.stringify({
+            content: Id,
+            writer: uid,
+            name: user?.displayName,
+            avatar: user?.photoURL,
+            grade: 'traveler',
+            comment: nowComment, 
+        });
+    
+        var config = {
+          method: "post",
+          url: SERVER + "/api/comments",
+          headers: {
+            Authorization: "Bearer " + authToken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          data: data,
+        };
 
-    const CommentSendingPress = () => {
+        axios(config)
+        .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+        console.log(error);
 
+});
     }
     return (
-        <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
-            <Layout style={styles.TopContainerLayout}>
-                <AngleLeft style={styles.AngleLeft} onPress={() => props.navigation.goBack()} />
-            </Layout>
-            <Layout>
-                <Carousel
-                    data={image}
-                    layout={'default'}
-                    renderItem={RenderCarousel}
-                    style={styles.Carousel}
-                    sliderWidth={Dimensions.get('window').width}
-                    itemWidth={windowWidth}
-                    hasParallaxImages={false}
-                    firstItem={0}
-                    inactiveSlideScale={0.8}
-                    inactiveSlideOpacity={0.7}
-                    inactiveSlideShift={0}
-                    // containerCustomStyle={styles.CarouselInsideContainer}
-                    loop={true}
-                    autoplay={false}
-                    onSnapToItem={(index : number) => setCarouselIndex(index) }
+        <Layout style={styles.ContainerLayout}>
+            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
+                <Layout style={styles.CarouselContainerLayout}>    
+                    <Carousel
+                        data={image}
+                        layout={'default'}
+                        renderItem={RenderCarousel}
+                        style={styles.Carousel}
+                        sliderWidth={Dimensions.get('window').width}
+                        itemWidth={windowWidth}
+                        hasParallaxImages={false}
+                        firstItem={0}
+                        inactiveSlideScale={0.8}
+                        inactiveSlideOpacity={0.7}
+                        inactiveSlideShift={0}
+                        // containerCustomStyle={styles.CarouselInsideContainer}
+                        loop={true}
+                        autoplay={false}
+                        onSnapToItem={(index : number) => setCarouselIndex(index) }
+                    />
+                    <Pagination    
+                        dotsLength={image.length}
+                        containerStyle={styles.CarouselDotContainer}
+                        activeDotIndex={carouselIndex}
+                        dotColor={'#FFFFFF'}
+                        dotStyle={styles.CarouselDot}
+                        inactiveDotColor={'#ffffff'}
+                        inactiveDotOpacity={0.4}
+                        inactiveDotScale={1}
                 />
-                <Pagination    
-                    dotsLength={image.length}
-                    containerStyle={styles.CarouselDotContainer}
-                    activeDotIndex={carouselIndex}
-                    dotColor={'#FFFFFF'}
-                    dotStyle={styles.CarouselDot}
-                    inactiveDotColor={'#ffffff'}
-                    inactiveDotOpacity={0.4}
-                    inactiveDotScale={1}
-              />
-            </Layout>
-            <Layout style={styles.SeriesBottomLayout}>
-                <Layout style={styles.SeriesDateLayoutStyle}>
-                    <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                 </Layout>
-                <Layout style={styles.SeriesCountLayoutStyle}>
-                    <CountNum style={styles.SeriesCountIconLayoutStyle} />
-                    <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
-                </Layout>
-            </Layout>
-            <Layout style={styles.SeriesTitleLayoutStyle}>
-                <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
-            </Layout>
-            <Layout style={styles.SeriesDescLayoutStyle}>
-                <Text style={styles.SeriesDescTxtStyle}>{content?.desc}</Text>
-            </Layout>
-
-            {/* check out more */}
-            <Layout style={styles.CheckMoreContainerLayoutStyle}>
-                <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                {(recommendation.map((item) =>
-                <Layout style={styles.CheckMoreLayoutStyle}>
-                    <TouchableOpacity onPress={() => {setId(item._id)}}>
-                        <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
-                        <Text style={styles.RecommendationTxt}>{item.title}</Text>
-                    </TouchableOpacity>
-                </Layout>
-                ))}
-            </Layout>
-
-            {/* 보라색 배경 */}
-            <Layout style={styles.PurpleContainerLayoutStyle} >
-                <PurpleArrow style={styles.PurpleArrow} />
-                <Layout style={styles.PurpleTopLayoutStyle}>
-                    <Text style={styles.PurpleTopTxtStyle}>
-                        {`Can't find the information you need?`}
-                        {"\n"}
-                        {`Ask our travel assistants for more! `}
-                    </Text>
-                    <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                        <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                            <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
-                        </Layout>
+                <Layout style={styles.SeriesBottomLayout}>
+                    <Layout style={styles.SeriesDateLayoutStyle}>
+                        <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
+                    </Layout>
+                    <Layout style={styles.SeriesCountLayoutStyle}>
+                        <CountNum style={styles.SeriesCountIconLayoutStyle} />
+                        <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                     </Layout>
                 </Layout>
-            </Layout>
+                <Layout style={styles.SeriesTitleLayoutStyle}>
+                    <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
+                </Layout>
+                <Layout style={styles.SeriesDescLayoutStyle}>
+                    <Text style={styles.SeriesDescTxtStyle}>{content?.desc}</Text>
+                </Layout>
 
-            {/* 보라색 배경 아래 얇은 그레이 선 */}
-            <Layout style={styles.GrayLineContainerLayoutStyle}></Layout>
-
-            {/* Comments */}
-            {/* <SeriesAComments comments ={comments}/> */}
-            <Layout style={styles.CommentsConainer}>
-                <Layout style={styles.CommentsInnerConainer}>
-                    {/* comments title */}
-                    <Layout style={styles.CommentsTitleLayout}>
-                        <Text style={styles.CommentsTitleTxt}>Comments</Text>
+                {/* check out more */}
+                <Layout style={styles.CheckMoreContainerLayoutStyle}>
+                    <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
+                    {(recommendation.map((item) =>
+                    <Layout style={styles.CheckMoreLayoutStyle}>
+                        <TouchableOpacity onPress={() => {setId(item._id)}}>
+                            <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                            <Text style={styles.RecommendationTxt}>{item.title}</Text>
+                        </TouchableOpacity>
                     </Layout>
-                    
-                    {/* comments content */}
-                    {(comments.map((item) =>
-                        <Layout>
-                            <Layout style={styles.CommentsAuthorContainerLayout}>
-                                <Layout></Layout>
-                                <Layout>
-                                    <Layout>{item.writer.name}</Layout>
-                                    <Layout>{moment(item.createdAt).format("MM/DD hh:mm")}</Layout>
-                                    {/* 좋아요 표시 */}
-                                    <Layout></Layout>
-                                </Layout>
-                                <Layout>
-                                    <Layout>
-                                        <Comments1 />
-                                    </Layout>
-                                    <Layout>
-                                        <Comments2 />
-                                    </Layout>
-                                    <Layout>
-                                        <Comments3 />
-                                    </Layout>
-                                </Layout>
-                            </Layout>
-                            <Layout style={styles.CommentsContentContainerLayout}>
-                                {item.parentComment}
-                            </Layout>
-                        </Layout>
                     ))}
                 </Layout>
 
-                {/* 댓글 입력 */}
-                <Layout style={styles.CommentsTextLayout}>
-                    <TextInput  style={styles.CommentsTextInput}
-                    // underlineColorAndroid="transparent"
-                    placeholder="Write your comment"
-                    placeholderTextColor="#D1D1D1"
-                    autoCapitalize="none" 
-                    onChangeText={text => setNowComment(text)}
-                    value = {nowComment}
-                    ></TextInput>
-                    <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
-                        <CommentSending  />
-                    </TouchableOpacity>
+                {/* 보라색 배경 */}
+                <Layout style={styles.PurpleContainerLayoutStyle} >
+                    <PurpleArrow style={styles.PurpleArrow} />
+                    <Layout style={styles.PurpleTopLayoutStyle}>
+                        <Text style={styles.PurpleTopTxtStyle}>
+                            {`Can't find the information you need?`}
+                            {"\n"}
+                            {`Ask our travel assistants for more! `}
+                        </Text>
+                        <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            </Layout>
+                        </Layout>
+                    </Layout>
                 </Layout>
-            </Layout>
-        </ScrollView>
+
+                {/* 보라색 배경 아래 얇은 그레이 선 */}
+                <Layout style={styles.GrayLineContainerLayoutStyle}></Layout>
+
+                {/* Comments */}
+                {/* <SeriesAComments comments ={comments}/> */}
+                <Layout style={styles.CommentsConainer}>
+                    <Layout style={styles.CommentsInnerConainer}>
+                        {/* comments title */}
+                        <Layout style={styles.CommentsTitleLayout}>
+                            <Text style={styles.CommentsTitleTxt}>Comments</Text>
+                        </Layout>
+                        
+                        {/* comments content */}
+                        {(comments.map((item) =>
+                            <Layout>
+                                <Layout style={styles.CommentsAuthorContainerLayout}>
+                                    <Layout></Layout>
+                                    <Layout>
+                                        <Layout>{item.writer.name}</Layout>
+                                        <Layout>{moment(item.createdAt).format("MM/DD hh:mm")}</Layout>
+                                        {/* 좋아요 표시 */}
+                                        <Layout></Layout>
+                                    </Layout>
+                                    <Layout>
+                                        <Layout>
+                                            <Comments1 />
+                                        </Layout>
+                                        <Layout>
+                                            <Comments2 />
+                                        </Layout>
+                                        <Layout>
+                                            <Comments3 />
+                                        </Layout>
+                                    </Layout>
+                                </Layout>
+                                <Layout style={styles.CommentsContentContainerLayout}>
+                                    {item.parentComment}
+                                </Layout>
+                            </Layout>
+                        ))}
+                    </Layout>
+
+                    {/* 댓글 입력 */}
+                    <Layout style={styles.CommentsTextLayout}>
+                        <TextInput  style={styles.CommentsTextInput}
+                        // underlineColorAndroid="transparent"
+                        placeholder="Write your comment"
+                        placeholderTextColor="#D1D1D1"
+                        autoCapitalize="none" 
+                        onChangeText={text => setNowComment(text)}
+                        value = {nowComment}
+                        ></TextInput>
+                        <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
+                            <CommentSending  />
+                        </TouchableOpacity>
+                    </Layout>
+                </Layout>
+            </ScrollView>
+                    {/* 탑탭바 */}
+                    <Layout style={styles.ContainerLayoutAngleLeft}>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                            <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                                <AngleLeft style={styles.AngleLeft}  />
+                            </TouchableOpacity>
+                    </Layout>
+        </Layout>
     )
 }
 
 const styles = StyleSheet.create({
-    TopContainerLayout: {
-        height: 100
+    ContainerLayout:{
+        position: 'relative',
+    },
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        position: 'absolute',
+        top: 0,
+    },
+    ContainerAngleLeft: {
+        marginLeft: 20,
+        padding: 20,
     },
     AngleLeft: {
-      marginTop: 60,
-      marginLeft: 20,
-      justifyContent: 'center',
     },
     SeriesInfoImg: {
         width: 110,
@@ -255,6 +299,9 @@ const styles = StyleSheet.create({
     ItemContainer: {
         width: windowWidth,
         height: windowWidth,
+    },
+    CarouselContainerLayout: {
+        marginTop: 100,
     },
     Carousel: {
         height: windowWidth,
