@@ -14,7 +14,6 @@ import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesADetailContentProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from "moment";
 import { SceneRoute } from '../../navigation/app.route';
-import { string } from 'yup/lib/locale';
 
 
 type Series_Item = {

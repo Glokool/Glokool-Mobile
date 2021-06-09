@@ -5,6 +5,7 @@ import Contact from './Contact.svg';
 import Location from './Location.svg';
 import Sns from './Sns.svg';
 import Time from './Time.svg';
+import CommentSending from './CommentSending.svg';
 
 
 export {
@@ -14,5 +15,6 @@ export {
     Contact,
     Location,
     Sns,
-    Time
+    Time,
+    CommentSending
 }

@@ -67,6 +67,11 @@ export interface SeriesADetailInfoProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
 }
 
+export interface SeriesADetailInfoCommentsProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
+}
+
 export interface SeriesHiddenGemProps {
   navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM>;
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM>;

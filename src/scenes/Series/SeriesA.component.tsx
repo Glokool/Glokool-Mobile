@@ -19,30 +19,55 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SeriesADetail } from '../../component/Series';
 
+const SeriesImgW = Dimensions.get('window').width;
+
 
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
     
 
     return (
-        <ScrollView style={{backgroundColor: '#ffffff'}}>
-            <Layout>
-                <AngleLeft style={styles.AngleLeft} onPress={() => props.navigation.goBack()} />
-            </Layout>
-            <Layout style={styles.TopLayout}>
-                <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
-                <Text style={styles.TopTxt2}>
-                    {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
-                </Text>
-            </Layout>
-            <SeriesADetail navigation={props.navigation} route={props.route} />
-        </ScrollView>
+        <Layout style={styles.ContainerLayout}>
+            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
+                <Layout style={styles.TopLayout}>
+                    <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
+                    <Text style={styles.TopTxt2}>
+                        {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
+                    </Text>
+                </Layout>
+                <SeriesADetail navigation={props.navigation} route={props.route} />
+            </ScrollView>
+                {/* 탑탭바 */}
+                <Layout style={styles.ContainerLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:1, backgroundColor: '#ffffff'}} />
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                    <SafeAreaView style={{flex:1, backgroundColor: '#ffffff'}} />
+                        <AngleLeft style={styles.AngleLeft}  />
+                    </TouchableOpacity>
+                </Layout>
+        </Layout>
     )
 }
 
 const styles = StyleSheet.create({
+    ContainerLayout:{
+        position: 'relative',
+    },
+    ContainerLayoutAngleLeft: {
+        marginTop: 30,
+        width: SeriesImgW,
+        // borderWidth: 1,
+        // borderColor: 'red',
+        position: 'absolute',
+        top: 0,
+
+    },
+    ContainerAngleLeft: {
+        // width: 20,
+        marginLeft: 20,
+        padding: 20,
+        
+    },
     AngleLeft: {
-      marginTop: 60,
-      marginLeft: 20,
     },
     TopLayout: {
         marginTop: 20,
