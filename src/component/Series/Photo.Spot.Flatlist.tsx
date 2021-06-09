@@ -126,13 +126,15 @@ const styles = StyleSheet.create({
         width : WindowSize * 0.72,
         minHeight: WindowSize,
         overflow: 'visible',
-        marginLeft: 60
+        marginLeft: 60,
+        marginVertical: 20
     },
     MainContainer2: {
         width : WindowSize * 0.72,
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 10
+        marginLeft: 10,
+        marginVertical: 20
     },
     authorContainer: {
         position: 'absolute',

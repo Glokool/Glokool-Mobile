@@ -589,6 +589,7 @@ const styles = StyleSheet.create({
     PhotoSpotDesc: {
         fontFamily : 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        marginTop: -10
+        marginTop: -10,
+        lineHeight: 30
     }
 })

@@ -39,11 +39,11 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
 
                 {/* 탑탭바 */}
                 <Layout style={styles.ContainerLayoutAngleLeft}>
-                    <SafeAreaView style={{flex:1, backgroundColor: '#ffffff'}} />
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                    <SafeAreaView style={{flex:1, backgroundColor: '#ffffff'}} />
-                        <AngleLeft style={styles.AngleLeft}  />
-                    </TouchableOpacity>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                            <AngleLeft style={styles.AngleLeft}  />
+                        </TouchableOpacity>
                 </Layout>
         </Layout>
     )
@@ -54,15 +54,11 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     ContainerLayoutAngleLeft: {
-        marginTop: 30,
-        width: SeriesImgW,
-        // borderWidth: 1,
-        // borderColor: 'red',
+        width: '100%',
         position: 'absolute',
         top: 0,
     },
     ContainerAngleLeft: {
-        // width: 20,
         marginLeft: 20,
         padding: 20,
     },
