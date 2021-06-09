@@ -18,11 +18,21 @@ import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AngleLeft, PurpleArrow } from '../../assets/icon/Common';
-import { CommentSending } from '../../assets/icon/Series';
+import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
 import { SeriesAComments } from '../../component/Series';
+import { SceneRoute } from '../../navigation/app.route';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
+
+
+type recommendation_Item = {
+    _id: string,
+    image: string,
+    title: string,
+}
 
 type Comments_Item = {
     writer: {
@@ -48,25 +58,33 @@ type Series_Item = {
     plus: Array<string>,
     title: string,
     createdAt: Date,
+    recommendation: Array<recommendation_Item>
 }
 
 const windowWidth = Dimensions.get('window').width;
 export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
-    const Id = props.route.params.Id;
+    const [Id, setId] = React.useState(props.route.params.Id);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
     const [content, setContent] = React.useState<Series_Item>();
     const [image, setImage] = React.useState<Array<string>>([]);
+    const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
-    const [nowComment, setNowComment] = React.useState();
+    const [nowComment, setNowComment] = React.useState('');
 
     React.useEffect(() => {
         InitSeries();
     }, []);
-
+    
+    React.useEffect(() => {
+        InitSeries();
+    },[Id]);
+    
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
+        setRecommendation(Content.data.recommendation);
         console.log(Content.data)
     }
 
@@ -78,14 +96,9 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         )
     }
 
-    const HandleComment = (e) => {
-        setNowComment(e.target.value);
-    }
-
     const CommentSendingPress = () => {
 
     }
-
     return (
         <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
             <Layout style={styles.TopContainerLayout}>
@@ -107,14 +120,25 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     // containerCustomStyle={styles.CarouselInsideContainer}
                     loop={true}
                     autoplay={false}
-                    // onSnapToItem={(index : number) => setCarouselIndex(index) }
+                    onSnapToItem={(index : number) => setCarouselIndex(index) }
                 />
+                <Pagination    
+                    dotsLength={image.length}
+                    containerStyle={styles.CarouselDotContainer}
+                    activeDotIndex={carouselIndex}
+                    dotColor={'#FFFFFF'}
+                    dotStyle={styles.CarouselDot}
+                    inactiveDotColor={'#ffffff'}
+                    inactiveDotOpacity={0.4}
+                    inactiveDotScale={1}
+              />
             </Layout>
             <Layout style={styles.SeriesBottomLayout}>
                 <Layout style={styles.SeriesDateLayoutStyle}>
                     <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                 </Layout>
                 <Layout style={styles.SeriesCountLayoutStyle}>
+                    <CountNum style={styles.SeriesCountIconLayoutStyle} />
                     <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                 </Layout>
             </Layout>
@@ -128,8 +152,14 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             {/* check out more */}
             <Layout style={styles.CheckMoreContainerLayoutStyle}>
                 <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                <Layout style={styles.CheckMoreLayoutStyle}></Layout>
-                <Layout style={styles.CheckMoreLayoutStyle}></Layout>
+                {(recommendation.map((item) =>
+                <Layout style={styles.CheckMoreLayoutStyle}>
+                    <TouchableOpacity onPress={() => {setId(item._id)}}>
+                        <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                        <Text style={styles.RecommendationTxt}>{item.title}</Text>
+                    </TouchableOpacity>
+                </Layout>
+                ))}
             </Layout>
 
             {/* 보라색 배경 */}
@@ -172,7 +202,17 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                                     {/* 좋아요 표시 */}
                                     <Layout></Layout>
                                 </Layout>
-                                <Layout></Layout>
+                                <Layout>
+                                    <Layout>
+                                        <Comments1 />
+                                    </Layout>
+                                    <Layout>
+                                        <Comments2 />
+                                    </Layout>
+                                    <Layout>
+                                        <Comments3 />
+                                    </Layout>
+                                </Layout>
                             </Layout>
                             <Layout style={styles.CommentsContentContainerLayout}>
                                 {item.parentComment}
@@ -188,7 +228,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     placeholder="Write your comment"
                     placeholderTextColor="#D1D1D1"
                     autoCapitalize="none" 
-                    onChangeText={HandleComment}
+                    onChangeText={text => setNowComment(text)}
                     value = {nowComment}
                     ></TextInput>
                     <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
@@ -196,7 +236,6 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </TouchableOpacity>
                 </Layout>
             </Layout>
-
         </ScrollView>
     )
 }
@@ -221,6 +260,25 @@ const styles = StyleSheet.create({
         height: windowWidth,
         backgroundColor: '#00FF0000',
     },
+    CarouselInsideContainer: {
+        marginLeft: -16,
+        alignItems: 'center'
+    },
+    CarouselDotContainer: {
+        position: 'absolute',
+        bottom : -15,
+        backgroundColor: '#00FF0000',
+        opacity: 40,
+        alignSelf: 'center',
+        // borderWidth: 1,
+        // borderColor: 'red'   
+    },
+    CarouselDot: {
+        width: 13,
+        height: 4,
+        borderRadius: 30, 
+        color: '#ffffff',
+    },
     ImageContainer: {
         width: windowWidth,
         height: windowWidth,
@@ -239,6 +297,10 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         flexDirection:'row',
     },   
+    SeriesCountIconLayoutStyle: {
+        marginTop: 5,
+        marginRight: 6,
+    },
     SeriesDateTxtStyle: {
         color:'#B5B5B5',
         fontFamily:'IBMPlexSansKR-Medium',
@@ -258,7 +320,6 @@ const styles = StyleSheet.create({
     SeriesDescLayoutStyle: {
         marginLeft: 30,
         marginRight: 50,
-        marginBottom: 30
     },
     SeriesTitleTxtStyle: {
         fontFamily:'BrandonGrotesque-BoldItalic',
@@ -272,27 +333,43 @@ const styles = StyleSheet.create({
     },
     CheckMoreContainerLayoutStyle: {
         width: windowWidth,
-        height: 231,
         backgroundColor: '#F6F6F6',
         flexDirection: 'row',
+        marginTop: 20,
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
     CheckMoreLayoutStyle: {
-        marginLeft: 30,
+        marginVertical: 30,
+        marginRight: 10,
         backgroundColor: '#00FF0000',
-        marginTop: 50,
         width: windowWidth * 0.3,
-        borderWidth: 1,
-        borderColor: 'red',
+        alignItems: 'center',
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
     CheckMoreTxtStyle: {
         fontFamily:'BrandonGrotesque-BoldItalic',
         fontSize:23,
         color: '#000000',
+        marginLeft: 10,
+    },
+    RecommendationImg: {
+        width: windowWidth * 0.27,
+        height: windowWidth * 0.27,
+        borderRadius: 10,
+    },
+    RecommendationTxt: {
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        color: '#000000',
+        marginTop: 5,
+        marginLeft: 3,
     },
     PurpleContainerLayoutStyle: {
         backgroundColor: '#7777FF',
         width: windowWidth,
-        height: 122,
+        height: 129,
         position: 'relative',
     },
     PurpleArrow:{

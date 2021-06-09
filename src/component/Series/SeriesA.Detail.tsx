@@ -14,6 +14,7 @@ import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesADetailContentProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from "moment";
 import { SceneRoute } from '../../navigation/app.route';
+import { CountNum_Purple } from '../../assets/icon/Series';
 
 
 type Series_Item = {
@@ -58,6 +59,7 @@ export const SeriesADetail = (props : SeriesADetailContentProps) : LayoutElement
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY-MM-DD")}</Text>
                             </Layout>
                             <Layout style={styles.SeriesCountLayoutStyle}>
+                                <CountNum_Purple style = {styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{item.count}</Text>
                             </Layout>
                         </Layout>
@@ -122,11 +124,6 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
     },
-    SeriesCountTxtStyle: {
-        color:'#B5B5B5',
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
-    },
     SeriesDateLayoutStyle: {
         flexDirection: 'row',
         flex: 1,
@@ -136,6 +133,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         justifyContent: 'flex-end',
+        height: 20,
     },   
+    SeriesCountTxtStyle: {
+        color:'#B5B5B5',
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
+    },
+    SeriesCountIconLayoutStyle: {
+        marginTop: 5,
+        marginRight: 6,
+    },
+
 })
 
