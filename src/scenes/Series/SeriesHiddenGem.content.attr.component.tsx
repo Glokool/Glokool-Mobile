@@ -3,12 +3,13 @@ import React from 'react';
 import { SeriesHiddenGemContentAttrProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { AngleDown, AngleLeft, AngleUp } from '../../assets/icon/Common';
+import { AngleDown, AngleLeft, AngleUp, GoUp, PurpleArrow } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
+import { NavigatorRoute } from '../../navigation/app.route';
 
 
 const WindowSize = Dimensions.get('window').width
@@ -311,15 +312,35 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
                 </Layout>
 
+                {/* 땡큐 버튼 및 Go up 버튼 */}
+                <Layout style={styles.FinalConatiner}>
+                    <Text style={styles.ThankyouText}>Thank You!</Text>
+                    
+                    <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
+                        <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
+                    </TouchableOpacity>
 
+                </Layout>
 
                 
+                {/* 보라색 배경 */}
+                <Layout style={styles.PurpleContainerLayoutStyle} >
+                    <PurpleArrow style={styles.PurpleArrow} />
+                    <Layout style={styles.PurpleTopLayoutStyle}>
+                        <Text style={styles.PurpleTopTxtStyle}>
+                            {`Can't find the information you need?`}
+                            {"\n"}
+                            {`Ask our travel assistants for more! `}
+                        </Text>
+                        <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            </Layout>
+                        </Layout>
+                    </Layout>
+                </Layout>
 
 
-
-
-
-                <Layout style={styles.BottomContainer} />
 
             </ScrollView>
 
@@ -328,25 +349,31 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
                     <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
-                        <AngleLeft style={{marginVertical: 10}}/>
+                        <AngleLeft />
                     </TouchableOpacity>
                 </Layout>
                 
-
-                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(0)}>
+                <Layout>
                     <SafeAreaView style={{flex: 0}} />
-                    <Text style={(selectedButton === 0)? styles.TextButton_S : styles.TextButton}>Info</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(0)}>
+                        <Text style={(selectedButton === 0)? styles.TextButton_S : styles.TextButton}>Info</Text>
+                    </TouchableOpacity>
+                </Layout>
 
-                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(1)}>
+                <Layout>
                     <SafeAreaView style={{flex: 0}} />
-                    <Text style={(selectedButton === 1)? styles.TextButton_S : styles.TextButton}>Detail</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(1)}>
+                        <Text style={(selectedButton === 1)? styles.TextButton_S : styles.TextButton}>Detail</Text>
+                    </TouchableOpacity>
+                </Layout>
 
-                <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>
+                <Layout>
                     <SafeAreaView style={{flex: 0}} />
-                    <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>                        
+                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
+                    </TouchableOpacity>
+                </Layout>
+
 
             </Layout>
 
@@ -602,5 +629,73 @@ const styles = StyleSheet.create({
     DetailContainer: {
         marginLeft: 30,
         marginVertical: 30
+    },
+    PurpleContainerLayoutStyle: {
+        backgroundColor: '#7777FF',
+        width: WindowSize,
+        height: 129,
+        position: 'relative',
+    },
+    PurpleArrow:{
+        position: 'absolute',
+        top: -20,
+        left: 20,
+    },
+    PurpleTopLayoutStyle: {
+        backgroundColor: '#00FF0000',
+        marginTop: 15,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    PurpleTopTxtStyle: {
+        color:'#FFFFFF',
+        fontFamily:'BrandonGrotesque-Medium',
+        fontSize:18,
+    },
+    PurpleBottomContainerLayoutStyle: {
+        backgroundColor: '#00FF0000',
+        alignItems: 'flex-end',
+    },
+    PurpleBottomLayoutStyle: {
+        backgroundColor: '#ffffff',
+        width: WindowSize * 0.46,
+        height: 42,
+        lineHeight: 42,
+        marginTop: 5,
+        borderRadius: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    PurpleBottomTxtStyle: {
+        color:'#7777FF',
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize:20,
+    },
+    FinalConatiner: {
+        marginHorizontal: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 50
+    },
+    ThankyouText: {
+        color:'#7777FF',
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+    },
+    GoUpButton: {
+        borderRadius: 15,
+        width: 100,
+        height: 40,
+        backgroundColor: '#F6F6F6',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
+        elevation: 1,
     }
 })

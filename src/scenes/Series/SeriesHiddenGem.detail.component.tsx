@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: '100%',
         height: 50,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255, 0.8)',
         alignItems: 'center',
         flexDirection: 'row',
     },

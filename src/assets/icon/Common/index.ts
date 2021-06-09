@@ -20,6 +20,7 @@ import PurpleArrow from './PurpleArrow.svg';
 import AngleUp from './AngleUp.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
 import AngleLeft_Color from './AngleLeft_Color.svg';
+import GoUp from './GoUp.svg';
 
 export {
     Korean, 
@@ -32,7 +33,18 @@ export {
     AngleLeft, 
     Discount, 
     AngleDown, 
-    AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark, PurpleArrow, AngleUp, AngleRight_Color,
+    AngleUp_W, 
+    AngleLeft_W, 
+    Bookmark_W, 
+    Plus_W, 
+    Count,
+    Map, 
+    Plus, 
+    Bookmark, 
+    PurpleArrow, 
+    AngleUp, 
+    AngleRight_Color,
+    GoUp,
     AngleLeft_Color
 }
 
