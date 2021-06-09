@@ -18,6 +18,21 @@ import Plus from './Plus.svg';
 import Bookmark from './Bookmark.svg';
 import PurpleArrow from './PurpleArrow.svg';
 import AngleUp from './AngleUp.svg';
+import AngleRight_Color from './AngleRight_Color.svg';
+import AngleLeft_Color from './AngleLeft_Color.svg';
 
-export {Korean, Korean_Mini, Traveler, Travler_Mini, Resident, Resident_Mini, Delete, AngleLeft, Discount, AngleDown, AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark, PurpleArrow, AngleUp}
+export {
+    Korean, 
+    Korean_Mini, 
+    Traveler, 
+    Travler_Mini,
+    Resident, 
+    Resident_Mini, 
+    Delete, 
+    AngleLeft, 
+    Discount, 
+    AngleDown, 
+    AngleUp_W, AngleLeft_W, Bookmark_W, Plus_W, Count, Map, Plus, Bookmark, PurpleArrow, AngleUp, AngleRight_Color,
+    AngleLeft_Color
+}
 

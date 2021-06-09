@@ -6,6 +6,10 @@ import Location from './Location.svg';
 import Sns from './Sns.svg';
 import Time from './Time.svg';
 import CommentSending from './CommentSending.svg';
+import EditorNote from './EditorNote.svg';
+import EditorNote_Check from './EditorNote_Check.svg';
+import PhotoSpot from './PhotoSpot.svg';
+import Pin from './Pin.svg';
 
 
 export {
@@ -16,5 +20,9 @@ export {
     Location,
     Sns,
     Time,
-    CommentSending
+    CommentSending,
+    EditorNote,
+    EditorNote_Check,
+    PhotoSpot,
+    Pin
 }

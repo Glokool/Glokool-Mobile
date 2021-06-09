@@ -6,8 +6,9 @@ import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollVi
 import { AngleDown, AngleLeft, AngleUp } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, GlokoolService, Location, Sns, Time } from '../../assets/icon/Series';
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 
 
 const WindowSize = Dimensions.get('window').width
@@ -71,6 +72,8 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
     const [Glochat, setGlochat] = React.useState<boolean>(true);
 
     const [infoPos, setInfoPos] = React.useState<number>(0);
+    const [detailPos, setDetailPos] = React.useState<number>(0);
+    const [instaPos, setInstaPos] = React.useState<number>(0);
 
     React.useEffect(() => {
 
@@ -78,10 +81,6 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
     }, [])
 
-    React.useEffect(() => {
-        console.log(infoPos)
-
-    }, [infoPos]);
 
 
 
@@ -95,8 +94,19 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
     function PressTopTabBarButton(index : number) {
         setSelectedButton(index);
-        console.log(infoPos);
-        ScrollVewRef.current.scrollTo({ x: 0, y: infoPos, animated: true });
+
+        if(selectedButton === 0) {
+            ScrollVewRef.current.scrollTo({ x: 0, y: infoPos - 100, animated: true });
+        }
+
+        else if(selectedButton === 1) {
+            ScrollVewRef.current.scrollTo({ x: 0, y: detailPos - 100, animated: true });
+        }
+
+        else if(selectedButton === 2) {
+            ScrollVewRef.current.scrollTo({ x: 0, y: instaPos - 100, animated: true });
+        }
+          
     }
 
 
@@ -161,6 +171,12 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 {/* 인포메이션 컨테이너 */}
                 <Layout style={styles.InfoContainer} onLayout={(e) => {setInfoPos(e.nativeEvent.layout.y)}}>
 
+                    <Layout style={styles.ContainerTitle}>
+                        <Text style={styles.ContainerTitleText}>Info</Text>
+                        <Divider style={styles.Divider}/>
+                    </Layout>
+
+
                     <Layout style={styles.LocationContainer}>
                         <Location />  
                         <Text style={styles.InfoDetailText}>{`  ${data?.loc}`}</Text>
@@ -187,9 +203,6 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         </MapView>
                     }
                     
-
-
-
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
@@ -244,6 +257,60 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                     </Layout>    
 
                 </Layout>
+
+                {/* 디테일 컨테이너 */}
+                <Layout style={styles.InfoContainer} onLayout={(e) => {setDetailPos(e.nativeEvent.layout.y)}}>
+
+                    <Layout style={styles.ContainerTitle}>
+                        <Text style={styles.ContainerTitleText}>Detail</Text>
+                        <Divider style={styles.Divider}/>
+                    </Layout>
+
+                    <PhotoDetailFlatlist data={data?.intro}/>
+
+                </Layout>
+
+                {/* 에디터 노트 */}
+                <Layout style={styles.InfoContainer}>
+                    
+                    <Layout style={styles.EditorNoteTitleContainer}>                        
+                        <EditorNote />
+                        <Text style={styles.EditorNoteTitle}>  Editor's Note</Text>
+                    </Layout>
+
+                    {(data?.editorNote.map((item, index) => (
+                    <Layout>
+                        <Layout style={styles.EditorNoteContainer}>
+                            <EditorNote_Check />
+                            <Text style={styles.EditorNoteText}>{item}</Text>
+                        </Layout>
+
+                        <Divider style={styles.EditorNoteDivider} />
+                    </Layout>
+                    )))}                    
+
+                </Layout>
+
+                {/* 포토스팟 컨테이너 */}
+                <Layout onLayout={(e) => {setInstaPos(e.nativeEvent.layout.y)}}>
+
+                    <Layout style={styles.ContainerTitle2}>
+                        <Text style={styles.ContainerTitleText}>Insta-Worthy</Text>
+                        <Divider style={styles.Divider}/>
+                    </Layout>
+
+                    <Layout style={styles.InfoDetailContainer6}>
+                        <PhotoSpot style={{marginRight: 10}}/>
+                        <Layout style={styles.InfoDetailContainer7}>
+                            <Text style={styles.PhotoSpotTitle}>Photo Spot</Text>
+                            <Text style={styles.PhotoSpotDesc}>{`Take yout Best Photo${'\n'}refer to our recommendation!`}</Text>
+                        </Layout>
+                    </Layout>
+                    
+                    <PhotoSpotFlatlist data={data?.photoSpot}/>
+
+                </Layout>
+
 
 
                 
@@ -397,11 +464,17 @@ const styles = StyleSheet.create({
     },
     InfoContainer: {
         marginHorizontal: 30,
-        marginVertical: 30,
     },
     ContainerTitle: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 30
+    },
+    ContainerTitle2: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 30,
+        marginHorizontal: 30
     },
     ContainerTitleText: {
         fontFamily: 'BrandonGrotesque-Bold',
@@ -445,6 +518,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: 10
     },
+    InfoDetailContainer6: {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginHorizontal: 30
+    },
+    InfoDetailContainer7: {
+        flex: 1,
+        justifyContent: 'center',
+        marginTop: -5
+    },
     InfoDetailText: {
         flex : 1,
         fontFamily: 'IBMPlexSansKR-SemiBold',
@@ -471,5 +555,40 @@ const styles = StyleSheet.create({
         color: 'white',
         marginVertical: 10,
         marginHorizontal: 25
+    },
+    EditorNoteTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 15
+    },
+    EditorNoteTitle: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 20,
+    },
+    EditorNoteContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    EditorNoteText: {
+        fontFamily: 'IBMPlexSansKR-Text',
+        fontSize: 16,
+        color: 'black',
+        marginVertical: -10,
+        marginLeft: 10,
+    },
+    EditorNoteDivider: {
+        marginHorizontal: 20,
+        marginVertical: 15,
+        backgroundColor: '#8797FF'
+    },
+    PhotoSpotTitle: {
+        fontFamily : 'IBMPlexSansKR-Medium',
+        fontSize: 20,
+        marginTop: -5
+    },
+    PhotoSpotDesc: {
+        fontFamily : 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        marginTop: -10
     }
 })
