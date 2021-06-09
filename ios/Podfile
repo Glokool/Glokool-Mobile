@@ -23,6 +23,10 @@ target 'Glokool' do
   pod 'IamportReactNative', :path => '../node_modules/iamport-react-native'
 
 
+  pod 'lottie-ios', :path => '../node_modules/lottie-ios'
+
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   target 'GlokoolTests' do
     inherit! :complete
     # Pods for testing

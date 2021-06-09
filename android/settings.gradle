@@ -1,4 +1,6 @@
 rootProject.name = 'Glokool'
+include ':lottie-react-native'
+project(':lottie-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/lottie-react-native/src/android')
 include ':iamport-react-native'
 project(':iamport-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/iamport-react-native/android')
 include ':react-native-webview'
