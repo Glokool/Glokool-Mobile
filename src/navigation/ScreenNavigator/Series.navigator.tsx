@@ -8,6 +8,8 @@ import {
   SeriesAScreen,
   SeriesBScreen,
   SeriesHiddenGemContentAttr,
+  SeriesHiddenGemContentCafe,
+  SeriesHiddenGemContentRest,
   SeriesHiddenGemScreen,
   SeriesScreen,
 } from '../../scenes/Series'
@@ -29,6 +31,14 @@ type SeriesNavigatorParams = AppNavigatorParams & {
     TourCode: string;
   }
   [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR] : {
+    TourCode: string;
+    PlaceCode: string;
+  }
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST] : {
+    TourCode: string;
+    PlaceCode: string;
+  }
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE] : {
     TourCode: string;
     PlaceCode: string;
   }
@@ -118,13 +128,26 @@ export interface SeriesHiddenGemContentAttrProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR>;
 }
 
+export interface SeriesHiddenGemContentCafeProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE>;
+}
+
+export interface SeriesHiddenGemContentRestProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR>;
+}
+
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>
 
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM} component={SeriesHiddenGemScreen}/>
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen}/>
+
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR} component={SeriesHiddenGemContentAttr}/>
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST} component={SeriesHiddenGemContentRest}/>
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE} component={SeriesHiddenGemContentCafe}/>
 
     <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen}/>
     <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen}/>

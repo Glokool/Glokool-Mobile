@@ -107,7 +107,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                      (selectedButton === 1)? // 레스토랑을 선택했을 때
                         <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.restaurant} type={'rest'} />
                     :
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} tyle={'cafe'} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} type={'cafe'} />
                     }
 
                 </Layout>

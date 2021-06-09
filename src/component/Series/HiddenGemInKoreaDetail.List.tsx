@@ -14,6 +14,14 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
         if(props.type === 'attr'){
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
         }
+
+        else if (props.type === 'rest'){
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+        }
+
+        else if (props.type === 'cafe'){
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+        }
     }
 
     return(

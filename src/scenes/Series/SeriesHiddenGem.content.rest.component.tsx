@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { SeriesHiddenGemContentAttrProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SeriesHiddenGemContentRestProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { AngleDown, AngleLeft, AngleUp, GoUp, PurpleArrow } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time } from '../../assets/icon/Series';
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, SgntMenu, Sns, Time } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
+import { PhotoDetailFlatlist, PhotoSpotFlatlist, SignatureMenuFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 
 
@@ -20,20 +20,15 @@ type IntroData = {
     img: string;
 }
 
-type photoSpot = {
-    _id : string;
-    desc: string;
-    images: Array<photoSpotImage>;
-    location : string;
-}
-
-type photoSpotImage = {
+type SgntMenu = {
     _id : string;
     author: string;
-    img : string;
+    img: string;
+    money: string;
+    title: string;
 }
 
-type AttractionData = {
+type RestaurantData = {
     _id : string;
     banner : string;
     count : number;
@@ -49,6 +44,7 @@ type AttractionData = {
     loc: string;
     note: string;
     phone: string;
+    menu: Array<string>;
     plus: Array<string>;
     sns: string;
     tag: Array<string>;
@@ -58,17 +54,16 @@ type AttractionData = {
     }
     title: string;
     visible: boolean;
-    photoSpot: Array<photoSpot>;
-
+    sgntMenu : Array<SgntMenu>;
 }
 
-export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrProps) : LayoutElement => {
+export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestProps) : LayoutElement => {
 
     const TourCode = props.route.params.TourCode;
     const PlaceCode = props.route.params.PlaceCode;
     const ScrollVewRef = React.useRef(null);
 
-    const [data, setData] = React.useState<AttractionData>();
+    const [data, setData] = React.useState<RestaurantData>();
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
     const [Glochat, setGlochat] = React.useState<boolean>(true);
 
@@ -78,7 +73,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
     React.useEffect(() => {
 
-        InitContentAttr();
+        InitContentRest();
 
     }, [])
 
@@ -86,10 +81,10 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
 
 
-    async function InitContentAttr() {
+    async function InitContentRest() {
 
-        var ContentAttr = await axios.get(SERVER + '/api/tours/' + TourCode + '/attractions/' + PlaceCode);
-        setData(ContentAttr.data);    
+        var ContentRest = await axios.get(SERVER + '/api/tours/' + TourCode + '/restaurants/' + PlaceCode);
+        setData(ContentRest.data)
 
     }
 
@@ -165,6 +160,18 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                     <TouchableOpacity style={styles.GloChatButton}>
                         <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
                     </TouchableOpacity>
+
+                </Layout>
+
+                {/* 시그니처 메뉴 컨테이너 */}
+                <Layout>
+
+                    <Layout style={styles.SgntMenuTitleContainer}>
+                        <SgntMenu />
+                        <Text style={styles.GloChatText}>  Signature Menu</Text>
+                    </Layout>
+
+                    <SignatureMenuFlatlist data={data?.sgntMenu} />
 
                 </Layout>
 
@@ -259,7 +266,8 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         <Layout style={styles.NoteContainer}>
                             <Text style={styles.NoteText}>{data?.note}</Text>                    
                         </Layout>    
-                    }  
+                    }
+
 
                 </Layout>
 
@@ -296,25 +304,6 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
                 </Layout>
 
-                {/* 포토스팟 컨테이너 */}
-                <Layout onLayout={(e) => {setInstaPos(e.nativeEvent.layout.y)}}>
-
-                    <Layout style={styles.ContainerTitle2}>
-                        <Text style={styles.ContainerTitleText}>Insta-Worthy</Text>
-                        <Divider style={styles.Divider}/>
-                    </Layout>
-
-                    <Layout style={styles.InfoDetailContainer6}>
-                        <PhotoSpot style={{marginRight: 10}}/>
-                        <Layout style={styles.InfoDetailContainer7}>
-                            <Text style={styles.PhotoSpotTitle}>Photo Spot</Text>
-                            <Text style={styles.PhotoSpotDesc}>{`Take yout Best Photo${'\n'}refer to our recommendation!`}</Text>
-                        </Layout>
-                    </Layout>
-                    
-                    <PhotoSpotFlatlist data={data?.photoSpot}/>
-
-                </Layout>
 
                 {/* 땡큐 버튼 및 Go up 버튼 */}
                 <Layout style={styles.FinalConatiner}>
@@ -374,7 +363,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>                        
-                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
+                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Menu</Text>
                     </TouchableOpacity>
                 </Layout>
 
@@ -701,5 +690,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.18,
         shadowRadius: 1.00,
         elevation: 1,
+    },
+    SgntMenuTitleContainer : {
+        flexDirection: 'row',
+        marginHorizontal: 30,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: 30
     }
 })
