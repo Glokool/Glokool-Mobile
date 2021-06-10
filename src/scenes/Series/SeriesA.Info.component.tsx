@@ -36,6 +36,7 @@ type recommendation_Item = {
 }
 
 type Comments_Item = {
+    _id: string,
     writer: {
         uid: string,
         name: string,
@@ -43,10 +44,7 @@ type Comments_Item = {
         grade: string,
     },
     comment: string,
-    parentComment: string,
-    isDeleted: Boolean,
     createdAt: Date,
-    updatedAt: Date,
 }
 
 type Series_Item = {
@@ -63,6 +61,7 @@ type Series_Item = {
 }
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
     const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
@@ -90,7 +89,6 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data)
     }
 
     const RenderCarousel = ({item}) => {
@@ -100,8 +98,10 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             </TouchableOpacity>    
         )
     }
+
     const CommentSendingPress = async() => {
         const authToken = await auth().currentUser?.getIdToken();
+        
         const data = qs.stringify({
             content: Id,
             writer: uid,
@@ -122,14 +122,37 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         };
 
         axios(config)
-        .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-        console.log(error);
-
-});
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setNowComment('');
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
+
+    const DeleteComment = async(id) => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: "delete",
+            url: SERVER + "/api/contents/" + content?._id + "/comments/" + id ,
+            headers: {
+              Authorization: "Bearer " + authToken,
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+        };
+
+        axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
         <Layout style={styles.ContainerLayout}>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
@@ -222,29 +245,47 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         
                         {/* comments content */}
                         {(comments.map((item) =>
-                            <Layout>
+                            <Layout style={styles.CommentsListContainerLayout}>
                                 <Layout style={styles.CommentsAuthorContainerLayout}>
-                                    <Layout></Layout>
-                                    <Layout>
-                                        <Layout>{item.writer.name}</Layout>
-                                        <Layout>{moment(item.createdAt).format("MM/DD hh:mm")}</Layout>
+                                    <Layout style={styles.CommentsAuthorInner01Layout}></Layout>
+                                    <Layout style={styles.CommentsAuthorInner02Layout}>
+                                        <Layout>
+                                            <Text style={styles.CommentsAuthorInnerNameTxt02Layout}>{item.writer.name}</Text>
+                                        </Layout>
+                                        <Layout >
+                                            <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
+                                        </Layout>
                                         {/* 좋아요 표시 */}
                                         <Layout></Layout>
                                     </Layout>
-                                    <Layout>
-                                        <Layout>
-                                            <Comments1 />
-                                        </Layout>
-                                        <Layout>
-                                            <Comments2 />
-                                        </Layout>
-                                        <Layout>
-                                            <Comments3 />
-                                        </Layout>
+                                    {uid == item.writer.uid ? (
+                                    <Layout style={styles.CommentsAuthorInner03Layout}>
+                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
+                                            <Comments4 />
+                                        </TouchableOpacity>
+                                        {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Comments5 />
+                                        </TouchableOpacity> */}
                                     </Layout>
+                                    ) : (
+                                    <Layout style={styles.CommentsAuthorInner03Layout}>
+                                          <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Comments1 />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Comments2 />
+                                        </TouchableOpacity>
+                                        {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Comments3 />
+                                        </TouchableOpacity> */}
+                                    </Layout>
+                                    )}
+                                    
                                 </Layout>
                                 <Layout style={styles.CommentsContentContainerLayout}>
-                                    {item.parentComment}
+                                    <Text style={styles.CommentsContentTxtLayout}>
+                                        {item.comment}
+                                    </Text>
                                 </Layout>
                             </Layout>
                         ))}
@@ -266,14 +307,14 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </Layout>
                 </Layout>
             </ScrollView>
-                    {/* 탑탭바 */}
-                    <Layout style={styles.ContainerLayoutAngleLeft}>
+            {/* 탑탭바 */}
+            <Layout style={styles.ContainerLayoutAngleLeft}>
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
                         <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                                <AngleLeft style={styles.AngleLeft}  />
-                            </TouchableOpacity>
-                    </Layout>
+                        <AngleLeft style={styles.AngleLeft}  />
+                    </TouchableOpacity>
+            </Layout>
         </Layout>
     )
 }
@@ -467,20 +508,67 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     CommentsTitleLayout: {
+        marginBottom: 15,
     },
     CommentsTitleTxt:{
         fontFamily:'BrandonGrotesque-Bold',
         fontSize:20,
         color: '#000000',
     },
+    CommentsListContainerLayout:{
+        marginBottom: 10,
+    },
+    CommentsAuthorContainerLayout: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 2,
+        // borderWidth: 1,
+        // borderColor: 'red',
+    },
+    CommentsAuthorInner01Layout:{
+        
+    },
+    CommentsAuthorInner02Layout:{
+        flex: 1,
+        // borderWidth: 1,
+        // borderColor: 'blue',
+    },
+    CommentsAuthorInnerNameTxt02Layout:{
+        fontFamily:'IBMPlexSansKR-SemiBold',
+        fontSize:14,
+        color: '#000000',
+    },
+    CommentsAuthorInnerDateTxt02Layout: {
+        fontFamily:'IBMPlexSansKR-Text',
+        fontSize:11,
+        color: '#C2C2C2',
+    },
+    CommentsAuthorInner03Layout: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        // borderWidth: 1,
+        // borderColor: 'red',
+    },
+    CommentsAuthorInnerIcons03Layout: {
+        padding: 6,
+        margin: 4,
+        justifyContent: 'center',
+        // borderWidth: 1,
+        // borderColor: 'pink',
+    },
     CommentsContentContainerLayout:{
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
+        color: '#5D5959',
+    },
+    CommentsContentTxtLayout:{
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
         color: '#5D5959',
     },
     CommentsTextLayout:{
         margin: 15,
-
     },
     CommentsTextInput: {
         height: 49,

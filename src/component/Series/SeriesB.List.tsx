@@ -56,7 +56,7 @@ export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement =
                         <Text style={styles.SeriesTxtStyle} numberOfLines = {2}>{item.title}</Text>
                         <Layout style={styles.SeriesBottomLayout}>
                             <Layout style={styles.SeriesDateLayoutStyle}>
-                                <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY-MM-DD")}</Text>
+                                <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY. M. D")}</Text>
                             </Layout>
                             <Layout style={styles.SeriesCountLayoutStyle}>
                                 <CountNum_Purple style = {styles.SeriesCountIconLayoutStyle} />
