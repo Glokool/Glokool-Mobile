@@ -40,6 +40,7 @@ import { privacyPolicycard } from '../../component/privacyPolicy.component'
 import KoreanMini from '../../assets/board/Korean_Mini.svg';
 import TravlerMini from '../../assets/board/Travler_Mini.svg';
 import ResidentMini from '../../assets/board/Resident_Mini.svg';
+import { AngleLeft } from '../../assets/icon/Common';
 
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
@@ -190,20 +191,33 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   };
 
 
-  function onFormSubmit(values: SignUpData) { // Firebase에 회원가입 (이메일, 비밀번호만 전송)
-    auth().createUserWithEmailAndPassword(values.email, values.password)
-      .then((response) => {
-        profileDocUpdate(response.user, values);
-        profileUpdate(response.user, values);      
-        props.navigation.reset({
-          index: 0,
-          routes: [{ name: SceneRoute.EMAIL_VERIFICATION}]
-        });
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+  async function onFormSubmit(values: SignUpData) { // Firebase에 회원가입 (이메일, 비밀번호만 전송)
+
+    const SignUp = await auth().createUserWithEmailAndPassword(values.email, values.password);
+
+    const ProfileData = {
+        name : values.name,
+        email : values.email,
+        gender : gender[selectedIndex.row],
+        country : country.name,
+        signupDate : new Date(),  //가입한 날짜
+        birthDate : minMaxPickerState.date,
+        avatar: '',
+        type: type[selectedTypeIndex.row]
+    }    
+
+    const Profile = await firestore().collection('Users').doc(SignUp.user.uid).set(ProfileData);
+
+    await SignUp.user.updateProfile({
+      displayName : values.name,
+      photoURL: ''          
+    })
+
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: SceneRoute.EMAIL_VERIFICATION}]
+    });
+
   };
 
 
@@ -229,132 +243,144 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     );
   };
   
-  const renderForm = (props: FormikProps<SignUpData>): React.ReactFragment => (
-    // 
-    <React.Fragment>
-      <ScrollView  showsVerticalScrollIndicator={false}>     
-      <View style={{flex: 1}}>
-        <Text style={styles.smallTitle}>Name</Text>
-        <FormInformation
-          id='name'
-          style={styles.formControl}
-          placeholder='Name'
-        />
-        <Text style={styles.smallTitle}>E-Mail</Text>
-        <FormInformation
-          id='email'
-          style={styles.formControl}
-          placeholder='Email'
-          keyboardType='email-address'
-        />
-        <Text style={styles.smallTitle}>Password</Text>
-        <FormInformation
-          id='password'
-          style={styles.formControl}
-          placeholder='Password'
-          secureTextEntry={!passwordVisible}
-          accessoryRight={renderPasswordIcon}
-        />
-        <Text style={styles.smallTitle}>Repeat Password</Text>
-        <FormInformation
-          id='passwordConfirm'
-          style={styles.formControl}
-          placeholder='Password Confirm'
-          secureTextEntry={!passwordVisible}
-          accessoryRight={renderPasswordIcon2}
-        />
+  const renderForm = (props: FormikProps<SignUpData>): React.ReactFragment => {
 
-        <Text style={styles.smallTitle}>Type</Text>
-        <Select
-          selectedIndex={selectedTypeIndex}
-          onSelect={index => setSelectedTypeIndex(index)}
-          placeholder={'Please select a Type'}
-          value={displayTypeValue}
-        >
-          <SelectItem accessoryLeft={TravelIcon} title='Traveler'/>
-          <SelectItem accessoryLeft={ResidentIcon} title='Resident'/>
-          <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
-        </Select>
-
-        <Text style={styles.smallTitle}>Sex</Text>
-        <Select
-          selectedIndex={selectedIndex}
-          onSelect={index => setSelectedIndex(index)}
-          placeholder={'Please select a gender'}
-          value={displayValue}
-        >
-          <SelectItem title='Male'/>
-          <SelectItem title='Female'/>
-        </Select>
-        
-        <Text style={styles.smallTitle}>Date of Birth</Text>
-        <Datepicker
-          placeholder='Date of Birth'
-          min={startDay}
-          max={yesterDay}
-          {...minMaxPickerState}
-        />
-        
-        <Text style={styles.smallTitle}>Nationality</Text>
-        <Layout style={styles.countrypicker}>
-          <CountryPicker
-            {...{
-              countryCode,
-              withFilter,
-              withFlag,
-              withCountryNameButton,
-              withAlphaFilter,
-              withCallingCode,
-              withEmoji,
-              onSelect,
-            }}     
+    const boolean = (props.values.email === '' || props.values.password === '' || props.values.passwordConfirm === '' || props.values.name === '');
+    
+    return(
+      <React.Fragment>
+        <ScrollView  showsVerticalScrollIndicator={false}>     
+        <View style={{flex: 1}}>
+          <Text style={styles.smallTitle}>Name</Text>
+          <FormInformation
+            id='name'
+            style={styles.formControl}
+            placeholder='Name'
           />
-        </Layout>
+          <Text style={styles.smallTitle}>E-Mail</Text>
+          <FormInformation
+            id='email'
+            style={styles.formControl}
+            placeholder='Email'
+            keyboardType='email-address'
+          />
+          <Text style={styles.smallTitle}>Password</Text>
+          <FormInformation
+            id='password'
+            style={styles.formControl}
+            placeholder='Password'
+            secureTextEntry={!passwordVisible}
+            accessoryRight={renderPasswordIcon}
+          />
+          <Text style={styles.smallTitle}>Repeat Password</Text>
+          <FormInformation
+            id='passwordConfirm'
+            style={styles.formControl}
+            placeholder='Password Confirm'
+            secureTextEntry={!passwordVisible}
+            accessoryRight={renderPasswordIcon2}
+          />
 
-        <View style={{justifyContent: 'center', marginVertical: 15}}>
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              style={{marginRight: 10}}
-              checked={TermsConditions}
-              onChange={nextChecked => TermsConditionsChecked(nextChecked)}/>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={{fontSize: 16}}>I agree to the Terms and Conditions.</Text>
-              <TouchableOpacity onPress={PressTerms}>
-                <Text style={{fontWeight: 'bold', fontSize: 12}}>Terms and Conditions</Text>
-              </TouchableOpacity>              
-            </View>          
+          <Text style={styles.smallTitle}>Type</Text>
+          <Select
+            selectedIndex={selectedTypeIndex}
+            onSelect={index => setSelectedTypeIndex(index)}
+            placeholder={'Please select a Type'}
+            value={displayTypeValue}
+          >
+            <SelectItem accessoryLeft={TravelIcon} title='Traveler'/>
+            <SelectItem accessoryLeft={ResidentIcon} title='Resident'/>
+            <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
+          </Select>
+
+          <Text style={styles.smallTitle}>Sex</Text>
+          <Select
+            selectedIndex={selectedIndex}
+            onSelect={index => setSelectedIndex(index)}
+            placeholder={'Please select a gender'}
+            value={displayValue}
+          >
+            <SelectItem title='Male'/>
+            <SelectItem title='Female'/>
+          </Select>
+          
+          <Text style={styles.smallTitle}>Date of Birth</Text>
+          <Datepicker
+            placeholder='Date of Birth'
+            min={startDay}
+            max={yesterDay}
+            {...minMaxPickerState}
+          />
+          
+          <Text style={styles.smallTitle}>Nationality</Text>
+          <Layout style={styles.countrypicker}>
+            <CountryPicker
+              {...{
+                countryCode,
+                withFilter,
+                withFlag,
+                withCountryNameButton,
+                withAlphaFilter,
+                withCallingCode,
+                withEmoji,
+                onSelect,
+              }}     
+            />
+          </Layout>
+
+          <View style={{justifyContent: 'center', marginVertical: 15}}>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                style={{marginRight: 10}}
+                checked={TermsConditions}
+                onChange={nextChecked => TermsConditionsChecked(nextChecked)}/>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={{fontSize: 16}}>I agree to the Terms and Conditions.</Text>
+                <TouchableOpacity onPress={PressTerms}>
+                  <Text style={{fontWeight: 'bold', fontSize: 12}}>Terms and Conditions</Text>
+                </TouchableOpacity>              
+              </View>          
+            </View>
+
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                style={{marginRight: 10}}
+                checked={Privacy}
+                onChange={nextChecked => PrivacyChecked(nextChecked)}/>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={{fontSize: 16}}>I agree to the I agree to the Privacy Policy.</Text>
+                <TouchableOpacity onPress={PressPrivacy}>
+                  <Text style={{fontWeight: 'bold', fontSize: 12, marginTop: 5}}>Privacy Policy</Text>
+                </TouchableOpacity>
+              </View>
+            </View>    
           </View>
 
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              style={{marginRight: 10}}
-              checked={Privacy}
-              onChange={nextChecked => PrivacyChecked(nextChecked)}/>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={{fontSize: 16}}>I agree to the I agree to the Privacy Policy.</Text>
-              <TouchableOpacity onPress={PressPrivacy}>
-                <Text style={{fontWeight: 'bold', fontSize: 12, marginTop: 5}}>Privacy Policy</Text>
-              </TouchableOpacity>
-            </View>
-          </View>    
-        </View>
+        </View>   
+        
+        
+        
+      </ScrollView>
 
-      </View>   
+      <Layout style={{backgroundColor: '#00FF0000'}}>
+        {(Privacy && TermsConditions && props.isValid && props.dirty && !boolean)? 
+          <TouchableOpacity style={styles.Button} onPress={() => {onFormSubmit(props.values)}}>
+            <Text style={styles.ButtonText}>Click to Get the Verification Code</Text>
+          </TouchableOpacity>
+        : 
+          <TouchableOpacity style={styles.Button_Disable}>
+            <Text style={styles.ButtonText_Disable}>Click to Get the Verification Code</Text>
+          </TouchableOpacity>
+        }
+      </Layout>
       
-       
-      
-    </ScrollView>
 
-    <Button
-        style={styles.submitButton}
-        onPress={props.handleSubmit}
-        disabled={(Privacy && TermsConditions && props.isValid) ? false : true}
-        >
-        Click to Get the Verification Code
-      </Button>
+          
 
-    </React.Fragment>
-  );
+
+      </React.Fragment>
+    );
+};
   
    
   return (
@@ -394,13 +420,17 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         </Modal>
       </Layout>
 
-      <Layout style={{ position: 'absolute', top: 0,  width: '100%', flexDirection: 'row', alignItems: 'center', height: 50}}>
+      <Layout style={{ position: 'absolute', top: 0,  width: '100%', flexDirection: 'row', alignItems: 'center', height: 50, justifyContent: 'space-between'}}>
 
-        <TouchableOpacity style={{ marginLeft: 10, marginVertical: 10}} onPress={() => {props.navigation.goBack()}}>
-          <FontAwesomeIcon icon={faAngleLeft} size={28} />
+        <TouchableOpacity style={{ padding: 20 }} onPress={() => {props.navigation.goBack()}}>
+          <AngleLeft />
         </TouchableOpacity>
 
-        <Text style={{ marginLeft : 10, marginVertical: 10, fontSize: 16, fontWeight: 'bold' }}>Glokool - Sign Up</Text>
+        <Text style={{ marginLeft : 10, marginVertical: 10, fontSize: 20, fontFamily: 'BrandonGrotesque-Bold', justifyContent: 'center' }}>SIGN UP</Text>
+
+        <TouchableOpacity style={{ padding: 20 }}>
+
+        </TouchableOpacity>
 
       </Layout>
            
@@ -452,7 +482,7 @@ const styles = StyleSheet.create({
   },
   smallTitle :{
     marginVertical: 10,
-    color: '#000000',
+    color: '#7777FF',
     fontSize: 12
   },
   checkbox: {
@@ -474,5 +504,31 @@ const styles = StyleSheet.create({
     borderColor: '#c9c9c9',
     borderWidth: 0.5,
     padding: 8
-  }
+  },
+  Button : {
+    width: '100%',
+    height: 56,
+    borderRadius: 15,
+    backgroundColor: '#7777FF',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  Button_Disable : {
+    width: '100%',
+    height: 56,
+    borderRadius: 15,
+    backgroundColor: '#F8F8F8',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ButtonText: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 18,
+    color: 'white'
+  },
+  ButtonText_Disable: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 18,
+    color: '#AEAEAE'
+  },
 });

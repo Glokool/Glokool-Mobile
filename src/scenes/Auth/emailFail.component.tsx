@@ -11,49 +11,34 @@ import {
 } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
 import {
-  Button,
   LayoutElement,
   Layout,
 } from '@ui-kitten/components';
 import { EmailFailScreenProps } from '../../navigation/auth.navigator';
-import Toast from 'react-native-easy-toast';
+import { Alert, Email } from '../../assets/icon/Auth';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AngleLeft } from '../../assets/icon/Common';
+import { PhotoSpot } from '../../assets/icon/Series';
 
-var ToastRef : any;
 
 
 export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
 
+  
   const [button, setButton] = React.useState(false);
-
   const AuthNavigate = CommonActions.reset({
     index: 0,
     routes: [{name: NavigatorRoute.AUTH}],
   });
 
-  const SendEmailButton = (): void => {
+  const SendEmailButton = async(): void => {
+
     const user = auth().currentUser;
-
-    user?.sendEmailVerification()
-      .then(function() { 
-        console.log('이메일 전송 성공')
-        ToastRef.show('Completed sending validation email' ,1500);
-    })
-      .catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
-      console.log(errorMessage)
-    });
-
+    const EMail = await user?.sendEmailVerification();   
     setButton(true);
+
   }
   
-  const NextButton = (): void => {
-    auth().signOut();
-    props.navigation.dispatch(AuthNavigate);  
-  };
-
-
   React.useEffect(() => {
 
     return () => {
@@ -65,23 +50,59 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-      <Layout style={styles.container}>
-        <Image style={{marginVertical: 20}}source={require('../../assets/Verification.png')}/>
-        <Text style={styles.title}>Please check your e-mail and click </Text>
-        <Text style={styles.title}>the link we sent to complete sign up.</Text>
 
-        <Layout>
-          <Button style={styles.nextButton} disabled={button} onPress={SendEmailButton}>
-            SEND THE EMAIL
-          </Button>
-          <Button style={styles.nextButton} onPress={NextButton}>
-            BACK TO LOGIN
-          </Button>
+        <Layout style={styles.TopTabBar}>
+          
+          <Layout style={{flex : 1, alignItems: 'center', justifyContent: 'center'}}>
+            <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+              <AngleLeft />
+            </TouchableOpacity>
+          </Layout>
+
+
+          <Layout style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../../assets/Glokool_Logo.png')} style={{width: 129, height: 20}} resizeMode={'stretch'}/>
+          </Layout>
+
+          <Layout style={{flex: 1}} />
+        </Layout>
+
+
+        {(button)? 
+
+        <Layout style={styles.container}>
+                  
+          <Email style={{marginVertical: 10}}/>
+
+          <Text style={styles.desc}>Please check your e-mail and click on the link we sent you to complete sign up.</Text>
+
+          <TouchableOpacity style={styles.Button} onPress={() => {props.navigation.goBack()}}>
+            <Text style={styles.ButtonText}>Back to Login</Text>
+          </TouchableOpacity>
+
         </Layout>
         
-      </Layout>
+        : 
+         
+        <Layout style={styles.container}>
+          
+          <Alert style={{marginVertical: 10}}/>
+          
+          <Text style={styles.title}>E-mail check error</Text>
+          <Text style={styles.desc}>Sorry, failed to verify your membership. Please check your e-mail again.</Text>
 
-      <Toast ref={(toast) => ToastRef = toast} position={'bottom'}/>      
+          <TouchableOpacity style={styles.Button} onPress={() => {SendEmailButton()}}>
+            <Text style={styles.ButtonText}>Resend Verification Code</Text>
+          </TouchableOpacity>
+          
+        </Layout>
+        
+        }
+        
+
+        
+
+
     </React.Fragment>
   );
 };
@@ -101,9 +122,40 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   title: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontSize: 22,
     textAlign: 'center',
     marginVertical: 10,
+  },
+  desc: {
+    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontSize: 20,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  TopTabBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    height: 60
+  },
+  BackButton : {
+    justifyContent: 'center',
+    padding : 20
+  },
+  Button : {
+    width: 350,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7777FF',
+    borderRadius: 15
+  },
+  ButtonText: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    textAlign: 'center',
+    marginVertical: 10,
+    color: 'white'
   }
 });

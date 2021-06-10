@@ -20,6 +20,7 @@ export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement =
   const fieldProps: Partial<InputProps> = {
     status: error && 'danger',
     captionIcon: error && AlertTriangleIcon,
+    textStyle: {color: 'red'}
   };
 
   return (
@@ -28,8 +29,9 @@ export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement =
       {...fieldProps}
       caption={error}
       style={styles.input}
+      textStyle={{color: '#8797FF'}}
+      placeholderTextColor={'#8797FF'}
       size='large'
-      status='control'
       onChangeText={formContext.handleChange(id)}
     />
   );
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
   input:{
     backgroundColor: '#00ff0000',
     borderColor: '#00ff0000',
-    borderBottomColor: '#FFFFFF',
+    borderBottomColor: '#8797FF',
     alignItems: 'center',
     marginHorizontal: 10,
     marginVertical: 0,

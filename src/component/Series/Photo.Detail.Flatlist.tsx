@@ -10,6 +10,7 @@ import {
     LayoutElement,
     Text,
 } from '@ui-kitten/components'
+import { Instagram, Naver } from '../../assets/icon/SNS';
 
 type IntroData = {
     _id : string;
@@ -40,7 +41,15 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
                     null
                 :
                 <Layout style={styles.authorContainer}>
-                    <Text style={styles.authorText}>{`  ${item.item.author}`}</Text>
+                    {(item.item.author[0] === 'i')?
+                        <Instagram />
+                    :   
+                     (item.item.author[0] === 'n')?
+                        <Naver />
+                    :
+                        null
+                    }
+                    <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
                 </Layout>
                 }                
 
@@ -71,18 +80,20 @@ const styles = StyleSheet.create({
     },
     authorContainer: {
         position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
         bottom: 10,
-        left: 10
+        left: 20,
+        backgroundColor: '#00FF0000'
     },
     authorText: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 13,
-        color: 'black'
+        color: 'white'
     },
     Image: {
         width : WindowSize * 0.85,
         height: WindowSize * 1.14,
-
     }
 })
 

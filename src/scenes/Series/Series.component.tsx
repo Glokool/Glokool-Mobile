@@ -30,10 +30,10 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     return(
         <Layout>
-
-            <SeriesCarousel />        
-
             <ScrollView style={{backgroundColor : 'white', height: '100%'}} showsVerticalScrollIndicator={false}>
+
+                {/* 시리즈 캐러셀 */}
+                <SeriesCarousel />       
 
                 {/* hidden gems title */}
                 <Layout style={styles.seriesHidden1}>

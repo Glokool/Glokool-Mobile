@@ -6,9 +6,9 @@ import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollVi
 import { AngleDown, AngleLeft, AngleUp, GoUp, PurpleArrow } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, SgntMenu, Sns, Time } from '../../assets/icon/Series';
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, SgntMenu, Sns, Time } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { PhotoDetailFlatlist, PhotoSpotFlatlist, SignatureMenuFlatlist } from '../../component/Series';
+import { PhotoDetailFlatlist , SignatureMenuFlatlist, MenuDetail } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 
 
@@ -69,7 +69,7 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
 
     const [infoPos, setInfoPos] = React.useState<number>(0);
     const [detailPos, setDetailPos] = React.useState<number>(0);
-    const [instaPos, setInstaPos] = React.useState<number>(0);
+    const [menuPos, setMenuPos] = React.useState<number>(0);
 
     React.useEffect(() => {
 
@@ -100,7 +100,7 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
         }
 
         else if(selectedButton === 2) {
-            ScrollVewRef.current.scrollTo({ x: 0, y: instaPos - 100, animated: true });
+            ScrollVewRef.current.scrollTo({ x: 0, y: menuPos - 100, animated: true });
         }
           
     }
@@ -304,13 +304,19 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
 
                 </Layout>
 
+                {/* 메뉴 컨테이너 */}
+
+                <Layout onLayout={(e) => {setMenuPos(e.nativeEvent.layout.y)}}>
+                    {(data?.menu != undefined)? <MenuDetail data={data?.menu} /> : null}                    
+                </Layout>
+
 
                 {/* 땡큐 버튼 및 Go up 버튼 */}
                 <Layout style={styles.FinalConatiner}>
                     <Text style={styles.ThankyouText}>Thank You!</Text>
                     
                     <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
-                        <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
+                        <Text style={styles.ThankyouText}>Go Up  <GoUp /></Text>
                     </TouchableOpacity>
 
                 </Layout>

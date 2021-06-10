@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView, 
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Image,
+  Dimensions
 } from 'react-native';
 import {
   Layout,
@@ -24,8 +26,10 @@ import { NavigatorRoute, SceneRoute } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import Toast from 'react-native-easy-toast';
+import { AngleLeft_Color } from '../../assets/icon/Common';
 
 var toastRef : any;
+const WindowSize = Dimensions.get('window').width
 
 export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
@@ -91,7 +95,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   const navigateResetPassword = (): void => {    
     props.navigation.navigate(SceneRoute.PASSWORD);
-
   };
 
   const onPasswordIconPress = (): void => {
@@ -113,12 +116,13 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   
   const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (
     <React.Fragment>
+      
       <Layout style={styles.InputContainer}>
         <Text style={styles.smallTitle}>E-Mail</Text>
         <FormInput
           id='email'
           style={styles.formControl}
-          placeholder='Email'
+          placeholder='email'
           keyboardType='email-address'
         />
         <Text style={styles.smallTitle}>Password</Text>
@@ -127,34 +131,26 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           style={styles.formControl}
           placeholder='Password'
           secureTextEntry={!passwordVisible}
-          accessoryRight={renderPasswordIcon}
         />
         
       </Layout>
+      
       <Layout style={styles.resetPasswordContainer}>
-        <Button
-          appearance='ghost'
-          status='basic'
-          onPress={navigateResetPassword}
-          >
-          Forget password?
-        </Button>
+        <TouchableOpacity onPress={() => {navigateResetPassword()}}>
+          <Text style={styles.ForgetButtonText}>Forget password?</Text>
+        </TouchableOpacity>
       </Layout>
+
       <Layout style={styles.buttonContainer}>
-        <Button
-          style={styles.submitButton}
-          onPress={props.handleSubmit}
-          size='large'
-          >
-          SIGN IN
-        </Button>
-        <Button
-          style={styles.noAccountButton}
-          onPress={navigateSignUp}
-          size='large'
-          >
-          SIGN UP
-        </Button>
+        
+        <TouchableOpacity style={styles.CAButton} onPress={() => navigateSignUp()}>
+          <Text style={styles.CAButtonText}>Create Account</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.LoginButton} onPress={() => navigateSignUp()}>
+          <Text style={styles.LoginButtonText}>Login</Text>
+        </TouchableOpacity>
+
       </Layout>            
     </React.Fragment>
   );
@@ -163,36 +159,40 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/> 
       
-        <Layout style={styles.formContainer}>    
-            <Layout style={styles.titleContainer}>
-              <Text style={styles.title}>GLOKOOL</Text>
-            </Layout>
-            <ScrollView style={{backgroundColor: '#FFC043',}}>
-              <Formik
-                initialValues={SignInData.empty()}
-                validationSchema={SignInSchema}
-                onSubmit={onFormSubmit}>
-                {renderForm}
-              </Formik>              
-            </ScrollView>
+        <ScrollView style={styles.formContainer}>
+
+          {/* 투명 탭바 */}
+          <Layout style={styles.TabBar}>
+              <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+                <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
+                  <AngleLeft_Color />
+                </TouchableOpacity>
+              </Layout>
+              
+              <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
+
+              <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
+                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+              </Layout>
+          </Layout>  
+
+          <Layout style={styles.titleContainer}>
+            <Image source={require('../../assets/Glokool_Logo.png')} style={{width: 193, height: 30}} resizeMode={'stretch'}/>
+          </Layout>
+
+          <Formik
+            initialValues={SignInData.empty()}
+            validationSchema={SignInSchema}
+            
+            onSubmit={onFormSubmit}>
+            {renderForm}
+          </Formik>              
+
             <Toast ref={(toast) => toastRef = toast} position={'bottom'}/>
-        </Layout>
+        </ScrollView>
 
-      {/* 투명 탭바 */}
-      <Layout style={styles.TabBar}>
-          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-            <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} style={{color: 'white'}} size={32}/>
-            </TouchableOpacity>
-          </Layout>
-          
-          <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
-
-          <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-          </Layout>
-        </Layout>
+      
     </React.Fragment>
   );
 };
@@ -200,8 +200,8 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 const styles = StyleSheet.create({
   formContainer:{
     flex: 1,
-    backgroundColor: '#FFC043',
     width: '100%',
+    backgroundColor: 'white'
   },
   title:{
     color: 'white',
@@ -210,63 +210,101 @@ const styles = StyleSheet.create({
   },
   resetPasswordContainer: {
     alignItems: 'flex-end',
-    backgroundColor: '#FFC043',
+    backgroundColor: '#00FF0000',
   },
   formControl: {
     marginVertical: 8,
+
   },
   titleContainer: {
-    backgroundColor: '#FFC043',
+    backgroundColor: '#00FF0000',
     flex: 3,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 50
   },
   container: {
-    backgroundColor: '#FFC043',
+    backgroundColor: '#00FF0000',
     flex:3,   
   },
   InputContainer: {
-    backgroundColor: '#FFC043',
+    backgroundColor: '#00FF0000',
     margin: 10,
     width: '90%',
-  },
-  submitButton: {
-    marginVertical: 8,
-    width: '90%',
-    height: '25%',
-    backgroundColor: '#00ff0000',
-    borderColor: '#FFFFFF',
-  },
-  noAccountButton: {
-    marginVertical: 8,
-    width: '90%',
-    height: '25%',
-    backgroundColor: '#00ff0000',
-    borderColor: '#FFFFFF',
   },
   smallTitle :{
     alignItems: 'flex-start',
     marginHorizontal: 10,
     marginVertical: 5,
-    color: '#FFFFFF',
+    color: '#8797FF',
     fontSize: 16
   },
   buttonContainer: {
     flex: 1,
-    backgroundColor: '#FFC043',
+    backgroundColor: '#00FF0000',
     alignItems: 'center',
     justifyContent: 'center',
   },
   TabBar:{
-    position: 'absolute',
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#00ff0000',
-    zIndex : 3
   },
   IconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 15
+    margin: 15,
+    padding: 20
   },
+  CAButton: {
+    width: WindowSize - 60,
+    height: 50,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 5
+  },
+  LoginButton: {
+    width: WindowSize - 60,
+    height: 50,
+    borderRadius: 15,
+    backgroundColor: '#7777FF',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 5
+  },
+  CAButtonText: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#7777FF'
+  },
+  LoginButtonText: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: 'white'
+  },
+
+  ForgetButtonText : {
+    fontFamily: 'IBMPlexSansKR-Medium',
+    color: '#7777FF',
+    marginRight: 30,
+    marginVertical: 10
+  }
 });

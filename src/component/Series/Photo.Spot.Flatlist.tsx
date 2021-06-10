@@ -13,6 +13,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AngleLeft_Color, AngleRight_Color, Bookmark } from '../../assets/icon/Common';
 import { Pin } from '../../assets/icon/Series';
+import { Instagram, Naver } from '../../assets/icon/SNS';
 
 type photoSpot = {
     _id : string;
@@ -56,6 +57,18 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
         return(
             <Layout style={styles.InsideImageContainer}>                
                 <Image source={{uri : item.item.img}} style={styles.InsideImage} resizeMode={'stretch'}/>
+
+                <Layout style={styles.authorContainer}>
+                    {(item.item.author[0] === 'i')?
+                        <Instagram />
+                    :   
+                     (item.item.author[0] === 'n')?
+                        <Naver />
+                    :
+                        null
+                    }
+                    <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
+                </Layout>
             </Layout>
         )
     }
@@ -87,6 +100,17 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
                     <Layout>
                         <Layout style={styles.ImageContainer}>
                             <Image source={{uri : item.item.images[0].img}} style={styles.Image} resizeMode={'stretch'}/>
+                            <Layout style={styles.authorContainer}>
+                                {(item.item.images[0].author[0] === 'i')?
+                                    <Instagram />
+                                :   
+                                (item.item.images[0].author[0] === 'n')?
+                                    <Naver />
+                                :
+                                    null
+                                }
+                                <Text style={styles.authorText}>{`  ${item.item.images[0].author.slice(2,)}`}</Text>
+                            </Layout>
                             <TouchableOpacity style={styles.NextButton} onPress={() => PressChage(item.index)}>
                                 <AngleRight_Color style={styles.AngleRightButton}/>
                             </TouchableOpacity>
@@ -138,13 +162,16 @@ const styles = StyleSheet.create({
     },
     authorContainer: {
         position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
         bottom: 10,
-        left: 10
+        left: 20,
+        backgroundColor: '#00FF0000'
     },
     authorText: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 13,
-        color: 'black'
+        color: 'white'
     },
     ImageContainer: {
         width : WindowSize * 0.90,
