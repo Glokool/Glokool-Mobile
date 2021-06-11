@@ -17,6 +17,7 @@ import { SeriesBDetailProps } from '../../navigation/ScreenNavigator/Series.navi
 import { AngleLeft } from '../../assets/icon/Common';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
+import { SeriesBList } from '../../component/Series';
 
 const SeriesImgW = Dimensions.get('window').width;
 
@@ -31,7 +32,7 @@ export const SeriesBScreen = (props: SeriesBDetailProps): LayoutElement => {
                     {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
                 </Text>
             </Layout>
-            <SeriesBScreen navigation={props.navigation} route={props.route} />
+            <SeriesBList navigation={props.navigation} route={props.route} />
         </ScrollView>
 
             {/* 탑탭바 */}

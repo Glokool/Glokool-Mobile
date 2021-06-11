@@ -67,7 +67,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
                     </Layout>
                     <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B)} >
-                        <Text style={styles.moreBtnTxt}>{`Morde`}</Text>
+                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
                     </TouchableOpacity>
                 </Layout>
                 <SeriesBFlatlist  navigation={props.navigation} route={props.route} />
