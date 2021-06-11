@@ -72,15 +72,15 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
   const displayTypeValue = type[selectedTypeIndex.row];
 
   const TravelIcon = () => (
-
+    null
   )
-
+    
   const KoreanIcon = () => (
-
+    null
   )
-
+      
   const ResidentIcon = () => (
-
+    null
   )
 
 

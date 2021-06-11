@@ -21,6 +21,7 @@ import AngleUp from './AngleUp.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
 import AngleLeft_Color from './AngleLeft_Color.svg';
 import GoUp from './GoUp.svg';
+import GrayArrow from './GrayArrow.svg';
 
 export {
     Korean, 
@@ -42,6 +43,7 @@ export {
     Plus, 
     Bookmark, 
     PurpleArrow, 
+    GrayArrow,
     AngleUp, 
     AngleRight_Color,
     GoUp,

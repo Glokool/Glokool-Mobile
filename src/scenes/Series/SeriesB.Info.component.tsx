@@ -22,6 +22,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { GoUp, GrayArrow } from '../../assets/icon/Common';
 
 type recommendation_Item = {
     _id: string,
@@ -79,6 +80,8 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const [content, setContent] = React.useState<Series_Item>();
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>([]);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
+    const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
+
 
 
     React.useEffect(() => {
@@ -89,9 +92,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
         setContentInfo(Content.data.contents);
-        console.log(Content.data.contents[1])
+        setRecommendation(Content.data.recommendation);
+        console.log(Content.data.recommendation)
         // setComments(Content.data.comments);
-        // setRecommendation(Content.data.recommendation);
     }
 
     const RenderCarousel = (item : { item : ContentImg_Item, index : number }) => {
@@ -151,9 +154,47 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         </Layout>
                     </Layout>
                 ))}
-                <Layout>
-                    <Text>Thank you ! </Text>
+                
+                {/* 땡큐 버튼 및 Go up 버튼 */}
+                <Layout style={styles.FinalConatiner}>
+                    <Text style={styles.ThankyouText}>Thank You!</Text>
+                    
+                    <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
+                        <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
+                    </TouchableOpacity>
                 </Layout>
+
+
+                {/* check out more */}
+                <Layout style={styles.CheckMoreContainerLayoutStyle}>
+                    <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
+                    {/* {(recommendation.map((item) =>
+                    <Layout style={styles.CheckMoreLayoutStyle}>
+                        <TouchableOpacity onPress={() => {setId(item._id)}}>
+                            <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                            <Text style={styles.RecommendationTxt}>{item.title}</Text>
+                        </TouchableOpacity>
+                    </Layout>
+                    ))} */}
+                </Layout>
+
+                {/* 그레이색 배경 */}
+                <Layout style={styles.PurpleContainerLayoutStyle} >
+                    <GrayArrow style={styles.PurpleArrow} />
+                    <Layout style={styles.PurpleTopLayoutStyle}>
+                        <Text style={styles.PurpleTopTxtStyle}>
+                            {`Can't find the information you need?`}
+                            {"\n"}
+                            {`Ask our travel assistants for more! `}
+                        </Text>
+                        <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            </Layout>
+                        </Layout>
+                    </Layout>
+                </Layout>
+
             </ScrollView>
         </Layout>
     )
@@ -222,6 +263,8 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowWidth,
         resizeMode: 'cover',
+        // borderWidth: 1,
+        // borderColor: 'pink'
     },
     ContentTxtLayout: {
         marginLeft: 20,
@@ -240,6 +283,110 @@ const styles = StyleSheet.create({
         fontSize:16,
         color: '#414141',
         marginTop: 10,
+    },
+    // thank you btn
+    FinalConatiner: {
+        marginHorizontal: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    ThankyouText: {
+        color:'#7777FF',
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+    },
+    GoUpButton: {
+        borderRadius: 15,
+        width: 100,
+        height: 40,
+        backgroundColor: '#F6F6F6',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.00,
+        elevation: 1,
+    },
+    CheckMoreContainerLayoutStyle: {
+        width: windowWidth,
+        backgroundColor: '#F6F6F6',
+        flexDirection: 'row',
+        marginTop: 20,
+        // borderWidth: 1,
+        // borderColor: 'red',
+    },
+    CheckMoreLayoutStyle: {
+        marginVertical: 30,
+        marginRight: 10,
+        backgroundColor: '#00FF0000',
+        width: windowWidth * 0.3,
+        alignItems: 'center',
+        // borderWidth: 1,
+        // borderColor: 'red',
+    },
+    CheckMoreTxtStyle: {
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize:23,
+        color: '#000000',
+        marginLeft: 10,
+    },
+    RecommendationImg: {
+        width: windowWidth * 0.27,
+        height: windowWidth * 0.27,
+        borderRadius: 10,
+    },
+    RecommendationTxt: {
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        color: '#000000',
+        marginTop: 5,
+        marginLeft: 3,
+    },
+    PurpleContainerLayoutStyle: {
+        backgroundColor: '#E4E4E4',
+        width: windowWidth,
+        height: 129,
+        position: 'relative',
+    },
+    PurpleArrow:{
+        position: 'absolute',
+        top: -20,
+        left: 20,
+    },
+    PurpleTopLayoutStyle: {
+        backgroundColor: '#00FF0000',
+        marginTop: 15,
+        marginLeft: 20,
+        marginRight: 20,
+    },
+    PurpleTopTxtStyle: {
+        color:'#FFFFFF',
+        fontFamily:'BrandonGrotesque-Medium',
+        fontSize:18,
+    },
+    PurpleBottomContainerLayoutStyle: {
+        backgroundColor: '#00FF0000',
+        alignItems: 'flex-end',
+    },
+    PurpleBottomLayoutStyle: {
+        backgroundColor: '#ffffff',
+        width: windowWidth * 0.46,
+        height: 42,
+        lineHeight: 42,
+        marginTop: 5,
+        borderRadius: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    PurpleBottomTxtStyle: {
+        color:'#7777FF',
+        fontFamily:'BrandonGrotesque-BoldItalic',
+        fontSize:20,
     },
 })
 
