@@ -28,6 +28,7 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
     return (
         <Layout style={styles.ContainerLayout}>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                 <Layout style={{height: 50}}/>
                 <Layout style={styles.TopLayout}>
                     <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
