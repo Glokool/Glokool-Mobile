@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { BookSecondScreenProps } from '../../navigation/Book.navigator';
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
 import { StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
-import { TopTabBar } from '../../component/Booking';
+import { CancellationPolicy, TopTabBar } from '../../component/Booking';
 import { SceneRoute } from '../../navigation/app.route';
 
 const WindowSize = Dimensions.get('window').width
@@ -13,6 +13,8 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
     const PickerDate = props.route.params.date;
     const user = auth().currentUser;
     
+    const [visible, setVisible] = React.useState<boolean>(false);
+
     const [name, setName] = React.useState(user?.displayName);
     const [email, setEmail] = React.useState(user?.email);
     const [contact, setContact] = React.useState('');
@@ -90,8 +92,8 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     'Privacy Policy & Cancellation Policy'
                 </Text>
 
-                <TouchableOpacity style={styles.TermsButton}>
-                    <Text style={styles.TermsButtonText}>Click to Check     ></Text>
+                <TouchableOpacity style={styles.TermsButton} onPress={() => setVisible(true)}>
+                    <Text style={styles.TermsButtonText}>{`Click to Check     >`}</Text>
                 </TouchableOpacity>
 
             </ScrollView>
@@ -106,7 +108,7 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                 </TouchableOpacity>                
             }
 
-            
+            <CancellationPolicy visible={visible} />
 
             <TopTabBar index={2} />
             

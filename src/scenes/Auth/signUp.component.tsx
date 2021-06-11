@@ -374,17 +374,21 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         </Modal>
       </Layout>
 
-      <Layout style={{ position: 'absolute', top: 0,  width: '100%', flexDirection: 'row', alignItems: 'center', height: 50, justifyContent: 'space-between'}}>
+      <Layout style={styles.TopTabBar}>
 
-        <TouchableOpacity style={{ padding: 20 }} onPress={() => {props.navigation.goBack()}}>
-          <AngleLeft />
-        </TouchableOpacity>
+        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
 
-        <Text style={{ marginLeft : 10, marginVertical: 10, fontSize: 20, fontFamily: 'BrandonGrotesque-Bold', justifyContent: 'center' }}>SIGN UP</Text>
+        <Layout style={styles.TopInfoContainer}>
+          <TouchableOpacity style={{ padding: 20 }} onPress={() => {props.navigation.goBack()}}>
+            <AngleLeft />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={{ padding: 20 }}>
+          <Text style={{ marginLeft : 10, marginVertical: 10, fontSize: 20, fontFamily: 'BrandonGrotesque-Bold', justifyContent: 'center' }}>SIGN UP</Text>
 
-        </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 20 }} />
+
+        </Layout>
+        
 
       </Layout>
            
@@ -491,5 +495,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#00FF0000',
     bottom : 10,
     left: 15
+  },
+  TopTabBar : {
+    position: 'absolute', 
+    top: 0,  
+    width: '100%',  
+    height: 50, 
+  },
+  TopInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center', 
+    justifyContent: 'space-between' 
   }
 });
