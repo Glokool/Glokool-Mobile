@@ -181,6 +181,8 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         <Layout style={styles.ContainerLayout}>
             <Layout style={{height: 100}} />
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
+            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+            <Layout style={{height: 50}}/>
                 <Layout style={styles.CarouselContainerLayout}>    
                     <Carousel
                         data={image}

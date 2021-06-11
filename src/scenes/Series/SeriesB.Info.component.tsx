@@ -22,7 +22,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment, { max } from "moment";
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { GoUp, GrayArrow } from '../../assets/icon/Common';
+import { GoUp, GrayArrow, AngleLeft } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
 
@@ -45,6 +45,7 @@ type Comments_Item = {
     isDeleted: Boolean,
     createdAt: Date,
     updatedAt: Date,
+    plus: Array<string>,
 }
 
 type ContentImg_Item = {
@@ -79,6 +80,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElement => {
     const ScrollVewRef = React.useRef(null);
+    const [height, setHeight] = React.useState<number>(0);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [content, setContent] = React.useState<Series_Item>();
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>([]);
@@ -88,7 +90,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const [nowComment, setNowComment] = React.useState('');
     const user = auth().currentUser;
     const uid = user?.uid;
-
 
     React.useEffect(() => {
         InitSeries();
@@ -189,7 +190,14 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     
     return (
         <Layout>
-            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
+            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
+            {height >= windowWidth - 100 ? 
+                <Layout>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    <Layout style={{height: 50}}/>
+                </Layout>
+             : (null) }
+            
                 <Layout>
                     <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
                 </Layout>
@@ -278,7 +286,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 </Layout>
                 
                 {/* Comments */}
-                {/* <SeriesAComments comments ={comments}/> */}
                 <Layout style={styles.CommentsConainer}>
                     <Layout style={styles.CommentsInnerConainer}>
                         {/* comments title */}
@@ -365,11 +372,39 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 </Layout>
 
             </ScrollView>
+
+            {/* 탑탭바 */}
+            {height >= windowWidth - 100 ? (
+                <Layout style={styles.ContainerLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                        <AngleLeft style={styles.AngleLeft} />
+                    </TouchableOpacity>
+                </Layout>
+            ) : (null) }
+            
+
         </Layout>
     )
 }
 
 const styles = StyleSheet.create({
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
+    },
+    ContainerAngleLeft: {
+        marginLeft: 20,
+        padding: 20,
+    },
+    AngleLeft: {
+    },
+
     CoverImg:{
         width: windowWidth,
         height: windowWidth,
