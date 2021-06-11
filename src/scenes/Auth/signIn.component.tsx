@@ -190,6 +190,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           </Formik>              
 
             <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+            
         </ScrollView>
 
       

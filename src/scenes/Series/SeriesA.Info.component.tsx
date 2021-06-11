@@ -157,6 +157,9 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         <Layout style={styles.ContainerLayout}>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
                 <Layout style={styles.CarouselContainerLayout}>    
+
+                    <Layout style={{height: 50}} />
+
                     <Carousel
                         data={image}
                         layout={'default'}
@@ -307,6 +310,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </Layout>
                 </Layout>
             </ScrollView>
+            
             {/* 탑탭바 */}
             <Layout style={styles.ContainerLayoutAngleLeft}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
@@ -315,6 +319,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         <AngleLeft style={styles.AngleLeft}  />
                     </TouchableOpacity>
             </Layout>
+
         </Layout>
     )
 }
@@ -327,6 +332,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         top: 0,
+        height : 50
     },
     ContainerAngleLeft: {
         marginLeft: 20,
@@ -342,7 +348,7 @@ const styles = StyleSheet.create({
         height: windowWidth,
     },
     CarouselContainerLayout: {
-        marginTop: 100,
+
     },
     Carousel: {
         height: windowWidth,
