@@ -115,6 +115,7 @@
 		<string>Fonts/IBMPlexSansKR-SemiBold.ttf</string>
 		<string>Fonts/IBMPlexSansKR-Text.ttf</string>
 		<string>Fonts/NotoSans-SemiCondensedSemiBold.ttf</string>
+		<string>Fonts/NotoSansCJKkr-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
