@@ -22,7 +22,7 @@ import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, C
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
-import { SeriesAComments } from '../../component/Series';
+import { SeriesTopTabBar } from '../../component/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import qs from "query-string";
@@ -347,13 +347,8 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                 </Layout>
             </ScrollView>
             
-           {/* 탑탭바 */}
-           <Layout style={styles.ContainerLayoutAngleLeft}>
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                    <AngleLeft style={styles.AngleLeft}  />
-                </TouchableOpacity>
-            </Layout>
+             {/* 탑탭바 */}
+             <SeriesTopTabBar />
 
         </Layout>
     )
@@ -362,21 +357,6 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 const styles = StyleSheet.create({
     ContainerLayout:{
         position: 'relative',
-    },
-    ContainerLayoutAngleLeft: {
-        width: '100%',
-        height: 100,
-        position: 'absolute',
-        top: 0,
-        backgroundColor: '#ffffff',
-        // borderWidth: 1,
-        // borderColor:'red',
-    },
-    ContainerAngleLeft: {
-        marginLeft: 20,
-        padding: 20,
-    },
-    AngleLeft: {
     },
     SeriesInfoImg: {
         width: 110,

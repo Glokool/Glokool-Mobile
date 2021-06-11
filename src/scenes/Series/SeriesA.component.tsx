@@ -17,14 +17,12 @@ import { SeriesADetailProps } from '../../navigation/ScreenNavigator/Series.navi
 import { AngleLeft } from '../../assets/icon/Common';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { SeriesAList } from '../../component/Series';
+import { SeriesAList, SeriesTopTabBar } from '../../component/Series';
 
 const SeriesImgW = Dimensions.get('window').width;
 
-
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
     
-
     return (
         <Layout style={styles.ContainerLayout}>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
@@ -39,13 +37,8 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
                 <SeriesAList navigation={props.navigation} route={props.route} />
             </ScrollView>
 
-                {/* 탑탭바 */}
-                <Layout style={styles.ContainerLayoutAngleLeft}>
-                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                        <AngleLeft style={styles.AngleLeft}  />
-                    </TouchableOpacity>
-                </Layout>
+            {/* 탑탭바 */}
+            <SeriesTopTabBar />
         </Layout>
     )
 }
@@ -53,21 +46,6 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
 const styles = StyleSheet.create({
     ContainerLayout:{
         position: 'relative',
-    },
-    ContainerLayoutAngleLeft: {
-        width: '100%',
-        height: 50,
-        position: 'absolute',
-        top: 0,
-        backgroundColor: '#ffffff',
-        // borderWidth: 1,
-        // borderColor:'red',
-    },
-    ContainerAngleLeft: {
-        marginLeft: 20,
-        padding: 20,
-    },
-    AngleLeft: {
     },
     TopLayout: {
         marginLeft: 30,
