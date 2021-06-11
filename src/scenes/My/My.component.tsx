@@ -16,9 +16,9 @@ import {
   LayoutElement,
   Text,
 } from '@ui-kitten/components';
+import { Korean, Resident, Traveler } from '../../assets/icon/UserType'
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { LoginCheck } from '../../component/Common';
-import { Traveler, Korean, Resident } from '../../assets/icon/Common';
 import { Receipt, Receipt_Large, Setting_Btn, Comment_Btn, Bookmark_Btn } from '../../assets/icon/My';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
@@ -147,7 +147,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
               
               <Text style={styles.profileTitle}>{user.displayName}</Text>
               
-              {(userInfo.type === 'Korean')? <Korean/> : (userInfo.type === 'Resident')? <Resident /> : <Traveler />}
+              {(userInfo.type === 'Korean')? <Korean /> : (userInfo.type === 'Resident')? <Resident /> : <Traveler />}
 
             </Layout>
 

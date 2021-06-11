@@ -32,6 +32,7 @@ import { NavigatorRoute } from '../../navigation/app.route';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
+import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 
 var toastRef : any;
 
@@ -72,15 +73,15 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
   const displayTypeValue = type[selectedTypeIndex.row];
 
   const TravelIcon = () => (
-    null
+    <Mini_T />  
   )
     
   const KoreanIcon = () => (
-    null
+    <Mini_K />
   )
       
   const ResidentIcon = () => (
-    null
+    <Mini_R />
   )
 
 
