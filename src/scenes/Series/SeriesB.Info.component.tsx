@@ -46,7 +46,7 @@ type Comments_Item = {
 type ContentImg_Item = {
     _id: string,
     author: string,
-    img: Array<string>,
+    img: string,
 }
 
 type Content_Item = {
@@ -94,11 +94,11 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         // setRecommendation(Content.data.recommendation);
     }
 
-    const RenderCarousel = ({item}) => {
+    const RenderCarousel = (item : { item : ContentImg_Item, index : number }) => {
         return(
-            <TouchableOpacity style={styles.ItemContainer}>
-                <Image source={{ uri : item }} style={styles.ImageContainer} />
-            </TouchableOpacity>    
+            <Layout>
+                <Image source={{ uri : item.item.img }} style={styles.ImageContainer} />
+            </Layout>    
         )
     }
     
@@ -117,38 +117,43 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
                 {/* content carousel */}
                 {(contentInfo.map((item) =>
-                    {(item.images.map((itemContent) => 
                     <Layout style={styles.CarouselContainerLayout}>
-                    <Carousel
-                        data={itemContent.img}
-                        layout={'default'}
-                        renderItem={RenderCarousel}
-                        style={styles.Carousel}
-                        sliderWidth={Dimensions.get('window').width}
-                        itemWidth={windowWidth}
-                        hasParallaxImages={false}
-                        firstItem={0}
-                        inactiveSlideScale={0.8}
-                        inactiveSlideOpacity={0.7}
-                        inactiveSlideShift={0}
-                        // containerCustomStyle={styles.CarouselInsideContainer}
-                        loop={true}
-                        autoplay={false}
-                        onSnapToItem={(index : number) => setCarouselIndex(index) }
-                    />
-                    <Pagination
-                        dotsLength={item.images.length}
-                        containerStyle={styles.CarouselDotContainer}
-                        activeDotIndex={carouselIndex}
-                        dotColor={'#FFFFFF'}
-                        dotStyle={styles.CarouselDot}
-                        inactiveDotColor={'#ffffff'}
-                        inactiveDotOpacity={0.4}
-                        inactiveDotScale={1}
-                    />
+                        <Carousel
+                            data={item.images}
+                            layout={'default'}
+                            renderItem={RenderCarousel}
+                            sliderWidth={Dimensions.get('window').width}
+                            itemWidth={windowWidth}
+                            hasParallaxImages={false}
+                            firstItem={0}
+                            inactiveSlideScale={0.8}
+                            inactiveSlideOpacity={0.7}
+                            inactiveSlideShift={0}
+                            // containerCustomStyle={styles.CarouselInsideContainer}
+                            loop={true}
+                            autoplay={false}
+                            onSnapToItem={(index : number) => setCarouselIndex(index) }
+                        />
+                        <Pagination
+                            dotsLength={item.images.length}
+                            containerStyle={styles.CarouselDotContainer}
+                            activeDotIndex={carouselIndex}
+                            dotColor={'#7777FF'}
+                            dotStyle={styles.CarouselDot}
+                            inactiveDotColor={'#7777FF'}
+                            inactiveDotOpacity={0.4}
+                            inactiveDotScale={1}
+                            
+                        />
+                        <Layout style={styles.ContentTxtLayout}>
+                            <Text style={styles.ContentTitleTxt}>{item.title}</Text>
+                            <Text style={styles.ContentDescTxt}>{item.desc}</Text>
+                        </Layout>
                     </Layout>
-                    ))}
                 ))}
+                <Layout>
+                    <Text>Thank you ! </Text>
+                </Layout>
             </ScrollView>
         </Layout>
     )
@@ -181,48 +186,60 @@ const styles = StyleSheet.create({
         color: '#414141',
     },
     LetsBeginTxt: {
-        marginTop: 15,
-        marginBottom: 15,
+        marginTop: 20,
+        marginBottom: 20,
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize:18,
         color: '#7777FF',
     },
     CarouselContainerLayout: {
-        marginTop: 100,
-    },
-    Carousel: {
-        height: windowWidth,
-        backgroundColor: '#00FF0000',
-        borderWidth: 1,
-        borderColor: 'red'  
+        width: windowWidth,
+        marginBottom: 30,
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
     CarouselInsideContainer: {
         marginLeft: -16,
-        alignItems: 'center'
+        alignItems: 'center',
+        width: windowWidth,
+        height: windowWidth,
     },
     CarouselDotContainer: {
-        position: 'absolute',
-        bottom : -15,
+        // bottom : 8,
         backgroundColor: '#00FF0000',
         opacity: 40,
         alignSelf: 'center',
+        marginVertical: -5,
         // borderWidth: 1,
-        // borderColor: 'red'   
+        // borderColor: 'red',
     },
     CarouselDot: {
         width: 13,
         height: 4,
         borderRadius: 30, 
-        color: '#ffffff',
     },
     ImageContainer: {
         width: windowWidth,
         height: windowWidth,
         resizeMode: 'cover',
     },
-    ItemContainer: {
-        width: windowWidth,
-        height: windowWidth,
+    ContentTxtLayout: {
+        marginLeft: 20,
+        marginRight: 50,
+        marginTop: 5,
+        // borderWidth: 1,
+        // borderColor: 'pink'
+    },
+    ContentTitleTxt: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize:23,
+        color: '#000000',
+    },
+    ContentDescTxt: {
+        fontFamily:'IBMPlexSansKR-Text',
+        fontSize:16,
+        color: '#414141',
+        marginTop: 10,
     },
 })
 
