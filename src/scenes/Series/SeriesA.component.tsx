@@ -27,8 +27,8 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
 
     return (
         <Layout style={styles.ContainerLayout}>
-            <Layout style={{height: 100}} />
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
+                <Layout style={{height: 50}}/>
                 <Layout style={styles.TopLayout}>
                     <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
                     <Text style={styles.TopTxt2}>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     ContainerLayoutAngleLeft: {
         width: '100%',
-        height: 100,
+        height: 50,
         position: 'absolute',
         top: 0,
         backgroundColor: '#ffffff',
