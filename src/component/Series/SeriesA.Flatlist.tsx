@@ -12,6 +12,8 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { Layout, LayoutElement, styled, Text } from "@ui-kitten/components"
 import { SeriesAFlatlistProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SceneRoute } from '../../navigation/app.route';
+
 
 type Series_Item = {
     image: string,
@@ -35,15 +37,11 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
         setContent(Content.data);
     }
 
-    const renderTour = ({ item }) => {
-
-
+    const renderTour = (item : {index: number, item: Series_Item}) => {
       return(
-          <TouchableOpacity >
-            <Layout style={styles.SeriesStyle} >
-              <Image source={{ uri: item.image }} style={styles.SeriesImgStyle} />
-              <Text style={styles.SeriesTxtStyle} numberOfLines={2}>{item.title}</Text>
-            </Layout>
+          <TouchableOpacity style={styles.SeriesStyle} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : item.item._id})}}>
+            <Image source={{ uri: item.item.image }} style={styles.SeriesImgStyle} />
+            <Text style={styles.SeriesTxtStyle} numberOfLines={2}>{item.item.title}</Text>
           </TouchableOpacity>
       )
     };

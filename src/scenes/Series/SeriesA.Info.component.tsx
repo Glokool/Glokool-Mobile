@@ -45,6 +45,7 @@ type Comments_Item = {
     },
     comment: string,
     createdAt: Date,
+    plus: Array<string>,
 }
 
 type Series_Item = {
@@ -89,6 +90,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
+        console.log(Content.data.comments)
     }
 
     const RenderCarousel = ({item}) => {
@@ -153,13 +155,33 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             });
     }
 
+    const LikeComment = async(id) => {
+        console.log(id);
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url: SERVER + "/api/contents/" + content?._id + "/comments/" + id + "/like",
+            headers: {
+                Authorization: "Bearer " + authToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+          };
+
+          axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     return (
         <Layout style={styles.ContainerLayout}>
+            <Layout style={{height: 100}} />
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
                 <Layout style={styles.CarouselContainerLayout}>    
-
-                    <Layout style={{height: 50}} />
-
                     <Carousel
                         data={image}
                         layout={'default'}
@@ -255,11 +277,19 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                                         <Layout>
                                             <Text style={styles.CommentsAuthorInnerNameTxt02Layout}>{item.writer.name}</Text>
                                         </Layout>
-                                        <Layout >
-                                            <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
+                                        <Layout style={styles.CommentsAuthorInner02InnerLayout}>
+                                            <Layout>
+                                                <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
+                                            </Layout>
+                                            {/* 좋아요 아이콘 & 갯수 표시 */}
+                                            {item.plus.length != 0 ? (
+                                                <Layout style= {styles.CommentsAuthorInner02PlusContainerLayout}>
+                                                    <Comments6_s style= {styles.CommentsAuthorInner02PlusIconLayout} />
+                                                    <Text style={styles.CommentsAuthorInnerPlusNum02Layout}>{item.plus.length}</Text>
+                                                </Layout>
+                                            ) : null}
+                                            
                                         </Layout>
-                                        {/* 좋아요 표시 */}
-                                        <Layout></Layout>
                                     </Layout>
                                     {uid == item.writer.uid ? (
                                     <Layout style={styles.CommentsAuthorInner03Layout}>
@@ -272,12 +302,18 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                                     </Layout>
                                     ) : (
                                     <Layout style={styles.CommentsAuthorInner03Layout}>
-                                          <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                          {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                             <Comments1 />
+                                        </TouchableOpacity> */}
+                                        {item.plus.indexOf(uid) != -1 ?  (
+                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
+                                            <Comments6 />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                        ) : (
+                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
                                             <Comments2 />
                                         </TouchableOpacity>
+                                        )}
                                         {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                             <Comments3 />
                                         </TouchableOpacity> */}
@@ -311,13 +347,12 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                 </Layout>
             </ScrollView>
             
-            {/* 탑탭바 */}
-            <Layout style={styles.ContainerLayoutAngleLeft}>
+           {/* 탑탭바 */}
+           <Layout style={styles.ContainerLayoutAngleLeft}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <AngleLeft style={styles.AngleLeft}  />
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                    <AngleLeft style={styles.AngleLeft}  />
+                </TouchableOpacity>
             </Layout>
 
         </Layout>
@@ -330,9 +365,12 @@ const styles = StyleSheet.create({
     },
     ContainerLayoutAngleLeft: {
         width: '100%',
+        height: 100,
         position: 'absolute',
         top: 0,
-        height : 50
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
     },
     ContainerAngleLeft: {
         marginLeft: 20,
@@ -500,13 +538,16 @@ const styles = StyleSheet.create({
         color:'#7777FF',
         fontFamily:'BrandonGrotesque-BoldItalic',
         fontSize:20,
-        // lineHeight: 42,
-        // height: 42,
     },
     GrayLineContainerLayoutStyle:{
         width: windowWidth,
         backgroundColor: '#EBEBEB',
         height: 12,
+    },
+    CommentsConainer: {
+        marginBottom: 100,
+        // borderWidth: 1,
+        // borderColor: 'pink',
     },
     CommentsInnerConainer:{
         marginLeft: 20,
@@ -536,8 +577,9 @@ const styles = StyleSheet.create({
     },
     CommentsAuthorInner02Layout:{
         flex: 1,
-        // borderWidth: 1,
-        // borderColor: 'blue',
+    },
+    CommentsAuthorInner02InnerLayout: {
+        flexDirection: 'row',
     },
     CommentsAuthorInnerNameTxt02Layout:{
         fontFamily:'IBMPlexSansKR-SemiBold',
@@ -548,6 +590,23 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Text',
         fontSize:11,
         color: '#C2C2C2',
+    },
+    CommentsAuthorInner02PlusContainerLayout: {
+        flexDirection: 'row',
+        marginLeft: 10,
+        // borderWidth: 1,
+        // borderColor: 'blue',
+    },
+    CommentsAuthorInner02PlusIconLayout: {
+        marginTop: 2,
+    },
+    CommentsAuthorInnerPlusNum02Layout: {
+        fontFamily:'IBMPlexSansKR-Text',
+        fontSize: 11,
+        color: '#FFA757',
+        marginLeft: 5,
+        // borderWidth: 1,
+        // borderColor: 'pink',
     },
     CommentsAuthorInner03Layout: {
         flex: 1,

@@ -110,6 +110,8 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end',
         flexDirection: 'row',
         flex: 1,
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
     moreBtnTxt:{
         color:'#AFAFAF',

@@ -741,9 +741,9 @@ PODS:
     - React-perflogger (= 0.64.1)
   - RNAudio (4.3.0):
     - React
-  - RNCAsyncStorage (1.15.5):
+  - RNCAsyncStorage (1.15.4):
     - React-Core
-  - RNCCheckbox (0.5.8):
+  - RNCCheckbox (0.5.7):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
@@ -1056,9 +1056,9 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Braintree: 94a20907b70aeffb29c40380eec583d783a347b6
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: 53ffe42a49bae9e9a772c29839afa4dae62a782b
+  FBReactNativeSpec: 0dcfb6176b5e9890b9026d423ffbdb43945395c5
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   FirebaseAnalytics: dcb92c7c9ef4fa7ffac276e8f87bd4fc8c97f1b8
   FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1
@@ -1069,7 +1069,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: c4aab1005d6547b00a7529777fe52f5d4d45165b
   FirebaseMessaging: 1a33b4af3c8042ed6ddacb6c031894af2064bfab
   FirebaseStorage: 61bcd27880fa17362f68be67d3683d04bfd7b1c7
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: c6bbc9753d046b5456dd4f940057fbad2c28419e
   GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c
@@ -1120,8 +1120,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: ff951a0c241bfaefc4940a3f1f1a229e7cb32fa6
   ReactCommon: bedc99ed4dae329c4fcf128d0c31b9115e5365ca
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
-  RNCAsyncStorage: 56a3355a10b5d660c48c6e37325ac85ebfd09885
-  RNCCheckbox: 6bd119c26c6eb8264a29d59ff66cb70a14de3349
+  RNCAsyncStorage: f47a7e8f927f7c9da947491fc55752eb9ce17f2d
+  RNCCheckbox: d1749e6a92178ce5dbc31e63becd1f34f0c76bbd
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff

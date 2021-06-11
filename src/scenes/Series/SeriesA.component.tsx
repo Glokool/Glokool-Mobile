@@ -27,6 +27,7 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
 
     return (
         <Layout style={styles.ContainerLayout}>
+            <Layout style={{height: 100}} />
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
                 <Layout style={styles.TopLayout}>
                     <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
@@ -40,10 +41,9 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
                 {/* 탑탭바 */}
                 <Layout style={styles.ContainerLayoutAngleLeft}>
                     <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <AngleLeft style={styles.AngleLeft}  />
-                        </TouchableOpacity>
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                        <AngleLeft style={styles.AngleLeft}  />
+                    </TouchableOpacity>
                 </Layout>
         </Layout>
     )
@@ -55,8 +55,12 @@ const styles = StyleSheet.create({
     },
     ContainerLayoutAngleLeft: {
         width: '100%',
+        height: 100,
         position: 'absolute',
         top: 0,
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
     },
     ContainerAngleLeft: {
         marginLeft: 20,
@@ -65,7 +69,6 @@ const styles = StyleSheet.create({
     AngleLeft: {
     },
     TopLayout: {
-        marginTop: 100,
         marginLeft: 30,
         marginRight: 20,
     },

@@ -75,11 +75,11 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
   const TravelIcon = () => (
     <Mini_T />  
   )
-
+    
   const KoreanIcon = () => (
     <Mini_K />
   )
-
+      
   const ResidentIcon = () => (
     <Mini_R />
   )
