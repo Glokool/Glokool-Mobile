@@ -49,6 +49,9 @@ const useDatepickerState = (initialDate = null) => {
 
 export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
+
+  const minMaxPickerState = useDatepickerState();
+
   //내부 로직용 (비밀번호 디스플레이), 
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
   
@@ -61,9 +64,9 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   const [privacyPolicy, setPrivacyPolicy] = React.useState(false);
 
   const [startDay, setStartDay] = React.useState(new Date(1900, 1, 1));
-  const [yesterDay, setYesterDay] = React.useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1))
-  const minMaxPickerState = useDatepickerState();
+  const [yesterDay, setYesterDay] = React.useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1));
 
+  
 
   const PressTerms = () => {
      setTermsCondition(true)
@@ -111,7 +114,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   );
   
   //Type
-  const [selectedTypeIndex, setSelectedTypeIndex] = React.useState(new IndexPath(0));
+  const [selectedTypeIndex, setSelectedTypeIndex] = React.useState<IndexPath>(new IndexPath(0));
   const type = [
     'Travler',
     'Resident',
@@ -130,8 +133,6 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   const ResidentIcon = () => (
     <ResidentMini />
   )
-
-  
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
@@ -152,44 +153,6 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     setCountry(country)
   }
 
-  const profileUpdate = (user : FirebaseAuthTypes.User, values: SignUpData) => {
-
-    var profile = user.updateProfile({
-      displayName : values.name,
-      photoURL: ''          
-    })
-    .then(() => {
-      console.log('프로필 업데이트 성공')
-    })
-    .catch(() => {      
-      console.log('프로필 업데이트 실패')
-    })
-  };
-
-  const profileDocUpdate = (user : FirebaseAuthTypes.User, values: SignUpData) => {
-
-    var userDocument = firestore()
-      .collection('Users')
-      .doc(user?.uid)
-      .set({
-        name : values.name,
-        email : values.email,
-        gender : gender[selectedIndex.row],
-        country : country.name,
-        signupDate : new Date(),  //가입한 날짜
-        birthDate : minMaxPickerState.date,
-        avatar: '',
-        type: type[selectedTypeIndex.row]
-      })
-      .then(() => {
-        console.log('프로필 문서 업데이트 성공')
-      })
-      .catch(() => {
-        console.log('프로필 문서 업데이트 성공')
-      })
-
-  };
-
 
   async function onFormSubmit(values: SignUpData) { // Firebase에 회원가입 (이메일, 비밀번호만 전송)
 
@@ -204,14 +167,15 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         birthDate : minMaxPickerState.date,
         avatar: '',
         type: type[selectedTypeIndex.row]
-    }    
+    };
+
+    const FirebaseProfileData = {
+      displayName : values.name,
+      photoURL: ''  // 최초 아바타는 가지지 않음
+    }
 
     const Profile = await firestore().collection('Users').doc(SignUp.user.uid).set(ProfileData);
-
-    await SignUp.user.updateProfile({
-      displayName : values.name,
-      photoURL: ''          
-    })
+    await SignUp.user.updateProfile(FirebaseProfileData);
 
     props.navigation.reset({
       index: 0,
@@ -221,14 +185,10 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   };
 
 
-  const onPasswordIconPress = (): void => {
-    setPasswordVisible(!passwordVisible);
-  };
-
   const renderPasswordIcon = (props : any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
-      <TouchableWithoutFeedback onPress={onPasswordIconPress}>
+      <TouchableWithoutFeedback onPress={() => setPasswordVisible(!passwordVisible)}>
         <IconComponent {...props} />
       </TouchableWithoutFeedback>
     );
@@ -237,7 +197,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   const renderPasswordIcon2 = (props: any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
-      <TouchableWithoutFeedback onPress={onPasswordIconPress}>
+      <TouchableWithoutFeedback onPress={() => setPasswordVisible(!passwordVisible)}>
         <IconComponent {...props} />
       </TouchableWithoutFeedback>
     );
@@ -250,7 +210,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
     return(
       <React.Fragment>
         <ScrollView  showsVerticalScrollIndicator={false}>     
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, marginBottom: 56}}>
           <Text style={styles.smallTitle}>Name</Text>
           <FormInformation
             id='name'
@@ -358,11 +318,9 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
         </View>   
         
-        
-        
       </ScrollView>
 
-      <Layout style={{backgroundColor: '#00FF0000'}}>
+      <Layout style={styles.ButtonContainer}>
         {(Privacy && TermsConditions && props.isValid && props.dirty && !boolean)? 
           <TouchableOpacity style={styles.Button} onPress={() => {onFormSubmit(props.values)}}>
             <Text style={styles.ButtonText}>Click to Get the Verification Code</Text>
@@ -372,11 +330,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
             <Text style={styles.ButtonText_Disable}>Click to Get the Verification Code</Text>
           </TouchableOpacity>
         }
-      </Layout>
-      
-
-          
-
+      </Layout>     
 
       </React.Fragment>
     );
@@ -531,4 +485,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#AEAEAE'
   },
+  ButtonContainer: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: '#00FF0000',
+    bottom : 10,
+    left: 15
+  }
 });

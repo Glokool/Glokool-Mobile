@@ -31,7 +31,7 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
     routes: [{name: NavigatorRoute.AUTH}],
   });
 
-  const SendEmailButton = async(): void => {
+  const SendEmailButton = async() => {
 
     const user = auth().currentUser;
     const EMail = await user?.sendEmailVerification();   

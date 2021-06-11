@@ -29,7 +29,7 @@ export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement =
       {...fieldProps}
       caption={error}
       style={styles.input}
-      textStyle={{color: '#8797FF'}}
+      textStyle={{color: 'black'}}
       placeholderTextColor={'#8797FF'}
       size='large'
       onChangeText={formContext.handleChange(id)}

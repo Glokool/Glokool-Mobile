@@ -147,7 +147,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           <Text style={styles.CAButtonText}>Create Account</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.LoginButton} onPress={() => navigateSignUp()}>
+        <TouchableOpacity style={styles.LoginButton} onPress={() => onFormSubmit(props.values)}>
           <Text style={styles.LoginButtonText}>Login</Text>
         </TouchableOpacity>
 
@@ -189,7 +189,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
             {renderForm}
           </Formik>              
 
-            <Toast ref={(toast) => toastRef = toast} position={'bottom'}/>
+            <Toast ref={(toast) => toastRef = toast} position={'center'}/>
         </ScrollView>
 
       

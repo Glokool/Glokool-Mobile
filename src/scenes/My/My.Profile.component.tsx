@@ -22,15 +22,12 @@ import {
   Select,
   SelectItem
 } from '@ui-kitten/components';
-import { MyProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MYProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { launchImageLibrary } from 'react-native-image-picker/src';
 import Toast from 'react-native-easy-toast';
 
-import KoreanMini from '../../assets/board/Korean_Mini.svg';
-import TravlerMini from '../../assets/board/Travler_Mini.svg';
-import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
@@ -38,7 +35,7 @@ import { Profile } from '../../assets/icon/My';
 
 var toastRef : any;
 
-export const MyProfile = (props: MyProfileProps): LayoutElement => {
+export const MyProfile = (props: MYProfileProps): LayoutElement => {
   //Name
   const [name, setName] = React.useState('');
   const [withDrawal, setWithDrawal] = React.useState(false);
@@ -75,15 +72,15 @@ export const MyProfile = (props: MyProfileProps): LayoutElement => {
   const displayTypeValue = type[selectedTypeIndex.row];
 
   const TravelIcon = () => (
-    <TravlerMini />
+
   )
 
   const KoreanIcon = () => (
-    <KoreanMini />
+
   )
 
   const ResidentIcon = () => (
-    <ResidentMini />
+
   )
 
 

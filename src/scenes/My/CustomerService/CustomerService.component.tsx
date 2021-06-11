@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   StyleSheet,
   SafeAreaView,
@@ -20,7 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { TermsConditionCard } from '../../../component/terms&Condition.component';
 import { CustomerService } from '../../../assets/icon/My'
 import { privacyPolicycard } from '../../../component/privacyPolicy.component';
@@ -29,6 +30,7 @@ import { AngleLeft } from '../../../assets/icon/Common';
 
 export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutElement => {
 
+  const user = auth().currentUser;
   const [visible, setVisible] = React.useState(false);
   const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
   const [termsofService, setTermsofService] = React.useState(false);
@@ -51,8 +53,15 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
     }
     
     async function Withdrawal() {
-      
+          
+      const UserData = firestore().collection('Users').doc(user?.uid).update({ isDelete : true });
+      console.log('프로필 업데이트', UserData);
 
+      //const WithdrawalData = await user?.delete();
+      
+      await auth().signOut();
+      
+      props.navigation.navigate(NavigatorRoute.HOME); 
 
     }
     
@@ -222,7 +231,7 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
                   <Text style={styles.StayButonText}>Stay</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.WithdrawalButton}>
+                <TouchableOpacity style={styles.WithdrawalButton} onPress={() => {Withdrawal()}}>
                   <Text style={styles.WithdrawalButtonText}>WithDrawal</Text>
                 </TouchableOpacity>
                     
