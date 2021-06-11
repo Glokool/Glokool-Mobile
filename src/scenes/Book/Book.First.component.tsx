@@ -1,24 +1,67 @@
-import { Layout, LayoutElement } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import React from 'react';
+import { Calendar, Layout, LayoutElement, Text } from "@ui-kitten/components";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { TopTabBar } from "../../component/Booking";
+import { BookFirstScreenProps } from '../../navigation/Book.navigator';
+import { SceneRoute } from '../../navigation/app.route';
 
 
+export const BookFirstScreen = (props : BookFirstScreenProps) : LayoutElement => {
 
-export const BookFirstScreen = (props : BookFirstScreen) : LayoutElement => {
-
+    const [date, setDate] = React.useState<Date>(new Date());
 
 
     return(
-        <Layout>
-            
+        <Layout style={styles.Container}>
 
+            <Layout style={styles.MainContainer}>
 
+                <Text style={styles.TitleText}>Select Your Travel Date</Text>
+
+                <Calendar 
+                    min={new Date()}
+                    date={date}
+                    onSelect={nextDate => setDate(nextDate)}
+                />
+
+                <TouchableOpacity style={styles.Button} onPress={() => {props.navigation.navigate(SceneRoute.BOOK_SECOND, { date : date })}} >
+                    <Text style={styles.ButtonText}>NEXT</Text>
+                </TouchableOpacity>
+
+            </Layout>
 
             <TopTabBar index={1} />
         </Layout>
+        
     );
 }
 
 const styles = StyleSheet.create({
-
+    Container: {
+        flex: 1,
+        backgroundColor: '#00FF0000',
+        
+    },
+    MainContainer: {
+        marginTop: 80,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        flex: 1
+    },
+    TitleText: {
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 18,
+    },
+    Button: {
+        backgroundColor: '#7777FF',
+        borderRadius: 10,
+        width: 350,
+        height: 56,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    ButtonText:{
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
+    }
 })

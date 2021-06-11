@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="178" height="8" viewBox="0 0 178 8">
+  <g id="Booking_순서2" data-name="Booking 순서2" transform="translate(-118 -76)">
+    <line id="선_86" data-name="선 86" x2="57" transform="translate(122.5 80.5)" fill="none" stroke="#77f" stroke-width="1.5"/>
+    <line id="선_87" data-name="선 87" x2="56" transform="translate(179.5 80.5)" fill="none" stroke="#d2d2d2" stroke-width="1.5"/>
+    <line id="선_88" data-name="선 88" x2="57" transform="translate(235.5 80.5)" fill="none" stroke="#d2d2d2" stroke-width="1.5"/>
+    <circle id="타원_315" data-name="타원 315" cx="4" cy="4" r="4" transform="translate(118 76)" fill="#77f"/>
+    <circle id="타원_316" data-name="타원 316" cx="4" cy="4" r="4" transform="translate(175 76)" fill="#77f"/>
+    <circle id="타원_318" data-name="타원 318" cx="4" cy="4" r="4" transform="translate(231 76)" fill="#d2d2d2"/>
+    <circle id="타원_317" data-name="타원 317" cx="4" cy="4" r="4" transform="translate(288 76)" fill="#d2d2d2"/>
+  </g>
+</svg>

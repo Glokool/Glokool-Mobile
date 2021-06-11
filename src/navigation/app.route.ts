@@ -22,6 +22,12 @@ export enum NavigatorRoute {
 
 export enum SceneRoute {
 
+    //Book Navigator
+    BOOK_FIRST = 'Book First',
+    BOOK_SECOND = 'Book Second',
+    BOOK_THIRD = 'Book Third',
+    BOOK_FOUTH = 'Book Fouth',
+
     //Home Navigator
     HOME = 'Home',
 

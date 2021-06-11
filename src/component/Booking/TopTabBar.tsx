@@ -1,7 +1,10 @@
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { AngleLeft } from '../../assets/icon/Common';
+import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Book_1, Book_2, Book_3, Book_4 } from '../../assets/icon/Booking';
+import { useNavigation } from '@react-navigation/native';
 
 interface TopTabBarProps {
     index : number;
@@ -9,13 +12,13 @@ interface TopTabBarProps {
 
 export const TopTabBar = (props : TopTabBarProps) : LayoutElement => {
 
-
+    const Navigation = useNavigation();
 
     return(
         <Layout style={styles.TopTabBarContainer}>
 
-            <Layout>
-                <TouchableOpacity style={styles.BackButton}>
+            <Layout style={styles.TopTabBarContainer2}>
+                <TouchableOpacity style={styles.BackButton} onPress={() => Navigation.goBack()}>
                     <AngleLeft />
                 </TouchableOpacity>
 
@@ -27,6 +30,8 @@ export const TopTabBar = (props : TopTabBarProps) : LayoutElement => {
 
             </Layout>
 
+            {(props.index === 1)? <Book_1 /> : (props.index === 2)? <Book_2 /> : (props.index === 3)? <Book_3 /> : <Book_4 /> }
+
         </Layout>
     )
 }
@@ -37,6 +42,8 @@ const styles = StyleSheet.create({
         top: 0,
         height: 80,
         width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     TopTabBarContainer2: {
         flexDirection: 'row',
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     TitleContainer: {
-        flex: 3,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center'
     },

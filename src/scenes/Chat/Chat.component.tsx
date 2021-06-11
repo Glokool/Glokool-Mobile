@@ -170,7 +170,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
           </Layout>
 
           <Layout style={styles.AdContainer2}>
-            <TouchableOpacity style={styles.BookButton}>
+            <TouchableOpacity style={styles.BookButton} onPress={() => {props.navigation.navigate(NavigatorRoute.BOOK)}}>
               <Text style={styles.BookButtonText}>BOOK Glochat</Text>
             </TouchableOpacity>
           </Layout>
