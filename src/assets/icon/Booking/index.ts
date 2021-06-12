@@ -9,5 +9,6 @@ export {
     Book_1,
     Book_2,
     Book_3,
-    Book_4
+    Book_4,
+    Divide_Spot
 }

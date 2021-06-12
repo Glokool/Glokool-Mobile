@@ -1,22 +1,26 @@
 import React from 'react';
-import { Layout, LayoutElement, Text } from "@ui-kitten/components";
+import { Layout, LayoutElement, Radio, Text } from "@ui-kitten/components";
 import { BookThirdScreenProps } from "../../navigation/Book.navigator";
-import { ScrollView, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { TopTabBar } from '../../component/Booking';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Divide_Spot } from '../../assets/icon/Booking';
+import moment from 'moment';
 
 type PriceData = {
     active: boolean, 
     discountedPrice: number, 
-    price: string,
+    price: number,
     discount: number,
   }
 
 export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement => {
 
     const data = props.route.params;
-    const [price, setPrice] = React.useState<PriceData>()
+    const [price, setPrice] = React.useState<PriceData>();
+    const [checked, setChecked] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         InitBookThird()
@@ -40,21 +44,93 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
           discount: result.data.discount
         });
     
-      }
+    }
+
+    function Payment() {
+        if (checked){
+
+        }
+        else{
+
+        }
+    }
+
+    async function PaypalPayment() {
+
+    }
 
     return(
         <Layout style={styles.Container}>
 
+            <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}} />
+
             <ScrollView showsVerticalScrollIndicator={false} style={styles.MainContainer}>
                 
-                <Text style={styles.TitleText}>Payment Notification</Text>
+                <Text style={styles.TitleText}>{`Payment Notification`}</Text>
+
+                <Text style={styles.SmallTitleText}>Basic Cost</Text>
 
                 <Layout style={styles.priceContainer}>
-                    
+                    <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
+                    <Text style={styles.Price}>{`${price?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
                 </Layout>
                 
+                {(price?.active)?
+                    <Layout style={styles.priceContainer}>
+                        <Text style={styles.PriceTitle}>Promotion</Text>
+                        <Text style={styles.PromotionPrice}>{`- ${((price?.discount) * price?.price / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                    </Layout>
+                    :
+                    null
+                }
+
+                <Divide_Spot style={{marginVertical: 30}}/>
+
+                <Layout style={styles.priceContainer}>
+                    <Text style={styles.TotalText}>Total</Text>
+                    <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{price?.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>  KRW</Text>
+                </Layout>
+
+                <Layout style={{marginVertical: 15}}/>
+
+                <Layout style={styles.priceContainer}>
+                    <Text style={styles.PriceTitle2}>Trip Date</Text>
+                    <Text style={styles.Price2}>{`${moment(data.date).format('YYYY . MM . DD')}`}</Text>
+                </Layout>
+
+                <Layout style={styles.priceContainer}>
+                    <Text style={styles.PriceTitle2}>Assistant Language</Text>
+                    <Text style={styles.Price2}>{`English`}</Text>
+                </Layout>
+
+                <Layout style={{marginVertical: 10}}/>
+
+                <Text style={styles.SmallTitleText}>Payment Method</Text>
+
+
+                <Layout style={styles.Payment}>
+
+                    <Radio checked={checked} onChange={nextChecked => setChecked(nextChecked)} style={styles.Radio}/>
+
+                    <Layout style={styles.LogoContainer}>
+                        <Image source={require('../../assets/Paypal_logo.png')} style={styles.Logo} resizeMode={'stretch'}/>
+                        <Text style={styles.PaymentText1}>Your payment will be made in <Text style={styles.PaymentText2}>USD</Text>{'\n\n'}Use your balance in your PayPal account.{'\n'}PayPal account is required.</Text>
+                    </Layout>
+
+                </Layout>
+
+                <Layout style={{marginVertical: 100}}/>
 
             </ScrollView>
+
+            <Layout style={styles.NextButtonContainer}>
+                <TouchableOpacity style={styles.Button} >
+                        <Text style={styles.ButtonText}>NEXT</Text>
+                </TouchableOpacity>
+
+                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+            </Layout>
+            
 
             <TopTabBar index={3}/>
         </Layout>
@@ -63,37 +139,147 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
 
 const styles = StyleSheet.create({
     Container: {
-        flex: 1
+        flex: 1,
     },
     MainContainer: {
         flex: 1,
-        marginHorizontal: 30,
-        alignItems: 'center'
+        backgroundColor: 'white',
+        marginTop: 80,
+        marginHorizontal: 30
     },
     TitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 18,
-        marginTop: 30,
         textAlign: 'center'
+    },
+    SmallTitleText: {
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 18,
+        textAlign: 'left',
+        alignSelf: 'flex-start',
+        marginTop : 50,
+        marginBottom: 30
     },
     priceContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     PriceTitle: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        flex : 3
+        flex : 2,
+        textAlign: 'left'
+    },
+    PriceTitle2: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        flex : 2,
+        textAlign: 'left',
+        color: '#BCBCBC'
     },
     Price : {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        flex : 1
+        flex : 1,
+        textAlign: 'right'
+    },
+    Price2 : {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        flex : 1,
+        textAlign: 'right'
     },
     PromotionPrice : {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
         flex : 1,
-        color: '#7777FF'
+        color: '#7777FF',
+        textAlign: 'right'
+    },
+    TotalText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 16,
+        color: '#7777FF',
+        textAlign: 'left',
+        flex: 2
+    },
+    TotalPriceText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 26,
+        color: '#7777FF',
+        textAlign: 'right',
+        flex: 1
+    },
+    TotalKRWext: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 16,
+        color: '#7777FF',
+        textAlign: 'right',
+        flex: 1
+    },
+    Payment: {
+        width: '95%',
+        alignSelf: 'center',
+        height: 150,
+        borderRadius: 15,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 2,
+        flexDirection: 'row',
+        padding: 10,
+    },
+    Logo : {
+        width: 100,
+        height: 25,
+        marginBottom: 10
+    },
+    Radio : {
+        flex: 1,
+        alignSelf: 'flex-start',
+        marginTop: 10,
+        marginLeft: 10
+    },
+    LogoContainer: {
+        flex : 9,
+        marginLeft: 20,
+        marginTop: 8
+    },
+    PaymentText1 : {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 12,
+        color: 'black',
+        textAlign: 'left'
+    },
+    PaymentText2 : {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 12,
+        color: '#7777FF',
+        textAlign: 'left'
+    },
+    NextButtonContainer: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+        backgroundColor: '#00FF0000',
+        alignItems: 'center'
+    },
+    Button: {
+        backgroundColor: '#7777FF',
+        borderRadius: 10,
+        width: 350,
+        height: 56,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ButtonText:{
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
     }
+
 })

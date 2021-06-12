@@ -40,11 +40,10 @@ export const CancellationPolicy = (props : CancellationPolicyProps) : LayoutElem
     );
 
     return(
-        <Layout style={styles.CardHeader}>
-            <Modal
-                visible={visible}
-                backdropStyle={styles.backdrop}
-            >
+        <Modal
+            visible={visible}
+            backdropStyle={styles.backdrop}
+        >
             <Card disabled={true} header={CancellationHeader} style={styles.CardHeader}>
                 <ScrollView style={{flex: 1}}> 
                     <Text>
@@ -52,8 +51,7 @@ export const CancellationPolicy = (props : CancellationPolicyProps) : LayoutElem
                     </Text>
                 </ScrollView>            
             </Card>
-            </Modal>
-    </Layout>
+        </Modal>
     )
 }
 
