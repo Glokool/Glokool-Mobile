@@ -3,8 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen } from '../scenes/Book';
-import Payment from '../scenes/Book/Payment.component';
+import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen, Payment } from '../scenes/Book';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -64,6 +63,11 @@ export interface BookThirdScreenProps {
 export interface BookFouthScreenProps {
   navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
   route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
+}
+
+export interface PaymentProps {
+  navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.PAYMENT>;
+  route: RouteProp<BookNavigatorParams, SceneRoute.PAYMENT>;
 }
 
 const Stack = createStackNavigator();
