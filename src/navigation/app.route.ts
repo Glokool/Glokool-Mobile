@@ -26,6 +26,7 @@ export enum SceneRoute {
     BOOK_FIRST = 'Book First',
     BOOK_SECOND = 'Book Second',
     BOOK_THIRD = 'Book Third',
+    PAYMENT = 'Payment',
     BOOK_FOUTH = 'Book Fouth',
 
     //Home Navigator

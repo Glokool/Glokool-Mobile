@@ -98,6 +98,7 @@
     "@babel/runtime": "7.14.0",
     "@bam.tech/react-native-make": "^3.0.3",
     "@react-native-community/eslint-config": "2.0.0",
+    "@types/iamport-react-native": "^1.5.1",
     "@types/react": "^17.0.8",
     "@types/react-native": "^0.64.7",
     "@types/react-native-audio": "^4.3.3",

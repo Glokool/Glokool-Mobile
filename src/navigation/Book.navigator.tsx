@@ -4,6 +4,7 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen } from '../scenes/Book';
+import Payment from '../scenes/Book/Payment.component';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -22,8 +23,11 @@ type BookNavigatorParams = AppNavigatorParams & {
       type : string;
       info : string;
     }
-  }
-  [SceneRoute.BOOK_FOUTH] : undefined;
+  };
+  [SceneRoute.PAYMENT] : undefined
+  [SceneRoute.BOOK_FOUTH] : {
+    success: boolean;
+  };
 
 }
 
@@ -69,6 +73,7 @@ export const BookNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.BOOK_FIRST} component={BookFirstScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_SECOND} component={BookSecondScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_THIRD} component={BookThirdScreen}/>
+    <Stack.Screen name={SceneRoute.PAYMENT} component={Payment} />
     <Stack.Screen name={SceneRoute.BOOK_FOUTH} component={BookFouthScreen}/>
   </Stack.Navigator>
 );

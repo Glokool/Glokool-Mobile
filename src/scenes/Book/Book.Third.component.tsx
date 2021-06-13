@@ -4,27 +4,37 @@ import { BookThirdScreenProps } from "../../navigation/Book.navigator";
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { TopTabBar } from '../../component/Booking';
 import { SERVER } from '../../server.component';
+import IMP, { IMP_PAY_METHOD, IMP_PG } from 'iamport-react-native';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divide_Spot } from '../../assets/icon/Booking';
 import moment from 'moment';
+import { 
+    requestOneTimePayment,
+    PaypalResponse,
+} from 'react-native-paypal'; 
+import { PaymentLoading } from '../../component/PaymentLoading';
+import { SceneRoute } from '../../navigation/app.route';
 
 type PriceData = {
     active: boolean, 
     discountedPrice: number, 
     price: number,
     discount: number,
-  }
+}
 
 export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement => {
 
     const data = props.route.params;
     const [price, setPrice] = React.useState<PriceData>();
     const [checked, setChecked] = React.useState<boolean>(true);
+    const token = 'sandbox_s9cw8cv5_99sqcyv5st4dpfr2';
 
     React.useEffect(() => {
         InitBookThird()
     }, [])
+
+
 
     async function InitBookThird() {
     
@@ -48,7 +58,7 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
 
     function Payment() {
         if (checked){
-
+            PaypalPayment();
         }
         else{
 
@@ -56,6 +66,28 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
     }
 
     async function PaypalPayment() {
+
+        const PG : IMP_PG = 'paypal';
+        const PayMethod : IMP_PAY_METHOD = 'card';
+
+        const params = {
+            pg: 'paypal',
+            pay_method: PayMethod,
+            name: '아임포트 결제데이터 분석',
+            merchant_uid: `mid_${new Date().getTime()}`,
+            amount: 1,
+            buyer_name: data.Name,
+            buyer_tel: '',
+            buyer_email: data.Email,
+            buyer_addr: '서울시 강남구 역삼동 721-11 301호',
+            buyer_postcode: '00000',
+            app_scheme: 'Glokool',
+        };
+
+        props.navigation.navigate(SceneRoute.PAYMENT, { params })
+
+
+
 
     }
 
@@ -124,7 +156,7 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             </ScrollView>
 
             <Layout style={styles.NextButtonContainer}>
-                <TouchableOpacity style={styles.Button} >
+                <TouchableOpacity style={styles.Button} onPress={() => Payment()}>
                         <Text style={styles.ButtonText}>NEXT</Text>
                 </TouchableOpacity>
 
