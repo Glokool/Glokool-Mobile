@@ -90,7 +90,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data.comments)
+        console.log(Content.data)
     }
 
     const RenderCarousel = ({item}) => {
@@ -156,7 +156,6 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     }
 
     const LikeComment = async(id) => {
-        console.log(id);
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
@@ -167,19 +166,18 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             },
           };
 
-          axios(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        axios(config)
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+            InitSeries();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     return (
         <Layout style={styles.ContainerLayout}>
-            <Layout style={{height: 100}} />
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
             <Layout style={{height: 50}}/>

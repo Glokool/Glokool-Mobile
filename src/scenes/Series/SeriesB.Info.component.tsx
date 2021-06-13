@@ -25,6 +25,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoUp, GrayArrow, AngleLeft } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
+import { SeriesTopTabBar } from '../../component/Series';
 
 
 type recommendation_Item = {
@@ -378,13 +379,21 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
-                <Layout style={styles.ContainerLayoutAngleLeft}>
-                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                // <Layout style={styles.ContainerLayoutAngleLeft}>
+                //     <SafeAreaView style={{flex:0, backgroundColor: '#ffffff', borderWidth: 1, borderColor: 'black'}} />
+                //     <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                //         <AngleLeft style={styles.AngleLeft} />
+                //     </TouchableOpacity>
+                // </Layout>
+                <SeriesTopTabBar />
+            ) : (
+                <Layout style={styles.ContainerOpacityLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000', borderWidth: 1, borderColor: 'pink'}} />
                     <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
                         <AngleLeft style={styles.AngleLeft} />
                     </TouchableOpacity>
                 </Layout>
-            ) : (null) }
+            ) }
             
 
         </Layout>
@@ -398,12 +407,21 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         backgroundColor: '#ffffff',
-        // borderWidth: 1,
-        // borderColor:'red',
+        borderWidth: 1,
+        borderColor:'red',
+    },
+    ContainerOpacityLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#00FF0000',
     },
     ContainerAngleLeft: {
         marginLeft: 20,
         padding: 20,
+        borderWidth: 1,
+        borderColor:'blue',
     },
     AngleLeft: {
     },
