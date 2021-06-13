@@ -152,7 +152,6 @@ const styles = StyleSheet.create({
         height: 56,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 30
     },
     ButtonText:{
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -165,7 +164,6 @@ const styles = StyleSheet.create({
         height: 56,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 30
     },
     ButtonText_D:{
         fontFamily: 'BrandonGrotesque-BoldItalic',

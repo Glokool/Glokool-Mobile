@@ -40,7 +40,7 @@ export const WeatherComponent = (props : WeatherComponentProps) : LayoutElement 
 
 
     return(
-        <Layout>
+        <Layout style={styles.Container}>
 
             {/* Snow, Rain, Clouds, Clear ... */}
             {(data?.main === 'Snow')? <Snow /> : (data?.main === 'Rain')? <Rainy /> : (data?.main === 'Clouds')? <Cloudy /> : <Sunny />}
@@ -63,6 +63,11 @@ export const WeatherComponent = (props : WeatherComponentProps) : LayoutElement 
 }
 
 const styles = StyleSheet.create({
+    Container: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     TextContainer:{
         position: 'absolute',
         top: '25%', 

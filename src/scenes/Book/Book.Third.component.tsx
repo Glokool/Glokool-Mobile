@@ -13,7 +13,7 @@ import {
     requestOneTimePayment,
     PaypalResponse,
 } from 'react-native-paypal'; 
-import { PaymentLoading } from '../../component/PaymentLoading';
+import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
 
 type PriceData = {
@@ -73,9 +73,10 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
         const params = {
             pg: 'paypal',
             pay_method: PayMethod,
+
             name: '아임포트 결제데이터 분석',
             merchant_uid: `mid_${new Date().getTime()}`,
-            amount: 1,
+            amount: 1000,
             buyer_name: data.Name,
             buyer_tel: '',
             buyer_email: data.Email,
