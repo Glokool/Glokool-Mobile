@@ -256,17 +256,20 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
 
                 {/* check out more */}
-                <Layout style={styles.CheckMoreContainerLayoutStyle}>
+                {recommendation ? (
+                    <Layout style={styles.CheckMoreContainerLayoutStyle}>
                     <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                    {/* {(recommendation.map((item) =>
+                    {(recommendation.map((item) =>
                     <Layout style={styles.CheckMoreLayoutStyle}>
                         <TouchableOpacity onPress={() => {setId(item._id)}}>
                             <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
                             <Text style={styles.RecommendationTxt}>{item.title}</Text>
                         </TouchableOpacity>
                     </Layout>
-                    ))} */}
+                    ))}
                 </Layout>
+                ) : null}
+                
 
                 {/* 그레이색 배경 */}
                 <Layout style={styles.PurpleContainerLayoutStyle} >
