@@ -5,6 +5,7 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { Book_1, Book_2, Book_3, Book_4 } from '../../assets/icon/Booking';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface TopTabBarProps {
     index : number;
@@ -16,6 +17,8 @@ export const TopTabBar = (props : TopTabBarProps) : LayoutElement => {
 
     return(
         <Layout style={styles.TopTabBarContainer}>
+
+            <SafeAreaView style={{flex : 0, backgroundColor: '#00FF0000'}} />
 
             <Layout style={styles.TopTabBarContainer2}>
                 <TouchableOpacity style={styles.BackButton} onPress={() => Navigation.goBack()}>

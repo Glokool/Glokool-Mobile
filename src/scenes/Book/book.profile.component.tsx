@@ -302,7 +302,7 @@ export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement 
             <Card disabled={true} header={CancellationHeader} style={{width: (Dimensions.get('window').width * 0.8), height: (Dimensions.get('window').height * 0.8)}}>
               <ScrollView style={{flex: 1}}> 
                 <Text>
-
+                  
                 </Text>
               </ScrollView>            
             </Card>

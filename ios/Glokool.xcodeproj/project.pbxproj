@@ -44,6 +44,20 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Glokool-tvOS";
 		};
+		DF7D4DF2267590C200B027FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = IamportReactNative;
+		};
+		DF7D4DF82675911300B027FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +86,8 @@
 		DF0FA78525B6B9A600C39905 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DF1A16D72670A49500923E2D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		DF1A16DD2670A4EE00923E2D /* Glokool-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Glokool-Bridging-Header.h"; sourceTree = "<group>"; };
+		DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IamportReactNative.xcodeproj; path = "../node_modules/iamport-react-native/ios/IamportReactNative.xcodeproj"; sourceTree = "<group>"; };
+		DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		DF96CF972604330C0005AD8D /* Glokool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Glokool.entitlements; path = Glokool/Glokool.entitlements; sourceTree = "<group>"; };
 		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
@@ -170,6 +186,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */,
+				DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -214,6 +232,22 @@
 				D9916852C088486A44FD0631 /* Pods-Glokool-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DF7D4DEF267590C100B027FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DF7D4DF3267590C200B027FE /* libIamportReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DF7D4DF52675911300B027FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DF7D4DF92675911300B027FE /* libRNCWebView.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +375,16 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DF7D4DEF267590C100B027FE /* Products */;
+					ProjectRef = DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */;
+				},
+				{
+					ProductGroup = DF7D4DF52675911300B027FE /* Products */;
+					ProjectRef = DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Glokool */,
@@ -350,6 +394,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		DF7D4DF3267590C200B027FE /* libIamportReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libIamportReactNative.a;
+			remoteRef = DF7D4DF2267590C200B027FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DF7D4DF92675911300B027FE /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = DF7D4DF82675911300B027FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {

@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen } from '../scenes/Book';
+import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen, Payment } from '../scenes/Book';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -22,8 +22,11 @@ type BookNavigatorParams = AppNavigatorParams & {
       type : string;
       info : string;
     }
-  }
-  [SceneRoute.BOOK_FOUTH] : undefined;
+  };
+  [SceneRoute.PAYMENT] : undefined
+  [SceneRoute.BOOK_FOUTH] : {
+    success: boolean;
+  };
 
 }
 
@@ -62,6 +65,11 @@ export interface BookFouthScreenProps {
   route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
 }
 
+export interface PaymentProps {
+  navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.PAYMENT>;
+  route: RouteProp<BookNavigatorParams, SceneRoute.PAYMENT>;
+}
+
 const Stack = createStackNavigator();
 
 export const BookNavigator = (): React.ReactElement => (
@@ -69,6 +77,7 @@ export const BookNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.BOOK_FIRST} component={BookFirstScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_SECOND} component={BookSecondScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_THIRD} component={BookThirdScreen}/>
+    <Stack.Screen name={SceneRoute.PAYMENT} component={Payment} />
     <Stack.Screen name={SceneRoute.BOOK_FOUTH} component={BookFouthScreen}/>
   </Stack.Navigator>
 );

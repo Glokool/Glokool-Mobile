@@ -6,6 +6,9 @@ import { TopTabBar } from "../../component/Booking";
 
 
 export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement => {
+
+    const success = props.route.params.success;
+
     return(
         <Layout>
             

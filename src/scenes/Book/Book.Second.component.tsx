@@ -2,8 +2,8 @@ import React from 'react';
 import auth from '@react-native-firebase/auth';
 import { BookSecondScreenProps } from '../../navigation/Book.navigator';
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
-import { StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
-import { TopTabBar } from '../../component/Booking';
+import { StyleSheet, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
+import { CancellationPolicy, TopTabBar } from '../../component/Booking';
 import { SceneRoute } from '../../navigation/app.route';
 
 const WindowSize = Dimensions.get('window').width
@@ -13,6 +13,8 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
     const PickerDate = props.route.params.date;
     const user = auth().currentUser;
     
+    const [visible, setVisible] = React.useState<boolean>(false);
+
     const [name, setName] = React.useState(user?.displayName);
     const [email, setEmail] = React.useState(user?.email);
     const [contact, setContact] = React.useState('');
@@ -36,6 +38,10 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
             }
         })
     }
+
+    React.useEffect(() => {
+        console.log(visible);
+    }, [visible])
 
 
 
@@ -90,23 +96,31 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     'Privacy Policy & Cancellation Policy'
                 </Text>
 
-                <TouchableOpacity style={styles.TermsButton}>
-                    <Text style={styles.TermsButtonText}>Click to Check     ></Text>
+                <TouchableOpacity style={styles.TermsButton} onPress={() => setVisible(!visible)}>
+                    <Text style={styles.TermsButtonText}>{`Click to Check     >`}</Text>
                 </TouchableOpacity>
+
+                           
+
 
             </ScrollView>
 
-            {(NextAble)? 
+            <CancellationPolicy visible={visible} />
+
+            <Layout style={styles.NextButtonContainer}>
+                {(NextAble)? 
                 <TouchableOpacity style={styles.Button} onPress={() => NextButton()} >
                     <Text style={styles.ButtonText}>NEXT</Text>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity style={styles.Button_D} >
                         <Text style={styles.ButtonText_D}>NEXT</Text>
-                </TouchableOpacity>                
-            }
+                </TouchableOpacity>
+                } 
 
-            
+
+                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+            </Layout>
 
             <TopTabBar index={2} />
             
@@ -118,7 +132,6 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
         alignItems: 'center',
-
     },
     ScrollViewContainer: {
         flex: 1,
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
     TitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 18,
-        marginTop: 30,
+        marginTop: 50,
         textAlign: 'center'
     },
     Button: {
@@ -139,8 +152,7 @@ const styles = StyleSheet.create({
         height: 56,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
-        marginTop: 0
+        marginVertical: 30
     },
     ButtonText:{
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -153,8 +165,7 @@ const styles = StyleSheet.create({
         height: 56,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
-        marginTop: 0
+        marginVertical: 30
     },
     ButtonText_D:{
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -211,5 +222,24 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 13,
         color: '#7777FF',
+    },
+    NextButtonContainer: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+        backgroundColor: '#00FF0000',
+        alignItems: 'center'
+    },
+    Button2: {
+        backgroundColor: '#7777FF',
+        borderRadius: 10,
+        width: 350,
+        height: 56,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ButtonText2:{
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
     }
 })
