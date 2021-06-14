@@ -6,7 +6,7 @@ import { Layout, LayoutElement } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PaymentScreenProps } from '../../navigation/Book.navigator';
 import { TopTabBar } from '../../component/Booking';
-import { SceneRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 
 export const PaymentScreen = (props : PaymentScreenProps) : LayoutElement => {
@@ -21,7 +21,10 @@ export const PaymentScreen = (props : PaymentScreenProps) : LayoutElement => {
   function callback(response : any) {
     console.log('결과 : ', response);
 
-    props.navigation.replace(SceneRoute.BOOK_FOUTH, { success : response.imp_success})
+    props.navigation.replace(NavigatorRoute.BOOK_CONFIRM, {
+      screen : SceneRoute.BOOK_FOUTH,
+      params: { success : response.imp_success, method: '씨발'}
+    })
   }
 
   return (

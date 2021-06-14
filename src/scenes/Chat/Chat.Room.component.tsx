@@ -1,6 +1,5 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import {
   StyleSheet,
   SafeAreaView,
@@ -20,12 +19,10 @@ import {
   OverflowMenu,
   Modal,
   Card,
-  Button
 } from '@ui-kitten/components';
 import { ImageIcon, VolumeUpIcon, MapIcon } from '../../component/icon'
-import { GuideChatScreenProps } from '../../navigation/guide.navigator';
-import database from '@react-native-firebase/database';
-import { Bubble, InputToolbar, GiftedChat, Composer, Send, SystemMessage } from 'react-native-gifted-chat'
+import database, { FirebaseDatabaseTypes } from '@react-native-firebase/database';
+import { Bubble, InputToolbar, GiftedChat, Composer, Send, SystemMessage, Time, TimeProps } from 'react-native-gifted-chat'
 import Sound from 'react-native-sound'
 import { AudioRecorder, AudioUtils } from "react-native-audio";
 import storage from '@react-native-firebase/storage';
@@ -41,17 +38,22 @@ import Toast from 'react-native-easy-toast';
 import {filterText} from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { Help, Images, Menu, MyLocation, SendIcon, Voice } from '../../assets/icon/Chat';
+import { AngleLeft_Color } from '../../assets/icon/Common';
 
 var ToastRef : any;
 
-export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
+export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
+
+    const user = auth().currentUser;
 
     //채팅 메시지 저장을 위한 정보
-    const [ChatDB, setChatDB] = React.useState();
+    const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference>();
     const [guide, setGuide] = React.useState({});
     const [guideCheck, setGuideCheck] = React.useState(false);
     const [title, setTitle] = React.useState('');
-    const [roomName, setRoomName] = React.useState();
+    const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState([]);
     const [mapvisible, setMapvisible] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
@@ -59,7 +61,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
         lon: '',
         lat: ''
     })
-    const user = auth().currentUser;
+
 
 
     //가이드 정보 모달
@@ -80,82 +82,27 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const [audioMessage, setAudioMessage] = React.useState('');
     const [audioPath, setAudioPath] = React.useState('');
 
-
-    //componentwillmount 대신 사용
     React.useEffect(() => {
-        async function ChatRoomInit() {
-            
-               await AsyncStorage.getItem('code').then((result) => {
-
-                const chat = database().ref('/chats/' + result);
-                setChatDB(chat);
-                setRoomName(result);
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            console.log(props.route.params);
+            ChatRoomInit(props.route.params.id);
+        });
     
-                axios.get(SERVER + '/api/user/tour/chat/' + result)
-    
-                    .then((response) => {
-
-                        console.log(response.data.guideUID)
-
-                        const docRef = firestore().collection('Guides').doc(response.data.guideUID).get()
-                            .then(function(doc) {
-
-                                
-                                
-                                if(doc._data == undefined){                                    
-                                    setGuideCheck(true);                                
-                                }                            
-                                else{
-                                    setGuide(doc._data);
-                                    setGuideCheck(false);
-                                    ToastRef.show('Please refrain from any inappropriate or offensive conversations.', 2000);
-                                }
-                                
-                            })
-                            .catch((err) => {
-                                
-                                ToastRef.show('Guide not yet assigned :(', 2000);
-                                props.navigation.goBack();
-                            })
-                    });                  
-                
-            });
-            
-            await AsyncStorage.getItem('title').then((result)=> {
-                setTitle(result);
-            });
-        }
-
-        ChatRoomInit();
-
-        return () => {
-            AsyncStorage.setItem('code', null);
-            AsyncStorage.setItem('id', null);
-            AsyncStorage.setItem('title', null);
-        };
-
-        
-
-        
-
-        
+        return unsubscribe;
     }, []);
 
-    React.useEffect(() => {
-        // 가이드 정보 받아오기
-        
-        if(ChatDB == undefined){
-          //아직 초기화 되지 않은 값임
-        }
-        else{
-          //Chat 값이 바뀌었을 경우 실행
-          //채팅방 전환 작업 실행
-          
-    
-          setChatMessages([]); //로컬 메시지 저장소 초기화
-    
-          ChatDB.on('value', snapshot => {
+    async function ChatRoomInit(id : string) {
+
+        const chat = database().ref('/chats/' + id);
+
+        setChatMessages([]); //로컬 메시지 저장소 초기화
+        setChatDB(chat);
+        setRoomName(id);
+
+        chat.on('value', snapshot => {
             if (!snapshot.val()) {
+                setChatMessages([]);
+                setFetchChat(true);
                 return;
             }
             let { messages } = snapshot.val();
@@ -173,15 +120,14 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 message.messageType = node.messageType;
                 return message;
             });
-               
-            setChatMessages([...messages])
-          });;
-        }
-    
-      }, [ChatDB]);
-    
+            
+            console.log('안녕 ',messages);
+            setChatMessages([...messages]);
+            setFetchChat(true);
+        });;
 
-      
+    };
+   
     const messageIdGenerator = () => {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
             let r = (Math.random() * 16) | 0,
@@ -380,11 +326,6 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
             })
     }
 
-    //상단 컴포넌트를 위한 함수
-    //상단 탭바 뒤로 버튼
-    const PressBack = () => {
-        props.navigation.goBack()
-    }
 
     /*
         채팅 창 디자인을 위한 컴포넌트
@@ -409,12 +350,8 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const renderSend = (props) => {
         return(
             <Send {...props} containerStyle={styles.sendButton}>
-              <Icon
-                name="paper-plane-outline"
-                fill='#FFC043'
-                style={styles.sendIcon}
-              />
-          </Send>
+                <SendIcon />
+            </Send>
         );        
     };
 
@@ -431,7 +368,11 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     const ActionButton = () => {
         return(
             <TouchableOpacity style={styles.ActionButton} onPress={() => setVisible2(true)}>
-                <Icon style={styles.icon} fill='#FFC043' name='grid-outline'/>
+                {(visible2 === true)?
+                    <Image style={styles.MenuImage} source={require('../../assets/icon/Chat/Menu_S.png')} />
+                :
+                    <Image style={styles.MenuImage} source={require('../../assets/icon/Chat/Menu.png')} />
+                }
             </TouchableOpacity>
         );
         
@@ -443,7 +384,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
                 anchor={ActionButton}
                 placement={'top'}
                 appearance='noDivider'
-                visible={visible2}
+                visible={false}
                 selectedIndex={selectedIndex2}
                 onSelect={onItemSelect2}
                 onBackdropPress={() => setVisible2(false)}
@@ -469,7 +410,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
     // 현재 나의 위치 전송
     const LocationMessage = async() => {
 
-        ToastRef.show('Turning on GPS....', 2000);
+        console.log('이미지 전송 시작');
 
         if (Platform.OS === 'android'){
             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
@@ -517,27 +458,75 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
             {...props}
             wrapperStyle={{
                 left:{
-                    backgroundColor: '#F5F5F5',
-                    fontColor: 'black',
-                    fontWeight: 'bold'
+                    backgroundColor: '#7777FF',
                 },
                 right: {
-                    backgroundColor: '#FFC043',
-                    fontWeight: 'bold'
+                    backgroundColor: 'white',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 1,
+                    },
+                    shadowOpacity: 0.20,
+                    shadowRadius: 1.41,
+                    elevation: 2,
                 }
             }}
+            textStyle={{
+                left : {
+                    color: 'white',
+                    fontFamily: 'IBMPlexSansKR-Medium'
+                },
+                right: {
+                    color: '#4E4ED8',
+                    fontFamily: 'IBMPlexSansKR-Medium'
+                }
+            }}
+            tickStyle={{color: 'black'}}
+            style
             />
         );
+    }
+
+    const renderTime = (props) => {
+        return(
+            <Time
+                {...props}
+                timeTextStyle={{
+                    left: {
+                        color: '#AEAEAE',
+                        fontFamily: 'BrandonGrotesque-Medium'
+                    },
+                    right: {
+                        color: '#AEAEAE',
+                        fontFamily: 'BrandonGrotesque-Medium'
+                    }
+                }}
+            />
+        )
     }
 
     const renderCustomBubble = (props) => {
         if(props.currentMessage.messageType == 'location'){
             return(
-                <TouchableOpacity onPress={() => {displayMap(props.currentMessage)}}>
-                    <Layout style={{backgroundColor: '#00FF0000', margin: 'auto', flexDirection: 'row', padding: 5}}>
-                        <FontAwesomeIcon icon={faMap} size={20} style={{color: 'white', marginHorizontal: 5}}/>
-                        <Text style={{color: 'white'}}>My Location</Text>
-                    </Layout>
+                <TouchableOpacity>
+                    <Text style={{textAlign: 'right', marginTop: 5, marginRight: 10, color: '#8C8C8C', fontFamily: 'BrandonGrotesque-Medium'}}>My Location</Text>
+                    <MapView
+                            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                            style={{width: 250, height: 125, margin: 10}}
+                            region={{
+                                latitude: parseFloat(props.currentMessage.location.lat),
+                                longitude: parseFloat(props.currentMessage.location.lon),
+                                latitudeDelta: 0.015,
+                                longitudeDelta: 0.0121,
+                        }}
+                        >
+                            <Marker
+                                coordinate={{ latitude : parseFloat(props.currentMessage.location.lat) , longitude : parseFloat(props.currentMessage.location.lon) }}
+                                title={'My Location'}
+                            />
+
+                    </MapView>
                 </TouchableOpacity>
             )
         }
@@ -558,7 +547,7 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
         return(
             <InputToolbar
                 {...props}
-                containerStyle={{borderWidth: 0.5, borderColor: '#C9C9C9', borderRadius: 15, margin: 10}}
+                containerStyle={{borderWidth: 1.5, borderColor: '#D1D1D1', borderRadius: 30, margin: 10, alignItems: 'center'}}
             />
         );
     }
@@ -569,21 +558,21 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
            <Composer
                 {...props}
                 placeholder='Chat Message'
-                textInputStyle={{marginVertical: 2, padding: 10}}
-                style={{}}
+                textInputStyle={{alignSelf: 'center'}}
+                style={{borderRadius: 35}}
            />
         );
     }
 
     //대화 내용을 로딩하기 전 스피너 작동
     const renderLoading = () => {
-        if(!chatMessages.length && !fechChat) {
-            return(
-                <Layout style={styles.loading}>
-                    <Spinner status='warning' size='giant'/>
-                </Layout>
-            );
-        }        
+            if(!chatMessages.length && !fechChat) {
+                return(
+                    <Layout style={styles.loading}>
+                        <Spinner size='giant'/>
+                    </Layout>
+                );
+            }        
     }
 
     //가이드 정보를 띄우는 모달
@@ -610,219 +599,206 @@ export const GuideChatScreen = (props: GuideChatScreenProps): LayoutElement => {
  
     //실제 렌더링
     return (
-        (guideCheck) ? (
-            //로그인 되지 않았을 경우
-            <React.Fragment>
-              <Layout style={styles.container}>
-              <Modal
-                visible={guideCheck}
-                backdropStyle={styles.backdrop}
-              >
-                <Card disabled={true}>
-                  <Text style={{marginVertical: 30}}>Guide not yet assigned :(</Text>
-                  
-                  <Layout style={{flexDirection: 'row'}}>
-                    <Layout style={{margin: 15, flex: 1}}>
-                      <Button style={styles.cancelButton} appearance='outline' onPress={() => {
-                        props.navigation.goBack();
-                        setGuideCheck(true);
-                      }}>
-                        BACK
-                      </Button>
-                    </Layout>
-                   
-                    
-                  </Layout>
-                  
-                </Card>
-              </Modal>
-      
-              </Layout>
-            </React.Fragment>
-          )
-          :
-        (
-        <React.Fragment>
-        <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-        <Layout style={styles.Container}>
-
-            {/*탭바 디자인*/}
-            <Layout style={styles.TabBar}>
-                <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
-                    <Icon style={styles.icon} fill='black' name='arrow-back-outline'/>
-                </TouchableOpacity>
-     
-                <Layout style={{flex: 5, flexDirection: 'row'}}>
-                    <Layout style={styles.ImageContainer}>
-                        <TouchableOpacity onPress={PressGuide}>
-                        {(guide.avatar != '' || guide.avatar != undefined || guide.avatar != null)?
-                            <Image source={{uri: guide.avatar}} style={styles.Profile}/>
-                        :
-                            <Image source={require('../../../assets/profile.jpg')} style={styles.Profile}/>
-                        }
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Layout style={styles.TitleContainer}>
-                        <TouchableOpacity onPress={PressGuide}>
-                        <Text style={styles.title}>{title}</Text>
-                        <Text style={styles.title}>{guide.name}</Text>
-                        </TouchableOpacity>
-                    </Layout>   
-                </Layout>
-
-                
-                <TouchableOpacity style={styles.IconContainer} onPress={() => props.navigation.navigate(SceneRoute.GUIDE_ERROR, guide)}>
-                    <Icon style={styles.icon} fill='black' name='info-outline'/>
-                </TouchableOpacity>  
-                                          
-            </Layout>
-
-            <Layout style={styles.mainContainer}>
-                <GiftedChat
-                    messages={chatMessages}
-                    onSend={messages => onSend(messages)}
-                    infiniteScroll={true}
-                    createdAt={new Date().getTime()}
-                    user={{
-                        _id: `${user?.uid}`,
-                        name: user?.displayName,
-                        avatar: user?.photoURL
-                    }}
-                    listViewProps={{
-                        initialNumToRender: 15
-                    }}
-                    alwaysShowSend={true}
-                    renderUsernameOnMessage={false}
-                    renderInputToolbar={renderInputToolbar}
-                    renderSend={renderSend}
-                    renderActions={renderActions}
-                    renderBubble={renderBubble}
-                    renderLoading={renderLoading}
-                    renderComposer={renderComposer}
-                    renderSystemMessage={onRenderSystemMessage}
-                    renderMessageAudio={renderAudio}
-                    renderAvatar={null}
-                    renderCustomView={renderCustomBubble}     
-                />
-
-            </Layout>
+        <Layout style={{width: '100%', height: '100%'}}>
+            <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             
+            <Layout style={styles.Container}>
 
-            {/* 녹음기 화면 */}
-            <Modal
-                style={{position: 'absolute', top: '80%'}}
-                visible={audioVisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => audioExit()}>                
-                <Layout style={{backgroundColor: 'white', borderRadius: 30, width: 200, height: 56, flexDirection: 'row'}}>
-                    
-                    {/*<TouchableOpacity style={styles.audioIconContainer} onPress={async()=> {
-                        setAudioVisible(false);
-                        if(startAudio) {
-                            setStartAudio(false);
-                            await AudioRecorder.stopRecording();
-                        }
-                    }}>
-                        <Icon style={styles.icon} fill='white' name='close-outline'/>
-                    </TouchableOpacity>*/}
-                    
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={PressReset}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
-                        </TouchableOpacity>                        
-                    </Layout>
+                <Layout style={styles.mainContainer}>
 
-                    <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
-                        <TouchableOpacity onPress={handleAudio}>
-                            {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
-                        </TouchableOpacity>                        
-                    </Layout>
+                    <GiftedChat
+                        messages={chatMessages}
+                        onSend={messages => onSend(messages)}
+                        infiniteScroll={true}
+                        createdAt={new Date().getTime()}
+                        user={{
+                            _id: `${user?.uid}`,
+                            name: user?.displayName,
+                            avatar: user?.photoURL
+                        }}
+                        listViewProps={{
+                            initialNumToRender: 15
+                        }}
+                        messagesContainerStyle={{paddingBottom: 50, paddingTop : 80}}
+                        alwaysShowSend={true}
+                        renderTime={renderTime}
+                        renderUsernameOnMessage={false}
+                        renderAvatar={null}
+                        renderInputToolbar={renderInputToolbar}
+                        renderSend={renderSend}
+                        renderActions={renderActions}
+                        renderBubble={renderBubble}
+                        renderLoading={renderLoading}
+                        renderComposer={renderComposer}
+                        renderSystemMessage={onRenderSystemMessage}
+                        renderMessageAudio={renderAudio}
+                        renderCustomView={renderCustomBubble}     
+                    />
 
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={() => {
-                            if(audioPath != ''){
-                                sendAudio();
+                </Layout>
+                
+
+                {/* 녹음기 화면 */}
+                <Modal
+                    style={{position: 'absolute', top: '80%'}}
+                    visible={audioVisible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => audioExit()}>                
+                    <Layout style={{backgroundColor: 'white', borderRadius: 30, width: 200, height: 56, flexDirection: 'row'}}>
+                        
+                        {/*<TouchableOpacity style={styles.audioIconContainer} onPress={async()=> {
+                            setAudioVisible(false);
+                            if(startAudio) {
+                                setStartAudio(false);
+                                await AudioRecorder.stopRecording();
                             }
                         }}>
-                            {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
-                        </TouchableOpacity>                        
-                    </Layout>                      
+                            <Icon style={styles.icon} fill='white' name='close-outline'/>
+                        </TouchableOpacity>*/}
+                        
+                        <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                            <TouchableOpacity onPress={PressReset}>
+                                <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
+                            </TouchableOpacity>                        
+                        </Layout>
+
+                        <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
+                            <TouchableOpacity onPress={handleAudio}>
+                                {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
+                            </TouchableOpacity>                        
+                        </Layout>
+
+                        <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                            <TouchableOpacity onPress={() => {
+                                if(audioPath != ''){
+                                    sendAudio();
+                                }
+                            }}>
+                                {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
+                            </TouchableOpacity>                        
+                        </Layout>                      
+                    </Layout>
+                </Modal>
+
+
+                {/* 가이드 정보를 출력하는 모달 */}
+                <Modal
+                    visible={guideVisible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setGuideVisible(false)}
+                >                
+                    <Layout style={{padding: 20, borderRadius: 15}}>
+
+                        <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+                            <TouchableOpacity onPress={() => setGuideVisible(false)}>
+                                <FontAwesomeIcon icon={faTimes} size={20}/>
+                            </TouchableOpacity>
+                        </Layout>
+
+                        <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
+                            {(guide.avatar != '' || guide.avatar != undefined || guide.avatar != null)?
+                                <Image source={{uri: guide.avatar}} style={{width: 165, height: 165, borderRadius: 100}}/>
+                            :
+                                <Image source={require('../../../assets/profile.jpg')} style={{width: 165, height: 165, borderRadius: 100}}/>
+                            }                     
+                        </Layout>
+
+                        <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>{guide.name}</Text>
+                        </Layout>
+
+                        <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
+                            <Text style={{fontSize: 12, color: 'black'}}>{guide.gender} / {moment(guide.birthDate).toDate().getFullYear()}</Text>
+                            <Text style={{fontSize: 12, color: 'black'}}></Text>
+                        </Layout>
+
+
+                    </Layout>
+                    
+                    
+                </Modal>
+
+                <Modal
+                    visible={mapvisible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setMapvisible(false)}
+                >
+                    <Card disabled={true} header={Header}>    
+
+                        <MapView
+                            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                            style={{width: Dimensions.get('window').width * 0.9, height: Dimensions.get('window').height * 0.8}}
+                            region={{
+                                latitude: parseFloat(location.lat),
+                                longitude: parseFloat(location.lon),
+                                latitudeDelta: 0.015,
+                                longitudeDelta: 0.0121,
+                        }}
+                        >
+                            <Marker
+                                coordinate={{ latitude : parseFloat(location.lat) , longitude : parseFloat(location.lon) }}
+                                title={'My Location'}
+                            />
+
+                        </MapView>
+
+                    </Card>
+                </Modal>
+
+                {/*탭바 디자인*/}
+                <Layout style={styles.TabBar}>
+                    
+                    <TouchableOpacity style={styles.IconContainer} onPress={() => {props.navigation.goBack()}}>
+                        <AngleLeft_Color />
+                    </TouchableOpacity>
+        
+                    <Layout style={styles.profileContainer}>
+                        <Image source={require('../../assets/profile/profile_01.png')} style={styles.Profile}/>
+                        <Text style={styles.title}>{(props.route.params.guide.name === undefined)? `매칭중..` : `${props.route.params.guide.name}`}</Text>
+                    </Layout>
+                   
+                    <TouchableOpacity style={styles.IconContainer} onPress={() => {
+                        props.navigation.navigate(SceneRoute.CHAT_HELP, { id: props.route.params.id, guide: { uid : props.route.params.guide.uid, name: props.route.params.guide.name} })
+                    }}>
+                        <Help />
+                    </TouchableOpacity>  
+                                            
                 </Layout>
-            </Modal>
+
+                {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
+                {(visible2 == true)?
+                    <Layout style={styles.SideContainerBack} onTouchEnd={() => setVisible2(false)}>
+                        <Layout style={styles.SideContainer}>
+                            
+                            <TouchableOpacity style={styles.SideButton} onPress={async() => await LocationMessage()}>
+                                <MyLocation />
+                                <Text style={styles.SideButtonTxt}>My Location</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.SideButton} onPress={() => setAudioVisible(true)}>
+                                <Voice />
+                                <Text style={styles.SideButtonTxt}>Voices</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.SideButton} onPress={async() => await ImageSend()}>
+                                <Images />
+                                <Text style={styles.SideButtonTxt}>Images</Text>
+                            </TouchableOpacity>
 
 
-            {/* 가이드 정보를 출력하는 모달 */}
-            <Modal
-                visible={guideVisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => setGuideVisible(false)}
-            >                
-                <Layout style={{padding: 20, borderRadius: 15}}>
-
-                    <Layout style={{flex: 1, alignItems: 'flex-end'}}>
-                        <TouchableOpacity onPress={() => setGuideVisible(false)}>
-                            <FontAwesomeIcon icon={faTimes} size={20}/>
-                        </TouchableOpacity>
+                        </Layout>
                     </Layout>
+                :
+                    null
+                }
 
-                    <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                        {(guide.avatar != '' || guide.avatar != undefined || guide.avatar != null)?
-                            <Image source={{uri: guide.avatar}} style={{width: 165, height: 165, borderRadius: 100}}/>
-                        :
-                            <Image source={require('../../../assets/profile.jpg')} style={{width: 165, height: 165, borderRadius: 100}}/>
-                        }                     
-                    </Layout>
-
-                    <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black'}}>{guide.name}</Text>
-                    </Layout>
-
-                    <Layout style={{alignItems: 'center', justifyContent: 'center', marginVertical: 10}}>
-                        <Text style={{fontSize: 12, color: 'black'}}>{guide.gender} / {moment(guide.birthDate).toDate().getFullYear()}</Text>
-                        <Text style={{fontSize: 12, color: 'black'}}></Text>
-                    </Layout>
-
-
-                </Layout>
                 
+
+
                 
-            </Modal>
-
-            <Modal
-                visible={mapvisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => setMapvisible(false)}
-            >
-                <Card disabled={true} header={Header}>                    
-                    <MapView
-                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                        style={{width: Dimensions.get('window').width * 0.9, height: Dimensions.get('window').height * 0.8}}
-                        region={{
-                            latitude: parseFloat(location.lat),
-                            longitude: parseFloat(location.lon),
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
-                    }}
-                    >
-                        <Marker
-                            coordinate={{ latitude : parseFloat(location.lat) , longitude : parseFloat(location.lon) }}
-                            title={'My Location'}
-                        />
-                    </MapView>
-                </Card>
-            </Modal>
-
-            
-
-
+            </Layout>
             
         </Layout>
-        
-
-        <Toast ref={(toast) => ToastRef = toast} style={{backgroundColor:'#C9C9C9', margin : 10}} textStyle={{color:'black', textAlign: 'center'}} position={'center'}/>
-        </React.Fragment>
-        )
     );
 };
 
@@ -833,16 +809,20 @@ const styles = StyleSheet.create({
     },
     TabBar:{        
         flexDirection: 'row',
-      },
+        position: 'absolute',
+        width: '100%',
+        top: 0,
+        height: 80,
+        alignItems: 'center',
+    },
     MainContainer: {
         flex: 10,
-        backgroundColor : '#FFC043',
     },
     IconContainer: {
-        flex: 1,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 15,
+        padding: 15
     },
     ImageContainer: {
         flex : 1,
@@ -864,12 +844,10 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 100,
-        margin: 12,
     },
     title: {
         fontSize: 12,
         fontWeight: 'bold',
-        marginHorizontal: 5,
     },
     alert: {
         width: 10,
@@ -893,7 +871,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     mainContainer:{
-        flex: 5,
+        width: '100%',
+        height: '100%'
     },
     inputToolbar: {
         margin: 10
@@ -903,14 +882,14 @@ const styles = StyleSheet.create({
         height: 32,
     },
     ActionButton: {
-        marginLeft: 15,
-        marginRight: 5,
-        marginVertical: 8,
         justifyContent: 'center', 
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: 15,
+        marginBottom: 12
     },
     loading: {
-        flex: 1,
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -920,16 +899,12 @@ const styles = StyleSheet.create({
     sendButton: {
         justifyContent: 'center', 
         alignItems: 'center',
-        borderWidth: 0,
-        marginLeft: 15,
-        marginRight: 5,
-        marginBottom: 1,
-        width: 40
+        margin : 5
     },
     container: {
         flex: 1,
     },
-        backdrop: {
+    backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     cancelButton: {
@@ -942,4 +917,42 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         margin: 5,
     },
+    profileContainer: {
+        flex: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    },
+    MenuImage : {
+        width: 30,
+        height: 30,
+        resizeMode: 'stretch'
+    },
+    SideContainerBack : {
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        top: 0,
+        left: 0
+    },
+    SideContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        width: '100%',
+        height: 100,
+        backgroundColor: '#F8F8F8',
+        marginVertical: 80
+    },
+    SideButton: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    SideButtonTxt: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#8C8C8C',
+        fontSize: 16
+    }
 });

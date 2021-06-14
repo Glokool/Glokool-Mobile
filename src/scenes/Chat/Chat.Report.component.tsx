@@ -14,32 +14,29 @@ import {
   Button,
 } from '@ui-kitten/components';
 import Toast from 'react-native-easy-toast';
-import { GuideReportScreenProps } from '../../navigation/guide.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { AngleLeft } from '../../assets/icon/Common';
+import { Report } from '../../assets/icon/Chat';
 
 var ToastRef : any;
 
-export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement => {
+export const ChatReportScreen = (props: ChatReportScreenProps): LayoutElement => {
+
   const user = auth().currentUser;
-  const guide = props.route.params;
+  const guide = props.route.params.guide;
   const [value, setValue] = React.useState('');
 
-  const PressBack = () => {
-      props.navigation.goBack();
-  }
-
-  React.useEffect(() => {
-
-  }, [])
-
   const PressSend = () => {
+    
     if(value == ''){
       ToastRef.show('Please enter contents', 3000)
     }
     else{
       const report = {
-        guide: guide?.email,
+        id : props.route.params.id,
+        guideUid: guide?.uid,
         guideName: guide?.name,
         user: user?.email,
         userName: user?.displayName,
@@ -51,7 +48,7 @@ export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement 
 
       const reportDate = (`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}-${now.getHours()}:${now.getMinutes()}`);
 
-      const docRef = firestore().collection("reportGuide").doc(`${guide.email}-${user.email}-${reportDate}`).set(report);
+      const docRef = firestore().collection("ReportAssistant").doc(`${guide.uid}-${user?.uid}-${reportDate}`).set(report);
 
       props.navigation.goBack();
     }
@@ -64,12 +61,16 @@ export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement 
           
           {/*탭바 디자인*/}
           <Layout style={styles.TabBar}>
-              <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
-                  <FontAwesomeIcon icon={faAngleLeft} size={28}/>
+              <TouchableOpacity style={styles.IconContainer} onPress={() => props.navigation.goBack()}>
+                  <AngleLeft />
               </TouchableOpacity>
 
+              <Report />
+
+              <Text style={{fontSize: 18, fontFamily: 'IBMPlexSansKR-Medium', marginLeft: 10}}>Report Travel Assistant</Text>
+
               <Layout style={{flex: 5, alignItems: 'center', justifyContent: 'center'}}>      
-                  <Text style={{fontSize: 16, fontWeight: 'bold',}}>HELP</Text>
+                  
               </Layout>
 
               <Layout style={styles.IconContainer}/>
@@ -77,7 +78,14 @@ export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement 
 
           {/* 내용물 */}
           <Layout style={{flex: 9, padding: 20, flexDirection: 'column'}}>
-            <Text style={styles.desc}>If there is any problem, please report us and let us know.</Text>
+
+            <Layout style={styles.SendContainer}>
+              <Text style={styles.desc}>If there is any problem, please report us and let us know.</Text>
+              <TouchableOpacity style={styles.SendButton} onPress={() => PressSend()}>
+                <Text style={styles.SendButtonTxt}>Send</Text>
+              </TouchableOpacity>
+            </Layout>
+            
             <Input
               placeholder='Please write what you need to report'
               style={styles.input}
@@ -85,17 +93,9 @@ export const GuideReportScreen = (props: GuideReportScreenProps): LayoutElement 
               multiline={true}
               onChangeText={nextValue => setValue(nextValue)}
             />
-            <Button
-              style={styles.submitButton}
-              onPress={PressSend}
-              size='large'
-            >
-              SEND
-            </Button>     
+ 
           </Layout>
 
-
-          <Toast ref={(toast) => ToastRef = toast} style={{backgroundColor:'#C9C9C9'}} textStyle={{color:'black'}} position={'bottom'}/>
         </React.Fragment>
     );
 }
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   },
   TabBar:{        
       flexDirection: 'row',
+      alignItems: 'center',
       flex: 1
   },
   MainContainer: {
@@ -141,8 +142,10 @@ const styles = StyleSheet.create({
     textAlign: 'left'
   },
   desc: {
+    fontFamily: 'IBMPlexSansKR-Medium',
     fontSize: 16,
     marginVertical: 20,
+    flex: 7
   },
   input: {
     width: '100%',
@@ -153,4 +156,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '10%',
   },
+  SendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  SendButton: {
+    width: 100,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: '#292434',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  SendButtonTxt: {
+    color: '#8797FF',
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 19
+  }
 });

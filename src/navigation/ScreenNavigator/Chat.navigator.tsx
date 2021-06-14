@@ -4,22 +4,42 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import { 
-  ChatScreen
+  ChatScreen,
+  ChatRoomScreen,
+  ChatHelpScreen,
+  ChatReportScreen
 } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
 
 type ChatNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CHAT]: undefined;
+  [SceneRoute.CHATROOM] : {
+    id : string;
+    guide: {
+      name : string;
+      uid : string;
+    }
+    finish : boolean;
+  };
+  [SceneRoute.CHAT_HELP] : {    
+    id : string;
+    guide: {
+      name : string;
+      uid : string;
+    }};
+  [SceneRoute.CHAT_REPORT] : {
+    id : string;
+    guide: {
+      name : string;
+      uid : string;
+    }
+  };
 }
 
 export interface ChatScreenProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
-}
-
-export interface WeatherComponentProps {
- 
 }
 
 export interface ChatListNowProps {
@@ -32,8 +52,26 @@ export interface ChatListRecentProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
 }
 
+export interface ChatRoomScreenProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
+}
+
+export interface ChatHelpScreenProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_HELP>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_HELP>;
+}
+
+export interface ChatReportScreenProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
+}
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen}/>
+    <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
+    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
+    <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
+    <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
   </Stack.Navigator>
 );

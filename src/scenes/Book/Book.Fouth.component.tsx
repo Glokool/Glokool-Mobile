@@ -1,20 +1,36 @@
 import React from "react";
 import { LayoutElement, Layout, Text } from "@ui-kitten/components";
-import { BookFouthScreenProps } from "../../navigation/Book.navigator";
+import { BookFouthScreenProps } from "../../navigation/Book.Confirm.navigator";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { TopTabBar } from "../../component/Booking";
 import { Booking_F, Booking_S } from "../../assets/icon/Booking";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { NavigatorRoute } from "../../navigation/app.route";
 
 
 export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement => {
 
-    const success = props.route.params.success;
+    const [success, setSuccess] = React.useState<boolean>(true);
+
+    React.useEffect(() => {
+
+
+        if(props.route.params.success === true){
+            setSuccess(true);
+            console.log('성공', props.route.params.success)
+        }
+        else{
+            setSuccess(false);
+            console.log('실패');
+        }
+
+
+    }, []);
 
     return(
         <Layout style={styles.Container}>
             
-            {(success)?
+            {(success === true)?
                 <Layout style={styles.MainContainer}>
                     
                     <Booking_S />
@@ -41,12 +57,12 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
             <Layout style={styles.ButtonContainer}>
 
                 {(success)?
-                <TouchableOpacity style={styles.SuccessButton}>
+                <TouchableOpacity style={styles.SuccessButton} onPress={() => {props.navigation.navigate(NavigatorRoute.MY)}}>
                     <Text style={styles.Button_Text}>CONFIRN</Text>
                 </TouchableOpacity>
                 :
-                <TouchableOpacity style={styles.FailureButton}>
-                    <Text style={styles.Button_Text}>BACK TO LOGIN</Text>
+                <TouchableOpacity style={styles.FailureButton} onPress={() => {props.navigation.navigate(NavigatorRoute.HOME)}}>
+                    <Text style={styles.Button_Text}>BACK TO HOME</Text>
                 </TouchableOpacity>
                 }
 

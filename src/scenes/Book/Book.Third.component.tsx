@@ -76,7 +76,7 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
 
             name: '아임포트 결제데이터 분석',
             merchant_uid: `mid_${new Date().getTime()}`,
-            amount: 1000,
+            amount: 5,
             buyer_name: data.Name,
             buyer_tel: '',
             buyer_email: data.Email,

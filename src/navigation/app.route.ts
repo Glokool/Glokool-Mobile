@@ -12,6 +12,7 @@ export enum NavigatorRoute {
     COURSE = 'Course',
     COURSE_DETAIL = 'Course Detail',
     BOOK = 'Book',
+    BOOK_CONFIRM = 'Book Confirm',
     BOARD = 'Board',
     
     HOME = 'Home',
@@ -34,6 +35,9 @@ export enum SceneRoute {
 
     //Chat Navigator
     CHAT = 'Chat',
+    CHATROOM = 'Chatroom',
+    CHAT_HELP = 'Chat Help',
+    CHAT_REPORT = 'Chat Report',
     CHAT_ROOM = 'Chat Room',
     CHAT_ERROR_REPORT = 'Chat Error Report',
 

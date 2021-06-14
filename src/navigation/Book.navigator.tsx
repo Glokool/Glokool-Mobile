@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
-import { SceneRoute } from './app.route';
+import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
 
@@ -37,9 +37,10 @@ type BookNavigatorParams = AppNavigatorParams & {
       buyer_postcode: string;
       app_scheme: string;
     }
-  }
-  [SceneRoute.BOOK_FOUTH] : {
-    success: boolean;
+  };
+  [NavigatorRoute.BOOK_CONFIRM] : {
+    screen : SceneRoute,
+    params: { success : boolean }
   };
 }
 
@@ -73,10 +74,6 @@ export interface BookThirdScreenProps {
   route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_THIRD>;
 }
 
-export interface BookFouthScreenProps {
-  navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
-  route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
-}
 
 export interface PaymentScreenProps {
   navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.PAYMENT>;
@@ -93,6 +90,5 @@ export const BookNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.BOOK_SECOND} component={BookSecondScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_THIRD} component={BookThirdScreen}/>
     <Stack.Screen name={SceneRoute.PAYMENT} component={PaymentScreen} />
-    <Stack.Screen name={SceneRoute.BOOK_FOUTH} component={BookFouthScreen}/>
   </Stack.Navigator>
 );

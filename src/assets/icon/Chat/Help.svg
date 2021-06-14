@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <clipPath id="clip-path">
+      <circle id="타원_350" data-name="타원 350" cx="14" cy="14" r="14" transform="translate(0 0)" fill="none" stroke="#77f" stroke-width="2"/>
+    </clipPath>
+  </defs>
+  <g id="그룹_1487" data-name="그룹 1487" transform="translate(-355 -41)">
+    <g id="그룹_1421" data-name="그룹 1421" transform="translate(5 -2)">
+      <g id="그룹_1420" data-name="그룹 1420" transform="translate(1818.942 346.079)">
+        <g id="타원_3" data-name="타원 3" transform="translate(-1468.942 -303.079)" fill="none" stroke="#77f" stroke-width="2">
+          <circle cx="14" cy="14" r="14" stroke="none"/>
+          <circle cx="14" cy="14" r="13" fill="none"/>
+        </g>
+      </g>
+      <text id="H" transform="translate(358 46)" fill="#77f" font-size="16" font-family="BrandonGrotesque-Bold, Brandon Grotesque" font-weight="700"><tspan x="0" y="17">H</tspan></text>
+    </g>
+  </g>
+</svg>

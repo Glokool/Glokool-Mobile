@@ -16,29 +16,24 @@ import {
   Button,
 } from '@ui-kitten/components';
 import Clipboard from '@react-native-community/clipboard';
-import { GuideErrorScreenProps } from '../../navigation/guide.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFlag, faAngleLeft, faComment } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
+import { AngleLeft } from '../../assets/icon/Common';
+import { EmergencyCall, Help, Report } from '../../assets/icon/Chat';
+import { ChatHelpScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 
 var toastRef : any;
 
-export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement => {
+export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
+    
     const [modal, setModal] = React.useState(false);
-    const guide = props.route.params;
+    const id = props.route.params.id;
+    const guide = props.route.params.guide;
 
-    const PressBack = () => {
-      props.navigation.goBack();
-    }
 
-    const PressGuide = () => {
-      props.navigation.navigate(SceneRoute.GUIDE_REPORT, guide);
-    }
 
-      const PressEmergency = () => {
-      setModal(!modal);
-    }
 
     const PressCopy = () => {
       Clipboard.setString('070-4300-0833');
@@ -55,39 +50,33 @@ export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement =>
           
           {/*탭바 디자인*/}
           <Layout style={styles.TabBar}>
-              <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
-                  <FontAwesomeIcon icon={faAngleLeft} size={28}/>
+              <TouchableOpacity style={styles.IconContainer} onPress={() => props.navigation.goBack()}>
+                  <AngleLeft />
               </TouchableOpacity>
 
-              <Layout style={{flex: 5, alignItems: 'center', justifyContent: 'center'}}>      
-                  <Text style={{fontSize: 16, fontWeight: 'bold',}}>HELP</Text>
-              </Layout>
+              <Help />
+
+              <Text style={{fontSize: 18, fontFamily: 'IBMPlexSansKR-Medium', marginLeft: 10}}>HELP</Text>
+
+              <Layout style={{flex: 5, alignItems: 'center', justifyContent: 'center'}} />      
 
               <Layout style={styles.IconContainer}/>
           </Layout>
 
+
           {/* 내용물 */}
           <Layout style={{flex: 9, padding: 20, flexDirection: 'column'}}>
-            <TouchableOpacity onPress={PressGuide}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.CHAT_REPORT, {id : id , guide: {uid : guide.uid, name: guide.name}})}>
               <Layout style={styles.banner}>
-                <FontAwesomeIcon icon={faFlag} size={16} style={styles.icon2}/>
+                <Report />
                 <Text style={styles.text}>Report Guide</Text>
               </Layout>
             </TouchableOpacity>
 
-            {/*
-            <TouchableOpacity onPress={PressReport}>
-              <Layout style={styles.banner}>
-                <FontAwesomeIcon icon={faExclamation} size={16} style={styles.icon2}/>
-                <Text style={styles.text}>Report Error</Text>
-              </Layout>
-            </TouchableOpacity>
-             */}
 
-
-            <TouchableOpacity onPress={PressEmergency}>
+            <TouchableOpacity onPress={() => setModal(!modal)}>
               <Layout style={styles.banner}>
-                <FontAwesomeIcon icon={faComment} size={16} style={styles.icon2}/>
+                <EmergencyCall />
                 <Text style={styles.text}>Emergency Call with Manager</Text>
               </Layout>
             </TouchableOpacity>
@@ -110,7 +99,7 @@ export const GuideErrorScreen = (props: GuideErrorScreenProps): LayoutElement =>
            <Divider style={{marginVertical:50, backgroundColor: '#C9C9C9'}}/>
 
            <Layout>
-            <Text style={{fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginVertical: 10}}>Instagram Direct</Text>
+            <Text style={{fontSize: 12, fontWeight: 'bold', textAlign: 'center', marginBottom: 10}}>Instagram Direct</Text>
             <Text style={{fontSize: 16, textAlign: 'center', marginBottom: 20}}>@glokool_official</Text>
             <Button onPress={PressLink}>Link</Button>
            </Layout>
@@ -133,7 +122,8 @@ const styles = StyleSheet.create({
   },
   TabBar:{        
       flexDirection: 'row',
-      flex: 1
+      flex: 1,
+      alignItems: 'center'
   },
   MainContainer: {
       flex: 10,
@@ -158,12 +148,14 @@ const styles = StyleSheet.create({
   },
   banner: {
     flexDirection: 'row',
-    marginVertical: 15
+    alignItems: 'center',
+    marginVertical: 15,
+    marginLeft: 10
   },
   text: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'left'
+    fontSize: 20,
+    fontFamily: 'IBMPlexSansKR-Medium',
+    marginLeft: 20
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
