@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     },
     PriceContainer: {
         flexDirection: 'row',
-        marginTop: -10,
         alignItems: 'center'
     },
     MenuPriceText: {

@@ -17,7 +17,7 @@ import {
 import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { AngleLeft, PurpleArrow } from '../../assets/icon/Common';
+import { AngleLeft, PurpleArrow, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -90,7 +90,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data)
+        console.log(Content.data.plus)
     }
 
     const RenderCarousel = ({item}) => {
@@ -99,6 +99,30 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                 <Image source={{ uri : item }} style={styles.ImageContainer} />
             </TouchableOpacity>    
         )
+    }
+
+    const PressBookmark = async() => {
+    }
+    
+    const PressPlus = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url: SERVER + "/api/contents/" + content?._id + "/like" ,
+            headers: {
+                Authorization: "Bearer " + authToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+          };
+    
+          axios(config)
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
     const CommentSendingPress = async() => {
@@ -348,7 +372,26 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             </ScrollView>
             
              {/* 탑탭바 */}
-             <SeriesTopTabBar />
+             <Layout style={styles.ContainerLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
+                    <Layout style={styles.ContainerIconLayout}>
+                        <TouchableOpacity style={styles.ContainerAngleLeft_W} onPress={() => props.navigation.goBack()}>
+                            <AngleLeft style={styles.AngleLeft} />
+                        </TouchableOpacity>
+                        <Layout style={styles.TopTabIconLayout}>
+                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                <Bookmark />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                            {content?.plus.indexOf(uid) == -1 ?  (
+                                <Plus />
+                                ) : (
+                                <Plus_P />
+                            )}
+                            </TouchableOpacity>
+                        </Layout>
+                    </Layout>
+                </Layout>
 
         </Layout>
     )
@@ -357,6 +400,50 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 const styles = StyleSheet.create({
     ContainerLayout:{
         position: 'relative',
+    },
+    // 탑탭 style
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
+    },
+    ContainerOpacityLayoutAngleLeft: {
+        width: windowWidth,
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#00FF0000',
+    },
+    ContainerAngleLeft: {
+        width: windowWidth,
+        backgroundColor: '#00FF0000',
+        padding: 20,
+    },
+    ContainerAngleLeft_W: {
+        backgroundColor: '#ffffff',
+        padding: 20,
+    },
+    AngleLeft: {
+        marginLeft: 20,
+    },
+    TopTabIconLayout: {
+        width: '75%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    BookmarkTouch: {
+        marginRight: 20,
+        padding: 2,
+    },
+    PlusTouch: {
+        padding: 2,
     },
     SeriesInfoImg: {
         width: 110,
