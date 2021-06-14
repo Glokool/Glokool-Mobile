@@ -34,6 +34,10 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents');
+        var Data = Content.data;
+        Data.sort(function (a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
         setContent(Content.data);
     }
 
