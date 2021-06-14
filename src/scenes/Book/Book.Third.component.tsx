@@ -13,7 +13,7 @@ import {
     requestOneTimePayment,
     PaypalResponse,
 } from 'react-native-paypal'; 
-import { PaymentLoading } from '../../component/PaymentLoading';
+import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
 
 type PriceData = {
@@ -87,8 +87,6 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
         props.navigation.navigate(SceneRoute.PAYMENT, { params })
 
 
-
-
     }
 
     return(
@@ -102,26 +100,64 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
 
                 <Text style={styles.SmallTitleText}>Basic Cost</Text>
 
-                <Layout style={styles.priceContainer}>
-                    <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
-                    <Text style={styles.Price}>{`${price?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
-                </Layout>
-                
-                {(price?.active)?
-                    <Layout style={styles.priceContainer}>
-                        <Text style={styles.PriceTitle}>Promotion</Text>
-                        <Text style={styles.PromotionPrice}>{`- ${((price?.discount) * price?.price / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                {(checked)? 
+                    <Layout>                    
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
+                            <Text style={styles.Price}>{`${(price?.price / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD`}</Text>
+                        </Layout>
+
+                        {(price?.active)?                    
+                            <Layout style={styles.priceContainer}>
+                                <Text style={styles.PriceTitle}>Promotion</Text>
+                                <Text style={styles.PromotionPrice}>{`- ${(((price?.discount) * price?.price / 100) / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD`}</Text>
+                            </Layout>
+                            :
+                            null
+                        }
+
+                        <Divide_Spot style={{marginVertical: 30}}/>
+
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.TotalText}>Total</Text>
+                            {(price?.active)?
+                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price / 1000) - (((price?.discount) * price?.price / 100) / 1000)}</Text>  USD</Text>
+                            :
+                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price / 1000)}</Text>  USD</Text>
+                            }
+                            
+                        </Layout>
                     </Layout>
-                    :
-                    null
+
+                :
+                    <Layout>
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
+                            <Text style={styles.Price}>{`${price?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                        </Layout>
+
+                        {(price?.active)?                    
+                            <Layout style={styles.priceContainer}>
+                                <Text style={styles.PriceTitle}>Promotion</Text>
+                                <Text style={styles.PromotionPrice}>{`- ${((price?.discount) * price?.price / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                            </Layout>
+                            :
+                            null
+                        }
+
+                        <Divide_Spot style={{marginVertical: 30}}/>
+
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.TotalText}>Total</Text>
+                            {(price?.active)?
+                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{((price?.price) - (((price?.discount) * price?.price / 100))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>  KRW</Text>
+                            :
+                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price)}</Text>  KRW</Text>
+                            }
+                        </Layout>
+                    </Layout>
                 }
 
-                <Divide_Spot style={{marginVertical: 30}}/>
-
-                <Layout style={styles.priceContainer}>
-                    <Text style={styles.TotalText}>Total</Text>
-                    <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{price?.discountedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>  KRW</Text>
-                </Layout>
 
                 <Layout style={{marginVertical: 15}}/>
 
@@ -297,7 +333,7 @@ const styles = StyleSheet.create({
     NextButtonContainer: {
         position: 'absolute',
         width: '100%',
-        bottom: 0,
+        bottom: 10,
         backgroundColor: '#00FF0000',
         alignItems: 'center'
     },
