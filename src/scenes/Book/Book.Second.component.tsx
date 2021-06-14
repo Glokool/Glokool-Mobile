@@ -100,8 +100,8 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     <Text style={styles.TermsButtonText}>{`Click to Check     >`}</Text>
                 </TouchableOpacity>
 
-                           
 
+                <Layout style={{marginVertical: 100}}/>
 
             </ScrollView>
 
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     NextButtonContainer: {
         position: 'absolute',
         width: '100%',
-        bottom: 0,
+        bottom: 10,
         backgroundColor: '#00FF0000',
         alignItems: 'center'
     },

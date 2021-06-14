@@ -2,18 +2,27 @@
 import React from 'react';
 import IMP from 'iamport-react-native';
 import { PaymentLoading } from '../../component/Booking/PaymentLoading';
-import { Layout, StyleService } from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PaymentScreenProps } from '../../navigation/Book.navigator';
 import { TopTabBar } from '../../component/Booking';
+import { SceneRoute } from '../../navigation/app.route';
 
 
-export const Payment = ({ navigation, route }) => {
-  const params = route.params.params;
+export const PaymentScreen = (props : PaymentScreenProps) : LayoutElement => {
+  
+  const params = props.route.params.params;
   const { pg } = params;
   const data = {
     ...params,
     app_scheme: 'Glokool',
   };
+
+  function callback(response : any) {
+    console.log('결과 : ', response);
+
+    props.navigation.replace(SceneRoute.BOOK_FOUTH, { success : response.imp_success})
+  }
 
   return (
     <Layout style={{width: '100%', height: '100%'}}>
@@ -26,11 +35,9 @@ export const Payment = ({ navigation, route }) => {
           tierCode={''}
           loading={<PaymentLoading />}
           data={data}
-          callback={response => console.log(response)}
+          callback={response => callback(response)}
         />
-
         <TopTabBar index={3}/>
-
     </Layout>
 
   );   

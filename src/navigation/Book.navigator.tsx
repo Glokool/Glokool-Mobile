@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookDateScreen, BookFirstScreen, BookFouthScreen, BookPayScreen, BookProfileScreen, BookSecondScreen, BookThirdScreen, Payment } from '../scenes/Book';
+import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -23,11 +23,24 @@ type BookNavigatorParams = AppNavigatorParams & {
       info : string;
     }
   };
-  [SceneRoute.PAYMENT] : undefined
+  [SceneRoute.PAYMENT] : {
+    params: {
+      pg: string;
+      pay_method: string;
+      name: string;
+      merchant_uid: string;
+      amount: number,
+      buyer_name: string;
+      buyer_tel: string;
+      buyer_email: string;
+      buyer_addr: string;
+      buyer_postcode: string;
+      app_scheme: string;
+    }
+  }
   [SceneRoute.BOOK_FOUTH] : {
     success: boolean;
   };
-
 }
 
 export interface BookDateScreenProps {
@@ -65,10 +78,12 @@ export interface BookFouthScreenProps {
   route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_FOUTH>;
 }
 
-export interface PaymentProps {
+export interface PaymentScreenProps {
   navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.PAYMENT>;
   route: RouteProp<BookNavigatorParams, SceneRoute.PAYMENT>;
 }
+
+
 
 const Stack = createStackNavigator();
 
@@ -77,7 +92,7 @@ export const BookNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.BOOK_FIRST} component={BookFirstScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_SECOND} component={BookSecondScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_THIRD} component={BookThirdScreen}/>
-    <Stack.Screen name={SceneRoute.PAYMENT} component={Payment} />
+    <Stack.Screen name={SceneRoute.PAYMENT} component={PaymentScreen} />
     <Stack.Screen name={SceneRoute.BOOK_FOUTH} component={BookFouthScreen}/>
   </Stack.Navigator>
 );
