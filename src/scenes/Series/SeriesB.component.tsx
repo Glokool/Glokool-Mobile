@@ -17,7 +17,7 @@ import { SeriesBDetailProps } from '../../navigation/ScreenNavigator/Series.navi
 import { AngleLeft } from '../../assets/icon/Common';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { SeriesBList } from '../../component/Series';
+import { SeriesBList, SeriesTopTabBar } from '../../component/Series';
 
 const SeriesImgW = Dimensions.get('window').width;
 
@@ -26,6 +26,8 @@ export const SeriesBScreen = (props: SeriesBDetailProps): LayoutElement => {
     return (
         <Layout style={styles.ContainerLayout}>
         <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
+            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+            <Layout style={{height: 50}}/>
             <Layout style={styles.TopLayout}>
                 <Text style={styles.TopTxt1}>{`Day Trip with Glokool`}</Text>
                 <Text style={styles.TopTxt2}>
@@ -35,14 +37,9 @@ export const SeriesBScreen = (props: SeriesBDetailProps): LayoutElement => {
             <SeriesBList navigation={props.navigation} route={props.route} />
         </ScrollView>
 
-            {/* 탑탭바 */}
-            <Layout style={styles.ContainerLayoutAngleLeft}>
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
-                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <AngleLeft style={styles.AngleLeft}  />
-                    </TouchableOpacity>
-            </Layout>
+        {/* 탑탭바 */}
+        <SeriesTopTabBar />
+
     </Layout>
     )
 }
@@ -51,19 +48,7 @@ const styles = StyleSheet.create({
     ContainerLayout:{
         position: 'relative',
     },
-    ContainerLayoutAngleLeft: {
-        width: '100%',
-        position: 'absolute',
-        top: 0,
-    },
-    ContainerAngleLeft: {
-        marginLeft: 20,
-        padding: 20,
-    },
-    AngleLeft: {
-    },
     TopLayout: {
-        marginTop: 100,
         marginLeft: 30,
         marginRight: 20,
     },

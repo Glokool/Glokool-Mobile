@@ -57,6 +57,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
         const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode + '/places');
         setData(HiddenGemDetailData.data);
+        // console.log(HiddenGemDetailData.data.plus)
 
     }
 

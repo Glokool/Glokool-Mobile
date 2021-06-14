@@ -22,9 +22,10 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment, { max } from "moment";
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { GoUp, GrayArrow } from '../../assets/icon/Common';
+import { GoUp, GrayArrow, AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
+import { SeriesTopTabBar } from '../../component/Series';
 
 
 type recommendation_Item = {
@@ -45,6 +46,7 @@ type Comments_Item = {
     isDeleted: Boolean,
     createdAt: Date,
     updatedAt: Date,
+    plus: Array<string>,
 }
 
 type ContentImg_Item = {
@@ -79,6 +81,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElement => {
     const ScrollVewRef = React.useRef(null);
+    const [height, setHeight] = React.useState<number>(0);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [content, setContent] = React.useState<Series_Item>();
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>([]);
@@ -89,7 +92,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const user = auth().currentUser;
     const uid = user?.uid;
 
-
     React.useEffect(() => {
         InitSeries();
     }, []);
@@ -99,8 +101,8 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         setContent(Content.data);
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data.recommendation)
         setComments(Content.data.comments);
+        console.log(Content.data.plus)
     }
 
     const RenderCarousel = (item : { item : ContentImg_Item, index : number }) => {
@@ -109,6 +111,30 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 <Image source={{ uri : item.item.img }} style={styles.ImageContainer} />
             </Layout>    
         )
+    }
+
+    const PressBookmark = async() => {
+    }
+    
+    const PressPlus = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url: SERVER + "/api/blog/" + content?._id + "/like" ,
+            headers: {
+                Authorization: "Bearer " + authToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+          };
+    
+          axios(config)
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
     const CommentSendingPress = async() => {
@@ -166,7 +192,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     }
 
     const LikeComment = async(id) => {
-        console.log(id);
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
@@ -189,7 +214,14 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     
     return (
         <Layout>
-            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
+            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
+            {height >= windowWidth - 100 ? 
+                <Layout>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    {/* <Layout style={{height: 50}}/> */}
+                </Layout>
+             : null }
+            
                 <Layout>
                     <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
                 </Layout>
@@ -248,17 +280,20 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
 
                 {/* check out more */}
-                <Layout style={styles.CheckMoreContainerLayoutStyle}>
+                {recommendation ? (
+                    <Layout style={styles.CheckMoreContainerLayoutStyle}>
                     <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                    {/* {(recommendation.map((item) =>
+                    {(recommendation.map((item) =>
                     <Layout style={styles.CheckMoreLayoutStyle}>
                         <TouchableOpacity onPress={() => {setId(item._id)}}>
                             <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
                             <Text style={styles.RecommendationTxt}>{item.title}</Text>
                         </TouchableOpacity>
                     </Layout>
-                    ))} */}
+                    ))}
                 </Layout>
+                ) : null}
+                
 
                 {/* 그레이색 배경 */}
                 <Layout style={styles.PurpleContainerLayoutStyle} >
@@ -278,7 +313,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 </Layout>
                 
                 {/* Comments */}
-                {/* <SeriesAComments comments ={comments}/> */}
                 <Layout style={styles.CommentsConainer}>
                     <Layout style={styles.CommentsInnerConainer}>
                         {/* comments title */}
@@ -358,18 +392,97 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         onChangeText={text => setNowComment(text)}
                         value = {nowComment}
                         ></TextInput>
-                        <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
+                        <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
                             <CommentSending  />
                         </TouchableOpacity>
                     </Layout>
                 </Layout>
 
             </ScrollView>
+
+            {/* 탑탭바 */}
+            {height >= windowWidth - 100 ? (
+                // 스크롤을 내렸을 시 
+                 <Layout style={styles.ContainerLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
+                    <Layout style={styles.ContainerIconLayout}>
+                        <TouchableOpacity style={styles.ContainerAngleLeft_W} onPress={() => props.navigation.goBack()}>
+                            <AngleLeft style={styles.AngleLeft} />
+                        </TouchableOpacity>
+                        <Layout style={styles.TopTabIconLayout}>
+                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                <Bookmark />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                            {content?.plus.indexOf(uid) == -1 ?  (
+                                <Plus />
+                            ) : (
+                                <Plus_P />
+                            )}
+                            </TouchableOpacity>
+                        </Layout>
+                    </Layout>
+                </Layout>
+            ) : (
+                // 맨위에 포커스 
+                <Layout style={styles.ContainerOpacityLayoutAngleLeft}>
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                        <AngleLeft_W style={styles.AngleLeft} />
+                    </TouchableOpacity>
+                </Layout>
+            ) }
+            
+
         </Layout>
     )
 }
 
 const styles = StyleSheet.create({
+    // 탑탭 style
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
+    },
+    ContainerOpacityLayoutAngleLeft: {
+        width: windowWidth,
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#00FF0000',
+    },
+    ContainerAngleLeft: {
+        width: windowWidth,
+        backgroundColor: '#00FF0000',
+        padding: 20,
+    },
+    ContainerAngleLeft_W: {
+        backgroundColor: '#ffffff',
+        padding: 20,
+    },
+    AngleLeft: {
+        marginLeft: 20,
+    },
+    TopTabIconLayout: {
+        width: '75%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    BookmarkTouch: {
+        marginRight: 20,
+        padding: 2,
+    },
+    PlusTouch: {
+        padding: 2,
+    },
     CoverImg:{
         width: windowWidth,
         height: windowWidth,

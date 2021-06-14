@@ -39,12 +39,10 @@ export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement =
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog');
         var Data = Content.data;
-        // Content.data.sort(function (a, b) {
-        //     return new Date(a.createdAt) - new Date(b.createdAt);
-        //   });
-        
+        Data.sort(function (a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
         setContent(Content.data);
-        console.log(Content.data);
     }
 
     return (

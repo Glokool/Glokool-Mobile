@@ -17,15 +17,18 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { useNavigation } from '@react-navigation/native';
 
 
+const windowWidth = Dimensions.get('window').width;
 export const SeriesTopTabBar = () : LayoutElement => {
     const Navigation = useNavigation();
 
     return (
         <Layout style={styles.ContainerLayoutAngleLeft}>
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-            <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => Navigation.goBack()}>
-                <AngleLeft style={styles.AngleLeft} />
-            </TouchableOpacity>
+            <Layout style={styles.ContainerIconLayout}>
+                <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => Navigation.goBack()}>
+                    <AngleLeft style={styles.AngleLeft} />
+                </TouchableOpacity>
+            </Layout>
         </Layout>
     )
 }
@@ -39,6 +42,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         // borderWidth: 1,
         // borderColor:'red',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
     },
     ContainerAngleLeft: {
         marginLeft: 20,
