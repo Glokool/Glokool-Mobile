@@ -18,6 +18,7 @@ import {
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { Profile, Logout, CustomerService, Privacy} from '../../assets/icon/My'
 import { AngleLeft } from '../../assets/icon/Common';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const MySetting = (props: MYSettingProps): LayoutElement => {
   const PressBack = () => {
@@ -51,6 +52,9 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
 
   return (
     <React.Fragment>      
+
+      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
+      
       <Layout style={styles.mainContainer}>
 
         {/*탭바 표현*/}
@@ -123,11 +127,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   Tabbar: {
-    flex: 1,
+    height: 50,
     flexDirection: 'row',
   },
   Container:{
-    flex: 8,
+    flex: 10,
     backgroundColor: 'white',
     flexDirection: 'column',
     marginHorizontal: 30

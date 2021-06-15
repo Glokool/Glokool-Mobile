@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import { 
-  NavigatorRoute,
+  NavigatorRoute, SceneRoute,
 } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
 import {
@@ -38,6 +38,17 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
     setButton(true);
 
   }
+
+  const PressBack = () => {
+    auth().signOut;
+
+    console.log('로그아웃 성공?')
+
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: SceneRoute.SIGN_IN}]
+    })
+  }
   
   React.useEffect(() => {
 
@@ -47,6 +58,8 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
 
   }, [])
 
+
+
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
@@ -54,8 +67,8 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
         <Layout style={styles.TopTabBar}>
           
           <Layout style={{flex : 1, alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
-              <AngleLeft />
+            <TouchableOpacity style={styles.BackButton} onPress={() => {PressBack()}}>
+             <AngleLeft />
             </TouchableOpacity>
           </Layout>
 

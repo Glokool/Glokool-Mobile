@@ -9,7 +9,10 @@ import { TopTabBar } from '../../component/Booking';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 
+
 export const PaymentScreen = (props : PaymentScreenProps) : LayoutElement => {
+
+  
   
   const params = props.route.params.params;
   const { pg } = params;
@@ -18,12 +21,14 @@ export const PaymentScreen = (props : PaymentScreenProps) : LayoutElement => {
     app_scheme: 'Glokool',
   };
 
+  console.log('메시지 전송', props.route.params);
+
   function callback(response : any) {
     console.log('결과 : ', response);
 
     props.navigation.replace(NavigatorRoute.BOOK_CONFIRM, {
       screen : SceneRoute.BOOK_FOUTH,
-      params: { success : response.imp_success, method: '씨발'}
+      params: { success : response.imp_success}
     })
   }
 

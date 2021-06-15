@@ -14,13 +14,9 @@ import {
   Icon,
   Modal,
   Card,
-  Button
+  Input
 } from '@ui-kitten/components';
 import { CustomerServiceProps } from '../../../navigation/ScreenNavigator/My.navigator';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import {
-  faAngleLeft
-} from '@fortawesome/free-solid-svg-icons';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { TermsConditionCard } from '../../../component/terms&Condition.component';
 import { CustomerService } from '../../../assets/icon/My'
@@ -32,6 +28,8 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
 
   const user = auth().currentUser;
   const [visible, setVisible] = React.useState(false);
+  const [passward, setPassward] = React.useState<string>('');
+  const [withDrawalVisible, setWithDrawalVisible] = React.useState<boolean>(false);
   const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
   const [termsofService, setTermsofService] = React.useState(false);
   const [privacy, setPrivacy] = React.useState(false);
@@ -53,14 +51,19 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
     }
     
     async function Withdrawal() {
-          
+      
+
       const UserData = firestore().collection('Users').doc(user?.uid).update({ isDelete : true });
+
+      await auth().signInWithEmailAndPassword(user?.email, passward);
+
+      const NewUser = await auth().currentUser?.delete();
+
+      console.log(NewUser);
+      
       console.log('프로필 업데이트', UserData);
 
-      //const WithdrawalData = await user?.delete();
-      
-      await auth().signOut();
-      
+     
       props.navigation.navigate(NavigatorRoute.HOME); 
 
     }
@@ -224,6 +227,14 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
               <Text style={styles.modalTitle}>Are you sure?</Text>
 
               <Text style={styles.modalDesc}>{`Do you really want to withdrawal 'Glokool'?${'\n'}Your account will disappear :(`}</Text>
+
+              <Input
+                value={passward}
+                style={styles.PasswardInput}
+                placeholder={'Your Passward'}
+                secureTextEntry={true}
+                onChangeText={nextValue => setPassward(nextValue)}
+              />
               
               <Layout style={{flexDirection: 'row'}}>
 
@@ -239,6 +250,10 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
                     
             </Card>
       </Modal>
+
+
+
+
     </React.Fragment>
   );
 };
@@ -253,7 +268,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   TextStyle: {
-    fontFamily: 'IBMPlexSans-SemiBold',
+    fontFamily: 'IBMPlexSansKR-SemiBold',
     fontSize: 20,
   },
   Container : {
@@ -314,7 +329,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#AEAEAE',
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 10,
+  },
+  PasswardInput : {
+    marginBottom: 20
   },
   StayButonText: {
     fontFamily : 'BrandonGrotesque-Bold',

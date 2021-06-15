@@ -1,54 +1,29 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth'
 import { LayoutElement, Layout, Modal, Card, Text, Button, Divider } from "@ui-kitten/components";
 import { NavigatorRoute, SceneRoute } from "../../navigation/app.route";
 import { StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
 import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
 import moment from 'moment';
+import { ReservationInfo } from '../../scenes/My';
+import { SERVER } from '../../server.component';
+import axios from 'axios';
 
 const WindowSize = Dimensions.get('window').width;
 
-type ReservationInfo = {
-    user: {
-      uid: String, 
-      name: String, 
-      email: String, 
-      contact: String, 
-    },
-    refund: {
-      check: Boolean, 
-      complete :  Boolean,
-      createdAt: Date,
-      completedAt: Date, 
-    },
-    guide: {
-        uid: String, 
-        name:  String,
-        score: Number, 
-    },
-    day: Date,
-    lang: String,
-    money: String,
-    paymentID: String,
-    paymentDate: Date,
-    _id: string
-}
-
 export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
-
    
-    const RefundCode = props.refundCode;
+
     const [visible, setVisible] = React.useState<boolean>(false);
     const [data, setData] = React.useState<ReservationInfo>({
-        user: {
-            uid: '', 
-            name: 'hello', 
-            email: 'glokoolofficial@naver.com', 
-            contact: '010-xxxx-xxxx', 
-          },
+          uid: '', 
+          name: 'hello', 
+          email: 'glokoolofficial@naver.com', 
+          contact: '010-xxxx-xxxx',
           refund: {
             check: true, 
-            complete :  false,
+            complete : false,
             createdAt: new Date(),
             completedAt: new Date(), 
           },
@@ -68,12 +43,27 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
     React.useEffect(() => {
 
         if(props.visible === true){
-            setVisible(props.visible);       
+            setData(props.data);
+            console.log(props.data);
+            setVisible(props.visible);
         } 
 
-    }, [props])
+    }, [props]);
 
     async function PressRefund() {
+
+        const Token = await auth().currentUser?.getIdToken();
+
+        const config = {
+            method: 'patch',
+            url : SERVER + '/api/reservations/' + data._id + '/refund',
+            headers: { 
+                'Authorization': 'Bearer ' + Token 
+            }
+        }
+
+        const result = await axios(config);
+        setVisible(false);
 
     }
 
@@ -101,7 +91,7 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
                 </Layout>
 
                 <Layout>
-                    {(data.refund.complete === true)? <Text style={styles.policyText}>Refund Completed</Text> : <Text></Text>}
+                    {(data.refund.complete != false)? <Text style={styles.policyText}>Refund Completed</Text> : <Text></Text>}
                 </Layout>
 
                 <Layout style={styles.InfoContainer}>
@@ -114,7 +104,7 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
                     <Layout style={styles.InfoContainer2}>
                         <Text style={styles.info}>{moment(data.day).format('YYYY . MM . DD')}</Text>
-                        <Text style={styles.info}>{data.guide.name}</Text>
+                        <Text style={styles.info}>{(data.guide.name === '')? ` ` : `${data.guide.name}` }</Text>
                         <Text style={styles.info}>{(data.lang === 'eng')? `English` : `Chinese`}</Text>
                     </Layout>
 
@@ -131,9 +121,9 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
                     </Layout>
 
                     <Layout style={styles.InfoContainer2}>
-                        <Text style={styles.info}>{data.user.name}</Text>
-                        <Text style={styles.info} numberOfLines={1}>{data.user.email}</Text>
-                        <Text style={styles.info}>{data.user.contact}</Text>
+                        <Text style={styles.info}>{data.name}</Text>
+                        <Text style={styles.info} numberOfLines={1}>{data.email}</Text>
+                        <Text style={styles.info}>{data.contact}</Text>
                     </Layout>
 
                 </Layout>
@@ -145,13 +135,12 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
                     <Layout>
                         <Text style={styles.infoTitle}>Amount Cost</Text>
                         <Text style={styles.infoTitle}>Payment Day</Text>
-                        <Text style={styles.infoTitle}>Card Number</Text>
+
                     </Layout>
 
                     <Layout style={styles.InfoContainer2}>
                         <Text style={styles.info}>{data.money}</Text>
                         <Text style={styles.info}>{moment(data.paymentDate).format('YYYY . MM . DD')}</Text>
-                        <Text style={styles.info}>{}</Text>
                     </Layout>
 
                 </Layout>
@@ -263,7 +252,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
         textAlign: 'right',
-        marginBottom: -5,
+        marginBottom: 10,
     },
     emailInfo: {
         fontFamily: 'IBMPlexSansKR-Text',

@@ -17,27 +17,25 @@ export { BookmarkList } from './Bookmark/Bookmark.List.component';
 
 
 export type ReservationInfo = {
-    user: {
-      uid: String, 
-      name: String, 
-      email: String, 
-      contact: String, 
-    },
+    uid: string, 
+    name: string, 
+    email: string, 
+    contact: string,     
     refund: {
-      check: Boolean, 
-      complete :  Boolean,
-      createdAt: Date,
-      completedAt: Date, 
+      check: boolean, 
+      complete :  boolean | undefined,
+      createdAt: Date | undefined,
+      completedAt: Date | undefined, 
     },
     guide: {
-        uid: String, 
-        name:  String,
-        score: Number, 
+        uid: string, 
+        name: string,
+        score: number, 
     },
     day: Date,
-    lang: String,
-    money: String,
-    paymentID: String,
+    lang: string,
+    money: string,
+    paymentID: string,
     paymentDate: Date,
     _id: string
 }

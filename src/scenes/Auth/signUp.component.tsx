@@ -37,15 +37,16 @@ import { faAngleLeft, faTimes}  from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 import { privacyPolicycard } from '../../component/privacyPolicy.component'
 
-import KoreanMini from '../../assets/board/Korean_Mini.svg';
-import TravlerMini from '../../assets/board/Travler_Mini.svg';
-import ResidentMini from '../../assets/board/Resident_Mini.svg';
 import { AngleLeft } from '../../assets/icon/Common';
+import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
+import Toast from 'react-native-easy-toast';
 
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
   return { date, onSelect: setDate };
 };
+
+var toastRef : any;
 
 export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
@@ -123,15 +124,15 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   const displayTypeValue = type[selectedTypeIndex.row];
 
   const TravelIcon = () => (
-    <TravlerMini />
+    <Mini_T />
   )
 
   const KoreanIcon = () => (
-    <KoreanMini />
+    <Mini_K />
   )
 
   const ResidentIcon = () => (
-    <ResidentMini />
+    <Mini_R />
   )
 
   //Sex
@@ -155,6 +156,8 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
 
   async function onFormSubmit(values: SignUpData) { // Firebase에 회원가입 (이메일, 비밀번호만 전송)
+
+    toastRef.show("Sign Up...");  
 
     const SignUp = await auth().createUserWithEmailAndPassword(values.email, values.password);
 
@@ -321,7 +324,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
       </ScrollView>
 
       <Layout style={styles.ButtonContainer}>
-        {(Privacy && TermsConditions && props.isValid && props.dirty && !boolean)? 
+        {(Privacy && TermsConditions && props.isValid && props.dirty && !boolean && (country != null))? 
           <TouchableOpacity style={styles.Button} onPress={() => {onFormSubmit(props.values)}}>
             <Text style={styles.ButtonText}>Click to Get the Verification Code</Text>
           </TouchableOpacity>
@@ -391,7 +394,10 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
         
 
       </Layout>
-           
+      
+      <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+
+
     </React.Fragment>
   );
 };

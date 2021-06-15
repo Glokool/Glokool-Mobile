@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AngleLeft } from '../../assets/icon/Common';
-import { HiddenGem } from '../../assets/icon/Series';
+import { HiddenGem, HiddenGem_Title } from '../../assets/icon/Series';
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import { SeriesHiddenGemProps } from '../../navigation/ScreenNavigator/Series.navigator';
@@ -13,10 +13,11 @@ import { SeriesHiddenGemProps } from '../../navigation/ScreenNavigator/Series.na
 export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElement => {
 
     return(
-        <Layout>
+        <Layout style={styles.Container}>
 
             <Layout style={styles.MainContainer}>
-                <Layout style={{height: 80, backgroundColor: '#00FF0000'}} />
+                
+                <Layout style={{height: 100, backgroundColor: '#00FF0000'}} />
 
                 <Text style={styles.TitleText}>Hidden Gems in Korea</Text>
                 <Text style={styles.smallTitleText}>let's Introduce this Series bold and concisely</Text>
@@ -37,7 +38,7 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
 
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
-                    <HiddenGem style={styles.HiddenGemIcon}/>
+                    <HiddenGem_Title style={styles.HiddenGemIcon}/>
                 </Layout>
 
             </Layout>
@@ -49,10 +50,14 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
 }
 
 const styles = StyleSheet.create({
+    Container: {
+        width: '100%',
+        height: '100%'
+    },
     TopTabBar: {
         position: 'absolute',
         width: '100%',
-        minHeight: 80,
+        height: 80,
         top: 0,
         justifyContent: 'flex-start',
         alignItems: 'center',

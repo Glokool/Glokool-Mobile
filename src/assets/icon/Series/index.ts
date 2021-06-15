@@ -22,10 +22,12 @@ import CountNum_Purple from './CountNum_Purple.svg';
 import SgntMenu from './SgntMenu.svg';
 import Menu_Spicy from './Menu_Spicy.svg';
 import Menu_Vegetble from './Menu_Vegetable.svg';
+import HiddenGem_Title from './HiddenGem_Title.svg';
 
 
 export {
     HiddenGem,
+    HiddenGem_Title,
     GlokoolService,
     EntryFee,
     Contact,

@@ -4,6 +4,7 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
+import { GloChatData } from '../component/Chat';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -36,6 +37,15 @@ type BookNavigatorParams = AppNavigatorParams & {
       buyer_addr: string;
       buyer_postcode: string;
       app_scheme: string;
+    },
+    ReservationData : {
+      date: Date; 
+      Name: string;  
+      Email : string;
+      Contact : {
+        type : string;
+        info : string;
+      }
     }
   };
   [NavigatorRoute.BOOK_CONFIRM] : {
@@ -73,7 +83,6 @@ export interface BookThirdScreenProps {
   navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.BOOK_THIRD>;
   route: RouteProp<BookNavigatorParams, SceneRoute.BOOK_THIRD>;
 }
-
 
 export interface PaymentScreenProps {
   navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.PAYMENT>;

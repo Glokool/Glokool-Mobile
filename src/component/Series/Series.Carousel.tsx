@@ -7,7 +7,7 @@ import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { SeriesCarouselProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 type SeriesCarousel_Item = {
-    image: string,
+    image: NodeRequire,
 }
 
 const ImageSize = Dimensions.get('window').width;
@@ -15,8 +15,10 @@ const ImageSize = Dimensions.get('window').width;
 export const SeriesCarousel = (props : SeriesCarouselProps) : LayoutElement => {
 
     const [content, setContent] = React.useState<Array<SeriesCarousel_Item>>([
-        {image: '../../assets/image/Banner_01.png'},
-        {image: '../../assets/image/Banner_02.png'},
+        {image: require('../../assets/SeriesBanner/Banner_01.png')},
+        {image: require('../../assets/SeriesBanner/Banner_02.png')},
+        {image: require('../../assets/SeriesBanner/Banner_03.png')},
+        {image: require('../../assets/SeriesBanner/Banner_04.png')},
     ]);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
     const [activeSlide, setActiveSlide] = React.useState<Number>(0);
@@ -33,7 +35,7 @@ export const SeriesCarousel = (props : SeriesCarouselProps) : LayoutElement => {
 
         return(
             <TouchableOpacity style={styles.ItemContainer}>
-                <Image source={require('../../assets/image/Banner_01.png')} style={styles.ImageContainer} />
+                <Image source={data.item.image} style={styles.ImageContainer} />
             </TouchableOpacity>    
         )
     }

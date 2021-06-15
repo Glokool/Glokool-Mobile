@@ -57,6 +57,14 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
     const uid = user?.uid;
 
     React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            console.log('모든 집중을 내가 받고 있어요!')
+        });
+    
+        return unsubscribe;
+    }, [props.navigation]);
+
+    React.useEffect(() => {
         InitHiddenGemDetail();
     }, []);
 
