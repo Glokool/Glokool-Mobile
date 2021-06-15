@@ -50,6 +50,14 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
 
     React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            console.log('모든 집중을 내가 받고 있어요!')
+        });
+    
+        return unsubscribe;
+    }, [props.navigation]);
+
+    React.useEffect(() => {
         InitHiddenGemDetail();
     }, []);
 

@@ -13,7 +13,8 @@ import {
   PrivacyConfirm,
   PrivacyLogin,
   MyProfile,
-  BookmarkList
+  BookmarkList,
+  ReservationInfo
 } from '../../scenes/My';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 
@@ -47,7 +48,7 @@ export interface MYSettingProps {
 }
 
 export interface PaidDetailProps {
-  refundCode : string;
+  data : ReservationInfo;
   visible: boolean;
   navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
 }

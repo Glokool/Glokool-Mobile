@@ -23,6 +23,7 @@ import { SeriesAFlatlist, SeriesBFlatlist, SeriesFlatlist } from '../../componen
 import { SeriesCarousel } from '../../component/Series/Series.Carousel';
 
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
+    
     const [refresh, setRefresh] = React.useState(true);
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);

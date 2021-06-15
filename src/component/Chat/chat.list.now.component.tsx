@@ -26,18 +26,23 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
     const user = auth().currentUser;
     const Today = new Date();
     const [data, setData] = React.useState<Array<GloChatData>>([]);
+    const [refresh, setRefresh] = React.useState<boolean>(false);
 
     React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            InitNowList();
-        });
-    
-        return unsubscribe;
-    }, [props.navigation]);
+        InitNowList();
+    }, []);
 
     async function InitNowList() {
-        var ListData = await axios.get(SERVER + '/api/users/' + user?.uid + '/reservations/future');
-        setData(ListData.data);
+        const Token = await user?.getIdToken(true);
+        const AxiosConfig = {
+          method: 'get',
+          url: SERVER + '/api/users/reservations/future',
+          headers: { 
+            'Authorization': 'Bearer ' + Token 
+          }
+        }
+        const RevData = await axios(AxiosConfig);
+        setData(RevData.data);
     }
 
     function PressChatRoom(item : GloChatData){
@@ -47,7 +52,6 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
     const RenderItem = (item : {item : GloChatData, index : number}) => {
 
         const DDay = moment(item.item.day).diff(Today, 'days');
-        console.log(item.item)
 
         return(
             <TouchableOpacity style={styles.ChatContainer} onPress={() => PressChatRoom(item.item)}>
@@ -97,6 +101,7 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
                 <FlatList 
                     data={data}
                     renderItem={RenderItem}
+                    refreshing={refresh}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingBottom: 500}}
                 />
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
     },
     GuideContainer: {
         flexDirection: 'row',
-        flex: 7,
+        flex: 8,
         backgroundColor: '#00FF0000'
     },
     GuideAvatarContainer: {
@@ -182,21 +187,21 @@ const styles = StyleSheet.create({
     },
     GuideProfileTxt1: {
         fontFamily:'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: '#C3C3C3',
-        marginBottom: -10
+        marginBottom: -5
     },
     GuideProfileTxt2: {
         fontFamily:'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: 'black',
-        marginTop: -5
+        marginTop: 0
     },
     GuideProfileTxt3: {
         fontFamily:'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: '#7777FF',
-        marginTop: -5
+        marginTop: 0
     },
     DateContainer: {
         flex: 3,
@@ -208,7 +213,6 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: '#8797FF',
-        marginTop: 15
     },
     dateTxt: {
         fontFamily:'IBMPlexSansKR-Medium',

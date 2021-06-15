@@ -25,16 +25,22 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
     const [data, setData] = React.useState<Array<GloChatData>>([]);
 
     React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            InitNowList();
-        });
-    
-        return unsubscribe;
-    }, [props.navigation]);
+
+        InitNowList();
+
+    }, []);
 
     async function InitNowList() {
-        var ListData = await axios.get(SERVER + '/api/users/' + user?.uid + '/reservations/past');
-        setData(ListData.data);
+        const Token = await user?.getIdToken(true);
+        const AxiosConfig = {
+          method: 'get',
+          url: SERVER + '/api/users/reservations/past',
+          headers: { 
+            'Authorization': 'Bearer ' + Token 
+          }
+        }
+        const RevData = await axios(AxiosConfig);
+        setData(RevData.data);
     }
 
     const RenderItem = (item : {item : GloChatData, index : number}) => {

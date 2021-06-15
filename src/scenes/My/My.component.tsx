@@ -1,5 +1,5 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 import {
@@ -27,8 +27,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { PaidDetail } from '../../component/My/PaidDetail';
 import { ReservationInfo } from '.';
 import { SceneRoute } from '../../navigation/app.route';
+import { AuthUser } from '../../data/Auth';
+import Toast from 'react-native-easy-toast';
 
-var ToastRef : any;
+var toastRef : any;
 
 const Screen = Dimensions.get('window').width;
 
@@ -43,11 +45,12 @@ type FirebaseUserInfo = {
   signupDate: Date,  
 }
 
+
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
-  const user = auth().currentUser;
+  const user = AuthUser();
   const [visible, setVisible] = React.useState<boolean>(false);
-  const [refundCode, setRefundCode] = React.useState<string>('');
+  const [detailData, setDetailData] = React.useState<ReservationInfo>();
   const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([]);
   const [userInfo, setUserInfo] = React.useState<FirebaseUserInfo>({
     type : '',
@@ -76,10 +79,26 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
   async function InitMyScreen() {
 
-    var UserInfo = await firestore().collection('Users').doc(user?.uid).get();    
-    setUserInfo(UserInfo._data);
+    var UserInfo = await firestore().collection('Users').doc(user?.uid).get();   
+    
+    if(UserInfo._data != undefined){
+      setUserInfo(UserInfo._data);
+    }
+    
 
-    var PaymentData = await axios.get(SERVER + '/api/reservation');
+    const Token = await auth().currentUser?.getIdToken(true);
+
+   
+    const AxiosConfig = {
+      method: 'get',
+      url: SERVER + '/api/users/reservations',
+      headers: { 
+        'Authorization': 'Bearer ' + Token 
+      }
+    }
+    const RevData = await axios(AxiosConfig);
+    setReservationInfo(RevData.data);
+
   }
    
   React.useEffect(() => {
@@ -109,11 +128,9 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
   function PressDetail(item : ReservationInfo){
 
-    console.log('눌렀다!')
-    setRefundCode(item._id);
+    setDetailData(item);
     setVisible(true);
     
-
     setTimeout(() => {
 
       setVisible(false);
@@ -121,25 +138,27 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     }, 1000)
   }
 
-  console.log('렌더링', visible);
+  function PressComment() {
+    toastRef.show('Not Developed yet', 1000)
+  }
 
   return (
-    (user == null) ? (
+    (user === null) ? (
       <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
     )
       :
     (
-      <Layout>
+      <Layout style={styles.SuperContainer}>
         <SafeAreaView />      
 
-        <PaidDetail navigation={props.navigation} visible={visible} refundCode={refundCode} />
+        <PaidDetail navigation={props.navigation} visible={visible} data={detailData} />
 
         <Layout style={styles.MainContainer}>
           
           <Layout style={styles.Container}>
 
             <Layout style={styles.ProfileContainer}>
-              {(user.photoURL === '')?
+              {(user.photoURL === '' || user.photoURL === null || user.photoURL === undefined)?
                 <Image source={require('../../assets/profile/profile_01.png')} style={styles.profileImage} /> 
               :
                 <Image source={{uri : user.photoURL}} style={styles.profileImage} /> 
@@ -160,7 +179,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
               <Text style={styles.ButtonText}>Setting</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.Button}>
+            <TouchableOpacity style={styles.Button} onPress={() => PressComment()}>
               <Comment_Btn style={styles.ButtonIcon}/>
               <Text style={styles.ButtonText}>Comment</Text>
             </TouchableOpacity>
@@ -203,7 +222,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     
                                 <Layout style={styles.PaidTitleContainer2}>
                                 <Text style={(item.refund.complete === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.paymentDate).format('YY . MM . DD')}</Text>
-                                <Text style={(item.refund.check === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.paymentDate).format('YY . MM . DD')}</Text>
+                                <Text style={(item.refund.check === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.day).format('YY . MM . DD')}</Text>
                                 </Layout>
                             </Layout>
     
@@ -225,12 +244,19 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
 
         </Layout>
+
+        <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+
       </Layout>
     )
   );
 };
 
 const styles = StyleSheet.create({
+    SuperContainer: {
+      width: '100%',
+      height: '100%'
+    },
     MainContainer: {
       backgroundColor: 'white'
     },
@@ -411,6 +437,6 @@ const styles = StyleSheet.create({
       color: '#AEAEAE'
     },
     scroll: {
-      maxHeight: 180,
+      minHeight: 250,
     }
 });

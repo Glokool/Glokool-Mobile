@@ -12,12 +12,9 @@ import {
 } from 'react-native';
 import {
   Layout,
-  Button,
   LayoutElement,
   Text,
 } from '@ui-kitten/components';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { Formik, FormikProps } from 'formik';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import { FormInput } from '../../component/form-input.component';
@@ -111,6 +108,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   };
 
   const PressBack = () => {
+    if(auth().currentUser != null){
+      auth().signOut();
+    }
     props.navigation.replace(NavigatorRoute.MAIN);
   }
   
@@ -165,7 +165,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           <Layout style={styles.TabBar}>
               <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
                 <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-                <TouchableOpacity style={styles.IconContainer} onPress={PressBack}>
+                <TouchableOpacity style={styles.IconContainer} onPress={() => PressBack()}>
                   <AngleLeft_Color />
                 </TouchableOpacity>
               </Layout>

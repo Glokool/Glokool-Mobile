@@ -30,6 +30,7 @@ import { WeatherComponent } from '../../component/Chat/weather.component';
 import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
 import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
+import { AuthUser } from '../../data/Auth';
 
 var ToastRef : any;
 
@@ -42,7 +43,7 @@ type PriceData = {
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
   
-  const user = auth().currentUser;
+  const user = AuthUser();
   
   const [now, setNow] = React.useState<boolean>(true);
   const [ad, setAD] = React.useState<boolean>(true);
@@ -174,7 +175,9 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
               <Text style={styles.BookButtonText}>BOOK Glochat</Text>
             </TouchableOpacity>
           </Layout>
-        </Layout>      
+        </Layout>     
+
+        <SafeAreaView /> 
       
       </Layout>
         :
@@ -187,7 +190,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
           <AngleUp_W />
         </TouchableOpacity>
 
-        
+        <SafeAreaView /> 
       </Layout>      
 
       }
@@ -303,16 +306,16 @@ const styles = StyleSheet.create({
     },
     Cost: {
       fontFamily: 'BrandonGrotesque-Bold',
-      fontSize: 22,
+      fontSize: 20,
       marginLeft: 30
     },
     KRW : {
       fontFamily: 'BrandonGrotesque-Bold',
-      fontSize: 16,
+      fontSize: 14,
     },
     KRWElse: {
       fontFamily: 'IBMPlexSansKR-SemiBold',
-      fontSize: 17,
+      fontSize: 15,
     },
     BookButton: {
       borderRadius: 15,

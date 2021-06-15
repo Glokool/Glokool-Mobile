@@ -138,14 +138,11 @@ const GuideVisiblity = (route) => {
   ? route.state.routes[route.state.index].name
   : '';
 
-
-  if(routeName === 'Guide'|| routeName === ''){
-    return true;
-  }
-
-  else{
+  if(routeName === 'Chatroom' || routeName === 'Chat Help' || routeName === 'Chat Report'){
     return false;
   }
+
+  return true
   
 }
 
@@ -165,7 +162,7 @@ export const MainNavigator = (): React.ReactElement => (
         component={ChatNavigator} 
         options={({ route }) => ({
           tabBarVisible: GuideVisiblity(route),
-          unmountOnBlur : false
+          unmountOnBlur : true
         })}
       />
       <Tab.Screen 

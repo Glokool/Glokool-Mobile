@@ -1,12 +1,15 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { BookSecondScreenProps } from '../../navigation/Book.navigator';
+
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
 import { StyleSheet, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { CancellationPolicy, TopTabBar } from '../../component/Booking';
 import { SceneRoute } from '../../navigation/app.route';
+import { BookSecondScreenProps } from '../../navigation/Book.navigator';
+
 
 const WindowSize = Dimensions.get('window').width
+
 
 export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement => {
 

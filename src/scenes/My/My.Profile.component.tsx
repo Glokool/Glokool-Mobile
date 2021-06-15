@@ -273,19 +273,19 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
               <Text style={styles.title}>Photo</Text>
 
               <Layout style={styles.miniProfileContainer}>
-                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile.jpg')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_01.png')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_02.png')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_03.png')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_04.png')} />
+                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_05.png')} />
               </Layout>
               
             </Layout>
 
             <Layout style={{flex: 1, marginRight: 15}}>
               <TouchableOpacity onPress={PressPicture}>
-                {(profile == undefined || profile == null)?
-                  <Image style={styles.profile} source={require('../../assets/profile.jpg')}/>
+                {(profile == undefined || profile == null || profile == '')?
+                  <Image style={styles.profile} source={require('../../assets/profile/profile_01.png')}/>
                 :
                   <Image style={styles.profile} source={{uri: profile}}/>
                 }

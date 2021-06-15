@@ -10,9 +10,8 @@ import { HiddenGemInKoreaFlatListProps } from '../../navigation/ScreenNavigator/
 import { SERVER } from '../../server.component';
 import { Loading } from '../Common/Loading';
 
-
-
 const SeriesImgW = Dimensions.get('window').width;
+
 type Series_Item = {
     banner: string,
     title: string,
@@ -23,15 +22,6 @@ type Series_Item = {
     tag: Array<string>,
     count: number,
 }
-
-/*
-[{"_id": "60b4642c230e71b5684266f7", 
-"banner": "https://glokool-api.s3.ap-northeast-2.amazonaws.com/tour/60b4642c230e71b5684266f7/preview/16225374526929dd01e7a-4dc9.png", 
-"loc": "3, Dapsimni-ro, Dongdaemun-gu, Seoul, Korea", 
-"region": "seoul", 
-"title": "test2"}, 
-*/
-
 
 export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) : LayoutElement => {
 
@@ -58,10 +48,10 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
 
     const renderItem = (item : { item : Series_Item, index: number }) : LayoutElement => {
 
-       
         return(
             <TouchableOpacity style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
-                <Layout>
+                
+                <Layout style={styles.ImageContainer}>
                     <Image source={{uri : item.item.banner}} style={(item.index % 2 === 0)? styles.ImageEven : styles.ImageOdd } resizeMode={'stretch'}/>
                     
                     <Layout style={styles.TitleContainer}>
@@ -123,6 +113,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
         elevation: 2,
+    },
+    ImageContainer: {
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15
     },
     ImageOdd: {
         width: SeriesImgW * 0.42,

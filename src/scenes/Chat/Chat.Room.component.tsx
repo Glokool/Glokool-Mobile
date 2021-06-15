@@ -410,8 +410,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     // 현재 나의 위치 전송
     const LocationMessage = async() => {
 
-        console.log('이미지 전송 시작');
-
         if (Platform.OS === 'android'){
             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
             

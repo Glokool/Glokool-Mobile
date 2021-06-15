@@ -1,5 +1,5 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import {    
     TouchableOpacity,
     SafeAreaView,
@@ -14,13 +14,11 @@ import {
 import { Logo } from '../../assets/icon/Home'
 import { NavigatorRoute } from '../../navigation/app.route';
 import { HomeTopTabBarProps } from '../../navigation/ScreenNavigator/Home.navigator';
-
-
-
+import { AuthUser } from '../../data/Auth';
 
 export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
 
-    const user = auth().currentUser;
+    const user = AuthUser();
 
     function PressLoginButton() {
 
@@ -48,8 +46,8 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
                 <Layout style={{ flexDirection: 'row', backgroundColor: '#00FF0000' }}>
 
                     <Layout style={styles.LoginButtonContainer} onTouchStart={() => PressLoginButton()}>
-                        {(auth().currentUser)? 
-                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 15}} numberOfLines={1}>{`Hi ! I'm ${auth().currentUser?.displayName}`}</Text>
+                        {(user != null)? 
+                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 15, maxWidth: 120}} numberOfLines={1}>{`Hi ! I'm ${auth().currentUser?.displayName}`}</Text>
                         :
                             <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', color: '#B8B7B5', marginHorizontal: 15}}>{`Login`}</Text>
                         }                  
@@ -58,11 +56,11 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
 
 
                     <TouchableOpacity onPress={() => PressUserPhoto()} style={{ backgroundColor: '#00FF0000'}}>
-                        {(user)?
-                            (user.photoURL != '')?
-                            <Image source={{uri : user.photoURL}} style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#00FF0000' }}/>
-                            :
+                        {(user != null)?                                         
+                            (user.photoURL === '' || user.photoURL === null || user.photoURL === undefined)?
                             <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
+                            :                            
+                            <Image source={{uri : user.photoURL}} style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#00FF0000' }}/>
                         :
                             <Layout style={{ width: 34, height: 34, borderRadius: 50, backgroundColor: '#D2D2D2' }}/>
                         }

@@ -53,7 +53,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                 <Layout style={styles.TitleContainer}>
                     <Layout style={styles.TypeContainer}>
                         {(item.item.type === 'tour')? <Text></Text> : (item.item.type === 'blog')? <Text></Text> : <Text></Text>}
-                        <Text style={styles.Type}>{(item.item.type === 'tour')? `GLOKOOL Service` : (item.item.type === 'blog')? `Day Trip with Glokool`: 'Series B'}</Text>
+                        <Text style={styles.Type}>{(item.item.type === 'tour')? `GLOKOOL Service` : (item.item.type === 'blog')? `Day Trip with Glokool`: 'Korea A-Z'}</Text>
                     </Layout>
                     <Text style={styles.Title}>{item.item.title}</Text>
                 </Layout>
@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: '#00FF0000',
         bottom: 25,
-        left: 25
+        left: 25,
+        marginRight: 25
     },
     Title : {
         color: '#FFFFFF',
