@@ -134,9 +134,9 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
                         </Layout>
 
                         {Glochat? 
-                            <AngleDown />
-                        :
                             <AngleUp />
+                            :
+                            <AngleDown />
                         }                        
 
                     </TouchableOpacity>
@@ -344,38 +344,39 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
             </ScrollView>
 
             <Layout style={styles.TopTabBar}>
-
+                <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
+                <Layout style={styles.TopTabBarInner}>
                 <Layout>
-                    <SafeAreaView style={{flex: 0}} />
+                    <SafeAreaView style={{flex: 0, backgroundColor: '#ffffff'}} />
                     <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
                         <AngleLeft />
                     </TouchableOpacity>
                 </Layout>
                 
                 <Layout>
-                    <SafeAreaView style={{flex: 0}} />
+                    <SafeAreaView style={{flex: 0, backgroundColor: '#ffffff'}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(0)}>
                         <Text style={(selectedButton === 0)? styles.TextButton_S : styles.TextButton}>Info</Text>
                     </TouchableOpacity>
                 </Layout>
 
                 <Layout>
-                    <SafeAreaView style={{flex: 0}} />
+                    <SafeAreaView style={{flex: 0, backgroundColor: '#ffffff'}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(1)}>
                         <Text style={(selectedButton === 1)? styles.TextButton_S : styles.TextButton}>Detail</Text>
                     </TouchableOpacity>
                 </Layout>
 
                 <Layout>
-                    <SafeAreaView style={{flex: 0}} />
+                    <SafeAreaView style={{flex: 0, backgroundColor: '#ffffff'}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>                        
                         <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Menu</Text>
                     </TouchableOpacity>
                 </Layout>
 
 
+                </Layout>
             </Layout>
-
         </Layout>
     );
 }
@@ -389,11 +390,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 60,
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        height: 50,
+        backgroundColor: '#ffffff',
         alignItems: 'center',
+    },
+    TopTabBarInner:{
+        flexDirection: 'row',
+        width: WindowSize,
+        justifyContent: 'space-evenly',
+        alignItems : 'center',
     },
     Button : {
         padding: 15,

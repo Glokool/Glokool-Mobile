@@ -179,7 +179,7 @@ export const MainNavigator = (): React.ReactElement => (
         name={NavigatorRoute.MY}
         component={MyNavigator}          
         options={({ route }) => ({
-          unmountOnBlur : true
+          unmountOnBlur : false
       })}/>
     </Tab.Navigator>
 );

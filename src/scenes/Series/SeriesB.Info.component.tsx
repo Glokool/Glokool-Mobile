@@ -89,6 +89,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
+    const [bookmarkList, setBookmarkList] = React.useState([]);
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -102,7 +103,31 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
-        console.log(Content.data.plus)
+
+        // 북마크 조회 하기 위한 함수 
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'get',
+            url: SERVER + '/api/users/bookmark',
+            headers: { 
+                'Authorization': 'Bearer ' + authToken,
+            }
+        };
+
+        axios(config)
+        .then(function (response) {
+            let data = response.data.blog;
+            let dataTemp = [];
+
+            data.forEach(item => {
+                dataTemp.push(item.id);
+            });
+
+            setBookmarkList(dataTemp);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     const RenderCarousel = (item : { item : ContentImg_Item, index : number }) => {
@@ -114,6 +139,28 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     }
 
     const PressBookmark = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var axios = require('axios');
+        var data = qs.stringify({
+            blogCode: content?._id,
+        });
+        var config = {
+        method: 'post',
+        url: SERVER + '/api/users/bookmark',
+        headers: { 
+            Authorization: 'Bearer ' + authToken, 
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data : data
+        };
+
+        axios(config)
+        .then((response) => {
+            InitSeries();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     
     const PressPlus = async() => {
@@ -161,7 +208,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
         axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setNowComment('');
                 InitSeries();
             })
@@ -183,7 +229,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
         axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 InitSeries();
             })
             .catch((error) => {
@@ -204,7 +249,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
           axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 InitSeries();
             })
             .catch((error) => {
@@ -411,7 +455,11 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         </TouchableOpacity>
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                            {bookmarkList.indexOf(Id) == -1 ? 
                                 <Bookmark />
+                                :
+                                <Bookmark_P />
+                            }
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
                             {content?.plus.indexOf(uid) == -1 ?  (

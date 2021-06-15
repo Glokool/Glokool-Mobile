@@ -138,9 +138,9 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         </Layout>
 
                         {Glochat? 
-                            <AngleDown />
-                        :
                             <AngleUp />
+                            :
+                            <AngleDown />
                         }                        
 
                     </TouchableOpacity>
@@ -397,7 +397,6 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#ffffff',
         alignItems: 'center',
-        
     },
     TopTabBarInner:{
         flexDirection: 'row',

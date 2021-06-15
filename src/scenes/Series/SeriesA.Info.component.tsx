@@ -15,8 +15,6 @@ import {
     TextInput
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
-import { SERVER } from '../../server.component';
-import axios from 'axios';
 import { AngleLeft, PurpleArrow, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
@@ -24,6 +22,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
 import { SeriesTopTabBar } from '../../component/Series';
 import { SceneRoute } from '../../navigation/app.route';
+import { SERVER } from '../../server.component';
+import axios from 'axios';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import qs from "query-string";
 
@@ -72,6 +72,8 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
+    const [bookmarkList, setBookmarkList] = React.useState([]);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -90,7 +92,31 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data.plus)
+
+        // 북마크 조회 하기 위한 함수 
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'get',
+            url: SERVER + '/api/users/bookmark',
+            headers: { 
+                'Authorization': 'Bearer ' + authToken,
+                }
+            };
+    
+            axios(config)
+            .then(function (response) {
+                let data = response.data.contents;
+                let dataTemp = [];
+                
+                data.forEach(item => {
+                    dataTemp.push(item.id);
+                });
+    
+                setBookmarkList(dataTemp);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const RenderCarousel = ({item}) => {
@@ -102,6 +128,28 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     }
 
     const PressBookmark = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var axios = require('axios');
+        var data = qs.stringify({
+            contentCode: content?._id,
+        });
+        var config = {
+        method: 'post',
+        url: SERVER + '/api/users/bookmark',
+        headers: { 
+            Authorization: 'Bearer ' + authToken, 
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data : data
+        };
+
+        axios(config)
+        .then((response) => {
+            InitSeries();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     
     const PressPlus = async() => {
@@ -380,7 +428,11 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         </TouchableOpacity>
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                            {bookmarkList.indexOf(Id) == -1 ? 
                                 <Bookmark />
+                                :
+                                <Bookmark_P />
+                            }
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
                             {content?.plus.indexOf(uid) == -1 ?  (

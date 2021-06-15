@@ -10,9 +10,11 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { AngleLeft, AngleLeft_W, Bookmark, Bookmark_W, Map, Plus, Plus_W } from '../../assets/icon/Common';
+import { AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Bookmark_W, Map, Plus, Plus_W, Plus_P } from '../../assets/icon/Common';
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
 import { HiddenGemInKoreaDetailList } from '../../component/Series/HiddenGemInKoreaDetail.List';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import qs from "query-string";
 
 const ImageSize = Dimensions.get('window').width;
 
@@ -22,6 +24,7 @@ type TourData = {
     cover: string;
     desc : string;
     tag: Array<string>;
+    plus: Array<string>;
 }
 
 type DetailData = {
@@ -45,9 +48,13 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
     const TourCode = props.route.params.TourCode;
     const [loading, setLoading] = React.useState<boolean>(false);
     const [ListData, setListData] = React.useState<DetailData>();
-    const [data, setData] = React.useState<GlokoolTourData>();
+    const [content, setContent] = React.useState<GlokoolTourData>();
     const [Height, setHeight] = React.useState<number>(0);
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
+    const [bookmarkList, setBookmarkList] = React.useState([]);
+
+    const user = auth().currentUser;
+    const uid = user?.uid;
 
     React.useEffect(() => {
         InitHiddenGemDetail();
@@ -56,14 +63,81 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
     async function InitHiddenGemDetail() {
 
         const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode + '/places');
-        setData(HiddenGemDetailData.data);
-        // console.log(HiddenGemDetailData.data.plus)
+        setContent(HiddenGemDetailData.data);
+        console.log(HiddenGemDetailData.data)
+
+        // 북마크 조회 하기 위한 함수 
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'get',
+            url: SERVER + '/api/users/bookmark',
+            headers: { 
+                'Authorization': 'Bearer ' + authToken,
+                }
+            };
+    
+        axios(config)
+        .then(function (response) {
+            let data = response.data.tours;
+            let dataTemp = [];
+            
+            data.forEach(item => {
+                dataTemp.push(item.id);
+            });
+
+            setBookmarkList(dataTemp);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
     }
+    const PressBookmark = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var axios = require('axios');
+        var data = qs.stringify({
+            tourCode: content?.tour.tourCode,
+        });
+        var config = {
+        method: 'post',
+        url: SERVER + '/api/users/bookmark',
+        headers: { 
+            Authorization: 'Bearer ' + authToken, 
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data : data
+        };
 
-    async function PressPlus() {
-
+        axios(config)
+        .then((response) => {
+            InitHiddenGemDetail();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
+    
+    const PressPlus = async() => {
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url: SERVER + "/api/tours/" + content?.tour.tourCode + "/like" ,
+            headers: {
+                Authorization: "Bearer " + authToken,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+          };
+    
+        axios(config)
+        .then((response) => {
+            InitHiddenGemDetail();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+
 
     return(
         <Layout style={styles.MainContainer}>
@@ -71,10 +145,10 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
             <ScrollView showsVerticalScrollIndicator={false} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
                 {/* 탑 이미지 */}
                 <Layout style={styles.TopImageContainer}>
-                    <Image source={{ uri : data?.tour.cover }} style={styles.TopImageContainer} resizeMode={'stretch'}/>
+                    <Image source={{ uri : content?.tour.cover }} style={styles.TopImageContainer} resizeMode={'stretch'}/>
 
                     <Layout style={styles.DescContainer}>
-                        <Text style={styles.DescText}>{data?.tour.desc}</Text>
+                        <Text style={styles.DescText}>{content?.tour.desc}</Text>
                     </Layout>
                 </Layout>
 
@@ -103,12 +177,12 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                 <Layout style={styles.DetailDataContainer}>
                     {(selectedButton === 0)? // 어트랙션을 선택했을 때                        
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.attraction} type={'attr'} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.attraction} type={'attr'} />
                     :
                      (selectedButton === 1)? // 레스토랑을 선택했을 때
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.restaurant} type={'rest'} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.restaurant} type={'rest'} />
                     :
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={data?.cafe} type={'cafe'} />
+                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.cafe} type={'cafe'} />
                     }
 
                 </Layout>
@@ -134,7 +208,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                         <Layout style={{backgroundColor: '#00ff0000'}}>
                             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <Text style={styles.TitleText_B}>{data?.tour.title}</Text>
+                            <Text style={styles.TitleText_B}>{content?.tour.title}</Text>
                         </Layout>
                         
 
@@ -142,14 +216,26 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                     <Layout style={styles.TopTabBarContainer2}>
                         
-                        <TouchableOpacity style={styles.BookmarkButton}>
+                        <TouchableOpacity style={styles.BookmarkButton} onPress={() => PressBookmark()}>
                             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <Bookmark />
+                            {bookmarkList.indexOf(TourCode) == -1 ? 
+                                <Bookmark />
+                                :
+                                <Bookmark_P />
+                            }
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.PlusButton}>
+                        <TouchableOpacity style={styles.PlusButton} onPress={() => PressPlus()}>
                             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <Plus />
+                            {content?.tour.plus == null ? (
+                                <Plus />
+                            ) : (
+                                content?.tour.plus.indexOf(uid) == -1 ? (
+                                    <Plus />
+                                ) : (
+                                    <Plus_P />
+                                )
+                            )}
                         </TouchableOpacity>
 
                     </Layout>
@@ -169,21 +255,33 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                     <Layout style={{backgroundColor: '#00ff0000'}}>
                         <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <Text style={styles.TitleText}>{data?.tour.title}</Text>
+                        <Text style={styles.TitleText}>{content?.tour.title}</Text>
                     </Layout>
 
                 </Layout>
 
                 <Layout style={styles.TopTabBarContainer2}>
 
-                    <TouchableOpacity style={styles.BookmarkButton}>
+                    <TouchableOpacity style={styles.BookmarkButton} onPress={() => PressBookmark()}>
                         <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <Bookmark_W />
+                        {bookmarkList.indexOf(TourCode) == -1 ? 
+                            <Bookmark_W />
+                            :
+                            <Bookmark_P />
+                        }
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.PlusButton}>
+                    <TouchableOpacity style={styles.PlusButton} onPress={() => PressPlus()}>
                          <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        <Plus_W />
+                        {content?.tour.plus == null ? (
+                                <Plus_W />
+                            ) : (
+                                content?.tour.plus.indexOf(uid) == -1 ? (
+                                    <Plus_W />
+                                ) : (
+                                    <Plus_P />
+                                )
+                            )}
                     </TouchableOpacity>
 
                 </Layout>

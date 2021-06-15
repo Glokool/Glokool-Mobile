@@ -132,9 +132,9 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                         </Layout>
 
                         {Glochat? 
-                            <AngleDown />
-                        :
                             <AngleUp />
+                            :
+                            <AngleDown />
                         }                        
 
                     </TouchableOpacity>
@@ -347,7 +347,8 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
             </ScrollView>
 
             <Layout style={styles.TopTabBar}>
-
+                <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
+                <Layout style={styles.TopTabBarInner}>
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
                     <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
@@ -377,8 +378,8 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                 </Layout>
 
 
+                </Layout>
             </Layout>
-
         </Layout>
     );
 }
@@ -392,11 +393,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 60,
-        backgroundColor: 'white',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        height: 50,
+        backgroundColor: '#ffffff',
         alignItems: 'center',
+    },
+    TopTabBarInner:{
+        flexDirection: 'row',
+        width: WindowSize,
+        justifyContent: 'space-evenly',
+        alignItems : 'center',
     },
     Button : {
         padding: 15,

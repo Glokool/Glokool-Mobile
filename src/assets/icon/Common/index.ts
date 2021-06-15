@@ -18,6 +18,7 @@ import Plus_P from './Plus_Purple.svg';
 import Bookmark from './Bookmark.svg';
 import Bookmark_W from './Bookmark_White.svg';
 import Bookmark_P from './Bookmark_Purple.svg';
+import Bookmark_PL from './Bookmark_PurPleLine.svg';
 import PurpleArrow from './PurpleArrow.svg';
 import AngleUp from './AngleUp.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
@@ -44,6 +45,7 @@ export {
     Plus, 
     Plus_W, 
     Plus_P,
+    Bookmark_PL,
     Count,
     Map, 
     PurpleArrow, 
