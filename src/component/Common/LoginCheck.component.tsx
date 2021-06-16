@@ -8,7 +8,17 @@ import { LoginCheckProps } from '../../navigation/Common.navigator';
 
 export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
 
-    const [visible, setVisible] = React.useState(props.visible)
+    const [visible, setVisible] = React.useState(props.visible);
+
+    React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            
+            setVisible(props.visible);
+    
+        });
+    
+        return unsubscribe;
+      }, [props.navigation]);
 
     return(
         <Modal

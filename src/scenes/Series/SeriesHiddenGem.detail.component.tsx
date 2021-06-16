@@ -14,6 +14,7 @@ import { AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Bookmark_W, Map, Plus, Pl
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
 import { HiddenGemInKoreaDetailList } from '../../component/Series/HiddenGemInKoreaDetail.List';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import qs from "query-string";
 
 const ImageSize = Dimensions.get('window').width;
@@ -25,6 +26,8 @@ type TourData = {
     desc : string;
     tag: Array<string>;
     plus: Array<string>;
+    lat: string;
+    lon: string;
 }
 
 type DetailData = {
@@ -33,6 +36,8 @@ type DetailData = {
     visible: boolean;
     title: string;
     placeCode: string;
+    lat: string;
+    lon: string;
 }
 
 type GlokoolTourData = {
@@ -40,6 +45,8 @@ type GlokoolTourData = {
     attraction : Array<DetailData>;
     restaurant: Array<DetailData>;
     cafe : Array<DetailData>;
+    lat: string;
+    lon: string;
 }
 
 
@@ -47,6 +54,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
     const TourCode = props.route.params.TourCode;
     const [loading, setLoading] = React.useState<boolean>(false);
+    const [map, setMap] = React.useState<boolean>(false);
     const [ListData, setListData] = React.useState<DetailData>();
     const [content, setContent] = React.useState<GlokoolTourData>();
     const [Height, setHeight] = React.useState<number>(0);
@@ -58,7 +66,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            console.log('모든 집중을 내가 받고 있어요!')
+
         });
     
         return unsubscribe;
@@ -72,7 +80,7 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
         const HiddenGemDetailData = await axios.get(SERVER + '/api/tours/' + TourCode + '/places');
         setContent(HiddenGemDetailData.data);
-        console.log(HiddenGemDetailData.data)
+
 
         // 북마크 조회 하기 위한 함수 
         const authToken = await auth().currentUser?.getIdToken();
@@ -163,19 +171,31 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                 {/* 버튼 컨테이너 */}
                 <Layout style={styles.ButtonContainer}>
 
-                    <TouchableOpacity style={styles.TextButton}>
+                    <TouchableOpacity style={styles.TextButton} onPress={() => setMap(true)}>
                         <Map />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.TextButton} onPress={() => setSelectedButton(0)}>
+                    <TouchableOpacity style={styles.TextButton} onPress={() => {
+                        setSelectedButton(0) 
+                        setMap(false)
+                    }}
+                    >
                         <Text style={(selectedButton === 0)? styles.TextButtonText_S : styles.TextButtonText}>Attraction</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.TextButton} onPress={() => setSelectedButton(1)}>
+                    <TouchableOpacity style={styles.TextButton} onPress={() => {
+                        setSelectedButton(1) 
+                        setMap(false)
+                    }}
+                    >
                         <Text style={(selectedButton === 1)? styles.TextButtonText_S : styles.TextButtonText}>Restaurant</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.TextButton} onPress={() => setSelectedButton(2)}>
+                    <TouchableOpacity style={styles.TextButton} onPress={() => {
+                        setSelectedButton(2) 
+                        setMap(false)
+                    }}
+                    >
                         <Text style={(selectedButton === 2)? styles.TextButtonText_S : styles.TextButtonText}>Cafe</Text>
                     </TouchableOpacity>
 
@@ -183,17 +203,66 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
                 {/* 리스트 뷰 */}
 
-                <Layout style={styles.DetailDataContainer}>
-                    {(selectedButton === 0)? // 어트랙션을 선택했을 때                        
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.attraction} type={'attr'} />
-                    :
-                     (selectedButton === 1)? // 레스토랑을 선택했을 때
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.restaurant} type={'rest'} />
-                    :
-                        <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.cafe} type={'cafe'} />
-                    }
+                {(map === true)?                
+                    <Layout style={styles.MapContainer}>
+                        <MapView
+                            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                            style={{width: ImageSize - 60, height: ImageSize}}
+                            region={{
+                                latitude: parseFloat(content?.tour.lat),
+                                longitude: parseFloat(content?.tour.lon),
+                                latitudeDelta: 0.015,
+                                longitudeDelta: 0.0121,
+                            }}
+                        >
 
-                </Layout>
+                        <Marker
+                            coordinate={{ latitude : parseFloat(content?.tour.lat) , longitude : parseFloat(content?.tour.lon) }}
+                            image={require('../../assets/icon/Map/Glokool.png')}
+                        />
+
+                        {(content?.attraction.map((item, index) => 
+                            <Marker
+                                coordinate={{ latitude : parseFloat(item.lat) , longitude : parseFloat(item.lon)}}
+                                image={require('../../assets/icon/Map/Attraction.png')}
+                                title={item.title}
+                            />
+                        ))}
+
+                        {(content?.restaurant.map((item, index) => 
+                            <Marker
+                                coordinate={{ latitude : parseFloat(item.lat) , longitude : parseFloat(item.lon)}}
+                                image={require('../../assets/icon/Map/Restaurant.png')}
+                                title={item.title}
+                            />
+                        ))}
+
+                        {(content?.cafe.map((item, index) => 
+                            <Marker
+                                coordinate={{ latitude : parseFloat(item.lat) , longitude : parseFloat(item.lon)}}
+                                image={require('../../assets/icon/Map/Cafe.png')}
+                                title={item.title}
+                            />
+                        ))}
+
+                        
+
+                        </MapView>
+                    </Layout>
+                :
+                    <Layout style={styles.DetailDataContainer}>
+                        {(selectedButton === 0)? // 어트랙션을 선택했을 때                        
+                            <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.attraction} type={'attr'} />
+                        :
+                        (selectedButton === 1)? // 레스토랑을 선택했을 때
+                            <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.restaurant} type={'rest'} />
+                        :
+                            <HiddenGemInKoreaDetailList navigation={props.navigation} route={props.route} data={content?.cafe} type={'cafe'} />
+                        }
+
+                    </Layout>
+                }
+                
 
 
             </ScrollView>
@@ -405,6 +474,10 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#00FF0000',
         marginBottom: 100
+    },
+    MapContainer: {
+        alignItems: 'center',
+        marginBottom: 50
     }
 
 });

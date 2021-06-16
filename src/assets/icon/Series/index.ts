@@ -23,6 +23,8 @@ import SgntMenu from './SgntMenu.svg';
 import Menu_Spicy from './Menu_Spicy.svg';
 import Menu_Vegetble from './Menu_Vegetable.svg';
 import HiddenGem_Title from './HiddenGem_Title.svg';
+import Content from './Content.svg';
+import Blog from './Blog.svg';
 
 
 export {
@@ -50,5 +52,7 @@ export {
     CountNum_Purple,
     SgntMenu,
     Menu_Spicy,
-    Menu_Vegetble
+    Menu_Vegetble,
+    Content,
+    Blog
 }

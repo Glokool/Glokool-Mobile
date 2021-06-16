@@ -42,6 +42,25 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                 }
             );
         }
+        else if (type === 'content'){
+            props.navigation.navigate(
+                NavigatorRoute.SERIES, 
+                { 
+                    screen: SceneRoute.SERIES_A_DETAIL,
+                    params: { Id : id }            
+                }
+            );
+        }
+
+        else {
+            props.navigation.navigate(
+                NavigatorRoute.SERIES, 
+                { 
+                    screen: SceneRoute.SERIES_B_DETAIL,
+                    params: { Id : id }            
+                }
+            );
+        }
     }
 
     const RenderCarousel = (item : { item : HomeCarousel_Item, index : number }) => {
