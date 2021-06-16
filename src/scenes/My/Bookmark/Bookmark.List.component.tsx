@@ -183,6 +183,7 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
                     justifyContent: "center",
                     marginLeft: 35,
                     marginTop: 5,
+                    marginBottom: 100,
                     }}>
                         <FlatList
                         data={blog}

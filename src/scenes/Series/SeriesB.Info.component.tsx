@@ -265,9 +265,18 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     {/* <Layout style={{height: 50}}/> */}
                 </Layout>
              : null }
-            
+
                 <Layout>
                     <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
+                    <Layout style={styles.SeriesBottomLayout}>
+                        <Layout style={styles.SeriesDateLayoutStyle}>
+                            <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
+                        </Layout>
+                        <Layout style={styles.SeriesCountLayoutStyle}>
+                            <CountNum style={styles.SeriesCountIconLayoutStyle} />
+                            <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
+                        </Layout>
+                    </Layout>
                 </Layout>
                 <Layout style={styles.TopTxtContainer}>
                     <Text style={styles.TitleTxt}>{content?.title}</Text>
@@ -534,6 +543,39 @@ const styles = StyleSheet.create({
     CoverImg:{
         width: windowWidth,
         height: windowWidth,
+        position: 'relative',
+    },
+    SeriesBottomLayout: {
+        position: 'absolute',
+        bottom: 10,
+        backgroundColor: '#00FF0000',
+        flexDirection:'row',
+        marginLeft: 30,
+        marginTop: 20,
+        alignItems: 'flex-end',
+    },
+    SeriesDateLayoutStyle: {
+        flexDirection: 'row',
+        backgroundColor: '#00FF0000',
+    },
+    SeriesCountLayoutStyle: {
+        marginLeft: 30,
+        flexDirection:'row',
+        alignItems: 'center',
+        backgroundColor: '#00FF0000',
+    },   
+    SeriesCountIconLayoutStyle: {
+        marginRight: 6,
+    },
+    SeriesDateTxtStyle: {
+        color:'#D2D2D2',
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
+    },
+    SeriesCountTxtStyle: {
+        color:'#D2D2D2',
+        fontFamily:'IBMPlexSansKR-Medium',
+        fontSize:15,
     },
     TopTxtContainer: {
         marginLeft: 20,

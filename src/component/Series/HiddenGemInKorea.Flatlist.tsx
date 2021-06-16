@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         minHeight: SeriesImgW * 0.57,
         borderRadius: 15,
         marginRight: 30,
-        marginBottom: 10,
+        marginBottom: 30,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -137,11 +137,11 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 2,
         },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
+        shadowOpacity: 0.25,
+        shadowRadius: 9,
+        elevation: 5,
     },
     ImageEven: {
         width: SeriesImgW * 0.42,
@@ -183,7 +183,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         paddingRight: 10,
-
     },
     infoContainer2: {
         flexDirection: 'row',

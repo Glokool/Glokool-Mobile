@@ -24,7 +24,6 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
 
                 <HiddenGemInKoreaFlatList navigation={props.navigation} route={props.route} />
 
-
             </Layout>
 
         
