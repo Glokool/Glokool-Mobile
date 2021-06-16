@@ -24,8 +24,18 @@ export const PaidChatList = (props : PaidChatListProps) : LayoutElement => {
     const [refundCode, setRefundCode] = React.useState<string>('');
 
     React.useEffect(() => {
-      InitPaidChatList();
-    }, [])
+
+      const unsubscribe = props.navigation.addListener('focus', () => {
+          InitPaidChatList();
+      });
+  
+
+      return unsubscribe;
+
+
+    }, [props.navigation])
+
+    
 
     async function InitPaidChatList() {
 
@@ -33,7 +43,6 @@ export const PaidChatList = (props : PaidChatListProps) : LayoutElement => {
 
       console.log(Token);
 
-    
       const AxiosConfig = {
         method: 'get',
         url: SERVER + '/api/users/reservations',

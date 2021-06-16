@@ -1,12 +1,11 @@
 import React from 'react';
 import { Layout, LayoutElement, Radio, Text } from "@ui-kitten/components";
 import { BookThirdScreenProps } from "../../navigation/Book.navigator";
-import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { TopTabBar } from '../../component/Booking';
 import { SERVER } from '../../server.component';
 import IMP, { IMP_PAY_METHOD, IMP_PG } from 'iamport-react-native';
 import axios from 'axios';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Divide_Spot } from '../../assets/icon/Booking';
 import moment from 'moment';
 import { 
@@ -15,6 +14,7 @@ import {
 } from 'react-native-paypal'; 
 import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
+import { number } from 'yup';
 
 type PriceData = {
     active: boolean, 
@@ -61,22 +61,21 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             PaypalPayment();
         }
         else{
-
+            KaKaoPayment();
         }
     }
 
     async function PaypalPayment() {
 
-        const PG : IMP_PG = 'paypal';
         const PayMethod : IMP_PAY_METHOD = 'card';
+        const amount = (price?.active)? (price?.price / 1000) - (((price?.discount) * price?.price / 100) / 1000) : (price?.price / 1000);
 
         const params = {
             pg: 'paypal',
             pay_method: PayMethod,
-
-            name: '아임포트 결제데이터 분석',
+            name: 'Glokool-Assistant-Service',
             merchant_uid: `mid_${new Date().getTime()}`,
-            amount: 5,
+            amount: amount,
             buyer_name: data.Name,
             buyer_tel: '',
             buyer_email: data.Email,
@@ -85,8 +84,31 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             app_scheme: 'Glokool',
         };
 
-        props.navigation.navigate(SceneRoute.PAYMENT, { params })
+        props.navigation.navigate(SceneRoute.PAYMENT, { params, data })
 
+    }
+
+    async function KaKaoPayment() {
+
+        const PayMethod : IMP_PAY_METHOD = 'card';
+        const amount = (price?.active)? ((price?.price) - (((price?.discount) * price?.price / 100))) : (price?.price);
+        var contact = '01068470833';
+
+        const params = {
+            pg: 'kakaopay',
+            pay_method: PayMethod,
+            name: 'Glokool-Assistant-Service',
+            merchant_uid: `mid_${new Date().getTime()}`,
+            amount: amount,
+            buyer_name: data.Name,
+            buyer_tel: contact,
+            buyer_email: data.Email,
+            buyer_addr: '서울시 강남구 역삼동 721-11 301호',
+            buyer_postcode: '00000',
+            app_scheme: 'Glokool',
+        };
+
+        props.navigation.navigate(SceneRoute.PAYMENT, { params, data })
 
     }
 
@@ -183,7 +205,7 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
 
                     <Layout style={styles.LogoContainer}>
                         <Image source={require('../../assets/Paypal_logo.png')} style={styles.Logo} resizeMode={'stretch'}/>
-                        <Text style={styles.PaymentText1}>Your payment will be made in <Text style={styles.PaymentText2}>USD</Text>{'\n\n'}Use your balance in your PayPal account.{'\n'}PayPal account is required.</Text>
+                        <Text style={styles.PaymentText1}>Your payment will be made in <Text style={styles.PaymentText2}>USD{'\n'}</Text><Text style={styles.PaymentText2}>Credit or debit cards issued in Korea are not accepted</Text>{'\n\n'}Use your balance in your PayPal account.{'\n'}PayPal account is required.</Text>
                     </Layout>
 
                 </Layout>
@@ -200,8 +222,8 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
                 <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
             </Layout>
             
-
             <TopTabBar index={3}/>
+
         </Layout>
     )
 }
@@ -290,7 +312,7 @@ const styles = StyleSheet.create({
     Payment: {
         width: '95%',
         alignSelf: 'center',
-        height: 150,
+        height: 180,
         borderRadius: 15,
         shadowColor: "#000",
         shadowOffset: {

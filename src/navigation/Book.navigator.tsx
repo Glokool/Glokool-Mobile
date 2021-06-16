@@ -5,6 +5,7 @@ import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
 import { GloChatData } from '../component/Chat';
+import { CallbackRsp } from 'iamport-react-native';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -50,7 +51,18 @@ type BookNavigatorParams = AppNavigatorParams & {
   };
   [NavigatorRoute.BOOK_CONFIRM] : {
     screen : SceneRoute,
-    params: { success : boolean }
+    params: { 
+      response : CallbackRsp 
+      ReservationData : {
+        date: Date; 
+        Name: string;  
+        Email : string;
+        Contact : {
+          type : string;
+          info : string;
+        }
+      }
+    }
   };
 }
 

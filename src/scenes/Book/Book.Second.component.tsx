@@ -121,7 +121,6 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                 </TouchableOpacity>
                 } 
 
-
                 <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
             </Layout>
 

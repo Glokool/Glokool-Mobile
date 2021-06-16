@@ -7,14 +7,8 @@ export const AuthUser = () => {
     
     auth().onAuthStateChanged(function(user) {
         if (user) {
-            
-            if(user.emailVerified === false){
-                auth().signOut();
-                setGlokoolUser(null)
-            }
-            else{
-                setGlokoolUser(user);
-            }
+            setGlokoolUser(user);
+
         } else {
             setGlokoolUser(null);
         }

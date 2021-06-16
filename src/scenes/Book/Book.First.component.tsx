@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, Layout, LayoutElement, Text } from "@ui-kitten/components";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import { TopTabBar } from "../../component/Booking";
 import { BookFirstScreenProps } from '../../navigation/Book.navigator';
 import { SceneRoute } from '../../navigation/app.route';
@@ -24,13 +24,20 @@ export const BookFirstScreen = (props : BookFirstScreenProps) : LayoutElement =>
                     onSelect={nextDate => setDate(nextDate)}
                 />
 
-                <TouchableOpacity style={styles.Button} onPress={() => {props.navigation.navigate(SceneRoute.BOOK_SECOND, { date : date })}} >
-                    <Text style={styles.ButtonText}>NEXT</Text>
-                </TouchableOpacity>
-
             </Layout>
 
+            <Layout style={styles.ButtonContainer}>
+                <TouchableOpacity style={styles.Button} onPress={() => {props.navigation.navigate(SceneRoute.BOOK_SECOND, { date : date })}} >
+                        <Text style={styles.ButtonText}>NEXT</Text>
+                </TouchableOpacity>
+
+                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+            </Layout>
+
+            
+
             <TopTabBar index={1} />
+
         </Layout>
         
     );
@@ -40,17 +47,21 @@ const styles = StyleSheet.create({
     Container: {
         flex: 1,
         backgroundColor: '#00FF0000',
-        
     },
     MainContainer: {
-        marginTop: 80,
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         flex: 1
     },
     TitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 18,
+        marginBottom: 20
+    },
+    ButtonContainer: {
+        position: 'absolute',
+        bottom: 10,
+        alignSelf: 'center',
     },
     Button: {
         backgroundColor: '#7777FF',

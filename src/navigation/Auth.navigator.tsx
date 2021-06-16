@@ -4,12 +4,16 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { SignupScreen, SigninScreen, EmailVerificationScreen, EmailFailScreen, PasswordResetScreen } from '../scenes/Auth';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 type AuthNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SIGN_IN]: undefined;
   [SceneRoute.SIGN_UP]: undefined;
   [SceneRoute.EMAIL_VERIFICATION]: undefined;
-  [SceneRoute.EMAIL_FAIL]: undefined;
+  [SceneRoute.EMAIL_FAIL]: {
+    email: string;
+    passward: string;
+  };
   [SceneRoute.PASSWORD]: undefined;
 }
 

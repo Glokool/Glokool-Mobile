@@ -6,27 +6,70 @@ import { TopTabBar } from "../../component/Booking";
 import { Booking_F, Booking_S } from "../../assets/icon/Booking";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NavigatorRoute } from "../../navigation/app.route";
-
+import { SERVER } from "../../server.component";
+import qs from 'query-string';
+import { AuthUser } from "../../data/Auth";
+import axios from "axios";
 
 
 export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement => {
 
+    const data = props.route.params.response;
+    const PaymentData = props.route.params.ReservationData;
+    const user = AuthUser();
     const [success, setSuccess] = React.useState<boolean>(true);
 
     React.useEffect(() => {
 
 
-        if(props.route.params.success === true){
+        if(props.route.params.response.success === true){
             setSuccess(true);
-            console.log('성공', props.route.params.success)
+
+            console.log('결제 데이터 : ', PaymentData);
+            console.log('아임포트 데이터 : ', data);
+
+            InitBookFourth();
+
         }
         else{
             setSuccess(false);
-            console.log('실패');
+
+            console.log('결제 데이터 : ', PaymentData);
+            console.log('아임포트 데이터 : ', data);
         }
 
 
     }, []);
+
+    async function InitBookFourth() {
+        
+        const Token = await user?.getIdToken();
+
+        const Data = qs.stringify({
+            uid : user?.uid,
+            name: PaymentData.Name,
+            email: PaymentData.Email,
+            contact : PaymentData.Contact,
+            day: PaymentData.date,
+            paymentID : data.imp_uid,
+            lang: 'eng',
+            money: data.paid_amount,
+        });
+        
+        const config = {
+            method : 'post',
+            url : SERVER + '/api/reservations',
+            headers: { 
+                'Authorization': 'Bearer ' + Token 
+            },
+            data: Data
+        }
+
+        const Reservation = await axios(config);
+
+        console.log(Reservation);
+
+    }
 
     return(
         <Layout style={styles.Container}>
