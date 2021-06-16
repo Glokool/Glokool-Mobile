@@ -21,6 +21,7 @@ import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import { SeriesAFlatlist, SeriesBFlatlist, SeriesFlatlist } from '../../component/Series';
 import { SeriesCarousel } from '../../component/Series/Series.Carousel';
+import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     
@@ -39,7 +40,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 {/* hidden gems title */}
                 <Layout style={styles.seriesHidden1}>
                     <Layout style={styles.seriesHiddenLayout}>
-                            <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
+                        <HiddenGem_Title />
+                        <Text style={styles.seriesHiddenTxt}>{`Hidden Gems in Korea`}</Text>
                     </Layout>
                     <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM)}>
                             <Text style={styles.moreBtnTxt}>{`More`}</Text>
@@ -52,7 +54,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 {/* seriesA title - 카드뉴스*/}
                 <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>
-                            <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
+                        <Content />
+                        <Text style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
                     </Layout>
                     <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A)}>
                             <Text style={styles.moreBtnTxt}>{`More`}</Text>
@@ -65,6 +68,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 {/* seriesB title - 블로그 */}
                 <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>
+                        <Blog style={{}}/>
                         <Text style={styles.seriesHiddenTxt}>{`Day Trip with Glokool`}</Text>
                     </Layout>
                     <TouchableOpacity style={styles.moreBtnLayout} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B)} >
@@ -101,11 +105,14 @@ const styles = StyleSheet.create({
         marginRight: 35,
     },
     seriesHiddenLayout:{
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     seriesHiddenTxt:{
         fontFamily:'IBMPlexSansKR-SemiBold',
         fontSize:17,
         color: '#000000',
+        marginLeft: 10
     },
     moreBtnLayout:{
         justifyContent:'flex-end',

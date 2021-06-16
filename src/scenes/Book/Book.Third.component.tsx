@@ -85,7 +85,7 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             app_scheme: 'Glokool',
         };
 
-        props.navigation.navigate(SceneRoute.PAYMENT, { params : params, ReservationData: data })
+        props.navigation.navigate(SceneRoute.PAYMENT, { params })
 
 
     }

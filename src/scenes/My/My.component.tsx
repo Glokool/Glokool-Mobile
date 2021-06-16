@@ -170,26 +170,27 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
             </Layout>
 
-          </Layout>
-
-          <Layout style={styles.ButtonContainer}>
+            <Layout style={styles.ButtonContainer}>
             
-            <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.MY_SETTING)}>
-              <Setting_Btn style={styles.ButtonIcon}/>
-              <Text style={styles.ButtonText}>Setting</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.MY_SETTING)}>
+                <Setting_Btn style={styles.ButtonIcon}/>
+                <Text style={styles.ButtonText}>Setting</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.Button} onPress={() => PressComment()}>
-              <Comment_Btn style={styles.ButtonIcon}/>
-              <Text style={styles.ButtonText}>Comment</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.Button} onPress={() => PressComment()}>
+                <Comment_Btn style={styles.ButtonIcon}/>
+                <Text style={styles.ButtonText}>Comment</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.BOOKMARK_LIST)}>
-              <Bookmark_Btn style={styles.ButtonIcon}/>
-              <Text style={styles.ButtonText}>Bookmark</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.BOOKMARK_LIST)}>
+                <Bookmark_Btn style={styles.ButtonIcon}/>
+                <Text style={styles.ButtonText}>Bookmark</Text>
+              </TouchableOpacity>
+
+            </Layout>
 
           </Layout>
+
 
           <Layout style={styles.SmallTitleContainer}>
 
@@ -241,8 +242,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
           <TouchableOpacity style={styles.ViewPaymentButton} onPress={() => props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)}>
               <Text style={styles.ViewPaymentButtonText}>{`View previous payments >`}</Text>
           </TouchableOpacity>
-
-
+          
         </Layout>
 
         <Toast ref={(toast) => toastRef = toast} position={'center'}/>
@@ -437,6 +437,6 @@ const styles = StyleSheet.create({
       color: '#AEAEAE'
     },
     scroll: {
-      minHeight: 250,
+      maxHeight: 200,
     }
 });
