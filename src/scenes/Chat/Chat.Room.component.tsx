@@ -414,7 +414,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
             
             if (granted === PermissionsAndroid.RESULTS.GRANTED){
-                await Geolocation.getCurrentPosition(
+                Geolocation.getCurrentPosition(
                     position => {
                                        
                         const MessageID = messageIdGenerator();
@@ -442,6 +442,32 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             else{
                 ToastRef.show('GPS Permission Denied...', 2000);
             }
+        }
+        else{
+            Geolocation.getCurrentPosition(
+                position => {
+                                   
+                    const MessageID = messageIdGenerator();
+                    const message = {
+                        _id : MessageID,
+                        createdAt : new Date().getTime(),
+                        user: {
+                            _id: user?.uid
+                        },
+                        location: {
+                            lat: position.coords.latitude,
+                            lon: position.coords.longitude
+                        },
+                        messageType : 'location'
+                    };
+    
+                    ChatDB.update({messages: [message, ...chatMessages]});
+    
+            },
+            error => {
+                console.log("The location could not be loaded because ", error.message),
+                { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+            });
         }
 
 
