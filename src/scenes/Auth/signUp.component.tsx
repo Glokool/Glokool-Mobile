@@ -137,7 +137,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const gender = [ 'Male', 'Female'];
+  const gender = [ 'Male', 'Female', 'ETC'];
   const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
 
   // 나라 선택용 플래그
@@ -274,7 +274,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
             <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
           </Select>
 
-          <Text style={styles.smallTitle}>Sex</Text>
+          <Text style={styles.smallTitle}>Gender</Text>
           <Select
             selectedIndex={selectedIndex}
             onSelect={index => setSelectedIndex(index)}
@@ -283,6 +283,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
           >
             <SelectItem title='Male'/>
             <SelectItem title='Female'/>
+            <SelectItem title='ETC'/>
           </Select>
           
           <Text style={styles.smallTitle}>Date of Birth</Text>

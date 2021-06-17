@@ -75,7 +75,7 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
 
                 <Layout style={styles.DateContainer}>
                     {(DDay > 0)?  
-                        <Text style={styles.DdayTxt}>D - Day {DDay}</Text>
+                        <Text style={styles.DdayTxt}>D - {DDay}</Text>
                     :
                         <Text style={styles.DdayTxt}>D - Day</Text>
                     }                    
@@ -92,7 +92,7 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
                 <Layout style={styles.EmptyContainer}>
                     <Text style={styles.EmptyText}>Empty</Text>
                     <TouchableOpacity style={styles.EmptyButton}>
-                        <Text style={styles.EmptyButtonText}>How to use Glochat?!</Text>
+                        <Text style={styles.EmptyButtonText}>How to use GloChat?!</Text>
                     </TouchableOpacity>
                 </Layout>            
             :

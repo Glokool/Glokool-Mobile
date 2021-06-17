@@ -140,11 +140,11 @@ const styles = StyleSheet.create({
   },
   TitleText1: {
     fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 23
+    fontSize: 22
   },
   TitleText2: {
     fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 26
+    fontSize: 24
   },
   GloChatADContainer: {
     width: '100%',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 5,
     borderBottomEndRadius: 15,
     padding: 10,
-    width: '55%',
+    width: '70%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 15,
     borderTopEndRadius: 15,
     marginRight: 30,
-    marginTop : -10,
+    marginTop : 10,
     padding: 10,
     width: '30%',
     backgroundColor: '#F7F7F7',
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop : -10,
     padding: 10,
-    width: '60%',
+    width: '70%',
     backgroundColor: '#292434',
     shadowColor: "#000",
     shadowOffset: {

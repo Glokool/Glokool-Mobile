@@ -5,20 +5,20 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { 
   NavigatorRoute,
 } from '../../navigation/app.route'
 import { PasswordData, PasswordSchema } from '../../data/password.model';
 import { Formik, FormikProps } from 'formik';
-import { FormInput } from '../../component/password.component';
 import { CommonActions } from '@react-navigation/native';
 import {
-  Button,
   LayoutElement,
   Layout,
 } from '@ui-kitten/components';
 import { PasswordResetScreenProps } from '../../navigation/auth.navigator';
+import { FormInput } from '../../component/form-input.component';
 
 export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElement => {
 
@@ -51,25 +51,27 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
     }
   }
 
-  const renderForm = (props: FormikProps<PasswordData>): React.ReactFragment => (
+  const renderForm = (Props: FormikProps<PasswordData>): React.ReactFragment => (
     <React.Fragment>
+      
       <Layout style={styles.InputContainer}>
+        <Text style={styles.smallTitle}>E-mail</Text>
         <FormInput
           id='email'
           style={styles.formControl}
-          placeholder='Email'
+          placeholder='Write your E-mail'
           keyboardType='email-address'
         />
       </Layout>
 
-      <Layout style={{padding: 20}}>
-        <Button style={styles.nextButton} disabled={sendbutton} onPress={props.handleSubmit}>
-          SEND THE EMAIL
-        </Button>
-        <Button style={styles.nextButton} onPress={PressBack}>
-          Back To Login
-        </Button>
-      </Layout>
+      <TouchableOpacity style={styles.EmailButton} onPress={() => onFormSubmit(Props.values)}>
+        <Text style={styles.EmailButtonTxt}>SEND TO E-MAIL</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+        <Text style={styles.BackButtonTxt}>BACK</Text>
+      </TouchableOpacity>
+
     </React.Fragment>
   )
 
@@ -79,14 +81,20 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
     return () => {
       auth().signOut;
     }
+
   }, [])
 
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
+      
       <Layout style={styles.container}>
+        
         <Image style={{marginVertical: 20}}source={require('../../assets/Verification.png')}/>
-        <Text style={styles.title}>Your Email</Text>
+        
+          <Text style={styles.TitleTxt}>Forgot your password?</Text>
+          <Text style={styles.descTxt}>Glokool will send you a link to your email.</Text>
+        
           <Layout style={styles.InputContainer}>
             <Formik
               initialValues={PasswordData.empty()}
@@ -95,6 +103,8 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
               {renderForm}
             </Formik>
           </Layout>
+      
+      
       </Layout>    
     </React.Fragment>
   );
@@ -126,4 +136,62 @@ const styles = StyleSheet.create({
     margin: 10,
     width: '90%',
   },
+  EmailButton : {
+    borderRadius: 15,
+    backgroundColor : '#7777FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 56,
+    alignSelf: 'center',
+    marginBottom: 10,
+    marginTop: 50
+  },
+  EmailButtonTxt: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#FFFFFF'
+  },
+  BackButton : {
+    borderRadius: 15,
+    width: '100%',
+    height: 56,
+    backgroundColor : '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    alignSelf: 'center',
+    marginTop: 10
+  },
+  BackButtonTxt: {
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#7777FF'
+  },
+  smallTitle :{
+    alignItems: 'flex-start',
+    marginHorizontal: 10,
+    marginVertical: 0,
+    color: '#8797FF',
+    fontSize: 12
+  },
+  TitleTxt: {
+    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontSize: 22,
+    textAlign: 'center'
+  },
+  descTxt: {
+    fontFamily: 'IBMPlexSansKR-Medium',
+    fontSize: 20,
+    textAlign: 'center',
+    marginHorizontal: 50,
+    marginVertical: 20
+  }
 });

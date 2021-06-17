@@ -4,8 +4,9 @@ import auth from '@react-native-firebase/auth';
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
 import { StyleSheet, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { CancellationPolicy, TopTabBar } from '../../component/Booking';
-import { SceneRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { BookSecondScreenProps } from '../../navigation/Book.navigator';
+import { StackActions } from '@react-navigation/native';
 
 
 const WindowSize = Dimensions.get('window').width
@@ -99,7 +100,9 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     'Privacy Policy & Cancellation Policy'
                 </Text>
 
-                <TouchableOpacity style={styles.TermsButton} onPress={() => setVisible(!visible)}>
+                <TouchableOpacity style={styles.TermsButton} onPress={() => 
+                    props.navigation.navigate(SceneRoute.REFUND_POLICY2)}
+                >
                     <Text style={styles.TermsButtonText}>{`Click to Check     >`}</Text>
                 </TouchableOpacity>
 
@@ -180,6 +183,7 @@ const styles = StyleSheet.create({
     smallInput: {
         width: (WindowSize - 60) / 2,
         backgroundColor: '#00FF0000',
+        marginLeft: 10,
         borderWidth: 0,
         borderBottomWidth: 2,
         marginTop: 10

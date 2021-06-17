@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Layout, LayoutElement, Button, Text, Divider } from '@ui-kitten/components';
-import { RefundPolicyProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { Layout, LayoutElement, Text, Divider } from '@ui-kitten/components';
+import { RefundPolicyProps } from '../../navigation/Book.navigator';
 
 
 export const RefundPolicy = (props: RefundPolicyProps) : LayoutElement => {

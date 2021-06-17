@@ -48,9 +48,9 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
 
                     <Layout style={styles.LoginButtonContainer} onTouchStart={() => PressLoginButton()}>
                         {(user != null)? 
-                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 15, maxWidth: 120}} numberOfLines={1}>{`Hi ! I'm ${name}`}</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', marginHorizontal: 5, maxWidth: 120}} numberOfLines={1}>{`${name}`}</Text>
                         :
-                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', color: '#B8B7B5', marginHorizontal: 15}}>{`Login`}</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'BrandonGrotesque-Medium', color: '#B8B7B5', marginHorizontal: 5}}>{`Login`}</Text>
                         }                  
                     </Layout>
 

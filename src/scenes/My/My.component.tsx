@@ -48,7 +48,7 @@ type FirebaseUserInfo = {
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
-  const user = AuthUser();
+  const user = auth().currentUser;
   const [visible, setVisible] = React.useState<boolean>(false);
   const [detailData, setDetailData] = React.useState<ReservationInfo>();
   const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([]);
