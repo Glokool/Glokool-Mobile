@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="105" height="105" viewBox="0 0 105 105">
+  <defs>
+    <filter id="타원_599" x="0" y="0" width="105" height="105" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.09"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="CHAT__음성녹음_시작_아이콘" data-name="CHAT_ 음성녹음 시작 아이콘" transform="translate(-155 -754)">
+    <g transform="matrix(1, 0, 0, 1, 155, 754)" filter="url(#타원_599)">
+      <g id="타원_599-2" data-name="타원 599" transform="translate(9 6)" fill="#8797ff" stroke="#fff" stroke-width="3">
+        <circle cx="43.5" cy="43.5" r="43.5" stroke="none"/>
+        <circle cx="43.5" cy="43.5" r="42" fill="none"/>
+      </g>
+    </g>
+    <g id="그룹_1425" data-name="그룹 1425" transform="translate(192 781.252)">
+      <rect id="사각형_2497" data-name="사각형 2497" width="17.388" height="27.048" rx="8.694" transform="translate(6.833 0)" fill="#fff"/>
+      <path id="패스_2061" data-name="패스 2061" d="M0,0S.354,14.031,15.632,14.031,31.054,0,31.054,0" transform="translate(0 20.286)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="4"/>
+      <line id="선_215" data-name="선 215" y2="9.66" transform="translate(15.527 35.742)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

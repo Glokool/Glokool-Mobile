@@ -32,9 +32,6 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
     const id = props.route.params.id;
     const guide = props.route.params.guide;
 
-
-
-
     const PressCopy = () => {
       Clipboard.setString('070-4300-0833');
       toastRef.show('Copied!', 2000);
@@ -107,9 +104,12 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
 
           </Card>
 
+          <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+          
         </Modal>
 
-        <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+       
+
         </React.Fragment>
     );
 }

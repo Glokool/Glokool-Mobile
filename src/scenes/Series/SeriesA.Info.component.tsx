@@ -77,8 +77,12 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     const user = auth().currentUser;
     const uid = user?.uid;
 
-    React.useEffect(() => {
-        InitSeries();
+    React.useEffect(() => {        
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            InitSeries();
+        });
+      
+        return unsubscribe;
     }, []);
     
     React.useEffect(() => {

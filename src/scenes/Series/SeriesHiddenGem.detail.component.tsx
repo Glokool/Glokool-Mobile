@@ -268,10 +268,6 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
             </ScrollView>
 
 
-
-            
-
-
             {/* 탑 탭 바 */}
             {(Height >= ImageSize - 100)? 
             <Layout style={styles.TopTabBar_B}>

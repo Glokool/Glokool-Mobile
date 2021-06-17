@@ -218,6 +218,6 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize: 12,
         color: 'black',
-        marginVertical: 0
+        marginBottom: -5
     }
 })

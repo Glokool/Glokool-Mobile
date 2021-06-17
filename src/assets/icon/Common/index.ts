@@ -25,6 +25,7 @@ import AngleRight_Color from './AngleRight_Color.svg';
 import AngleLeft_Color from './AngleLeft_Color.svg';
 import GoUp from './GoUp.svg';
 import GrayArrow from './GrayArrow.svg';
+import Exit_C from './Exit_Color.svg';
 
 export {
     Korean, 
@@ -53,6 +54,7 @@ export {
     AngleUp, 
     AngleRight_Color,
     GoUp,
-    AngleLeft_Color
+    AngleLeft_Color,
+    Exit_C
 }
 

@@ -41,10 +41,12 @@ import {filterText} from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
-import { Help, Images, Menu, MyLocation, SendIcon, Voice } from '../../assets/icon/Chat';
-import { AngleLeft_Color } from '../../assets/icon/Common';
+import { Chat_Voice_End, Chat_Voice_Start, Chat_Voice_Stop, Help, Images, Menu, MyLocation, SendIcon, Voice } from '../../assets/icon/Chat';
+import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
 
 var ToastRef : any;
+const WindowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
@@ -366,9 +368,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     );
 
     
-    // 하단 그리드 버튼 (이미지, 소리 전송)
-    const ActionButton = () => {
-        return(
+    const renderActions = (props) => {
+        return(    
             <TouchableOpacity style={styles.ActionButton} onPress={() => setVisible2(true)}>
                 {(visible2 === true)?
                     <Image style={styles.MenuImage} source={require('../../assets/icon/Chat/Menu_S.png')} />
@@ -376,35 +377,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     <Image style={styles.MenuImage} source={require('../../assets/icon/Chat/Menu.png')} />
                 }
             </TouchableOpacity>
-        );
-        
-    }
-
-    const renderActions = (props) => {
-        return(    
-            <OverflowMenu
-                anchor={ActionButton}
-                placement={'top'}
-                appearance='noDivider'
-                visible={false}
-                selectedIndex={selectedIndex2}
-                onSelect={onItemSelect2}
-                onBackdropPress={() => setVisible2(false)}
-                style={{borderWidth: 2, backgroundColor: '#C9C9C9'}}
-                >
-                <MenuItem title='Voice' accessoryLeft={VolumeUpIcon} onPress={() => {
-                    setAudioVisible(true);
-                    setVisible2(false);
-                }}/>
-                <MenuItem title='Image' accessoryLeft={ImageIcon} onPress={async() => {
-                    await ImageSend();
-                    setVisible2(false);
-                }}/>
-                <MenuItem title='My location' accessoryLeft={MapIcon} onPress={async() => {
-                    await LocationMessage();
-                    setVisible2(false);
-                }}/>
-            </OverflowMenu>
         );
     };
 
@@ -518,27 +490,50 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         );
     }
 
-    const renderTime = (props) => {
-        
-        return(
-            <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', left: -60, top: -10}}>
-                <Time
-                    {...props}
-                    containerStyle={{backgroundColor: 'red'}}
-                    timeTextStyle={{
-                        left: {
-                            color: '#AEAEAE',
-                            fontFamily: 'BrandonGrotesque-Medium'
-                        },
-                        right: {
-                            color: '#AEAEAE',
-                            fontFamily: 'BrandonGrotesque-Medium'
-                        }
-                    }}
-                />
-            </Layout>
+    const renderTime = (props : any) => {
 
-        )
+        if(props.position === 'right'){
+            return (
+                <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', left: -60, top: -10}}>
+                        <Time
+                            {...props}
+                            containerStyle={{backgroundColor: 'red'}}
+                            timeTextStyle={{
+                                left: {
+                                    color: '#AEAEAE',
+                                    fontFamily: 'BrandonGrotesque-Medium'
+                                },
+                                right: {
+                                    color: '#AEAEAE',
+                                    fontFamily: 'BrandonGrotesque-Medium'
+                                }
+                            }}
+                        />
+                </Layout>
+            )
+        }
+
+        else {
+            return(
+                <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', right: -55, top: -15}}>
+                    <Time
+                        {...props}
+                        containerStyle={{backgroundColor: 'red'}}
+                        timeTextStyle={{
+                            left: {
+                                color: '#AEAEAE',
+                                fontFamily: 'BrandonGrotesque-Medium'
+                            },
+                            right: {
+                                color: '#AEAEAE',
+                                fontFamily: 'BrandonGrotesque-Medium'
+                            }
+                        }}
+                    />
+                </Layout>
+            )
+        }       
+
     }
 
     const renderCustomBubble = (props) => {
@@ -593,7 +588,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
            <Composer
                 {...props}
                 placeholder='Chat Message'
-                textInputStyle={{alignSelf: 'center'}}
+                textInputStyle={{alignSelf: 'center', marginBottom: -2, textDecorationLine : 'none', borderBottomWidth: 0, textAlignVertical: 'center'}}
                 style={{borderRadius: 35}}
            />
         );
@@ -672,50 +667,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                 </Layout>
                 
-
-                {/* 녹음기 화면 */}
-                <Modal
-                    style={{position: 'absolute', top: '80%'}}
-                    visible={audioVisible}
-                    backdropStyle={styles.backdrop}
-                    onBackdropPress={() => audioExit()}>                
-                    <Layout style={{backgroundColor: 'white', borderRadius: 30, width: 200, height: 56, flexDirection: 'row'}}>
-                        
-                        {/*<TouchableOpacity style={styles.audioIconContainer} onPress={async()=> {
-                            setAudioVisible(false);
-                            if(startAudio) {
-                                setStartAudio(false);
-                                await AudioRecorder.stopRecording();
-                            }
-                        }}>
-                            <Icon style={styles.icon} fill='white' name='close-outline'/>
-                        </TouchableOpacity>*/}
-                        
-                        <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                            <TouchableOpacity onPress={PressReset}>
-                                <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
-                            </TouchableOpacity>                        
-                        </Layout>
-
-                        <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
-                            <TouchableOpacity onPress={handleAudio}>
-                                {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
-                            </TouchableOpacity>                        
-                        </Layout>
-
-                        <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                            <TouchableOpacity onPress={() => {
-                                if(audioPath != ''){
-                                    sendAudio();
-                                }
-                            }}>
-                                {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
-                            </TouchableOpacity>                        
-                        </Layout>                      
-                    </Layout>
-                </Modal>
-
-
                 {/* 가이드 정보를 출력하는 모달 */}
                 <Modal
                     visible={guideVisible}
@@ -820,18 +771,83 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 <Text style={styles.SideButtonTxt}>Images</Text>
                             </TouchableOpacity>
 
-
                         </Layout>
                     </Layout>
                 :
                     null
                 }
 
-                
-
-
-                
             </KeyboardAvoidingView>
+
+            {(audioVisible === true)?
+                <Layout style={styles.SideContainerBack}>
+                    
+                    <Layout style={styles.BackDropContainer} onTouchStart={() => audioExit()} />
+
+                    <Layout style={styles.AudioContainer}>
+
+                        <TouchableOpacity style={styles.VoiceContainerExitButton} onPress={() => audioExit()}>
+                            <Exit_C />
+                        </TouchableOpacity>
+
+                        <Layout style={styles.VoiceRecorder}>
+
+                            <Text style={(startAudio)? styles.RecordingStatusTxt_ing : styles.RecordingStatusTxt }>{`Re-${'\n'}recording`}</Text>
+
+                            <TouchableOpacity style={styles.RecordingButton} onPress={handleAudio}>
+                                {(audioPath == '')? (startAudio === true)? <Chat_Voice_Stop /> : <Chat_Voice_Start /> : <Chat_Voice_End />}
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={(audioPath === '')? styles.SendButton_D : styles.SendButton } onPress={() => {
+                                if(audioPath != ''){
+                                    sendAudio();
+                                }
+                            }}>
+                                <Text style={styles.SendButtonTxt}>Send</Text>
+                            </TouchableOpacity>
+
+                        </Layout>
+
+                    
+                    </Layout>
+
+                </Layout>
+            :
+                null
+            }
+
+            {/* 녹음기 화면
+            <Modal
+                style={{position: 'absolute', bottom: 0, width: '100%', height: 182 }}
+                visible={audioVisible}
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => audioExit()}
+            >                                    
+                <Layout style={{backgroundColor: 'white', width: '100%', height: 56, flexDirection: 'row'}}>
+                                            
+                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                        <TouchableOpacity onPress={PressReset}>
+                            <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
+                        </TouchableOpacity>                        
+                    </Layout>
+
+                    <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
+                        <TouchableOpacity onPress={handleAudio}>
+                            {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
+                        </TouchableOpacity>                        
+                    </Layout>
+
+                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
+                        <TouchableOpacity onPress={() => {
+                            if(audioPath != ''){
+                                sendAudio();
+                            }
+                        }}>
+                            {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
+                        </TouchableOpacity>                        
+                    </Layout>                      
+                </Layout>
+            </Modal> */}
             
         </Layout>
     );
@@ -979,15 +995,83 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 100,
         backgroundColor: '#F8F8F8',
-        marginVertical: 80
+        marginBottom: 100
     },
     SideButton: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: 86,
+        height: 65,
+        marginTop: 10
     },
     SideButtonTxt: {
         fontFamily: 'IBMPlexSansKR-Medium',
         color: '#8C8C8C',
-        fontSize: 16
+        fontSize: 14
+    },
+    BackDropContainer: {
+        width: WindowWidth,
+        height: windowHeight * 0.7,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    AudioContainer : {
+        width: WindowWidth,
+        height: windowHeight * 0.3,
+        borderTopWidth: 5,
+        borderColor : '#7676FE',
+        backgroundColor: '#F8F8F8'
+    },
+    VoiceContainerExitButton: {
+        alignSelf: 'flex-end',
+        paddingHorizontal: 20,
+        paddingVertical: 15
+    },
+    VoiceRecorder: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        backgroundColor: '#00FF0000'
+    },
+    RecordingStatusTxt: {
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        color : '#D2D2D2',
+        fontSize: 16,
+        textAlign: 'center'
+    },
+    RecordingStatusTxt_ing: {
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        color : '#7777FF',
+        fontSize: 16,
+        textAlign: 'center'
+    },
+    RecordingButton: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+    },
+    SendButton: {
+        borderRadius: 35,
+        backgroundColor: '#7777FF',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    SendButton_D : {
+        borderRadius: 35,
+        backgroundColor: '#D2D2D2',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    SendButtonTxt:{
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        marginHorizontal: 20,
+        marginVertical: 5,
+        color: 'white',
+        textAlign: 'center'
     }
 });

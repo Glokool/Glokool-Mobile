@@ -80,7 +80,7 @@ export const ChatReportScreen = (props: ChatReportScreenProps): LayoutElement =>
           <Layout style={{flex: 9, padding: 20, flexDirection: 'column'}}>
 
             <Layout style={styles.SendContainer}>
-              <Text style={styles.desc}>If there is any problem, please report us and let us know.</Text>
+              <Text style={styles.desc}>If there is any problem, please report and let us know.</Text>
               <TouchableOpacity style={styles.SendButton} onPress={() => PressSend()}>
                 <Text style={styles.SendButtonTxt}>Send</Text>
               </TouchableOpacity>
