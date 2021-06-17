@@ -547,9 +547,9 @@ const styles = StyleSheet.create({
     SeriesCountLayoutStyle: {
         marginLeft: 30,
         flexDirection:'row',
+        alignItems: 'center',
     },   
     SeriesCountIconLayoutStyle: {
-        marginTop: 5,
         marginRight: 6,
     },
     SeriesDateTxtStyle: {
@@ -713,11 +713,11 @@ const styles = StyleSheet.create({
     CommentsAuthorInner02PlusContainerLayout: {
         flexDirection: 'row',
         marginLeft: 10,
+        alignItems: 'center',
         // borderWidth: 1,
         // borderColor: 'blue',
     },
     CommentsAuthorInner02PlusIconLayout: {
-        marginTop: 2,
     },
     CommentsAuthorInnerPlusNum02Layout: {
         fontFamily:'IBMPlexSansKR-Text',
