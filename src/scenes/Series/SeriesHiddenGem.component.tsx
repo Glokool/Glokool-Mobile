@@ -34,33 +34,21 @@ export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElem
             <Layout style={styles.ContainerLayoutAngleLeft}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                 <Layout style={styles.ContainerIconLayout}>
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => Navigation.goBack()}>
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
                         <AngleLeft />
                     </TouchableOpacity>
                     <HiddenGem_Title style={styles.HiddenGemIcon}/>
                 </Layout>
             </Layout>
-
-
         </Layout>
-      
-        
+
     )
 }
 
 const styles = StyleSheet.create({
     Container: {
         width: '100%',
-        height: '100%'
-    },
-    TopTabBar: {
-        position: 'absolute',
-        width: '100%',
-        height: 50,
-        top: 0,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: 'row'
+        height: '100%',
     },
     ContainerLayoutAngleLeft: {
         width: '100%',
@@ -86,6 +74,6 @@ const styles = StyleSheet.create({
     MainContainer: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
 })

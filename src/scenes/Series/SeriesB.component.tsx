@@ -18,8 +18,10 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SeriesBList, SeriesTopTabBar } from '../../component/Series';
+import { Blog } from '../../assets/icon/Series';
 
-const SeriesImgW = Dimensions.get('window').width;
+
+const windowWidth = Dimensions.get('window').width;
 
 
 export const SeriesBScreen = (props: SeriesBDetailProps): LayoutElement => {
@@ -31,14 +33,22 @@ export const SeriesBScreen = (props: SeriesBDetailProps): LayoutElement => {
             <Layout style={styles.TopLayout}>
                 <Text style={styles.TopTxt1}>{`Day Trip with Glokool`}</Text>
                 <Text style={styles.TopTxt2}>
-                    {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
+                    {`Various themes of one day tour course.`}
                 </Text>
             </Layout>
             <SeriesBList navigation={props.navigation} route={props.route} />
         </ScrollView>
 
         {/* 탑탭바 */}
-        <SeriesTopTabBar />
+        <Layout style={styles.ContainerLayoutAngleLeft}>
+            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+            <Layout style={styles.ContainerIconLayout}>
+                <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                    <AngleLeft />
+                </TouchableOpacity>
+                <Blog />
+            </Layout>
+        </Layout>
 
     </Layout>
     )
@@ -62,6 +72,25 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#8C8B8B',
         marginTop: 7,
-    }
+    },
+    // toptap bar
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
+        alignItems: 'center',
+    },
+    ContainerAngleLeft: {
+        marginLeft: 20,
+        padding: 20,
+    },
 })
 

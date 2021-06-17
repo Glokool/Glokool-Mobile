@@ -63,8 +63,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 </Layout>
                 <SeriesAFlatlist  navigation={props.navigation} route={props.route} />
 
-
-
                 {/* seriesB title - 블로그 */}
                 <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>

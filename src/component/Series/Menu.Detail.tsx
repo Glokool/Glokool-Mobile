@@ -12,7 +12,7 @@ import {
     Text,
 } from '@ui-kitten/components'
 import FastImage from 'react-native-fast-image'
-import { Menu_Vegetble } from '../../assets/icon/Series';
+import { Menu_Vegetble, Menu_Spicy } from '../../assets/icon/Series';
 
 type image = {
     width: number,
@@ -61,10 +61,10 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
                 <Layout style={{flex: 1}}>
                     <Layout style={styles.DetailContainer2}>
                         <Menu_Vegetble />
-                        <Text style={styles.DetailText2}>  Vegan Edible</Text>
+                        <Text style={styles.DetailText2}>  Vegan</Text>
                     </Layout>
                     <Layout style={styles.DetailContainer2}>
-                        <Menu_Vegetble />
+                        <Menu_Spicy />
                         <Text style={styles.DetailText2}>  Spiciness</Text>
                     </Layout>                   
                 </Layout>
@@ -121,5 +121,6 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSans-SemiCondensed',
         fontSize: 15,
         color: '#8C8C8C',
+        marginLeft: 10,
     }
 })
