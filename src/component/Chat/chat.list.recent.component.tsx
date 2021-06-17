@@ -76,7 +76,7 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
                 <Layout style={styles.EmptyContainer}>
                     <Text style={styles.EmptyText}>Empty</Text>
                     <TouchableOpacity style={styles.EmptyButton}>
-                        <Text style={styles.EmptyButtonText}>How to use Glochat?!</Text>
+                        <Text style={styles.EmptyButtonText}>How to use GloChat?!</Text>
                     </TouchableOpacity>
                 </Layout>            
             :

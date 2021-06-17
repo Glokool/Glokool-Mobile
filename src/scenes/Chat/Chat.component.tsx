@@ -286,7 +286,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       marginLeft: 30,
       justifyContent: 'flex-start',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: 0
     },
     DiscountNotContainer: {
       position: 'absolute',
@@ -307,7 +308,8 @@ const styles = StyleSheet.create({
     Cost: {
       fontFamily: 'BrandonGrotesque-Bold',
       fontSize: 20,
-      marginLeft: 30
+      marginLeft: 30,
+      marginTop: -5
     },
     KRW : {
       fontFamily: 'BrandonGrotesque-Bold',

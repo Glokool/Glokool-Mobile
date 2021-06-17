@@ -48,7 +48,7 @@ type FirebaseUserInfo = {
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
-  const user = AuthUser();
+  const user = auth().currentUser;
   const [visible, setVisible] = React.useState<boolean>(false);
   const [detailData, setDetailData] = React.useState<ReservationInfo>();
   const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([]);
@@ -85,10 +85,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
       setUserInfo(UserInfo._data);
     }
     
-
     const Token = await auth().currentUser?.getIdToken(true);
 
-   
     const AxiosConfig = {
       method: 'get',
       url: SERVER + '/api/users/reservations',
@@ -103,8 +101,12 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
    
   React.useEffect(() => {
 
+    const unsubscribe = props.navigation.addListener('focus', () => {
       InitMyScreen();
+    });
 
+    return unsubscribe;
+      
   }, []);
 
   const handleBackButton = () => {

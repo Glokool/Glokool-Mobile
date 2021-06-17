@@ -5,6 +5,8 @@ import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
 import { GloChatData } from '../component/Chat';
+import { CallbackRsp } from 'iamport-react-native';
+import { RefundPolicy } from '../component/Booking';
 
 type BookNavigatorParams = AppNavigatorParams & {
   [SceneRoute.BOOK_DATE]: {    
@@ -15,6 +17,7 @@ type BookNavigatorParams = AppNavigatorParams & {
 
   [SceneRoute.BOOK_FIRST] : undefined;
   [SceneRoute.BOOK_SECOND] : { date : Date };
+  [SceneRoute.REFUND_POLICY2] : undefined;
   [SceneRoute.BOOK_THIRD] : { 
     date: Date; 
     Name: string;  
@@ -50,7 +53,18 @@ type BookNavigatorParams = AppNavigatorParams & {
   };
   [NavigatorRoute.BOOK_CONFIRM] : {
     screen : SceneRoute,
-    params: { success : boolean }
+    params: { 
+      response : CallbackRsp 
+      ReservationData : {
+        date: Date; 
+        Name: string;  
+        Email : string;
+        Contact : {
+          type : string;
+          info : string;
+        }
+      }
+    }
   };
 }
 
@@ -89,6 +103,10 @@ export interface PaymentScreenProps {
   route: RouteProp<BookNavigatorParams, SceneRoute.PAYMENT>;
 }
 
+export interface RefundPolicyProps {
+  navigation: StackNavigationProp<BookNavigatorParams, SceneRoute.REFUND_POLICY2>;
+}
+
 
 
 const Stack = createStackNavigator();
@@ -97,6 +115,7 @@ export const BookNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.BOOK_FIRST} component={BookFirstScreen}/>
     <Stack.Screen name={SceneRoute.BOOK_SECOND} component={BookSecondScreen}/>
+    <Stack.Screen name={SceneRoute.REFUND_POLICY2} component={RefundPolicy}/>
     <Stack.Screen name={SceneRoute.BOOK_THIRD} component={BookThirdScreen}/>
     <Stack.Screen name={SceneRoute.PAYMENT} component={PaymentScreen} />
   </Stack.Navigator>

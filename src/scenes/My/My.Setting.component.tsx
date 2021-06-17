@@ -38,8 +38,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   const PressLogout = () => {
-    console.log('로그아웃 후 앱 재시동');
-    auth().signOut();
+
     props.navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -48,6 +47,9 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         ],
       })
     );
+
+    auth().signOut();
+
   }
 
   return (

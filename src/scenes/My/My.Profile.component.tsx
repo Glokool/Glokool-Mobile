@@ -10,33 +10,27 @@ import {
   Dimensions,
 } from 'react-native';
 import {
-  Divider,
   IndexPath,
   Layout,
   LayoutElement,
   Text,
   Input,
-  Modal,
-  Button,
-  Card,
   Select,
   SelectItem
 } from '@ui-kitten/components';
 import { MYProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { launchImageLibrary } from 'react-native-image-picker/src';
-import Toast from 'react-native-easy-toast';
-
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
+import { Loading } from '../../component/Common/Loading';
 
 var toastRef : any;
 
 export const MyProfile = (props: MYProfileProps): LayoutElement => {
+
   //Name
   const [name, setName] = React.useState('');
   const [withDrawal, setWithDrawal] = React.useState(false);
@@ -71,6 +65,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     'Korean'
   ];
   const displayTypeValue = type[selectedTypeIndex.row];
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const TravelIcon = () => (
     <Mini_T />  
@@ -84,33 +79,24 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     <Mini_R />
   )
 
-
-  
-  
-
   const PressBack = () => {
     props.navigation.goBack();
   }
 
-  const PressChange = () => {
-    var profile = user?.updateProfile({
+  const PressChange = async() => {
+
+    setLoading(true);
+
+    const doc = await firestore().collection('Users').doc(user.uid).update({
+      name: name,
+      type: displayTypeValue
+    });
+    
+    var profile = await user?.updateProfile({
       displayName: name,          
     })
-    .then(() => {
-      console.log('프로필 업데이트 성공');
 
-      const doc = firestore().collection('Users').doc(user.uid).update({
-        name: name,
-        type: displayTypeValue
-      });
-        
-
-      toastRef.show('Profile Update Success', 2000);
-      props.navigation.goBack();
-    })
-    .catch(() => {      
-      console.log('프로필 업데이트 실패')
-    })
+    props.navigation.goBack();
 
   }
 
@@ -179,24 +165,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           }
       })
   }
-
-  const withDrawalFunction = () => {
-
-    setWithDrawal(false);
-    
-    firestore().collection('Users').doc(uid).delete()
-      .then((result) => {
-        user?.delete();        
-        auth().signOut();
-        props.navigation.navigate(NavigatorRoute.HOME);
-      })
-      .catch((err) => {
-        toastRef.show('Withdrawal Fail! Please Try Again', 1000)
-      })
-
-
-  }
-
   React.useEffect(() => {
 
     const updateData = async() => {
@@ -371,6 +339,8 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         </Layout>
 
       </Layout>
+
+      {(loading === true)? <Loading />: null}
     
     </React.Fragment>
   );
@@ -437,7 +407,7 @@ const styles = StyleSheet.create({
   },
   SaveButton: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 20,
     left: 30,
     width: Dimensions.get('window').width - 60,
     height: 50,

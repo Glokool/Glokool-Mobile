@@ -4,10 +4,20 @@ import { createStackNavigator, StackNavigationProp  } from '@react-navigation/st
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { BookFouthScreen } from '../scenes/Book';
+import { CallbackRsp } from 'iamport-react-native';
 
 type BookConfirmNavigatorParams = AppNavigatorParams & {
     [SceneRoute.BOOK_FOUTH] : {
-        success: boolean;
+        response: CallbackRsp;
+        ReservationData : {
+          date: Date; 
+          Name: string;  
+          Email : string;
+          Contact : {
+            type : string;
+            info : string;
+          }
+        }
     };
 }
 

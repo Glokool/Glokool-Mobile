@@ -48,30 +48,20 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
       auth().signInWithEmailAndPassword(values.email, values.password)
         .then((user) => {    
-          console.log('로그인 화면 - 이메일 인증여부 판단...');
           
-
           firebase().collection('Users').doc(user.user.uid).get()
               .then((result) => {
-                  if(result.exists == false){
-                    // 유저가 아닌 가이드 회원 (어드민일수 있지만 제외)
-                    toastRef.show(`We're sorry, but you can't log in to the guide account`, 2000)
+
+                  if (user.user.emailVerified == true) {
+                    toastRef.show("Login Success!");
+                    props.navigation.dispatch(MainNavigate);
                   }
-                  else{
 
-                    if (user.user.emailVerified == true) {
-                      toastRef.show("Login Success!");
-                      props.navigation.dispatch(MainNavigate);
-                    }
+                  else {
 
-                    else {
-                      props.navigation.reset({
-                        index: 0,
-                        routes: [{ name: SceneRoute.EMAIL_FAIL}]
-                      });
-                    }
-
+                    props.navigation.navigate(SceneRoute.EMAIL_FAIL, { email : values.email, passward: values.password });
                   }
+                  
               })
               .catch((err) => {
 

@@ -137,7 +137,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   //Sex
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const gender = [ 'Male', 'Female'];
+  const gender = [ 'Male', 'Female', 'ETC'];
   const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
 
   // 나라 선택용 플래그
@@ -157,33 +157,51 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   async function onFormSubmit(values: SignUpData) { // Firebase에 회원가입 (이메일, 비밀번호만 전송)
 
-    toastRef.show("Sign Up...");  
-
-    const SignUp = await auth().createUserWithEmailAndPassword(values.email, values.password);
-
+    toastRef.show("Sign Up...");
+    
     const ProfileData = {
-        name : values.name,
-        email : values.email,
-        gender : gender[selectedIndex.row],
-        country : country.name,
-        signupDate : new Date(),  //가입한 날짜
-        birthDate : minMaxPickerState.date,
-        avatar: '',
-        type: type[selectedTypeIndex.row]
+      name : values.name,
+      email : values.email,
+      gender : gender[selectedIndex.row],
+      country : country.name,
+      signupDate : new Date(),  //가입한 날짜
+      birthDate : minMaxPickerState.date,
+      avatar: '',
+      type: type[selectedTypeIndex.row]
     };
 
-    const FirebaseProfileData = {
-      displayName : values.name,
-      photoURL: ''  // 최초 아바타는 가지지 않음
-    }
+    auth().createUserWithEmailAndPassword(values.email, values.password)
+      .then((signUpResult) => {
+          //최초 계정 생성 성공
 
-    const Profile = await firestore().collection('Users').doc(SignUp.user.uid).set(ProfileData);
-    await SignUp.user.updateProfile(FirebaseProfileData);
+          toastRef.show("SignUp Success...");
 
-    props.navigation.reset({
-      index: 0,
-      routes: [{ name: SceneRoute.EMAIL_VERIFICATION}]
-    });
+          firestore().collection('Users').doc(signUpResult.user.uid).set(ProfileData)
+              .then((profileResult) => {
+                  toastRef.show("Profile Update Success...");
+
+                  signUpResult.user.updateProfile({
+                    displayName: values.name,
+                    photoURL: ''
+                  });
+
+                  props.navigation.reset({
+                    index: 0,
+                    routes: [{ name: SceneRoute.EMAIL_VERIFICATION}]
+                  });
+              })
+              .catch((err) => {
+                console.log('Firebase Firestore Error : ', err);
+              })
+      })
+      .catch((err) => {
+        console.log('Firebase Auth Error : ', err);
+      })
+
+
+
+
+
 
   };
 
@@ -256,7 +274,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
             <SelectItem accessoryLeft={KoreanIcon} title='Korean'/>
           </Select>
 
-          <Text style={styles.smallTitle}>Sex</Text>
+          <Text style={styles.smallTitle}>Gender</Text>
           <Select
             selectedIndex={selectedIndex}
             onSelect={index => setSelectedIndex(index)}
@@ -265,6 +283,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
           >
             <SelectItem title='Male'/>
             <SelectItem title='Female'/>
+            <SelectItem title='ETC'/>
           </Select>
           
           <Text style={styles.smallTitle}>Date of Birth</Text>

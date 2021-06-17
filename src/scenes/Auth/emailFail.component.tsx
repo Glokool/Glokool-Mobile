@@ -1,65 +1,62 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth'
+import auth from '@react-native-firebase/auth';
 import {
   Text,
   StyleSheet,
   SafeAreaView,
   Image,
+  TouchableOpacity
 } from 'react-native';
 import { 
-  NavigatorRoute, SceneRoute,
+  SceneRoute,
 } from '../../navigation/app.route'
-import { CommonActions } from '@react-navigation/native';
 import {
   LayoutElement,
   Layout,
 } from '@ui-kitten/components';
 import { EmailFailScreenProps } from '../../navigation/auth.navigator';
 import { Alert, Email } from '../../assets/icon/Auth';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
-import { PhotoSpot } from '../../assets/icon/Series';
-
-
 
 export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
-
   
   const [button, setButton] = React.useState(false);
-  const AuthNavigate = CommonActions.reset({
-    index: 0,
-    routes: [{name: NavigatorRoute.AUTH}],
-  });
 
-  const SendEmailButton = async() => {
+  const SendEmailButton = () => {
 
-    const user = auth().currentUser;
-    const EMail = await user?.sendEmailVerification();   
-    setButton(true);
+    auth().signInWithEmailAndPassword(props.route.params.email, props.route.params.passward)
+      .then((result) => {
+        
+          result.user.sendEmailVerification().then(function() {
+            console.log('이메일 전송 성공');
+            setButton(true);
+          }).catch(function(error) {
+            console.log('이메일 전송 에러 : ',error);
+          });
+    
+        // auth().onAuthStateChanged(function(user) {
+        //   if (user) {
+        //   } else {
+        //     console.log('로그인 안됌');
+        //   }
+        // })
+
+
+
+      })
+      .catch((err) => {
+        console.log('이메일 전송을 위한 로그인 실패 : ', err)
+      })
 
   }
 
   const PressBack = () => {
-    auth().signOut;
-
-    console.log('로그아웃 성공?')
-
     props.navigation.reset({
       index: 0,
       routes: [{ name: SceneRoute.SIGN_IN}]
     })
   }
   
-  React.useEffect(() => {
-
-    return () => {
-      auth().signOut;
-    };
-
-  }, [])
-
-
-
   return (
     <React.Fragment>
       <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>

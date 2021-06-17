@@ -15,18 +15,6 @@ export const AdBanner = () : LayoutElement => {
     const ImageSize = Dimensions.get('window').width
     const banner = [
         {
-          url : 'https://glokool.com',
-          image: require('../../assets/feed_banner_01.png'),
-        },
-        {
-          url : 'https://glokool.com',
-          image: require('../../assets/feed_banner_02.png'),
-        },
-        {
-          url : 'https://www.youtube.com/channel/UC4oTkStEsZooHYGZlDkxp1Q',
-          image: require('../../assets/feed_banner_03.png'),
-        },
-        {
           url : 'https://www.instagram.com/glokool_official/',
           image: require('../../assets/feed_banner_04.png'),
         },
