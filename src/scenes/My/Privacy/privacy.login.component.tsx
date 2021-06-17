@@ -20,18 +20,12 @@ import Toast from 'react-native-easy-toast';
 import { PrivacyLoginProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, NavigationActions } from '@react-navigation/native';
 import { SceneRoute } from '../../../navigation/app.route'
 
 var toastRef : any;
 
 export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
-
-  //뒤로 돌아가지 못하게
-  const PrivacyNavigator = CommonActions.reset({
-    index: 0,
-    routes: [{name: SceneRoute.MY_PAGE_PRIVACY_CONFIRM}],
-  });
 
   //비밀번호 보이기 안보이기
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
@@ -89,7 +83,10 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
       auth().signInWithEmailAndPassword(user?.email, values.password)
         .then(response => {
           toastRef.show('Login Success', 3000);
-          props.navigation.dispatch(PrivacyNavigator);
+          props.navigation.reset({
+            index: 0,
+            routes: [{ name: SceneRoute.PRIVACY_CONFIRM}]
+          });
         })
         .catch((error) => {
           console.log(error)

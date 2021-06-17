@@ -100,6 +100,11 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
   }
 
+  const PressDefaultPic = (index : string) => {
+    
+
+  }
+
   const PressPicture = async() => {
     await launchImageLibrary(
       {
@@ -174,7 +179,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           
           setUserData(doc._data);
                 
-          
           var date = new Date(doc._data.birthDate.seconds * 1000);
           console.log(date.getDay())
 
@@ -241,11 +245,23 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
               <Text style={styles.title}>Photo</Text>
 
               <Layout style={styles.miniProfileContainer}>
-                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_01.png')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_02.png')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_03.png')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_04.png')} />
-                <Image style={styles.miniProfile} source={require('../../assets/profile/profile_05.png')} />
+                <TouchableOpacity onPress={() => PressDefaultPic('1')}>
+                  <Image style={styles.miniProfile} source={require('../../assets/profile/profile_01.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => PressDefaultPic('2')}>
+                  <Image style={styles.miniProfile} source={require('../../assets/profile/profile_02.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => PressDefaultPic('3')}>
+                  <Image style={styles.miniProfile} source={require('../../assets/profile/profile_03.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => PressDefaultPic('4')}>
+                  <Image style={styles.miniProfile} source={require('../../assets/profile/profile_04.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => PressDefaultPic('5')}>
+                  <Image style={styles.miniProfile} source={require('../../assets/profile/profile_05.png')} />
+                </TouchableOpacity>
+
+
               </Layout>
               
             </Layout>
@@ -280,7 +296,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
           <Layout style={styles.infoContainer}>
             <Layout style={{flex: 1}}>
-              <Text style={styles.title}>User Type</Text>
+              <Text style={styles.title}>User Status</Text>
             </Layout>
             
             <Layout style={{flex: 2, alignItems: 'flex-end'}}>
@@ -299,7 +315,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           </Layout>
 
           <Layout style={styles.infoContainer}>
-            <Layout style={{flex: 1}}>
+            <Layout style={{flex: 2}}>
               <Text style={styles.title}>Gender</Text>
             </Layout>
             <Layout style={{flex: 1}}/>
@@ -309,10 +325,10 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           </Layout>
 
           <Layout style={styles.infoContainer}>
-            <Layout style={{flex: 1}}>
+            <Layout style={{flex: 2}}>
               <Text style={styles.title}>Date of Birth</Text>
             </Layout>
-            <Layout style={{flex: 1}}/>
+
             <Layout style={{flex: 1, alignItems: 'flex-end'}}>
               <Text style={styles.title}>{birthDate.year}.{birthDate.month}.{birthDate.day}</Text>
             </Layout>

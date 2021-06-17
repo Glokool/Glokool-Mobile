@@ -224,14 +224,14 @@ export const CustomerServiceComponent = (props: CustomerServiceProps): LayoutEle
       >
             <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}>
               
-              <Text style={styles.modalTitle}>Are you sure?</Text>
+              <Text style={styles.modalTitle}>Delete Account</Text>
 
-              <Text style={styles.modalDesc}>{`Do you really want to withdrawal 'Glokool'?${'\n'}Your account will disappear :(`}</Text>
+              <Text style={styles.modalDesc}>{`Do you really want to delete your Glokool account?`}</Text>
 
               <Input
                 value={passward}
                 style={styles.PasswardInput}
-                placeholder={'Your Passward'}
+                placeholder={'Your Password'}
                 secureTextEntry={true}
                 onChangeText={nextValue => setPassward(nextValue)}
               />

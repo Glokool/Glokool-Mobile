@@ -33,11 +33,14 @@ export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
   //뒤로 돌아가지 못하게
   const PrivacyNavigator = CommonActions.reset({
     index: 0,
-    routes: [{name: SceneRoute.MY_PAGE}],
+    routes: [{name: SceneRoute.MY}],
   });
 
   const PressBack = () => {
-    props.navigation.goBack();
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: SceneRoute.MY}],
+    });
   }
 
    //비밀번호 보이기 안보이기

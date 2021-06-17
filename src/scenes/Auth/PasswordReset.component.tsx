@@ -90,7 +90,7 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
       
       <Layout style={styles.container}>
         
-        <Image style={{marginVertical: 20}}source={require('../../assets/Verification.png')}/>
+        <Image style={{width: 200, height: 30, marginBottom: 100}} source={require('../../assets/Glokool_Logo.png')}/>
         
           <Text style={styles.TitleTxt}>Forgot your password?</Text>
           <Text style={styles.descTxt}>Glokool will send you a link to your email.</Text>

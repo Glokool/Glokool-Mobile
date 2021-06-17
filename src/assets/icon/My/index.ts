@@ -9,6 +9,7 @@ import Logout from './Setting_Logout.svg';
 import Privacy from './Setting_Privacy.svg';
 import CustomerService from './Setting_CustomerService.svg';
 import Profile from './Setting_Profile.svg';
+import MY_Refund_Policy from './MY_RefundPolicy.svg';
 
 export {
     Receipt,
@@ -19,6 +20,7 @@ export {
     Logout,
     Privacy,
     CustomerService,
-    Profile
+    Profile,
+    MY_Refund_Policy
 
 }
