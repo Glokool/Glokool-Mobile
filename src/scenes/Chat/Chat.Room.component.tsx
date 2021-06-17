@@ -8,7 +8,9 @@ import {
   Image,
   Platform,
   PermissionsAndroid,
-  Dimensions
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView
 } from 'react-native';
 import {
   Icon,
@@ -479,54 +481,63 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const renderBubble = (props) => {
         return(
             <Bubble 
-            {...props}
-            wrapperStyle={{
-                left:{
-                    backgroundColor: '#7777FF',
-                },
-                right: {
-                    backgroundColor: 'white',
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 1,
+                {...props}
+                wrapperStyle={{
+                    left:{
+                        backgroundColor: '#7777FF',
+                        borderRadius: 10,
                     },
-                    shadowOpacity: 0.20,
-                    shadowRadius: 1.41,
-                    elevation: 2,
-                }
-            }}
-            textStyle={{
-                left : {
-                    color: 'white',
-                    fontFamily: 'IBMPlexSansKR-Medium'
-                },
-                right: {
-                    color: '#4E4ED8',
-                    fontFamily: 'IBMPlexSansKR-Medium'
-                }
-            }}
-            tickStyle={{color: 'black'}}
-            style
+                    right: {
+                        backgroundColor: 'white',
+                        borderRadius: 10,
+                        padding: 5,
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 1,
+                        },
+                        shadowOpacity: 0.20,
+                        shadowRadius: 1.41,
+                        elevation: 2,
+                    }
+                }}
+                textStyle={{
+                    left : {
+                        color: 'white',
+                        fontFamily: 'IBMPlexSansKR-Medium'
+                    },
+                    right: {
+                        color: '#4E4ED8',
+                        fontFamily: 'IBMPlexSansKR-Medium'
+                    }
+                }}
+                tickStyle={{color: 'black'}}
+                style
             />
+
         );
     }
 
     const renderTime = (props) => {
+        
         return(
-            <Time
-                {...props}
-                timeTextStyle={{
-                    left: {
-                        color: '#AEAEAE',
-                        fontFamily: 'BrandonGrotesque-Medium'
-                    },
-                    right: {
-                        color: '#AEAEAE',
-                        fontFamily: 'BrandonGrotesque-Medium'
-                    }
-                }}
-            />
+            <Layout style={{position: 'absolute', backgroundColor: '#00FF0000', left: -60, top: -10}}>
+                <Time
+                    {...props}
+                    containerStyle={{backgroundColor: 'red'}}
+                    timeTextStyle={{
+                        left: {
+                            color: '#AEAEAE',
+                            fontFamily: 'BrandonGrotesque-Medium'
+                        },
+                        right: {
+                            color: '#AEAEAE',
+                            fontFamily: 'BrandonGrotesque-Medium'
+                        }
+                    }}
+                />
+            </Layout>
+
         )
     }
 
@@ -623,10 +634,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
  
     //실제 렌더링
     return (
-        <Layout style={{width: '100%', height: '100%'}}>
+        <Layout style={{width: '100%', height: '100%'}} onTouchStart={Keyboard.dismiss}>
             <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             
-            <Layout style={styles.Container}>
+            <KeyboardAvoidingView style={styles.Container}>
 
                 <Layout style={styles.mainContainer}>
 
@@ -645,8 +656,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         }}
                         messagesContainerStyle={{paddingBottom: 50, paddingTop : 80}}
                         alwaysShowSend={true}
-                        renderTime={renderTime}
                         renderUsernameOnMessage={false}
+                        renderTime={renderTime}
                         renderAvatar={null}
                         renderInputToolbar={renderInputToolbar}
                         renderSend={renderSend}
@@ -820,7 +831,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
 
                 
-            </Layout>
+            </KeyboardAvoidingView>
             
         </Layout>
     );

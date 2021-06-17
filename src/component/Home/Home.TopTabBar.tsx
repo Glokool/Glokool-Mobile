@@ -22,13 +22,19 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
     const name = (user?.displayName === null || user?.displayName === '')? 'Glokool' : user?.displayName;
 
     function PressLoginButton() {
+        
+        if(user === null){
+            props.navigation.navigate(NavigatorRoute.AUTH);
+        }
+        else {
+            props.navigation.navigate(NavigatorRoute.MY);
+        }
 
-        props.navigation.navigate(NavigatorRoute.AUTH);
+
 
     }
 
     function PressUserPhoto() {
-
         props.navigation.navigate(NavigatorRoute.MY);
 
     }
