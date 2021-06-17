@@ -30,7 +30,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
         var Content = await axios.get(SERVER + '/api/home');
         setContent(Content.data);
     }
-
+    
     function PressCarousel(type : string, id : string) {        
 
         if(type === 'tour'){
@@ -72,9 +72,9 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                 <Layout style={styles.TitleContainer}>
                     <Layout style={styles.TypeContainer}>
                         {(item.item.type === 'tour')? <Text></Text> : (item.item.type === 'blog')? <Text></Text> : <Text></Text>}
-                        <Text style={styles.Type}>{(item.item.type === 'tour')? `GLOKOOL Service` : (item.item.type === 'blog')? `Day Trip with Glokool`: 'Korea A-Z'}</Text>
+                        <Text style={styles.Type}>{(item.item.type === 'tour') ? `GLOKOOL Service` : ''}</Text>
                     </Layout>
-                    <Text style={styles.Title}>{item.item.title}</Text>
+                    <Text style={styles.Title}>{(item.item.type === 'tour') ?  item.item.title: ''}</Text>
                 </Layout>
 
             </TouchableOpacity>    

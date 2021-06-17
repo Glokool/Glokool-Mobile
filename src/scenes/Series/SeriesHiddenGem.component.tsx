@@ -1,46 +1,46 @@
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { 
+    Dimensions,
+    Image,
+    ImageBackground,
+    Linking,
+    SafeAreaView, 
+    StyleSheet, 
+    Text, 
+    TouchableOpacity,
+    FlatList, 
+    ScrollView,
+    View,
+} from 'react-native';
 import { AngleLeft } from '../../assets/icon/Common';
 import { HiddenGem, HiddenGem_Title } from '../../assets/icon/Series';
 import { HiddenGemInKoreaFlatList } from '../../component/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import { SeriesHiddenGemProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
-
+const windowWidth = Dimensions.get('window').width;
 export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElement => {
 
     return(
         <Layout style={styles.Container}>
-
+            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+            <Layout style={{height: 50}}/>
             <Layout style={styles.MainContainer}>
-                
-                <Layout style={{height: 100, backgroundColor: '#00FF0000'}} />
-
-                <Text style={styles.TitleText}>Hidden Gems in Korea</Text>
-                <Text style={styles.smallTitleText}>let's Introduce this Series bold and concisely</Text>
-
                 <HiddenGemInKoreaFlatList navigation={props.navigation} route={props.route} />
-
             </Layout>
 
-        
-
-            <Layout style={styles.TopTabBar}>
-
-                <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
-                    <SafeAreaView style={{flex: 0}} />
-                    <AngleLeft />
-                </TouchableOpacity>
-
-                <Layout>
-                    <SafeAreaView style={{flex: 0}} />
+             {/* toptapbar */}
+            <Layout style={styles.ContainerLayoutAngleLeft}>
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                <Layout style={styles.ContainerIconLayout}>
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => Navigation.goBack()}>
+                        <AngleLeft />
+                    </TouchableOpacity>
                     <HiddenGem_Title style={styles.HiddenGemIcon}/>
                 </Layout>
-
             </Layout>
+
 
         </Layout>
       
@@ -56,34 +56,36 @@ const styles = StyleSheet.create({
     TopTabBar: {
         position: 'absolute',
         width: '100%',
-        height: 80,
+        height: 50,
         top: 0,
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'row'
     },
-    BackButton: {
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
+        alignItems: 'center',
+    },
+    ContainerAngleLeft: {
+        marginLeft: 20,
         padding: 20,
-        marginLeft: 10
     },
     HiddenGemIcon: {
-        marginLeft: 10
+        // borderWidth: 1,
     },
     MainContainer: {
         width: '100%',
         height: '100%',
         backgroundColor: 'white'
     },
-    TitleText: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        marginLeft: 30,
-        fontSize: 22,
-        color: 'black'
-    },
-    smallTitleText: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        marginLeft: 30,
-        fontSize: 16,
-        color: '#8C8B8B'
-    }
 })
