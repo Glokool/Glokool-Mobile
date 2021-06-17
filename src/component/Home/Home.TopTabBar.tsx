@@ -22,7 +22,13 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
 
     function PressLoginButton() {
 
-        props.navigation.navigate(NavigatorRoute.AUTH);
+        if(user === null){
+            props.navigation.navigate(NavigatorRoute.AUTH);
+        }
+        else{
+            props.navigation.navigate(NavigatorRoute.MY);
+        }
+
 
     }
 
