@@ -22,7 +22,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment, { max } from "moment";
 import { SceneRoute } from '../../navigation/app.route';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { GoUp, GrayArrow, AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
+import { GoUp, PurpleArrow, AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
 import { SeriesTopTabBar } from '../../component/Series';
@@ -340,7 +340,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     <Layout style={styles.CheckMoreLayoutStyle}>
                         <TouchableOpacity onPress={() => {setId(item._id)}}>
                             <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
-                            <Text style={styles.RecommendationTxt}>{item.title}</Text>
                         </TouchableOpacity>
                     </Layout>
                     ))}
@@ -350,7 +349,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
                 {/* 그레이색 배경 */}
                 <Layout style={styles.PurpleContainerLayoutStyle} >
-                    <GrayArrow style={styles.PurpleArrow} />
+                    <PurpleArrow style={styles.PurpleArrow} />
                     <Layout style={styles.PurpleTopLayoutStyle}>
                         <Text style={styles.PurpleTopTxtStyle}>
                             {`Can't find the information you need?`}
@@ -720,7 +719,7 @@ const styles = StyleSheet.create({
         marginLeft: 3,
     },
     PurpleContainerLayoutStyle: {
-        backgroundColor: '#E4E4E4',
+        backgroundColor: '#7777FF',
         width: windowWidth,
         height: 129,
         position: 'relative',

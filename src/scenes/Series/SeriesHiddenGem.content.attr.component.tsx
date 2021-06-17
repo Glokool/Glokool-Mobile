@@ -6,7 +6,7 @@ import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollVi
 import { AngleDown, AngleLeft, AngleUp, GoUp, PurpleArrow } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time } from '../../assets/icon/Series';
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time, EntryFee } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -117,7 +117,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
         
             <ScrollView ref={ScrollVewRef} style={styles.MainContainer} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-
+            <Layout style={{height: 50}}/>
                 {/* 썸네일 이미지 */}
                 <Image source={{uri : data?.banner}} style={styles.Thumbnail} resizeMode={'stretch'} />
 
@@ -157,7 +157,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 </Layout>
 
                 {/* 글로챗 광고 컨테이너 */}
-                <Layout style={styles.GloChatADContainer}>
+                {/* <Layout style={styles.GloChatADContainer}>
                     
                     <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
 
@@ -165,7 +165,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
                     </TouchableOpacity>
 
-                </Layout>
+                </Layout> */}
 
 
                 {/* 인포메이션 컨테이너 */}
@@ -224,11 +224,14 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
+                        {data?.phone ? 
                             <Text style={styles.InfoDetailText}> {`${data?.phone}`}</Text>
+                        :
+                            <Text style={styles.InfoDetailText}>-</Text>
+                        }
                         </Layout>     
                     </Layout>
 
-                    
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
@@ -236,19 +239,29 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
+                        {data?.sns ? 
                             <Text style={styles.InfoDetailText}> {`${data?.sns.slice(2,)}`}</Text>
+                            :
+                            <Text style={styles.InfoDetailText}>-</Text>
+                        }
                         </Layout>     
                     </Layout>
 
                     
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
-                            <Contact />
+                            <EntryFee />
                             <Text style={styles.InfoDetailText}>  Entrance</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
-                            <Text style={styles.InfoDetailText}> {`${data?.entryFee}  KRW`}</Text>
+                            {data?.entryFee || data?.entryFee == '0' ?
+                            <Text style={styles.InfoDetailText}>{data?.entryFee}<Text style={{color: '#8797FF'}}> KRW</Text></Text>
+                           
+                            :
+                             <Text style={styles.InfoDetailText}>Free</Text>
+                            }
+                            
                         </Layout>     
                     </Layout>
 
@@ -265,7 +278,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                 {/* 디테일 컨테이너 */}
                 <Layout style={styles.DetailContainer} onLayout={(e) => {setDetailPos(e.nativeEvent.layout.y)}}>
 
-                    <Layout style={styles.ContainerTitle}>
+                    <Layout style={styles.ContainerDetailTitle}>
                         <Text style={styles.ContainerTitleText}>Detail</Text>
                         <Divider style={styles.Divider}/>
                     </Layout>
@@ -307,7 +320,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                         <PhotoSpot style={{marginRight: 10}}/>
                         <Layout style={styles.InfoDetailContainer7}>
                             <Text style={styles.PhotoSpotTitle}>Photo Spot</Text>
-                            <Text style={styles.PhotoSpotDesc}>{`Take yout Best Photo${'\n'}refer to our recommendation!`}</Text>
+                            <Text style={styles.PhotoSpotDesc}>{`Take your best photo${'\n'}refer to our recommendation!`}</Text>
                         </Layout>
                     </Layout>
                     
@@ -350,7 +363,6 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
             <Layout style={styles.TopTabBar}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
                 <Layout style={styles.TopTabBarInner}>
-
                     <Layout>
                         <SafeAreaView style={{flex: 0, backgroundColor: '#ffffff'}} />
                         <TouchableOpacity style={styles.Button} onPress={() => props.navigation.goBack()}>
@@ -408,17 +420,20 @@ const styles = StyleSheet.create({
         padding: 15,
         height: 50,
         justifyContent: 'center',
-        alignItems: 'center',
     },
     TextButton: {
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
-        color: '#8C8C8C'
+        color: '#8C8C8C',
+        height: 50,
+        lineHeight: 50,
     },
     TextButton_S: {
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
-        color: 'black'
+        color: 'black',
+        height: 50,
+        lineHeight: 50,
     },
     Thumbnail : {
         width: WindowSize,
@@ -455,6 +470,7 @@ const styles = StyleSheet.create({
     GlochatTextContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        height: 50,
     },
     GlochatButtonContainer: {
         marginHorizontal: 30,
@@ -513,7 +529,13 @@ const styles = StyleSheet.create({
     ContainerTitle: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 30
+        marginVertical: 30,
+    },
+    ContainerDetailTitle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 30,
+        marginRight: 30,
     },
     ContainerTitle2: {
         flexDirection: 'row',
@@ -576,12 +598,12 @@ const styles = StyleSheet.create({
     },
     InfoDetailText: {
         flex : 1,
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 14,
     },
     InfoDetailText2: {
         flex : 2,
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 14,
     },
     TimeContainer: {
@@ -634,8 +656,8 @@ const styles = StyleSheet.create({
     PhotoSpotDesc: {
         fontFamily : 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        marginTop: -10,
-        lineHeight: 30
+        marginTop: 5,
+        lineHeight: 20
     },
     DetailContainer: {
         marginLeft: 30,

@@ -96,8 +96,8 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
     return(
         <ScrollView>
             <Layout style={{ backgroundColor: '#00FF0000'}}>
-                    <Text style={styles.TitleTxt}>Hidden Gems in Korea</Text>
-                    <Text style={styles.smallTitleTxt}>let's Introduce this Series bold and concisely</Text>
+                    <Text style={styles.TitleTxt}>{`Hidden Gems in Korea`}</Text>
+                    <Text style={styles.smallTitleTxt}>{`Guide books of specially chosen tour spots.`}</Text>
             </Layout>
             <FlatList
                 data={data}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     smallTitleTxt: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'IBMPlexSansKR-Medium',
         marginLeft: 30,
         fontSize: 16,
         color: '#8C8B8B',
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         minHeight: SeriesImgW * 0.57,
         borderRadius: 15,
         marginLeft: 30,
-        marginRight: 10,
+        marginRight: 5,
         marginBottom: 15,
         shadowColor: "#000",
         shadowOffset: {
@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 15
     },
     TourContainerEven: {
-        
     },
     ImageEven: {
         width: SeriesImgW * 0.42,
@@ -215,9 +214,7 @@ const styles = StyleSheet.create({
     infoContainer2: {
         flexDirection: 'row',
         backgroundColor: '#00FF0000',
-        borderWidth: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        marginBottom:3,
     },
     CreateText: {
         fontFamily : 'IBMPlexSansKR-Text',

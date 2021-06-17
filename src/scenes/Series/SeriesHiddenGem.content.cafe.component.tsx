@@ -109,8 +109,8 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
         <Layout style={styles.MainContainer}>
         
             <ScrollView ref={ScrollVewRef} style={styles.MainContainer} showsVerticalScrollIndicator={false}>
-
-                <Layout style={{height: 60}} />
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                <Layout style={{height: 50}}/>
 
                 {/* 썸네일 이미지 */}
                 <Image source={{uri : data?.banner}} style={styles.Thumbnail} resizeMode={'stretch'} />
@@ -140,7 +140,6 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                     </TouchableOpacity>
 
                     {Glochat? 
-
                         data?.glokoolService.map((item, index) => (
                             <Text style={styles.IndexText}>{index + 1}<Text>{`    ${item}`}</Text> </Text>
                         ))                    
@@ -151,7 +150,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                 </Layout>
 
                 {/* 글로챗 광고 컨테이너 */}
-                <Layout style={styles.GloChatADContainer}>
+                {/* <Layout style={styles.GloChatADContainer}>
                     
                     <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
 
@@ -159,7 +158,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                         <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
                     </TouchableOpacity>
 
-                </Layout>
+                </Layout> */}
 
                 {/* 시그니처 메뉴 컨테이너 */}
                 <Layout>
@@ -236,11 +235,14 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
+                        {data?.phone ? 
                             <Text style={styles.InfoDetailText}> {`${data?.phone}`}</Text>
+                            :
+                            <Text style={styles.InfoDetailText}>-</Text>
+                        }
                         </Layout>     
                     </Layout>
 
-                    
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
@@ -248,21 +250,15 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
+                    {data?.sns ? 
                             <Text style={styles.InfoDetailText}> {`${data?.sns.slice(2,)}`}</Text>
+                            :
+                            <Text style={styles.InfoDetailText}>-</Text>
+                           }
                         </Layout>     
                     </Layout>
-
                     
-                    <Layout style={styles.InfoDetailContainer}>
-                        <Layout style={styles.InfoDetailContainer1}>
-                            <Contact />
-                            <Text style={styles.InfoDetailText}>  Entrance</Text>
-                        </Layout>
-
-                        <Layout style={styles.InfoDetailContainer2}>
-                            <Text style={styles.InfoDetailText}> {`${data?.entryFee}  KRW`}</Text>
-                        </Layout>     
-                    </Layout>
+                    
 
                     {(data?.note === '' || data?.note === 'undefined')? 
                         null
@@ -277,7 +273,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                 {/* 디테일 컨테이너 */}
                 <Layout style={styles.DetailContainer} onLayout={(e) => {setDetailPos(e.nativeEvent.layout.y)}}>
 
-                    <Layout style={styles.ContainerTitle}>
+                    <Layout style={styles.ContainerDetailTitle}>
                         <Text style={styles.ContainerTitleText}>Detail</Text>
                         <Divider style={styles.Divider}/>
                     </Layout>
@@ -405,16 +401,22 @@ const styles = StyleSheet.create({
     },
     Button : {
         padding: 15,
+        height: 50,
+        justifyContent: 'center'
     },
     TextButton: {
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
-        color: '#8C8C8C'
+        color: '#8C8C8C',
+        height: 50,
+        lineHeight: 50,
     },
     TextButton_S: {
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
-        color: 'black'
+        color: 'black',
+        height: 50,
+        lineHeight: 50,
     },
     Thumbnail : {
         width: WindowSize,
@@ -451,6 +453,7 @@ const styles = StyleSheet.create({
     GlochatTextContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        height: 50,
     },
     GlochatButtonContainer: {
         marginHorizontal: 30,
@@ -521,6 +524,12 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 25,
         color: '#7777FF',
+    },
+    ContainerDetailTitle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 30,
+        marginRight: 30,
     },
     Divider: {
         backgroundColor: '#7777FF',
