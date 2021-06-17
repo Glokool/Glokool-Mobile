@@ -344,13 +344,14 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
             </Layout>
           </Layout>
 
-          <Layout style={{height: 60}} />
-
-          </ScrollView>
 
           <TouchableOpacity style={styles.SaveButton} onPress={() => PressChange()}>
             <Text style={styles.ButtonText}>Save the Profile</Text>             
           </TouchableOpacity> 
+
+          </ScrollView>
+
+
 
         </Layout>
 
@@ -422,10 +423,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',  
   },
   SaveButton: {
-    position: 'absolute',
-    bottom: 20,
-    left: 30,
     width: Dimensions.get('window').width - 60,
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
     height: 50,
     borderWidth: 1.5,
     borderColor: '#8797FF',
