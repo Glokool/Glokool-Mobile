@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Bold',
         fontSize: 17,
         marginLeft: 17,
-        marginTop: 5
+        marginTop: 5,
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 15,
         marginLeft: 17,
         marginRight: 17,
-        marginBottom: 10
+        marginBottom: 10,
     }
 })
 

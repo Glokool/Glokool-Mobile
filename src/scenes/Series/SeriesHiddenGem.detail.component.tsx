@@ -244,9 +244,6 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                                 title={item.title}
                             />
                         ))}
-
-                        
-
                         </MapView>
                     </Layout>
                 :
@@ -263,8 +260,6 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                     </Layout>
                 }
                 
-
-
             </ScrollView>
 
 

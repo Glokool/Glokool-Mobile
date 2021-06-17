@@ -18,8 +18,10 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SeriesAList, SeriesTopTabBar } from '../../component/Series';
+import { Content } from '../../assets/icon/Series';
 
-const SeriesImgW = Dimensions.get('window').width;
+
+const windowWidth = Dimensions.get('window').width;
 
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
     
@@ -31,14 +33,22 @@ export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
                 <Layout style={styles.TopLayout}>
                     <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
                     <Text style={styles.TopTxt2}>
-                        {`let's Introduce this Series bold and concisely If this sentance too long, Don't worry just write like this.`}
+                        {`Everything you want to know about Korea!`}
                     </Text>
                 </Layout>
                 <SeriesAList navigation={props.navigation} route={props.route} />
             </ScrollView>
 
             {/* 탑탭바 */}
-            <SeriesTopTabBar />
+            <Layout style={styles.ContainerLayoutAngleLeft}>
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                <Layout style={styles.ContainerIconLayout}>
+                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                        <AngleLeft />
+                    </TouchableOpacity>
+                    <Content />
+                </Layout>
+            </Layout>
         </Layout>
     )
 }
@@ -57,10 +67,29 @@ const styles = StyleSheet.create({
         color: '#000000'
     },
     TopTxt2: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
         color: '#8C8B8B',
         marginTop: 7,
-    }
+    },
+    // toptap bar
+    ContainerLayoutAngleLeft: {
+        width: '100%',
+        height: 50,
+        position: 'absolute',
+        top: 0,
+        backgroundColor: '#ffffff',
+        // borderWidth: 1,
+        // borderColor:'red',
+    },
+    ContainerIconLayout: {
+        flexDirection: 'row',
+        width: windowWidth,
+        alignItems: 'center',
+    },
+    ContainerAngleLeft: {
+        marginLeft: 20,
+        padding: 20,
+    },
 })
 

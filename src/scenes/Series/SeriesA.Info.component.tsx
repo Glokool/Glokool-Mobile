@@ -125,9 +125,9 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 
     const RenderCarousel = ({item}) => {
         return(
-            <TouchableOpacity style={styles.ItemContainer}>
+            <Layout style={styles.ItemContainer}>
                 <Image source={{ uri : item }} style={styles.ImageContainer} />
-            </TouchableOpacity>    
+            </Layout>    
         )
     }
 
@@ -309,7 +309,6 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     <Layout style={styles.CheckMoreLayoutStyle}>
                         <TouchableOpacity onPress={() => {setId(item._id)}}>
                             <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
-                            <Text style={styles.RecommendationTxt}>{item.title}</Text>
                         </TouchableOpacity>
                     </Layout>
                     ))}
