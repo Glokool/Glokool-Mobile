@@ -54,35 +54,37 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
         const DDay = moment(item.item.day).diff(Today, 'days');
 
         return(
-            <TouchableOpacity style={styles.ChatContainer} onPress={() => PressChatRoom(item.item)}>
+            <Layout style={styles.ChatLayout}>
+                <TouchableOpacity style={styles.ChatContainer} onPress={() => PressChatRoom(item.item)}>
 
-                <Layout style={styles.GuideContainer}>
+                    <Layout style={styles.GuideContainer}>
 
-                    <Layout style={styles.GuideAvatarContainer}>
-                        <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'}/>
+                        <Layout style={styles.GuideAvatarContainer}>
+                            <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'}/>
+                        </Layout>
+
+                        <Layout style={styles.GuideProfileContainer}>
+                            <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
+                            {(item.item.guide.uid === '')?
+                                <Text style={styles.GuideProfileTxt3}>Matching... please wait :)</Text>
+                                :
+                                <Text style={styles.GuideProfileTxt2}>{item.item.guide.name}</Text>
+                            }
+                        </Layout>
+
                     </Layout>
 
-                    <Layout style={styles.GuideProfileContainer}>
-                        <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
-                        {(item.item.guide.uid === '')?
-                            <Text style={styles.GuideProfileTxt3}>Matching... please wait :)</Text>
-                            :
-                            <Text style={styles.GuideProfileTxt2}>{item.item.guide.name}</Text>
-                        }
+                    <Layout style={styles.DateContainer}>
+                        {(DDay > 0)?  
+                            <Text style={styles.DdayTxt}>D - {DDay}</Text>
+                        :
+                            <Text style={styles.DdayTxt}>D - Day</Text>
+                        }                    
+                        <Text style={styles.dateTxt}>{(moment(item.item.day).format('MM.DD'))}</Text>
                     </Layout>
 
-                </Layout>
-
-                <Layout style={styles.DateContainer}>
-                    {(DDay > 0)?  
-                        <Text style={styles.DdayTxt}>D - {DDay}</Text>
-                    :
-                        <Text style={styles.DdayTxt}>D - Day</Text>
-                    }                    
-                    <Text style={styles.dateTxt}>{(moment(item.item.day).format('MM.DD'))}</Text>
-                </Layout>
-
-            </TouchableOpacity>
+                </TouchableOpacity>
+            </Layout>
         )
     }
 
@@ -147,10 +149,14 @@ const styles = StyleSheet.create({
     },
     Container: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        backgroundColor: '#00FF0000',
+        marginBottom: 10
     },
-    ChatContainer: {
-        width: '100%',
+    ChatLayout: {
+        width: '99%',
+        alignSelf: 'center',
+        paddingHorizontal: 10,
         height: 100,
         shadowColor: "#000",
         shadowOffset: {
@@ -160,11 +166,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.18,
         shadowRadius: 1.00,
         elevation: 1,
+        marginBottom: 10
+    },
+    ChatContainer: {
+        width: '100%',
+        height: 100,
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 30,
-        backgroundColor: '#00FF0000',
-        marginBottom: 10
+
     },
     GuideContainer: {
         flexDirection: 'row',
