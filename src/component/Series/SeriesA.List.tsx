@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         alignItems: 'flex-end',
-        marginBottom: 10,
     },
     SeriesDateTxtStyle: {
         color:'#B5B5B5',
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         justifyContent: 'flex-end',
-        height: 20,
+        alignItems: 'center',
     },   
     SeriesCountTxtStyle: {
         color:'#B5B5B5',
@@ -140,7 +139,6 @@ const styles = StyleSheet.create({
         fontSize:15,
     },
     SeriesCountIconLayoutStyle: {
-        marginTop: 5,
         marginRight: 6,
     },
 

@@ -70,7 +70,6 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
             setTours(response.data.tours);
             setContents(response.data.contents);
             setBlog(response.data.blog);
-            console.log(response.data.blog.length);
         })
         .catch(function (error) {
             console.log(error);
@@ -147,7 +146,6 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
                         flexDirection: "row",
                         justifyContent: "center",
                         marginLeft: 35,
-                        marginTop: 5,
                     }}>
                         <FlatList
                         data={tours}
@@ -164,7 +162,6 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
                     flexDirection: "row",
                     justifyContent: "center",
                     marginLeft: 35,
-                    marginTop: 5,
                     }}>
                         <FlatList
                         data={contents}
@@ -181,8 +178,8 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
                     flexDirection: "row",
                     justifyContent: "center",
                     marginLeft: 35,
-                    marginTop: 5,
-                    marginBottom: 100,
+                    // marginTop: 5,
+                    // marginBottom: 100,
                     }}>
                         <FlatList
                         data={blog}
@@ -215,16 +212,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 30,
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 20,
+        height: 50,
     },
     AngleLeftLayout: {
         marginRight: 20,
     },
     TabBarIconLayout: {
-        marginRight: 20
+        marginRight: 10
     },
     TabBarTitleTxt: {
         fontFamily:'IBMPlexSansKR-Semibold',
+        fontWeight: '700',
         fontSize: 20,
         color: '#000000',
     },
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
         justifyContent: "center", 
         alignItems: "center",
         marginRight: 10,
-        marginBottom: 10,
+        marginBottom: 20,
       },
       SeriesImgStyle: {
         width: SeriesImgW*0.34,
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
         height: SeriesImgW * 0.42,
         borderRadius: 10,
         marginRight: 5,
-        marginBottom: 30,
+        marginBottom: 20,
       },
       Image: {
         width: SeriesImgW * 0.42,

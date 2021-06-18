@@ -12,7 +12,9 @@ import {
     FlatList, 
     ScrollView,
     View,
-    TextInput
+    TextInput,
+    Platform,
+    KeyboardAvoidingView
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
@@ -26,6 +28,7 @@ import { GoUp, PurpleArrow, AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Plus, 
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
 import { SeriesTopTabBar } from '../../component/Series';
+import { Instagram, Naver } from '../../assets/icon/SNS';
 
 
 type recommendation_Item = {
@@ -85,7 +88,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const [Id, setId] = React.useState(props.route.params.Id);
     const [content, setContent] = React.useState<Series_Item>();
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>([]);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
@@ -107,6 +110,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
+        console.log(Content.data.contents[3].images);
 
         // 북마크 조회 하기 위한 함수 
         const authToken = await auth().currentUser?.getIdToken();
@@ -138,6 +142,21 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         return(
             <Layout>
                 <Image source={{ uri : item.item.img }} style={styles.ImageContainer} />
+                {item.item.author == null || item.item.author == '' || item.item.author == 'undefined' ? 
+                    null
+                :
+                    <Layout style={styles.authorContainer}>
+                        {(item.item.author[0] === 'i')?
+                            <Instagram />
+                        :   
+                        (item.item.author[0] === 'n')?
+                            <Naver />
+                        :
+                            null
+                        }
+                        <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
+                    </Layout>
+                }
             </Layout>    
         )
     }
@@ -279,6 +298,22 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         <Layout style={styles.SeriesCountLayoutStyle}>
                             <CountNum style={styles.SeriesCountIconLayoutStyle} />
                             <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
+                        </Layout>
+                        <Layout style={styles.TopImgIconLayout}>
+                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                            {bookmarkList.indexOf(Id) == -1 ? 
+                                <Bookmark />
+                                :
+                                <Bookmark_P />
+                            }
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                            {content?.plus.indexOf(uid) == -1 ?  (
+                                <Plus />
+                            ) : (
+                                <Plus_P />
+                            )}
+                            </TouchableOpacity>
                         </Layout>
                     </Layout>
                 </Layout>
@@ -439,19 +474,24 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     </Layout>
 
                     {/* 댓글 입력 */}
-                    <Layout style={styles.CommentsTextLayout}>
-                        <TextInput  style={styles.CommentsTextInput}
-                        // underlineColorAndroid="transparent"
-                        placeholder="Write your comment"
-                        placeholderTextColor="#D1D1D1"
-                        autoCapitalize="none" 
-                        onChangeText={text => setNowComment(text)}
-                        value = {nowComment}
-                        ></TextInput>
-                        <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
-                            <CommentSending  />
-                        </TouchableOpacity>
-                    </Layout>
+                    <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.Container}
+                    >
+                        <Layout style={styles.CommentsTextLayout}>
+                            <TextInput  style={styles.CommentsTextInput}
+                            // underlineColorAndroid="transparent"
+                            placeholder="Write your comment"
+                            placeholderTextColor="#D1D1D1"
+                            autoCapitalize="none" 
+                            onChangeText={text => setNowComment(text)}
+                            value = {nowComment}
+                            ></TextInput>
+                            <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
+                                <CommentSending  />
+                            </TouchableOpacity>
+                        </Layout>
+                    </KeyboardAvoidingView>
                 </Layout>
 
             </ScrollView>
@@ -535,9 +575,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
+        backgroundColor: '#00FF0000',
     },
     BookmarkTouch: {
-        marginRight: 20,
+        marginRight: 25,
         padding: 2,
     },
     PlusTouch: {
@@ -554,6 +595,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
         flexDirection:'row',
         marginLeft: 30,
+        marginRight: 20,
         marginTop: 20,
         alignItems: 'flex-end',
     },
@@ -579,6 +621,14 @@ const styles = StyleSheet.create({
         color:'#D2D2D2',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
+    },
+    TopImgIconLayout: {
+        width: '50%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        backgroundColor: '#00FF0000',
+        height: '100%',
     },
     TopTxtContainer: {
         marginLeft: 20,
@@ -633,6 +683,20 @@ const styles = StyleSheet.create({
         width: 13,
         height: 4,
         borderRadius: 30, 
+    },
+    authorContainer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        bottom: 10,
+        left: 20,
+        backgroundColor: '#00FF0000'
+    },
+    authorText: {
+        fontFamily: 'IBMPlexSansKR-Text',
+        fontSize: 13,
+        color: '#ffffff',
+        opacity: 0.6,
     },
     ImageContainer: {
         width: windowWidth,
@@ -847,6 +911,9 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
         color: '#5D5959',
+    },
+    Container:{
+        flex: 1,
     },
     CommentsTextLayout:{
         margin: 15,

@@ -66,7 +66,7 @@ const windowHeight = Dimensions.get('window').height;
 export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
     const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [content, setContent] = React.useState<Series_Item>();
     const [image, setImage] = React.useState<Array<string>>([]);
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
@@ -88,6 +88,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     React.useEffect(() => {
         InitSeries();
         ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: false });
+        setCarouselIndex(0);
     },[Id]);
     
     async function InitSeries() {
@@ -256,7 +257,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         <Layout style={styles.ContainerLayout}>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-            <Layout style={{height: 50}}/>
+            <Layout style={{height: 55}}/>
                 <Layout style={styles.CarouselContainerLayout}>    
                     <Carousel
                         data={image}
@@ -273,7 +274,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         // containerCustomStyle={styles.CarouselInsideContainer}
                         loop={true}
                         autoplay={false}
-                        onSnapToItem={(index : number) => setCarouselIndex(index) }
+                        onSnapToItem={(index : number) => setCarouselIndex(index)}
                     />
                     <Pagination    
                         dotsLength={image.length}
@@ -494,7 +495,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     BookmarkTouch: {
-        marginRight: 20,
+        marginRight: 25,
         padding: 2,
     },
     PlusTouch: {
