@@ -71,7 +71,7 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
 
 const styles = StyleSheet.create({
   SeriesStyle: {
-    justifyContent: "center", 
+    justifyContent: "flex-start", 
     marginRight: 10,
   },
   SeriesImgStyle: {
