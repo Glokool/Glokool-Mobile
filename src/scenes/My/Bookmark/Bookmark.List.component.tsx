@@ -83,6 +83,7 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
             screen: SceneRoute.SERIES_A_DETAIL, params: {Id: id}
         })
     }
+    
 
     const PressTours = (id: string) => {
         props.navigation.navigate(NavigatorRoute.SERIES, {
@@ -94,7 +95,7 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
     const renderTour = (item : {index: number, item: Detail_Item}) => {
         return(
             <TouchableOpacity style={styles.ImageContainer} onPress={() => {PressTours(item.item.id)}}>
-              <Image source={{uri : item.item.image}} style={styles.Image} resizeMode={'stretch'}/>
+              <Image source={{uri : item.item.image}} style={styles.Image} resizeMode={'stretch'} h />
               <Layout style={styles.TitleContainer}>
                 <Text style={styles.TitleText}>{item.item.title}</Text>
               </Layout>
@@ -106,7 +107,6 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
         return(
             <TouchableOpacity style={styles.SeriesStyle} onPress={() => {PressContent(item.item.id)}}>
               <Image source={{ uri: item.item.image }} style={styles.SeriesImgStyle} />
-              <Text style={styles.SeriesTxtStyle} numberOfLines={3}>{item.item.title}</Text>
             </TouchableOpacity>
         )
       };
@@ -115,7 +115,6 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
     return(
         <TouchableOpacity style={styles.SeriesStyle} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id : item.item.id})}}>
             <Image source={{ uri: item.item.image }} style={styles.SeriesImgStyle} />
-            <Text style={styles.SeriesTxtStyle} numberOfLines={3}>{item.item.title}</Text>
         </TouchableOpacity>
     )
     };
