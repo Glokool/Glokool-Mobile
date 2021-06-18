@@ -803,6 +803,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.glokool;
 				PRODUCT_NAME = Glokool;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Glokool-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -832,6 +833,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.glokool;
 				PRODUCT_NAME = Glokool;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Glokool-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -12,7 +12,9 @@ import {
     FlatList, 
     ScrollView,
     View,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView,
+    Platform,
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
 import { AngleLeft, PurpleArrow, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
@@ -255,6 +257,10 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 
     return (
         <Layout style={styles.ContainerLayout}>
+            <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+            >
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
             <Layout style={{height: 55}}/>
@@ -407,6 +413,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </Layout>
 
                     {/* 댓글 입력 */}
+
                     <Layout style={styles.CommentsTextLayout}>
                         <TextInput  style={styles.CommentsTextInput}
                         // underlineColorAndroid="transparent"
@@ -422,6 +429,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </Layout>
                 </Layout>
             </ScrollView>
+            </KeyboardAvoidingView>
             
              {/* 탑탭바 */}
              <Layout style={styles.ContainerLayoutAngleLeft}>
@@ -457,6 +465,9 @@ const styles = StyleSheet.create({
     ContainerLayout:{
         position: 'relative',
     },
+    container:{
+        flex:1,
+    }
     // 탑탭 style
     ContainerLayoutAngleLeft: {
         width: '100%',
