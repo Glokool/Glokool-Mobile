@@ -155,7 +155,7 @@ android {
         }
 
         release {
-            storeFile file('/Users/hanhyeseon/GlokoolApp/Glokool-Mobile/android')
+            storeFile file('C:\\Work\\Glokool-Mobile\\android\\app\\my-release-key.keystore')
             keyPassword 'tjdtn327'
             keyAlias 'my-key-alias'
             storePassword 'tjdtn327'
