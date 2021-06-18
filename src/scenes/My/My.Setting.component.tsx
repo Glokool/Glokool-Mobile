@@ -53,24 +53,11 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   return (
-    <React.Fragment>      
+    <React.Fragment>
 
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
-      
       <Layout style={styles.mainContainer}>
 
-        {/*탭바 표현*/}
-        <Layout style={styles.Tabbar}>
-          <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
-              <AngleLeft />
-            </TouchableOpacity>
-          </Layout>
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
-            <Text style={styles.TextStyle}>SETTINGS</Text>
-          </Layout>
-          <Layout style={{flex:1}}/>         
-        </Layout>
+        <Layout style={{height: 70}} />
 
         {/* 세팅 내용물*/}
         <Layout style={styles.Container}>
@@ -119,6 +106,32 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
         
       </Layout>
 
+      {/*탭바 표현*/}
+      <Layout style={{position: 'absolute', top: 0, width: '100%'}}>
+
+        <SafeAreaView />
+
+        <Layout style={styles.Tabbar}>
+
+          <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
+            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
+              <SafeAreaView />
+              <AngleLeft />
+            </TouchableOpacity>
+          </Layout>
+
+          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
+            <SafeAreaView />
+            <Text style={styles.TextStyle}>SETTINGS</Text>
+          </Layout>
+
+          <Layout style={{flex:1}}/> 
+
+        </Layout>
+
+      </Layout>
+
+
     </React.Fragment>
   );
 };
@@ -129,7 +142,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   Tabbar: {
+    position: 'absolute',
+    top: 0,
     height: 50,
+    width: '100%',
     flexDirection: 'row',
   },
   Container:{
