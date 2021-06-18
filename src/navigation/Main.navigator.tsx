@@ -6,6 +6,8 @@ import {
   createBottomTabNavigator 
 } from '@react-navigation/bottom-tabs';
 import { 
+  Keyboard,
+  Platform,
   SafeAreaView, 
   Text, 
   TouchableOpacity, 
@@ -24,12 +26,34 @@ import { NavigatorRoute } from './app.route';
 const Tab = createBottomTabNavigator();
 
 function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomTabBarOptions>) {
+
+  const [visible, setVisible] = React.useState(true)
   
   const focusedOptions = descriptors[state.routes[state.index].key].options;
 
+  React.useEffect(() => {
+    let keyboardEventListeners : any;
+    if (Platform.OS === 'android') {
+      keyboardEventListeners = [
+        Keyboard.addListener('keyboardDidShow', () => setVisible(false)),
+        Keyboard.addListener('keyboardDidHide', () => setVisible(true)),
+      ];
+    }
+    return () => {
+      if (Platform.OS === 'android') {
+        keyboardEventListeners &&
+          keyboardEventListeners.forEach(eventListener => eventListener.remove());
+      }
+    };
+  }, []);
+
   if (focusedOptions.tabBarVisible === false) return null
+  if (!visible && Platform.OS === 'android') return null;
+
+
 
   return (
+
     <View style={{ marginTop: -10 }}>
     <View 
       style={{ 
@@ -152,6 +176,7 @@ const GuideVisiblity = (route) => {
 export const MainNavigator = (): React.ReactElement => (    
     <Tab.Navigator
       tabBar={props => <MyTabBar {...props}/>}
+      tabBarOptions={{keyboardHidesTabBar: true}}
       initialRouteName={'HOME'}
     >
       <Tab.Screen 

@@ -96,15 +96,15 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
     function PressTopTabBarButton(index : number) {
         setSelectedButton(index);
 
-        if(selectedButton === 0) {
+        if(index === 0) {
             ScrollVewRef.current.scrollTo({ x: 0, y: infoPos - 100, animated: true });
         }
 
-        else if(selectedButton === 1) {
+        else if(index === 1) {
             ScrollVewRef.current.scrollTo({ x: 0, y: detailPos - 100, animated: true });
         }
 
-        else if(selectedButton === 2) {
+        else if(index === 2) {
             ScrollVewRef.current.scrollTo({ x: 0, y: instaPos - 100, animated: true });
         }
           
@@ -406,9 +406,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 50,
+        height: 70,
         backgroundColor: '#ffffff',
         alignItems: 'center',
+        justifyContent: 'center'
     },
     TopTabBarInner:{
         flexDirection: 'row',

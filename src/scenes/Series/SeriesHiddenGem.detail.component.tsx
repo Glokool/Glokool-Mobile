@@ -264,49 +264,56 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
 
 
             {/* 탑 탭 바 */}
-            {(Height >= ImageSize - 100)? 
-            <Layout style={styles.TopTabBar_B}>
+            {(Height >= ImageSize - 100)?
 
-                    <Layout style={styles.TopTabBarContainer}>
-                        
-                        <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
-                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <AngleLeft />
-                        </TouchableOpacity>
+            <Layout style={{position: 'absolute', top : 0, width: '100%', backgroundColor: 'rgba(255,255,255, 0.8)', paddingBottom: 5}}>
 
-                        <Layout style={{backgroundColor: '#00ff0000'}}>
-                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            <Text style={styles.TitleText_B}>{content?.tour.title}</Text>
+                <SafeAreaView />
+
+                <Layout style={styles.TopTabBar_B}>
+
+                        <Layout style={styles.TopTabBarContainer}>
+                            
+                            <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.goBack()}>
+                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                                <AngleLeft />
+                            </TouchableOpacity>
+
+                            <Layout style={{backgroundColor: '#00ff0000'}}>
+                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                                <Text style={styles.TitleText_B}>{content?.tour.title}</Text>
+                            </Layout>
+                            
+
                         </Layout>
-                        
 
-                    </Layout>
+                        <Layout style={styles.TopTabBarContainer2}>
+                            
+                            <TouchableOpacity style={styles.BookmarkButton} onPress={() => PressBookmark()}>
+                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                                {bookmarkList.indexOf(TourCode) == -1 ? 
+                                    <Bookmark />
+                                    :
+                                    <Bookmark_P />
+                                }
+                            </TouchableOpacity>
 
-                    <Layout style={styles.TopTabBarContainer2}>
-                        
-                        <TouchableOpacity style={styles.BookmarkButton} onPress={() => PressBookmark()}>
-                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            {bookmarkList.indexOf(TourCode) == -1 ? 
-                                <Bookmark />
-                                :
-                                <Bookmark_P />
-                            }
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.PlusButton} onPress={() => PressPlus()}>
-                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                            {content?.tour.plus == null ? (
-                                <Plus />
-                            ) : (
-                                content?.tour.plus.indexOf(uid) == -1 ? (
+                            <TouchableOpacity style={styles.PlusButton} onPress={() => PressPlus()}>
+                                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                                {content?.tour.plus == null ? (
                                     <Plus />
                                 ) : (
-                                    <Plus_P />
-                                )
-                            )}
-                        </TouchableOpacity>
+                                    content?.tour.plus.indexOf(uid) == -1 ? (
+                                        <Plus />
+                                    ) : (
+                                        <Plus_P />
+                                    )
+                                )}
+                            </TouchableOpacity>
 
-                    </Layout>
+                        </Layout>
+
+                </Layout>
 
             </Layout>
 
@@ -390,7 +397,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: '100%',
         height: 50,
-        backgroundColor: 'rgba(255,255,255, 0.8)',
+        backgroundColor: '#00FF0000',
         alignItems: 'center',
         flexDirection: 'row',
     },

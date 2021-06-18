@@ -12,7 +12,7 @@ export const privacyPolicycard = () => {
             <ScrollView>
 
             <Text style={styles.terms}>
-                This Privacy Policy describes how Holeinone (“We”) collects, uses and shares your information on our website at glokool.com (the “Site”) and various relates services (collectively, the “Services”).
+                This Privacy Policy describes how Glokol (“We”) collects, uses and shares your information on our website at glokool.com (the “Site”) and various relates services (collectively, the “Services”).
             </Text>
 
             <Text style={styles.termsTitle}>
@@ -51,7 +51,7 @@ export const privacyPolicycard = () => {
                 E. Cookies and Web Beacons
             </Text>
             <Text style={styles.terms}>
-                Like many other sites, we use “cookies” to make Holeinone easier to use. Cookies are small pieces of data places on your computer. You can set your Web browser to accept or decline cookies. Some sections of our Site may not function properly if you decline cookies. “Web beacons” (also known as “Pixel Tags” and “Clear GIFs”) are small transparent graphic images (on a web page or in an email) that are usedin combination with cookies in order to monitor some of your activities on our Site and personalize our Site for the users.        
+                Like many other sites, we use “cookies” to make Glokool easier to use. Cookies are small pieces of data places on your computer. You can set your Web browser to accept or decline cookies. Some sections of our Site may not function properly if you decline cookies. “Web beacons” (also known as “Pixel Tags” and “Clear GIFs”) are small transparent graphic images (on a web page or in an email) that are usedin combination with cookies in order to monitor some of your activities on our Site and personalize our Site for the users.        
             </Text>
 
             <Text style={styles.termsSmallTitle}>

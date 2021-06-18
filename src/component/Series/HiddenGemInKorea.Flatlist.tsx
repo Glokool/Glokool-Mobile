@@ -1,14 +1,13 @@
-import { LayoutElement, ListItem,Layout, Text } from '@ui-kitten/components';
+import React from 'react';
+import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
 import moment from 'moment';
-import React from 'react';
 import { Dimensions, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { string } from 'yup/lib/locale';
 import { Count } from '../../assets/icon/Common';
 import { SceneRoute } from '../../navigation/app.route';
 import { HiddenGemInKoreaFlatListProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { SERVER } from '../../server.component';
-import { Loading } from '../Common/Loading';
+
 
 const SeriesImgW = Dimensions.get('window').width;
 
@@ -96,7 +95,7 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
     return(
         <ScrollView>
             <Layout style={{ backgroundColor: '#00FF0000'}}>
-                    <Text style={styles.TitleTxt}>{`Hidden Gems in Korea`}</Text>
+                    <Text style={styles.TitleTxt}>Hidden Gems in Korea</Text>
                     <Text style={styles.smallTitleTxt}>{`Guide books of specially chosen tour spots.`}</Text>
             </Layout>
             <FlatList
@@ -115,8 +114,7 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-SemiBold',
         marginLeft: 30,
         fontSize: 22,
-        color: 'black',
-        backgroundColor: '#ffffff',
+        fontWeight: '600'
     },
     smallTitleTxt: {
         fontFamily: 'IBMPlexSansKR-Medium',

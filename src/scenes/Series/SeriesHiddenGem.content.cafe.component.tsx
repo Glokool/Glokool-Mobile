@@ -89,15 +89,15 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
     function PressTopTabBarButton(index : number) {
         setSelectedButton(index);
 
-        if(selectedButton === 0) {
+        if(index === 0) {
             ScrollVewRef.current.scrollTo({ x: 0, y: infoPos - 100, animated: true });
         }
 
-        else if(selectedButton === 1) {
+        else if(index === 1) {
             ScrollVewRef.current.scrollTo({ x: 0, y: detailPos - 100, animated: true });
         }
 
-        else if(selectedButton === 2) {
+        else if(index === 2) {
             ScrollVewRef.current.scrollTo({ x: 0, y: menuPos - 100, animated: true });
         }
           
@@ -342,6 +342,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
 
             </ScrollView>
 
+            {/* 탑 탭 바 */}
             <Layout style={styles.TopTabBar}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
                 <Layout style={styles.TopTabBarInner}>
@@ -369,7 +370,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>                        
-                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
+                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Menu</Text>
                     </TouchableOpacity>
                 </Layout>
 
@@ -389,9 +390,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 50,
+        height: 70,
         backgroundColor: '#ffffff',
         alignItems: 'center',
+        justifyContent: 'center'
     },
     TopTabBarInner:{
         flexDirection: 'row',
