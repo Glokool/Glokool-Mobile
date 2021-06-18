@@ -77,10 +77,6 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
 
     }, [])
 
-
-
-
-
     async function InitContentRest() {
 
         var ContentRest = await axios.get(SERVER + '/api/tours/' + TourCode + '/restaurants/' + PlaceCode);
@@ -89,17 +85,18 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
     }
 
     function PressTopTabBarButton(index : number) {
+
         setSelectedButton(index);
 
-        if(selectedButton === 0) {
+        if(index === 0) {
             ScrollVewRef.current.scrollTo({ x: 0, y: infoPos - 100, animated: true });
         }
 
-        else if(selectedButton === 1) {
+        else if(index === 1) {
             ScrollVewRef.current.scrollTo({ x: 0, y: detailPos - 100, animated: true });
         }
 
-        else if(selectedButton === 2) {
+        else if(index === 2) {
             ScrollVewRef.current.scrollTo({ x: 0, y: menuPos - 100, animated: true });
         }
           
@@ -334,10 +331,10 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
                     </Layout>
                 </Layout>
 
-
-
             </ScrollView>
 
+
+            {/* 탑 탭 바 */}
             <Layout style={styles.TopTabBar}>
                 <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
                 <Layout style={styles.TopTabBarInner}>
@@ -385,10 +382,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 50,
+        height: 70,
         backgroundColor: '#ffffff',
         alignItems: 'center',
-        borderWidth: 1,
+        justifyContent: 'center'
     },
     TopTabBarInner:{
         flexDirection: 'row',

@@ -52,8 +52,6 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
 
     const InsideRenderItem = (item : {item : photoSpotImage, index: number }) => {
 
-        console.log(item.item)
-
         return(
             <Layout style={styles.InsideImageContainer}>                
                 <Image source={{uri : item.item.img}} style={styles.InsideImage} resizeMode={'stretch'}/>
@@ -86,7 +84,7 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
                     
                     <Layout>
                         <FlatList
-                            data={item.item.images}
+                            data={item.item.images.slice(1,)}
                             renderItem={InsideRenderItem}
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}

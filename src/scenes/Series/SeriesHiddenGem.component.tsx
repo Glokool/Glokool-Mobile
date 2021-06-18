@@ -20,6 +20,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import { SeriesHiddenGemProps } from '../../navigation/ScreenNavigator/Series.navigator';
 
 const windowWidth = Dimensions.get('window').width;
+
 export const SeriesHiddenGemScreen = (props : SeriesHiddenGemProps) : LayoutElement => {
 
     return(
