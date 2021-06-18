@@ -281,6 +281,10 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     
     return (
         <Layout>
+            <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+            >
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
             {height >= windowWidth - 100 ? 
                 <Layout>
@@ -474,10 +478,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     </Layout>
 
                     {/* 댓글 입력 */}
-                    <KeyboardAvoidingView
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    style={styles.Container}
-                    >
+                
                         <Layout style={styles.CommentsTextLayout}>
                             <TextInput  style={styles.CommentsTextInput}
                             // underlineColorAndroid="transparent"
@@ -491,10 +492,11 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                                 <CommentSending  />
                             </TouchableOpacity>
                         </Layout>
-                    </KeyboardAvoidingView>
+                   
                 </Layout>
 
             </ScrollView>
+            </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
