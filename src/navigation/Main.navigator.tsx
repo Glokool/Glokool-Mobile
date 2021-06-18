@@ -9,7 +9,8 @@ import {
   SafeAreaView, 
   Text, 
   TouchableOpacity, 
-  View 
+  View,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   HomeNavigator,
@@ -79,6 +80,7 @@ function MyTabBar({ state, descriptors, navigation } : BottomTabBarProps<BottomT
         };
 
         return (
+          
           <TouchableOpacity
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
