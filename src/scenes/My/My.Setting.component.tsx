@@ -1,6 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth'
 import {
+  Platform,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -21,6 +22,7 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const MySetting = (props: MYSettingProps): LayoutElement => {
+
   const PressBack = () => {
     props.navigation.goBack();
   }
@@ -53,8 +55,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   return (
-    <React.Fragment>
-
+    
       <Layout style={styles.mainContainer}>
 
         <Layout style={{height: 70}} />
@@ -103,36 +104,34 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
           <Layout style={{flex:8, flexDirection: 'column'}}/>
           
         </Layout>
-        
-      </Layout>
 
-      {/*탭바 표현*/}
-      <Layout style={{position: 'absolute', top: 0, width: '100%'}}>
+        {/*탭바 표현*/}
+        <Layout style={{position: 'absolute', top: 0, width: '100%'}}>
 
-        <SafeAreaView />
+          <SafeAreaView style={{flex: 0}} />
 
-        <Layout style={styles.Tabbar}>
+          <Layout style={(Platform.OS === 'android')? styles.TabbarAndroid : styles.Tabbar}>
 
-          <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
-            <TouchableOpacity onPress={PressBack} style={{padding: 10}}>
+            <TouchableOpacity onPress={() => PressBack()} style={{padding: 10, flex:1, alignItems:'center', justifyContent: 'center'}}>
               <SafeAreaView />
               <AngleLeft />
             </TouchableOpacity>
+
+
+            <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
+              <SafeAreaView />
+              <Text style={styles.TextStyle}>SETTINGS</Text>
+            </Layout>
+
+            <Layout style={{flex:1}}/> 
+
           </Layout>
 
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
-            <SafeAreaView />
-            <Text style={styles.TextStyle}>SETTINGS</Text>
-          </Layout>
-
-          <Layout style={{flex:1}}/> 
-
+          
         </Layout>
-
+        
       </Layout>
 
-
-    </React.Fragment>
   );
 };
 
@@ -144,6 +143,11 @@ const styles = StyleSheet.create({
   Tabbar: {
     position: 'absolute',
     top: 0,
+    height: 50,
+    width: '100%',
+    flexDirection: 'row',
+  },
+  TabbarAndroid : {
     height: 50,
     width: '100%',
     flexDirection: 'row',

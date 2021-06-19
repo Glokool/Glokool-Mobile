@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       marginVertical: 20,
+      alignSelf: 'center'
     },
     Button : {
       width: Screen * 0.25,
