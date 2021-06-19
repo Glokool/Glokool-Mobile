@@ -338,8 +338,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const onSend = async(messages = []) => {
 
-        Ref.current.focusTextInput();
-
         messages[0].messageType = "message";
         messages[0].createdAt = new Date().getTime();
 
@@ -349,9 +347,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         else{
             ToastRef.show('Please refrain from any content that may offend the other person.' ,1000)
         }
-        
-
-        
+                
     }        
 
     const renderSend = (props) => {
@@ -637,7 +633,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         <Layout style={{width: '100%', height: '100%'}} onTouchStart={Keyboard.dismiss}>
             <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             
-            <KeyboardAvoidingView style={styles.Container} behavior={'padding'} keyboardVerticalOffset={-250}>
+            <KeyboardAvoidingView style={styles.Container} behavior={(Platform.OS === 'android')? 'height' : 'padding'} keyboardVerticalOffset={(Platform.OS === 'android')? 0 : -250}>
 
                 <Layout style={styles.mainContainer}>
 
