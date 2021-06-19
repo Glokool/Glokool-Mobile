@@ -16,6 +16,7 @@ import moment from 'moment';
 import { GloChatData } from '.';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
+import { SceneRoute } from '../../navigation/app.route';
 
 
 export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
@@ -75,7 +76,7 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
             {(data.length === 0)? 
                 <Layout style={styles.EmptyContainer}>
                     <Text style={styles.EmptyText}>Empty</Text>
-                    <TouchableOpacity style={styles.EmptyButton}>
+                    <TouchableOpacity style={styles.EmptyButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc026bee8b3104211971b5' })}>
                         <Text style={styles.EmptyButtonText}>How to use GloChat?!</Text>
                     </TouchableOpacity>
                 </Layout>            

@@ -9,6 +9,7 @@ import {
   ChatHelpScreen,
   ChatReportScreen
 } from '../../scenes/Chat';
+import { SeriesAInfoScreen } from '../../scenes/Series';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,9 @@ type ChatNavigatorParams = AppNavigatorParams & {
       uid : string;
     }
   };
+  [SceneRoute.SERIES_A_DETAIL] : {
+    Id : string;
+  }
 }
 
 export interface ChatScreenProps {
@@ -70,6 +74,7 @@ export interface ChatReportScreenProps {
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen} />
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
