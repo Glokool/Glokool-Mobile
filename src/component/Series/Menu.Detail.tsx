@@ -25,7 +25,9 @@ interface MenuDetailProps {
 
 export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
 
-    const [image, setImage] = React.useState<image>()
+    const [image, setImage] = React.useState<image>();
+    const WindowWidth = Dimensions.get('window').width;
+
 
 
     React.useEffect(() => {
@@ -38,8 +40,10 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
         
 
         Image.getSize(props.data[0], (width, height) => {
-            console.log(width, height);
-            setImage({width: width, height: height});
+
+            var ImageRatio = WindowWidth / width;
+            
+            setImage({width: WindowWidth - 60, height: height * ImageRatio});
         });
         
 
@@ -73,7 +77,7 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
             </Layout>
 
             {(props.data != undefined && image != undefined)? 
-                <FastImage  source={{uri : props.data[0]}} style={{width: (image?.width - 60), height: image?.height, alignSelf: 'center'}} resizeMode={'stretch'}/>
+                <FastImage  source={{uri : props.data[0]}} style={{width: (image?.width), height: image?.height, alignSelf: 'center'}} resizeMode={'stretch'}/>
             :
                 null
             }
