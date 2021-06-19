@@ -31,6 +31,7 @@ import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
 import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
 import { AuthUser } from '../../data/Auth';
+import Toast from 'react-native-easy-toast';
 
 var ToastRef : any;
 
@@ -110,7 +111,11 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
   return (
     (user == null) ? (
-      <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
+      <Layout>
+            <Toast ref={(toast) => ToastRef = toast} position={'bottom'}/>
+            <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
+      </Layout>
+
     )
       :
     (
@@ -196,7 +201,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
       }
 
       
-
+    <Toast ref={(toast) => ToastRef = toast} position={'bottom'}/>
 
 
 

@@ -146,7 +146,10 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
   return (
     (user === null) ? (
-      <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
+      <Layout>
+        <Toast ref={(toast) => toastRef = toast} position={'bottom'}/>
+        <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
+      </Layout>
     )
       :
     (

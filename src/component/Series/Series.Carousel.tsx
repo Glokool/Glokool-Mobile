@@ -5,6 +5,8 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { SeriesCarouselProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { useNavigation } from '@react-navigation/native';
+import { SceneRoute } from '../../navigation/app.route';
 
 type SeriesCarousel_Item = {
     image: NodeRequire,
@@ -14,11 +16,11 @@ const ImageSize = Dimensions.get('window').width;
 
 export const SeriesCarousel = (props : SeriesCarouselProps) : LayoutElement => {
 
+    const Navigation = useNavigation();
     const [content, setContent] = React.useState<Array<SeriesCarousel_Item>>([
         {image: require('../../assets/SeriesBanner/Banner_01.png')},
         {image: require('../../assets/SeriesBanner/Banner_02.png')},
-        {image: require('../../assets/SeriesBanner/Banner_03.png')},
-        {image: require('../../assets/SeriesBanner/Banner_04.png')},
+
     ]);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
     const [activeSlide, setActiveSlide] = React.useState<Number>(0);
@@ -34,7 +36,7 @@ export const SeriesCarousel = (props : SeriesCarouselProps) : LayoutElement => {
     const RenderCarousel = (data: { item: SeriesCarousel_Item; index: number; }) => {
 
         return(
-            <TouchableOpacity style={styles.ItemContainer}>
+            <TouchableOpacity style={styles.ItemContainer} onPress={() => Navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc026bee8b3104211971b5' })}>
                 <Image source={data.item.image} style={styles.ImageContainer} />
             </TouchableOpacity>    
         )
