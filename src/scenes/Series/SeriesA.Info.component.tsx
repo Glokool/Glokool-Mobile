@@ -93,6 +93,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
 
+        
         // 북마크 조회 하기 위한 함수 
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
@@ -247,6 +248,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             console.log(error);
         });
     }
+
     return (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView  behavior='padding' style={styles.Container}>

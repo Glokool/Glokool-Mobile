@@ -93,7 +93,7 @@ export const ChatListNow = (props : ChatListNowProps) : LayoutElement => {
             {(data.length === 0)? 
                 <Layout style={styles.EmptyContainer}>
                     <Text style={styles.EmptyText}>Empty</Text>
-                    <TouchableOpacity style={styles.EmptyButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc026bee8b3104211971b5' })}>
+                    <TouchableOpacity style={styles.EmptyButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc01e0ee8b3104211971b4' })}>
                         <Text style={styles.EmptyButtonText}>How to use GloChat?!</Text>
                     </TouchableOpacity>
                 </Layout>            

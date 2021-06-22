@@ -210,13 +210,13 @@ const styles = StyleSheet.create({
     },
     TabBarLayout:{
         flexDirection: 'row',
-        marginLeft: 30,
+        marginLeft: 20,
         alignItems: 'center',
         marginBottom: 20,
         height: 50,
     },
     AngleLeftLayout: {
-        marginRight: 20,
+        padding: 20,
     },
     TabBarIconLayout: {
         marginRight: 10

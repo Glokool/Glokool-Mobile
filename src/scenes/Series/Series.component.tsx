@@ -1,22 +1,13 @@
 import React from 'react'
-import firestore from '@react-native-firebase/firestore'
 import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
 import { 
-    Dimensions,
-    Image,
-    ImageBackground,
-    Linking,
-    SafeAreaView, 
     StyleSheet, 
     Text, 
     TouchableOpacity,
-    FlatList, 
     ScrollView,
-    View,
     BackHandler,
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
-
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';

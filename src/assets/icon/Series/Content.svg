@@ -1,15 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="27.734" height="20" viewBox="0 0 27.734 20">
-  <g id="그룹_1501" data-name="그룹 1501" transform="translate(138.734 -112)">
-    <g id="Seires__Korea_A_to_Z_아이콘" data-name="Seires_ Korea A to Z 아이콘" transform="translate(-166 -427)">
+  <g id="Seires__Korea_A_to_Z_아이콘" data-name="Seires_ Korea A to Z 아이콘" transform="translate(138.734 -112)">
+    <g id="Seires__Korea_A_to_Z_아이콘-2" data-name="Seires_ Korea A to Z 아이콘" transform="translate(-166 -427)">
       <path id="패스_2103" data-name="패스 2103" d="M6,0h8a6,6,0,0,1,6,6V18a2,2,0,0,1-2,2H6a6,6,0,0,1-6-6V6A6,6,0,0,1,6,0Z" transform="translate(35 539)" fill="#ffc170"/>
       <g id="그룹_1482" data-name="그룹 1482" transform="translate(0 0.877)">
         <g id="그룹_1480" data-name="그룹 1480" transform="translate(28.694 541.423)">
           <path id="패스_2101" data-name="패스 2101" d="M569.517,464.6l.259.317H567.8l-1.82-4.532h-4.925l-1.821,4.532H557.4l4.646-11.58a1.574,1.574,0,0,1,2.946,0l3.535,8.793Z" transform="translate(-557.4 -452.32)" fill="#fff" stroke="#fff" stroke-width="0.8"/>
           <path id="패스_2102" data-name="패스 2102" d="M580.3,463.126l.755,1.851h-9.82a.905.905,0,0,1-.808-.483.921.921,0,0,1,.03-.944l.876-1.36.151-.242.657-1.012,4.2-6.534H569.6l-.718-1.851h9.155a.905.905,0,0,1,.808.483.921.921,0,0,1-.03.944l-5.847,9.087-.038.06Z" transform="translate(-559.269 -452.376)" fill="#fff" stroke="#fff" stroke-width="0.8"/>
         </g>
-        <g id="그룹_1481" data-name="그룹 1481" transform="translate(27.858 540.023)">
-          <path id="패스_2101-2" data-name="패스 2101" d="M569.517,464.6l.269.317H567.8l-1.82-4.532h-4.925l-1.821,4.532H557.4l4.646-11.58a1.574,1.574,0,0,1,2.946,0l3.535,8.793Z" transform="translate(-557.4 -452.32)" stroke="#000" stroke-width="0.8"/>
-          <path id="패스_2102-2" data-name="패스 2102" d="M580.3,463.126l.755,1.851h-9.82a.905.905,0,0,1-.808-.483.921.921,0,0,1,.03-.944l.876-1.36.151-.242.657-1.012,4.2-6.534H569.6l-.718-1.851h9.155a.905.905,0,0,1,.808.483.921.921,0,0,1-.03.944l-5.847,9.087-.038.06Z" transform="translate(-559.269 -452.376)" stroke="#000" stroke-width="0.8"/>
+        <g id="그룹_1481" data-name="그룹 1481" transform="translate(27.858 540.023)" style="isolation: isolate">
+          <path id="합치기_38" data-name="합치기 38" d="M150.11-101.3h-1.566l-1.821-4.532H141.8l-1.821,4.532h-1.836l4.646-11.58a1.6,1.6,0,0,1,1.473-1.02,1.6,1.6,0,0,1,1.473,1.02l3.535,8.793.36.9.579-.9.151-.241.657-1.012,4.2-6.534H148.47l-.717-1.851h9.156a.907.907,0,0,1,.808.483.923.923,0,0,1-.031.945l-5.846,9.087-.038.06h7.373l.755,1.85Z" transform="translate(-138.142 113.9)" stroke="#000" stroke-width="0.8"/>
         </g>
       </g>
     </g>
