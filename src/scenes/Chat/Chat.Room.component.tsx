@@ -632,7 +632,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         <Layout style={{width: '100%', height: '100%'}} onTouchStart={Keyboard.dismiss}>
             <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             
-            <KeyboardAvoidingView style={styles.Container}>
+            <KeyboardAvoidingView style={styles.Container} >
 
                 <Layout style={styles.mainContainer}>
 
@@ -649,7 +649,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         listViewProps={{
                             initialNumToRender: 15
                         }}
-                        messagesContainerStyle={{paddingBottom: 50, paddingTop : 80}}
+                        messagesContainerStyle={{paddingBottom:50, paddingTop : 80}}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}
@@ -923,7 +923,8 @@ const styles = StyleSheet.create({
     },
     mainContainer:{
         width: '100%',
-        height: '100%'
+        height: '100%',
+
     },
     inputToolbar: {
         margin: 10

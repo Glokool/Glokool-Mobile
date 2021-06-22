@@ -279,7 +279,6 @@ export const SeriesHiddenGemDetailScreen = (props : SeriesHiddenGemDetailProps) 
                             <Text style={styles.TitleText_B}>{content?.tour.title}</Text>
                         </Layout>
                         
-
                     </Layout>
 
                     <Layout style={styles.TopTabBarContainer2}>

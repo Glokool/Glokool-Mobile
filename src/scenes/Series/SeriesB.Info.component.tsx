@@ -12,7 +12,9 @@ import {
     FlatList, 
     ScrollView,
     View,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
 import { SERVER } from '../../server.component';
@@ -262,6 +264,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     
     return (
         <Layout>
+            <KeyboardAvoidingView style={styles.Container} behavior = 'padding'>
             <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
             {height >= windowWidth - 100 ? 
                 <Layout>
@@ -317,7 +320,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                             inactiveDotColor={'#7777FF'}
                             inactiveDotOpacity={0.4}
                             inactiveDotScale={1}
-                            
                         />
                         <Layout style={styles.ContentTxtLayout}>
                             <Text style={styles.ContentTitleTxt}>{item.title}</Text>
@@ -455,6 +457,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 </Layout>
 
             </ScrollView>
+            </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
@@ -499,6 +502,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 }
 
 const styles = StyleSheet.create({
+    Container: {    
+        backgroundColor: 'white',
+    },
     // 탑탭 style
     ContainerLayoutAngleLeft: {
         width: '100%',
@@ -764,6 +770,7 @@ const styles = StyleSheet.create({
         fontSize:20,
     },
     CommentsConainer: {
+        marginBottom: 10,
     },
     CommentsInnerConainer:{
         marginLeft: 20,

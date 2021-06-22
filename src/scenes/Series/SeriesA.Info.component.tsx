@@ -12,7 +12,9 @@ import {
     FlatList, 
     ScrollView,
     View,
-    TextInput
+    TextInput,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import { NavigatorRoute } from "../../navigation/app.route"
 import { AngleLeft, PurpleArrow, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
@@ -127,7 +129,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         return(
             <Layout style={styles.ItemContainer}>
                 <Image source={{ uri : item }} style={styles.ImageContainer} />
-            </Layout>    
+            </Layout>
         )
     }
 
@@ -254,7 +256,8 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 
     return (
         <Layout style={styles.ContainerLayout}>
-            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
+            <KeyboardAvoidingView style={styles.Container} behavior = 'padding'>
+            <ScrollView style={{backgroundColor: '#ffffff',}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
             <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
             <Layout style={{height: 50}}/>
                 <Layout style={styles.CarouselContainerLayout}>    
@@ -421,6 +424,7 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                     </Layout>
                 </Layout>
             </ScrollView>
+            </KeyboardAvoidingView>
             
              {/* 탑탭바 */}
              <Layout style={styles.ContainerLayoutAngleLeft}>
@@ -453,6 +457,9 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
 }
 
 const styles = StyleSheet.create({
+    Container: {    
+        backgroundColor: 'white',
+    },
     ContainerLayout:{
         position: 'relative',
     },
@@ -508,7 +515,6 @@ const styles = StyleSheet.create({
         height: windowWidth,
     },
     CarouselContainerLayout: {
-
     },
     Carousel: {
         height: windowWidth,
@@ -667,7 +673,7 @@ const styles = StyleSheet.create({
         height: 12,
     },
     CommentsConainer: {
-        marginBottom: 100,
+        marginBottom: 10,
         // borderWidth: 1,
         // borderColor: 'pink',
     },
@@ -706,7 +712,7 @@ const styles = StyleSheet.create({
     CommentsAuthorInnerNameTxt02Layout:{
         fontFamily:'IBMPlexSansKR-SemiBold',
         fontSize:14,
-        color: '#000000',
+        color: '#000000',   
     },
     CommentsAuthorInnerDateTxt02Layout: {
         fontFamily:'IBMPlexSansKR-Text',
