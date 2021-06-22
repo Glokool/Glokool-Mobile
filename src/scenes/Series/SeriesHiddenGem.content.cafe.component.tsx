@@ -92,7 +92,7 @@ export const SeriesHiddenGemContentCafe = (
 
     const [data, setData] = React.useState<CafeData>();
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
-    const [Glochat, setGlochat] = React.useState<boolean>(true);
+    const [Glochat, setGlochat] = React.useState<boolean>(false);
 
     const [infoPos, setInfoPos] = React.useState<number>(0);
     const [detailPos, setDetailPos] = React.useState<number>(0);
