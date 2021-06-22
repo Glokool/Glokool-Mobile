@@ -19,7 +19,7 @@ const ImageSize = Dimensions.get('window').width * 0.85;
 export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
 
     const [content, setContent] = React.useState<Array<HomeCarousel_Item>>([]);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [activeSlide, setActiveSlide] = React.useState<Number>(0);
 
     React.useEffect(() => {

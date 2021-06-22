@@ -719,8 +719,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flexDirection: 'row',
         marginTop: 20,
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CheckMoreLayoutStyle: {
         marginVertical: 30,
@@ -728,14 +726,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
         width: windowWidth * 0.3,
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CheckMoreTxtStyle: {
         fontFamily:'BrandonGrotesque-BoldItalic',
         fontSize:23,
         color: '#000000',
         marginLeft: 10,
+        lineHeight: 25,
     },
     RecommendationImg: {
         width: windowWidth * 0.27,

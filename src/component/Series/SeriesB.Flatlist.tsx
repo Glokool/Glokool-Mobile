@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
     fontFamily: 'IBMPlexSansKR-Medium',
     fontSize: 15,
     color: '#000000',
-    marginTop: 2, 
     width: SeriesImgW*0.27,
-    justifyContent: 'flex-start'
-
+    justifyContent: 'flex-start',
+    lineHeight: 20,
+    marginTop: 10,
   },
 
 })
