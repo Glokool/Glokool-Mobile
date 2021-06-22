@@ -370,7 +370,7 @@ export const SeriesHiddenGemContentCafe = (props : SeriesHiddenGemContentCafePro
                 <Layout>
                     <SafeAreaView style={{flex: 0}} />
                     <TouchableOpacity style={styles.Button} onPress={() => PressTopTabBarButton(2)}>                        
-                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Insta-Worthy</Text>
+                        <Text style={(selectedButton === 2)? styles.TextButton_S : styles.TextButton}>Menu</Text>
                     </TouchableOpacity>
                 </Layout>
 

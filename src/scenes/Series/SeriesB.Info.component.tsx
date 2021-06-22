@@ -28,6 +28,7 @@ import { GoUp, PurpleArrow, AngleLeft, AngleLeft_W, Bookmark, Bookmark_P, Plus, 
 import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
 import qs from "query-string";
 import { SeriesTopTabBar } from '../../component/Series';
+import { Instagram, Naver } from '../../assets/icon/SNS';
 
 
 type recommendation_Item = {
@@ -87,7 +88,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     const [Id, setId] = React.useState(props.route.params.Id);
     const [content, setContent] = React.useState<Series_Item>();
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>([]);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(1);
+    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
@@ -140,6 +141,21 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         return(
             <Layout>
                 <Image source={{ uri : item.item.img }} style={styles.ImageContainer} />
+                {item.item.author == null || item.item.author == '' || item.item.author == 'undefined' ? 
+                    null
+                :
+                    <Layout style={styles.authorContainer}>
+                        {(item.item.author[0] === 'i')?
+                            <Instagram />
+                        :   
+                        (item.item.author[0] === 'n')?
+                            <Naver />
+                        :
+                            null
+                        }
+                        <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
+                    </Layout>
+                }
             </Layout>    
         )
     }
@@ -263,201 +279,185 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     }
     
     return (
-        <Layout>
-            <KeyboardAvoidingView style={styles.Container} behavior = 'padding'>
-            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
-            {height >= windowWidth - 100 ? 
-                <Layout>
-                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    {/* <Layout style={{height: 50}}/> */}
-                </Layout>
-             : null }
+        <Layout style={styles.ContainerLayout}>
+            {/* <KeyboardAvoidingView style={styles.Container} behavior = 'padding'> */}
 
-                <Layout>
-                    <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
-                    <Layout style={styles.SeriesBottomLayout}>
-                        <Layout style={styles.SeriesDateLayoutStyle}>
-                            <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
-                        </Layout>
-                        <Layout style={styles.SeriesCountLayoutStyle}>
-                            <CountNum style={styles.SeriesCountIconLayoutStyle} />
-                            <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
-                        </Layout>
+                <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
+                {height >= windowWidth - 100 ? 
+                    <Layout>
+                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        {/* <Layout style={{height: 50}}/> */}
                     </Layout>
-                </Layout>
-                <Layout style={styles.TopTxtContainer}>
-                    <Text style={styles.TitleTxt}>{content?.title}</Text>
-                    <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
-                    <Text style={styles.descTxt}>{content?.desc}</Text>
-                    <Text style={styles.LetsBeginTxt}>Let's Begin ! </Text>
-                </Layout>
+                : null }
 
-                {/* content carousel */}
-                {(contentInfo.map((item) =>
-                    <Layout style={styles.CarouselContainerLayout}>
-                        <Carousel
-                            data={item.images}
-                            layout={'default'}
-                            renderItem={RenderCarousel}
-                            sliderWidth={Dimensions.get('window').width}
-                            itemWidth={windowWidth}
-                            hasParallaxImages={false}
-                            firstItem={0}
-                            inactiveSlideScale={0.8}
-                            inactiveSlideOpacity={0.7}
-                            inactiveSlideShift={0}
-                            // containerCustomStyle={styles.CarouselInsideContainer}
-                            loop={true}
-                            autoplay={false}
-                            onSnapToItem={(index : number) => setCarouselIndex(index) }
-                        />
-                        <Pagination
-                            dotsLength={item.images.length}
-                            containerStyle={styles.CarouselDotContainer}
-                            activeDotIndex={carouselIndex}
-                            dotColor={'#7777FF'}
-                            dotStyle={styles.CarouselDot}
-                            inactiveDotColor={'#7777FF'}
-                            inactiveDotOpacity={0.4}
-                            inactiveDotScale={1}
-                        />
-                        <Layout style={styles.ContentTxtLayout}>
-                            <Text style={styles.ContentTitleTxt}>{item.title}</Text>
-                            <Text style={styles.ContentDescTxt}>{item.desc}</Text>
+                    {/* content carousel */}
+                    {(contentInfo.map((item) =>
+                        <Layout style={styles.CarouselContainerLayout}>
+                            <Carousel
+                                data={item.images}
+                                layout={'default'}
+                                renderItem={RenderCarousel}
+                                sliderWidth={Dimensions.get('window').width}
+                                itemWidth={windowWidth}
+                                hasParallaxImages={false}
+                                firstItem={0}
+                                inactiveSlideScale={0.8}
+                                inactiveSlideOpacity={0.7}
+                                inactiveSlideShift={0}
+                                // containerCustomStyle={styles.CarouselInsideContainer}
+                                loop={true}
+                                autoplay={false}
+                                onSnapToItem={(index : number) => setCarouselIndex(index) }
+                            />
+                            <Pagination
+                                dotsLength={item.images.length}
+                                containerStyle={styles.CarouselDotContainer}
+                                activeDotIndex={carouselIndex}
+                                dotColor={'#7777FF'}
+                                dotStyle={styles.CarouselDot}
+                                inactiveDotColor={'#7777FF'}
+                                inactiveDotOpacity={0.4}
+                                inactiveDotScale={1}
+                            />
+                            <Layout style={styles.ContentTxtLayout}>
+                                <Text style={styles.ContentTitleTxt}>{item.title}</Text>
+                                <Text style={styles.ContentDescTxt}>{item.desc}</Text>
+                            </Layout>
                         </Layout>
-                    </Layout>
-                ))}
-                
-                {/* 땡큐 버튼 및 Go up 버튼 */}
-                <Layout style={styles.FinalConatiner}>
-                    <Text style={styles.ThankyouText}>Thank You!</Text>
+                    ))}
                     
-                    <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
-                        <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
-                    </TouchableOpacity>
-                </Layout>
-
-
-                {/* check out more */}
-                {recommendation ? (
-                    <Layout style={styles.CheckMoreContainerLayoutStyle}>
-                    <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                    {(recommendation.map((item) =>
-                    <Layout style={styles.CheckMoreLayoutStyle}>
-                        <TouchableOpacity onPress={() => {setId(item._id)}}>
-                            <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                    {/* 땡큐 버튼 및 Go up 버튼 */}
+                    <Layout style={styles.FinalConatiner}>
+                        <Text style={styles.ThankyouText}>Thank You!</Text>
+                        
+                        <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
+                            <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
                         </TouchableOpacity>
                     </Layout>
-                    ))}
-                </Layout>
-                ) : null}
-                
 
-                {/* 그레이색 배경 */}
-                <Layout style={styles.PurpleContainerLayoutStyle} >
-                    <PurpleArrow style={styles.PurpleArrow} />
-                    <Layout style={styles.PurpleTopLayoutStyle}>
-                        <Text style={styles.PurpleTopTxtStyle}>
-                            {`Can't find the information you need?`}
-                            {"\n"}
-                            {`Ask our travel assistants for more! `}
-                        </Text>
-                        <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
-                            </Layout>
+
+                    {/* check out more */}
+                    {recommendation ? (
+                        <Layout style={styles.CheckMoreContainerLayoutStyle}>
+                        <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
+                        {(recommendation.map((item) =>
+                        <Layout style={styles.CheckMoreLayoutStyle}>
+                            <TouchableOpacity onPress={() => {setId(item._id)}}>
+                                <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                            </TouchableOpacity>
                         </Layout>
-                    </Layout>
-                </Layout>
-                
-                {/* Comments */}
-                <Layout style={styles.CommentsConainer}>
-                    <Layout style={styles.CommentsInnerConainer}>
-                        {/* comments title */}
-                        <Layout style={styles.CommentsTitleLayout}>
-                            <Text style={styles.CommentsTitleTxt}>Comments</Text>
-                        </Layout>
-                        
-                        {/* comments content */}
-                        {(comments.map((item) =>
-                            <Layout style={styles.CommentsListContainerLayout}>
-                                <Layout style={styles.CommentsAuthorContainerLayout}>
-                                    <Layout style={styles.CommentsAuthorInner01Layout}></Layout>
-                                    <Layout style={styles.CommentsAuthorInner02Layout}>
-                                        <Layout>
-                                            <Text style={styles.CommentsAuthorInnerNameTxt02Layout}>{item.writer.name}</Text>
-                                        </Layout>
-                                        <Layout style={styles.CommentsAuthorInner02InnerLayout}>
-                                            <Layout>
-                                                <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
-                                            </Layout>
-                                            {/* 좋아요 아이콘 & 갯수 표시 */}
-                                            {item.plus.length != 0 ? (
-                                                <Layout style= {styles.CommentsAuthorInner02PlusContainerLayout}>
-                                                    <Comments6_s style= {styles.CommentsAuthorInner02PlusIconLayout} />
-                                                    <Text style={styles.CommentsAuthorInnerPlusNum02Layout}>{item.plus.length}</Text>
-                                                </Layout>
-                                            ) : null}
-                                            
-                                        </Layout>
-                                    </Layout>
-                                    {uid == item.writer.uid ? (
-                                    <Layout style={styles.CommentsAuthorInner03Layout}>
-                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
-                                            <Comments4 />
-                                        </TouchableOpacity>
-                                        {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                            <Comments5 />
-                                        </TouchableOpacity> */}
-                                    </Layout>
-                                    ) : (
-                                    <Layout style={styles.CommentsAuthorInner03Layout}>
-                                          {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                            <Comments1 />
-                                        </TouchableOpacity> */}
-                                        {item.plus.indexOf(uid) != -1 ?  (
-                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                            <Comments6 />
-                                        </TouchableOpacity>
-                                        ) : (
-                                        <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                            <Comments2 />
-                                        </TouchableOpacity>
-                                        )}
-                                        {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                            <Comments3 />
-                                        </TouchableOpacity> */}
-                                    </Layout>
-                                    )}
-                                    
-                                </Layout>
-                                <Layout style={styles.CommentsContentContainerLayout}>
-                                    <Text style={styles.CommentsContentTxtLayout}>
-                                        {item.comment}
-                                    </Text>
-                                </Layout>
-                            </Layout>
                         ))}
                     </Layout>
+                    ) : null}
+                    
 
-                    {/* 댓글 입력 */}
-                    <Layout style={styles.CommentsTextLayout}>
-                        <TextInput  style={styles.CommentsTextInput}
-                        // underlineColorAndroid="transparent"
-                        placeholder="Write your comment"
-                        placeholderTextColor="#D1D1D1"
-                        autoCapitalize="none" 
-                        onChangeText={text => setNowComment(text)}
-                        value = {nowComment}
-                        ></TextInput>
-                        <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
-                            <CommentSending  />
-                        </TouchableOpacity>
+                    {/* 그레이색 배경 */}
+                    <Layout style={styles.PurpleContainerLayoutStyle} >
+                        <PurpleArrow style={styles.PurpleArrow} />
+                        <Layout style={styles.PurpleTopLayoutStyle}>
+                            <Text style={styles.PurpleTopTxtStyle}>
+                                {`Can't find the information you need?`}
+                                {"\n"}
+                                {`Ask our travel assistants for more! `}
+                            </Text>
+                            <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                                <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                                    <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                                </Layout>
+                            </Layout>
+                        </Layout>
                     </Layout>
-                </Layout>
+                    
+                    {/* Comments */}
+                    <Layout style={styles.CommentsConainer}>
+                        <Layout style={styles.CommentsInnerConainer}>
+                            {/* comments title */}
+                            <Layout style={styles.CommentsTitleLayout}>
+                                <Text style={styles.CommentsTitleTxt}>Comments</Text>
+                            </Layout>
+                            
+                            {/* comments content */}
+                            {(comments.map((item) =>
+                                <Layout style={styles.CommentsListContainerLayout}>
+                                    <Layout style={styles.CommentsAuthorContainerLayout}>
+                                        <Layout style={styles.CommentsAuthorInner01Layout}></Layout>
+                                        <Layout style={styles.CommentsAuthorInner02Layout}>
+                                            <Layout>
+                                                <Text style={styles.CommentsAuthorInnerNameTxt02Layout}>{item.writer.name}</Text>
+                                            </Layout>
+                                            <Layout style={styles.CommentsAuthorInner02InnerLayout}>
+                                                <Layout>
+                                                    <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
+                                                </Layout>
+                                                {/* 좋아요 아이콘 & 갯수 표시 */}
+                                                {item.plus.length != 0 ? (
+                                                    <Layout style= {styles.CommentsAuthorInner02PlusContainerLayout}>
+                                                        <Comments6_s style= {styles.CommentsAuthorInner02PlusIconLayout} />
+                                                        <Text style={styles.CommentsAuthorInnerPlusNum02Layout}>{item.plus.length}</Text>
+                                                    </Layout>
+                                                ) : null}
+                                                
+                                            </Layout>
+                                        </Layout>
+                                        {uid == item.writer.uid ? (
+                                        <Layout style={styles.CommentsAuthorInner03Layout}>
+                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
+                                                <Comments4 />
+                                            </TouchableOpacity>
+                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                                <Comments5 />
+                                            </TouchableOpacity> */}
+                                        </Layout>
+                                        ) : (
+                                        <Layout style={styles.CommentsAuthorInner03Layout}>
+                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                                <Comments1 />
+                                            </TouchableOpacity> */}
+                                            {item.plus.indexOf(uid) != -1 ?  (
+                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
+                                                <Comments6 />
+                                            </TouchableOpacity>
+                                            ) : (
+                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
+                                                <Comments2 />
+                                            </TouchableOpacity>
+                                            )}
+                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                                <Comments3 />
+                                            </TouchableOpacity> */}
+                                        </Layout>
+                                        )}
+                                        
+                                    </Layout>
+                                    <Layout style={styles.CommentsContentContainerLayout}>
+                                        <Text style={styles.CommentsContentTxtLayout}>
+                                            {item.comment}
+                                        </Text>
+                                    </Layout>
+                                </Layout>
+                            ))}
+                        </Layout>
+
+                        {/* 댓글 입력 */}
+                    
+                            <Layout style={styles.CommentsTextLayout}>
+                                <TextInput  style={styles.CommentsTextInput}
+                                // underlineColorAndroid="transparent"
+                                placeholder="Write your comment"
+                                placeholderTextColor="#D1D1D1"
+                                autoCapitalize="none" 
+                                onChangeText={text => setNowComment(text)}
+                                value = {nowComment}
+                                ></TextInput>
+                                <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
+                                    <CommentSending  />
+                                </TouchableOpacity>
+                            </Layout>
+                    
+                    </Layout>
 
             </ScrollView>
-            </KeyboardAvoidingView>
+            {/* </KeyboardAvoidingView> */}
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
@@ -502,6 +502,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 }
 
 const styles = StyleSheet.create({
+    ContainerLayout:{
+        position: 'relative',
+    },
     Container: {    
         backgroundColor: 'white',
     },
@@ -541,9 +544,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
+        backgroundColor: '#00FF0000',
     },
     BookmarkTouch: {
-        marginRight: 20,
+        marginRight: 25,
         padding: 2,
     },
     PlusTouch: {
@@ -560,6 +564,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
         flexDirection:'row',
         marginLeft: 30,
+        marginRight: 20,
         marginTop: 20,
         alignItems: 'flex-end',
     },
@@ -585,6 +590,14 @@ const styles = StyleSheet.create({
         color:'#D2D2D2',
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
+    },
+    TopImgIconLayout: {
+        width: '50%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        backgroundColor: '#00FF0000',
+        height: '100%',
     },
     TopTxtContainer: {
         marginLeft: 20,
@@ -639,6 +652,20 @@ const styles = StyleSheet.create({
         width: 13,
         height: 4,
         borderRadius: 30, 
+    },
+    authorContainer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        bottom: 10,
+        left: 20,
+        backgroundColor: '#00FF0000'
+    },
+    authorText: {
+        fontFamily: 'IBMPlexSansKR-Text',
+        fontSize: 13,
+        color: '#ffffff',
+        opacity: 0.6,
     },
     ImageContainer: {
         width: windowWidth,
@@ -854,6 +881,9 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
         color: '#5D5959',
+    },
+    Container:{
+        flex: 1,
     },
     CommentsTextLayout:{
         margin: 15,

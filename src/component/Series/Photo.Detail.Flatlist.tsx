@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     authorText: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 13,
-        color: 'white'
+        color: 'white',
+        opacity: 0.6,
     },
     Image: {
         width : WindowSize * 0.85,

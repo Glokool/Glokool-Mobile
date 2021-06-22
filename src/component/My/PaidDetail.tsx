@@ -10,6 +10,7 @@ import { ReservationInfo } from '../../scenes/My';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { MY_Refund_Policy } from '../../assets/icon/My';
+import { DateTime } from 'luxon'
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -18,6 +19,7 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
     const [visible, setVisible] = React.useState<boolean>(false);
     const [visible2, setVisible2] = React.useState<boolean>(false);
+    const [refundCheck, setRefundCheck] = React.useState<boolean>(false);
     const [data, setData] = React.useState<ReservationInfo>({
           uid: '', 
           name: 'hello', 
@@ -46,7 +48,6 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
         if(props.visible === true){
             setData(props.data);
-            console.log(props.data);
             setVisible(props.visible);
         } 
 
@@ -67,6 +68,17 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
         const result = await axios(config);
         setVisible(false);
 
+    }
+
+    function PressRefundButton() {
+
+        if(data.refund.check === true){
+            return null
+        }
+        else{
+            setVisible2(true)
+        }
+        
     }
 
     if(visible == true){
@@ -162,13 +174,13 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
                         <MY_Refund_Policy />
                     </TouchableOpacity>
 
-                    <Layout style={styles.RefundButtonContainer}>
-                        <TouchableOpacity style={(data.refund.check === false)? styles.RefundButton : styles.RefundButtonC}  onPress={() => setVisible2(true)}>
-                            <Text style={(data.refund.check === false)? styles.RefundButtonText : styles.RefundButtonTextC}>Refund</Text>
-                        </TouchableOpacity>
-                    </Layout>
-
                 </ScrollView>
+
+                <Layout style={styles.RefundButtonContainer}>
+                    <TouchableOpacity style={(data.refund.check === false)? styles.RefundButton : styles.RefundButtonC}  onPress={() => PressRefundButton()}>
+                        <Text style={(data.refund.check === false)? styles.RefundButtonText : styles.RefundButtonTextC}>Refund</Text>
+                    </TouchableOpacity>
+                </Layout>
             </Modal>
 
             <Modal
@@ -315,6 +327,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     RefundButtonContainer : {
+        position: 'absolute',
+        bottom : 0,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

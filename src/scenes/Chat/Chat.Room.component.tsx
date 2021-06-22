@@ -51,6 +51,7 @@ const windowHeight = Dimensions.get('window').height;
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const user = auth().currentUser;
+    const Ref = React.useRef(null);
 
     //채팅 메시지 저장을 위한 정보
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference>();
@@ -125,7 +126,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return message;
             });
             
-            console.log('안녕 ',messages);
             setChatMessages([...messages]);
             setFetchChat(true);
         });;
@@ -337,6 +337,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     */ 
 
     const onSend = async(messages = []) => {
+
         messages[0].messageType = "message";
         messages[0].createdAt = new Date().getTime();
 
@@ -346,9 +347,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         else{
             ToastRef.show('Please refrain from any content that may offend the other person.' ,1000)
         }
-        
-
-        
+                
     }        
 
     const renderSend = (props) => {
@@ -577,6 +576,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return(
             <InputToolbar
                 {...props}
+                
                 containerStyle={{borderWidth: 1.5, borderColor: '#D1D1D1', borderRadius: 30, margin: 10, alignItems: 'center'}}
             />
         );
@@ -587,6 +587,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return(
            <Composer
                 {...props}
+                textInputProps={{autoFocus : true}}
                 placeholder='Chat Message'
                 textInputStyle={{alignSelf: 'center', marginBottom: -2, textDecorationLine : 'none', borderBottomWidth: 0, textAlignVertical: 'center'}}
                 style={{borderRadius: 35}}
@@ -632,12 +633,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         <Layout style={{width: '100%', height: '100%'}} onTouchStart={Keyboard.dismiss}>
             <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
             
-            <KeyboardAvoidingView style={styles.Container} >
+            <KeyboardAvoidingView style={styles.Container} behavior={(Platform.OS === 'android')? 'height' : 'padding'} keyboardVerticalOffset={(Platform.OS === 'android')? 0 : -250}>
 
                 <Layout style={styles.mainContainer}>
 
                     <GiftedChat
                         messages={chatMessages}
+                        textInputProps={{autoFocus : true}}
                         onSend={messages => onSend(messages)}
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
@@ -955,6 +957,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        paddingBottom: 30
     },
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
