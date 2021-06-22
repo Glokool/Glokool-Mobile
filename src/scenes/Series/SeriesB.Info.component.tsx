@@ -280,13 +280,14 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
     
     return (
         <Layout style={styles.ContainerLayout}>
-            {/* <KeyboardAvoidingView style={styles.Container} behavior = 'padding'> */}
-
+            <KeyboardAvoidingView behavior='padding'>
                 <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
+                    
+                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                 {height >= windowWidth - 100 ? 
                     <Layout>
+                        <Layout style={{height: 50}}/>
                         <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                        {/* <Layout style={{height: 50}}/> */}
                     </Layout>
                 : null }
 
@@ -453,11 +454,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                                     <CommentSending  />
                                 </TouchableOpacity>
                             </Layout>
-                    
                     </Layout>
-
             </ScrollView>
-            {/* </KeyboardAvoidingView> */}
+            </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
@@ -503,7 +502,6 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
 const styles = StyleSheet.create({
     ContainerLayout:{
-        position: 'relative',
     },
     Container: {    
         backgroundColor: 'white',
@@ -671,15 +669,11 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowWidth,
         resizeMode: 'cover',
-        // borderWidth: 1,
-        // borderColor: 'pink'
     },
     ContentTxtLayout: {
         marginLeft: 20,
         marginRight: 50,
         marginTop: 5,
-        // borderWidth: 1,
-        // borderColor: 'pink'
     },
     ContentTitleTxt: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
