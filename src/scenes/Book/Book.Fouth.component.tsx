@@ -1,4 +1,5 @@
 import React from "react";
+import auth from '@react-native-firebase/auth';
 import { LayoutElement, Layout, Text } from "@ui-kitten/components";
 import { BookFouthScreenProps } from "../../navigation/Book.Confirm.navigator";
 import { StyleSheet, TouchableOpacity } from "react-native";
@@ -34,8 +35,7 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
         else{
             setSuccess(false);
 
-            console.log('결제 데이터 : ', PaymentData);
-            console.log('아임포트 데이터 : ', data);
+            FailPayment();
         }
 
 
@@ -43,8 +43,7 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
 
     async function InitBookFourth() {
         
-        const Token = await user?.getIdToken();
-
+        const Token = await auth().currentUser?.getIdToken();
         const Data = qs.stringify({
             uid : user?.uid,
             name: PaymentData.Name,
@@ -60,7 +59,7 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
             method : 'post',
             url : SERVER + '/api/reservations',
             headers: { 
-                'Authorization': 'Bearer ' + Token 
+                'Authorization': 'Bearer ' + Token
             },
             data: Data
         }
@@ -69,6 +68,13 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
 
         console.log(Reservation);
 
+    }
+
+    async function FailPayment() {
+
+
+        console.log('결제 데이터 : ', PaymentData);
+        console.log('아임포트 데이터 : ', data);
     }
 
     return(
