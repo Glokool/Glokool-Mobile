@@ -25,6 +25,7 @@ import Menu_Vegetble from './Menu_Vegetable.svg';
 import HiddenGem_Title from './HiddenGem_Title.svg';
 import Content from './Content.svg';
 import Blog from './Blog.svg';
+import EditorNoteLine from './EditorNoteLine.svg';
 
 
 export {
@@ -54,5 +55,6 @@ export {
     Menu_Spicy,
     Menu_Vegetble,
     Content,
-    Blog
+    Blog,
+    EditorNoteLine,
 }

@@ -52,10 +52,11 @@ export const BookmarkList = (props : BookmarkListProps) : LayoutElement => {
     React.useEffect(() => {
         InitSeries();
     }, []);
-
+    
     async function InitSeries() {
         // 북마크 조회 하기 위한 함수 
         const authToken = await auth().currentUser?.getIdToken();
+        console.log(authToken)
         var config = {
         method: 'get',
         url: SERVER + '/api/users/bookmark',

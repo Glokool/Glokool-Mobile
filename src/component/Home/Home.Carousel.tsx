@@ -48,7 +48,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
     const RenderCarousel = (item : { item : HomeCarousel_Item, index : number }) => {
 
         return(
-            <TouchableOpacity style={styles.ItemContainer} onPress={() => PressCarousel(item.item.type, item.item._id)}>
+            <Layout style={styles.ItemContainer}  onTouchEnd={() => PressCarousel(item.item.type, item.item._id)}>
                 <Image source={{ uri : item.item.image }} style={styles.ImageContainer} />
 
                 <Layout style={styles.TitleContainer}>
@@ -59,7 +59,7 @@ export const HomeCarousel = (props : HomeCarouselProps) : LayoutElement => {
                     <Text style={styles.Title}>{(item.item.type === 'tour') ?  item.item.title: ''}</Text>
                 </Layout>
 
-            </TouchableOpacity>    
+            </Layout>    
         )
     }
 

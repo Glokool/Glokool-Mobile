@@ -6,7 +6,7 @@ import { StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image, ScrollVi
 import { AngleDown, AngleLeft, AngleUp, GoUp, PurpleArrow } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time, EntryFee } from '../../assets/icon/Series';
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time, EntryFee, EditorNoteLine } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -304,9 +304,11 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
 
                         <Divider style={styles.EditorNoteDivider} />
                     </Layout>
-                    )))}                    
+                    )))}    
+
 
                 </Layout>
+                    {/* <EditorNoteLine style = {{borderWidth: 1}} />                 */}
 
                 {/* 포토스팟 컨테이너 */}
                 <Layout onLayout={(e) => {setInstaPos(e.nativeEvent.layout.y)}}>
@@ -349,7 +351,7 @@ export const SeriesHiddenGemContentAttr = (props : SeriesHiddenGemContentAttrPro
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
                                 <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>

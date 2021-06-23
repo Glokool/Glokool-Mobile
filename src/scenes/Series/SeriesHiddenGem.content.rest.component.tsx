@@ -324,7 +324,7 @@ export const SeriesHiddenGemContentRest = (props : SeriesHiddenGemContentRestPro
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
                                 <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>

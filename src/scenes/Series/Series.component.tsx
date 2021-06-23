@@ -26,7 +26,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [tourBanner, setTourBanner] = React.useState([]);
 
     var exitApp : any = undefined;  
-  var timeout : any;
+    var timeout : any;
 
   const focusEvent = useFocusEffect(
     React.useCallback(() => {
