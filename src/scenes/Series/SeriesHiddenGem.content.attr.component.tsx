@@ -103,7 +103,7 @@ export const SeriesHiddenGemContentAttr = (
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
-            SERVER + '/api/tours/' + TourCode + '/attractions/' + PlaceCode,
+            `${SERVER}/api/tours/${TourCode}/attractions/${PlaceCode}/info`,
         );
         setData(ContentAttr.data);
     }
@@ -198,17 +198,6 @@ export const SeriesHiddenGemContentAttr = (
                         : null}
                 </Layout>
 
-                {/* 글로챗 광고 컨테이너 */}
-                {/* <Layout style={styles.GloChatADContainer}>
-                    
-                    <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
-
-                    <TouchableOpacity style={styles.GloChatButton}>
-                        <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
-                    </TouchableOpacity>
-
-                </Layout> */}
-
                 {/* 인포메이션 컨테이너 */}
                 <Layout
                     style={styles.InfoContainer}
@@ -256,18 +245,13 @@ export const SeriesHiddenGemContentAttr = (
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <Text style={styles.InfoDetailText}> EveryDay</Text>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
-                                Break Time
+                                Opening Time
                             </Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer4}>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.time.everyTime}`}</Text>
                             <Text
                                 style={
                                     styles.InfoDetailText

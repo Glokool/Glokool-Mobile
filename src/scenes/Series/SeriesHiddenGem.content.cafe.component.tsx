@@ -24,7 +24,6 @@ import {
     EditorNote_Check,
     GlokoolService,
     Location,
-    PhotoSpot,
     SgntMenu,
     Sns,
     Time,
@@ -33,7 +32,6 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {
     MenuDetail,
     PhotoDetailFlatlist,
-    PhotoSpotFlatlist,
     SignatureMenuFlatlist,
 } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -104,7 +102,7 @@ export const SeriesHiddenGemContentCafe = (
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
-            SERVER + '/api/tours/' + TourCode + '/cafes/' + PlaceCode,
+            `${SERVER}/api/tours/${TourCode}/cafes/${PlaceCode}/info`,
         );
         setData(ContentAttr.data);
     }
@@ -200,17 +198,6 @@ export const SeriesHiddenGemContentCafe = (
                         : null}
                 </Layout>
 
-                {/* 글로챗 광고 컨테이너 */}
-                {/* <Layout style={styles.GloChatADContainer}>
-                    
-                    <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
-
-                    <TouchableOpacity style={styles.GloChatButton}>
-                        <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
-                    </TouchableOpacity>
-
-                </Layout> */}
-
                 {/* 시그니처 메뉴 컨테이너 */}
                 <Layout>
                     <Layout style={styles.SgntMenuTitleContainer}>
@@ -273,7 +260,10 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <Text style={styles.InfoDetailText}> EveryDay</Text>
+                            <Text style={styles.InfoDetailText}>
+                                {' '}
+                                Opening Time
+                            </Text>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
                                 Break Time
@@ -285,10 +275,9 @@ export const SeriesHiddenGemContentCafe = (
                                 style={
                                     styles.InfoDetailText
                                 }>{`${data?.time.everyTime}`}</Text>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.time.everyTime}`}</Text>
+                            <Text style={styles.InfoDetailText}>
+                                {`${data?.time.breakTime}` || '-'}
+                            </Text>
                         </Layout>
                     </Layout>
 

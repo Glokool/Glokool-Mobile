@@ -266,7 +266,10 @@ export const SeriesHiddenGemContentRest = (
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <Text style={styles.InfoDetailText}> EveryDay</Text>
+                            <Text style={styles.InfoDetailText}>
+                                {' '}
+                                Opening Time
+                            </Text>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
                                 Break Time
@@ -278,10 +281,10 @@ export const SeriesHiddenGemContentRest = (
                                 style={
                                     styles.InfoDetailText
                                 }>{`${data?.time.everyTime}`}</Text>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.time.everyTime}`}</Text>
+                            <Text style={styles.InfoDetailText}>
+                                {' '}
+                                {`${data?.time.breakTime}` || '-'}
+                            </Text>
                         </Layout>
                     </Layout>
 
