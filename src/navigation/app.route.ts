@@ -14,15 +14,14 @@ export enum NavigatorRoute {
     BOOK = 'Book',
     BOOK_CONFIRM = 'Book Confirm',
     BOARD = 'Board',
-    
+
     HOME = 'Home',
     CHAT = 'Chat',
     SERIES = 'Series',
-    MY = 'My'
-  }
+    MY = 'My',
+}
 
 export enum SceneRoute {
-
     //Book Navigator
     BOOK_FIRST = 'Book First',
     BOOK_SECOND = 'Book Second',
@@ -62,7 +61,7 @@ export enum SceneRoute {
     EMAIL_VERIFICATION = 'Email Verification',
     EMAIL_FAIL = 'Email Fail',
     PASSWORD = 'Password',
-    
+
     //My Navigator
     MY = 'My',
     MY_PROFILE = 'My Profile',
@@ -79,7 +78,6 @@ export enum SceneRoute {
     //My - Customer Service
     CUSTOMER_SERVICE = 'Customer Service',
     FAQ = 'FAQ',
-
 
     MY_PAGE = 'My Page',
     MY_PAGE_SETTING = 'My Page Setting',
@@ -98,7 +96,5 @@ export enum SceneRoute {
 
     BOOK_DATE = 'Book Date',
     BOOK_PAY = 'Book Pay',
-    BOOK_PROFILE = 'Book Profile'
+    BOOK_PROFILE = 'Book Profile',
 }
-
-

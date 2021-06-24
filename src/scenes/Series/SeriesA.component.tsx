@@ -1,60 +1,62 @@
-import { Layout, LayoutElement } from '@ui-kitten/components'
-import React from 'react'
-import { 
+import { Layout, LayoutElement } from '@ui-kitten/components';
+import React from 'react';
+import {
     Dimensions,
-    Image,
-    ImageBackground,
-    Linking,
-    SafeAreaView, 
-    StyleSheet, 
-    Text, 
+    SafeAreaView,
+    StyleSheet,
+    Text,
     TouchableOpacity,
-    FlatList, 
     ScrollView,
-    View,
 } from 'react-native';
 import { SeriesADetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
-import { SERVER } from '../../server.component';
-import axios from 'axios';
-import { SeriesAList, SeriesTopTabBar } from '../../component/Series';
+import { SeriesAList } from '../../component/Series';
 import { Content } from '../../assets/icon/Series';
-
 
 const windowWidth = Dimensions.get('window').width;
 
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
-    
     return (
         <Layout style={styles.ContainerLayout}>
-            <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false}>
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                <Layout style={{height: 50}}/>
+            <ScrollView
+                style={{ backgroundColor: '#ffffff' }}
+                showsVerticalScrollIndicator={false}>
+                <SafeAreaView
+                    style={{ flex: 0, backgroundColor: '#00FF0000' }}
+                />
+                <Layout style={{ height: 50 }} />
                 <Layout style={styles.TopLayout}>
                     <Text style={styles.TopTxt1}>{`Korea A-Z`}</Text>
                     <Text style={styles.TopTxt2}>
                         {`Everything you want to know about Korea!`}
                     </Text>
                 </Layout>
-                <SeriesAList navigation={props.navigation} route={props.route} />
+                <SeriesAList
+                    navigation={props.navigation}
+                    route={props.route}
+                />
             </ScrollView>
 
             {/* 탑탭바 */}
             <Layout style={styles.ContainerLayoutAngleLeft}>
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                <SafeAreaView
+                    style={{ flex: 0, backgroundColor: '#00FF0000' }}
+                />
                 <Layout style={styles.ContainerIconLayout}>
-                    <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
+                    <TouchableOpacity
+                        style={styles.ContainerAngleLeft}
+                        onPress={() => props.navigation.goBack()}>
                         <AngleLeft />
                     </TouchableOpacity>
                     <Content />
                 </Layout>
             </Layout>
         </Layout>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    ContainerLayout:{
+    ContainerLayout: {
         position: 'relative',
     },
     TopLayout: {
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     TopTxt1: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 22,
-        color: '#000000'
+        color: '#000000',
     },
     TopTxt2: {
         fontFamily: 'IBMPlexSansKR-Medium',
@@ -79,8 +81,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         backgroundColor: '#ffffff',
-        // borderWidth: 1,
-        // borderColor:'red',
     },
     ContainerIconLayout: {
         flexDirection: 'row',
@@ -91,5 +91,4 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         padding: 20,
     },
-})
-
+});

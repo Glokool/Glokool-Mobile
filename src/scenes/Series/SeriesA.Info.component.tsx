@@ -1,70 +1,89 @@
-import React from 'react'
-import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
-import { 
+import React from 'react';
+import { Layout, LayoutElement } from '@ui-kitten/components';
+import {
     Dimensions,
     Image,
-    SafeAreaView, 
-    StyleSheet, 
-    Text, 
+    SafeAreaView,
+    StyleSheet,
+    Text,
     TouchableOpacity,
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
 } from 'react-native';
-import { NavigatorRoute } from "../../navigation/app.route"
-import { AngleLeft, PurpleArrow, Bookmark, Bookmark_P, Plus, Plus_P } from '../../assets/icon/Common';
-import { CommentSending, CountNum, Comments1, Comments2, Comments3, Comments4, Comments5, Comments6, Comments6_s } from '../../assets/icon/Series';
+import { NavigatorRoute } from '../../navigation/app.route';
+import {
+    AngleLeft,
+    PurpleArrow,
+    Bookmark,
+    Bookmark_P,
+    Plus,
+    Plus_P,
+} from '../../assets/icon/Common';
+import {
+    CommentSending,
+    CountNum,
+    Comments1,
+    Comments2,
+    Comments3,
+    Comments4,
+    Comments5,
+    Comments6,
+    Comments6_s,
+} from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import moment from "moment";
+import moment from 'moment';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import qs from "query-string";
-
-
+import auth from '@react-native-firebase/auth';
+import qs from 'query-string';
 
 type recommendation_Item = {
-    _id: string,
-    image: string,
-    title: string,
-}
+    _id: string;
+    image: string;
+    title: string;
+};
 
 type Comments_Item = {
-    _id: string,
+    _id: string;
     writer: {
-        uid: string,
-        name: string,
-        avatar: string,
-        grade: string,
-    },
-    comment: string,
-    createdAt: Date,
-    plus: Array<string>,
-}
+        uid: string;
+        name: string;
+        avatar: string;
+        grade: string;
+    };
+    comment: string;
+    createdAt: Date;
+    plus: Array<string>;
+};
 
 type Series_Item = {
-    images: Array<string> ,
-    comments: Array<Comments_Item>,
-    _id: string,
-    count:string,
-    desc: string,
-    gloPick: string,
-    plus: Array<string>,
-    title: string,
-    createdAt: Date,
-    recommendation: Array<recommendation_Item>
-}
+    images: Array<string>;
+    comments: Array<Comments_Item>;
+    _id: string;
+    count: string;
+    desc: string;
+    gloPick: string;
+    plus: Array<string>;
+    title: string;
+    createdAt: Date;
+    recommendation: Array<recommendation_Item>;
+};
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElement => {
+
+export const SeriesAInfoScreen = (
+    props: SeriesADetailInfoProps,
+): LayoutElement => {
     const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [content, setContent] = React.useState<Series_Item>();
     const [image, setImage] = React.useState<Array<string>>([]);
-    const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
+    const [recommendation, setRecommendation] = React.useState<
+        Array<recommendation_Item>
+    >([]);
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
@@ -72,20 +91,20 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
     const user = auth().currentUser;
     const uid = user?.uid;
 
-    React.useEffect(() => {        
+    React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
         });
-      
+
         return unsubscribe;
     }, []);
-    
+
     React.useEffect(() => {
         InitSeries();
         ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: false });
         setCarouselIndex(0);
-    },[Id]);
-    
+    }, [Id]);
+
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
         setContent(Content.data);
@@ -93,106 +112,108 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
 
-        // 북마크 조회 하기 위한 함수 
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'get',
-            url: SERVER + '/api/users/bookmark',
-            headers: { 
-                'Authorization': 'Bearer ' + authToken,
-                }
+        // 북마크 조회 하기 위한 함수
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
+
+            const config = {
+                method: 'get',
+                url: SERVER + '/api/users/bookmark',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                },
             };
-    
+
             axios(config)
-            .then(function (response) {
-                let data = response.data.contents;
-                let dataTemp = [];
-                
-                data.forEach(item => {
-                    dataTemp.push(item.id);
+                .then(function (response) {
+                    let data = response.data.contents;
+                    let dataTemp = [];
+
+                    data.forEach((item) => {
+                        dataTemp.push(item.id);
+                    });
+
+                    setBookmarkList(dataTemp);
+                })
+                .catch(function (error) {
+                    console.log(error);
                 });
-    
-                setBookmarkList(dataTemp);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        }
     }
 
-    const RenderCarousel = ({item}) => {
-        return(
+    const RenderCarousel = ({ item }) => {
+        return (
             <Layout style={styles.ItemContainer}>
-                <Image source={{ uri : item }} style={styles.ImageContainer} />
+                <Image source={{ uri: item }} style={styles.ImageContainer} />
             </Layout>
-        )
-    }
+        );
+    };
 
-    const PressBookmark = async() => {
+    const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
         var axios = require('axios');
         var data = qs.stringify({
             contentCode: content?._id,
         });
         var config = {
-        method: 'post',
-        url: SERVER + '/api/users/bookmark',
-        headers: { 
-            Authorization: 'Bearer ' + authToken, 
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        data : data
+            method: 'post',
+            url: SERVER + '/api/users/bookmark',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: data,
         };
 
         axios(config)
-        .then((response) => {
-            InitSeries();
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
-    
-    const PressPlus = async() => {
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'patch',
-            url: SERVER + "/api/contents/" + content?._id + "/like" ,
-            headers: {
-                Authorization: "Bearer " + authToken,
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-          };
-    
-          axios(config)
             .then((response) => {
                 InitSeries();
             })
             .catch((error) => {
                 console.log(error);
             });
+    };
 
-    }
-
-    const CommentSendingPress = async() => {
+    const PressPlus = async () => {
         const authToken = await auth().currentUser?.getIdToken();
-        
+        var config = {
+            method: 'patch',
+            url: SERVER + '/api/contents/' + content?._id + '/like',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        };
+
+        axios(config)
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const CommentSendingPress = async () => {
+        const authToken = await auth().currentUser?.getIdToken();
+
         const data = qs.stringify({
             content: Id,
             writer: uid,
             name: user?.displayName,
             avatar: user?.photoURL,
             grade: 'traveler',
-            comment: nowComment, 
+            comment: nowComment,
         });
-    
+
         var config = {
-          method: "post",
-          url: SERVER + "/api/comments",
-          headers: {
-            Authorization: "Bearer " + authToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          data: data,
+            method: 'post',
+            url: SERVER + '/api/comments',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: data,
         };
 
         axios(config)
@@ -204,16 +225,16 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
 
-    const DeleteComment = async(id) => {
+    const DeleteComment = async (id) => {
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
-            method: "delete",
-            url: SERVER + "/api/contents/" + content?._id + "/comments/" + id ,
+            method: 'delete',
+            url: SERVER + '/api/contents/' + content?._id + '/comments/' + id,
             headers: {
-              Authorization: "Bearer " + authToken,
-              "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
         };
 
@@ -225,35 +246,46 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
 
-    const LikeComment = async(id) => {
+    const LikeComment = async (id) => {
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
-            url: SERVER + "/api/contents/" + content?._id + "/comments/" + id + "/like",
+            url:
+                SERVER +
+                '/api/contents/' +
+                content?._id +
+                '/comments/' +
+                id +
+                '/like',
             headers: {
-                Authorization: "Bearer " + authToken,
-                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-          };
+        };
 
         axios(config)
-        .then((response) => {
-            console.log(JSON.stringify(response.data));
-            InitSeries();
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     return (
         <Layout style={styles.ContainerLayout}>
-            <KeyboardAvoidingView  behavior='padding' style={styles.Container}>
-                <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} >
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                <Layout style={{height: 55}}/>
-                    <Layout style={styles.CarouselContainerLayout}>    
+            <KeyboardAvoidingView behavior="padding" style={styles.Container}>
+                <ScrollView
+                    style={{ backgroundColor: '#ffffff' }}
+                    showsVerticalScrollIndicator={false}
+                    ref={ScrollVewRef}>
+                    <SafeAreaView
+                        style={{ flex: 0, backgroundColor: '#00FF0000' }}
+                    />
+                    <Layout style={{ height: 55 }} />
+                    <Layout style={styles.CarouselContainerLayout}>
                         <Carousel
                             data={image}
                             layout={'default'}
@@ -267,11 +299,13 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                             inactiveSlideOpacity={0.7}
                             inactiveSlideShift={0}
                             // containerCustomStyle={styles.CarouselInsideContainer}
-                            loop={true}
+                            loop={false}
                             autoplay={false}
-                            onSnapToItem={(index : number) => setCarouselIndex(index)}
+                            onSnapToItem={(index: number) =>
+                                setCarouselIndex(index)
+                            }
                         />
-                        <Pagination    
+                        <Pagination
                             dotsLength={image.length}
                             containerStyle={styles.CarouselDotContainer}
                             activeDotIndex={carouselIndex}
@@ -280,55 +314,89 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                             inactiveDotColor={'#ffffff'}
                             inactiveDotOpacity={0.4}
                             inactiveDotScale={1}
-                    />
+                        />
                     </Layout>
                     <Layout style={styles.SeriesBottomLayout}>
                         <Layout style={styles.SeriesDateLayoutStyle}>
-                            <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
+                            <Text style={styles.SeriesDateTxtStyle}>
+                                {moment(content?.createdAt).format(
+                                    'YYYY-MM-DD',
+                                )}
+                            </Text>
                         </Layout>
                         <Layout style={styles.SeriesCountLayoutStyle}>
-                            <CountNum style={styles.SeriesCountIconLayoutStyle} />
-                            <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
+                            <CountNum
+                                style={styles.SeriesCountIconLayoutStyle}
+                            />
+                            <Text style={styles.SeriesCountTxtStyle}>
+                                {content?.count}
+                            </Text>
                         </Layout>
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
-                        <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
+                        <Text style={styles.SeriesTitleTxtStyle}>
+                            {content?.title}
+                        </Text>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
-                        <Text style={styles.SeriesDescTxtStyle}>{content?.desc}</Text>
+                        <Text style={styles.SeriesDescTxtStyle}>
+                            {content?.desc}
+                        </Text>
                     </Layout>
 
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>
-                        <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                        {(recommendation.map((item) =>
                         <Layout style={styles.CheckMoreLayoutStyle}>
-                            <TouchableOpacity onPress={() => {setId(item._id)}}>
-                                <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
-                            </TouchableOpacity>
+                            <Text
+                                style={
+                                    styles.CheckMoreTxtStyle
+                                }>{`Check out more`}</Text>
                         </Layout>
+                        {recommendation.map((item) => (
+                            <Layout style={styles.CheckMoreLayoutStyle}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setId(item._id);
+                                    }}>
+                                    <Image
+                                        source={{ uri: item.image }}
+                                        style={styles.RecommendationImg}
+                                    />
+                                </TouchableOpacity>
+                            </Layout>
                         ))}
                     </Layout>
 
                     {/* 보라색 배경 */}
-                    <Layout style={styles.PurpleContainerLayoutStyle} >
+                    <Layout style={styles.PurpleContainerLayoutStyle}>
                         <PurpleArrow style={styles.PurpleArrow} />
                         <Layout style={styles.PurpleTopLayoutStyle}>
                             <Text style={styles.PurpleTopTxtStyle}>
                                 {`Can't find the information you need?`}
-                                {"\n"}
+                                {'\n'}
                                 {`Ask our travel assistants for more! `}
                             </Text>
-                            <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                                <Layout style={styles.PurpleBottomLayoutStyle} onTouchStart = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                    <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            <Layout
+                                style={styles.PurpleBottomContainerLayoutStyle}>
+                                <Layout
+                                    style={styles.PurpleBottomLayoutStyle}
+                                    onTouchStart={() => {
+                                        props.navigation.navigate(
+                                            NavigatorRoute.CHAT,
+                                        );
+                                    }}>
+                                    <Text
+                                        style={
+                                            styles.PurpleBottomTxtStyle
+                                        }>{`Go to Glochat >>`}</Text>
                                 </Layout>
                             </Layout>
                         </Layout>
                     </Layout>
 
                     {/* 보라색 배경 아래 얇은 그레이 선 */}
-                    <Layout style={styles.GrayLineContainerLayoutStyle}></Layout>
+                    <Layout
+                        style={styles.GrayLineContainerLayoutStyle}></Layout>
 
                     {/* Comments */}
                     {/* <SeriesAComments comments ={comments}/> */}
@@ -336,64 +404,136 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         <Layout style={styles.CommentsInnerConainer}>
                             {/* comments title */}
                             <Layout style={styles.CommentsTitleLayout}>
-                                <Text style={styles.CommentsTitleTxt}>Comments</Text>
+                                <Text style={styles.CommentsTitleTxt}>
+                                    Comments
+                                </Text>
                             </Layout>
-                            
+
                             {/* comments content */}
-                            {(comments.map((item) =>
-                                <Layout style={styles.CommentsListContainerLayout}>
-                                    <Layout style={styles.CommentsAuthorContainerLayout}>
-                                        <Layout style={styles.CommentsAuthorInner01Layout}></Layout>
-                                        <Layout style={styles.CommentsAuthorInner02Layout}>
+                            {comments.map((item) => (
+                                <Layout
+                                    style={styles.CommentsListContainerLayout}>
+                                    <Layout
+                                        style={
+                                            styles.CommentsAuthorContainerLayout
+                                        }>
+                                        <Layout
+                                            style={
+                                                styles.CommentsAuthorInner01Layout
+                                            }></Layout>
+                                        <Layout
+                                            style={
+                                                styles.CommentsAuthorInner02Layout
+                                            }>
                                             <Layout>
-                                                <Text style={styles.CommentsAuthorInnerNameTxt02Layout}>{item.writer.name}</Text>
+                                                <Text
+                                                    style={
+                                                        styles.CommentsAuthorInnerNameTxt02Layout
+                                                    }>
+                                                    {item.writer.name}
+                                                </Text>
                                             </Layout>
-                                            <Layout style={styles.CommentsAuthorInner02InnerLayout}>
+                                            <Layout
+                                                style={
+                                                    styles.CommentsAuthorInner02InnerLayout
+                                                }>
                                                 <Layout>
-                                                    <Text style={styles.CommentsAuthorInnerDateTxt02Layout}>{moment(item.createdAt).format("MM/DD hh:mm")}</Text>
+                                                    <Text
+                                                        style={
+                                                            styles.CommentsAuthorInnerDateTxt02Layout
+                                                        }>
+                                                        {moment(
+                                                            item.createdAt,
+                                                        ).format('MM/DD hh:mm')}
+                                                    </Text>
                                                 </Layout>
                                                 {/* 좋아요 아이콘 & 갯수 표시 */}
                                                 {item.plus.length != 0 ? (
-                                                    <Layout style= {styles.CommentsAuthorInner02PlusContainerLayout}>
-                                                        <Comments6_s style= {styles.CommentsAuthorInner02PlusIconLayout} />
-                                                        <Text style={styles.CommentsAuthorInnerPlusNum02Layout}>{item.plus.length}</Text>
+                                                    <Layout
+                                                        style={
+                                                            styles.CommentsAuthorInner02PlusContainerLayout
+                                                        }>
+                                                        <Comments6_s
+                                                            style={
+                                                                styles.CommentsAuthorInner02PlusIconLayout
+                                                            }
+                                                        />
+                                                        <Text
+                                                            style={
+                                                                styles.CommentsAuthorInnerPlusNum02Layout
+                                                            }>
+                                                            {item.plus.length}
+                                                        </Text>
                                                     </Layout>
                                                 ) : null}
-                                                
                                             </Layout>
                                         </Layout>
                                         {uid == item.writer.uid ? (
-                                        <Layout style={styles.CommentsAuthorInner03Layout}>
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
-                                                <Comments4 />
-                                            </TouchableOpacity>
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Layout
+                                                style={
+                                                    styles.CommentsAuthorInner03Layout
+                                                }>
+                                                <TouchableOpacity
+                                                    style={
+                                                        styles.CommentsAuthorInnerIcons03Layout
+                                                    }
+                                                    onPress={() => {
+                                                        DeleteComment(item._id);
+                                                    }}>
+                                                    <Comments4 />
+                                                </TouchableOpacity>
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments5 />
                                             </TouchableOpacity> */}
-                                        </Layout>
+                                            </Layout>
                                         ) : (
-                                        <Layout style={styles.CommentsAuthorInner03Layout}>
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Layout
+                                                style={
+                                                    styles.CommentsAuthorInner03Layout
+                                                }>
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments1 />
                                             </TouchableOpacity> */}
-                                            {item.plus.indexOf(uid) != -1 ?  (
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                                <Comments6 />
-                                            </TouchableOpacity>
-                                            ) : (
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                                <Comments2 />
-                                            </TouchableOpacity>
-                                            )}
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                                {item.plus.indexOf(uid) !=
+                                                -1 ? (
+                                                    <TouchableOpacity
+                                                        style={
+                                                            styles.CommentsAuthorInnerIcons03Layout
+                                                        }
+                                                        onPress={() => {
+                                                            LikeComment(
+                                                                item._id,
+                                                            );
+                                                        }}>
+                                                        <Comments6 />
+                                                    </TouchableOpacity>
+                                                ) : (
+                                                    <TouchableOpacity
+                                                        style={
+                                                            styles.CommentsAuthorInnerIcons03Layout
+                                                        }
+                                                        onPress={() => {
+                                                            LikeComment(
+                                                                item._id,
+                                                            );
+                                                        }}>
+                                                        <Comments2 />
+                                                    </TouchableOpacity>
+                                                )}
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments3 />
                                             </TouchableOpacity> */}
-                                        </Layout>
+                                            </Layout>
                                         )}
-                                        
                                     </Layout>
-                                    <Layout style={styles.CommentsContentContainerLayout}>
-                                        <Text style={styles.CommentsContentTxtLayout}>
+                                    <Layout
+                                        style={
+                                            styles.CommentsContentContainerLayout
+                                        }>
+                                        <Text
+                                            style={
+                                                styles.CommentsContentTxtLayout
+                                            }>
                                             {item.comment}
                                         </Text>
                                     </Layout>
@@ -404,57 +544,64 @@ export const SeriesAInfoScreen = (props : SeriesADetailInfoProps) : LayoutElemen
                         {/* 댓글 입력 */}
 
                         <Layout style={styles.CommentsTextLayout}>
-                            <TextInput  style={styles.CommentsTextInput}
-                            // underlineColorAndroid="transparent"
-                            placeholder="Write your comment"
-                            placeholderTextColor="#D1D1D1"
-                            autoCapitalize="none" 
-                            onChangeText={text => setNowComment(text)}
-                            value = {nowComment}
-                            ></TextInput>
-                            <TouchableOpacity style ={styles.CommentSendingTouch} onPress={CommentSendingPress} >
-                                <CommentSending  />
+                            <TextInput
+                                style={styles.CommentsTextInput}
+                                // underlineColorAndroid="transparent"
+                                placeholder="Write your comment"
+                                placeholderTextColor="#D1D1D1"
+                                autoCapitalize="none"
+                                onChangeText={(text) => setNowComment(text)}
+                                value={nowComment}></TextInput>
+                            <TouchableOpacity
+                                style={styles.CommentSendingTouch}
+                                onPress={CommentSendingPress}>
+                                <CommentSending />
                             </TouchableOpacity>
                         </Layout>
                     </Layout>
-            </ScrollView>
+                </ScrollView>
             </KeyboardAvoidingView>
-            
-             {/* 탑탭바 */}
-             <Layout style={styles.ContainerLayoutAngleLeft}>
-                    <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
-                    <Layout style={styles.ContainerIconLayout}>
-                        <TouchableOpacity style={styles.ContainerAngleLeft_W} onPress={() => props.navigation.goBack()}>
-                            <AngleLeft style={styles.AngleLeft} />
-                        </TouchableOpacity>
-                        <Layout style={styles.TopTabIconLayout}>
-                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                            {bookmarkList.indexOf(Id) == -1 ? 
+
+            {/* 탑탭바 */}
+            <Layout style={styles.ContainerLayoutAngleLeft}>
+                <SafeAreaView style={{ flex: 0, backgroundColor: '#ffffff' }} />
+                <Layout style={styles.ContainerIconLayout}>
+                    <TouchableOpacity
+                        style={styles.ContainerAngleLeft_W}
+                        onPress={() => props.navigation.goBack()}>
+                        <AngleLeft style={styles.AngleLeft} />
+                    </TouchableOpacity>
+                    <Layout style={styles.TopTabIconLayout}>
+                        <TouchableOpacity
+                            style={styles.BookmarkTouch}
+                            onPress={() => PressBookmark()}>
+                            {bookmarkList.indexOf(Id) == -1 ? (
                                 <Bookmark />
-                                :
+                            ) : (
                                 <Bookmark_P />
-                            }
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                            {content?.plus.indexOf(uid) == -1 ?  (
+                            )}
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.PlusTouch}
+                            onPress={() => PressPlus()}>
+                            {content?.plus.indexOf(uid) == -1 ? (
                                 <Plus />
-                                ) : (
+                            ) : (
                                 <Plus_P />
                             )}
-                            </TouchableOpacity>
-                        </Layout>
+                        </TouchableOpacity>
                     </Layout>
                 </Layout>
-
+            </Layout>
         </Layout>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    Container: {    
+    Container: {
         backgroundColor: 'white',
     },
-    ContainerLayout:{
+    ContainerLayout: {
         position: 'relative',
     },
     // 탑탭 style
@@ -508,29 +655,28 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowWidth,
     },
-    CarouselContainerLayout: {
-    },
+    CarouselContainerLayout: {},
     Carousel: {
         height: windowWidth,
         backgroundColor: '#00FF0000',
     },
     CarouselInsideContainer: {
         marginLeft: -16,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     CarouselDotContainer: {
         position: 'absolute',
-        bottom : -15,
+        bottom: -15,
         backgroundColor: '#00FF0000',
         opacity: 40,
         alignSelf: 'center',
         // borderWidth: 1,
-        // borderColor: 'red'   
+        // borderColor: 'red'
     },
     CarouselDot: {
         width: 13,
         height: 4,
-        borderRadius: 30, 
+        borderRadius: 30,
         color: '#ffffff',
     },
     ImageContainer: {
@@ -539,7 +685,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     SeriesBottomLayout: {
-        flexDirection:'row',
+        flexDirection: 'row',
         marginLeft: 30,
         marginTop: 20,
         alignItems: 'flex-end',
@@ -549,21 +695,21 @@ const styles = StyleSheet.create({
     },
     SeriesCountLayoutStyle: {
         marginLeft: 30,
-        flexDirection:'row',
+        flexDirection: 'row',
         alignItems: 'center',
-    },   
+    },
     SeriesCountIconLayoutStyle: {
         marginRight: 6,
     },
     SeriesDateTxtStyle: {
-        color:'#B5B5B5',
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+        color: '#B5B5B5',
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
     },
     SeriesCountTxtStyle: {
-        color:'#B5B5B5',
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+        color: '#B5B5B5',
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
     },
     SeriesTitleLayoutStyle: {
         marginLeft: 30,
@@ -576,13 +722,13 @@ const styles = StyleSheet.create({
         marginRight: 50,
     },
     SeriesTitleTxtStyle: {
-        fontFamily:'BrandonGrotesque-BoldItalic',
-        fontSize:26,
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 26,
         color: '#000000',
     },
     SeriesDescTxtStyle: {
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:16,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
         color: '#414141',
     },
     CheckMoreContainerLayoutStyle: {
@@ -603,8 +749,8 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
     },
     CheckMoreTxtStyle: {
-        fontFamily:'BrandonGrotesque-BoldItalic',
-        fontSize:23,
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 23,
         color: '#000000',
         marginLeft: 10,
     },
@@ -614,7 +760,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     RecommendationTxt: {
-        fontFamily:'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: '#000000',
         marginTop: 5,
@@ -626,7 +772,7 @@ const styles = StyleSheet.create({
         height: 129,
         position: 'relative',
     },
-    PurpleArrow:{
+    PurpleArrow: {
         position: 'absolute',
         top: -20,
         left: 20,
@@ -638,9 +784,9 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     PurpleTopTxtStyle: {
-        color:'#FFFFFF',
-        fontFamily:'BrandonGrotesque-Medium',
-        fontSize:18,
+        color: '#FFFFFF',
+        fontFamily: 'BrandonGrotesque-Medium',
+        fontSize: 18,
     },
     PurpleBottomContainerLayoutStyle: {
         backgroundColor: '#00FF0000',
@@ -657,11 +803,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     PurpleBottomTxtStyle: {
-        color:'#7777FF',
-        fontFamily:'BrandonGrotesque-BoldItalic',
-        fontSize:20,
+        color: '#7777FF',
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 20,
     },
-    GrayLineContainerLayoutStyle:{
+    GrayLineContainerLayoutStyle: {
         width: windowWidth,
         backgroundColor: '#EBEBEB',
         height: 12,
@@ -671,20 +817,20 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: 'pink',
     },
-    CommentsInnerConainer:{
+    CommentsInnerConainer: {
         marginLeft: 20,
         marginRight: 20,
-        marginTop: 15
+        marginTop: 15,
     },
     CommentsTitleLayout: {
         marginBottom: 15,
     },
-    CommentsTitleTxt:{
-        fontFamily:'BrandonGrotesque-Bold',
-        fontSize:20,
+    CommentsTitleTxt: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 20,
         color: '#000000',
     },
-    CommentsListContainerLayout:{
+    CommentsListContainerLayout: {
         marginBottom: 10,
     },
     CommentsAuthorContainerLayout: {
@@ -694,23 +840,21 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: 'red',
     },
-    CommentsAuthorInner01Layout:{
-        
-    },
-    CommentsAuthorInner02Layout:{
+    CommentsAuthorInner01Layout: {},
+    CommentsAuthorInner02Layout: {
         flex: 1,
     },
     CommentsAuthorInner02InnerLayout: {
         flexDirection: 'row',
     },
-    CommentsAuthorInnerNameTxt02Layout:{
-        fontFamily:'IBMPlexSansKR-SemiBold',
-        fontSize:14,
-        color: '#000000',   
+    CommentsAuthorInnerNameTxt02Layout: {
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 14,
+        color: '#000000',
     },
     CommentsAuthorInnerDateTxt02Layout: {
-        fontFamily:'IBMPlexSansKR-Text',
-        fontSize:11,
+        fontFamily: 'IBMPlexSansKR-Text',
+        fontSize: 11,
         color: '#C2C2C2',
     },
     CommentsAuthorInner02PlusContainerLayout: {
@@ -720,10 +864,9 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: 'blue',
     },
-    CommentsAuthorInner02PlusIconLayout: {
-    },
+    CommentsAuthorInner02PlusIconLayout: {},
     CommentsAuthorInnerPlusNum02Layout: {
-        fontFamily:'IBMPlexSansKR-Text',
+        fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 11,
         color: '#FFA757',
         marginLeft: 5,
@@ -744,29 +887,29 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: 'pink',
     },
-    CommentsContentContainerLayout:{
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+    CommentsContentContainerLayout: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
         color: '#5D5959',
     },
-    CommentsContentTxtLayout:{
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+    CommentsContentTxtLayout: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
         color: '#5D5959',
     },
-    CommentsTextLayout:{
+    CommentsTextLayout: {
         margin: 15,
     },
     CommentsTextInput: {
         height: 49,
-        borderColor: "#D1D1D1",
+        borderColor: '#D1D1D1',
         borderWidth: 1.5,
         borderRadius: 30,
         paddingLeft: 20,
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
         position: 'relative',
-      },
+    },
     CommentSendingTouch: {
         position: 'absolute',
         right: 3,
@@ -774,6 +917,4 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // borderColor: 'red',
     },
-    
-})
-
+});
