@@ -36,9 +36,9 @@ export const SeriesCarousel = (props : SeriesCarouselProps) : LayoutElement => {
     const RenderCarousel = (data: { item: SeriesCarousel_Item; index: number; }) => {
 
         return(
-            <TouchableOpacity style={styles.ItemContainer} onPress={() => Navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc026bee8b3104211971b5' })}>
+            <Layout style={styles.ItemContainer} >
                 <Image source={data.item.image} style={styles.ImageContainer} />
-            </TouchableOpacity>    
+            </Layout>    
         )
     }
 

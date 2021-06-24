@@ -18,6 +18,7 @@ import {
 } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
+<<<<<<< HEAD
 import {
     Contact,
     EditorNote,
@@ -29,6 +30,9 @@ import {
     Time,
     EntryFee,
 } from '../../assets/icon/Series';
+=======
+import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time, EntryFee, EditorNoteLine } from '../../assets/icon/Series';
+>>>>>>> modify
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -360,6 +364,7 @@ export const SeriesHiddenGemContentAttr = (
                         </Layout>
                     ))}
                 </Layout>
+                    {/* <EditorNoteLine style = {{borderWidth: 1}} />                 */}
 
                 {/* 포토스팟 컨테이너 */}
                 <Layout
@@ -418,17 +423,8 @@ export const SeriesHiddenGemContentAttr = (
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout
-                                style={styles.PurpleBottomLayoutStyle}
-                                onTouchStart={() => {
-                                    props.navigation.navigate(
-                                        NavigatorRoute.CHAT,
-                                    );
-                                }}>
-                                <Text
-                                    style={
-                                        styles.PurpleBottomTxtStyle
-                                    }>{`Go to Glochat >>`}</Text>
+                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
+                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>
                     </Layout>
@@ -577,7 +573,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.18,
         shadowRadius: 1.0,
         elevation: 1,
+<<<<<<< HEAD
         marginBottom: 30,
+=======
+        marginBottom: 20,
+        paddingTop: 15,
+        paddingBottom: 15,
+>>>>>>> modify
     },
     GlochatTextContainer: {
         flexDirection: 'row',

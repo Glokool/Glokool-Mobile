@@ -48,10 +48,11 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
     React.useEffect(() => {
         InitSeries();
     }, []);
-
+    
     async function InitSeries() {
         // 북마크 조회 하기 위한 함수
         const authToken = await auth().currentUser?.getIdToken();
+        console.log(authToken)
         var config = {
             method: 'get',
             url: SERVER + '/api/users/bookmark',
@@ -230,13 +231,13 @@ const styles = StyleSheet.create({
     },
     TabBarLayout: {
         flexDirection: 'row',
-        marginLeft: 30,
+        marginLeft: 20,
         alignItems: 'center',
         marginBottom: 20,
         height: 50,
     },
     AngleLeftLayout: {
-        marginRight: 20,
+        padding: 20,
     },
     TabBarIconLayout: {
         marginRight: 10,

@@ -97,7 +97,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                     <Layout
                         style={styles.GloChatContainer3}
-                        onTouchStart={() => PressGloChatAD()}>
+                        onTouchEnd={() => PressGloChatAD()}>
                         <Text style={styles.GloChat3}>{`Click to Start `}</Text>
                         <Text style={styles.GloChat3_1}>{`Glo-Chat`}</Text>
                         <Text style={styles.GloChat3}>{`!   `}</Text>
@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 21,
     },
-
     GloChatContainer3: {
         alignSelf: 'flex-end',
         justifyContent: 'center',
