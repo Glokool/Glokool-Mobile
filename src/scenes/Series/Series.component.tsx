@@ -1,28 +1,15 @@
-<<<<<<< HEAD
-import React from 'react';
-import { Layout, LayoutElement } from '@ui-kitten/components';
-import {
-    StyleSheet,
-    Text,
-=======
 import React from 'react'
 import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
 import { 
-    StyleSheet, 
+    StyleSheet,
     Text, 
->>>>>>> modify
     TouchableOpacity,
     ScrollView,
     BackHandler,
 } from 'react-native';
-<<<<<<< HEAD
-import { SeriesScreenProps } from '../../navigation/ScreenNavigator/Series.navigator';
-
-=======
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
->>>>>>> modify
 import { SceneRoute } from '../../navigation/app.route';
 import {
     SeriesAFlatlist,
@@ -74,12 +61,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     
     return true;
   }
-
-    return(
-        <Layout>
-
-        return true;
-    };
 
     return (
         <Layout>

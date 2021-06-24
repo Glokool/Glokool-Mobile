@@ -112,7 +112,6 @@ export const SeriesAInfoScreen = (
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
 
-<<<<<<< HEAD
         // 북마크 조회 하기 위한 함수
         if (uid) {
             const authToken = await auth().currentUser?.getIdToken();
@@ -123,17 +122,6 @@ export const SeriesAInfoScreen = (
                 headers: {
                     Authorization: 'Bearer ' + authToken,
                 },
-=======
-        
-        // 북마크 조회 하기 위한 함수 
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'get',
-            url: SERVER + '/api/users/bookmark',
-            headers: { 
-                'Authorization': 'Bearer ' + authToken,
-                }
->>>>>>> modify
             };
 
             axios(config)
@@ -403,25 +391,9 @@ export const SeriesAInfoScreen = (
                                 {'\n'}
                                 {`Ask our travel assistants for more! `}
                             </Text>
-<<<<<<< HEAD
-                            <Layout
-                                style={styles.PurpleBottomContainerLayoutStyle}>
-                                <Layout
-                                    style={styles.PurpleBottomLayoutStyle}
-                                    onTouchStart={() => {
-                                        props.navigation.navigate(
-                                            NavigatorRoute.CHAT,
-                                        );
-                                    }}>
-                                    <Text
-                                        style={
-                                            styles.PurpleBottomTxtStyle
-                                        }>{`Go to Glochat >>`}</Text>
-=======
                             <Layout style={styles.PurpleBottomContainerLayoutStyle}>
                                 <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
                                     <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
->>>>>>> modify
                                 </Layout>
                             </Layout>
                         </Layout>
