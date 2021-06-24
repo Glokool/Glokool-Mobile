@@ -262,7 +262,7 @@ export const SeriesHiddenGemContentCafe = (
                         <Layout style={styles.InfoDetailContainer3}>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
-                                Opening Time
+                                Open Hour
                             </Text>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
@@ -302,7 +302,7 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <Text style={styles.InfoDetailText}> Sns</Text>
+                            <Text style={styles.InfoDetailText}> SNS</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -401,8 +401,17 @@ export const SeriesHiddenGemContentCafe = (
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            <Layout
+                                style={styles.PurpleBottomLayoutStyle}
+                                onTouchEnd={() => {
+                                    props.navigation.navigate(
+                                        NavigatorRoute.CHAT,
+                                    );
+                                }}>
+                                <Text
+                                    style={
+                                        styles.PurpleBottomTxtStyle
+                                    }>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>
                     </Layout>
