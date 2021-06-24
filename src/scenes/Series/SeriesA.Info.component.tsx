@@ -150,129 +150,144 @@ export const SeriesAInfoScreen = (
     };
 
     const PressBookmark = async () => {
-        const authToken = await auth().currentUser?.getIdToken();
-        var axios = require('axios');
-        var data = qs.stringify({
-            contentCode: content?._id,
-        });
-        var config = {
-            method: 'post',
-            url: SERVER + '/api/users/bookmark',
-            headers: {
-                Authorization: 'Bearer ' + authToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            data: data,
-        };
-
-        axios(config)
-            .then((response) => {
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
+            var axios = require('axios');
+            var data = qs.stringify({
+                contentCode: content?._id,
             });
+            var config = {
+                method: 'post',
+                url: SERVER + '/api/users/bookmark',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: data,
+            };
+
+            axios(config)
+                .then((response) => {
+                    InitSeries();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const PressPlus = async () => {
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'patch',
-            url: SERVER + '/api/contents/' + content?._id + '/like',
-            headers: {
-                Authorization: 'Bearer ' + authToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        };
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
+            var config = {
+                method: 'patch',
+                url: SERVER + '/api/contents/' + content?._id + '/like',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            };
 
-        axios(config)
-            .then((response) => {
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            axios(config)
+                .then((response) => {
+                    InitSeries();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const CommentSendingPress = async () => {
-        const authToken = await auth().currentUser?.getIdToken();
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
 
-        const data = qs.stringify({
-            content: Id,
-            writer: uid,
-            name: user?.displayName,
-            avatar: user?.photoURL,
-            grade: 'traveler',
-            comment: nowComment,
-        });
-
-        var config = {
-            method: 'post',
-            url: SERVER + '/api/comments',
-            headers: {
-                Authorization: 'Bearer ' + authToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            data: data,
-        };
-
-        axios(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                setNowComment('');
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
+            const data = qs.stringify({
+                content: Id,
+                writer: uid,
+                name: user?.displayName,
+                avatar: user?.photoURL,
+                grade: 'traveler',
+                comment: nowComment,
             });
+
+            var config = {
+                method: 'post',
+                url: SERVER + '/api/comments',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: data,
+            };
+
+            axios(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                    setNowComment('');
+                    InitSeries();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const DeleteComment = async (id) => {
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'delete',
-            url: SERVER + '/api/contents/' + content?._id + '/comments/' + id,
-            headers: {
-                Authorization: 'Bearer ' + authToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        };
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
+            var config = {
+                method: 'delete',
+                url:
+                    SERVER +
+                    '/api/contents/' +
+                    content?._id +
+                    '/comments/' +
+                    id,
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            };
 
-        axios(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            axios(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                    InitSeries();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const LikeComment = async (id) => {
-        const authToken = await auth().currentUser?.getIdToken();
-        var config = {
-            method: 'patch',
-            url:
-                SERVER +
-                '/api/contents/' +
-                content?._id +
-                '/comments/' +
-                id +
-                '/like',
-            headers: {
-                Authorization: 'Bearer ' + authToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        };
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
+            var config = {
+                method: 'patch',
+                url:
+                    SERVER +
+                    '/api/contents/' +
+                    content?._id +
+                    '/comments/' +
+                    id +
+                    '/like',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            };
 
-        axios(config)
-            .then((response) => {
-                console.log(JSON.stringify(response.data));
-                InitSeries();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            axios(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                    InitSeries();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
     return (
         <Layout style={styles.ContainerLayout}>
@@ -500,11 +515,11 @@ export const SeriesAInfoScreen = (
                                                         style={
                                                             styles.CommentsAuthorInnerIcons03Layout
                                                         }
-                                                        onPress={() => {
+                                                        onPress={() =>
                                                             LikeComment(
                                                                 item._id,
-                                                            );
-                                                        }}>
+                                                            )
+                                                        }>
                                                         <Comments6 />
                                                     </TouchableOpacity>
                                                 ) : (
@@ -554,7 +569,7 @@ export const SeriesAInfoScreen = (
                                 value={nowComment}></TextInput>
                             <TouchableOpacity
                                 style={styles.CommentSendingTouch}
-                                onPress={CommentSendingPress}>
+                                onPress={() => CommentSendingPress}>
                                 <CommentSending />
                             </TouchableOpacity>
                         </Layout>
@@ -574,7 +589,7 @@ export const SeriesAInfoScreen = (
                     <Layout style={styles.TopTabIconLayout}>
                         <TouchableOpacity
                             style={styles.BookmarkTouch}
-                            onPress={() => PressBookmark()}>
+                            onPress={() => PressBookmark}>
                             {bookmarkList.indexOf(Id) == -1 ? (
                                 <Bookmark />
                             ) : (
@@ -583,7 +598,7 @@ export const SeriesAInfoScreen = (
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.PlusTouch}
-                            onPress={() => PressPlus()}>
+                            onPress={() => PressPlus}>
                             {content?.plus.indexOf(uid) == -1 ? (
                                 <Plus />
                             ) : (

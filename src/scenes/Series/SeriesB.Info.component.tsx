@@ -1,15 +1,15 @@
 import React from 'react'
 import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
-import { 
+import {
     Dimensions,
     Image,
     ImageBackground,
     Linking,
-    SafeAreaView, 
-    StyleSheet, 
-    Text, 
+    SafeAreaView,
+    StyleSheet,
+    Text,
     TouchableOpacity,
-    FlatList, 
+    FlatList,
     ScrollView,
     View,
     TextInput,
@@ -100,7 +100,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
         });
-      
+
         return unsubscribe;
     }, []);
 
@@ -111,52 +111,52 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
 
-        // 북마크 조회 하기 위한 함수 
+        // 북마크 조회 하기 위한 함수
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'get',
             url: SERVER + '/api/users/bookmark',
-            headers: { 
+            headers: {
                 'Authorization': 'Bearer ' + authToken,
             }
         };
 
         axios(config)
-        .then(function (response) {
-            let data = response.data.blog;
-            let dataTemp = [];
+            .then(function (response) {
+                let data = response.data.blog;
+                let dataTemp = [];
 
-            data.forEach(item => {
-                dataTemp.push(item.id);
+                data.forEach(item => {
+                    dataTemp.push(item.id);
+                });
+
+                setBookmarkList(dataTemp);
+            })
+            .catch(function (error) {
+                console.log(error);
             });
-
-            setBookmarkList(dataTemp);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
     }
 
     const RenderCarousel = (item : { item : ContentImg_Item, index : number }) => {
         return(
             <Layout>
                 <Image source={{ uri : item.item.img }} style={styles.ImageContainer} />
-                {item.item.author == null || item.item.author == '' || item.item.author == 'undefined' ? 
+                {item.item.author == null || item.item.author == '' || item.item.author == 'undefined' ?
                     null
-                :
+                    :
                     <Layout style={styles.authorContainer}>
                         {(item.item.author[0] === 'i')?
                             <Instagram />
-                        :   
-                        (item.item.author[0] === 'n')?
-                            <Naver />
-                        :
-                            null
+                            :
+                            (item.item.author[0] === 'n')?
+                                <Naver />
+                                :
+                                null
                         }
                         <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
                     </Layout>
                 }
-            </Layout>    
+            </Layout>
         )
     }
 
@@ -167,24 +167,24 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
             blogCode: content?._id,
         });
         var config = {
-        method: 'post',
-        url: SERVER + '/api/users/bookmark',
-        headers: { 
-            Authorization: 'Bearer ' + authToken, 
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        data : data
+            method: 'post',
+            url: SERVER + '/api/users/bookmark',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
         };
 
         axios(config)
-        .then((response) => {
-            InitSeries();
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
-    
+
     const PressPlus = async() => {
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
@@ -194,9 +194,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 Authorization: "Bearer " + authToken,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-          };
-    
-          axios(config)
+        };
+
+        axios(config)
             .then((response) => {
                 InitSeries();
             })
@@ -208,24 +208,24 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 
     const CommentSendingPress = async() => {
         const authToken = await auth().currentUser?.getIdToken();
-        
+
         const data = qs.stringify({
             content: Id,
             writer: uid,
             name: user?.displayName,
             avatar: user?.photoURL,
             grade: 'traveler',
-            comment: nowComment, 
+            comment: nowComment,
         });
-    
+
         var config = {
-          method: "post",
-          url: SERVER + "/api/blog/comments",
-          headers: {
-            Authorization: "Bearer " + authToken,
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          data: data,
+            method: "post",
+            url: SERVER + "/api/blog/comments",
+            headers: {
+                Authorization: "Bearer " + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: data,
         };
 
         axios(config)
@@ -244,8 +244,8 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
             method: "delete",
             url: SERVER + "/api/blog/" + content?._id + "/comments/" + id ,
             headers: {
-              Authorization: "Bearer " + authToken,
-              "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: "Bearer " + authToken,
+                "Content-Type": "application/x-www-form-urlencoded",
             },
         };
 
@@ -267,9 +267,9 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 Authorization: "Bearer " + authToken,
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-          };
+        };
 
-          axios(config)
+        axios(config)
             .then((response) => {
                 InitSeries();
             })
@@ -277,19 +277,19 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                 console.log(error);
             });
     }
-    
+
     return (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView behavior='padding'>
                 <ScrollView style={{backgroundColor: '#ffffff'}} showsVerticalScrollIndicator = {false} ref={ScrollVewRef} onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
-                    
-                <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                {height >= windowWidth - 100 ? 
-                    <Layout>
-                        <Layout style={{height: 50}}/>
-                        <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
-                    </Layout>
-                : null }
+
+                    <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                    {height >= windowWidth - 100 ?
+                        <Layout>
+                            <Layout style={{height: 50}}/>
+                            <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
+                        </Layout>
+                        : null }
 
                     {/* content carousel */}
                     {(contentInfo.map((item) =>
@@ -326,11 +326,11 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                             </Layout>
                         </Layout>
                     ))}
-                    
+
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
                         <Text style={styles.ThankyouText}>Thank You!</Text>
-                        
+
                         <TouchableOpacity style={styles.GoUpButton} onPress={() => ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: true })}>
                             <Text style={styles.ThankyouText}>Go Up <GoUp /></Text>
                         </TouchableOpacity>
@@ -340,17 +340,17 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     {/* check out more */}
                     {recommendation ? (
                         <Layout style={styles.CheckMoreContainerLayoutStyle}>
-                        <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
-                        {(recommendation.map((item) =>
-                        <Layout style={styles.CheckMoreLayoutStyle}>
-                            <TouchableOpacity onPress={() => {setId(item._id)}}>
-                                <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
-                            </TouchableOpacity>
+                            <Layout style={styles.CheckMoreLayoutStyle}><Text style={styles.CheckMoreTxtStyle}>{`Check out more`}</Text></Layout>
+                            {(recommendation.map((item) =>
+                                <Layout style={styles.CheckMoreLayoutStyle}>
+                                    <TouchableOpacity onPress={() => {setId(item._id)}}>
+                                        <Image source={{ uri : item.image }} style={styles.RecommendationImg} />
+                                    </TouchableOpacity>
+                                </Layout>
+                            ))}
                         </Layout>
-                        ))}
-                    </Layout>
                     ) : null}
-                    
+
 
                     {/* 그레이색 배경 */}
                     <Layout style={styles.PurpleContainerLayoutStyle} >
@@ -368,7 +368,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                             </Layout>
                         </Layout>
                     </Layout>
-                    
+
                     {/* Comments */}
                     <Layout style={styles.CommentsConainer}>
                         <Layout style={styles.CommentsInnerConainer}>
@@ -376,7 +376,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                             <Layout style={styles.CommentsTitleLayout}>
                                 <Text style={styles.CommentsTitleTxt}>Comments</Text>
                             </Layout>
-                            
+
                             {/* comments content */}
                             {(comments.map((item) =>
                                 <Layout style={styles.CommentsListContainerLayout}>
@@ -397,38 +397,38 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                                                         <Text style={styles.CommentsAuthorInnerPlusNum02Layout}>{item.plus.length}</Text>
                                                     </Layout>
                                                 ) : null}
-                                                
+
                                             </Layout>
                                         </Layout>
                                         {uid == item.writer.uid ? (
-                                        <Layout style={styles.CommentsAuthorInner03Layout}>
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
-                                                <Comments4 />
-                                            </TouchableOpacity>
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Layout style={styles.CommentsAuthorInner03Layout}>
+                                                <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {DeleteComment(item._id)}}>
+                                                    <Comments4 />
+                                                </TouchableOpacity>
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments5 />
                                             </TouchableOpacity> */}
-                                        </Layout>
+                                            </Layout>
                                         ) : (
-                                        <Layout style={styles.CommentsAuthorInner03Layout}>
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                            <Layout style={styles.CommentsAuthorInner03Layout}>
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments1 />
                                             </TouchableOpacity> */}
-                                            {item.plus.indexOf(uid) != -1 ?  (
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                                <Comments6 />
-                                            </TouchableOpacity>
-                                            ) : (
-                                            <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
-                                                <Comments2 />
-                                            </TouchableOpacity>
-                                            )}
-                                            {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
+                                                {item.plus.indexOf(uid) != -1 ?  (
+                                                    <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
+                                                        <Comments6 />
+                                                    </TouchableOpacity>
+                                                ) : (
+                                                    <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout} onPress={() => {LikeComment(item._id)}}>
+                                                        <Comments2 />
+                                                    </TouchableOpacity>
+                                                )}
+                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
                                                 <Comments3 />
                                             </TouchableOpacity> */}
-                                        </Layout>
+                                            </Layout>
                                         )}
-                                        
+
                                     </Layout>
                                     <Layout style={styles.CommentsContentContainerLayout}>
                                         <Text style={styles.CommentsContentTxtLayout}>
@@ -440,28 +440,28 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         </Layout>
 
                         {/* 댓글 입력 */}
-                    
-                            <Layout style={styles.CommentsTextLayout}>
-                                <TextInput  style={styles.CommentsTextInput}
+
+                        <Layout style={styles.CommentsTextLayout}>
+                            <TextInput  style={styles.CommentsTextInput}
                                 // underlineColorAndroid="transparent"
-                                placeholder="Write your comment"
-                                placeholderTextColor="#D1D1D1"
-                                autoCapitalize="none" 
-                                onChangeText={text => setNowComment(text)}
-                                value = {nowComment}
-                                ></TextInput>
-                                <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
-                                    <CommentSending  />
-                                </TouchableOpacity>
-                            </Layout>
+                                        placeholder="Write your comment"
+                                        placeholderTextColor="#D1D1D1"
+                                        autoCapitalize="none"
+                                        onChangeText={text => setNowComment(text)}
+                                        value = {nowComment}
+                            ></TextInput>
+                            <TouchableOpacity style ={styles.CommentSendingTouch} onPress={()=>{CommentSendingPress()}} >
+                                <CommentSending  />
+                            </TouchableOpacity>
+                        </Layout>
                     </Layout>
-            </ScrollView>
+                </ScrollView>
             </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
             {height >= windowWidth - 100 ? (
-                // 스크롤을 내렸을 시 
-                 <Layout style={styles.ContainerLayoutAngleLeft}>
+                // 스크롤을 내렸을 시
+                <Layout style={styles.ContainerLayoutAngleLeft}>
                     <SafeAreaView style={{flex:0, backgroundColor: '#ffffff'}} />
                     <Layout style={styles.ContainerIconLayout}>
                         <TouchableOpacity style={styles.ContainerAngleLeft_W} onPress={() => props.navigation.goBack()}>
@@ -469,24 +469,24 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                         </TouchableOpacity>
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                            {bookmarkList.indexOf(Id) == -1 ? 
-                                <Bookmark />
-                                :
-                                <Bookmark_P />
-                            }
+                                {bookmarkList.indexOf(Id) == -1 ?
+                                    <Bookmark />
+                                    :
+                                    <Bookmark_P />
+                                }
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                            {content?.plus.indexOf(uid) == -1 ?  (
-                                <Plus />
-                            ) : (
-                                <Plus_P />
-                            )}
+                                {content?.plus.indexOf(uid) == -1 ?  (
+                                    <Plus />
+                                ) : (
+                                    <Plus_P />
+                                )}
                             </TouchableOpacity>
                         </Layout>
                     </Layout>
                 </Layout>
             ) : (
-                // 맨위에 포커스 
+                // 맨위에 포커스
                 <Layout style={styles.ContainerOpacityLayoutAngleLeft}>
                     <SafeAreaView style={{flex:0, backgroundColor: '#00FF0000'}} />
                     <TouchableOpacity style={styles.ContainerAngleLeft} onPress={() => props.navigation.goBack()}>
@@ -494,7 +494,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
                     </TouchableOpacity>
                 </Layout>
             ) }
-            
+
 
         </Layout>
     )
@@ -503,7 +503,7 @@ export const SeriesBInfoScreen = (props : SeriesBDetailInfoProps) : LayoutElemen
 const styles = StyleSheet.create({
     ContainerLayout:{
     },
-    Container: {    
+    Container: {
         backgroundColor: 'white',
     },
     // 탑탭 style
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems: 'center',
         backgroundColor: '#00FF0000',
-    },   
+    },
     SeriesCountIconLayoutStyle: {
         marginRight: 6,
     },
@@ -649,7 +649,7 @@ const styles = StyleSheet.create({
     CarouselDot: {
         width: 13,
         height: 4,
-        borderRadius: 30, 
+        borderRadius: 30,
     },
     authorContainer: {
         position: 'absolute',
@@ -814,7 +814,7 @@ const styles = StyleSheet.create({
         // borderColor: 'red',
     },
     CommentsAuthorInner01Layout:{
-        
+
     },
     CommentsAuthorInner02Layout:{
         flex: 1,
@@ -888,7 +888,7 @@ const styles = StyleSheet.create({
         fontFamily:'IBMPlexSansKR-Medium',
         fontSize:15,
         position: 'relative',
-      },
+    },
     CommentSendingTouch: {
         position: 'absolute',
         right: 3,
