@@ -104,7 +104,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
               <Text style={styles.GloChat2}>{`There are..`}</Text>
             </Layout>
 
-            <Layout style={styles.GloChatContainer3} onTouchStart={() => PressGloChatAD()}>
+            <Layout style={styles.GloChatContainer3} onTouchEnd={() => PressGloChatAD()}>
               <Text style={styles.GloChat3}>{`Click to Start `}</Text>
               <Text style={styles.GloChat3_1}>{`Glo-Chat`}</Text>
               <Text style={styles.GloChat3}>{`!   `}</Text>

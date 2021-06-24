@@ -468,7 +468,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.18,
         shadowRadius: 1.00,
         elevation: 1,
-        marginBottom: 30
+        marginBottom: 20,
+        paddingTop: 15,
+        paddingBottom: 15,
     },
     GlochatTextContainer: {
         flexDirection: 'row',
