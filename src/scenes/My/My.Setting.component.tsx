@@ -42,20 +42,21 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
   }
 
   const PressLogout = () => {
+    props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: NavigatorRoute.MAIN },
+        ],
+      })
+    );
 
+    auth().signOut();
+
+  }
+
+  const PressLogoutModal = () => {
     setLogoutvisible(true);
-
-    // props.navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [
-    //       { name: NavigatorRoute.MAIN },
-    //     ],
-    //   })
-    // );
-
-    // auth().signOut();
-
   }
 
   return (
@@ -97,7 +98,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
           </Layout>
 
           <Layout style={styles.TouchLayout}>
-            <TouchableOpacity style={styles.TouchableComponent} onPress={PressLogout}>   
+            <TouchableOpacity style={styles.TouchableComponent} onPress={PressLogoutModal}>   
               <Layout style={styles.ButtonIcon}>
                 <Logout />
               </Layout>
@@ -138,10 +139,10 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
             <Layout style={styles.ModalLayout}>
               <Text style={styles.ModalTxt}>Are you sure {"\n"} you want to log out?</Text>
               <Layout style={styles.ModalBtnContainer}>
-                <TouchableOpacity style={styles.ModalBtnCancel}>
+                <TouchableOpacity style={styles.ModalBtnCancel} onPress={() => {setLogoutvisible(false)}}>
                   <Text style={styles.ModalTxtCancel}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ModalBtnLogout}>
+                <TouchableOpacity style={styles.ModalBtnLogout} onPress={() => PressLogout()}>
                   <Text style={styles.ModalTxtLogout}>Logout</Text>
                 </TouchableOpacity>
               </Layout>
@@ -222,18 +223,17 @@ const styles = StyleSheet.create({
     fontFamily:'BrandonGrotesque-Bold',
     fontSize:22,
     textAlign: 'center',
-    marginTop: '8%',
+    marginTop: '10%',
+    lineHeight: 27,
   },
   ModalBtnContainer:{
     flexDirection: 'row',
-    // justifyContent: 'flex-end',
-    // alignItems: 'flex-end',
     height: (windowWidth * 0.85) * 0.41 * 0.36,
     alignItems: 'flex-end',
     flex: 1,
     marginBottom: '5%',
     justifyContent: 'center',
-
+    // borderWidth: 1,
   },
   ModalBtnCancel:{
     borderWidth: 1,
@@ -246,15 +246,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ModalTxtCancel:{
-    // textAlign: 'center',
     color:'#8797FF',
     fontFamily:'BrandonGrotesque-Bold',
     fontSize:22,
-    flex: 1,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-
   },
   ModalBtnLogout:{
     borderRadius: 10,
@@ -262,6 +256,8 @@ const styles = StyleSheet.create({
     width: (windowWidth * 0.85) * 0.41,
     height: (windowWidth * 0.85) * 0.41 * 0.36,
     marginLeft: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   ModalTxtLogout:{
     textAlign: 'center',
