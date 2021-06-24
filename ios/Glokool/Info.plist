@@ -85,6 +85,14 @@
 		<true/>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use to inform the guide of your location.</string>

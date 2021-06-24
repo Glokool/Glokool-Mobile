@@ -86,7 +86,9 @@ const styles = StyleSheet.create({
     width: SeriesImgW*0.27,
     color: '#000000',
     marginVertical: 0,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    lineHeight: 20,
+    marginTop: 10,
   },
 
 })

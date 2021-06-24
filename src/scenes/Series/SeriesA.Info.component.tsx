@@ -670,8 +670,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
         opacity: 40,
         alignSelf: 'center',
-        // borderWidth: 1,
-        // borderColor: 'red'
     },
     CarouselDot: {
         width: 13,
@@ -725,6 +723,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 26,
         color: '#000000',
+        lineHeight: 30,
     },
     SeriesDescTxtStyle: {
         fontFamily: 'IBMPlexSansKR-Medium',
@@ -736,8 +735,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flexDirection: 'row',
         marginTop: 20,
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CheckMoreLayoutStyle: {
         marginVertical: 30,
@@ -745,14 +742,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
         width: windowWidth * 0.3,
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CheckMoreTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 23,
         color: '#000000',
         marginLeft: 10,
+        lineHeight: 25,
     },
     RecommendationImg: {
         width: windowWidth * 0.27,
@@ -861,8 +857,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 10,
         alignItems: 'center',
-        // borderWidth: 1,
-        // borderColor: 'blue',
     },
     CommentsAuthorInner02PlusIconLayout: {},
     CommentsAuthorInnerPlusNum02Layout: {
@@ -870,22 +864,16 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: '#FFA757',
         marginLeft: 5,
-        // borderWidth: 1,
-        // borderColor: 'pink',
     },
     CommentsAuthorInner03Layout: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CommentsAuthorInnerIcons03Layout: {
         padding: 6,
         margin: 4,
         justifyContent: 'center',
-        // borderWidth: 1,
-        // borderColor: 'pink',
     },
     CommentsContentContainerLayout: {
         fontFamily: 'IBMPlexSansKR-Medium',
@@ -914,7 +902,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
 });
