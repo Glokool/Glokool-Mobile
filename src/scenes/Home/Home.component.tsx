@@ -19,6 +19,7 @@ import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import { AdBanner } from '../../component/Common/AdBanner.component';
 
 var ToastRef: any;
+const windowWidth = Dimensions.get('window').width;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     GloChatADContainer: {
         width: '100%',
         alignItems: 'center',
-        marginVertical: 30,
+        marginVertical: 15,
     },
     GloChatContainer1: {
         alignSelf: 'flex-start',
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
         borderBottomStartRadius: 5,
         borderBottomEndRadius: 15,
         padding: 10,
-        width: '70%',
+        width: windowWidth * 0.6,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
     GloChat1: {
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 21,
+        lineHeight: 25,
     },
     GloChatContainer2: {
         alignSelf: 'flex-end',

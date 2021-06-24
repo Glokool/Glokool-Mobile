@@ -1,11 +1,12 @@
 import React from 'react';
 import { LayoutElement, Layout, Modal, Card, Text, Button } from "@ui-kitten/components";
 import { NavigatorRoute } from "../../navigation/app.route";
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Dimensions, } from 'react-native';
 import { LoginCheckProps } from '../../navigation/Common.navigator';
+import { Delete } from '../../assets/icon/Common'
 
 
-
+const windowWidth = Dimensions.get('window').width;
 export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
 
     const [visible, setVisible] = React.useState(props.visible);
@@ -25,25 +26,25 @@ export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
             visible={visible}
             backdropStyle={styles.backdrop}
         >
-            <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}>
-                
-                <Text style={styles.modalTitle}>Login?</Text>
-
-                <Text style={styles.modalDesc}>{`This part needs Login`}</Text>
-                
-                <Layout style={{flexDirection: 'row', backgroundColor: '#00FF0000', justifyContent: 'center'}}>
-
-                    <TouchableOpacity style={styles.CancelButon} onPress={() => {setVisible(false); props.navigation.goBack()}}>
-                        <Text style={styles.CancelButonText}>Cancel</Text>
+            {/* <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}> */}
+            <Layout style={styles.ModalLayout}>
+                <Layout style={styles.ModalIconContainer}>
+                    <TouchableOpacity style={styles.CancelIcon} onPress={() => {setVisible(false); props.navigation.goBack()}}>
+                        <Delete />
                     </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.MoveButton} onPress={() => {setVisible(false); props.navigation.navigate(NavigatorRoute.AUTH)}}>
-                        <Text style={styles.MoveButtonText}>Move</Text>
-                    </TouchableOpacity>
-
                 </Layout>
                 
-            </Card>
+                <Layout style={styles.ModalTxtContainer}>
+                    <Text style={styles.modalTitle}>This service requires Login.</Text>
+                </Layout>
+
+                <Layout style={styles.ModalBtnContainer}>
+                    <TouchableOpacity style={styles.MoveButton} onPress={() => {setVisible(false); props.navigation.navigate(NavigatorRoute.AUTH)}}>
+                        <Text style={styles.MoveButtonText}>Click to Login</Text>
+                    </TouchableOpacity>
+                </Layout>
+            </Layout>
+            {/* </Card> */}
         </Modal>
 
     )
@@ -53,13 +54,41 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
     },
+    // modal
     backdrop: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    ModalLayout:{
+        width: windowWidth * 0.85,
+        height: (windowWidth * 0.85) * 0.57, 
+        borderRadius: 10,
+    },
+    ModalIconContainer: {
+        flex: 0.5,
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        backgroundColor: '#00FF0000', 
+    },
+    CancelIcon: {
+        marginRight: 30,
+    },
+    ModalTxtContainer: {
+        flex: 0.8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00FF0000',
     },
     modalTitle: {
         fontFamily : 'BrandonGrotesque-Bold',
         fontSize: 22,
+        fontWeight: 'bold',
         color: '#8797FF'
+    },
+    ModalBtnContainer:{
+        backgroundColor: '#00FF0000', 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     modalDesc: {
         fontFamily : 'IBMPlexSansKR-Medium',
@@ -68,34 +97,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 30,
     },
-    CancelButon: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1.5,
-        borderColor: '#8797FF',
-        borderRadius: 10,
-        width: 150,
-        height: 50,
-        marginRight: 5,
-      },
-    CancelButonText: {
-        fontFamily : 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
-    },
     MoveButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#292434',
+        backgroundColor: '#7777FF',
         borderRadius: 10,
-        width: 150,
+        width: windowWidth * 0.85 * 0.84,
         height: 50,
         marginLeft: 5,
     },
     MoveButtonText: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily : 'BrandonGrotesque-BoldItalic',
         fontSize: 22,
-        color: '#8797FF'
+        color: '#FFFFFF'
     },
   });

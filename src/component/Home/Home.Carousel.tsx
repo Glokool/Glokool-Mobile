@@ -89,7 +89,7 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                 sliderWidth={Dimensions.get('window').width - 30}
                 itemWidth={ImageSize}
                 hasParallaxImages={false}
-                firstItem={carouselIndex}
+                firstItem={2}
                 inactiveSlideScale={0.8}
                 inactiveSlideOpacity={0.7}
                 containerCustomStyle={styles.CarouselInsideContainer}
