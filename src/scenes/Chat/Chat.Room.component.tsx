@@ -19,7 +19,6 @@ import {
     Modal,
     Card,
 } from '@ui-kitten/components';
-import { ImageIcon, VolumeUpIcon, MapIcon } from '../../component/icon';
 import database, {
     FirebaseDatabaseTypes,
 } from '@react-native-firebase/database';
@@ -31,7 +30,6 @@ import {
     Send,
     SystemMessage,
     Time,
-    TimeProps,
 } from 'react-native-gifted-chat';
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
@@ -41,15 +39,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faTimes,
     faPlay,
-    faStop,
-    faMap,
 } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import { SERVER } from '../../server.component';
 import moment from 'moment';
-import Toast from 'react-native-easy-toast';
 import { filterText } from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
@@ -518,10 +510,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     left: {
                         backgroundColor: '#7777FF',
                         borderRadius: 10,
+                        marginBottom: 3,
                     },
                     right: {
                         backgroundColor: 'white',
                         borderRadius: 10,
+                        marginBottom: 3,
                         padding: 5,
                         shadowColor: '#000',
                         shadowOffset: {
@@ -739,7 +733,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <KeyboardAvoidingView
                 style={styles.Container}
                 behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 0 : -250}>
+                keyboardVerticalOffset={Platform.OS === 'android' ? 0 : -230}>
                 <Layout style={styles.mainContainer}>
                     <GiftedChat
                         messages={chatMessages}
@@ -756,7 +750,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             initialNumToRender: 15,
                         }}
                         messagesContainerStyle={{
-                            paddingBottom: 50,
+                            paddingBottom: 25,
                             paddingTop: 80,
                         }}
                         alwaysShowSend={true}
@@ -900,7 +894,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     </Layout>
 
                     <TouchableOpacity
-                        style={styles.IconContainer}
+                        style={styles.IconHelpContainer}
                         onPress={() => {
                             props.navigation.navigate(SceneRoute.CHAT_HELP, {
                                 id: props.route.params.id,
@@ -1054,10 +1048,17 @@ const styles = StyleSheet.create({
         flex: 10,
     },
     IconContainer: {
-        flex: 2,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
+    },
+    IconHelpContainer:{
+        flex: 1,
+        paddingLeft: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15, 
     },
     ImageContainer: {
         flex: 1,
@@ -1079,6 +1080,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 100,
+        marginRight: 15,
     },
     title: {
         fontSize: 12,
@@ -1158,7 +1160,7 @@ const styles = StyleSheet.create({
         flex: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
     },
     MenuImage: {
         width: 30,
