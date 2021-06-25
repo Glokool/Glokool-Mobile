@@ -18,7 +18,18 @@ import {
 } from '../../assets/icon/Common';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { Contact, EditorNote, EditorNote_Check, GlokoolService, Location, PhotoSpot, Sns, Time, EntryFee, EditorNoteLine } from '../../assets/icon/Series';
+import {
+    Contact,
+    EditorNote,
+    EditorNote_Check,
+    GlokoolService,
+    Location,
+    PhotoSpot,
+    Sns,
+    Time,
+    EntryFee,
+    EditorNoteLine,
+} from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -237,7 +248,7 @@ export const SeriesHiddenGemContentAttr = (
                         <Layout style={styles.InfoDetailContainer3}>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
-                                Opening Time
+                                Open Hour
                             </Text>
                         </Layout>
 
@@ -270,7 +281,7 @@ export const SeriesHiddenGemContentAttr = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <Text style={styles.InfoDetailText}> Sns</Text>
+                            <Text style={styles.InfoDetailText}> SNS</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -350,7 +361,7 @@ export const SeriesHiddenGemContentAttr = (
                         </Layout>
                     ))}
                 </Layout>
-                    {/* <EditorNoteLine style = {{borderWidth: 1}} />                 */}
+                {/* <EditorNoteLine style = {{borderWidth: 1}} />                 */}
 
                 {/* 포토스팟 컨테이너 */}
                 <Layout
@@ -409,8 +420,17 @@ export const SeriesHiddenGemContentAttr = (
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            <Layout
+                                style={styles.PurpleBottomLayoutStyle}
+                                onTouchEnd={() => {
+                                    props.navigation.navigate(
+                                        NavigatorRoute.CHAT,
+                                    );
+                                }}>
+                                <Text
+                                    style={
+                                        styles.PurpleBottomTxtStyle
+                                    }>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>
                     </Layout>

@@ -200,7 +200,7 @@ export const SeriesHiddenGemContentRest = (
 
                 {/* 글로챗 광고 컨테이너 */}
                 {/* <Layout style={styles.GloChatADContainer}>
-                    
+
                     <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
 
                     <TouchableOpacity style={styles.GloChatButton}>
@@ -268,7 +268,7 @@ export const SeriesHiddenGemContentRest = (
                         <Layout style={styles.InfoDetailContainer3}>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
-                                Opening Time
+                                Open Hour
                             </Text>
                             <Text style={styles.InfoDetailText}>
                                 {' '}
@@ -309,7 +309,7 @@ export const SeriesHiddenGemContentRest = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <Text style={styles.InfoDetailText}> Sns</Text>
+                            <Text style={styles.InfoDetailText}> SNS</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -409,8 +409,17 @@ export const SeriesHiddenGemContentRest = (
                             {`Ask our travel assistants for more! `}
                         </Text>
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            <Layout
+                                style={styles.PurpleBottomLayoutStyle}
+                                onTouchEnd={() => {
+                                    props.navigation.navigate(
+                                        NavigatorRoute.CHAT,
+                                    );
+                                }}>
+                                <Text
+                                    style={
+                                        styles.PurpleBottomTxtStyle
+                                    }>{`Go to Glochat >>`}</Text>
                             </Layout>
                         </Layout>
                     </Layout>

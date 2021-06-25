@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         marginLeft: 17,
         marginTop: 5,
+        fontWeight: 'bold'
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Text',
