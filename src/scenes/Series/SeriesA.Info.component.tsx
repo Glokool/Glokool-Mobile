@@ -150,144 +150,129 @@ export const SeriesAInfoScreen = (
     };
 
     const PressBookmark = async () => {
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
-            var axios = require('axios');
-            var data = qs.stringify({
-                contentCode: content?._id,
-            });
-            var config = {
-                method: 'post',
-                url: SERVER + '/api/users/bookmark',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                data: data,
-            };
+        const authToken = await auth().currentUser?.getIdToken();
+        var axios = require('axios');
+        var data = qs.stringify({
+            contentCode: content?._id,
+        });
+        var config = {
+            method: 'post',
+            url: SERVER + '/api/users/bookmark',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: data,
+        };
 
-            axios(config)
-                .then((response) => {
-                    InitSeries();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        axios(config)
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const PressPlus = async () => {
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
-            var config = {
-                method: 'patch',
-                url: SERVER + '/api/contents/' + content?._id + '/like',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            };
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url: SERVER + '/api/contents/' + content?._id + '/like',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        };
 
-            axios(config)
-                .then((response) => {
-                    InitSeries();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        axios(config)
+            .then((response) => {
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const CommentSendingPress = async () => {
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
+        const authToken = await auth().currentUser?.getIdToken();
 
-            const data = qs.stringify({
-                content: Id,
-                writer: uid,
-                name: user?.displayName,
-                avatar: user?.photoURL,
-                grade: 'traveler',
-                comment: nowComment,
+        const data = qs.stringify({
+            content: Id,
+            writer: uid,
+            name: user?.displayName,
+            avatar: user?.photoURL,
+            grade: 'traveler',
+            comment: nowComment,
+        });
+
+        var config = {
+            method: 'post',
+            url: SERVER + '/api/comments',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            data: data,
+        };
+
+        axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setNowComment('');
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
             });
-
-            var config = {
-                method: 'post',
-                url: SERVER + '/api/comments',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                data: data,
-            };
-
-            axios(config)
-                .then((response) => {
-                    console.log(JSON.stringify(response.data));
-                    setNowComment('');
-                    InitSeries();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
     };
 
     const DeleteComment = async (id) => {
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
-            var config = {
-                method: 'delete',
-                url:
-                    SERVER +
-                    '/api/contents/' +
-                    content?._id +
-                    '/comments/' +
-                    id,
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            };
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'delete',
+            url: SERVER + '/api/contents/' + content?._id + '/comments/' + id,
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        };
 
-            axios(config)
-                .then((response) => {
-                    console.log(JSON.stringify(response.data));
-                    InitSeries();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const LikeComment = async (id) => {
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
-            var config = {
-                method: 'patch',
-                url:
-                    SERVER +
-                    '/api/contents/' +
-                    content?._id +
-                    '/comments/' +
-                    id +
-                    '/like',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            };
+        const authToken = await auth().currentUser?.getIdToken();
+        var config = {
+            method: 'patch',
+            url:
+                SERVER +
+                '/api/contents/' +
+                content?._id +
+                '/comments/' +
+                id +
+                '/like',
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        };
 
-            axios(config)
-                .then((response) => {
-                    console.log(JSON.stringify(response.data));
-                    InitSeries();
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                InitSeries();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
     return (
         <Layout style={styles.ContainerLayout}>
@@ -391,9 +376,19 @@ export const SeriesAInfoScreen = (
                                 {'\n'}
                                 {`Ask our travel assistants for more! `}
                             </Text>
-                            <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                                <Layout style={styles.PurpleBottomLayoutStyle} onTouchEnd = {() => {props.navigation.navigate(NavigatorRoute.CHAT);}}>
-                                    <Text style={styles.PurpleBottomTxtStyle}>{`Go to Glochat >>`}</Text>
+                            <Layout
+                                style={styles.PurpleBottomContainerLayoutStyle}>
+                                <Layout
+                                    style={styles.PurpleBottomLayoutStyle}
+                                    onTouchEnd={() => {
+                                        props.navigation.navigate(
+                                            NavigatorRoute.CHAT,
+                                        );
+                                    }}>
+                                    <Text
+                                        style={
+                                            styles.PurpleBottomTxtStyle
+                                        }>{`Go to Glochat >>`}</Text>
                                 </Layout>
                             </Layout>
                         </Layout>
@@ -404,7 +399,6 @@ export const SeriesAInfoScreen = (
                         style={styles.GrayLineContainerLayoutStyle}></Layout>
 
                     {/* Comments */}
-                    {/* <SeriesAComments comments ={comments}/> */}
                     <Layout style={styles.CommentsConainer}>
                         <Layout style={styles.CommentsInnerConainer}>
                             {/* comments title */}
@@ -487,18 +481,12 @@ export const SeriesAInfoScreen = (
                                                     }}>
                                                     <Comments4 />
                                                 </TouchableOpacity>
-                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                                <Comments5 />
-                                            </TouchableOpacity> */}
                                             </Layout>
                                         ) : (
                                             <Layout
                                                 style={
                                                     styles.CommentsAuthorInner03Layout
                                                 }>
-                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                                <Comments1 />
-                                            </TouchableOpacity> */}
                                                 {item.plus.indexOf(uid) !=
                                                 -1 ? (
                                                     <TouchableOpacity
@@ -522,12 +510,11 @@ export const SeriesAInfoScreen = (
                                                                 item._id,
                                                             );
                                                         }}>
-                                                        <Comments2 />
+                                                        {uid ? (
+                                                            <Comments2 />
+                                                        ) : null}
                                                     </TouchableOpacity>
                                                 )}
-                                                {/* <TouchableOpacity style={styles.CommentsAuthorInnerIcons03Layout}>
-                                                <Comments3 />
-                                            </TouchableOpacity> */}
                                             </Layout>
                                         )}
                                     </Layout>
@@ -548,21 +535,22 @@ export const SeriesAInfoScreen = (
 
                         {/* 댓글 입력 */}
 
-                        <Layout style={styles.CommentsTextLayout}>
-                            <TextInput
-                                style={styles.CommentsTextInput}
-                                // underlineColorAndroid="transparent"
-                                placeholder="Write your comment"
-                                placeholderTextColor="#D1D1D1"
-                                autoCapitalize="none"
-                                onChangeText={(text) => setNowComment(text)}
-                                value={nowComment}></TextInput>
-                            <TouchableOpacity
-                                style={styles.CommentSendingTouch}
-                                onPress={() => CommentSendingPress}>
-                                <CommentSending />
-                            </TouchableOpacity>
-                        </Layout>
+                        {uid ? (
+                            <Layout style={styles.CommentsTextLayout}>
+                                <TextInput
+                                    style={styles.CommentsTextInput}
+                                    placeholder="Write your comment"
+                                    placeholderTextColor="#D1D1D1"
+                                    autoCapitalize="none"
+                                    onChangeText={(text) => setNowComment(text)}
+                                    value={nowComment}></TextInput>
+                                <TouchableOpacity
+                                    style={styles.CommentSendingTouch}
+                                    onPress={() => CommentSendingPress}>
+                                    <CommentSending />
+                                </TouchableOpacity>
+                            </Layout>
+                        ) : null}
                     </Layout>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -576,26 +564,28 @@ export const SeriesAInfoScreen = (
                         onPress={() => props.navigation.goBack()}>
                         <AngleLeft style={styles.AngleLeft} />
                     </TouchableOpacity>
-                    <Layout style={styles.TopTabIconLayout}>
-                        <TouchableOpacity
-                            style={styles.BookmarkTouch}
-                            onPress={() => PressBookmark}>
-                            {bookmarkList.indexOf(Id) == -1 ? (
-                                <Bookmark />
-                            ) : (
-                                <Bookmark_P />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.PlusTouch}
-                            onPress={() => PressPlus}>
-                            {content?.plus.indexOf(uid) == -1 ? (
-                                <Plus />
-                            ) : (
-                                <Plus_P />
-                            )}
-                        </TouchableOpacity>
-                    </Layout>
+                    {uid ? (
+                        <Layout style={styles.TopTabIconLayout}>
+                            <TouchableOpacity
+                                style={styles.BookmarkTouch}
+                                onPress={() => PressBookmark}>
+                                {bookmarkList.indexOf(Id) == -1 ? (
+                                    <Bookmark />
+                                ) : (
+                                    <Bookmark_P />
+                                )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.PlusTouch}
+                                onPress={() => PressPlus}>
+                                {content?.plus.indexOf(uid) == -1 ? (
+                                    <Plus />
+                                ) : (
+                                    <Plus_P />
+                                )}
+                            </TouchableOpacity>
+                        </Layout>
+                    ) : null}
                 </Layout>
             </Layout>
         </Layout>
