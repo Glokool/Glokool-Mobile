@@ -64,17 +64,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     ModalIconContainer: {
-        flex: 0.5,
+        flex: 1,
         alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: '#00FF0000', 
     },
     CancelIcon: {
-        marginRight: 30,
+        marginRight: 20,
+        padding: 10,
     },
     ModalTxtContainer: {
-        flex: 0.8,
-        justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#00FF0000',
     },
@@ -87,8 +88,9 @@ const styles = StyleSheet.create({
     ModalBtnContainer:{
         backgroundColor: '#00FF0000', 
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
+        // borderWidth: 1,
     },
     modalDesc: {
         fontFamily : 'IBMPlexSansKR-Medium',

@@ -349,19 +349,26 @@ export const SeriesHiddenGemContentAttr = (
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
-                        <Layout>
-                            <Layout style={styles.EditorNoteContainer}>
+                        <Layout style={styles.EditorNoteContainer}>
+                            <Layout style={styles.EditorNoteInnerContainer}>
                                 <EditorNote_Check />
                                 <Text style={styles.EditorNoteText}>
                                     {item}
+                                    {index}
                                 </Text>
                             </Layout>
-
+                        {index == data.editorNote.length - 1 ? 
+                            null
+                        : 
                             <Divider style={styles.EditorNoteDivider} />
+                        } 
                         </Layout>
                     ))}
                 </Layout>
-                {/* <EditorNoteLine style = {{borderWidth: 1}} />                 */}
+
+                {/* <Layout style={styles.EditorNoteEndLine}>
+                    <EditorNoteLine style = {{ width: WindowSize, left: -30,}} />                
+                </Layout> */}
 
                 {/* 포토스팟 컨테이너 */}
                 <Layout
@@ -641,6 +648,7 @@ const styles = StyleSheet.create({
     },
     InfoContainer: {
         marginHorizontal: 30,
+        marginBottom: 30,
     },
     ContainerTitle: {
         flexDirection: 'row',
@@ -742,13 +750,17 @@ const styles = StyleSheet.create({
     EditorNoteTitleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 15,
+        marginVertical: 20,
     },
     EditorNoteTitle: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 20,
     },
     EditorNoteContainer: {
+        // marginVertical: 10,
+        // marginBottom: 20,
+    },
+    EditorNoteInnerContainer:{
         flexDirection: 'row',
         alignItems: 'flex-start',
     },
@@ -763,6 +775,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginVertical: 15,
         backgroundColor: '#8797FF',
+    },
+    EditorNoteEndLine: {
+        // borderWidth: 1,
+        marginVertical: 15,
     },
     PhotoSpotTitle: {
         fontFamily: 'IBMPlexSansKR-Medium',

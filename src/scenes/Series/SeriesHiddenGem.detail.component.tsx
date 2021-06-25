@@ -180,7 +180,11 @@ export const SeriesHiddenGemDetailScreen = (
                 <Layout style={styles.ButtonContainer}>
                     <TouchableOpacity
                         style={styles.TextButton}
-                        onPress={() => setMap(true)}>
+                        onPress={() => {
+                            setMap(true);
+                            setSelectedButton(3);
+                            }
+                        }>
                         <Map />
                     </TouchableOpacity>
 
