@@ -35,7 +35,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     function PressChatRoom(item: GloChatData) {
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
-            guide: { name: item.guide.name, uid: item.guide.uid },
+            guide: { name: item.guide.name, uid: item.guide.uid, token : item.guide.token },
             finish: true,
         });
     }
