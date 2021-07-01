@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {
     BottomTabBarOptions,
     BottomTabBarProps,
@@ -21,6 +21,7 @@ import {
 import {
     Chat,
     Chat_S,
+    Chat_Alert,
     Home,
     Home_S,
     MyPage,
@@ -29,6 +30,7 @@ import {
     Series_S,
 } from '../assets/icon/BottomNavigation';
 import { NavigatorRoute } from './app.route';
+import { ChatContext } from '../context/ChatContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +39,8 @@ function MyTabBar({
     descriptors,
     navigation,
 }: BottomTabBarProps<BottomTabBarOptions>) {
+    const { onChat } = useContext(ChatContext);
+
     const [visible, setVisible] = React.useState(true);
 
     const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -148,8 +152,8 @@ function MyTabBar({
                                 ) : label === NavigatorRoute.CHAT ? (
                                     isFocused ? (
                                         <Chat_S />
-                                    ) : (
-                                        <Chat />
+                                    ) : ( onChat ?
+                                            <Chat_Alert/> : <Chat />
                                     )
                                 ) : label === NavigatorRoute.SERIES ? (
                                     isFocused ? (

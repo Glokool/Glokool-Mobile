@@ -66,6 +66,7 @@ import {
     Voice,
 } from '../../assets/icon/Chat';
 import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
+import messaging from '@react-native-firebase/messaging';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -110,9 +111,27 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [audioMessage, setAudioMessage] = React.useState('');
     const [audioPath, setAudioPath] = React.useState('');
 
+    const [token, setToken] = React.useState('');
+
+    const [guideToken, setGuideToken] = React.useState('');
+
+    messaging()
+        .getToken()
+        .then((currentToken) => {
+            setToken(currentToken);
+        });
+
+    const getGuideToken = async (uid: string) => {
+        const res = await axios.get(`${SERVER}/api/guides/${uid}/token`);
+        setGuideToken(res.data.token);
+    };
+
+    React.useEffect(() => {
+        getGuideToken(props.route.params.guide.uid);
+    }, []);
+
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            console.log(props.route.params);
             ChatRoomInit(props.route.params.id);
         });
 
@@ -374,6 +393,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         );
     };
 
+    /* FCM 백엔드 메시지 전송*/
+    const sendMessage = (message) => {
+        axios.post(`${SERVER}/api/notification`, {
+            token: guideToken,
+            user: message.user.name,
+            message: message.text,
+        });
+    };
+
     /*
         채팅 창 디자인을 위한 컴포넌트
 
@@ -384,7 +412,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         messages[0].createdAt = new Date().getTime();
 
         if (filterText(messages[0].text)) {
-            await ChatDB.update({ messages: [messages[0], ...chatMessages] });
+            await Promise.all([
+                ChatDB.update({ messages: [messages[0], ...chatMessages] }),
+                sendMessage(messages[0]),
+            ]);
+
+            // await ChatDB.update({ messages: [messages[0], ...chatMessages] });
         } else {
             ToastRef.show(
                 'Please refrain from any content that may offend the other person.',
