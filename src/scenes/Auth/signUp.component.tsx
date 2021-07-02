@@ -1,6 +1,8 @@
 import React from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import firebase from "firebase/app";
+
 import {
   StyleSheet,
   SafeAreaView,

@@ -44,6 +44,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Glokool-tvOS";
 		};
+		324BD4AC2689C7F5007192B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 324BD4A82689C7F5007192B6 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
+		};
 		DF7D4DF2267590C200B027FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */;
@@ -74,6 +81,7 @@
 		16FC9B879A527F02AFC735B3 /* Pods-Glokool-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Glokool-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Glokool-tvOS/Pods-Glokool-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Glokool-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Glokool-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Glokool-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Glokool-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		324BD4A82689C7F5007192B6 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../../../Downloads/react-native-fbsdk-3.0.0/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		36CFEACAB0FAC9D4B37E2722 /* libPods-Glokool.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Glokool.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		486283A7D9B9E0638CED9DE6 /* Pods-Glokool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Glokool.release.xcconfig"; path = "Target Support Files/Pods-Glokool/Pods-Glokool.release.xcconfig"; sourceTree = "<group>"; };
 		58E11586CCD4F92AFF8386E0 /* libPods-Glokool-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Glokool-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,9 +191,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		324BD4A92689C7F5007192B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				324BD4AD2689C7F5007192B6 /* libRCTFBSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				324BD4A82689C7F5007192B6 /* RCTFBSDK.xcodeproj */,
 				DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */,
 				DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */,
 			);
@@ -381,6 +398,10 @@
 					ProjectRef = DF7D4DEE267590C100B027FE /* IamportReactNative.xcodeproj */;
 				},
 				{
+					ProductGroup = 324BD4A92689C7F5007192B6 /* Products */;
+					ProjectRef = 324BD4A82689C7F5007192B6 /* RCTFBSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = DF7D4DF52675911300B027FE /* Products */;
 					ProjectRef = DF7D4DF42675911300B027FE /* RNCWebView.xcodeproj */;
 				},
@@ -396,6 +417,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		324BD4AD2689C7F5007192B6 /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = 324BD4AC2689C7F5007192B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DF7D4DF3267590C200B027FE /* libIamportReactNative.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -495,6 +523,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Glokool-GlokoolTests/Pods-Glokool-GlokoolTests-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Braintree/Braintree-UI-Localization.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Braintree/Braintree-Drop-In-Localization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
@@ -504,6 +533,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Braintree-UI-Localization.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Braintree-Drop-In-Localization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
@@ -523,6 +553,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Glokool/Pods-Glokool-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Braintree/Braintree-UI-Localization.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Braintree/Braintree-Drop-In-Localization.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
@@ -532,6 +563,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Braintree-UI-Localization.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Braintree-Drop-In-Localization.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
