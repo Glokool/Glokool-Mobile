@@ -183,7 +183,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     //오디오 녹음 창
     const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => {});
+        AudioRecorder.requestAuthorization().then((isAuthorised) => {
+        });
 
         if (startAudio == false) {
             //오디오 버튼 시작
@@ -243,7 +244,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messageType: 'audio',
                     };
 
-                    ChatDB.update({ messages: [message, ...chatMessages] });
+
+                    Promise.all([
+                        ChatDB.update({ messages: [message, ...chatMessages] }),
+                        createPushNoti('음성메시지를 보냈습니다.'),
+                    ]);
+
                     setAudioPath('');
                     setAudioVisible(false);
                 });
@@ -302,11 +308,19 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         },
                     );
                 }}>
-                <FontAwesomeIcon icon={faPlay} size={16} />
+                <FontAwesomeIcon icon={faPlay} size={16}/>
             </TouchableOpacity>
         );
     };
 
+    const createPushNoti = (message : string): object => {
+        return {
+            user: {
+                name: user?.displayName,
+            },
+            text: message,
+        };
+    };
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
         await launchImageLibrary(
@@ -335,7 +349,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
                         picRef.on(
                             storage.TaskEvent.STATE_CHANGED,
-                            function (snapshot) {
+                            function(snapshot) {
                                 var progress =
                                     (snapshot.bytesTransferred /
                                         snapshot.totalBytes) *
@@ -350,7 +364,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         break;
                                 }
                             },
-                            function (error) {
+                            function(error) {
                                 switch (error.code) {
                                     case 'storage/unauthorized':
                                         break;
@@ -362,10 +376,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         break;
                                 }
                             },
-                            function () {
+                            function() {
                                 picRef.snapshot.ref
                                     .getDownloadURL()
-                                    .then(function (downloadURL) {
+                                    .then(function(downloadURL) {
                                         //업로드 완료
                                         const message = {
                                             _id: MessageID,
@@ -377,12 +391,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             messageType: 'image',
                                         };
 
-                                        ChatDB.update({
-                                            messages: [
-                                                message,
-                                                ...chatMessages,
-                                            ],
-                                        });
+                                        const push = createPushNoti('이미지를 보냈습니다');
+
+                                        Promise.all([
+                                            ChatDB.update({
+                                                messages: [
+                                                    message,
+                                                    ...chatMessages,
+                                                ],
+                                            }),
+                                            sendMessage(push)
+                                        ])
                                     });
                             },
                         );
@@ -429,7 +448,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const renderSend = (props) => {
         return (
             <Send {...props} containerStyle={styles.sendButton}>
-                <SendIcon />
+                <SendIcon/>
             </Send>
         );
     };
@@ -491,7 +510,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             messageType: 'location',
                         };
 
-                        ChatDB.update({ messages: [message, ...chatMessages] });
+                        // 지도 주소 전송하는 방식으로 변경
+                        const push = createPushNoti('지도위치를 보냈습니다.');
+
+                        Promise.all([
+                            ChatDB.update({ messages: [message, ...chatMessages] }),
+                            sendMessage(push)
+                        ])
+                        
                     },
                     (error) => {
                         console.log(
@@ -729,7 +755,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (!chatMessages.length && !fechChat) {
             return (
                 <Layout style={styles.loading}>
-                    <Spinner size="giant" />
+                    <Spinner size="giant"/>
                 </Layout>
             );
         }
@@ -756,7 +782,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
                 <TouchableOpacity onPress={() => setMapvisible(false)}>
-                    <FontAwesomeIcon icon={faTimes} size={28} />
+                    <FontAwesomeIcon icon={faTimes} size={28}/>
                 </TouchableOpacity>
             </Layout>
         </Layout>
@@ -767,7 +793,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         <Layout
             style={{ width: '100%', height: '100%' }}
             onTouchStart={Keyboard.dismiss}>
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }}/>
 
             <KeyboardAvoidingView
                 style={styles.Container}
@@ -817,7 +843,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
                             <TouchableOpacity
                                 onPress={() => setGuideVisible(false)}>
-                                <FontAwesomeIcon icon={faTimes} size={20} />
+                                <FontAwesomeIcon icon={faTimes} size={20}/>
                             </TouchableOpacity>
                         </Layout>
 
@@ -917,7 +943,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         onPress={() => {
                             props.navigation.goBack();
                         }}>
-                        <AngleLeft_Color />
+                        <AngleLeft_Color/>
                     </TouchableOpacity>
 
                     <Layout style={styles.profileContainer}>
@@ -943,7 +969,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 },
                             });
                         }}>
-                        <Help />
+                        <Help/>
                     </TouchableOpacity>
                 </Layout>
 
@@ -956,7 +982,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             <TouchableOpacity
                                 style={styles.SideButton}
                                 onPress={async () => await LocationMessage()}>
-                                <MyLocation />
+                                <MyLocation/>
                                 <Text style={styles.SideButtonTxt}>
                                     My Location
                                 </Text>
@@ -965,14 +991,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             <TouchableOpacity
                                 style={styles.SideButton}
                                 onPress={() => setAudioVisible(true)}>
-                                <Voice />
+                                <Voice/>
                                 <Text style={styles.SideButtonTxt}>Voices</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
                                 style={styles.SideButton}
                                 onPress={async () => await ImageSend()}>
-                                <Images />
+                                <Images/>
                                 <Text style={styles.SideButtonTxt}>Images</Text>
                             </TouchableOpacity>
                         </Layout>
@@ -991,7 +1017,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <TouchableOpacity
                             style={styles.VoiceContainerExitButton}
                             onPress={() => audioExit()}>
-                            <Exit_C />
+                            <Exit_C/>
                         </TouchableOpacity>
 
                         <Layout style={styles.VoiceRecorder}>
@@ -1007,12 +1033,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 onPress={handleAudio}>
                                 {audioPath == '' ? (
                                     startAudio === true ? (
-                                        <Chat_Voice_Stop />
+                                        <Chat_Voice_Stop/>
                                     ) : (
-                                        <Chat_Voice_Start />
+                                        <Chat_Voice_Start/>
                                     )
                                 ) : (
-                                    <Chat_Voice_End />
+                                    <Chat_Voice_End/>
                                 )}
                             </TouchableOpacity>
 
