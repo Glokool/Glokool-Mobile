@@ -60,10 +60,11 @@ import {
     Chat_Voice_Stop,
     Help,
     Images,
+    Camera,
     Menu,
     MyLocation,
     SendIcon,
-    Voice,
+    Record,
 } from '../../assets/icon/Chat';
 import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
 import messaging from '@react-native-firebase/messaging';
@@ -981,17 +982,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Layout style={styles.SideContainer}>
                             <TouchableOpacity
                                 style={styles.SideButton}
-                                onPress={async () => await LocationMessage()}>
-                                <MyLocation/>
-                                <Text style={styles.SideButtonTxt}>
-                                    My Location
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.SideButton}
                                 onPress={() => setAudioVisible(true)}>
-                                <Voice/>
+                                <Record/>
                                 <Text style={styles.SideButtonTxt}>Voices</Text>
                             </TouchableOpacity>
 
@@ -1000,6 +992,22 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 onPress={async () => await ImageSend()}>
                                 <Images/>
                                 <Text style={styles.SideButtonTxt}>Images</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.SideButton}
+                                onPress={async () => await takePhoto()}>
+                                <Camera/>
+                                <Text style={styles.SideButtonTxt}>Camera</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.SideButton}
+                                onPress={async () => await LocationMessage()}>
+                                <MyLocation/>
+                                <Text style={styles.SideButtonTxt}>
+                                    My Location
+                                </Text>
                             </TouchableOpacity>
                         </Layout>
                     </Layout>
@@ -1252,7 +1260,7 @@ const styles = StyleSheet.create({
     SideButtonTxt: {
         fontFamily: 'IBMPlexSansKR-Medium',
         color: '#8C8C8C',
-        fontSize: 14,
+        fontSize: 12,
     },
     BackDropContainer: {
         width: WindowWidth,

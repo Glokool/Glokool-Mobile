@@ -4,7 +4,8 @@ import Menu from './Menu.svg';
 
 import MyLocation from './MyLocation.svg';
 import Images from './Images.svg';
-import Voice from './Voice.svg';
+import Camera from './Camera.svg';
+import Record from './Record.svg';
 import Report from './Report.svg';
 import EmergencyCall from './EmergencyCall.svg';
 
@@ -18,7 +19,8 @@ export {
     SendIcon,
     MyLocation,
     Images,
-    Voice,
+    Record,
+    Camera,
     Report,
     EmergencyCall,
 
