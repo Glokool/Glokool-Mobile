@@ -36,7 +36,7 @@ import {
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import storage from '@react-native-firebase/storage';
-import { launchImageLibrary } from 'react-native-image-picker/src';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faTimes,
@@ -74,6 +74,32 @@ const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
+    /* 카메라 권한 요청*/
+    const requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                    title: "Cool Photo App Camera Permission",
+                    message:
+                        "Cool Photo App needs access to your camera " +
+                        "so you can take awesome pictures.",
+                    buttonNeutral: "Ask Me Later",
+                    buttonNegative: "Cancel",
+                    buttonPositive: "OK"
+                }
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                await takePhoto();
+                console.log("You can use the camera");
+            } else {
+                console.log("Camera permission denied");
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
     const user = auth().currentUser;
     const Ref = React.useRef(null);
 
@@ -322,6 +348,101 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             text: message,
         };
     };
+
+    /*이미지 촬영 */
+    const takePhoto = async () => {
+        try {
+            await launchCamera(
+                {
+                    mediaType : 'photo',
+                    includeBase64: true,
+                    quality: 0.8
+                },(response)=>{
+                    if (response) {
+                        if (response.didCancel == true) {
+                            //중도 취소시
+                        } else {
+                            const MessageID = messageIdGenerator();
+
+                            const FileName = response.fileName;
+                            var type = response.type;
+
+                            const imageType = type.split('/');
+                            const reference = storage().ref();
+
+                            const picRef = reference
+                                .child(
+                                    `chats/${roomName}/picture/${MessageID}.${imageType[1]}`,
+                                )
+                                .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
+                            picRef.on(
+                                storage.TaskEvent.STATE_CHANGED,
+                                function(snapshot) {
+                                    var progress =
+                                        (snapshot.bytesTransferred /
+                                            snapshot.totalBytes) *
+                                        100;
+                                    console.log('Upload is ' + progress + '% done');
+                                    switch (snapshot.state) {
+                                        case storage.TaskState.PAUSED:
+                                            console.log('Upload is paused');
+                                            break;
+                                        case storage.TaskState.RUNNING:
+                                            console.log('Upload is running');
+                                            break;
+                                    }
+                                },
+                                function(error) {
+                                    switch (error.code) {
+                                        case 'storage/unauthorized':
+                                            break;
+
+                                        case 'storage/canceled':
+                                            break;
+
+                                        case 'storage/unknown':
+                                            break;
+                                    }
+                                },
+                                function() {
+                                    picRef.snapshot.ref
+                                        .getDownloadURL()
+                                        .then(function(downloadURL) {
+                                            //업로드 완료
+                                            const message = {
+                                                _id: MessageID,
+                                                createdAt: new Date().getTime(),
+                                                user: {
+                                                    _id: user?.uid,
+                                                },
+                                                image: downloadURL, //다운로드URL 전달
+                                                messageType: 'image',
+                                            };
+
+                                            const push = createPushNoti('이미지를 보냈습니다');
+
+                                            Promise.all([
+                                                ChatDB.update({
+                                                    messages: [
+                                                        message,
+                                                        ...chatMessages,
+                                                    ],
+                                                }),
+                                                sendMessage(push)
+                                            ])
+                                        });
+                                },
+                            );
+                        }
+                    }
+                }
+            )
+        } catch (e) {
+            console.log('사진 촬영 에러',e);
+        }
+    }
+
+
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
         await launchImageLibrary(
@@ -812,6 +933,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             name: user?.displayName,
                             avatar: user?.photoURL,
                         }}
+
                         listViewProps={{
                             initialNumToRender: 15,
                         }}
@@ -996,7 +1118,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                             <TouchableOpacity
                                 style={styles.SideButton}
-                                onPress={async () => await takePhoto()}>
+                                onPress={async () => await requestCameraPermission()}>
                                 <Camera/>
                                 <Text style={styles.SideButtonTxt}>Camera</Text>
                             </TouchableOpacity>
