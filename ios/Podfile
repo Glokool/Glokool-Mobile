@@ -29,6 +29,8 @@ target 'Glokool' do
   # pod 'react-native-fbsdk-next', :path => '../node_modules/react-native-fbsdk-next'
   
 
+  pod 'GoogleSignIn'
+  
   pod 'FBSDKLoginKit'
   # pod 'FBSDKCoreKit'
   # pod 'FBSDKShareKit'

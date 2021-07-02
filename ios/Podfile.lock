@@ -786,7 +786,7 @@ PODS:
   - RNFBApp (12.0.0):
     - Firebase/CoreOnly (= 8.0.0)
     - React-Core
-  - RNFBAuth (12.0.0):
+  - RNFBAuth (12.1.0):
     - Firebase/Auth (= 8.0.0)
     - React-Core
     - RNFBApp
@@ -869,6 +869,7 @@ DEPENDENCIES:
   - FBSDKLoginKit
   - Firebase/Analytics
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleSignIn
   - IamportReactNative (from `../node_modules/iamport-react-native`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
@@ -1171,7 +1172,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: cc2ff3f925840c53f0117d92e0f5e269b356d0f7
-  RNFBAuth: 6853dd2d92ed8635831679b695a6690151ae6b77
+  RNFBAuth: 584f61e9cb3a5686e50e2e148f5ea3a0a47a1b60
   RNFBDatabase: da5a3f22b05750d334ae34458cc6317d558eb719
   RNFBFirestore: a709273bc1c35525a18a6e60b3893866754c194b
   RNFBMessaging: ba11538f4d76a5ef89dc8c97dad04fbf2fa6ebef
@@ -1187,6 +1188,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
 
-PODFILE CHECKSUM: 28bc2e8841854e0b7c143cb921047137154b16a3
+PODFILE CHECKSUM: 3dbe8948b91c01de662fa1f95acb64f1b4284ceb
 
 COCOAPODS: 1.10.1

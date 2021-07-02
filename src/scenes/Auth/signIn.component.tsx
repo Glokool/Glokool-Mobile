@@ -124,15 +124,30 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   // Google login 
   async function onGoogleButtonPress() {
+
+    
+
+
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
     
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    console.log(auth.GoogleAuthProvider.credential(idToken))
+    console.log("token: " + auth.GoogleAuthProvider.credential(idToken).token)
   
     // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+    auth().signInWithCredential(googleCredential);
+
+    console.log("uid=>" + googleCredential.providerId)
+    
+    props.navigation.navigate(SceneRoute.SNS_SIGN_UP)
+
+    auth().onAuthStateChanged(function(user){
+      if(user){
+        console.log("name: " + user)
+      }
+    })
+
   }
 
 
@@ -326,7 +341,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
             <TouchableOpacity>
             <Button
               title="Google Sign-In"
-              onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
+              onPress={() => onGoogleButtonPress()}
             />
             </TouchableOpacity>
             <TouchableOpacity>

@@ -58,6 +58,7 @@ export enum SceneRoute {
     //Auth Navigator
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
+    SNS_SIGN_UP = 'Sns Sign Up',
     EMAIL_VERIFICATION = 'Email Verification',
     EMAIL_FAIL = 'Email Fail',
     PASSWORD = 'Password',

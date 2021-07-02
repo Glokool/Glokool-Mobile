@@ -12,12 +12,14 @@ import {
     EmailVerificationScreen,
     EmailFailScreen,
     PasswordResetScreen,
+    SnsSignupScreen,
 } from '../scenes/Auth';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 type AuthNavigatorParams = AppNavigatorParams & {
     [SceneRoute.SIGN_IN]: undefined;
     [SceneRoute.SIGN_UP]: undefined;
+    [SceneRoute.SNS_SIGN_UP]: undefined;
     [SceneRoute.EMAIL_VERIFICATION]: undefined;
     [SceneRoute.EMAIL_FAIL]: {
         email: string;
@@ -34,6 +36,11 @@ export interface SignInScreenProps {
 export interface SignUpScreenProps {
     navigation: StackNavigationProp<AuthNavigatorParams, SceneRoute.SIGN_UP>;
     route: RouteProp<AuthNavigatorParams, SceneRoute.SIGN_UP>;
+}
+
+export interface SnsSignUpScreenProps {
+    navigation: StackNavigationProp<AuthNavigatorParams, SceneRoute.SNS_SIGN_UP>;
+    route: RouteProp<AuthNavigatorParams, SceneRoute.SNS_SIGN_UP>;
 }
 
 export interface EmailVerificationScreenProps {
@@ -57,6 +64,7 @@ export const AuthNavigator = (): React.ReactElement => (
     <Stack.Navigator headerMode="none">
         <Stack.Screen name={SceneRoute.SIGN_IN} component={SigninScreen} />
         <Stack.Screen name={SceneRoute.SIGN_UP} component={SignupScreen} />
+        <Stack.Screen name={SceneRoute.SNS_SIGN_UP} component={SnsSignupScreen} />
         <Stack.Screen
             name={SceneRoute.EMAIL_VERIFICATION}
             component={EmailVerificationScreen}
