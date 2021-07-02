@@ -1,6 +1,8 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
+import firebase from "@react-native-firebase/app";
+import 'firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
@@ -29,6 +31,7 @@ import { AngleLeft_Color } from '../../assets/icon/Common';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginButton, AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
+import { Alert } from '../../assets/icon/Auth';
 
 
 GoogleSignin.configure({
@@ -37,6 +40,7 @@ GoogleSignin.configure({
 
 var toastRef : any;
 const WindowSize = Dimensions.get('window').width
+
 
 export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
@@ -59,7 +63,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
       auth().signInWithEmailAndPassword(values.email, values.password)
         .then((user) => {    
           
-          firebase().collection('Users').doc(user.user.uid).get()
+          firestore().collection('Users').doc(user.user.uid).get()
               .then((result) => {
                   if (user.user.emailVerified == true) {
                     toastRef.show("Login Success!");
@@ -88,6 +92,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const [authenticated, setAutheticated] = React.useState(false);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -133,6 +138,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   // Facebook login
    function onFacebookButtonPress() {
+
     LoginManager.logInWithPermissions(["public_profile", "email"]).then(
       function(result) {
         console.log(
@@ -142,7 +148,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         if (result.isCancelled) {
           console.log("Login cancelled");
         } else {
-          Profile.getCurrentProfile().then(
+          const  currentProfile = Profile.getCurrentProfile().then(
             function(currentProfile) {
               if (currentProfile) {
                 console.log("The current logged user is: " +
@@ -152,15 +158,38 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
                   " email: " + currentProfile.email 
                 );
               }
-              // firebase uid 생성 (최초 계정 연동)
-              const provider = new firebase.auth.FacebookAuthProvider();
-              provider.addScope('user_birthday');
-
-             
-
             }
-            
           );
+
+          // facebook access token 
+          const data = AccessToken.getCurrentAccessToken().then(
+            (data) => {
+              if(data){
+                const facebookCredential = auth.FacebookAuthProvider.credential(data?.accessToken);
+                return auth().signInWithCredential(facebookCredential);
+              }else{
+                throw 'Something went wrong obtaining access token';
+              }
+            }
+          )
+
+          
+          auth().onAuthStateChanged((user) => {
+            if(user) {
+              setAutheticated(true);
+            }
+          })
+          
+
+          if (authenticated) {
+            toastRef.show("Login Success!");
+            props.navigation.dispatch(MainNavigate);
+          }
+          
+
+
+
+
           }
         },
 
@@ -169,53 +198,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         }
         );
 
-        // // Sign in using a popup.
-        // const provider = new firebase.auth.FacebookAuthProvider();
-        // provider.addScope('user_birthday');
-        // console.log(provider.addScope('user_birthday'))
-        // firebase.auth().signInWithPopup(provider).then(function(result) {
-        //   // This gives you a Facebook Access Token.
-        //   const token = result.credential.accessToken;
-        //   // The signed-in user info.
-        //   const user = result.user;
-        // });
+
 
       }
-
-    
-      
-      function facebookSignInPopup(provider) {
-        // [START auth_facebook_signin_popup]
-        firebase
-          .auth()
-          .signInWithPopup(provider)
-          .then((result) => {
-            /** @type {firebase.auth.OAuthCredential} */
-            var credential = result.credential;
-      
-            // The signed-in user info.
-            var user = result.user;
-      
-            // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-            var accessToken = credential.accessToken;
-      
-            // ...
-          })
-          .catch((error) => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-      
-            // ...
-          });
-        // [END auth_facebook_signin_popup]
-      }
-      
-      
 
      
 
@@ -345,14 +330,14 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
             />
             </TouchableOpacity>
             <TouchableOpacity>
-            {/* <Button
+            <Button
             title="Facebook Sign-In"
-            onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
-            /> */}
-             <LoginButton
+            onPress={() => onFacebookButtonPress()}
+            />
+             {/* <LoginButton
             onLoginFinished={() => onFacebookButtonPress()}
             onLogoutFinished={() => console.log('logout.')}
-            />
+            /> */}
             </TouchableOpacity>
             <Text>
             </Text>

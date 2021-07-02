@@ -68,7 +68,6 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   const [startDay, setStartDay] = React.useState(new Date(1900, 1, 1));
   const [yesterDay, setYesterDay] = React.useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1));
-
   
 
   const PressTerms = () => {
