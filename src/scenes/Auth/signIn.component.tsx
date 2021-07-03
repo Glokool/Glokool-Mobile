@@ -152,66 +152,88 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
 
   // Facebook login
-   function onFacebookButtonPress() {
+   const onFacebookButtonPress = async() => {
 
-    LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-      function(result) {
-        console.log(
-          "Login success with permissions: " +
-          result.grantedPermissions?.toString()
-          );
-        if (result.isCancelled) {
-          console.log("Login cancelled");
-        } else {
-          const  currentProfile = Profile.getCurrentProfile().then(
-            function(currentProfile) {
-              if (currentProfile) {
-                console.log("The current logged user is: " +
-                  currentProfile.name
-                  + ". His profile id is: " +
-                  currentProfile.userID  + 
-                  " email: " + currentProfile.email 
-                );
-              }
-            }
-          );
+      // Attempt login with permissions
+    const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
-          // facebook access token 
-          const data = AccessToken.getCurrentAccessToken().then(
-            (data) => {
-              if(data){
-                const facebookCredential = auth.FacebookAuthProvider.credential(data?.accessToken);
-                return auth().signInWithCredential(facebookCredential);
-              }else{
-                throw 'Something went wrong obtaining access token';
-              }
-            }
-          )
+    if (result.isCancelled) {
+      throw 'User cancelled the login process';
+    }
+
+    // Once signed in, get the users AccesToken
+    const data = await AccessToken.getCurrentAccessToken();
+
+    if (!data) {
+      throw 'Something went wrong obtaining access token';
+    }
+
+    // Create a Firebase credential with the AccessToken
+    const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+
+    // Sign-in the user with the credential
+    auth().signInWithCredential(facebookCredential);
+
+    props.navigation.navigate(SceneRoute.SNS_SIGN_UP)
+
+    // LoginManager.logInWithPermissions(["public_profile", "email"]).then(
+    //   function(result) {
+    //     console.log(
+    //       "Login success with permissions: " +
+    //       result.grantedPermissions?.toString()
+    //       );
+    //     if (result.isCancelled) {
+    //       console.log("Login cancelled");
+    //     } else {
+    //       const  currentProfile = Profile.getCurrentProfile().then(
+    //         function(currentProfile) {
+    //           if (currentProfile) {
+    //             console.log("The current logged user is: " +
+    //               currentProfile.name
+    //               + ". His profile id is: " +
+    //               currentProfile.userID  + 
+    //               " email: " + currentProfile.email 
+    //             );
+    //           }
+    //         }
+    //       );
+
+    //       // facebook access token 
+    //       const data = AccessToken.getCurrentAccessToken().then(
+    //         (data) => {
+    //           if(data){
+    //             const facebookCredential = auth.FacebookAuthProvider.credential(data?.accessToken);
+    //             return auth().signInWithCredential(facebookCredential);
+    //           }else{
+    //             throw 'Something went wrong obtaining access token';
+    //           }
+    //         }
+    //       )
 
           
-          auth().onAuthStateChanged((user) => {
-            if(user) {
-              setAutheticated(true);
-            }
-          })
+    //       auth().onAuthStateChanged((user) => {
+    //         if(user) {
+    //           setAutheticated(true);
+    //         }
+    //       })
           
 
-          if (authenticated) {
-            toastRef.show("Login Success!");
-            props.navigation.dispatch(MainNavigate);
-          }
+    //       if (authenticated) {
+    //         toastRef.show("Login Success!");
+    //         props.navigation.dispatch(MainNavigate);
+    //       }
           
 
 
 
 
-          }
-        },
+    //       }
+    //     },
 
-        function(error) {
-          console.log("Login fail with error: " + error);
-        }
-        );
+    //     function(error) {
+    //       console.log("Login fail with error: " + error);
+    //     }
+    //     );
 
 
 
