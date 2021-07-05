@@ -54,7 +54,7 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
            
 
                 <Layout style={(item.index % 2 === 0)? styles.TourContainerEvenLayout : styles.TourContainerOddLayout }>
-                    <TouchableOpacity style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
+                    <Layout style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onTouchEnd={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
                         
                         <Layout style={styles.ImageContainer}>
                             <Image source={{uri : item.item.banner}} style={(item.index % 2 === 0)? styles.ImageEven : styles.ImageOdd } resizeMode={'stretch'}/>
@@ -87,7 +87,7 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
 
                         </Layout>
                         
-                    </TouchableOpacity>
+                    </Layout>
                 </Layout>
         )
     }

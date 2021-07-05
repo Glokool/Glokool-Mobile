@@ -45,9 +45,9 @@ export const SeriesAList = (
     return (
         <Layout style={styles.SeriesContainer}>
             {content.map((item) => (
-                <TouchableOpacity
+                <Layout
                     style={styles.SeriesInnerContainer}
-                    onPress={() =>
+                    onTouchEnd={() =>
                         props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {
                             Id: item._id,
                         })
@@ -78,7 +78,7 @@ export const SeriesAList = (
                             </Layout>
                         </Layout>
                     </Layout>
-                </TouchableOpacity>
+                </Layout>
             ))}
         </Layout>
     );

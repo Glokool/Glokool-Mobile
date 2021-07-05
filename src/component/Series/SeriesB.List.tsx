@@ -48,7 +48,7 @@ export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement =
     return (
         <Layout style={styles.SeriesContainer} >
             {(content.map((item) =>
-                <TouchableOpacity style={styles.SeriesInnerContainer} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id})}>
+                <Layout style={styles.SeriesInnerContainer} onTouchEnd={() => props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id})}>
                     <Image style={styles.SeriesImage} source={{uri: item.cover}} />
                     <Layout style={styles.SeriesLayout}>
                         <Text style={styles.SeriesTxtStyle} numberOfLines = {2}>{item.title}</Text>
@@ -62,7 +62,7 @@ export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement =
                             </Layout>
                         </Layout>
                     </Layout>
-                </TouchableOpacity>
+                </Layout>
             ))}
         </Layout>
     )

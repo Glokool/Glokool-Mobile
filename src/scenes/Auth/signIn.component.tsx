@@ -31,7 +31,7 @@ import { AngleLeft_Color } from '../../assets/icon/Common';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginButton, AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
-import { Alert } from '../../assets/icon/Auth';
+import { Alert, GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
 
 
 GoogleSignin.configure({
@@ -91,8 +91,8 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = React.useState(true);
-  const [user, setUser] = React.useState(null);
-  const [authenticated, setAutheticated] = React.useState(false);
+  const [user, setUser] = React.useState();
+
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -100,9 +100,16 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     if (initializing) setInitializing(false);
   }
 
+  React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  // if (initializing) return null;
+
+
   // apple login 
   async function onAppleButtonPress() {
-    console.log('applelogin')
     // Start the sign-in request
     const appleAuthRequestResponse = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
@@ -122,43 +129,46 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     return auth().signInWithCredential(appleCredential);
   }
 
+
   // Google login 
   async function onGoogleButtonPress() {
-
-    
-
-
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
     
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    console.log("token: " + auth.GoogleAuthProvider.credential(idToken).token)
   
     // Sign-in the user with the credential
     auth().signInWithCredential(googleCredential);
 
-    console.log("uid=>" + googleCredential.providerId)
+    props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+
     
-    props.navigation.navigate(SceneRoute.SNS_SIGN_UP)
-
-    auth().onAuthStateChanged(function(user){
-      if(user){
-        console.log("name: " + user)
-      }
-    })
-
   }
 
 
   // Facebook login
    const onFacebookButtonPress = async() => {
+     console.log('dd')
 
       // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
       throw 'User cancelled the login process';
+    }else{
+      const  currentProfile = Profile.getCurrentProfile().then(
+        function(currentProfile) {
+          if (currentProfile) {
+            console.log("The current logged user is: " +
+              currentProfile.name
+              + ". His profile id is: " +
+              currentProfile.userID  + 
+              " email: " + currentProfile.email 
+            );
+          }
+        }
+      )
     }
 
     // Once signed in, get the users AccesToken
@@ -174,70 +184,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     // Sign-in the user with the credential
     auth().signInWithCredential(facebookCredential);
 
-    props.navigation.navigate(SceneRoute.SNS_SIGN_UP)
+    props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
 
-    // LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-    //   function(result) {
-    //     console.log(
-    //       "Login success with permissions: " +
-    //       result.grantedPermissions?.toString()
-    //       );
-    //     if (result.isCancelled) {
-    //       console.log("Login cancelled");
-    //     } else {
-    //       const  currentProfile = Profile.getCurrentProfile().then(
-    //         function(currentProfile) {
-    //           if (currentProfile) {
-    //             console.log("The current logged user is: " +
-    //               currentProfile.name
-    //               + ". His profile id is: " +
-    //               currentProfile.userID  + 
-    //               " email: " + currentProfile.email 
-    //             );
-    //           }
-    //         }
-    //       );
-
-    //       // facebook access token 
-    //       const data = AccessToken.getCurrentAccessToken().then(
-    //         (data) => {
-    //           if(data){
-    //             const facebookCredential = auth.FacebookAuthProvider.credential(data?.accessToken);
-    //             return auth().signInWithCredential(facebookCredential);
-    //           }else{
-    //             throw 'Something went wrong obtaining access token';
-    //           }
-    //         }
-    //       )
-
-          
-    //       auth().onAuthStateChanged((user) => {
-    //         if(user) {
-    //           setAutheticated(true);
-    //         }
-    //       })
-          
-
-    //       if (authenticated) {
-    //         toastRef.show("Login Success!");
-    //         props.navigation.dispatch(MainNavigate);
-    //       }
-          
-
-
-
-
-    //       }
-    //     },
-
-    //     function(error) {
-    //       console.log("Login fail with error: " + error);
-    //     }
-    //     );
-
-
-
-      }
+    }
 
      
 
@@ -332,7 +281,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
               <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
                 <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
               </Layout>
-          </Layout>  
+          </Layout>
 
           <Layout style={styles.titleContainer}>
             <Image source={require('../../assets/Glokool_Logo.png')} style={{width: 193, height: 30}} resizeMode={'stretch'}/>
@@ -347,37 +296,18 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           </Formik>              
 
             <Toast ref={(toast) => toastRef = toast} position={'center'}/>
-            
-            <TouchableOpacity>
-            <AppleButton
-             buttonStyle={AppleButton.Style.WHITE}
-             buttonType={AppleButton.Type.SIGN_IN}
-            style={{
-              width: 60,
-              height: 45,
-              borderWidth: 1,
-            }}
-            onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))}
-            />
+
+            <TouchableOpacity onPress={() => onGoogleButtonPress()}>
+              <GoogleLogin />
             </TouchableOpacity>
-            <TouchableOpacity>
-            <Button
-              title="Google Sign-In"
-              onPress={() => onGoogleButtonPress()}
-            />
+
+            <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))}>
+              <AppleLogin />
             </TouchableOpacity>
-            <TouchableOpacity>
-            <Button
-            title="Facebook Sign-In"
-            onPress={() => onFacebookButtonPress()}
-            />
-             {/* <LoginButton
-            onLoginFinished={() => onFacebookButtonPress()}
-            onLogoutFinished={() => console.log('logout.')}
-            /> */}
+
+            <TouchableOpacity onPress={() => onFacebookButtonPress()}>
+              <FbLogin />
             </TouchableOpacity>
-            <Text>
-            </Text>
         </ScrollView>
 
       

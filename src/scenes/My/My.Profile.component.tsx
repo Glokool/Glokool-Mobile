@@ -170,6 +170,8 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           }
       })
   }
+  console.log(auth().currentUser?.uid)
+  console.log(auth().currentUser?.displayName)
   React.useEffect(() => {
 
     const updateData = async() => {
@@ -290,7 +292,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                 value={name}
                 onChangeText={nextValue => setName(nextValue)}
               />
-              {/*<Text style={styles.title}>{userData?.name}</Text>*/}
+              <Text style={styles.title}>{userData?.name}</Text>
             </Layout>
           </Layout>
 

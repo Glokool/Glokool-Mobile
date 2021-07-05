@@ -1,8 +1,7 @@
 import React from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import firebase from "firebase/app";
-
+import firebase from "@react-native-firebase/app";
 import {
   StyleSheet,
   SafeAreaView,
@@ -10,7 +9,8 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView, 
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TextInput
 } from 'react-native';
 import {
   CheckBox,
@@ -33,7 +33,6 @@ import { FormInformation } from '../../component/form-information.component';
 import { SignUpData, SignUpSchema } from '../../data/sign-up.model';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/countryTypes'
-import { SignUpScreenProps } from '../../navigation/auth.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft, faTimes}  from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
@@ -51,6 +50,7 @@ const useDatepickerState = (initialDate = null) => {
 
 export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
       
+
         const minMaxPickerState = useDatepickerState();
       
         //내부 로직용 (비밀번호 디스플레이), 
@@ -81,21 +81,21 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
           setPrivacyPolicy(false);
         }
       
-        const TermsConditionsHeader = (props : any) => (
-          <Layout style={{flexDirection: 'row', padding: 20}}>
-            <Layout style={{flex: 1, alignItems: 'flex-start'}}>
-              <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Terms and Conditions</Text>
-            </Layout>
+        // const TermsConditionsHeader = (props : any) => (
+        //   <Layout style={{flexDirection: 'row', padding: 20}}>
+        //     <Layout style={{flex: 1, alignItems: 'flex-start'}}>
+        //       <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Terms and Conditions</Text>
+        //     </Layout>
                         
             
-            <Layout style={{flex: 1, alignItems: 'flex-end'}}>
-              <TouchableOpacity onPress={PressX}>
-                <FontAwesomeIcon icon={faTimes} size={28}/>
-              </TouchableOpacity> 
-            </Layout>
+        //     <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+        //       <TouchableOpacity onPress={PressX}>
+        //         <FontAwesomeIcon icon={faTimes} size={28}/>
+        //       </TouchableOpacity> 
+        //     </Layout>
             
-          </Layout>      
-        );
+        //   </Layout>      
+        // );
       
         const PrivacyPolicyHeader = (props : any) => (
           <Layout style={{flexDirection: 'row', padding: 20}}>
@@ -152,6 +152,53 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
           setCountryCode(country.cca2)
           setCountry(country)
         }
+
+
+          // Set an initializing state whilst Firebase connects
+        const [initializing, setInitializing] = React.useState(true);
+        const [user, setUser] = React.useState(null);
+
+
+        // Handle user state changes
+        function onAuthStateChanged(user) {
+          setUser(user);
+          if (initializing) setInitializing(false);
+        }
+
+        React.useEffect(() => {
+          const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+          console.log('user: ' + user);
+          InitSnsSign();
+         console.log('snspage: ' + auth().currentUser?.displayName);
+          return subscriber; // unsubscribe on unmount
+        }, []);
+
+
+        const [name, setName] = React.useState<string>();
+        const [email, setEmail] = React.useState<string>();
+
+
+         const InitSnsSign = () => {
+           const user = auth().currentUser;
+           if (user !== null) {
+              user.providerData.forEach((profile) => {
+                console.log("Sign-in provider: " + profile?.providerId);
+                console.log("  Provider-specific UID: " + profile?.uid);
+                console.log("  Name: " + profile?.displayName);
+                console.log("  Email: " + profile?.email);
+                console.log("  Photo URL: " + profile?.photoURL);
+                console.log("login 정보 end ");
+                setName(profile.displayName);
+                setEmail(profile.email);
+              });
+            }
+          }
+        // React.useEffect(() => {
+        //   InitSnsSign();
+        //   console.log(name);
+
+        // }, [])
+
   
   return (
     <React.Fragment>
@@ -164,17 +211,25 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
         <Layout style={styles.formContainer}>
         <View style={{flex: 1, marginBottom: 56}}>
         <Text style={styles.smallTitle}>Name</Text>
-          <FormInformation
-            id='name'
+        {auth().currentUser?.displayName ? (
+          <TextInput
+          style={styles.formControl}
+          placeholder='Name'
+          value={name}
+        />
+        ) : (
+          <TextInput
             style={styles.formControl}
             placeholder='Name'
           />
+        )}
+          
           <Text style={styles.smallTitle}>E-Mail</Text>
-          <FormInformation
-            id='email'
+          <TextInput
             style={styles.formControl}
             placeholder='Email'
             keyboardType='email-address'
+            value={email}
           />
           <Text style={styles.smallTitle}>Type</Text>
           <Select
@@ -254,15 +309,18 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
 
         </View>   
         </Layout>
-
+        
+        <TouchableOpacity style={styles.SaveButton} onPress={() => PressChange()}>
+            <Text style={styles.ButtonText2}>Save the Profile</Text>             
+        </TouchableOpacity> 
 
         <Modal
             visible={termsCondition}
             backdropStyle={styles.backdrop}
         >
-            <Card disabled={true} header={TermsConditionsHeader} style={{width: (Dimensions.get('window').width * 0.8), height: (Dimensions.get('window').height * 0.8)}}>
+            {/* <Card disabled={true} header={TermsConditionsHeader} style={{width: (Dimensions.get('window').width * 0.8), height: (Dimensions.get('window').height * 0.8)}}>
             {TermsConditionCard()}
-            </Card>
+            </Card> */}
         </Modal>
 
         <Modal
@@ -334,6 +392,9 @@ const styles = StyleSheet.create({
   },
   formControl: {
     marginVertical: 4,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF',
+    borderBottomColor: '#C9C9C9'
   },
   submitButton: {
     marginVertical: 10,
@@ -380,6 +441,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  SaveButton: {
+    width: Dimensions.get('window').width - 60,
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    height: 50,
+    borderWidth: 1.5,
+    borderColor: '#8797FF',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  ButtonText2: {
+    fontFamily: 'BrandonGrotesque-Bold',
+    fontSize: 22,
+    color: '#8797FF'
   },
   ButtonText: {
     fontFamily: 'BrandonGrotesque-BoldItalic',

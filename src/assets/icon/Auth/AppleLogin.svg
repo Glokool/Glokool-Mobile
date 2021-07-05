@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="366" height="61" viewBox="0 0 366 61">
+  <defs>
+    <filter id="사각형_2691" x="0" y="0" width="366" height="61" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="그룹_1644" data-name="그룹 1644" transform="translate(-24 -610.619)">
+    <g id="그룹_1645" data-name="그룹 1645">
+      <g transform="matrix(1, 0, 0, 1, 24, 610.62)" filter="url(#사각형_2691)">
+        <rect id="사각형_2691-2" data-name="사각형 2691" width="354" height="49" rx="2" transform="translate(6 5)" fill="#2a2a2a"/>
+      </g>
+      <text id="Sign_in_with_Apple" data-name="Sign in with Apple" transform="translate(157.4 646.619)" fill="#fff" font-size="17" font-family="Helvetica"><tspan x="0" y="0">Sign in with Apple</tspan></text>
+      <g id="그룹_1641" data-name="그룹 1641" transform="translate(108.612 629.792)">
+        <path id="패스_2169" data-name="패스 2169" d="M179.01,93.577c-1.108-1.069-2.073-2.1-4.11-2.209-1.644-.071-2.394.926-3.931.962-1.429.036-1.322-1.1-4.288-.784-2.573.285-4.824,2.85-4.646,6.448.179,3.883,2.895,9.263,5.432,9.263,1.787-.036,2.216-.891,3.681-.891,1.822,0,2.251,1.069,3.681.855,2.466-.356,4.789-4.24,4.789-5.486a4.939,4.939,0,0,1-2.895-3.955A4.781,4.781,0,0,1,179.01,93.577Z" transform="translate(-162.025 -86.602)" fill="#fff" fill-rule="evenodd"/>
+        <path id="패스_2170" data-name="패스 2170" d="M247.156,48.794a4.8,4.8,0,0,1,4.225-5.055C251.777,46.158,249.792,48.938,247.156,48.794Z" transform="translate(-238.74 -43.739)" fill="#fff" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>

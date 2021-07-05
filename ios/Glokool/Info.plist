@@ -109,8 +109,6 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -120,19 +118,6 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-      <key>NSExceptionDomains</key>
-      <dict>
-          <key>localhost</key>
-          <dict>
-              <key>NSExceptionAllowsInsecureHTTPLoads</key>
-              <true/>
-          </dict>
-      </dict>
-  </dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use to inform the guide of your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -155,6 +140,8 @@
 		<string>Fonts/IBMPlexSansKR-Text.ttf</string>
 		<string>Fonts/NotoSans-SemiCondensedSemiBold.ttf</string>
 		<string>Fonts/NotoSansCJKkr-Regular.ttf</string>
+		<string>Fonts/Roboto-Medium.ttf</string>
+		<string>Fonts/FontsFree-Net-SFProDisplay-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>

@@ -43,10 +43,10 @@ export const SeriesAFlatlist = (props : SeriesAFlatlistProps) : LayoutElement =>
 
     const renderTour = (item : {index: number, item: Series_Item}) => {
       return(
-          <TouchableOpacity style={styles.SeriesStyle} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : item.item._id})}}>
+          <Layout style={styles.SeriesStyle} onTouchEnd={() => {props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : item.item._id})}}>
             <Image source={{ uri: item.item.image }} style={styles.SeriesImgStyle} />
             <Text style={styles.SeriesTxtStyle} numberOfLines={2}>{item.item.title}</Text>
-          </TouchableOpacity>
+          </Layout>
       )
     };
 

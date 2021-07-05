@@ -64,14 +64,14 @@ export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
 
  
       return(
-          <TouchableOpacity style={styles.ImageContainer} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, {TourCode : item.item._id})}}>
+          <Layout style={styles.ImageContainer} onTouchEnd={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, {TourCode : item.item._id})}}>
             <Image source={{uri : item.item.banner}} style={styles.Image} resizeMode={'stretch'}/>
 
             <Layout style={styles.TitleContainer}>
               <Text style={styles.TitleText}>{item.item.title}</Text>
             </Layout>
 
-          </TouchableOpacity>
+          </Layout>
       )
     };
 
