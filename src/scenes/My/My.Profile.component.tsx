@@ -170,8 +170,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           }
       })
   }
-  console.log(auth().currentUser?.uid)
-  console.log(auth().currentUser?.displayName)
   React.useEffect(() => {
 
     const updateData = async() => {
@@ -182,7 +180,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           setUserData(doc._data);
                 
           var date = new Date(doc._data.birthDate.seconds * 1000);
-          console.log(date.getDay())
 
           setName(user?.displayName);
           
@@ -212,7 +209,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         })
     }
     
-    console.log(user?.photoURL)
     updateData();
   }, [])
 
@@ -292,7 +288,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                 value={name}
                 onChangeText={nextValue => setName(nextValue)}
               />
-              <Text style={styles.title}>{userData?.name}</Text>
             </Layout>
           </Layout>
 

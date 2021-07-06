@@ -31,7 +31,8 @@ import { AngleLeft_Color } from '../../assets/icon/Common';
 import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginButton, AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
-import { Alert, GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
+import { GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
+import { FirebaseStorageTypes } from '@react-native-firebase/storage';
 
 
 GoogleSignin.configure({
@@ -89,25 +90,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   // SNS login 
 
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = React.useState(true);
-  const [user, setUser] = React.useState();
-
-
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  React.useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  // if (initializing) return null;
-
-
   // apple login 
   async function onAppleButtonPress() {
     // Start the sign-in request
@@ -137,39 +119,29 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  
+    console.log('googleCredential : ' +  googleCredential.token)
     // Sign-in the user with the credential
-    auth().signInWithCredential(googleCredential);
+    await auth().signInWithCredential(googleCredential);
 
-    props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    const user = auth().currentUser;
 
-    
+    firestore().collection('Users').doc(user?.uid).get()
+    .then((result) => {
+      if(result.data()){
+        return props.navigation.dispatch(MainNavigate);
+        console.log('result --> ' + result.data());
+      }
+      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    })
+
   }
 
 
   // Facebook login
    const onFacebookButtonPress = async() => {
-     console.log('dd')
 
       // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-
-    if (result.isCancelled) {
-      throw 'User cancelled the login process';
-    }else{
-      const  currentProfile = Profile.getCurrentProfile().then(
-        function(currentProfile) {
-          if (currentProfile) {
-            console.log("The current logged user is: " +
-              currentProfile.name
-              + ". His profile id is: " +
-              currentProfile.userID  + 
-              " email: " + currentProfile.email 
-            );
-          }
-        }
-      )
-    }
 
     // Once signed in, get the users AccesToken
     const data = await AccessToken.getCurrentAccessToken();
@@ -182,9 +154,19 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
 
     // Sign-in the user with the credential
-    auth().signInWithCredential(facebookCredential);
+    await auth().signInWithCredential(facebookCredential);
 
-    props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    const user = auth().currentUser;
+
+    firestore().collection('Users').doc(user?.uid).get()
+    .then((result) => {
+      if(result.data()){
+        return props.navigation.dispatch(MainNavigate);
+        console.log('result --> ' + result.data());
+      }
+      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    })
+
 
     }
 
@@ -297,15 +279,15 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
             <Toast ref={(toast) => toastRef = toast} position={'center'}/>
 
-            <TouchableOpacity onPress={() => onGoogleButtonPress()}>
+            <TouchableOpacity onPress={() => onGoogleButtonPress()} style={styles.SnsLoginLogo}>
               <GoogleLogin />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))}>
+            <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))} style={styles.SnsLoginLogo}>
               <AppleLogin />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => onFacebookButtonPress()}>
+            <TouchableOpacity onPress={() => onFacebookButtonPress()}  style={styles.SnsLoginLogo}>
               <FbLogin />
             </TouchableOpacity>
         </ScrollView>
@@ -339,7 +321,10 @@ const styles = StyleSheet.create({
     flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 50
+    marginVertical: 50,
+  },
+  SnsLoginLogo: {
+    alignItems: 'center',
   },
   container: {
     backgroundColor: '#00FF0000',

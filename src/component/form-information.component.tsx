@@ -23,7 +23,7 @@ export const FormInformation = ({ id, ...inputProps }: FormInformationProps): In
   };
 
   return (
-    <Input
+    <Input  
       {...inputProps}
       {...fieldProps}
       style={styles.input}

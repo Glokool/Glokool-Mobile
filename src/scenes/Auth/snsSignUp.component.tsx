@@ -26,7 +26,6 @@ import {
   Modal,
   Card
 } from '@ui-kitten/components';
-import { SceneRoute } from '../../navigation/app.route'
 import { Formik, FormikProps } from 'formik';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
 import { FormInformation } from '../../component/form-information.component';
@@ -42,19 +41,26 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import Toast from 'react-native-easy-toast';
 import { SnsSignUpScreenProps } from '../../navigation/auth.navigator';
+import { CommonActions } from '@react-navigation/native';
+import { NavigatorRoute } from '../../navigation/app.route'
+
+
 
 const useDatepickerState = (initialDate = null) => {
     const [date, setDate] = React.useState(initialDate);
     return { date, onSelect: setDate };
   };
 
+var toastRef : any;
+
 export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
-      
 
         const minMaxPickerState = useDatepickerState();
-      
-        //내부 로직용 (비밀번호 디스플레이), 
-        const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
+
+        const MainNavigate = CommonActions.reset({
+          index: 0,
+          routes: [{name: NavigatorRoute.MAIN}],
+        });
         
         //약관 확인했는지 
         const [TermsConditions, TermsConditionsChecked] = React.useState(false);
@@ -81,21 +87,21 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
           setPrivacyPolicy(false);
         }
       
-        // const TermsConditionsHeader = (props : any) => (
-        //   <Layout style={{flexDirection: 'row', padding: 20}}>
-        //     <Layout style={{flex: 1, alignItems: 'flex-start'}}>
-        //       <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Terms and Conditions</Text>
-        //     </Layout>
+        const TermsConditionsHeader = (props : any) => (
+          <Layout style={{flexDirection: 'row', padding: 20}}>
+            <Layout style={{flex: 1, alignItems: 'flex-start'}}>
+              <Text style={{fontSize: 14, fontWeight: 'bold', alignItems: 'center'}}>Terms and Conditions</Text>
+            </Layout>
                         
             
-        //     <Layout style={{flex: 1, alignItems: 'flex-end'}}>
-        //       <TouchableOpacity onPress={PressX}>
-        //         <FontAwesomeIcon icon={faTimes} size={28}/>
-        //       </TouchableOpacity> 
-        //     </Layout>
+            <Layout style={{flex: 1, alignItems: 'flex-end'}}>
+              <TouchableOpacity onPress={PressX}>
+                <FontAwesomeIcon icon={faTimes} size={28}/>
+              </TouchableOpacity> 
+            </Layout>
             
-        //   </Layout>      
-        // );
+          </Layout>      
+        );
       
         const PrivacyPolicyHeader = (props : any) => (
           <Layout style={{flexDirection: 'row', padding: 20}}>
@@ -153,24 +159,8 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
           setCountry(country)
         }
 
-
-          // Set an initializing state whilst Firebase connects
-        const [initializing, setInitializing] = React.useState(true);
-        const [user, setUser] = React.useState(null);
-
-
-        // Handle user state changes
-        function onAuthStateChanged(user) {
-          setUser(user);
-          if (initializing) setInitializing(false);
-        }
-
         React.useEffect(() => {
-          const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-          console.log('user: ' + user);
           InitSnsSign();
-         console.log('snspage: ' + auth().currentUser?.displayName);
-          return subscriber; // unsubscribe on unmount
         }, []);
 
 
@@ -178,8 +168,9 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
         const [email, setEmail] = React.useState<string>();
 
 
+        const user = auth().currentUser;
          const InitSnsSign = () => {
-           const user = auth().currentUser;
+           console.log('uid-> ' + user?.uid)
            if (user !== null) {
               user.providerData.forEach((profile) => {
                 console.log("Sign-in provider: " + profile?.providerId);
@@ -193,12 +184,33 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
               });
             }
           }
-        // React.useEffect(() => {
-        //   InitSnsSign();
-        //   console.log(name);
 
-        // }, [])
+        const PressSubmit = async() => {
+          const ProfileData = {
+            name : name,
+            email : email,
+            gender : gender[selectedIndex.row],
+            country : country.name,
+            signupDate : new Date(),  //가입한 날짜
+            birthDate : minMaxPickerState.date,
+            avatar: '',
+            type: type[selectedTypeIndex.row]
+          };
 
+          if(minMaxPickerState.date && country.name){
+            await firestore().collection('Users').doc(user?.uid).set(ProfileData)
+                .then((profileResult) => {
+                    toastRef.show("Profile Update Success...");
+                    
+                    props.navigation.dispatch(MainNavigate);
+                    
+                })
+                .catch((err) => {
+                  console.log('Firebase Firestore Error : ', err);
+                })
+          }
+
+        }
   
   return (
     <React.Fragment>
@@ -209,28 +221,38 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
         <Layout style={styles.container}>
                 
         <Layout style={styles.formContainer}>
-        <View style={{flex: 1, marginBottom: 56}}>
+        <ScrollView style={{flex: 1, marginBottom: 56}} showsVerticalScrollIndicator={false}>
         <Text style={styles.smallTitle}>Name</Text>
         {auth().currentUser?.displayName ? (
           <TextInput
-          style={styles.formControl}
+          style={styles.countrypicker}
           placeholder='Name'
           value={name}
         />
         ) : (
           <TextInput
-            style={styles.formControl}
+          style={styles.countrypicker}
             placeholder='Name'
           />
         )}
           
           <Text style={styles.smallTitle}>E-Mail</Text>
-          <TextInput
+          {auth().currentUser?.displayName ? (
+            <TextInput
             style={styles.formControl}
             placeholder='Email'
             keyboardType='email-address'
             value={email}
           />
+          ) : (
+          <TextInput
+            style={styles.formControl}
+            placeholder='Email'
+            keyboardType='email-address'
+            editable = {false}
+            
+          />
+          ) }
           <Text style={styles.smallTitle}>Type</Text>
           <Select
             selectedIndex={selectedTypeIndex}
@@ -307,20 +329,20 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
             </View>    
           </View>
 
-        </View>   
-        </Layout>
-        
-        <TouchableOpacity style={styles.SaveButton} onPress={() => PressChange()}>
+        <TouchableOpacity style={styles.SaveButton} onPress={() => PressSubmit()}>
             <Text style={styles.ButtonText2}>Save the Profile</Text>             
         </TouchableOpacity> 
+        </ScrollView>   
+        
+        </Layout>
 
         <Modal
             visible={termsCondition}
             backdropStyle={styles.backdrop}
         >
-            {/* <Card disabled={true} header={TermsConditionsHeader} style={{width: (Dimensions.get('window').width * 0.8), height: (Dimensions.get('window').height * 0.8)}}>
+            <Card disabled={true} header={TermsConditionsHeader} style={{width: (Dimensions.get('window').width * 0.8), height: (Dimensions.get('window').height * 0.8)}}>
             {TermsConditionCard()}
-            </Card> */}
+            </Card>
         </Modal>
 
         <Modal
@@ -391,6 +413,12 @@ const styles = StyleSheet.create({
     width: '95%',
   },
   formControl: {
+    marginVertical: 4,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF',
+    borderBottomColor: '#C9C9C9'
+  },
+  formInputControl: {
     marginVertical: 4,
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
