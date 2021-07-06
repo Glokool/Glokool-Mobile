@@ -4,13 +4,13 @@ import {
     StyleSheet,
     SafeAreaView,
     Text,
-    TouchableOpacity,
     Image,
     Platform,
     PermissionsAndroid,
     Dimensions,
     Keyboard,
     KeyboardAvoidingView,
+    Pressable,
 } from 'react-native';
 import {
     Layout,
@@ -36,7 +36,11 @@ import {
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import storage from '@react-native-firebase/storage';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker/src';
+import FastImage from 'react-native-fast-image';
+import {
+    launchCamera,
+    launchImageLibrary,
+} from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faTimes,
@@ -80,20 +84,19 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.CAMERA,
                 {
-                    title: "Cool Photo App Camera Permission",
+                    title: 'Cool Photo App Camera Permission',
                     message:
-                        "Cool Photo App needs access to your camera " +
-                        "so you can take awesome pictures.",
-                    buttonNeutral: "Ask Me Later",
-                    buttonNegative: "Cancel",
-                    buttonPositive: "OK"
-                }
+                        'Cool Photo App needs access to your camera ' +
+                        'so you can take awesome pictures.',
+                    buttonNeutral: 'Ask Me Later',
+                    buttonNegative: 'Cancel',
+                    buttonPositive: 'OK',
+                },
             );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 await takePhoto();
-                console.log("You can use the camera");
             } else {
-                console.log("Camera permission denied");
+                console.log('Camera permission denied');
             }
         } catch (err) {
             console.warn(err);
@@ -119,7 +122,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         lon: '',
         lat: '',
     });
-
     //가이드 정보 모달
     const [guideVisible, setGuideVisible] = React.useState(false);
 
@@ -140,6 +142,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const [token, setToken] = React.useState('');
 
+    const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
+
     const [guideToken, setGuideToken] = React.useState('');
 
     messaging()
@@ -151,6 +155,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const getGuideToken = async (uid: string) => {
         const res = await axios.get(`${SERVER}/api/guides/${uid}/token`);
         setGuideToken(res.data.token);
+    };
+
+    const [imageURL, setImageURL] = React.useState('');
+
+    const imageZoom = (imageUrl) => {
+        setImageZoomVisible(true);
+        setImageURL(imageUrl);
     };
 
     React.useEffect(() => {
@@ -210,8 +221,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     //오디오 녹음 창
     const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => {
-        });
+        AudioRecorder.requestAuthorization().then((isAuthorised) => {});
 
         if (startAudio == false) {
             //오디오 버튼 시작
@@ -271,7 +281,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messageType: 'audio',
                     };
 
-
                     Promise.all([
                         ChatDB.update({ messages: [message, ...chatMessages] }),
                         createPushNoti('음성메시지를 보냈습니다.'),
@@ -306,9 +315,27 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
+    const renderImage = (props) => {
+        const imageURL = props.currentMessage.image;
+        return (
+            <Pressable onPress={() => imageZoom(imageURL)}>
+                <FastImage
+                    source={{ uri: props.currentMessage.image }}
+                    resizeMode={FastImage.resizeMode.cover}
+                    style={{
+                        width: 150,
+                        height: 100,
+                        borderRadius: 10,
+                        margin: 3,
+                    }}
+                />
+            </Pressable>
+        );
+    };
+
     const renderAudio = (props) => {
         return (
-            <TouchableOpacity
+            <Pressable
                 style={{
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -335,12 +362,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         },
                     );
                 }}>
-                <FontAwesomeIcon icon={faPlay} size={16}/>
-            </TouchableOpacity>
+                <FontAwesomeIcon icon={faPlay} size={16} />
+            </Pressable>
         );
     };
 
-    const createPushNoti = (message : string): object => {
+    const createPushNoti = (message: string): object => {
         return {
             user: {
                 name: user?.displayName,
@@ -354,10 +381,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         try {
             await launchCamera(
                 {
-                    mediaType : 'photo',
+                    mediaType: 'photo',
                     includeBase64: true,
-                    quality: 0.8
-                },(response)=>{
+                    quality: 0.5,
+                },
+                (response) => {
                     if (response) {
                         if (response.didCancel == true) {
                             //중도 취소시
@@ -377,12 +405,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
                             picRef.on(
                                 storage.TaskEvent.STATE_CHANGED,
-                                function(snapshot) {
+                                function (snapshot) {
                                     var progress =
                                         (snapshot.bytesTransferred /
                                             snapshot.totalBytes) *
                                         100;
-                                    console.log('Upload is ' + progress + '% done');
                                     switch (snapshot.state) {
                                         case storage.TaskState.PAUSED:
                                             console.log('Upload is paused');
@@ -392,7 +419,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             break;
                                     }
                                 },
-                                function(error) {
+                                function (error) {
                                     switch (error.code) {
                                         case 'storage/unauthorized':
                                             break;
@@ -404,10 +431,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             break;
                                     }
                                 },
-                                function() {
+                                function () {
                                     picRef.snapshot.ref
                                         .getDownloadURL()
-                                        .then(function(downloadURL) {
+                                        .then(function (downloadURL) {
                                             //업로드 완료
                                             const message = {
                                                 _id: MessageID,
@@ -419,7 +446,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                 messageType: 'image',
                                             };
 
-                                            const push = createPushNoti('이미지를 보냈습니다');
+                                            const push = createPushNoti(
+                                                '이미지를 보냈습니다',
+                                            );
 
                                             Promise.all([
                                                 ChatDB.update({
@@ -428,20 +457,19 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                         ...chatMessages,
                                                     ],
                                                 }),
-                                                sendMessage(push)
-                                            ])
+                                                sendMessage(push),
+                                            ]);
                                         });
                                 },
                             );
                         }
                     }
-                }
-            )
+                },
+            );
         } catch (e) {
-            console.log('사진 촬영 에러',e);
+            console.log('사진 촬영 에러', e);
         }
-    }
-
+    };
 
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
@@ -449,7 +477,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             {
                 mediaType: 'photo',
                 includeBase64: true,
-                quality: 0.8,
+                quality: 0.5,
             },
             (response) => {
                 if (response) {
@@ -471,22 +499,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
                         picRef.on(
                             storage.TaskEvent.STATE_CHANGED,
-                            function(snapshot) {
+                            function (snapshot) {
                                 var progress =
                                     (snapshot.bytesTransferred /
                                         snapshot.totalBytes) *
                                     100;
-                                console.log('Upload is ' + progress + '% done');
                                 switch (snapshot.state) {
                                     case storage.TaskState.PAUSED:
-                                        console.log('Upload is paused');
+                                        // console.log('Upload is paused');
                                         break;
                                     case storage.TaskState.RUNNING:
-                                        console.log('Upload is running');
+                                        // console.log('Upload is running');
                                         break;
                                 }
                             },
-                            function(error) {
+                            function (error) {
                                 switch (error.code) {
                                     case 'storage/unauthorized':
                                         break;
@@ -498,10 +525,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         break;
                                 }
                             },
-                            function() {
+                            function () {
                                 picRef.snapshot.ref
                                     .getDownloadURL()
-                                    .then(function(downloadURL) {
+                                    .then(function (downloadURL) {
                                         //업로드 완료
                                         const message = {
                                             _id: MessageID,
@@ -513,7 +540,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             messageType: 'image',
                                         };
 
-                                        const push = createPushNoti('이미지를 보냈습니다');
+                                        const push = createPushNoti(
+                                            '이미지를 보냈습니다',
+                                        );
 
                                         Promise.all([
                                             ChatDB.update({
@@ -522,8 +551,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                     ...chatMessages,
                                                 ],
                                             }),
-                                            sendMessage(push)
-                                        ])
+                                            sendMessage(push),
+                                        ]);
                                     });
                             },
                         );
@@ -557,8 +586,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 ChatDB.update({ messages: [messages[0], ...chatMessages] }),
                 sendMessage(messages[0]),
             ]);
-
-            // await ChatDB.update({ messages: [messages[0], ...chatMessages] });
         } else {
             ToastRef.show(
                 'Please refrain from any content that may offend the other person.',
@@ -570,7 +597,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const renderSend = (props) => {
         return (
             <Send {...props} containerStyle={styles.sendButton}>
-                <SendIcon/>
+                <SendIcon />
             </Send>
         );
     };
@@ -590,7 +617,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const renderActions = (props) => {
         return (
-            <TouchableOpacity
+            <Pressable
                 style={styles.ActionButton}
                 onPress={() => setVisible2(true)}>
                 {visible2 === true ? (
@@ -604,7 +631,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         source={require('../../assets/icon/Chat/Menu.png')}
                     />
                 )}
-            </TouchableOpacity>
+            </Pressable>
         );
     };
 
@@ -636,10 +663,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         const push = createPushNoti('지도위치를 보냈습니다.');
 
                         Promise.all([
-                            ChatDB.update({ messages: [message, ...chatMessages] }),
-                            sendMessage(push)
-                        ])
-                        
+                            ChatDB.update({
+                                messages: [message, ...chatMessages],
+                            }),
+                            sendMessage(push),
+                        ]);
                     },
                     (error) => {
                         console.log(
@@ -725,7 +753,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     },
                 }}
                 tickStyle={{ color: 'black' }}
-                style
             />
         );
     };
@@ -785,9 +812,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     const renderCustomBubble = (props) => {
-        if (props.currentMessage.messageType == 'location') {
+        if (props.currentMessage.messageType === 'location') {
             return (
-                <TouchableOpacity>
+                <Pressable>
                     <Text
                         style={{
                             textAlign: 'right',
@@ -823,13 +850,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             title={'My Location'}
                         />
                     </MapView>
-                </TouchableOpacity>
+                </Pressable>
             );
         }
     };
 
     const displayMap = (props) => {
-        console.log(props);
         setLocation({
             lon: props.location.lon,
             lat: props.location.lat,
@@ -877,7 +903,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (!chatMessages.length && !fechChat) {
             return (
                 <Layout style={styles.loading}>
-                    <Spinner size="giant"/>
+                    <Spinner size="giant" />
                 </Layout>
             );
         }
@@ -903,9 +929,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </Layout>
 
             <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
-                <TouchableOpacity onPress={() => setMapvisible(false)}>
-                    <FontAwesomeIcon icon={faTimes} size={28}/>
-                </TouchableOpacity>
+                <Pressable onPress={() => setMapvisible(false)}>
+                    <FontAwesomeIcon icon={faTimes} size={28} />
+                </Pressable>
             </Layout>
         </Layout>
     );
@@ -915,7 +941,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         <Layout
             style={{ width: '100%', height: '100%' }}
             onTouchStart={Keyboard.dismiss}>
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }}/>
+            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
             <KeyboardAvoidingView
                 style={styles.Container}
@@ -929,14 +955,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
                         user={{
-                            _id: `${user?.uid}`,
-                            name: user?.displayName,
-                            avatar: user?.photoURL,
+                            _id: user?.uid,
                         }}
-
-                        listViewProps={{
-                            initialNumToRender: 15,
-                        }}
+                        isAnimated
                         messagesContainerStyle={{
                             paddingBottom: 50,
                             paddingTop: 80,
@@ -944,7 +965,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}
-                        renderAvatar={null}
                         renderInputToolbar={renderInputToolbar}
                         renderSend={renderSend}
                         renderActions={renderActions}
@@ -952,6 +972,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderLoading={renderLoading}
                         renderComposer={renderComposer}
                         renderSystemMessage={onRenderSystemMessage}
+                        renderMessageImage={renderImage}
                         renderMessageAudio={renderAudio}
                         renderCustomView={renderCustomBubble}
                     />
@@ -964,10 +985,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     onBackdropPress={() => setGuideVisible(false)}>
                     <Layout style={{ padding: 20, borderRadius: 15 }}>
                         <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
-                            <TouchableOpacity
-                                onPress={() => setGuideVisible(false)}>
-                                <FontAwesomeIcon icon={faTimes} size={20}/>
-                            </TouchableOpacity>
+                            <Pressable onPress={() => setGuideVisible(false)}>
+                                <FontAwesomeIcon icon={faTimes} size={20} />
+                            </Pressable>
                         </Layout>
 
                         <Layout
@@ -1032,6 +1052,33 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Modal>
 
                 <Modal
+                    visible={imageZoomVisible}
+                    backdropStyle={styles.imageZoomBackGround}>
+                    <Layout style={styles.ModalLayout}>
+                        <Pressable
+                            style={{
+                                position: 'absolute',
+                                top: 15,
+                                right: 35,
+                            }}
+                            onPress={() =>
+                                setImageZoomVisible(!imageZoomVisible)
+                            }>
+                            <Text
+                                style={{
+                                    color: '#f1f1f1',
+                                    fontSize: 30,
+                                    fontWeight: 'bold',
+                                }}>
+                                X
+                            </Text>
+                        </Pressable>
+                        <Layout style={styles.ModalBtnContainer}>
+                        </Layout>
+                    </Layout>
+                </Modal>
+
+                <Modal
                     visible={mapvisible}
                     backdropStyle={styles.backdrop}
                     onBackdropPress={() => setMapvisible(false)}>
@@ -1061,13 +1108,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                 {/*탭바 디자인*/}
                 <Layout style={styles.TabBar}>
-                    <TouchableOpacity
+                    <Pressable
                         style={styles.IconContainer}
                         onPress={() => {
                             props.navigation.goBack();
                         }}>
-                        <AngleLeft_Color/>
-                    </TouchableOpacity>
+                        <AngleLeft_Color />
+                    </Pressable>
 
                     <Layout style={styles.profileContainer}>
                         <Image
@@ -1081,7 +1128,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         </Text>
                     </Layout>
 
-                    <TouchableOpacity
+                    <Pressable
                         style={styles.IconContainer}
                         onPress={() => {
                             props.navigation.navigate(SceneRoute.CHAT_HELP, {
@@ -1092,8 +1139,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 },
                             });
                         }}>
-                        <Help/>
-                    </TouchableOpacity>
+                        <Help />
+                    </Pressable>
                 </Layout>
 
                 {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
@@ -1102,35 +1149,37 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         style={styles.SideContainerBack}
                         onTouchEnd={() => setVisible2(false)}>
                         <Layout style={styles.SideContainer}>
-                            <TouchableOpacity
+                            <Pressable
                                 style={styles.SideButton}
                                 onPress={() => setAudioVisible(true)}>
-                                <Record/>
+                                <Record />
                                 <Text style={styles.SideButtonTxt}>Voices</Text>
-                            </TouchableOpacity>
+                            </Pressable>
 
-                            <TouchableOpacity
+                            <Pressable
                                 style={styles.SideButton}
                                 onPress={async () => await ImageSend()}>
-                                <Images/>
+                                <Images />
                                 <Text style={styles.SideButtonTxt}>Images</Text>
-                            </TouchableOpacity>
+                            </Pressable>
 
-                            <TouchableOpacity
+                            <Pressable
                                 style={styles.SideButton}
-                                onPress={async () => await requestCameraPermission()}>
-                                <Camera/>
+                                onPress={async () =>
+                                    await requestCameraPermission()
+                                }>
+                                <Camera />
                                 <Text style={styles.SideButtonTxt}>Camera</Text>
-                            </TouchableOpacity>
+                            </Pressable>
 
-                            <TouchableOpacity
+                            <Pressable
                                 style={styles.SideButton}
                                 onPress={async () => await LocationMessage()}>
-                                <MyLocation/>
+                                <MyLocation />
                                 <Text style={styles.SideButtonTxt}>
                                     My Location
                                 </Text>
-                            </TouchableOpacity>
+                            </Pressable>
                         </Layout>
                     </Layout>
                 ) : null}
@@ -1144,11 +1193,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     />
 
                     <Layout style={styles.AudioContainer}>
-                        <TouchableOpacity
+                        <Pressable
                             style={styles.VoiceContainerExitButton}
                             onPress={() => audioExit()}>
-                            <Exit_C/>
-                        </TouchableOpacity>
+                            <Exit_C />
+                        </Pressable>
 
                         <Layout style={styles.VoiceRecorder}>
                             <Text
@@ -1158,21 +1207,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         : styles.RecordingStatusTxt
                                 }>{`Re-${'\n'}recording`}</Text>
 
-                            <TouchableOpacity
+                            <Pressable
                                 style={styles.RecordingButton}
                                 onPress={handleAudio}>
                                 {audioPath == '' ? (
                                     startAudio === true ? (
-                                        <Chat_Voice_Stop/>
+                                        <Chat_Voice_Stop />
                                     ) : (
-                                        <Chat_Voice_Start/>
+                                        <Chat_Voice_Start />
                                     )
                                 ) : (
-                                    <Chat_Voice_End/>
+                                    <Chat_Voice_End />
                                 )}
-                            </TouchableOpacity>
+                            </Pressable>
 
-                            <TouchableOpacity
+                            <Pressable
                                 style={
                                     audioPath === ''
                                         ? styles.SendButton_D
@@ -1184,7 +1233,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                     }
                                 }}>
                                 <Text style={styles.SendButtonTxt}>Send</Text>
-                            </TouchableOpacity>
+                            </Pressable>
                         </Layout>
                     </Layout>
                 </Layout>
@@ -1227,6 +1276,67 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 };
 
 const styles = StyleSheet.create({
+    // modal
+    imageZoomBackGround: {
+        backgroundColor: 'rgba(0, 0, 0, 10)',
+    },
+    ModalLayout: {
+        width: WindowWidth,
+        height: windowHeight,
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 10)',
+    },
+    ModalTxt: {
+        color: '#8797FF',
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 22,
+        textAlign: 'center',
+        marginTop: '8%',
+    },
+    ModalBtnContainer: {
+        flexDirection: 'row',
+        // justifyContent: 'flex-end',
+        // alignItems: 'flex-end',
+        height: WindowWidth * 0.85 * 0.41 * 0.36,
+        alignItems: 'flex-end',
+        flex: 1,
+        marginBottom: '5%',
+        justifyContent: 'center',
+    },
+    ModalBtnCancel: {
+        borderWidth: 1,
+        borderColor: '#8797FF',
+        borderRadius: 10,
+        width: WindowWidth * 0.85 * 0.41,
+        height: WindowWidth * 0.85 * 0.41 * 0.36,
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ModalTxtCancel: {
+        // textAlign: 'center',
+        color: '#8797FF',
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 22,
+        flex: 1,
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    ModalBtnLogout: {
+        borderRadius: 10,
+        backgroundColor: '#292434',
+        width: WindowWidth * 0.85 * 0.41,
+        height: WindowWidth * 0.85 * 0.41 * 0.36,
+        marginLeft: 5,
+    },
+    ModalTxtLogout: {
+        textAlign: 'center',
+        color: '#8797FF',
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 22,
+    },
+
     Container: {
         flex: 1,
         backgroundColor: 'white',
