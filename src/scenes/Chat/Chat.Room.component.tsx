@@ -159,7 +159,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const [imageURL, setImageURL] = React.useState('');
 
-    const imageZoom = (imageUrl) => {
+    const imageZoom = (imageUrl: string): void => {
         setImageZoomVisible(true);
         setImageURL(imageUrl);
     };
@@ -935,7 +935,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </Layout>
         </Layout>
     );
-
     //실제 렌더링
     return (
         <Layout
@@ -1058,8 +1057,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Pressable
                             style={{
                                 position: 'absolute',
-                                top: 15,
-                                right: 35,
+                                top: 20,
+                                left: 20,
                             }}
                             onPress={() =>
                                 setImageZoomVisible(!imageZoomVisible)
@@ -1073,8 +1072,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 X
                             </Text>
                         </Pressable>
-                        <Layout style={styles.ModalBtnContainer}>
-                        </Layout>
+                        <FastImage
+                            source={{ uri: imageURL }}
+                            resizeMode={FastImage.resizeMode.cover}
+                            style={{
+                                width: WindowWidth,
+                                height: Math.round((windowHeight * 9) / 16),
+                            }}
+                        />
                     </Layout>
                 </Modal>
 
@@ -1284,59 +1289,10 @@ const styles = StyleSheet.create({
         width: WindowWidth,
         height: windowHeight,
         alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: 'rgba(0, 0, 0, 10)',
     },
-    ModalTxt: {
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        textAlign: 'center',
-        marginTop: '8%',
-    },
-    ModalBtnContainer: {
-        flexDirection: 'row',
-        // justifyContent: 'flex-end',
-        // alignItems: 'flex-end',
-        height: WindowWidth * 0.85 * 0.41 * 0.36,
-        alignItems: 'flex-end',
-        flex: 1,
-        marginBottom: '5%',
-        justifyContent: 'center',
-    },
-    ModalBtnCancel: {
-        borderWidth: 1,
-        borderColor: '#8797FF',
-        borderRadius: 10,
-        width: WindowWidth * 0.85 * 0.41,
-        height: WindowWidth * 0.85 * 0.41 * 0.36,
-        marginRight: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    ModalTxtCancel: {
-        // textAlign: 'center',
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        flex: 1,
-        borderWidth: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    ModalBtnLogout: {
-        borderRadius: 10,
-        backgroundColor: '#292434',
-        width: WindowWidth * 0.85 * 0.41,
-        height: WindowWidth * 0.85 * 0.41 * 0.36,
-        marginLeft: 5,
-    },
-    ModalTxtLogout: {
-        textAlign: 'center',
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-    },
-
+    // modal
     Container: {
         flex: 1,
         backgroundColor: 'white',
