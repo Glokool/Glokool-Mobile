@@ -72,37 +72,13 @@ import {
 } from '../../assets/icon/Chat';
 import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
 import messaging from '@react-native-firebase/messaging';
+import { requestCameraPermission } from '../../component/permission.component';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
-    /* 카메라 권한 요청*/
-    const requestCameraPermission = async () => {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.CAMERA,
-                {
-                    title: 'Cool Photo App Camera Permission',
-                    message:
-                        'Cool Photo App needs access to your camera ' +
-                        'so you can take awesome pictures.',
-                    buttonNeutral: 'Ask Me Later',
-                    buttonNegative: 'Cancel',
-                    buttonPositive: 'OK',
-                },
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                await takePhoto();
-            } else {
-                console.log('Camera permission denied');
-            }
-        } catch (err) {
-            console.warn(err);
-        }
-    };
-
     const user = auth().currentUser;
     const Ref = React.useRef(null);
 
@@ -379,6 +355,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     /*이미지 촬영 */
     const takePhoto = async () => {
         try {
+            const { granted } = await requestCameraPermission();
+            if (!granted) {
+                throw Error('Camera permission denied');
+            }
+
             await launchCamera(
                 {
                     mediaType: 'photo',
@@ -1170,9 +1151,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={async () =>
-                                    await requestCameraPermission()
-                                }>
+                                onPress={async () => takePhoto()}>
                                 <Camera />
                                 <Text style={styles.SideButtonTxt}>Camera</Text>
                             </Pressable>
