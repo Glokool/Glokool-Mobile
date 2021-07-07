@@ -26,17 +26,12 @@ import {
   Modal,
   Card
 } from '@ui-kitten/components';
-import { Formik, FormikProps } from 'formik';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
-import { FormInformation } from '../../component/form-information.component';
-import { SignUpData, SignUpSchema } from '../../data/sign-up.model';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/countryTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft, faTimes}  from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 import { privacyPolicycard } from '../../component/privacyPolicy.component'
-
 import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import Toast from 'react-native-easy-toast';
@@ -179,12 +174,14 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
                 console.log("  Email: " + profile?.email);
                 console.log("  Photo URL: " + profile?.photoURL);
                 console.log("login 정보 end ");
-                setName(profile.displayName);
+                if(profile.displayName != undefined){
+                  setName(profile.displayName);
+                }
                 setEmail(profile.email);
               });
             }
           }
-
+          
         const PressSubmit = async() => {
           const ProfileData = {
             name : name,
@@ -197,7 +194,7 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
             type: type[selectedTypeIndex.row]
           };
 
-          if(minMaxPickerState.date && country.name){
+          if(name && minMaxPickerState.date && country.name){
             await firestore().collection('Users').doc(user?.uid).set(ProfileData)
                 .then((profileResult) => {
                     toastRef.show("Profile Update Success...");
@@ -231,18 +228,22 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
         />
         ) : (
           <TextInput
-          style={styles.countrypicker}
+            style={styles.countrypicker}
             placeholder='Name'
+            placeholderTextColor= 'gray'
+            value={name}
+            onChangeText={(name) => setName(name)}
           />
         )}
           
           <Text style={styles.smallTitle}>E-Mail</Text>
-          {auth().currentUser?.displayName ? (
+          {auth().currentUser?.email ? (
             <TextInput
             style={styles.formControl}
             placeholder='Email'
             keyboardType='email-address'
             value={email}
+            editable = {false}
           />
           ) : (
           <TextInput
@@ -452,7 +453,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     borderColor: '#c9c9c9',
     borderWidth: 0.5,
-    padding: 8
+    padding: 8,
   },
   Button : {
     width: '100%',

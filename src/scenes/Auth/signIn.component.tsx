@@ -18,6 +18,7 @@ import {
   Layout,
   LayoutElement,
   Text,
+  Divider,
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
 import { EyeIcon, EyeOffIcon } from '../../component/icon';
@@ -28,15 +29,14 @@ import { CommonActions } from '@react-navigation/native';
 import { SignInScreenProps } from '../../navigation/auth.navigator';
 import Toast from 'react-native-easy-toast';
 import { AngleLeft_Color } from '../../assets/icon/Common';
-import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { LoginButton, AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
+import { AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
 import { GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
-import { FirebaseStorageTypes } from '@react-native-firebase/storage';
 
 
 GoogleSignin.configure({
-  webClientId: '',
+  webClientId: '603637824492-elifaqc06j569ohqnjf1g0nscmvbopsh.apps.googleusercontent.com',
 });
 
 var toastRef : any;
@@ -108,7 +108,19 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
 
     // Sign the user in with the credential
-    return auth().signInWithCredential(appleCredential);
+    await auth().signInWithCredential(appleCredential);
+
+    const user = auth().currentUser;
+
+    firestore().collection('Users').doc(user?.uid).get()
+    .then((result) => {
+      if(result.data()){
+        return props.navigation.dispatch(MainNavigate);
+        console.log('result --> ' + result.data());
+      }
+      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    })
+
   }
 
 
@@ -119,7 +131,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    console.log('googleCredential : ' +  googleCredential.token)
+
     // Sign-in the user with the credential
     await auth().signInWithCredential(googleCredential);
 
@@ -214,7 +226,12 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           placeholder='email'
           keyboardType='email-address'
         />
-        <Text style={styles.smallTitle}>Password</Text>
+        <Layout style={styles.resetPasswordContainer}>
+          <Text style={styles.smallTitle}>Password</Text>
+          <TouchableOpacity onPress={() => {navigateResetPassword()}} style={styles.resetPasswordInner}>
+            <Text style={styles.ForgetButtonText}>forget password?</Text>
+          </TouchableOpacity>
+      </Layout>
         <FormInput
           id='password'
           style={styles.formControl}
@@ -222,16 +239,17 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           secureTextEntry={!passwordVisible}
         />
       </Layout>
-      
-      <Layout style={styles.resetPasswordContainer}>
-        <TouchableOpacity onPress={() => {navigateResetPassword()}}>
-          <Text style={styles.ForgetButtonText}>Forget password?</Text>
-        </TouchableOpacity>
-      </Layout>
 
+      <Layout style={styles.OrContainer}>
+        <Divider style={styles.Divider} />
+        <Text style={styles.OrTxt}>or</Text>
+        <Divider style={styles.Divider} />
+      </Layout>
+      
       <Layout style={styles.buttonContainer}>
         
         <TouchableOpacity style={styles.CAButton} onPress={() => navigateSignUp()}>
+          <Text style={styles.CABeforeButtonText}>Don't have an account?</Text>
           <Text style={styles.CAButtonText}>Create Account</Text>
         </TouchableOpacity>
 
@@ -283,9 +301,11 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
               <GoogleLogin />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))} style={styles.SnsLoginLogo}>
-              <AppleLogin />
-            </TouchableOpacity>
+            {Platform.OS === 'ios' ? (
+              <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))} style={styles.SnsLoginLogo}>
+                <AppleLogin />
+              </TouchableOpacity>
+            ) : null }
 
             <TouchableOpacity onPress={() => onFacebookButtonPress()}  style={styles.SnsLoginLogo}>
               <FbLogin />
@@ -309,12 +329,17 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   resetPasswordContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+  },
+  resetPasswordInner:{
     alignItems: 'flex-end',
+    flex: 1,
     backgroundColor: '#00FF0000',
   },
   formControl: {
     marginVertical: 8,
-
   },
   titleContainer: {
     backgroundColor: '#00FF0000',
@@ -328,7 +353,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#00FF0000',
-    flex:3,   
+    flex: 3,
   },
   InputContainer: {
     backgroundColor: '#00FF0000',
@@ -341,6 +366,27 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: '#8797FF',
     fontSize: 16
+  },
+  // or divider
+  OrContainer: {
+    // width: WindowSize - 60,
+    marginVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  Divider: {
+    backgroundColor: '#D9D9D9',
+    flex: 1,
+  },
+  OrTxt: {
+    fontFamily: 'IBMPlexSansKR-Medium',
+    fontSize: 15,
+    color: '#7777FF',
+    marginLeft: 5,
+    marginRight: 5,
+    borderWidth:1,
   },
   buttonContainer: {
     flex: 1,
@@ -356,24 +402,14 @@ const styles = StyleSheet.create({
   IconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 15,
-    padding: 20
+    margin: 5,
+    padding: 20,
   },
   CAButton: {
     width: WindowSize - 60,
-    height: 50,
-    borderRadius: 15,
     backgroundColor: 'white',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
+    flexDirection: 'row',
     elevation: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginVertical: 5
   },
   LoginButton: {
@@ -393,10 +429,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5
   },
+  CABeforeButtonText:{
+    fontFamily: 'BrandonGrotesque-BoldItalic',
+    fontSize: 21,
+    color: '#D1D1D1'
+  },
   CAButtonText: {
     fontFamily: 'BrandonGrotesque-BoldItalic',
     fontSize: 21,
-    color: '#7777FF'
+    color: '#7777FF',
+    marginLeft: 5,
   },
   LoginButtonText: {
     fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -406,8 +448,7 @@ const styles = StyleSheet.create({
 
   ForgetButtonText : {
     fontFamily: 'IBMPlexSansKR-Medium',
-    color: '#7777FF',
-    marginRight: 30,
-    marginVertical: 10
+    color: '#C9C9C9',
+    marginVertical: 10,
   }
 });

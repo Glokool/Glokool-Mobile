@@ -176,11 +176,12 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
       
       await firestore().collection('Users').doc(uid).get()
         .then(function(doc) {
-          
+          console.log(doc._data)
+          console.log('user: ' + user?.metadata)
           setUserData(doc._data);
                 
           var date = new Date(doc._data.birthDate.seconds * 1000);
-
+          console.log('name: ' + doc._data.name);
           setName(user?.displayName);
           
           setBirthDate({
