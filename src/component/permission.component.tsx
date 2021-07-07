@@ -33,9 +33,7 @@ const requestStoragePermission = async () => {
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
                 {
                     title: 'storage  Permission',
-                    message:
-                        'Cool Photo App needs upda ' +
-                        'so you can take awesome pictures.',
+                    message: 'so you can select awesome pictures.',
                     buttonNeutral: 'Ask Me Later',
                     buttonNegative: 'Cancel',
                     buttonPositive: 'OK',
