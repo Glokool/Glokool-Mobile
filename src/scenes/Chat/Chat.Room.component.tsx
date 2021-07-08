@@ -64,7 +64,12 @@ import {
 } from '../../assets/icon/Chat';
 import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
 import messaging from '@react-native-firebase/messaging';
-import { requestCameraPermission } from '../../component/permission.component';
+import ImagePicker from 'react-native-image-crop-picker';
+
+import {
+    requestCameraPermission,
+    requestStoragePermission,
+} from '../../component/permission.component';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -127,6 +132,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const [imageURL, setImageURL] = React.useState('');
 
+    /* 이미지 클릭시 modal Activation */
     const imageZoom = (imageUrl: string): void => {
         setImageZoomVisible(true);
         setImageURL(imageUrl);
@@ -283,12 +289,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const renderImage = (props) => {
-        const imageURL = props.currentMessage.image;
+    /* 채팅창 이미지 컴포넌트 */
+    const ChatImg = ({ imgUrl }) => {
         return (
-            <Pressable onPress={() => imageZoom(imageURL)}>
+            <Pressable onPress={() => imageZoom(imgUrl)}>
                 <FastImage
-                    source={{ uri: props.currentMessage.image }}
+                    source={{ uri: imgUrl }}
                     resizeMode={FastImage.resizeMode.cover}
                     style={{
                         width: 150,
@@ -299,6 +305,22 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 />
             </Pressable>
         );
+    };
+
+    /* gifted chat 이미지 렌더링 */
+    const renderImage = (props) => {
+        const imageURL = props.currentMessage.image;
+        if (typeof imageURL === 'string') {
+            return <ChatImg key={0} imgUrl={imageURL} />;
+        } else {
+            return (
+                <>
+                    {imageURL.map((url: string, index: number) => (
+                        <ChatImg key={index} imgUrl={url} />
+                    ))}
+                </>
+            );
+        }
     };
 
     const renderAudio = (props) => {
@@ -444,96 +466,76 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
+    /* FB에 이미지 저장하기위해서 아이디와 이미지 타입 반환*/
+    const createAdditionalInfo = async (imgArr) => {
+        return imgArr.map((img) => {
+            const MessageID = messageIdGenerator();
+            const imageType = img.mime.split('/');
+
+            const additionalInfo = {
+                MessageID: MessageID,
+                imageType: imageType[1],
+            };
+            return additionalInfo;
+        });
+    };
+
+    /* FB storage에 이미지 배열 업로드 */
+    const uploadImgArr = async (images, info) => {
+        const reference = storage().ref();
+
+        const promises = images.map((image: string, idx: number) => {
+            const picRef = reference.child(
+                `chats/${roomName}/picture/${info[idx].MessageID}.${info[idx].imageType}`,
+            );
+            return picRef
+                .putFile(image.path)
+                .then(() => picRef.getDownloadURL());
+        });
+
+        return await Promise.all(promises).catch((e) => console.log(e.code));
+    };
+
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
-        await launchImageLibrary(
-            {
-                mediaType: 'photo',
-                includeBase64: true,
-                quality: 0.5,
-            },
-            (response) => {
-                if (response) {
-                    if (response.didCancel == true) {
-                        //중도 취소시
-                    } else {
-                        const MessageID = messageIdGenerator();
+        try {
+            const { granted } = await requestStoragePermission();
+            if (!granted) {
+                throw Error('Storage permission denied');
+            }
+            const images = await ImagePicker.openPicker({
+                multiple: true,
+            });
 
-                        const FileName = response.fileName;
-                        var type = response.type;
-
-                        const imageType = type.split('/');
-                        const reference = storage().ref();
-
-                        const picRef = reference
-                            .child(
-                                `chats/${roomName}/picture/${MessageID}.${imageType[1]}`,
-                            )
-                            .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
-                        picRef.on(
-                            storage.TaskEvent.STATE_CHANGED,
-                            function (snapshot) {
-                                var progress =
-                                    (snapshot.bytesTransferred /
-                                        snapshot.totalBytes) *
-                                    100;
-                                switch (snapshot.state) {
-                                    case storage.TaskState.PAUSED:
-                                        // console.log('Upload is paused');
-                                        break;
-                                    case storage.TaskState.RUNNING:
-                                        // console.log('Upload is running');
-                                        break;
-                                }
-                            },
-                            function (error) {
-                                switch (error.code) {
-                                    case 'storage/unauthorized':
-                                        break;
-
-                                    case 'storage/canceled':
-                                        break;
-
-                                    case 'storage/unknown':
-                                        break;
-                                }
-                            },
-                            function () {
-                                picRef.snapshot.ref
-                                    .getDownloadURL()
-                                    .then(function (downloadURL) {
-                                        //업로드 완료
-                                        const message = {
-                                            _id: MessageID,
-                                            createdAt: new Date().getTime(),
-                                            user: {
-                                                _id: user?.uid,
-                                            },
-                                            image: downloadURL, //다운로드URL 전달
-                                            messageType: 'image',
-                                        };
-
-                                        const push = createPushNoti(
-                                            '이미지를 보냈습니다',
-                                        );
-
-                                        Promise.all([
-                                            ChatDB.update({
-                                                messages: [
-                                                    message,
-                                                    ...chatMessages,
-                                                ],
-                                            }),
-                                            sendMessage(push),
-                                        ]);
-                                    });
-                            },
-                        );
-                    }
-                } else {
+            if (images?.length) {
+                const additionalInfo = await createAdditionalInfo(images);
+                const imgArr = await uploadImgArr(images, additionalInfo);
+                if (!imgArr) {
+                    throw Error('Upload denied');
                 }
-            },
-        );
+
+                const push = createPushNoti('이미지를 보냈습니다');
+
+                const message = {
+                    _id: additionalInfo[0]?.MessageID,
+                    createdAt: new Date().getTime(),
+                    user: {
+                        _id: user?.uid,
+                    },
+                    image: imgArr, //다운로드URL 전달
+                    messageType: 'image',
+                };
+
+                Promise.all([
+                    ChatDB.update({
+                        messages: [message, ...chatMessages],
+                    }),
+                    sendMessage(push),
+                ]);
+            }
+        } catch (e) {
+            console.log('갤러리 참조 에러', e);
+        }
     };
 
     /* FCM 백엔드 메시지 전송*/
