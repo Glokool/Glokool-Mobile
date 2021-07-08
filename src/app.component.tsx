@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -12,6 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
+import { ChatContext } from './context/ChatContext';
 
 const saveTokenToDatabase = async (token: any) => {
     const userId = auth().currentUser?.uid;
@@ -26,12 +27,16 @@ const saveTokenToDatabase = async (token: any) => {
 };
 
 export default (): React.ReactFragment => {
+    const [onChat, setChatIcon] = React.useState(false);
+    const value = { onChat, setChatIcon };
+
     React.useEffect(() => {
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-            console.log(
-                'A new FCM message arrived!',
-                JSON.stringify(remoteMessage),
-            );
+            setChatIcon(true);
+            // Alert.alert(
+            //     'A new FCM message arrived!',
+            //     JSON.stringify(remoteMessage),
+            // );
         });
 
         messaging()
@@ -61,7 +66,9 @@ export default (): React.ReactFragment => {
                 customMapping={mapping}>
                 <SafeAreaProvider>
                     <NavigationContainer>
-                        <AppNavigator />
+                        <ChatContext.Provider value={value}>
+                            <AppNavigator />
+                        </ChatContext.Provider>
                     </NavigationContainer>
                 </SafeAreaProvider>
             </ApplicationProvider>
