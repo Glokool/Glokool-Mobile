@@ -20,30 +20,34 @@
       <path id="패스_2168" data-name="패스 2168" d="M170.595,192.823a6.042,6.042,0,0,1,4.3,1.7l3.226-3.262a10.747,10.747,0,0,0-7.526-2.962,11.233,11.233,0,0,0-10.053,6.266l3.758,2.947a6.713,6.713,0,0,1,6.294-4.689Zm0,0" transform="translate(-160.542 -188.299)" fill="none" clip-rule="evenodd"/>
     </clipPath>
   </defs>
-  <g id="그룹_1642" data-name="그룹 1642" transform="translate(-24 -540.367)">
-    <g transform="matrix(1, 0, 0, 1, 24, 540.37)" filter="url(#사각형_2692)">
-      <rect id="사각형_2692-2" data-name="사각형 2692" width="354" height="49" rx="2" transform="translate(6 5)" fill="#fff"/>
-    </g>
-    <g id="그룹_1615" data-name="그룹 1615" transform="translate(117.514 567.696)">
-      <g id="그룹_1614" data-name="그룹 1614" clip-path="url(#clip-path)">
-        <rect id="사각형_2680" data-name="사각형 2680" width="23.555" height="23.322" transform="translate(-6.318 -6.318)" fill="#3e82f1"/>
+  <g id="그룹_1647" data-name="그룹 1647" transform="translate(-24 -516.684)">
+    <g id="그룹_1646" data-name="그룹 1646">
+      <g transform="matrix(1, 0, 0, 1, 24, 516.68)" filter="url(#사각형_2692)">
+        <rect id="사각형_2692-2" data-name="사각형 2692" width="354" height="49" rx="2" transform="translate(6 5)" fill="#fff"/>
       </g>
     </g>
-    <g id="그룹_1617" data-name="그룹 1617" transform="translate(107.544 571.925)">
-      <g id="그룹_1616" data-name="그룹 1616" clip-path="url(#clip-path-2)">
-        <rect id="사각형_2681" data-name="사각형 2681" width="30.327" height="21.849" transform="translate(-6.319 -6.318)" fill="#32a753"/>
+    <g id="그룹_1642" data-name="그룹 1642" transform="translate(106.335 534.905)">
+      <g id="그룹_1615" data-name="그룹 1615" transform="translate(11.179 9.107)">
+        <g id="그룹_1614" data-name="그룹 1614" clip-path="url(#clip-path)">
+          <rect id="사각형_2680" data-name="사각형 2680" width="23.555" height="23.322" transform="translate(-6.318 -6.318)" fill="#3e82f1"/>
+        </g>
+      </g>
+      <g id="그룹_1617" data-name="그룹 1617" transform="translate(1.21 13.336)">
+        <g id="그룹_1616" data-name="그룹 1616" clip-path="url(#clip-path-2)">
+          <rect id="사각형_2681" data-name="사각형 2681" width="30.327" height="21.849" transform="translate(-6.319 -6.318)" fill="#32a753"/>
+        </g>
+      </g>
+      <g id="그룹_1619" data-name="그룹 1619" transform="translate(0 6.167)">
+        <g id="그룹_1618" data-name="그룹 1618" clip-path="url(#clip-path-3)">
+          <rect id="사각형_2682" data-name="사각형 2682" width="17.646" height="22.852" transform="translate(-6.318 -6.318)" fill="#f9bb00"/>
+        </g>
+      </g>
+      <g id="그룹_1621" data-name="그룹 1621" transform="translate(1.21)">
+        <g id="그룹_1620" data-name="그룹 1620" clip-path="url(#clip-path-4)">
+          <rect id="사각형_2683" data-name="사각형 2683" width="30.078" height="21.849" transform="translate(-6.25 -6.318)" fill="#e74133"/>
+        </g>
       </g>
     </g>
-    <g id="그룹_1619" data-name="그룹 1619" transform="translate(106.335 564.755)">
-      <g id="그룹_1618" data-name="그룹 1618" clip-path="url(#clip-path-3)">
-        <rect id="사각형_2682" data-name="사각형 2682" width="17.646" height="22.852" transform="translate(-6.318 -6.318)" fill="#f9bb00"/>
-      </g>
-    </g>
-    <g id="그룹_1621" data-name="그룹 1621" transform="translate(107.544 558.589)">
-      <g id="그룹_1620" data-name="그룹 1620" clip-path="url(#clip-path-4)">
-        <rect id="사각형_2683" data-name="사각형 2683" width="30.078" height="21.849" transform="translate(-6.25 -6.318)" fill="#e74133"/>
-      </g>
-    </g>
-    <text id="Sign_in_with_Google" data-name="Sign in with Google" transform="translate(157.4 575.367)" fill="rgba(0,0,0,0.54)" font-size="17" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">Sign in with Google</tspan></text>
+    <text id="Sign_in_with_Google" data-name="Sign in with Google" transform="translate(157.4 551.684)" fill="rgba(0,0,0,0.54)" font-size="17" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">Sign in with Google</tspan></text>
   </g>
 </svg>

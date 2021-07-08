@@ -44,11 +44,21 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
         setData(RevData.data);
     }
 
+    function PressChatRoom(item: GloChatData) {
+        console.log('go to chat ')
+        props.navigation.navigate(SceneRoute.CHATROOM, {
+            id: item._id,
+            guide: { name: item.guide.name, uid: item.guide.uid },
+            finish: true,
+        });
+    }
+
     const RenderItem = (item : {item : GloChatData, index : number}) => {
 
 
         return(
-            <TouchableOpacity style={styles.ChatContainer}>
+            <TouchableOpacity style={styles.ChatContainer} 
+            onPress={() => PressChatRoom(item.item)}>
 
                 <Layout style={styles.GuideContainer}>
 
@@ -171,15 +181,15 @@ const styles = StyleSheet.create({
     },
     GuideProfileTxt1: {
         fontFamily:'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: '#C3C3C3',
         marginBottom: -10
     },
     GuideProfileTxt2: {
         fontFamily:'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: 'black',
-        marginTop: -5
+        marginTop: 4
     },
     DateContainer: {
         flex: 3,

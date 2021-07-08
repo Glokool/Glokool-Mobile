@@ -110,6 +110,8 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     // Sign the user in with the credential
     await auth().signInWithCredential(appleCredential);
 
+    console.log(auth().currentUser)
+
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
@@ -178,14 +180,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
       }
       return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
     })
-
-
-    }
-
-     
-
-
-
+  }
 
   const navigateSignUp = (): void => {
     props.navigation.navigate(SceneRoute.SIGN_UP)
@@ -239,12 +234,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           secureTextEntry={!passwordVisible}
         />
       </Layout>
-
-      <Layout style={styles.OrContainer}>
-        <Divider style={styles.Divider} />
-        <Text style={styles.OrTxt}>or</Text>
-        <Divider style={styles.Divider} />
-      </Layout>
       
       <Layout style={styles.buttonContainer}>
         
@@ -254,8 +243,14 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.LoginButton} onPress={() => onFormSubmit(props.values)}>
-          <Text style={styles.LoginButtonText}>Login</Text>
+          <Text style={styles.LoginButtonText}>LOGIN</Text>
         </TouchableOpacity>
+
+        <Layout style={styles.OrContainer}>
+          <Divider style={styles.Divider} />
+          <Text style={styles.OrTxt}>Or</Text>
+          <Divider style={styles.Divider} />
+        </Layout>
 
       </Layout>            
     </React.Fragment>
@@ -298,11 +293,11 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
             <Toast ref={(toast) => toastRef = toast} position={'center'}/>
 
             <TouchableOpacity onPress={() => onGoogleButtonPress()} style={styles.SnsLoginLogo}>
-              <GoogleLogin />
+              <GoogleLogin style={styles.GoogleLoginLogo} />
             </TouchableOpacity>
 
             {Platform.OS === 'ios' ? (
-              <TouchableOpacity onPress={() => onAppleButtonPress().then(() => console.log('Apple sign-in complete!'))} style={styles.SnsLoginLogo}>
+              <TouchableOpacity onPress={() => onAppleButtonPress()} style={styles.SnsLoginLogo}>
                 <AppleLogin />
               </TouchableOpacity>
             ) : null }
@@ -351,6 +346,15 @@ const styles = StyleSheet.create({
   SnsLoginLogo: {
     alignItems: 'center',
   },
+  GoogleLoginLogo:{
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+  },
   container: {
     backgroundColor: '#00FF0000',
     flex: 3,
@@ -365,16 +369,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 5,
     color: '#8797FF',
-    fontSize: 16
+    fontSize: 16,
   },
   // or divider
   OrContainer: {
     // width: WindowSize - 60,
+    width: '90%',
     marginVertical: 5,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
   },
   Divider: {
     backgroundColor: '#D9D9D9',
@@ -386,7 +390,8 @@ const styles = StyleSheet.create({
     color: '#7777FF',
     marginLeft: 5,
     marginRight: 5,
-    borderWidth:1,
+    flex: 0.4,
+    textAlign: 'center'
   },
   buttonContainer: {
     flex: 1,

@@ -63,7 +63,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
     
       <Layout style={styles.mainContainer}>
 
-        <Layout style={{height: 70}} />
+        <Layout style={{height: 100}} />
 
         {/* 세팅 내용물*/}
         <Layout style={styles.Container}>
@@ -117,9 +117,9 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
 
           <Layout style={(Platform.OS === 'android')? styles.TabbarAndroid : styles.Tabbar}>
 
-            <TouchableOpacity onPress={() => PressBack()} style={{padding: 10, flex:1, alignItems:'center', justifyContent: 'center'}}>
-              <SafeAreaView />
-              <AngleLeft />
+            <TouchableOpacity onPress={() => PressBack()} style={{padding: 15, flex:1, alignItems:'center', justifyContent: 'center'}}>
+              <SafeAreaView  />
+              <AngleLeft style={{padding: 10}} />
             </TouchableOpacity>
 
             <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>

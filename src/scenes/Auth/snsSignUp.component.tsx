@@ -205,6 +205,10 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
                 .catch((err) => {
                   console.log('Firebase Firestore Error : ', err);
                 })
+
+            await user?.updateProfile({
+              displayName: name,          
+            })
           }
 
         }
