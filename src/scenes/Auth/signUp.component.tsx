@@ -1,6 +1,8 @@
 import React from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import firebase from "firebase/app";
+
 import {
   StyleSheet,
   SafeAreaView,
@@ -66,7 +68,6 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
 
   const [startDay, setStartDay] = React.useState(new Date(1900, 1, 1));
   const [yesterDay, setYesterDay] = React.useState(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1));
-
   
 
   const PressTerms = () => {

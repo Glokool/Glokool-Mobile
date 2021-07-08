@@ -6,6 +6,8 @@
 #import <Firebase.h>
 #import "RNPaypal.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h> // <- Add This Import
+#import <React/RCTLinkingManager.h> // <- Add This Import
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -15,6 +17,22 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
+}
 
 
 static void InitializeFlipper(UIApplication *application) {
@@ -32,6 +50,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FBSDKApplicationDelegate initializeSDK:launchOptions]; // <- add this
   [GMSServices provideAPIKey:@"AIzaSyCRMnPLQDqrELKLx5kAkX3zXSmC6ZVZgxA"];
   
   if ([FIRApp defaultApp] == nil) {
@@ -67,5 +86,6 @@ static void InitializeFlipper(UIApplication *application) {
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
 
 @end

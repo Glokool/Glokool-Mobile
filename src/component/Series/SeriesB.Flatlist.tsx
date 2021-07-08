@@ -7,6 +7,7 @@ import {
     Image,
     Dimensions,  
     StyleSheet, 
+    Pressable,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -42,10 +43,10 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
 
     const renderTour = (item : {index: number, item: Series_Item}) => {
       return(
-          <TouchableOpacity style={styles.SeriesStyle} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id : item.item._id})}}>
+          <Pressable style={styles.SeriesStyle} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id : item.item._id})}}>
             <Image source={{ uri: item.item.cover }} style={styles.SeriesImgStyle} />
             <Text style={styles.SeriesTxtStyle}>{item.item.title}</Text>
-          </TouchableOpacity>
+          </Pressable>
       )
     };
 

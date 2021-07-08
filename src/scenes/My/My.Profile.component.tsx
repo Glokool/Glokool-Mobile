@@ -87,7 +87,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
     setLoading(true);
 
-    const doc = await firestore().collection('Users').doc(user.uid).update({
+    const doc = await firestore().collection('Users').doc(user?.uid).update({
       name: name,
       type: displayTypeValue
     });
@@ -171,17 +171,17 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
       })
   }
   React.useEffect(() => {
+    console.log('displayName : ' + auth().currentUser?.displayName)
+    console.log(auth().currentUser)
 
     const updateData = async() => {
       
       await firestore().collection('Users').doc(uid).get()
         .then(function(doc) {
-          
+          console.log('doc._data: ' + doc._data.name)
           setUserData(doc._data);
                 
           var date = new Date(doc._data.birthDate.seconds * 1000);
-          console.log(date.getDay())
-
           setName(user?.displayName);
           
           setBirthDate({
@@ -210,7 +210,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         })
     }
     
-    console.log(user?.photoURL)
     updateData();
   }, [])
 
@@ -290,7 +289,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                 value={name}
                 onChangeText={nextValue => setName(nextValue)}
               />
-              {/*<Text style={styles.title}>{userData?.name}</Text>*/}
             </Layout>
           </Layout>
 

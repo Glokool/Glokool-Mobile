@@ -2,7 +2,7 @@ import React from 'react';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
 import moment from 'moment';
-import { Dimensions, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView, Pressable } from 'react-native';
 import { Count } from '../../assets/icon/Common';
 import { SceneRoute } from '../../navigation/app.route';
 import { HiddenGemInKoreaFlatListProps } from '../../navigation/ScreenNavigator/Series.navigator';
@@ -54,7 +54,7 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
            
 
                 <Layout style={(item.index % 2 === 0)? styles.TourContainerEvenLayout : styles.TourContainerOddLayout }>
-                    <TouchableOpacity style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
+                    <Pressable style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
                         
                         <Layout style={styles.ImageContainer}>
                             <Image source={{uri : item.item.banner}} style={(item.index % 2 === 0)? styles.ImageEven : styles.ImageOdd } resizeMode={'stretch'}/>
@@ -87,7 +87,7 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
 
                         </Layout>
                         
-                    </TouchableOpacity>
+                    </Pressable>
                 </Layout>
         )
     }

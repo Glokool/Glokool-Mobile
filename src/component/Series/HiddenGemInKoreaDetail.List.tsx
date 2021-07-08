@@ -27,14 +27,14 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
     return(
         <Layout style={{backgroundColor: '#00FF0000'}}>
             {(props.data?.map((item, index) => 
-                <TouchableOpacity style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
+                <Layout style={styles.DataContainer} onTouchEnd={() => {PressDetail(item.placeCode)}}>
 
                     <Image source={{ uri : item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
 
                     <Text style={styles.TitleText}>{item.title}</Text>
                     <Text style={styles.DescText}>{item.desc}</Text>
 
-                </TouchableOpacity>               
+                </Layout>               
             ))}
         </Layout>
     )

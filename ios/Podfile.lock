@@ -257,6 +257,20 @@ PODS:
     - React-Core (= 0.64.1)
     - React-jsi (= 0.64.1)
     - ReactCommon/turbomodule/core (= 0.64.1)
+  - FBSDKCoreKit (9.3.0):
+    - FBSDKCoreKit/Basics (= 9.3.0)
+    - FBSDKCoreKit/Core (= 9.3.0)
+  - FBSDKCoreKit/Basics (9.3.0)
+  - FBSDKCoreKit/Core (9.3.0):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (9.3.0):
+    - FBSDKLoginKit/Login (= 9.3.0)
+  - FBSDKLoginKit/Login (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
+  - FBSDKShareKit (9.3.0):
+    - FBSDKShareKit/Share (= 9.3.0)
+  - FBSDKShareKit/Share (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
   - Firebase/Analytics (8.0.0):
     - Firebase/Core
   - Firebase/Auth (8.0.0):
@@ -655,6 +669,20 @@ PODS:
     - React-jsi (= 0.64.1)
     - React-perflogger (= 0.64.1)
   - React-jsinspector (0.64.1)
+  - react-native-fbsdk-next (4.3.0):
+    - React-Core
+    - react-native-fbsdk-next/Core (= 4.3.0)
+    - react-native-fbsdk-next/Login (= 4.3.0)
+    - react-native-fbsdk-next/Share (= 4.3.0)
+  - react-native-fbsdk-next/Core (4.3.0):
+    - FBSDKCoreKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Login (4.3.0):
+    - FBSDKLoginKit (~> 9.3)
+    - React-Core
+  - react-native-fbsdk-next/Share (4.3.0):
+    - FBSDKShareKit (~> 9.3)
+    - React-Core
   - react-native-geolocation (2.0.2):
     - React
   - react-native-google-maps (0.28.0):
@@ -739,6 +767,8 @@ PODS:
     - React-cxxreact (= 0.64.1)
     - React-jsi (= 0.64.1)
     - React-perflogger (= 0.64.1)
+  - RNAppleAuthentication (2.1.2):
+    - React-Core
   - RNAudio (4.3.0):
     - React
   - RNCAsyncStorage (1.15.4):
@@ -756,7 +786,7 @@ PODS:
   - RNFBApp (12.0.0):
     - Firebase/CoreOnly (= 8.0.0)
     - React-Core
-  - RNFBAuth (12.0.0):
+  - RNFBAuth (12.1.0):
     - Firebase/Auth (= 8.0.0)
     - React-Core
     - RNFBApp
@@ -836,8 +866,10 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - FBSDKLoginKit
   - Firebase/Analytics
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleSignIn
   - IamportReactNative (from `../node_modules/iamport-react-native`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
@@ -854,6 +886,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -875,6 +908,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - RNAudio (from `../node_modules/react-native-audio`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
@@ -903,6 +937,9 @@ SPEC REPOS:
     - boost-for-react-native
     - BoringSSL-GRPC
     - Braintree
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -967,6 +1004,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-fbsdk-next:
+    :path: "../node_modules/react-native-fbsdk-next"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-maps:
@@ -1009,6 +1048,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAppleAuthentication:
+    :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNAudio:
     :path: "../node_modules/react-native-audio"
   RNCAsyncStorage:
@@ -1059,6 +1100,9 @@ SPEC CHECKSUMS:
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
   FBReactNativeSpec: 0dcfb6176b5e9890b9026d423ffbdb43945395c5
+  FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
+  FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
+  FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
   Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
   FirebaseAnalytics: dcb92c7c9ef4fa7ffac276e8f87bd4fc8c97f1b8
   FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1
@@ -1098,6 +1142,7 @@ SPEC CHECKSUMS:
   React-jsi: 5de8204706bd872b78ea646aee5d2561ca1214b6
   React-jsiexecutor: 124e8f99992490d0d13e0649d950d3e1aae06fe9
   React-jsinspector: 500a59626037be5b3b3d89c5151bc3baa9abf1a9
+  react-native-fbsdk-next: 19e974b071047b7ed1dad86a9dc3fe77dff76b8c
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
   react-native-image-picker: 31971f6184e7c1dcb4fc1f122e1ba2c3fb11ef1e
@@ -1119,6 +1164,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4b99a7f5c6c0abbc5256410cc5425fb8531986e1
   React-runtimeexecutor: ff951a0c241bfaefc4940a3f1f1a229e7cb32fa6
   ReactCommon: bedc99ed4dae329c4fcf128d0c31b9115e5365ca
+  RNAppleAuthentication: e95bcfbd044013667f35c5ca20ae17d39500c009
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNCAsyncStorage: f47a7e8f927f7c9da947491fc55752eb9ce17f2d
   RNCCheckbox: d1749e6a92178ce5dbc31e63becd1f34f0c76bbd
@@ -1126,7 +1172,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: cc2ff3f925840c53f0117d92e0f5e269b356d0f7
-  RNFBAuth: 6853dd2d92ed8635831679b695a6690151ae6b77
+  RNFBAuth: 584f61e9cb3a5686e50e2e148f5ea3a0a47a1b60
   RNFBDatabase: da5a3f22b05750d334ae34458cc6317d558eb719
   RNFBFirestore: a709273bc1c35525a18a6e60b3893866754c194b
   RNFBMessaging: ba11538f4d76a5ef89dc8c97dad04fbf2fa6ebef
@@ -1142,6 +1188,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
 
-PODFILE CHECKSUM: 372fb38894d23d522ec888a99b052aaa19bcb4de
+PODFILE CHECKSUM: 3dbe8948b91c01de662fa1f95acb64f1b4284ceb
 
 COCOAPODS: 1.10.1
