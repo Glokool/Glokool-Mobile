@@ -4,6 +4,7 @@ import {
     Image,
     Dimensions,
     StyleSheet,
+    Pressable
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -45,9 +46,9 @@ export const SeriesAList = (
     return (
         <Layout style={styles.SeriesContainer}>
             {content.map((item) => (
-                <Layout
+                <Pressable
                     style={styles.SeriesInnerContainer}
-                    onTouchEnd={() =>
+                    onPress={() =>
                         props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {
                             Id: item._id,
                         })
@@ -78,7 +79,7 @@ export const SeriesAList = (
                             </Layout>
                         </Layout>
                     </Layout>
-                </Layout>
+                </Pressable>
             ))}
         </Layout>
     );

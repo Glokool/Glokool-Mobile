@@ -55,7 +55,6 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
 
     const RenderItem = (item : {item : GloChatData, index : number}) => {
 
-
         return(
             <TouchableOpacity style={styles.ChatContainer} 
             onPress={() => PressChatRoom(item.item)}>
