@@ -64,7 +64,7 @@ const requestStoragePermission = async () => {
             } else {
                 return { granted: 0 };
             }
-        }
+        }else{}
     } catch (err) {
         console.warn(err);
     }
