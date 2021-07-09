@@ -65,11 +65,12 @@ import {
 import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
 import messaging from '@react-native-firebase/messaging';
 import ImagePicker from 'react-native-image-crop-picker';
-
 import {
     requestCameraPermission,
     requestStoragePermission,
 } from '../../component/permission.component';
+import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions'
+
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -1034,7 +1035,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Pressable
                             style={{
                                 position: 'absolute',
-                                top: 20,
+                                top: 50,
                                 left: 20,
                             }}
                             onPress={() =>

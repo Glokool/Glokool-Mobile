@@ -1,4 +1,9 @@
+import React from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
+import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions'
+
+
+ 
 
 const requestCameraPermission = async () => {
     try {
@@ -19,6 +24,20 @@ const requestCameraPermission = async () => {
                 return { granted: 1 };
             } else {
                 return { granted: 0 };
+            }
+        }
+        else{
+            const res = await check(PERMISSIONS.IOS.CAMERA); 
+        
+            if (res === RESULTS.GRANTED) { 
+                return { granted: 1 };
+            } else if (res === RESULTS.DENIED) { 
+            const res2 = await request(PERMISSIONS.IOS.CAMERA);
+                if(res2 === RESULTS.GRANTED){
+                    return { granted: 1 }
+                }else{
+                    return { granted: 0 }
+                }
             }
         }
     } catch (err) {

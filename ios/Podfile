@@ -27,8 +27,13 @@ target 'Glokool' do
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
   # pod 'react-native-fbsdk-next', :path => '../node_modules/react-native-fbsdk-next'
-  
 
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+
+  pod 'Permission-Camera', :path => "../node_modules/react-native-permissions/ios/Camera"
+
+  
+  
   pod 'GoogleSignIn'
   
   pod 'FBSDKLoginKit'

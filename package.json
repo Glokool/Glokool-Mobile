@@ -78,6 +78,7 @@
     "react-native-maps": "0.28.0",
     "react-native-options-menu": "^2.0.2",
     "react-native-paypal": "^4.1.0",
+    "react-native-permissions": "^3.0.5",
     "react-native-reanimated": "^2.2.0",
     "react-native-restart": "0.0.22",
     "react-native-safe-area-context": "^3.2.0",
