@@ -26,6 +26,16 @@ target 'Glokool' do
 
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
+  # pod 'react-native-fbsdk-next', :path => '../node_modules/react-native-fbsdk-next'
+  
+
+  pod 'GoogleSignIn'
+  
+  pod 'FBSDKLoginKit'
+  # pod 'FBSDKCoreKit'
+  # pod 'FBSDKShareKit'
+  # pod 'FacebookSDK'
+
   target 'GlokoolTests' do
     inherit! :complete
     # Pods for testing
