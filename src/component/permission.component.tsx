@@ -64,7 +64,20 @@ const requestStoragePermission = async () => {
             } else {
                 return { granted: 0 };
             }
-        }else{}
+        }else{
+            const res = await check(PERMISSIONS.IOS.PHOTO_LIBRARY); 
+        
+            if (res === RESULTS.GRANTED) { 
+                return { granted: 1 };
+            } else if (res === RESULTS.DENIED) { 
+            const res2 = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+                if(res2 === RESULTS.GRANTED){
+                    return { granted: 1 }
+                }else{
+                    return { granted: 0 }
+                }
+            }
+        }
     } catch (err) {
         console.warn(err);
     }

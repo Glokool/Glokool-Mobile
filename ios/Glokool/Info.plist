@@ -5,7 +5,7 @@
 	<key>NSCameraUsageDescription</key>
 	<!-- <string>YOUR TEXT</string> -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<!-- <string>YOUR TEXT</string>  -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

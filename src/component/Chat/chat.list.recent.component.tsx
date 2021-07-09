@@ -49,6 +49,7 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: { name: item.guide.name, uid: item.guide.uid },
+            day: item.day,
             finish: true,
         });
     }

@@ -21,6 +21,7 @@ type ChatNavigatorParams = AppNavigatorParams & {
       name : string;
       uid : string;
     }
+    day: Date,
     finish : boolean;
   };
   [SceneRoute.CHAT_HELP] : {    
