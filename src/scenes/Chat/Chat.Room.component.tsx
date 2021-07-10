@@ -950,7 +950,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messagesContainerStyle={{
                             paddingBottom: 30,
                             paddingTop: 80,
-                            
                         }}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}

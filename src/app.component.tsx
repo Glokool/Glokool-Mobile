@@ -13,6 +13,8 @@ import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
+import { requestNotificationsPermission } from './component/permission.component';
+
 
 const saveTokenToDatabase = async (token: any) => {
     const userId = auth().currentUser?.uid;
@@ -24,13 +26,19 @@ const saveTokenToDatabase = async (token: any) => {
         .update({
             tokens: firestore.FieldValue.arrayUnion(token),
         });
+        console.log('token: ' + firestore.FieldValue.arrayUnion(token))
 };
+
+
 
 export default (): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
     React.useEffect(() => {
+
+        requestNotificationsPermission();
+        
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
             // Alert.alert(
@@ -38,10 +46,12 @@ export default (): React.ReactFragment => {
             //     JSON.stringify(remoteMessage),
             // );
         });
+        
 
         messaging()
             .getToken()
             .then((token) => {
+                console.log('token2: ' + token)
                 return saveTokenToDatabase(token);
             });
 

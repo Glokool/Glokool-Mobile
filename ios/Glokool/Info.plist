@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<!-- <string>YOUR TEXT</string> -->
-	<key>NSPhotoLibraryUsageDescription</key>
-	<!-- <string>YOUR TEXT</string>  -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -122,6 +118,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>NSPhotoLibraryUsageDescription</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use to inform the guide of your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -146,6 +144,10 @@
 		<string>Fonts/NotoSansCJKkr-Regular.ttf</string>
 		<string>Fonts/Roboto-Medium.ttf</string>
 		<string>Fonts/FontsFree-Net-SFProDisplay-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
