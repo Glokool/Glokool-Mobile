@@ -26,7 +26,6 @@ const saveTokenToDatabase = async (token: any) => {
         .update({
             tokens: firestore.FieldValue.arrayUnion(token),
         });
-        console.log('token: ' + firestore.FieldValue.arrayUnion(token))
 };
 
 
@@ -37,8 +36,6 @@ export default (): React.ReactFragment => {
 
     React.useEffect(() => {
 
-        requestNotificationsPermission();
-        
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
             // Alert.alert(
@@ -47,11 +44,12 @@ export default (): React.ReactFragment => {
             // );
         });
         
+        // Noti 권한 허용
+        requestNotificationsPermission()
 
         messaging()
             .getToken()
             .then((token) => {
-                console.log('token2: ' + token)
                 return saveTokenToDatabase(token);
             });
 

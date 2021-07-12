@@ -171,9 +171,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
       })
   }
   React.useEffect(() => {
-    console.log('displayName : ' + auth().currentUser?.displayName)
-    console.log(auth().currentUser)
-
     const updateData = async() => {
       
       await firestore().collection('Users').doc(uid).get()

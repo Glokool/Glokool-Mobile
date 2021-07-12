@@ -846,7 +846,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     //입력 창 확인
     const renderInputToolbar = (props) => {
         return (
-            <Layout>
+           <>
                 {
                     new Date(day).getFullYear() == new Date().getFullYear() && 
                     new Date(day).getMonth() == new Date().getMonth() &&
@@ -865,7 +865,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     :
                     null
                 }
-            </Layout>
+            </>
             );
     };
 
