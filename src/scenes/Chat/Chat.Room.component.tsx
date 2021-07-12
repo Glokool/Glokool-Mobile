@@ -40,10 +40,7 @@ import {
     launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-    faTimes,
-    faPlay,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
 import { filterText } from '../../data/filterChat';
@@ -71,7 +68,6 @@ import {
 } from '../../component/permission.component';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -195,7 +191,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         });
     };
 
-    // param으로 받은 채팅 날짜 
+    // param으로 받은 채팅 날짜
     const [day, setDay] = React.useState(props.route.params.day);
 
     //오디오 녹음 창
@@ -259,10 +255,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         audio: result, //파일 경로만 전달
                         messageType: 'audio',
                     };
+                    const push = createPushNoti('음성메시지를 보냈습니다.');
 
                     Promise.all([
                         ChatDB.update({ messages: [message, ...chatMessages] }),
-                        createPushNoti('음성메시지를 보냈습니다.'),
+                        sendMessage(push),
                     ]);
 
                     setAudioPath('');
@@ -400,14 +397,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                             const picRef = reference
                                 .child(
-                                    `chats/${roomName}/picture/${MessageID}.${imageType[1]}`
+                                    `chats/${roomName}/picture/${MessageID}.${imageType[1]}`,
                                 )
                                 .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
                             picRef.on(
                                 storage.TaskEvent.STATE_CHANGED,
                                 function (snapshot) {
-                                    var progress = (snapshot.bytesTransferred /
-                                        snapshot.totalBytes) *
+                                    var progress =
+                                        (snapshot.bytesTransferred /
+                                            snapshot.totalBytes) *
                                         100;
                                     switch (snapshot.state) {
                                         case storage.TaskState.PAUSED:
@@ -446,7 +444,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             };
 
                                             const push = createPushNoti(
-                                                '이미지를 보냈습니다'
+                                                '이미지를 보냈습니다',
                                             );
 
                                             Promise.all([
@@ -459,11 +457,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                 sendMessage(push),
                                             ]);
                                         });
-                                }
+                                },
                             );
                         }
                     }
-                }
+                },
             );
         } catch (e) {
             console.log('사진 촬영 에러', e);
@@ -498,6 +496,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         });
 
         return await Promise.all(promises).catch((e) => console.log(e.code));
+    };
+
+    /* 갤러리 열기*/
+    const openGallery = async (options) => {
+        return await ImagePicker.openPicker(options);
     };
 
     //이미지 전송을 위한 버튼
@@ -573,6 +576,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const onSend = async (messages = []) => {
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
+        messages[0].user.name = user?.displayName;
 
         if (filterText(messages[0].text)) {
             await Promise.all([
@@ -613,16 +617,16 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <Pressable
                 style={styles.ActionButton}
                 onPress={() => setVisible2(true)}>
-            {visible2 === true ? (
-                <Image
-                    style={styles.MenuImage}
-                    source={require('../../assets/icon/Chat/Menu_S.png')}
-                />
-            ) : (
-                <Image
-                    style={styles.MenuImage}
-                    source={require('../../assets/icon/Chat/Menu.png')}
-                />
+                {visible2 === true ? (
+                    <Image
+                        style={styles.MenuImage}
+                        source={require('../../assets/icon/Chat/Menu_S.png')}
+                    />
+                ) : (
+                    <Image
+                        style={styles.MenuImage}
+                        source={require('../../assets/icon/Chat/Menu.png')}
+                    />
                 )}
             </Pressable>
         );
@@ -861,27 +865,27 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     //입력 창 확인
     const renderInputToolbar = (props) => {
         return (
-           <>
+            <>
                 {
-                    new Date(day).getFullYear() == new Date().getFullYear() && 
+                    new Date(day).getFullYear() == new Date().getFullYear() &&
                     new Date(day).getMonth() == new Date().getMonth() &&
                     new Date(day).getDate() == new Date().getDate()
-                    ? 
-                <InputToolbar
-                    {...props}
-                    containerStyle={{
-                        borderWidth: 1.5,
-                        borderColor: '#D1D1D1',
-                        borderRadius: 30,
-                        margin: 10,
-                        alignItems: 'center',
-                    }}
-                />
-                    :
-                    null
+                        ?
+                        <InputToolbar
+                            {...props}
+                            containerStyle={{
+                                borderWidth: 1.5,
+                                borderColor: '#D1D1D1',
+                                borderRadius: 30,
+                                margin: 10,
+                                alignItems: 'center',
+                            }}
+                        />
+                        :
+                        null
                 }
             </>
-            );
+        );
     };
 
     //입력창 정렬을 위한 코드
@@ -1317,12 +1321,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
     },
-    IconHelpContainer:{
+    IconHelpContainer: {
         flex: 1,
         paddingLeft: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 15, 
+        padding: 15,
     },
     ImageContainer: {
         flex: 1,
