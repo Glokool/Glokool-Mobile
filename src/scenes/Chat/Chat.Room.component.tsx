@@ -499,10 +499,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* 갤러리 열기*/
-    const openGallery = async (options) => {
-        return await ImagePicker.openPicker(options);
-    };
-
     //이미지 전송을 위한 버튼
     const openGallery = async (options) => {
         return await ImagePicker.openPicker(options);
