@@ -501,15 +501,30 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     //이미지 전송을 위한 버튼
+    const openGallery = async (options) => {
+        return await ImagePicker.openPicker(options);
+    };
+
+    //이미지 전송을 위한 버튼
     const ImageSend = async () => {
         try {
             const { granted } = await requestStoragePermission();
             if (!granted) {
                 throw Error('Storage permission denied');
             }
-            const images = await ImagePicker.openPicker({
+
+            const pickerOptions = {
                 multiple: true,
-            });
+            };
+
+            if (Platform.OS === 'ios') {
+                Object.assign(pickerOptions, {
+                    forceJpg: true,
+                });
+            }
+
+            const images = await openGallery(pickerOptions);
+
             if (images?.length) {
                 const additionalInfo = await createAdditionalInfo(images);
                 const imgArr = await uploadImgArr(images, additionalInfo);
@@ -528,7 +543,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     image: imgArr, //다운로드URL 전달
                     messageType: 'image',
                 };
-                
+
                 Promise.all([
                     ChatDB.update({
                         messages: [message, ...chatMessages],

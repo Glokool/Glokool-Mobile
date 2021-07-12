@@ -34,7 +34,6 @@ export const HomeTopTabBar = (props : HomeTopTabBarProps) : LayoutElement => {
 
     function PressUserPhoto() {
         props.navigation.navigate(NavigatorRoute.MY);
-
     }
 
 

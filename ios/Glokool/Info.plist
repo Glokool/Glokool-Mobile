@@ -119,7 +119,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>NSPhotoLibraryUsageDescription</string>
+	<string>App would like to use your camera for Chat function</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use to inform the guide of your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -129,7 +129,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This sample uses the microphone to record your speech and convert it to text.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App would lite to use your photo Library for Chat function</string>
+	<string>App would like to use your photo Library for Chat function</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
