@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Glokool</string>
     <string name="facebook_app_id">1089890191536744</string>
+    <string name="fb_login_protocol_scheme">fb1089890191536744</string>
 </resources>

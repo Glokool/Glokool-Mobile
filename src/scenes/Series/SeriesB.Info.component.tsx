@@ -132,6 +132,7 @@ export const SeriesBInfoScreen = (
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
+        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -332,6 +333,45 @@ export const SeriesBInfoScreen = (
                             />
                         </Layout>
                     ) : null}
+
+<Layout>
+                        <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
+                        <Layout style={styles.SeriesBottomLayout}>
+                            <Layout style={styles.SeriesDateLayoutStyle}>
+                                <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
+                            </Layout>
+                            <Layout style={styles.SeriesCountLayoutStyle}>
+                                <CountNum style={styles.SeriesCountIconLayoutStyle} />
+                                <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
+                            </Layout>
+                            <Layout style={styles.TopImgIconLayout}>
+                                {uid ? (
+                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                    {bookmarkList.indexOf(Id) == -1 ? 
+                                        <Bookmark />
+                                        :
+                                        <Bookmark_P />
+                                    }
+                                    </TouchableOpacity>
+                                ) : null}
+                                {uid ? (
+                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                                    {content?.plus.indexOf(uid) == -1 ?  (
+                                        <Plus />
+                                    ) : (
+                                        <Plus_P />
+                                    )}
+                                    </TouchableOpacity>
+                                  ) : null}
+                            </Layout>
+                        </Layout>
+                    </Layout>
+                <Layout style={styles.TopTxtContainer}>
+                    <Text style={styles.TitleTxt}>{content?.title}</Text>
+                    <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
+                    <Text style={styles.descTxt}>{content?.desc}</Text>
+                    <Text style={styles.LetsBeginTxt}>Let's Begin ! </Text>
+                </Layout>
 
                     {/* content carousel */}
                     {contentInfo.map((item) => (

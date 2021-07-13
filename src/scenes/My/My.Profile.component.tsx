@@ -26,6 +26,7 @@ import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import { Loading } from '../../component/Common/Loading';
+import { AuthUser } from '../../data/Auth';
 
 var toastRef : any;
 
@@ -36,7 +37,8 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
   const [withDrawal, setWithDrawal] = React.useState(false);
   const user = auth().currentUser;
   const uid = user?.uid;
-  //Date of Birth
+  const authuser = AuthUser();
+  const authname = (authuser?.displayName === null || authuser?.displayName === '')? 'Glokool' : authuser?.displayName;
   const startDay = new Date(1900, 1, 1);
   const [date, setDate] = React.useState(new Date()); 
   //Sex
@@ -172,14 +174,13 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
   }
   React.useEffect(() => {
     const updateData = async() => {
-      
       await firestore().collection('Users').doc(uid).get()
         .then(function(doc) {
           setUserData(doc._data);
-                
+          console.log('data: ' + doc._data)
           var date = new Date(doc._data.birthDate.seconds * 1000);
           setName(user?.displayName);
-          
+          console.log('mypage Name: ' + user?.displayName)
           setBirthDate({
             year: date.getFullYear(),
             month: date.getMonth() + 1,
@@ -205,7 +206,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
           console.log(err)
         })
     }
-    
+
     updateData();
   }, [])
 
