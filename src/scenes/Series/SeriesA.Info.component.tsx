@@ -149,7 +149,8 @@ export const SeriesAInfoScreen = (
         );
     };
 
-    const PressBookmark = async () => {
+    const PressBookmark = async() => {
+        console.log('bookmark')
         const authToken = await auth().currentUser?.getIdToken();
         var axios = require('axios');
         var data = qs.stringify({
@@ -174,7 +175,8 @@ export const SeriesAInfoScreen = (
             });
     };
 
-    const PressPlus = async () => {
+    const PressPlus = async() => {
+        console.log('like')
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
@@ -534,7 +536,6 @@ export const SeriesAInfoScreen = (
                         </Layout>
 
                         {/* 댓글 입력 */}
-
                         {uid ? (
                             <Layout style={styles.CommentsTextLayout}>
                                 <TextInput
@@ -553,6 +554,7 @@ export const SeriesAInfoScreen = (
                         ) : null}
                     </Layout>
                 </ScrollView>
+                
             </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
