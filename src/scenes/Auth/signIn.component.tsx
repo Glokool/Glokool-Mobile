@@ -153,6 +153,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   // Facebook login
    const onFacebookButtonPress = async() => {
+     console.log('enter facebook')
 
       // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
