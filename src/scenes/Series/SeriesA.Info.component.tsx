@@ -149,8 +149,7 @@ export const SeriesAInfoScreen = (
         );
     };
 
-    const PressBookmark = async() => {
-        console.log('bookmark')
+    const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
         var axios = require('axios');
         var data = qs.stringify({
@@ -175,7 +174,7 @@ export const SeriesAInfoScreen = (
             });
     };
 
-    const PressPlus = async() => {
+    const PressPlus = async () => {
         console.log('like')
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
@@ -553,6 +552,7 @@ export const SeriesAInfoScreen = (
                             </Layout>
                         ) : null}
                     </Layout>
+                    
                 </ScrollView>
                 
             </KeyboardAvoidingView>
@@ -570,7 +570,7 @@ export const SeriesAInfoScreen = (
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity
                                 style={styles.BookmarkTouch}
-                                onPress={() => PressBookmark}>
+                                onPress={() => PressBookmark()}>
                                 {bookmarkList.indexOf(Id) == -1 ? (
                                     <Bookmark />
                                 ) : (
@@ -579,7 +579,7 @@ export const SeriesAInfoScreen = (
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.PlusTouch}
-                                onPress={() => PressPlus}>
+                                onPress={() => PressPlus()}>
                                 {content?.plus.indexOf(uid) == -1 ? (
                                     <Plus />
                                 ) : (
