@@ -9,13 +9,15 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Report } from '../../assets/icon/Chat';
+import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
 
 export const ChatReportScreen = (
     props: ChatReportScreenProps,
 ): LayoutElement => {
-    const user = auth().currentUser;
+    const { currentUser } = React.useContext(AuthContext);
+
     const guide = props.route.params.guide;
     const [value, setValue] = React.useState('');
 
@@ -27,8 +29,8 @@ export const ChatReportScreen = (
                 id: props.route.params.id,
                 guideUid: guide?.uid,
                 guideName: guide?.name,
-                user: user?.email,
-                userName: user?.displayName,
+                user: currentUser?.email,
+                userName: currentUser?.displayName,
                 value: value,
             };
 
@@ -41,7 +43,7 @@ export const ChatReportScreen = (
 
             const docRef = firestore()
                 .collection('ReportAssistant')
-                .doc(`${guide.uid}-${user?.uid}-${reportDate}`)
+                .doc(`${guide.uid}-${currentUser?.uid}-${reportDate}`)
                 .set(report);
 
             props.navigation.goBack();

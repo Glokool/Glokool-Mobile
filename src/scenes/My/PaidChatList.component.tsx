@@ -11,13 +11,10 @@ import moment from 'moment'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { AuthUser } from '../../data/Auth';
 
 
 
 export const PaidChatList = (props : PaidChatListProps) : LayoutElement => {
-
-    const user = AuthUser();
     const [data, setData] = React.useState<Array<ReservationInfo>>([]);
     const [detailData, setDetailData] = React.useState<ReservationInfo>();
     const [visible, setVisible] = React.useState<boolean>(false);

@@ -9,10 +9,7 @@ import {
     TouchableOpacity,
     BackHandler,
 } from 'react-native';
-import {
-    Layout,
-    LayoutElement,
-} from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
@@ -22,9 +19,9 @@ import { WeatherComponent } from '../../component/Chat/weather.component';
 import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
 import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
-import { AuthUser } from '../../data/Auth';
 import Toast from 'react-native-easy-toast';
 import { ChatContext } from '../../context/ChatContext';
+import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
 
@@ -36,9 +33,8 @@ type PriceData = {
 };
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
-    const user = AuthUser();
-
     const { onChat, setChatIcon } = React.useContext(ChatContext);
+    const { currentUser } = React.useContext(AuthContext);
 
     setChatIcon(false);
 
@@ -101,13 +97,13 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         return true;
     };
 
-    return user == null ? (
+    return currentUser == null ? (
         <Layout>
             <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
             <LoginCheck
                 navigation={props.navigation}
                 route={props.route}
-                visible={user === null ? true : false}
+                visible={currentUser === null ? true : false}
             />
         </Layout>
     ) : (
