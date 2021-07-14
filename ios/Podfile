@@ -41,6 +41,8 @@ target 'Glokool' do
   # pod 'FBSDKShareKit'
   # pod 'FacebookSDK'
 
+  pod 'Firebase/Messaging'
+
   target 'GlokoolTests' do
     inherit! :complete
     # Pods for testing

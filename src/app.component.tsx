@@ -17,7 +17,12 @@ import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
+<<<<<<< HEAD
 import { AuthContext } from './context/AuthContext';
+=======
+import { requestNotificationsPermission } from './component/permission.component';
+
+>>>>>>> d2c710d35ebe0cc03efe0ece03f499797aad86a6
 
 const saveTokenToDatabase = async (token: any) => {
     const userId = auth().currentUser?.uid;
@@ -30,6 +35,8 @@ const saveTokenToDatabase = async (token: any) => {
             tokens: firestore.FieldValue.arrayUnion(token),
         });
 };
+
+
 
 export default (): React.ReactFragment => {
     const [currentUser, setCurrentUser] = React.useState(null);
@@ -56,6 +63,7 @@ export default (): React.ReactFragment => {
     const value = { onChat, setChatIcon };
 
     React.useEffect(() => {
+
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
             // Alert.alert(
@@ -63,6 +71,9 @@ export default (): React.ReactFragment => {
             //     JSON.stringify(remoteMessage),
             // );
         });
+        
+        // Noti 권한 허용
+        requestNotificationsPermission()
 
         messaging()
             .getToken()

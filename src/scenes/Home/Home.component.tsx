@@ -10,6 +10,7 @@ import {
     StyleSheet,
     Text,
     BackHandler,
+    Pressable
 } from 'react-native';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -58,6 +59,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
 
+    
+
     return (
         <Layout style={{ alignItems: 'flex-start', width: '100%' }}>
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
@@ -96,14 +99,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <Text style={styles.GloChat2}>{`There are..`}</Text>
                     </Layout>
 
-                    <Layout
+                    <Pressable
                         style={styles.GloChatContainer3}
-                        onTouchEnd={() => PressGloChatAD()}>
+                        onPress={() => PressGloChatAD()}>
                         <Text style={styles.GloChat3}>{`Click to Start `}</Text>
                         <Text style={styles.GloChat3_1}>{`Glo-Chat`}</Text>
                         <Text style={styles.GloChat3}>{`!   `}</Text>
                         <AngleRightDouble style={styles.GloChatIcon} />
-                    </Layout>
+                    </Pressable>
                 </Layout>
 
                 <AdBanner />

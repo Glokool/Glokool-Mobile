@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<!-- <string>YOUR TEXT</string> -->
-	<key>NSPhotoLibraryUsageDescription</key>
-	<!-- <string>YOUR TEXT</string>  -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -53,7 +49,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.603637824492-b8oars128cdq83j1qll4buprl10fm374</string>
+				<string>com.googleusercontent.apps.603637824492-i5ofvov741ndb424rmrqn3sahbta5gg5</string>
 			</array>
 		</dict>
 		<dict>
@@ -122,6 +118,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>App would like to use your camera for Chat function</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Use to inform the guide of your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -131,7 +129,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This sample uses the microphone to record your speech and convert it to text.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App would lite to use your photo Library for Chat function</string>
+	<string>App would like to use your photo Library for Chat function</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
@@ -146,6 +144,10 @@
 		<string>Fonts/NotoSansCJKkr-Regular.ttf</string>
 		<string>Fonts/Roboto-Medium.ttf</string>
 		<string>Fonts/FontsFree-Net-SFProDisplay-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>

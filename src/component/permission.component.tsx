@@ -1,9 +1,24 @@
-import React from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions'
+import messaging from '@react-native-firebase/messaging';
 
 
- 
+const requestNotificationsPermission = async () => {
+    try {
+        if(Platform.OS === 'ios'){
+            const authStatus = await messaging().requestPermission();
+            const enabled =
+                authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+                authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+            if (enabled) {
+                console.log('Authorization status:', authStatus);
+            }
+        }
+    } catch (err) {
+        console.warn(err);
+    }
+}
 
 const requestCameraPermission = async () => {
     try {
@@ -83,4 +98,4 @@ const requestStoragePermission = async () => {
     }
 };
 
-export { requestCameraPermission, requestStoragePermission };
+export { requestCameraPermission, requestStoragePermission, requestNotificationsPermission };

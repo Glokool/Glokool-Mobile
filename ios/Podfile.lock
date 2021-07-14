@@ -884,6 +884,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - FBSDKLoginKit
   - Firebase/Analytics
+  - Firebase/Messaging
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleSignIn
   - IamportReactNative (from `../node_modules/iamport-react-native`)
@@ -1222,6 +1223,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
 
-PODFILE CHECKSUM: b4477ea7a222f84ebbb6499392bc32344ebca36b
+PODFILE CHECKSUM: 75cee7b4feee0658ee7f0172840830e56e14b986
 
 COCOAPODS: 1.10.1

@@ -287,7 +287,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
 
         {/*넥스트 버튼*/}
         <Layout style={styles.ButtonContainer}>
-            <Button style={styles.Button} size='giant' onPress={PressNext}>NEXT</Button>
+            <Button style={styles.Button} size='giant' onPress={() => PressNext()}>NEXT</Button>
         </Layout>
 
         <Toast ref={(toast) => ToastRef = toast} position={'center'}/>

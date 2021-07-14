@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>603637824492-b8oars128cdq83j1qll4buprl10fm374.apps.googleusercontent.com</string>
+	<string>603637824492-i5ofvov741ndb424rmrqn3sahbta5gg5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.603637824492-b8oars128cdq83j1qll4buprl10fm374</string>
+	<string>com.googleusercontent.apps.603637824492-i5ofvov741ndb424rmrqn3sahbta5gg5</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>603637824492-rdu8c87lh8donovl6vmf46atd0rdc0le.apps.googleusercontent.com</string>
+	<string>603637824492-3ai4koc69dlm755ksfaljskt1pslhehs.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBi-WrWocGTs5xrxOrE6hzYaoUSr_T9B7M</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.Glokool</string>
+	<string>com.glokool</string>
 	<key>PROJECT_ID</key>
 	<string>glokool-a7604</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:603637824492:ios:d9885fb5149dee84ba9ec9</string>
+	<string>1:603637824492:ios:3a65bed2ececdb11ba9ec9</string>
 	<key>DATABASE_URL</key>
 	<string>https://glokool-a7604-default-rtdb.firebaseio.com</string>
 </dict>
