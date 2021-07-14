@@ -22,11 +22,12 @@ import { TermsConditionCard } from '../../../component/terms&Condition.component
 import { CustomerService } from '../../../assets/icon/My';
 import { privacyPolicycard } from '../../../component/privacyPolicy.component';
 import { AngleLeft } from '../../../assets/icon/Common';
+import { AuthContext } from '../../../context/AuthContext';
 
 export const CustomerServiceComponent = (
     props: CustomerServiceProps,
 ): LayoutElement => {
-    const user = auth().currentUser;
+    const { currentUser } = React.useContext(AuthContext);
     const [visible, setVisible] = React.useState(false);
     const [passward, setPassward] = React.useState<string>('');
     const [withDrawalVisible, setWithDrawalVisible] = React.useState<boolean>(
@@ -55,10 +56,10 @@ export const CustomerServiceComponent = (
     async function Withdrawal() {
         const UserData = firestore()
             .collection('Users')
-            .doc(user?.uid)
+            .doc(currentUser?.uid)
             .update({ isDelete: true });
 
-        await auth().signInWithEmailAndPassword(user?.email, passward);
+        await auth().signInWithEmailAndPassword(currentUser?.email, passward);
 
         const NewUser = await auth().currentUser?.delete();
 

@@ -3,16 +3,21 @@ import { LogBox, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import {
+    ApplicationProvider,
+    IconRegistry,
+    Layout,
+} from '@ui-kitten/components';
 import { default as mapping } from '../mapping.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation/app.navigator';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
+import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
 
 
@@ -31,6 +36,26 @@ const saveTokenToDatabase = async (token: any) => {
 
 
 export default (): React.ReactFragment => {
+    const [currentUser, setCurrentUser] = React.useState(null);
+    const userValue = { currentUser, setCurrentUser };
+
+    React.useEffect(() => {
+        auth().onAuthStateChanged((user) => {
+            if (user) {
+                const userInfo = {
+                    displayName: user?.displayName,
+                    email: user?.email,
+                    photoURL: user?.photoURL,
+                    uid: user?.uid,
+                };
+
+                setCurrentUser(userInfo);
+            } else {
+                console.log('user logout');
+            }
+        });
+    }, []);
+
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
@@ -73,11 +98,13 @@ export default (): React.ReactFragment => {
                 theme={{ ...eva.light, ...theme }}
                 customMapping={mapping}>
                 <SafeAreaProvider>
-                    <NavigationContainer>
+                    <AuthContext.Provider value={userValue}>
                         <ChatContext.Provider value={value}>
-                            <AppNavigator />
+                            <NavigationContainer>
+                                <AppNavigator />
+                            </NavigationContainer>
                         </ChatContext.Provider>
-                    </NavigationContainer>
+                    </AuthContext.Provider>
                 </SafeAreaProvider>
             </ApplicationProvider>
         </React.Fragment>

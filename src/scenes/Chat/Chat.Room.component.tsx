@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
@@ -11,13 +11,13 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Pressable,
+    TouchableOpacity,
 } from 'react-native';
 import {
     Layout,
-    LayoutElement,
     Spinner,
     Modal,
-    Card,
+    Card, LayoutElement,
 } from '@ui-kitten/components';
 import database, {
     FirebaseDatabaseTypes,
@@ -40,7 +40,7 @@ import {
     launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
 import { filterText } from '../../data/filterChat';
@@ -54,7 +54,6 @@ import {
     Help,
     Images,
     Camera,
-    Menu,
     MyLocation,
     SendIcon,
     Record,
@@ -68,13 +67,15 @@ import {
 } from '../../component/permission.component';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
-    const user = auth().currentUser;
+    const { currentUser } = React.useContext(AuthContext);
+
     const Ref = React.useRef(null);
 
     //채팅 메시지 저장을 위한 정보
@@ -83,8 +84,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setChatDB,
     ] = React.useState<FirebaseDatabaseTypes.Reference>();
     const [guide, setGuide] = React.useState({});
-    const [guideCheck, setGuideCheck] = React.useState(false);
-    const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState([]);
     const [mapvisible, setMapvisible] = React.useState(false);
@@ -161,6 +160,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 setFetchChat(true);
                 return;
             }
+
             let { messages } = snapshot.val();
             messages = messages.map((node) => {
                 const message = {};
@@ -223,6 +223,25 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             const recorder = await AudioRecorder.stopRecording();
             AudioRecorder.onFinished = (data) => {
+                const sound = new Sound(
+                    data,
+                    '',
+                    (error) => {
+                        if (error) {
+                            console.log('보이스 파일 다운로드 실패');
+                        }
+
+                        sound.play((success) => {
+                            if (success) {
+                                console.log('재생 성공');
+                                console.log(sound.getDuration())
+                            } else {
+                                console.log('재생 실패');
+                            }
+                        });
+                    },
+                );
+
                 if (Platform.OS === 'ios') {
                     var path = data.audioFileURL;
                     setAudioPath(path);
@@ -248,14 +267,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         _id: audioMessage,
                         createdAt: new Date().getTime(),
                         user: {
-                            _id: user?.uid,
-                            name: user?.displayName,
-                            avatar: user?.photoURL,
+                            _id: currentUser?.uid,
+                            name: currentUser?.displayName,
+                            avatar: currentUser?.photoURL,
                         },
                         audio: result, //파일 경로만 전달
                         messageType: 'audio',
                     };
                     const push = createPushNoti('음성메시지를 보냈습니다.');
+
+                    
+                    
 
                     Promise.all([
                         ChatDB.update({ messages: [message, ...chatMessages] }),
@@ -327,11 +349,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const renderAudio = (props) => {
         return (
-            <Pressable
+            <TouchableOpacity
                 style={{
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: 10,
+                    padding: 20,
                 }}
                 onPress={async () => {
                     const sound = new Sound(
@@ -342,11 +364,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 console.log('보이스 파일 다운로드 실패');
                             }
 
-                            //console.log('duration in seconds: ' + sound.getDuration() + ' number of channels: ' + sound.getNumberOfChannels());
-
                             sound.play((success) => {
                                 if (success) {
                                     console.log('재생 성공');
+                                    // console.log(sound.getDuration())
                                 } else {
                                     console.log('재생 실패');
                                 }
@@ -355,14 +376,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     );
                 }}>
                 <FontAwesomeIcon icon={faPlay} size={16} />
-            </Pressable>
+
+            </TouchableOpacity>
         );
     };
 
     const createPushNoti = (message: string): object => {
         return {
             user: {
-                name: user?.displayName,
+                name: currentUser?.displayName,
             },
             text: message,
         };
@@ -437,7 +459,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                 _id: MessageID,
                                                 createdAt: new Date().getTime(),
                                                 user: {
-                                                    _id: user?.uid,
+                                                    _id: currentUser?.uid,
                                                 },
                                                 image: downloadURL,
                                                 messageType: 'image',
@@ -537,7 +559,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     _id: additionalInfo[0]?.MessageID,
                     createdAt: new Date().getTime(),
                     user: {
-                        _id: user?.uid,
+                        _id: currentUser?.uid,
                     },
                     image: imgArr, //다운로드URL 전달
                     messageType: 'image',
@@ -572,8 +594,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const onSend = async (messages = []) => {
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
-        messages[0].user.name = user?.displayName;
+        messages[0].user.name = currentUser?.displayName;
 
+        console.log('mess', messages[0].user.name);
         if (filterText(messages[0].text)) {
             await Promise.all([
                 ChatDB.update({ messages: [messages[0], ...chatMessages] }),
@@ -643,7 +666,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             _id: MessageID,
                             createdAt: new Date().getTime(),
                             user: {
-                                _id: user?.uid,
+                                _id: currentUser?.uid,
                             },
                             location: {
                                 lat: position.coords.latitude,
@@ -685,7 +708,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         _id: MessageID,
                         createdAt: new Date().getTime(),
                         user: {
-                            _id: user?.uid,
+                            _id: currentUser?.uid,
                         },
                         location: {
                             lat: position.coords.latitude,
@@ -862,34 +885,30 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const renderInputToolbar = (props) => {
         return (
             <>
-                {
-                    new Date(day).getFullYear() == new Date().getFullYear() &&
-                    new Date(day).getMonth() == new Date().getMonth() &&
-                    new Date(day).getDate() == new Date().getDate()
-                        ?
-                        <InputToolbar
-                            {...props}
-                            containerStyle={{
-                                borderWidth: 1.5,
-                                borderColor: '#D1D1D1',
-                                borderRadius: 30,
-                                margin: 10,
-                                alignItems: 'center',
-                            }}
-                        />
-                        :
-                        null
-                }
+                {new Date(day).getFullYear() == new Date().getFullYear() &&
+                new Date(day).getMonth() == new Date().getMonth() &&
+                new Date(day).getDate() == new Date().getDate() ? (
+                    <InputToolbar
+                        {...props}
+                        containerStyle={{
+                            borderWidth: 1.5,
+                            borderColor: '#D1D1D1',
+                            borderRadius: 30,
+                            margin: 10,
+                            alignItems: 'center',
+                        }}
+                    />
+                ) : null}
             </>
         );
     };
-
+    const firstRef = useRef();
     //입력창 정렬을 위한 코드
     const renderComposer = (props) => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true }}
+                textInputProps={{ autoFocus: true, blurOnSubmit: false, selectTextOnFocus: true }}
                 placeholder="Chat Message"
                 textInputStyle={{
                     alignSelf: 'center',
@@ -959,13 +978,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
                         user={{
-                            _id: user?.uid,
+                            _id: currentUser?.uid,
                         }}
                         isAnimated
                         messagesContainerStyle={{
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
+                        renderAvatar={null}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}
