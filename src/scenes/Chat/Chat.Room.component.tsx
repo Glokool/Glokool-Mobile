@@ -15,10 +15,9 @@ import {
 } from 'react-native';
 import {
     Layout,
-    LayoutElement,
     Spinner,
     Modal,
-    Card,
+    Card, LayoutElement,
 } from '@ui-kitten/components';
 import database, {
     FirebaseDatabaseTypes,
@@ -55,7 +54,6 @@ import {
     Help,
     Images,
     Camera,
-    Menu,
     MyLocation,
     SendIcon,
     Record,
@@ -69,13 +67,15 @@ import {
 } from '../../component/permission.component';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
-    const user = auth().currentUser;
+    const { currentUser } = React.useContext(AuthContext);
+
     const Ref = React.useRef(null);
 
     //채팅 메시지 저장을 위한 정보
@@ -84,8 +84,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setChatDB,
     ] = React.useState<FirebaseDatabaseTypes.Reference>();
     const [guide, setGuide] = React.useState({});
-    const [guideCheck, setGuideCheck] = React.useState(false);
-    const [title, setTitle] = React.useState('');
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState([]);
     const [mapvisible, setMapvisible] = React.useState(false);
@@ -162,6 +160,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 setFetchChat(true);
                 return;
             }
+
             let { messages } = snapshot.val();
             messages = messages.map((node) => {
                 const message = {};
@@ -268,9 +267,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         _id: audioMessage,
                         createdAt: new Date().getTime(),
                         user: {
-                            _id: user?.uid,
-                            name: user?.displayName,
-                            avatar: user?.photoURL,
+                            _id: currentUser?.uid,
+                            name: currentUser?.displayName,
+                            avatar: currentUser?.photoURL,
                         },
                         audio: result, //파일 경로만 전달
                         messageType: 'audio',
@@ -385,7 +384,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const createPushNoti = (message: string): object => {
         return {
             user: {
-                name: user?.displayName,
+                name: currentUser?.displayName,
             },
             text: message,
         };
@@ -460,7 +459,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                 _id: MessageID,
                                                 createdAt: new Date().getTime(),
                                                 user: {
-                                                    _id: user?.uid,
+                                                    _id: currentUser?.uid,
                                                 },
                                                 image: downloadURL,
                                                 messageType: 'image',
@@ -560,7 +559,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     _id: additionalInfo[0]?.MessageID,
                     createdAt: new Date().getTime(),
                     user: {
-                        _id: user?.uid,
+                        _id: currentUser?.uid,
                     },
                     image: imgArr, //다운로드URL 전달
                     messageType: 'image',
@@ -595,8 +594,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const onSend = async (messages = []) => {
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
-        messages[0].user.name = user?.displayName;
+        messages[0].user.name = currentUser?.displayName;
 
+        console.log('mess', messages[0].user.name);
         if (filterText(messages[0].text)) {
             await Promise.all([
                 ChatDB.update({ messages: [messages[0], ...chatMessages] }),
@@ -666,7 +666,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             _id: MessageID,
                             createdAt: new Date().getTime(),
                             user: {
-                                _id: user?.uid,
+                                _id: currentUser?.uid,
                             },
                             location: {
                                 lat: position.coords.latitude,
@@ -708,7 +708,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         _id: MessageID,
                         createdAt: new Date().getTime(),
                         user: {
-                            _id: user?.uid,
+                            _id: currentUser?.uid,
                         },
                         location: {
                             lat: position.coords.latitude,
@@ -885,24 +885,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const renderInputToolbar = (props) => {
         return (
             <>
-                {
-                    new Date(day).getFullYear() == new Date().getFullYear() &&
-                    new Date(day).getMonth() == new Date().getMonth() &&
-                    new Date(day).getDate() == new Date().getDate()
-                        ?
-                        <InputToolbar
-                            {...props}
-                            containerStyle={{
-                                borderWidth: 1.5,
-                                borderColor: '#D1D1D1',
-                                borderRadius: 30,
-                                margin: 10,
-                                alignItems: 'center',
-                            }}
-                        />
-                        :
-                        null
-                }
+                {new Date(day).getFullYear() == new Date().getFullYear() &&
+                new Date(day).getMonth() == new Date().getMonth() &&
+                new Date(day).getDate() == new Date().getDate() ? (
+                    <InputToolbar
+                        {...props}
+                        containerStyle={{
+                            borderWidth: 1.5,
+                            borderColor: '#D1D1D1',
+                            borderRadius: 30,
+                            margin: 10,
+                            alignItems: 'center',
+                        }}
+                    />
+                ) : null}
             </>
         );
     };
@@ -982,13 +978,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
                         user={{
-                            _id: user?.uid,
+                            _id: currentUser?.uid,
                         }}
                         isAnimated
                         messagesContainerStyle={{
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
+                        renderAvatar={null}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}

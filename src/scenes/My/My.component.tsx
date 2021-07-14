@@ -1,25 +1,27 @@
-import React from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import React, { useContext } from 'react';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 import {
-  StyleSheet,
-  Image,
-  BackHandler,
-  TouchableOpacity,
-  Dimensions,
-  SafeAreaView,
+    StyleSheet,
+    Image,
+    BackHandler,
+    TouchableOpacity,
+    Dimensions,
+    SafeAreaView,
+    ActivityIndicator,
 } from 'react-native';
-import {
-  Divider,
-  Layout,
-  LayoutElement,
-  Text,
-} from '@ui-kitten/components';
-import { Korean, Resident, Traveler } from '../../assets/icon/UserType'
+import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Korean, Resident, Traveler } from '../../assets/icon/UserType';
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { LoginCheck } from '../../component/Common';
-import { Receipt, Receipt_Large, Setting_Btn, Comment_Btn, Bookmark_Btn } from '../../assets/icon/My';
+import {
+    Receipt,
+    Receipt_Large,
+    Setting_Btn,
+    Comment_Btn,
+    Bookmark_Btn,
+} from '../../assets/icon/My';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
@@ -27,422 +29,515 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { PaidDetail } from '../../component/My/PaidDetail';
 import { ReservationInfo } from '.';
 import { SceneRoute } from '../../navigation/app.route';
-import { AuthUser } from '../../data/Auth';
 import Toast from 'react-native-easy-toast';
 
-var toastRef : any;
+var toastRef: any;
 
 const Screen = Dimensions.get('window').width;
 
 type FirebaseUserInfo = {
-  type : string,
-  avatar: string,
-  birthDate: Date,
-  country: string,
-  email : string,
-  gender: string,
-  name: string,
-  signupDate: Date,  
-}
-
+    type: string;
+    avatar: string;
+    birthDate: Date;
+    country: string;
+    email: string;
+    gender: string;
+    name: string;
+    signupDate: Date;
+};
+import { AuthContext } from '../../context/AuthContext';
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
+    const { currentUser } = useContext(AuthContext);
 
-  const user = auth().currentUser;
-  const [visible, setVisible] = React.useState<boolean>(false);
-  const [detailData, setDetailData] = React.useState<ReservationInfo>();
-  const [reservationInfo, setReservationInfo] = React.useState<Array<ReservationInfo>>([]);
-  const [userInfo, setUserInfo] = React.useState<FirebaseUserInfo>({
-    type : '',
-    avatar: '',
-    birthDate: new Date(),
-    country: '',
-    email : '',
-    gender: '',
-    name: '',
-    signupDate: new Date(),  
-  });
-
-  var exitApp : any = undefined;  
-  var timeout : any;
-
-  // 백핸들러 적용을 위한 함수
-  const focusEvent = useFocusEffect(
-    React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-      
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-      }
-    }, [])
-  );
-
-  async function InitMyScreen() {
-
-    var UserInfo = await firestore().collection('Users').doc(user?.uid).get();   
-    
-    if(UserInfo._data != undefined){
-      setUserInfo(UserInfo._data);
-    }
-    
-    const Token = await auth().currentUser?.getIdToken(true);
-
-    const AxiosConfig = {
-      method: 'get',
-      url: SERVER + '/api/users/reservations',
-      headers: { 
-        'Authorization': 'Bearer ' + Token 
-      }
-    }
-    const RevData = await axios(AxiosConfig);
-    setReservationInfo(RevData.data);
-
-  }
-   
-  React.useEffect(() => {
-
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      InitMyScreen();
+    const [visible, setVisible] = React.useState<boolean>(false);
+    const [detailData, setDetailData] = React.useState<ReservationInfo>();
+    const [reservationInfo, setReservationInfo] = React.useState<
+        Array<ReservationInfo>
+    >([]);
+    const [userInfo, setUserInfo] = React.useState<FirebaseUserInfo>({
+        type: '',
+        avatar: '',
+        birthDate: new Date(),
+        country: '',
+        email: '',
+        gender: '',
+        name: '',
+        signupDate: new Date(),
     });
 
-    return unsubscribe;
-      
-  }, []);
+    var exitApp: any = undefined;
+    var timeout: any;
 
-  const handleBackButton = () => {
-    
-    if (exitApp == undefined || !exitApp){
-      // 한번만 더 누르면 종료
-      exitApp = true;
+    const [loading, setLoading] = React.useState<boolean>(true);
+    // 백핸들러 적용을 위한 함수
+    const focusEvent = useFocusEffect(
+        React.useCallback(() => {
+            BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
-      timeout = setTimeout(() => {
-        exitApp = false;
-      }, 2000);
+            return () => {
+                BackHandler.removeEventListener(
+                    'hardwareBackPress',
+                    handleBackButton,
+                );
+            };
+        }, []),
+    );
+
+    async function InitMyScreen() {
+        var UserInfo = await firestore()
+            .collection('Users')
+            .doc(currentUser?.uid)
+            .get();
+
+        if (UserInfo._data != undefined) {
+            setUserInfo(UserInfo._data);
+        }
     }
 
-    else{
-      clearTimeout(timeout);
-      BackHandler.exitApp();
-    }       
-    
-    return true;
-  }
+    React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            InitMyScreen();
+        });
 
-  function PressDetail(item : ReservationInfo){
+        return unsubscribe;
+    }, []);
 
-    setDetailData(item);
-    setVisible(true);
-    
-    setTimeout(() => {
+    /* 예약정보 가져오기 */
+    React.useEffect(() => {
+        auth()
+            .currentUser?.getIdToken(true)
+            .then(async (res) => {
+                const AxiosConfig = {
+                    method: 'get',
+                    url: SERVER + '/api/users/reservations',
+                    headers: {
+                        Authorization: 'Bearer ' + res,
+                    },
+                };
+                const RevData = await axios(AxiosConfig);
+                setReservationInfo(RevData.data);
+                setLoading(false);
+            });
+    }, []);
 
-      setVisible(false);
+    const handleBackButton = () => {
+        if (exitApp == undefined || !exitApp) {
+            // 한번만 더 누르면 종료
+            exitApp = true;
 
-    }, 1000)
-  }
+            timeout = setTimeout(() => {
+                exitApp = false;
+            }, 2000);
+        } else {
+            clearTimeout(timeout);
+            BackHandler.exitApp();
+        }
 
-  function PressComment() {
-    toastRef.show('Not Developed yet', 1000)
-  }
+        return true;
+    };
 
-  return (
-    (user === null) ? (
-      <Layout>
-        <Toast ref={(toast) => toastRef = toast} position={'bottom'}/>
-        <LoginCheck navigation={props.navigation} route={props.route} visible={(user === null)? true : false} />
-      </Layout>
-    )
-      :
-    (
-      <Layout style={styles.SuperContainer}>
-        <SafeAreaView />      
+    function PressDetail(item: ReservationInfo) {
+        setDetailData(item);
+        setVisible(true);
 
-        <PaidDetail navigation={props.navigation} visible={visible} data={detailData} />
+        setTimeout(() => {
+            setVisible(false);
+        }, 1000);
+    }
 
-        <Layout style={styles.MainContainer}>
-          
-          <Layout style={styles.Container}>
+    function PressComment() {
+        toastRef.show('Not Developed yet', 1000);
+    }
 
-            <Layout style={styles.ProfileContainer}>
-              {(user.photoURL === '' || user.photoURL === null || user.photoURL === undefined)?
-                <Image source={require('../../assets/profile/profile_01.png')} style={styles.profileImage} /> 
-              :
-                <Image source={{uri : user.photoURL}} style={styles.profileImage} /> 
-              }
-              
-              <Text style={styles.profileTitle}>{user.displayName}</Text>
-              
-              {(userInfo.type === 'Korean')? <Korean /> : (userInfo.type === 'Resident')? <Resident /> : <Traveler />}
-
-            </Layout>
-
-            <Layout style={styles.ButtonContainer}>
-            
-              <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.MY_SETTING)}>
-                <Setting_Btn style={styles.ButtonIcon}/>
-                <Text style={styles.ButtonText}>Setting</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.Button} onPress={() => PressComment()}>
-                <Comment_Btn style={styles.ButtonIcon}/>
-                <Text style={styles.ButtonText}>Comment</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.Button} onPress={() => props.navigation.navigate(SceneRoute.BOOKMARK_LIST)}>
-                <Bookmark_Btn style={styles.ButtonIcon}/>
-                <Text style={styles.ButtonText}>Bookmark</Text>
-              </TouchableOpacity>
-
-            </Layout>
-
-          </Layout>
-
-
-          <Layout style={styles.SmallTitleContainer}>
-
-            <Layout style={styles.TextTitleContainer}>
-              <Receipt style={styles.TextTitleIcon}/>
-              <Text style={styles.TextTitle}>Paid Chat List</Text>
-            </Layout>
-
-            <Layout style={styles.DividerContainer}>
-              <Divider style={styles.Divider} />
-            </Layout>
-
-          </Layout>
-
-          <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-                {(reservationInfo.length === 0)? 
-                    <Layout style={styles.emptyContainer}>
-                        <Receipt_Large/>
-                        <Text style={styles.emptyText}>There is no 'Paid list' .</Text>
-                    </Layout>
-                : 
-                    (reservationInfo.slice(0,3).map((item, index) => (
-                    <TouchableOpacity onPress={() => PressDetail(item)}>
-                        <Layout style={(item.refund.complete === true)? styles.PaidContainerC : styles.PaidContainer}>     
-                            <Layout style={styles.PaidInfoContainer}>
-                                <Layout style={styles.PaidTitleContainer1}>
-                                <Text style={styles.PaidTitle}>Payment</Text>
-                                <Text style={styles.PaidTitle}>Trip Date</Text>                
-                                </Layout>
-    
-                                <Layout style={styles.PaidTitleContainer2}>
-                                <Text style={(item.refund.complete === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.paymentDate).format('YY . MM . DD')}</Text>
-                                <Text style={(item.refund.check === true)? styles.PaidDescR : styles.PaidDesc}>{moment(item.day).format('YY . MM . DD')}</Text>
-                                </Layout>
-                            </Layout>
-    
-                                        
-                            <Layout style={styles.PaidInfoContainer}>
-                                <Layout style={styles.PaidTitleContainer1}>
-                                <Text style={styles.PaidTitle}>{` `}</Text>
-                                <Text style={(item.refund.complete === true)? styles.RefundCompleted : styles.RefundProgress}>{(item.refund.check === false)? '' : (item.refund.complete === true)? `Refund Completed` : `Refund in progress`}</Text>              
-                                </Layout>         
-                            </Layout>
-                        </Layout>  
-                    </TouchableOpacity>
-                )))}
-              </ScrollView>
-
-          <TouchableOpacity style={styles.ViewPaymentButton} onPress={() => props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)}>
-              <Text style={styles.ViewPaymentButtonText}>{`View previous payments >`}</Text>
-          </TouchableOpacity>
-          
+    return currentUser === null ? (
+        <Layout>
+            <Toast ref={(toast) => (toastRef = toast)} position={'bottom'} />
+            <LoginCheck
+                navigation={props.navigation}
+                route={props.route}
+                visible={currentUser === null ? true : false}
+            />
         </Layout>
+    ) : (
+        <Layout style={styles.SuperContainer}>
+            <SafeAreaView />
 
-        <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+            <PaidDetail
+                navigation={props.navigation}
+                visible={visible}
+                data={detailData}
+            />
+            <Layout style={styles.MainContainer}>
+                <Layout style={styles.Container}>
+                    <Layout style={styles.ProfileContainer}>
+                        {currentUser.photoURL === '' ||
+                        currentUser.photoURL === null ||
+                        currentUser.photoURL === undefined ? (
+                            <Image
+                                source={require('../../assets/profile/profile_01.png')}
+                                style={styles.profileImage}
+                            />
+                        ) : (
+                            <Image
+                                source={{ uri: currentUser.photoURL }}
+                                style={styles.profileImage}
+                            />
+                        )}
 
-      </Layout>
-    )
-  );
+                        <Text style={styles.profileTitle}>
+                            {currentUser.displayName}
+                        </Text>
+
+                        {userInfo.type === 'Korean' ? (
+                            <Korean />
+                        ) : userInfo.type === 'Resident' ? (
+                            <Resident />
+                        ) : (
+                            <Traveler />
+                        )}
+                    </Layout>
+
+                    <Layout style={styles.ButtonContainer}>
+                        <TouchableOpacity
+                            style={styles.Button}
+                            onPress={() =>
+                                props.navigation.navigate(SceneRoute.MY_SETTING)
+                            }>
+                            <Setting_Btn style={styles.ButtonIcon} />
+                            <Text style={styles.ButtonText}>Setting</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.Button}
+                            onPress={() => PressComment()}>
+                            <Comment_Btn style={styles.ButtonIcon} />
+                            <Text style={styles.ButtonText}>Comment</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.Button}
+                            onPress={() =>
+                                props.navigation.navigate(
+                                    SceneRoute.BOOKMARK_LIST,
+                                )
+                            }>
+                            <Bookmark_Btn style={styles.ButtonIcon} />
+                            <Text style={styles.ButtonText}>Bookmark</Text>
+                        </TouchableOpacity>
+                    </Layout>
+                </Layout>
+
+                <Layout style={styles.SmallTitleContainer}>
+                    <Layout style={styles.TextTitleContainer}>
+                        <Receipt style={styles.TextTitleIcon} />
+                        <Text style={styles.TextTitle}>Paid Chat List</Text>
+                    </Layout>
+
+                    <Layout style={styles.DividerContainer}>
+                        <Divider style={styles.Divider} />
+                    </Layout>
+                </Layout>
+                {loading && <ActivityIndicator color={'black'} />}
+                {!loading ? (
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        style={styles.scroll}>
+                        {reservationInfo.length === 0 ? (
+                            <Layout style={styles.emptyContainer}>
+                                <Receipt_Large />
+                                <Text style={styles.emptyText}>
+                                    There is no 'Paid list' .
+                                </Text>
+                            </Layout>
+                        ) : (
+                            reservationInfo.slice(0, 3).map((item, index) => (
+                                <TouchableOpacity
+                                    key={index.toString()}
+                                    onPress={() => PressDetail(item)}>
+                                    <Layout
+                                        style={
+                                            item.refund.complete === true
+                                                ? styles.PaidContainerC
+                                                : styles.PaidContainer
+                                        }>
+                                        <Layout
+                                            style={styles.PaidInfoContainer}>
+                                            <Layout
+                                                style={
+                                                    styles.PaidTitleContainer1
+                                                }>
+                                                <Text style={styles.PaidTitle}>
+                                                    Payment
+                                                </Text>
+                                                <Text style={styles.PaidTitle}>
+                                                    Trip Date
+                                                </Text>
+                                            </Layout>
+
+                                            <Layout
+                                                style={
+                                                    styles.PaidTitleContainer2
+                                                }>
+                                                <Text
+                                                    style={
+                                                        item.refund.complete ===
+                                                        true
+                                                            ? styles.PaidDescR
+                                                            : styles.PaidDesc
+                                                    }>
+                                                    {moment(
+                                                        item.paymentDate,
+                                                    ).format('YY . MM . DD')}
+                                                </Text>
+                                                <Text
+                                                    style={
+                                                        item.refund.check ===
+                                                        true
+                                                            ? styles.PaidDescR
+                                                            : styles.PaidDesc
+                                                    }>
+                                                    {moment(item.day).format(
+                                                        'YY . MM . DD',
+                                                    )}
+                                                </Text>
+                                            </Layout>
+                                        </Layout>
+
+                                        <Layout
+                                            style={styles.PaidInfoContainer}>
+                                            <Layout
+                                                style={
+                                                    styles.PaidTitleContainer1
+                                                }>
+                                                <Text
+                                                    style={
+                                                        styles.PaidTitle
+                                                    }>{` `}</Text>
+                                                <Text
+                                                    style={
+                                                        item.refund.complete ===
+                                                        true
+                                                            ? styles.RefundCompleted
+                                                            : styles.RefundProgress
+                                                    }>
+                                                    {item.refund.check === false
+                                                        ? ''
+                                                        : item.refund
+                                                              .complete === true
+                                                        ? `Refund Completed`
+                                                        : `Refund in progress`}
+                                                </Text>
+                                            </Layout>
+                                        </Layout>
+                                    </Layout>
+                                </TouchableOpacity>
+                            ))
+                        )}
+                    </ScrollView>
+                ) : null}
+                <TouchableOpacity
+                    style={styles.ViewPaymentButton}
+                    onPress={() =>
+                        props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)
+                    }>
+                    <Text
+                        style={
+                            styles.ViewPaymentButtonText
+                        }>{`View previous payments >`}</Text>
+                </TouchableOpacity>
+            </Layout>
+
+            <Toast ref={(toast) => (toastRef = toast)} position={'center'} />
+        </Layout>
+    );
 };
 
 const styles = StyleSheet.create({
     SuperContainer: {
-      width: '100%',
-      height: '100%'
+        width: '100%',
+        height: '100%',
     },
     MainContainer: {
-      backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     Container: {
-      marginHorizontal: 30,
-      alignItems: 'center',
-      justifyContent: 'center'
+        marginHorizontal: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     ProfileContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 30
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 30,
     },
     profileImage: {
-      width: 75,
-      height: 75,
-      borderRadius: 50
+        width: 75,
+        height: 75,
+        borderRadius: 50,
     },
     profileTitle: {
-      fontFamily: 'BrandonGrotesque-Bold',
-      fontSize: 23,
-      color: 'black'
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 23,
+        color: 'black',
     },
     ButtonContainer: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginVertical: 20,
-      alignSelf: 'center'
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 20,
+        alignSelf: 'center',
     },
-    Button : {
-      width: Screen * 0.25,
-      height: Screen * 0.25,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10,
-      marginHorizontal: 10,
-      shadowColor: "#000",
-      backgroundColor: 'white',
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      elevation: 2,
+    Button: {
+        width: Screen * 0.25,
+        height: Screen * 0.25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginHorizontal: 10,
+        shadowColor: '#000',
+        backgroundColor: 'white',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     ButtonIcon: {
-      marginTop: 10
+        marginTop: 10,
     },
     ButtonText: {
-      fontFamily: 'IBMPlexSansKR-Medium',
-      fontSize: 16,
-      color: '#8797FF'
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        color: '#8797FF',
     },
     SmallTitleContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     TextTitleContainer: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center'
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    TextTitleIcon : {
-      marginLeft: 30,
-      marginRight: 5,
+    TextTitleIcon: {
+        marginLeft: 30,
+        marginRight: 5,
     },
     TextTitle: {
-      fontFamily : 'IBMPlexSansKR-SemiBold',
-      fontSize: 20,
+        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontSize: 20,
     },
     DividerContainer: {
-      flex: 1
+        flex: 1,
     },
     Divider: {
-      marginRight: 30,
-      backgroundColor: '#8797FF'
+        marginRight: 30,
+        backgroundColor: '#8797FF',
     },
     PaidContainer: {
-      width: '100%',
-      flexDirection: 'row',
-      marginVertical: 5,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      elevation: 2,
+        width: '100%',
+        flexDirection: 'row',
+        marginVertical: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     PaidContainerC: {
-      width: '100%',
-      flexDirection: 'row',
-      backgroundColor: '#F8F8F8',
-      marginVertical: 5,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.20,
-      shadowRadius: 1.41,
-      elevation: 2,
+        width: '100%',
+        flexDirection: 'row',
+        backgroundColor: '#F8F8F8',
+        marginVertical: 5,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     PaidInfoContainer: {
-      flexDirection: 'row',
-      backgroundColor: '#00FF0000',
-      flex: 1
+        flexDirection: 'row',
+        backgroundColor: '#00FF0000',
+        flex: 1,
     },
     PaidTitleContainer1: {
-      flex: 1,
-      backgroundColor: '#00FF0000',
-      marginLeft: 30,
-      marginBottom: 10,
-      marginTop: 10,
-      flexDirection: 'column'
+        flex: 1,
+        backgroundColor: '#00FF0000',
+        marginLeft: 30,
+        marginBottom: 10,
+        marginTop: 10,
+        flexDirection: 'column',
     },
     PaidTitleContainer2: {
-      flex: 1,
-      backgroundColor: '#00FF0000',
-      marginTop: 10,
-      marginBottom: 10,
-      flexDirection: 'column'
+        flex: 1,
+        backgroundColor: '#00FF0000',
+        marginTop: 10,
+        marginBottom: 10,
+        flexDirection: 'column',
     },
     PaidTitle: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#BCBCBC'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#BCBCBC',
     },
     PaidTitleR: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#AEAEAE'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#AEAEAE',
     },
     PaidDesc: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: 'black'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: 'black',
     },
     PaidDescR: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#AEAEAE'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#AEAEAE',
     },
     RefundProgress: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#7777FF'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#7777FF',
     },
     RefundCompleted: {
-      fontSize: 14,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#AEAEAE'
+        fontSize: 14,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#AEAEAE',
     },
     ViewPaymentButton: {
-      alignSelf: 'flex-end',
-      marginRight: 32,
-      marginTop: 10,
-      marginBottom: 50
+        alignSelf: 'flex-end',
+        marginRight: 32,
+        marginTop: 10,
+        marginBottom: 50,
     },
     ViewPaymentButtonText: {
-      fontSize: 17,
-      fontFamily: 'IBMPlexSansKR-Medium',
-      color: '#AEAEAE'
+        fontSize: 17,
+        fontFamily: 'IBMPlexSansKR-Medium',
+        color: '#AEAEAE',
     },
     emptyContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 50
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
     },
     emptyText: {
-      marginTop: 10,
-      textAlign: 'center',
-      fontFamily: 'IBMPlexSansKR-Medium',
-      fontSize: 16,
-      color: '#AEAEAE'
+        marginTop: 10,
+        textAlign: 'center',
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 16,
+        color: '#AEAEAE',
     },
     scroll: {
-      maxHeight: 200,
-    }
+        maxHeight: 200,
+    },
 });
