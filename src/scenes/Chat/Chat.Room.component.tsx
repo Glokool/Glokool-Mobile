@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
@@ -11,6 +11,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Pressable,
+    TouchableOpacity,
 } from 'react-native';
 import {
     Layout,
@@ -40,7 +41,7 @@ import {
     launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
 import { filterText } from '../../data/filterChat';
@@ -223,6 +224,25 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             const recorder = await AudioRecorder.stopRecording();
             AudioRecorder.onFinished = (data) => {
+                const sound = new Sound(
+                    data,
+                    '',
+                    (error) => {
+                        if (error) {
+                            console.log('보이스 파일 다운로드 실패');
+                        }
+
+                        sound.play((success) => {
+                            if (success) {
+                                console.log('재생 성공');
+                                console.log(sound.getDuration())
+                            } else {
+                                console.log('재생 실패');
+                            }
+                        });
+                    },
+                );
+
                 if (Platform.OS === 'ios') {
                     var path = data.audioFileURL;
                     setAudioPath(path);
@@ -256,6 +276,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messageType: 'audio',
                     };
                     const push = createPushNoti('음성메시지를 보냈습니다.');
+
+                    
+                    
 
                     Promise.all([
                         ChatDB.update({ messages: [message, ...chatMessages] }),
@@ -327,11 +350,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const renderAudio = (props) => {
         return (
-            <Pressable
+            <TouchableOpacity
                 style={{
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: 10,
+                    padding: 20,
                 }}
                 onPress={async () => {
                     const sound = new Sound(
@@ -342,11 +365,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 console.log('보이스 파일 다운로드 실패');
                             }
 
-                            //console.log('duration in seconds: ' + sound.getDuration() + ' number of channels: ' + sound.getNumberOfChannels());
-
                             sound.play((success) => {
                                 if (success) {
                                     console.log('재생 성공');
+                                    // console.log(sound.getDuration())
                                 } else {
                                     console.log('재생 실패');
                                 }
@@ -355,7 +377,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     );
                 }}>
                 <FontAwesomeIcon icon={faPlay} size={16} />
-            </Pressable>
+
+            </TouchableOpacity>
         );
     };
 
@@ -883,13 +906,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </>
         );
     };
-
+    const firstRef = useRef();
     //입력창 정렬을 위한 코드
     const renderComposer = (props) => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true }}
+                textInputProps={{ autoFocus: true, blurOnSubmit: false, selectTextOnFocus: true }}
                 placeholder="Chat Message"
                 textInputStyle={{
                     alignSelf: 'center',
