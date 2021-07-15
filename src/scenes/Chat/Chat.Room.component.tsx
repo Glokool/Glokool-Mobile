@@ -911,6 +911,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 textInputProps={{ autoFocus: true, blurOnSubmit: false, selectTextOnFocus: true }}
                 placeholder="Chat Message"
                 textInputStyle={{
+                    blurOnSubmit: false,
                     alignSelf: 'center',
                     marginBottom: -2,
                     textDecorationLine: 'none',
