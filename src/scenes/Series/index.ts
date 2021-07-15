@@ -4,6 +4,7 @@ export { SeriesAInfoScreen } from './SeriesA.Info.component'
 export { SeriesBScreen } from './SeriesB.component'
 export { SeriesBInfoScreen } from './SeriesB.Info.component'
 export { SeriesHiddenGemScreen } from './SeriesHiddenGem.component'
+export { SeriesHiddenGemDetailScreen } from './SeriesHiddenGem.detail.component'
 export { SeriesHiddenGemContentAttr } from './SeriesHiddenGem.content.attr.component';
 export { SeriesHiddenGemContentRest } from './SeriesHiddenGem.content.rest.component';
 export { SeriesHiddenGemContentCafe } from './SeriesHiddenGem.content.cafe.component';
