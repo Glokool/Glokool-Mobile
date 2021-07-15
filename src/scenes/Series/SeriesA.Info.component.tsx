@@ -175,6 +175,7 @@ export const SeriesAInfoScreen = (
     };
 
     const PressPlus = async () => {
+        console.log('like')
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
@@ -534,7 +535,6 @@ export const SeriesAInfoScreen = (
                         </Layout>
 
                         {/* 댓글 입력 */}
-
                         {uid ? (
                             <Layout style={styles.CommentsTextLayout}>
                                 <TextInput
@@ -552,7 +552,9 @@ export const SeriesAInfoScreen = (
                             </Layout>
                         ) : null}
                     </Layout>
+                    
                 </ScrollView>
+                
             </KeyboardAvoidingView>
 
             {/* 탑탭바 */}
@@ -568,7 +570,7 @@ export const SeriesAInfoScreen = (
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity
                                 style={styles.BookmarkTouch}
-                                onPress={() => PressBookmark}>
+                                onPress={() => PressBookmark()}>
                                 {bookmarkList.indexOf(Id) == -1 ? (
                                     <Bookmark />
                                 ) : (
@@ -577,7 +579,7 @@ export const SeriesAInfoScreen = (
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.PlusTouch}
-                                onPress={() => PressPlus}>
+                                onPress={() => PressPlus()}>
                                 {content?.plus.indexOf(uid) == -1 ? (
                                     <Plus />
                                 ) : (

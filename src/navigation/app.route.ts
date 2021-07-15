@@ -19,6 +19,7 @@ export enum NavigatorRoute {
     CHAT = 'Chat',
     SERIES = 'Series',
     MY = 'My',
+    BOOKMARK = 'Bookmark',
 }
 
 export enum SceneRoute {
@@ -70,6 +71,11 @@ export enum SceneRoute {
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
     BOOKMARK_LIST = 'Bookmark List',
+
+    // Bookmark list
+    BOOKMARK_SERIES = 'Bookmark Series',
+    BOOKMARK_SERIES_A = 'Bookmark Series A',
+    BOOKMARK_SERIES_B = 'Bookmark Series B',
 
     //My - Privacy
     PRIVACY = 'Privacy',

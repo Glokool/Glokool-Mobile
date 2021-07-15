@@ -6,6 +6,7 @@ import { PayNavigator } from './Pay.navigator';
 import { BookNavigator } from './Book.navigator';
 import { NavigatorRoute } from './app.route';
 import { BookConfirmNavigator } from './Book.Confirm.navigator';
+import { BookmarkNavigator } from './Bookmark.navigator';
 
 export type AppNavigatorParams = {
     [NavigatorRoute.AUTH]: undefined;
@@ -13,6 +14,7 @@ export type AppNavigatorParams = {
     [NavigatorRoute.PAY]: undefined;
     [NavigatorRoute.BOOK]: undefined;
     [NavigatorRoute.BOOK_CONFIRM]: undefined;
+    [NavigatorRoute.BOOKMARK]: undefined;
 };
 
 const Stack = createStackNavigator();
@@ -27,5 +29,6 @@ export const AppNavigator = (props: React.ReactElement): React.ReactElement => (
             name={NavigatorRoute.BOOK_CONFIRM}
             component={BookConfirmNavigator}
         />
+        <Stack.Screen name={NavigatorRoute.BOOKMARK} component={BookmarkNavigator} />
     </Stack.Navigator>
 );
