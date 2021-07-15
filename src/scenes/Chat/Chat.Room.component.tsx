@@ -637,12 +637,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 style={styles.ActionButton}
                 onPress={() => setVisible2(true)}>
                 {visible2 === true ? (
-                    <Image
+                    <FastImage
                         style={styles.MenuImage}
                         source={require('../../assets/icon/Chat/Menu_S.png')}
                     />
                 ) : (
-                    <Image
+                    <FastImage
                         style={styles.MenuImage}
                         source={require('../../assets/icon/Chat/Menu.png')}
                     />
@@ -970,7 +970,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <KeyboardAvoidingView
                 style={styles.Container}
                 behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 0 : -230}>
+                keyboardVerticalOffset={Platform.OS === 'android' ? 30 : -230}>
                 <Layout style={styles.mainContainer}>
                     <GiftedChat
                         messages={chatMessages}

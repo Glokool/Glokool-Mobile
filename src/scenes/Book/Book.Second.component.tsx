@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
 import { StyleSheet, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
@@ -7,20 +6,21 @@ import { CancellationPolicy, TopTabBar } from '../../component/Booking';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { BookSecondScreenProps } from '../../navigation/Book.navigator';
 import { StackActions } from '@react-navigation/native';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const WindowSize = Dimensions.get('window').width
 
 
 export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement => {
+    const { currentUser } = React.useContext(AuthContext);
 
     const PickerDate = props.route.params.date;
-    const user = auth().currentUser;
-    
+
     const [visible, setVisible] = React.useState<boolean>(false);
 
-    const [name, setName] = React.useState(user?.displayName);
-    const [email, setEmail] = React.useState(user?.email);
+    const [name, setName] = React.useState(currentUser?.displayName);
+    const [email, setEmail] = React.useState(currentUser?.email);
     const [contact, setContact] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));    
     const contactType = [

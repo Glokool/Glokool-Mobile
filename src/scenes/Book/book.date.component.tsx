@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
@@ -25,13 +24,15 @@ import { FlatList } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { SERVER } from '../../server.component'
 import Toast  from 'react-native-easy-toast';
+import { AuthContext } from '../../context/AuthContext';
 
 var toastRef : any;
 
 export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
 
     const now = new Date();
-    const user = auth().currentUser;
+  const { currentUser } = React.useContext(AuthContext);
+
     const [loginVisible, setLoginVisible] = React.useState(true);
     const [date, setDate] = React.useState(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2));
     const startDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
@@ -74,7 +75,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
         tour_id: props.route.params.tourCode,
         day: date,
         time: `${DATA[select].startDate}~${DATA[select].endDate}`,
-        uid: user?.uid
+        uid: currentUser?.uid
       }).then((response) => {
         if(response.data.responseKey == true){          
           //중복이 있을 경우
@@ -115,7 +116,7 @@ export const BookDateScreen = (props: BookDateScreenProps): LayoutElement => {
 
 
     return (
-      (user == null) ? (
+      (currentUser == null) ? (
         //로그인 되지 않았을 경우
         <React.Fragment>
           <Layout style={styles.container}>

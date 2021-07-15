@@ -14,6 +14,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const Today = new Date();
     const [data, setData] = React.useState<Array<GloChatData>>([]);
     const [refresh, setRefresh] = React.useState<boolean>(false);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
         InitNowList();
@@ -30,12 +31,17 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         };
         const RevData = await axios(AxiosConfig);
         setData(RevData.data);
+        setLoading(false);
     }
 
     function PressChatRoom(item: GloChatData) {
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
-            guide: { name: item.guide.name, uid: item.guide.uid, token : item.guide.token },
+            guide: {
+                name: item.guide.name,
+                uid: item.guide.uid,
+                token: item.guide.token,
+            },
             day: item.day,
             finish: true,
         });
@@ -90,35 +96,39 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     };
 
     return (
-        <Layout>
-            {data.length === 0 ? (
-                <Layout style={styles.EmptyContainer}>
-                    <Text style={styles.EmptyText}>Empty</Text>
-                    <TouchableOpacity
-                        style={styles.EmptyButton}
-                        onPress={() =>
-                            props.navigation.navigate(
-                                SceneRoute.SERIES_A_DETAIL,
-                                { Id: '60cc026bee8b3104211971b5' },
-                            )
-                        }>
-                        <Text style={styles.EmptyButtonText}>
-                            How to use GloChat?!
-                        </Text>
-                    </TouchableOpacity>
+        <>
+            {!loading ? (
+                <Layout>
+                    {data.length === 0 ? (
+                        <Layout style={styles.EmptyContainer}>
+                            <Text style={styles.EmptyText}>Empty</Text>
+                            <TouchableOpacity
+                                style={styles.EmptyButton}
+                                onPress={() =>
+                                    props.navigation.navigate(
+                                        SceneRoute.SERIES_A_DETAIL,
+                                        { Id: '60cc026bee8b3104211971b5' },
+                                    )
+                                }>
+                                <Text style={styles.EmptyButtonText}>
+                                    How to use GloChat?!
+                                </Text>
+                            </TouchableOpacity>
+                        </Layout>
+                    ) : (
+                        <Layout style={styles.Container}>
+                            <FlatList
+                                data={data}
+                                renderItem={RenderItem}
+                                refreshing={refresh}
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={{ paddingBottom: 500 }}
+                            />
+                        </Layout>
+                    )}
                 </Layout>
-            ) : (
-                <Layout style={styles.Container}>
-                    <FlatList
-                        data={data}
-                        renderItem={RenderItem}
-                        refreshing={refresh}
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingBottom: 500 }}
-                    />
-                </Layout>
-            )}
-        </Layout>
+            ) : null}
+        </>
     );
 };
 
