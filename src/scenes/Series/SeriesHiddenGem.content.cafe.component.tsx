@@ -161,7 +161,7 @@ export const SeriesHiddenGemContentCafe = (
 
                 {/* 썸네일 이미지 */}
                 <Image
-                    source={{ uri: data?.banner }}
+                    source={{ uri: data?.cover }}
                     style={styles.Thumbnail}
                     resizeMode={'stretch'}
                 />
