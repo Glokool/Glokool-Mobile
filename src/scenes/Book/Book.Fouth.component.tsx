@@ -22,7 +22,6 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
 
     React.useEffect(() => {
         if(props.route.params.response.imp_success === 'true'){
-            `````
             setSuccess(true);
             console.log('결제 데이터 : ', PaymentData);
             console.log('아임포트 데이터 : ', data);
