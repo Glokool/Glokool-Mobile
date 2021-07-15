@@ -28,11 +28,13 @@ import {
 import axios from 'axios';
 import { SERVER } from '../../server.component'
 import Toast from 'react-native-easy-toast';
+import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef : any;
 
 export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
-  const user = auth().currentUser;
+  const { currentUser } = React.useContext(AuthContext);
+
   const Trip = props.route.params;
   const [tour, setTour] = React.useState({
     tour: ''
@@ -87,7 +89,7 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
         tour_id: Trip.tourCode,
         email: Trip.email,
         name: Trip.name,
-        uid: user?.uid,
+        uid: currentUser?.uid,
         contactType: Trip.contactType,
         contact: Trip.contact,
         day: Trip.day,

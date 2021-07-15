@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
@@ -17,7 +16,6 @@ import { BookPayConfirmScreenProps } from '../../navigation/Pay.navigator';
 
 
 export const BookPayConfirmScreen = (props: BookPayConfirmScreenProps): LayoutElement => {
-  const user = auth().currentUser;
 
   React.useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton);

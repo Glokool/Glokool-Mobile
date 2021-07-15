@@ -1,5 +1,4 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   SafeAreaView,
@@ -32,12 +31,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { BookProfileScreenProps } from '../../navigation/Book.navigator';
 import Toast from 'react-native-easy-toast';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
+import { AuthContext } from '../../context/AuthContext';
 
 
 var toastRef : any;
 
 export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement => {
-  const user = auth().currentUser;  
+  const { currentUser } = React.useContext(AuthContext);
+
   const contactType = [
     'Phone Number',
     'Facebook',
@@ -137,12 +138,12 @@ export const BookProfileScreen = (props: BookProfileScreenProps): LayoutElement 
           <FormInput
             id='name'
             label='Name'
-            defaultValue={user?.displayName}
+            defaultValue={currentUser?.displayName}
           />
           <FormInput
             id='email'
             label='Email Address to receive tour Voucher'
-            defaultValue={user?.email}
+            defaultValue={currentUser?.email}
             keyboardType='email-address'
           />
           <Text>Contact</Text>

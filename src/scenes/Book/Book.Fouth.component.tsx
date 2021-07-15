@@ -9,15 +9,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NavigatorRoute } from "../../navigation/app.route";
 import { SERVER } from "../../server.component";
 import qs from 'query-string';
-import { AuthUser } from "../../data/Auth";
 import axios from "axios";
+import { AuthContext } from '../../context/AuthContext';
 
 
 export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement => {
+    const { currentUser } = React.useContext(AuthContext);
 
     const data = props.route.params.response;
     const PaymentData = props.route.params.ReservationData;
-    const user = AuthUser();
     const [success, setSuccess] = React.useState<boolean>(true);
 
     React.useEffect(() => {
@@ -45,7 +45,7 @@ export const BookFouthScreen = (props : BookFouthScreenProps) : LayoutElement =>
         
         const Token = await auth().currentUser?.getIdToken();
         const Data = qs.stringify({
-            uid : user?.uid,
+            uid : currentUser?.uid,
             name: PaymentData.Name,
             email: PaymentData.Email,
             contact : PaymentData.Contact,
