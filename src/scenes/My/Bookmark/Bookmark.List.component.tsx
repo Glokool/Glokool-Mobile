@@ -141,6 +141,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
 
     return (
         <Layout style={{ backgroundColor: '#ffffff', height: SeriesImgH }}>
+            
             {/* Top tab bar */}
             <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000' }} />
             <Layout style={styles.TabBarLayout}>
