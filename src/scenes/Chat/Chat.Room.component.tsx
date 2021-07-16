@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useContext } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
@@ -17,7 +17,8 @@ import {
     Layout,
     Spinner,
     Modal,
-    Card, LayoutElement,
+    Card,
+    LayoutElement,
 } from '@ui-kitten/components';
 import database, {
     FirebaseDatabaseTypes,
@@ -40,7 +41,11 @@ import {
     launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes, faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+    faTimes,
+    faPlay,
+    faPlayCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
 import { filterText } from '../../data/filterChat';
@@ -68,15 +73,16 @@ import {
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { ChatContext } from '../../context/ChatContext';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
-    const { currentUser } = React.useContext(AuthContext);
-
-    const Ref = React.useRef(null);
+    const { currentUser, setCurrentUser } = React.useContext(AuthContext);
+    const { setChatIcon } = useContext(ChatContext);
+    setChatIcon(false);
 
     //채팅 메시지 저장을 위한 정보
     const [
@@ -110,21 +116,22 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [audioMessage, setAudioMessage] = React.useState('');
     const [audioPath, setAudioPath] = React.useState('');
 
-    const [token, setToken] = React.useState('');
-
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
 
     const [guideToken, setGuideToken] = React.useState('');
 
-    messaging()
-        .getToken()
-        .then((currentToken) => {
-            setToken(currentToken);
-        });
-
     const getGuideToken = async (uid: string) => {
         const res = await axios.get(`${SERVER}/api/guides/${uid}/token`);
         setGuideToken(res.data.token);
+    };
+
+    const getAccessToken = async () => {
+        try {
+            const res = await axios.get(`${SERVER}/api/token`);
+            setCurrentUser({ ...currentUser, ...res.data });
+        } catch (e) {
+            console.log('e', e);
+        }
     };
 
     const [imageURL, setImageURL] = React.useState('');
@@ -134,6 +141,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setImageZoomVisible(true);
         setImageURL(imageUrl);
     };
+
+    /* check access token */
+    React.useEffect(() => {
+        if (!currentUser?.access_token) {
+            getAccessToken();
+        }
+    }, []);
 
     React.useEffect(() => {
         getGuideToken(props.route.params.guide.uid);
@@ -223,24 +237,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             const recorder = await AudioRecorder.stopRecording();
             AudioRecorder.onFinished = (data) => {
-                const sound = new Sound(
-                    data,
-                    '',
-                    (error) => {
-                        if (error) {
-                            console.log('보이스 파일 다운로드 실패');
-                        }
+                const sound = new Sound(data, '', (error) => {
+                    if (error) {
+                        console.log('보이스 파일 다운로드 실패');
+                    }
 
-                        sound.play((success) => {
-                            if (success) {
-                                console.log('재생 성공');
-                                console.log(sound.getDuration())
-                            } else {
-                                console.log('재생 실패');
-                            }
-                        });
-                    },
-                );
+                    sound.play((success) => {
+                        if (success) {
+                            console.log('재생 성공');
+                            console.log(sound.getDuration());
+                        } else {
+                            console.log('재생 실패');
+                        }
+                    });
+                });
 
                 if (Platform.OS === 'ios') {
                     var path = data.audioFileURL;
@@ -275,9 +285,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messageType: 'audio',
                     };
                     const push = createPushNoti('음성메시지를 보냈습니다.');
-
-                    
-                    
 
                     Promise.all([
                         ChatDB.update({ messages: [message, ...chatMessages] }),
@@ -376,7 +383,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     );
                 }}>
                 <FontAwesomeIcon icon={faPlay} size={16} />
-
             </TouchableOpacity>
         );
     };
@@ -578,25 +584,62 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* FCM 백엔드 메시지 전송*/
-    const sendMessage = (message) => {
-        axios.post(`${SERVER}/api/notification`, {
-            token: guideToken,
-            user: message.user.name,
-            message: message.text,
-        });
+    const sendMessage = async (message) => {
+        try {
+            const chatRoomID = props.route.params.id;
+            const currentDate = new Date().getTime();
+
+            if (currentUser.expiry_date < currentDate) {
+                await getAccessToken();
+            }
+
+            const data = JSON.stringify({
+                message: {
+                    token: guideToken,
+                    notification: {
+                        title: message.user.name,
+                        body: message.text,
+                    },
+                    data: {
+                        time: new Date(Date.now()).toString(),
+                        roomId: chatRoomID,
+                    },
+                    webpush: {
+                        fcm_options: {
+                            link: 'guide/main/chat',
+                        },
+                    },
+                },
+            });
+
+            const options = {
+                method: 'post',
+                url:
+                    'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${currentUser.access_token}`,
+                },
+                data: data,
+            };
+            await axios(options).catch((e) => {
+                if (e.response) {
+                    console.log(e.response.data);
+                }
+            });
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+
     };
 
-    /*
-        채팅 창 디자인을 위한 컴포넌트
-
-    */
-
+    /* 채팅 창 디자인을 위한 컴포넌트 */
     const onSend = async (messages = []) => {
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
         messages[0].user.name = currentUser?.displayName;
 
-        console.log('mess', messages[0].user.name);
         if (filterText(messages[0].text)) {
             await Promise.all([
                 ChatDB.update({ messages: [messages[0], ...chatMessages] }),
@@ -902,16 +945,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </>
         );
     };
-    const firstRef = useRef();
+
     //입력창 정렬을 위한 코드
     const renderComposer = (props) => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true, blurOnSubmit: false, selectTextOnFocus: true }}
+                textInputProps={{ autoFocus: true, selectTextOnFocus: true }}
                 placeholder="Chat Message"
                 textInputStyle={{
-                    blurOnSubmit: false,
                     alignSelf: 'center',
                     marginBottom: -2,
                     textDecorationLine: 'none',

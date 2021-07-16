@@ -20,7 +20,6 @@ import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
 
-
 const saveTokenToDatabase = async (token: any) => {
     const userId = auth().currentUser?.uid;
 
@@ -32,8 +31,6 @@ const saveTokenToDatabase = async (token: any) => {
             tokens: firestore.FieldValue.arrayUnion(token),
         });
 };
-
-
 
 export default (): React.ReactFragment => {
     const [currentUser, setCurrentUser] = React.useState(null);
@@ -47,6 +44,7 @@ export default (): React.ReactFragment => {
                     email: user?.email,
                     photoURL: user?.photoURL,
                     uid: user?.uid,
+                    access_token: null,
                 };
 
                 setCurrentUser(userInfo);
@@ -68,7 +66,7 @@ export default (): React.ReactFragment => {
             //     JSON.stringify(remoteMessage),
             // );
         });
-        
+
         // Noti 권한 허용
         requestNotificationsPermission()
 
