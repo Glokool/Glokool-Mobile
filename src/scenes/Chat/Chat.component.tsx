@@ -20,7 +20,6 @@ import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
 import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
 import Toast from 'react-native-easy-toast';
-import { ChatContext } from '../../context/ChatContext';
 import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
@@ -33,10 +32,7 @@ type PriceData = {
 };
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
-    const { onChat, setChatIcon } = React.useContext(ChatContext);
     const { currentUser } = React.useContext(AuthContext);
-
-    setChatIcon(false);
 
     const [now, setNow] = React.useState<boolean>(true);
     const [ad, setAD] = React.useState<boolean>(true);
