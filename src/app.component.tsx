@@ -12,6 +12,7 @@ import { default as mapping } from '../mapping.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation/app.navigator';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
@@ -19,6 +20,8 @@ import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
+import axios from 'axios';
+import { SERVER } from './server.component';
 
 const saveTokenToDatabase = async (token: any) => {
     const userId = auth().currentUser?.uid;
@@ -35,6 +38,35 @@ const saveTokenToDatabase = async (token: any) => {
 export default (): React.ReactFragment => {
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
+    const [onChat, setChatIcon] = React.useState(false);
+    const value = { onChat, setChatIcon };
+
+    const InitNowList = async () => {
+        const user = auth().currentUser;
+
+        const Token = await user?.getIdToken(true);
+        const AxiosConfig = {
+            method: 'get',
+            url: SERVER + '/api/users/reservations/future',
+            headers: {
+                Authorization: 'Bearer ' + Token,
+            },
+        };
+        const resData = await axios(AxiosConfig);
+        if (resData.data.length > 0) {
+            const chatID = resData.data[0]._id;
+
+            database()
+                .ref(`/chats/${chatID}/userUnreadCount`)
+                .once('value')
+                .then((snapshot) => {
+                    const unreadMsgCount = snapshot.val();
+                    if (unreadMsgCount > 0) {
+                        setChatIcon(true);
+                    }
+                });
+        }
+    };
 
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
@@ -48,17 +80,15 @@ export default (): React.ReactFragment => {
                 };
 
                 setCurrentUser(userInfo);
+
+                InitNowList();
             } else {
                 console.log('user logout');
             }
         });
     }, []);
 
-    const [onChat, setChatIcon] = React.useState(false);
-    const value = { onChat, setChatIcon };
-
     React.useEffect(() => {
-
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
             // Alert.alert(
@@ -68,7 +98,7 @@ export default (): React.ReactFragment => {
         });
 
         // Noti 권한 허용
-        requestNotificationsPermission()
+        requestNotificationsPermission();
 
         messaging()
             .getToken()
