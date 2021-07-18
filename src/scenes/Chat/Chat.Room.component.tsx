@@ -148,7 +148,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     /* 앱 상태 파악 Background foreground */
     const appState = React.useRef(AppState.currentState);
 
-    const resetUserUnreadMsgCount = (msgRef) => {
+    const resetUserUnreadMsgCount = () => {
         msgRef.transaction((userUnreadCount: number) => {
             if (userUnreadCount && userUnreadCount > 0) {
                 userUnreadCount = 0;
@@ -168,7 +168,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             appState.current.match(/inactive|active/) &&
             nextAppState === 'background'
         ) {
-            resetUserUnreadMsgCount(msgRef);
+            resetUserUnreadMsgCount();
         }
         appState.current = nextAppState;
     };
@@ -204,14 +204,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     React.useEffect(() =>
         props.navigation.addListener('beforeRemove', () => {
             ChatDB.off('value');
-            resetUserUnreadMsgCount(msgRef);
+            resetUserUnreadMsgCount();
         })
     );
 
     /* 뒤로가기 버튼 */
     const backAction = () => {
         ChatDB.off('value');
-        resetUserUnreadMsgCount(msgRef);
+        resetUserUnreadMsgCount();
         props.navigation.goBack();
 
         return true;
