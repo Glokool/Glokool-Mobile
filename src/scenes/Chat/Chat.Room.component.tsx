@@ -118,33 +118,42 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const [timer, setTimer] = React.useState(0);
     const [isActive, setIsActive] = React.useState(false);
+    const [isPaused, setIsPaused] = React.useState(false)
     const increment = useRef(null)
 
     const formatTime = () => {
         const getSeconds = `0${(timer % 60)}`.slice(-2)
-        const minutes = `${Math.floor(timer / 60)}`
-        const getMinutes = `0${minutes % 60}`.slice(-2)
-        const getHours = `${Math.floor(timer / 3600)}`.slice(-2)
+        const minutes = `0${Math.floor(timer / 60)}`
+        const getMinutes = `${minutes % 60}`.slice(-2)
+        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
     
-        return `${getHours} : ${getMinutes}`
+        return `${getMinutes}:${getSeconds}`
     }
 
     const audioStopwatchStart = () => {
+        // setIsActive(true)
+        // console.log('stopwatchstart')
+        // increment.current = setInterval(() => {
+        // setTimer((timer) => timer + 1)
+        // }, 10)
+        // clearInterval(increment.current)
         setIsActive(true)
+        setIsPaused(true)
         increment.current = setInterval(() => {
-        setTimer((timer) => timer + 1)
-        }, 10)
-        clearInterval(increment.current)
+          setTimer((timer) => timer + 1)
+          console.log(timer)
+        }, 1000)
     }
 
     const audioStopwatchStop = () => {
-        setIsActive(false)
         clearInterval(increment.current)
+        setIsPaused(false)
     }
 
     const audioStopwatchReset = () => {
         clearInterval(increment.current)
         setIsActive(false)
+        setIsPaused(false)
         setTimer(0)
     }
       
@@ -249,11 +258,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 },
             );
             await AudioRecorder.startRecording();
+            audioStopwatchReset();
             audioStopwatchStart();
             console.log('start?');
         } else {
             // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
             setStartAudio(false);
+            audioStopwatchStop();
             console.log('stop?');
 
             const recorder = await AudioRecorder.stopRecording();
@@ -306,9 +317,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 setAudioPath('');
                 setAudioVisible(false);
             });
+        audioStopwatchReset();
+
     };
     //녹음 버튼을 클릭하고 다시 녹음 버튼을 누르지 않고 종료 버튼을 클릭했을 때
     const audioExit = async () => {
+        audioStopwatchReset();
         setAudioPath('');
         setAudioVisible(false);
 
