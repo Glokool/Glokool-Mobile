@@ -12,6 +12,7 @@ import {
     KeyboardAvoidingView,
     Pressable,
     TouchableOpacity,
+    AppState,
 } from 'react-native';
 import {
     Layout,
@@ -120,6 +121,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const [guideToken, setGuideToken] = React.useState('');
 
+    const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
     const getGuideToken = async (uid: string) => {
         const res = await axios.get(`${SERVER}/api/guides/${uid}/token`);
         setGuideToken(res.data.token);
@@ -142,6 +145,42 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setImageURL(imageUrl);
     };
 
+    /* 앱 상태 파악 Background foreground */
+    const appState = React.useRef(AppState.currentState);
+
+    const resetUserUnreadMsgCount = (msgRef) => {
+        msgRef.transaction((userUnreadCount: number) => {
+            if (userUnreadCount && userUnreadCount > 0) {
+                userUnreadCount = 0;
+            }
+            return userUnreadCount;
+        });
+    };
+
+    const handleAppStateChange = (nextAppState) => {
+        if (
+            appState.current.match(/inactive|background/) &&
+            nextAppState === 'active'
+        ) {
+            // console.log('foreground');
+        }
+        if (
+            appState.current.match(/inactive|active/) &&
+            nextAppState === 'background'
+        ) {
+            resetUserUnreadMsgCount(msgRef);
+        }
+        appState.current = nextAppState;
+    };
+
+    /* 앱 상태 확인 useEffect */
+    React.useEffect(() => {
+        AppState.addEventListener('change', handleAppStateChange);
+        return () => {
+            AppState.removeEventListener('change', handleAppStateChange);
+        };
+    }, []);
+
     /* check access token */
     React.useEffect(() => {
         if (!currentUser?.access_token) {
@@ -160,6 +199,23 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
         return unsubscribe;
     }, []);
+
+    /* navigation 삭제 전 메시지 읽음표시 */
+    React.useEffect(() =>
+        props.navigation.addListener('beforeRemove', () => {
+            ChatDB.off('value');
+            resetUserUnreadMsgCount(msgRef);
+        })
+    );
+
+    /* 뒤로가기 버튼 */
+    const backAction = () => {
+        ChatDB.off('value');
+        resetUserUnreadMsgCount(msgRef);
+        props.navigation.goBack();
+
+        return true;
+    };
 
     async function ChatRoomInit(id: string) {
         const chat = database().ref('/chats/' + id);
@@ -287,7 +343,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     const push = createPushNoti('음성메시지를 보냈습니다.');
 
                     Promise.all([
-                        ChatDB.update({ messages: [message, ...chatMessages] }),
+                        ChatDB.update({
+                            messages: [message, ...chatMessages],
+                            guideUnreadCount: database.ServerValue.increment(1),
+                        }),
                         sendMessage(push),
                     ]);
 
@@ -481,6 +540,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                                         message,
                                                         ...chatMessages,
                                                     ],
+                                                    guideUnreadCount: database.ServerValue.increment(
+                                                        1,
+                                                    ),
                                                 }),
                                                 sendMessage(push),
                                             ]);
@@ -574,6 +636,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 Promise.all([
                     ChatDB.update({
                         messages: [message, ...chatMessages],
+                        guideUnreadCount: database.ServerValue.increment(1),
                     }),
                     sendMessage(push),
                 ]);
@@ -631,7 +694,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             console.log(e);
             throw e;
         }
-
     };
 
     /* 채팅 창 디자인을 위한 컴포넌트 */
@@ -642,7 +704,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
         if (filterText(messages[0].text)) {
             await Promise.all([
-                ChatDB.update({ messages: [messages[0], ...chatMessages] }),
+                ChatDB.update({
+                    messages: [messages[0], ...chatMessages],
+                    guideUnreadCount: database.ServerValue.increment(1),
+                }),
                 sendMessage(messages[0]),
             ]);
         } else {
@@ -724,6 +789,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         Promise.all([
                             ChatDB.update({
                                 messages: [message, ...chatMessages],
+                                guideUnreadCount: database.ServerValue.increment(
+                                    1,
+                                ),
                             }),
                             sendMessage(push),
                         ]);
@@ -760,7 +828,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         messageType: 'location',
                     };
 
-                    ChatDB.update({ messages: [message, ...chatMessages] });
+                    ChatDB.update({
+                        messages: [message, ...chatMessages],
+                        guideUnreadCount: database.ServerValue.increment(1),
+                    });
                 },
                 (error) => {
                     console.log(
@@ -1183,9 +1254,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <Layout style={styles.TabBar}>
                     <Pressable
                         style={styles.IconContainer}
-                        onPress={() => {
-                            props.navigation.goBack();
-                        }}>
+                        onPress={() => backAction()}>
                         <AngleLeft_Color />
                     </Pressable>
 
