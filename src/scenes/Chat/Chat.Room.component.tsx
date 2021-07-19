@@ -124,8 +124,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
     const getGuideToken = async (uid: string) => {
-        const res = await axios.get(`${SERVER}/api/guides/${uid}/token`);
-        setGuideToken(res.data.token);
+        const guideRef = database().ref(`/guide/${uid}`);
+
+        guideRef.on('value', (snapshot) => {
+            if (!snapshot.val()) {
+                return;
+            }
+            const guideToken = snapshot.val();
+            setGuideToken(guideToken);
+        });
     };
 
     const getAccessToken = async () => {
@@ -205,7 +212,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         props.navigation.addListener('beforeRemove', () => {
             ChatDB.off('value');
             resetUserUnreadMsgCount();
-        })
+        }),
     );
 
     /* 뒤로가기 버튼 */
