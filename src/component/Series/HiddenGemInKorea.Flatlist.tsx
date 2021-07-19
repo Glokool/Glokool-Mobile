@@ -188,7 +188,8 @@ const styles = StyleSheet.create({
     TagText:{
         fontFamily: 'BrandonGrotesque-MediumItalic',
         fontSize: 15,
-        color: 'black'
+        color: 'black',
+        lineHeight: 17,
     },
     TagText2:{
         fontFamily: 'BrandonGrotesque-MediumItalic',
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         paddingRight: 10,
+        marginTop: 7,
     },
     infoContainer2: {
         flexDirection: 'row',

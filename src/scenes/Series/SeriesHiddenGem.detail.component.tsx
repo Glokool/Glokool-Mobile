@@ -557,6 +557,7 @@ const styles = StyleSheet.create({
         bottom: 30,
         left: 30,
         backgroundColor: '#00FF0000',
+        width: ImageSize * 0.64,
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Text',

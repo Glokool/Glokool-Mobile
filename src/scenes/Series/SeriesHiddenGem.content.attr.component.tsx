@@ -354,7 +354,6 @@ export const SeriesHiddenGemContentAttr = (
                                 <EditorNote_Check />
                                 <Text style={styles.EditorNoteText}>
                                     {item}
-                                    {index}
                                 </Text>
                             </Layout>
                         {index == data.editorNote.length - 1 ? 

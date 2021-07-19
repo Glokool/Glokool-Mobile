@@ -1,5 +1,4 @@
-import React, { useCallback, useContext } from 'react';
-import auth from '@react-native-firebase/auth';
+import React, { useCallback, useContext, useRef } from 'react';
 import {
     StyleSheet,
     SafeAreaView,
@@ -76,6 +75,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 
+
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -122,6 +122,52 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [guideToken, setGuideToken] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+    const [timer, setTimer] = React.useState(0);
+    const [isActive, setIsActive] = React.useState(false);
+    const [isPaused, setIsPaused] = React.useState(false)
+    const increment = React.useRef(null);
+
+    const formatTime = () => {
+        const getSeconds = `0${(timer % 60)}`.slice(-2)
+        const minutes = `0${Math.floor(timer / 60)}`
+        const getMinutes = `${minutes % 60}`.slice(-2)
+        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
+    
+        return `${getMinutes}:${getSeconds}`
+    }
+
+    const audioStopwatchStart = () => {
+        // setIsActive(true)
+        // console.log('stopwatchstart')
+        // increment.current = setInterval(() => {
+        // setTimer((timer) => timer + 1)
+        // }, 10)
+        // clearInterval(increment.current)
+        setIsActive(true)
+        setIsPaused(true)
+        increment.current = setInterval(() => {
+          setTimer((timer) => timer + 1)
+          console.log(timer)
+        }, 1000)
+    }
+
+    const audioStopwatchStop = () => {
+        clearInterval(increment.current)
+        setIsPaused(false)
+    }
+
+    const audioStopwatchReset = () => {
+        clearInterval(increment.current)
+        setIsActive(false)
+        setIsPaused(false)
+        setTimer(0)
+    }
+      
+    messaging()
+        .getToken()
+        .then((currentToken) => {
+            setToken(currentToken);
+        });
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -294,13 +340,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 },
             );
             await AudioRecorder.startRecording();
+            audioStopwatchReset();
+            audioStopwatchStart();
+            console.log('start?');
         } else {
             // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
             setStartAudio(false);
+            audioStopwatchStop();
+            console.log('stop?');
 
             const recorder = await AudioRecorder.stopRecording();
             AudioRecorder.onFinished = (data) => {
-                console.log('sound')
 
                 if (Platform.OS === 'ios') {
                     var path = data.audioFileURL;
@@ -343,7 +393,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         }),
                         sendMessage(push),
                     ]);
-
+                    
                     setAudioPath('');
                     setAudioVisible(false);
                 });
@@ -352,9 +402,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 setAudioPath('');
                 setAudioVisible(false);
             });
+        audioStopwatchReset();
+
     };
     //녹음 버튼을 클릭하고 다시 녹음 버튼을 누르지 않고 종료 버튼을 클릭했을 때
     const audioExit = async () => {
+        audioStopwatchReset();
         setAudioPath('');
         setAudioVisible(false);
 
@@ -1325,7 +1378,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         style={styles.BackDropContainer}
                         onTouchStart={() => audioExit()}
                     />
-
                     <Layout style={styles.AudioContainer}>
                         <Pressable
                             style={styles.VoiceContainerExitButton}
@@ -1340,20 +1392,24 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         ? styles.RecordingStatusTxt_ing
                                         : styles.RecordingStatusTxt
                                 }>{`Re-${'\n'}recording`}</Text>
-
-                            <Pressable
-                                style={styles.RecordingButton}
-                                onPress={handleAudio}>
-                                {audioPath == '' ? (
-                                    startAudio === true ? (
-                                        <Chat_Voice_Stop />
+                            <Layout style={styles.AudioCenterContainer}>
+                                <Text style={styles.AudioCenterStopwatch}>
+                                    {formatTime()}
+                                </Text>
+                                <Pressable
+                                    style={styles.RecordingButton}
+                                    onPress={handleAudio}>
+                                    {audioPath == '' ? (
+                                        startAudio === true ? (
+                                            <Chat_Voice_Stop />
+                                        ) : (
+                                            <Chat_Voice_Start />
+                                        )
                                     ) : (
-                                        <Chat_Voice_Start />
-                                    )
-                                ) : (
-                                    <Chat_Voice_End />
-                                )}
-                            </Pressable>
+                                        <Chat_Voice_End />
+                                    )}
+                                </Pressable>
+                            </Layout>
 
                             <Pressable
                                 style={
@@ -1603,6 +1659,17 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         paddingHorizontal: 20,
         paddingVertical: 15,
+    },
+    AudioCenterContainer:{
+        backgroundColor: "#00FF0000",
+    },
+    AudioCenterStopwatch: {
+        paddingRight: 3,
+        textAlign: 'center',
+        fontFamily: 'BrandonGrotesque-Bold',
+        color: '#7777FF',
+        fontSize: 18,
+        marginBottom: 15,
     },
     VoiceRecorder: {
         flexDirection: 'row',

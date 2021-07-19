@@ -546,7 +546,7 @@ export const SeriesAInfoScreen = (
                                     value={nowComment}></TextInput>
                                 <TouchableOpacity
                                     style={styles.CommentSendingTouch}
-                                    onPress={() => CommentSendingPress}>
+                                    onPress={() => CommentSendingPress()}>
                                     <CommentSending />
                                 </TouchableOpacity>
                             </Layout>

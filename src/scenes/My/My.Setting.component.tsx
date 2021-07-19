@@ -60,7 +60,37 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
 
     return (
         <Layout style={styles.mainContainer}>
-            <Layout style={{ height: 100 }} />
+            <Layout style={{ height: 50 }} />
+             {/*탭바 표현*/}
+            <Layout
+                style={
+                    Platform.OS === 'android'
+                        ? styles.TabbarAndroid
+                        : styles.Tabbar
+                }>
+                <TouchableOpacity
+                    onPress={() => PressBack()}
+                    style={{
+                        padding: 20,
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                }}>
+                    <AngleLeft />
+                </TouchableOpacity>
+
+                <Layout
+                    style={{
+                        flex: 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginHorizontal: 25,
+                    }}>
+                    <Text style={styles.TextStyle}>SETTINGS</Text>
+                </Layout>
+
+                <Layout style={{ flex: 1.5 }} />
+            </Layout>
 
             {/* 세팅 내용물*/}
             <Layout style={styles.Container}>
@@ -113,43 +143,6 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
                 <Layout style={{ flex: 8, flexDirection: 'column' }} />
             </Layout>
 
-            {/*탭바 표현*/}
-            <Layout style={{ position: 'absolute', top: 0, width: '100%' }}>
-                <SafeAreaView style={{ flex: 0 }} />
-
-                <Layout
-                    style={
-                        Platform.OS === 'android'
-                            ? styles.TabbarAndroid
-                            : styles.Tabbar
-                    }>
-                    <TouchableOpacity
-                        onPress={() => PressBack()}
-                        style={{
-                            padding: 15,
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
-                        <SafeAreaView />
-                        <AngleLeft style={{ padding: 10 }} />
-                    </TouchableOpacity>
-
-                    <Layout
-                        style={{
-                            flex: 3,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginHorizontal: 25,
-                        }}>
-                        <SafeAreaView />
-                        <Text style={styles.TextStyle}>SETTINGS</Text>
-                    </Layout>
-
-                    <Layout style={{ flex: 1 }} />
-                </Layout>
-            </Layout>
-
             <Modal visible={logoutvisible} backdropStyle={styles.backdrop}>
                 <Layout style={styles.ModalLayout}>
                     <Text style={styles.ModalTxt}>
@@ -181,16 +174,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     Tabbar: {
-        position: 'absolute',
-        top: 0,
         height: 50,
         width: '100%',
         flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     TabbarAndroid: {
+        flexDirection: 'row',
         height: 50,
         width: '100%',
-        flexDirection: 'row',
+        marginBottom: 10,
     },
     Container: {
         flex: 10,
