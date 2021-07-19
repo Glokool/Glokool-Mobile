@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { HiddenGemInKoreaDetailListProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { SceneRoute } from '../../navigation/app.route';
@@ -27,14 +27,14 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
     return(
         <Layout style={{backgroundColor: '#00FF0000'}}>
             {(props.data?.map((item, index) => 
-                <Layout style={styles.DataContainer} onTouchEnd={() => {PressDetail(item.placeCode)}}>
+                <Pressable style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
 
                     <Image source={{ uri : item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
 
                     <Text style={styles.TitleText}>{item.title}</Text>
                     <Text style={styles.DescText}>{item.desc}</Text>
 
-                </Layout>               
+                </Pressable>               
             ))}
         </Layout>
     )
@@ -69,8 +69,10 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Bold',
         fontSize: 17,
         marginLeft: 17,
-        marginTop: 5,
-        fontWeight: 'bold'
+        marginTop: 10,
+        marginBottom: 3,
+        fontWeight: 'bold',
+        lineHeight: 22, 
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Text',
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
         marginLeft: 17,
         marginRight: 17,
         marginBottom: 10,
+        lineHeight: 20,
     }
 })
 
