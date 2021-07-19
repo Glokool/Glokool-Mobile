@@ -132,7 +132,6 @@ export const SeriesBInfoScreen = (
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
-        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {

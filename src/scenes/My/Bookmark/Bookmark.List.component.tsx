@@ -16,7 +16,6 @@ import { AngleLeft, Bookmark_PL } from '../../../assets/icon/Common';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import { AuthUser } from '../../../data/Auth';
 
 type Detail_Item = {
     _id: string;
@@ -52,7 +51,6 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
     async function InitSeries() {
         // 북마크 조회 하기 위한 함수
         const authToken = await auth().currentUser?.getIdToken();
-        console.log(authToken)
         var config = {
             method: 'get',
             url: SERVER + '/api/users/bookmark',
@@ -73,17 +71,24 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
             });
     }
 
+    const PressTours = (id: string) => {
+        props.navigation.navigate(NavigatorRoute.BOOKMARK, {
+            screen: SceneRoute.BOOKMARK_SERIES,
+            params: { TourCode: id },
+        });
+    };
+
     const PressContent = (id: string) => {
-        props.navigation.navigate(NavigatorRoute.SERIES, {
-            screen: SceneRoute.SERIES_A_DETAIL,
+        props.navigation.navigate(NavigatorRoute.BOOKMARK, {
+            screen: SceneRoute.BOOKMARK_SERIES_A,
             params: { Id: id },
         });
     };
 
-    const PressTours = (id: string) => {
-        props.navigation.navigate(NavigatorRoute.SERIES, {
-            screen: SceneRoute.SERIES_HIDDEN_GEM_DETAIL,
-            params: { TourCode: id },
+    const PressBlog = (id: string) => {
+        props.navigation.navigate(NavigatorRoute.BOOKMARK, {
+            screen: SceneRoute.BOOKMARK_SERIES_B,
+            params: { Id: id },
         });
     };
 
@@ -98,7 +103,6 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
                     source={{ uri: item.item.image }}
                     style={styles.Image}
                     resizeMode={'stretch'}
-                    h
                 />
                 <Layout style={styles.TitleContainer}>
                     <Text style={styles.TitleText}>{item.item.title}</Text>
@@ -126,11 +130,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
         return (
             <TouchableOpacity
                 style={styles.SeriesStyle}
-                onPress={() => {
-                    props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {
-                        Id: item.item.id,
-                    });
-                }}>
+                onPress={() => {PressBlog(item.item.id)}}>
                 <Image
                     source={{ uri: item.item.image }}
                     style={styles.SeriesImgStyle}

@@ -300,20 +300,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             const recorder = await AudioRecorder.stopRecording();
             AudioRecorder.onFinished = (data) => {
-                const sound = new Sound(data, '', (error) => {
-                    if (error) {
-                        console.log('보이스 파일 다운로드 실패');
-                    }
-
-                    sound.play((success) => {
-                        if (success) {
-                            console.log('재생 성공');
-                            console.log(sound.getDuration());
-                        } else {
-                            console.log('재생 실패');
-                        }
-                    });
-                });
+                console.log('sound')
 
                 if (Platform.OS === 'ios') {
                     var path = data.audioFileURL;

@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
         width: ImageSize - 60,
         height: ImageSize * 0.25,
         marginHorizontal: 30,
-        marginTop: 30,
-        marginBottom: 100,
+        marginBottom: 50,
     },
     Carousel: {
         width: ImageSize - 60,
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     },
     ItemContainer: {
         width: ImageSize - 60,
-        height: ImageSize * 0.25
+        height: ImageSize * 0.25,
     },
     ImageContainer: {
         width: ImageSize - 60,

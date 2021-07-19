@@ -158,10 +158,8 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
           InitSnsSign();
         }, []);
 
-
         const [name, setName] = React.useState<string>();
         const [email, setEmail] = React.useState<string>();
-
 
         const user = auth().currentUser;
          const InitSnsSign = () => {
