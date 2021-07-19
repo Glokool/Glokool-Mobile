@@ -132,7 +132,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         const minutes = `0${Math.floor(timer / 60)}`
         const getMinutes = `${minutes % 60}`.slice(-2)
         const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
-    
+
         return `${getMinutes}:${getSeconds}`
     }
 
@@ -162,12 +162,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setIsPaused(false)
         setTimer(0)
     }
-      
-    messaging()
-        .getToken()
-        .then((currentToken) => {
-            setToken(currentToken);
-        });
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -393,7 +387,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         }),
                         sendMessage(push),
                     ]);
-                    
+
                     setAudioPath('');
                     setAudioVisible(false);
                 });
