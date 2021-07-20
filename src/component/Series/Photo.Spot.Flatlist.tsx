@@ -65,7 +65,13 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
                     :
                         null
                     }
-                    <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
+                    {(item.item.author == "" || item.item.author == 'undefined' || item.item.author == undefined) ? 
+                        null 
+                    :
+                        <Text style={styles.authorText}>
+                            {`  ${item.item.author.slice(2,)}`}
+                        </Text>
+                    }
                 </Layout>
             </Layout>
         )
@@ -107,7 +113,14 @@ export const PhotoSpotFlatlist = (props : DetailFlatlistProps) : LayoutElement =
                                 :
                                     null
                                 }
-                                <Text style={styles.authorText}>{`  ${item.item.images[0].author.slice(2,)}`}</Text>
+                                
+                                {(item.item.images[0].author == "" || item.item.images[0].author == 'undefined' || item.item.images[0].author == undefined) ? 
+                                    null 
+                                :
+                                    <Text style={styles.authorText}>
+                                        {`${item.item.images[0].author.slice(2,)}`}
+                                    </Text>
+                                }
                             </Layout>
                             <TouchableOpacity style={styles.NextButton} onPress={() => PressChage(item.index)}>
                                 <AngleRight_Color style={styles.AngleRightButton}/>
