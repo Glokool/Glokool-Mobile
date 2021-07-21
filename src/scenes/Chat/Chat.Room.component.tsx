@@ -74,6 +74,7 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
+import { Alert } from '../../assets/icon/Auth';
 
 
 var ToastRef: any;
@@ -81,6 +82,8 @@ const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
+    // console.log('======================================');
+
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     setChatIcon(false);
@@ -167,6 +170,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         const guideRef = database().ref(`/guide/${uid}`);
 
         guideRef.on('value', (snapshot) => {
+
             if (!snapshot.val()) {
                 return;
             }
@@ -264,6 +268,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return true;
     };
 
+    // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
+    // 채팅 데이터들은 Firebase RTDB 에서 받아온다
+    // [...messages] 에 type 처럼 저장됨
     async function ChatRoomInit(id: string) {
         const chat = database().ref('/chats/' + id);
 
@@ -298,6 +305,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             setChatMessages([...messages]);
             setFetchChat(true);
         });
+
     }
 
     const messageIdGenerator = () => {
@@ -891,6 +899,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     // 대화창
     const renderBubble = (props) => {
+        //console.log(props);
         return (
             <Bubble
                 {...props}

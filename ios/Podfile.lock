@@ -1127,9 +1127,9 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Braintree: 94a20907b70aeffb29c40380eec583d783a347b6
-  DoubleConversion: cde416483dac037923206447da6e1454df403714
+  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: 0dcfb6176b5e9890b9026d423ffbdb43945395c5
+  FBReactNativeSpec: 005754c0b6a5a2ae3460880980555c31f1b1561b
   FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
   FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
   FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
@@ -1143,7 +1143,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: c4aab1005d6547b00a7529777fe52f5d4d45165b
   FirebaseMessaging: 1a33b4af3c8042ed6ddacb6c031894af2064bfab
   FirebaseStorage: 61bcd27880fa17362f68be67d3683d04bfd7b1c7
-  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: c6bbc9753d046b5456dd4f940057fbad2c28419e
   GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c
