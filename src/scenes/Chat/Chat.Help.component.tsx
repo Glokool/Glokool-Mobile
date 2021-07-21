@@ -29,6 +29,7 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
     const id = props.route.params.id;
     const guide = props.route.params.guide;
 
+    // 메소드는 다 모달에서 실행됨
     const PressCopy = () => {
         Clipboard.setString('070-4300-0833');
         toastRef.show('Copied!', 2000);

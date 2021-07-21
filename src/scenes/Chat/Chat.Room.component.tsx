@@ -898,9 +898,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    // 대화창
+    // 대화창 말풍선 
     const renderBubble = (props) => {
-        //console.log(props);
+        
         return (
             <Bubble
                 {...props}

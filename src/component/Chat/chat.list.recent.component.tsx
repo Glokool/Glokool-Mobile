@@ -20,7 +20,7 @@ import { SceneRoute } from '../../navigation/app.route';
 
 
 export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
-
+    // RECENT 에서는 지난 예약들을 볼 수 있습니당
 
     const user = auth().currentUser;
     const [data, setData] = React.useState<Array<GloChatData>>([]);

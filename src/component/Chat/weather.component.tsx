@@ -53,6 +53,7 @@ export const WeatherComponent = (props : WeatherComponentProps) : LayoutElement 
                 </Layout>
 
                 <Layout style={styles.TextContainer2}>
+                    {/* 이거 섭씨로 표시하면 좋을거 같다 */}
                     <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
                     <Text style={styles.Weather}>{data?.main}</Text>
                 </Layout>

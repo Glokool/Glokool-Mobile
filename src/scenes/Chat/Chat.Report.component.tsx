@@ -23,6 +23,7 @@ export const ChatReportScreen = (
 
     const PressSend = () => {
         if (value == '') {
+            // 이거 실행 에러남
             ToastRef.show('Please enter contents', 3000);
         } else {
             const report = {
@@ -33,7 +34,7 @@ export const ChatReportScreen = (
                 userName: currentUser?.displayName,
                 value: value,
             };
-
+            
             const now = new Date();
             now.setHours(now.getHours() + 9);
 

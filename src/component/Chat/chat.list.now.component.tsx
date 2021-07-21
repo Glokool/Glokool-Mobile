@@ -8,6 +8,7 @@ import { SERVER } from '../../server.component';
 import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
+import { Alert } from '../../assets/icon/Auth';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
@@ -29,12 +30,18 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 Authorization: 'Bearer ' + Token,
             },
         };
-        const RevData = await axios(AxiosConfig);
+        const RevData = await axios(AxiosConfig); 
+        // axios 로 받아온 데이터를 useState 이용해 setData 
+        // setData 에서 제네릭 안에 GloChatData 형태로 들어가는듯 
+        // GloChatData 는 index.ts 에서 type 으로 export 되어있음
         setData(RevData.data);
         setLoading(false);
     }
-
+    // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
+        const DDay = moment(item.day).diff(Today, 'days');
+        console.log(item.day, Today, DDay);
+
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: {
@@ -48,6 +55,8 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     }
 
     const RenderItem = (item: { item: GloChatData; index: number }) => {
+        // 날짜 계산
+        // 그런데 여기서 내일 날짜도 D-day 로 표시되는 경우가 있네용
         const DDay = moment(item.item.day).diff(Today, 'days');
 
         return (

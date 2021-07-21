@@ -33,7 +33,7 @@ type PriceData = {
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     const { currentUser } = React.useContext(AuthContext);
-
+    // useState 선언할때 <> 으로 타입을 초기화 시켜줌 
     const [now, setNow] = React.useState<boolean>(true);
     const [ad, setAD] = React.useState<boolean>(true);
     const [price, setPrice] = React.useState<PriceData>();
@@ -68,6 +68,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             },
         };
 
+        // 여기서 price 랑 discount 등등 바뀌는데 아마.. config 에서 받아오는 것 같음
         var result = await axios(config);
         setPrice({
             active: result.data.active,
