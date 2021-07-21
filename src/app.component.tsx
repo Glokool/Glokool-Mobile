@@ -1,6 +1,6 @@
 import React from 'react';
 import { LogBox, Alert } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { CommonActions, NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
 import {
@@ -70,7 +70,7 @@ export default (): React.ReactFragment => {
 
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
-            if (user) {
+            if (user && user?.emailVerified) {
                 const userInfo = {
                     displayName: user?.displayName,
                     email: user?.email,
@@ -83,6 +83,7 @@ export default (): React.ReactFragment => {
 
                 InitNowList();
             } else {
+                auth().signOut;
                 console.log('user logout');
             }
         });
