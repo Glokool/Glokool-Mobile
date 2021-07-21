@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useRef } from 'react';
+
 import {
     StyleSheet,
     SafeAreaView,
