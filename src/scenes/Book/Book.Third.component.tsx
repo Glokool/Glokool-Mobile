@@ -112,24 +112,27 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
 
         props.navigation.navigate(SceneRoute.PAYMENT, { params, data });
     }
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     async function KaKaoPayment() {
         const PayMethod: IMP_PAY_METHOD = 'card';
         const amount = price?.active
             ? price?.price - (price?.discount * price?.price) / 100
             : price?.price;
-        var contact = '01068470833';
+
+        let contact = '';
+        if (data.Contact.type === 'Phone Number') {
+            contact = data.Contact?.info;
+        }
 
         const params = {
             pg: 'kakaopay',
             pay_method: PayMethod,
+            merchant_uid: `merchant_${new Date().getTime()}`,
             name: 'Glokool-Assistant-Service',
-            merchant_uid: `mid_${new Date().getTime()}`,
             amount: amount,
+            buyer_email: data.Email,
             buyer_name: data.Name,
             buyer_tel: contact,
-            buyer_email: data.Email,
             buyer_addr: '서울시 강남구 역삼동 721-11 301호',
             buyer_postcode: '00000',
             app_scheme: 'Glokool',
