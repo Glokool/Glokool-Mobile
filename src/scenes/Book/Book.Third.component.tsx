@@ -1,74 +1,100 @@
 import React from 'react';
-import { Layout, LayoutElement, Radio, Text } from "@ui-kitten/components";
-import { BookThirdScreenProps } from "../../navigation/Book.navigator";
-import { Image, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Layout, LayoutElement, Radio, Text } from '@ui-kitten/components';
+import { BookThirdScreenProps } from '../../navigation/Book.navigator';
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    SafeAreaView,
+} from 'react-native';
 import { TopTabBar } from '../../component/Booking';
 import { SERVER } from '../../server.component';
 import IMP, { IMP_PAY_METHOD, IMP_PG } from 'iamport-react-native';
 import axios from 'axios';
 import { Divide_Spot } from '../../assets/icon/Booking';
 import moment from 'moment';
-import { 
-    requestOneTimePayment,
-    PaypalResponse,
-} from 'react-native-paypal'; 
+import { requestOneTimePayment, PaypalResponse } from 'react-native-paypal';
 import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
 import { number } from 'yup';
 
 type PriceData = {
-    active: boolean, 
-    discountedPrice: number, 
-    price: number,
-    discount: number,
+    active: boolean;
+    discountedPrice: number;
+    price: number;
+    discount: number;
+};
+
+interface State {
+    paypalClicked: boolean;
+    kakaoClicked: boolean;
 }
 
-export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement => {
+const reducer = (state: State, action): State => {
+    switch (action.type) {
+        case 'paypal':
+            return {
+                paypalClicked: action.nextChecked,
+                kakaoClicked: !state.kakaoClicked,
+            };
+        case 'kakao':
+            return {
+                paypalClicked: !state.paypalClicked,
+                kakaoClicked: action.nextChecked,
+            };
+        default:
+            return state;
+    }
+};
 
+export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
     const data = props.route.params;
     const [price, setPrice] = React.useState<PriceData>();
-    const [checked, setChecked] = React.useState<boolean>(true);
+
+    const [state, dispatch] = React.useReducer(reducer, {
+        paypalClicked: true,
+        kakaoClicked: false,
+    });
+
     const token = 'sandbox_s9cw8cv5_99sqcyv5st4dpfr2';
 
     React.useEffect(() => {
-        InitBookThird()
-    }, [])
-
-
+        InitBookThird();
+    }, []);
 
     async function InitBookThird() {
-    
         var config = {
-          Method: 'get',
-          url: SERVER + '/api/price',
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          }
+            Method: 'get',
+            url: SERVER + '/api/price',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
         };
-    
+
         var result = await axios(config);
         setPrice({
-          active: result.data.active,
-          discountedPrice: result.data.discountedPrice, 
-          price: result.data.price,
-          discount: result.data.discount
+            active: result.data.active,
+            discountedPrice: result.data.discountedPrice,
+            price: result.data.price,
+            discount: result.data.discount,
         });
-    
     }
 
     function Payment() {
-        if (checked){
+        if (state.paypalClicked) {
             PaypalPayment();
-        }
-        else{
+        } else {
             KaKaoPayment();
         }
     }
 
     async function PaypalPayment() {
-
-        const PayMethod : IMP_PAY_METHOD = 'card';
-        const amount = (price?.active)? (price?.price / 1000) - (((price?.discount) * price?.price / 100) / 1000) : (price?.price / 1000);
+        const PayMethod: IMP_PAY_METHOD = 'card';
+        const amount = price?.active
+            ? price?.price / 1000 -
+              (price?.discount * price?.price) / 100 / 1000
+            : price?.price / 1000;
 
         const params = {
             pg: 'paypal',
@@ -84,14 +110,15 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             app_scheme: 'Glokool',
         };
 
-        props.navigation.navigate(SceneRoute.PAYMENT, { params, data })
-
+        props.navigation.navigate(SceneRoute.PAYMENT, { params, data });
     }
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     async function KaKaoPayment() {
-
-        const PayMethod : IMP_PAY_METHOD = 'card';
-        const amount = (price?.active)? ((price?.price) - (((price?.discount) * price?.price / 100))) : (price?.price);
+        const PayMethod: IMP_PAY_METHOD = 'card';
+        const amount = price?.active
+            ? price?.price - (price?.discount * price?.price) / 100
+            : price?.price;
         var contact = '01068470833';
 
         const params = {
@@ -108,85 +135,145 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
             app_scheme: 'Glokool',
         };
 
-        props.navigation.navigate(SceneRoute.PAYMENT, { params, data })
-
+        props.navigation.navigate(SceneRoute.PAYMENT, { params, data });
     }
 
-    return(
+    return (
         <Layout style={styles.Container}>
+            <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000' }} />
 
-            <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}} />
-
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.MainContainer}>
-                
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={styles.MainContainer}>
                 <Text style={styles.TitleText}>{`Payment Notification`}</Text>
 
                 <Text style={styles.SmallTitleText}>Basic Cost</Text>
 
-                {(checked)? 
-                    <Layout>                    
-                        <Layout style={styles.priceContainer}>
-                            <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
-                            <Text style={styles.Price}>{`${(price?.price / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD`}</Text>
-                        </Layout>
-
-                        {(price?.active)?                    
-                            <Layout style={styles.priceContainer}>
-                                <Text style={styles.PriceTitle}>Promotion</Text>
-                                <Text style={styles.PromotionPrice}>{`- ${(((price?.discount) * price?.price / 100) / 1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD`}</Text>
-                            </Layout>
-                            :
-                            null
-                        }
-
-                        <Divide_Spot style={{marginVertical: 30}}/>
-
-                        <Layout style={styles.priceContainer}>
-                            <Text style={styles.TotalText}>Total</Text>
-                            {(price?.active)?
-                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price / 1000) - (((price?.discount) * price?.price / 100) / 1000)}</Text>  USD</Text>
-                            :
-                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price / 1000)}</Text>  USD</Text>
-                            }
-                            
-                        </Layout>
-                    </Layout>
-
-                :
+                {state.paypalClicked ? (
                     <Layout>
                         <Layout style={styles.priceContainer}>
-                            <Text style={styles.PriceTitle}>Travel Assistance Service Fee</Text>
-                            <Text style={styles.Price}>{`${price?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                            <Text style={styles.PriceTitle}>
+                                Travel Assistance Service Fee
+                            </Text>
+                            <Text style={styles.Price}>{`${(price?.price / 1000)
+                                .toString()
+                                .replace(
+                                    /\B(?=(\d{3})+(?!\d))/g,
+                                    ',',
+                                )} USD`}</Text>
                         </Layout>
 
-                        {(price?.active)?                    
+                        {price?.active ? (
                             <Layout style={styles.priceContainer}>
                                 <Text style={styles.PriceTitle}>Promotion</Text>
-                                <Text style={styles.PromotionPrice}>{`- ${((price?.discount) * price?.price / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW`}</Text>
+                                <Text style={styles.PromotionPrice}>{`- ${(
+                                    (price?.discount * price?.price) /
+                                    100 /
+                                    1000
+                                )
+                                    .toString()
+                                    .replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ',',
+                                    )} USD`}</Text>
                             </Layout>
-                            :
-                            null
-                        }
+                        ) : null}
 
-                        <Divide_Spot style={{marginVertical: 30}}/>
+                        <Divide_Spot style={{ marginVertical: 30 }} />
 
                         <Layout style={styles.priceContainer}>
                             <Text style={styles.TotalText}>Total</Text>
-                            {(price?.active)?
-                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{((price?.price) - (((price?.discount) * price?.price / 100))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>  KRW</Text>
-                            :
-                                <Text style={styles.TotalKRWext}><Text style={styles.TotalPriceText}>{(price?.price)}</Text>  KRW</Text>
-                            }
+                            {price?.active ? (
+                                <Text style={styles.TotalKRWext}>
+                                    <Text style={styles.TotalPriceText}>
+                                        {price?.price / 1000 -
+                                            (price?.discount * price?.price) /
+                                                100 /
+                                                1000}
+                                    </Text>{' '}
+                                    USD
+                                </Text>
+                            ) : (
+                                <Text style={styles.TotalKRWext}>
+                                    <Text style={styles.TotalPriceText}>
+                                        {price?.price / 1000}
+                                    </Text>{' '}
+                                    USD
+                                </Text>
+                            )}
                         </Layout>
                     </Layout>
-                }
+                ) : (
+                    <Layout>
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.PriceTitle}>
+                                Travel Assistance Service Fee
+                            </Text>
+                            <Text
+                                style={
+                                    styles.Price
+                                }>{`${price?.price
+                                .toString()
+                                .replace(
+                                    /\B(?=(\d{3})+(?!\d))/g,
+                                    ',',
+                                )} KRW`}</Text>
+                        </Layout>
 
+                        {price?.active ? (
+                            <Layout style={styles.priceContainer}>
+                                <Text style={styles.PriceTitle}>Promotion</Text>
+                                <Text style={styles.PromotionPrice}>{`- ${(
+                                    (price?.discount * price?.price) /
+                                    100
+                                )
+                                    .toString()
+                                    .replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ',',
+                                    )} KRW`}</Text>
+                            </Layout>
+                        ) : null}
 
-                <Layout style={{marginVertical: 15}}/>
+                        <Divide_Spot style={{ marginVertical: 30 }} />
+
+                        <Layout style={styles.priceContainer}>
+                            <Text style={styles.TotalText}>Total</Text>
+                            {price?.active ? (
+                                <Text style={styles.TotalKRWext}>
+                                    <Text style={styles.TotalPriceText}>
+                                        {(
+                                            price?.price -
+                                            (price?.discount * price?.price) /
+                                                100
+                                        )
+                                            .toString()
+                                            .replace(
+                                                /\B(?=(\d{3})+(?!\d))/g,
+                                                ',',
+                                            )}
+                                    </Text>{' '}
+                                    KRW
+                                </Text>
+                            ) : (
+                                <Text style={styles.TotalKRWext}>
+                                    <Text style={styles.TotalPriceText}>
+                                        {price?.price}
+                                    </Text>{' '}
+                                    KRW
+                                </Text>
+                            )}
+                        </Layout>
+                    </Layout>
+                )}
+
+                <Layout style={{ marginVertical: 15 }} />
 
                 <Layout style={styles.priceContainer}>
                     <Text style={styles.PriceTitle2}>Trip Date</Text>
-                    <Text style={styles.Price2}>{`${moment(data.date).format('YYYY . MM . DD')}`}</Text>
+                    <Text style={styles.Price2}>{`${moment(data.date).format(
+                        'YYYY . MM . DD',
+                    )}`}</Text>
                 </Layout>
 
                 <Layout style={styles.priceContainer}>
@@ -194,39 +281,80 @@ export const BookThirdScreen = (props : BookThirdScreenProps) : LayoutElement =>
                     <Text style={styles.Price2}>{`English`}</Text>
                 </Layout>
 
-                <Layout style={{marginVertical: 10}}/>
+                <Layout style={{ marginVertical: 10 }} />
 
                 <Text style={styles.SmallTitleText}>Payment Method</Text>
-
-
                 <Layout style={styles.Payment}>
-
-                    <Radio checked={checked} onChange={nextChecked => setChecked(nextChecked)} style={styles.Radio}/>
+                    <Radio
+                        checked={state.paypalClicked}
+                        onChange={(nextChecked) =>
+                            dispatch({ type: 'paypal', nextChecked })
+                        }
+                        style={styles.Radio}
+                    />
 
                     <Layout style={styles.LogoContainer}>
-                        <Image source={require('../../assets/Paypal_logo.png')} style={styles.Logo} resizeMode={'stretch'}/>
-                        <Text style={styles.PaymentText1}>Your payment will be made in <Text style={styles.PaymentText2}>USD{'\n'}</Text><Text style={styles.PaymentText2}>Credit or debit cards issued in Korea are not accepted</Text>{'\n\n'}Use your balance in your PayPal account.{'\n'}PayPal account is required.</Text>
+                        <Image
+                            source={require('../../assets/Paypal_logo.png')}
+                            style={styles.Logo}
+                            resizeMode={'stretch'}
+                        />
+                        <Text style={styles.PaymentText1}>
+                            Your payment will be made in{' '}
+                            <Text style={styles.PaymentText2}>USD{'\n'}</Text>
+                            <Text style={styles.PaymentText2}>
+                                Credit or debit cards issued in Korea are not
+                                accepted
+                            </Text>
+                            {'\n\n'}Use your balance in your PayPal account.
+                            {'\n'}PayPal account is required.
+                        </Text>
                     </Layout>
-
                 </Layout>
+                <Layout style={{ marginVertical: 15 }} />
+                <Layout style={styles.Payment}>
+                    <Radio
+                        checked={state.kakaoClicked}
+                        onChange={(nextChecked) =>
+                            dispatch({ type: 'kakao', nextChecked })
+                        }
+                        style={styles.Radio}
+                    />
 
-                <Layout style={{marginVertical: 100}}/>
-
+                    <Layout style={styles.LogoContainer}>
+                        <Image
+                            source={require('../../assets/kakaoPay_logo.png')}
+                            style={styles.Logo}
+                            resizeMode={'stretch'}
+                        />
+                        <Text style={styles.PaymentText1}>
+                            Your payment will be made in{' '}
+                            <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
+                            <Text style={styles.PaymentText2}></Text>
+                            {'\n'}Use your balance in your Kakao account.
+                            {'\n'}Kakao account is required.
+                        </Text>
+                    </Layout>
+                </Layout>
+                <Layout style={{ marginVertical: 100 }} />
             </ScrollView>
 
             <Layout style={styles.NextButtonContainer}>
-                <TouchableOpacity style={styles.Button} onPress={() => Payment()}>
-                        <Text style={styles.ButtonText}>NEXT</Text>
+                <TouchableOpacity
+                    style={styles.Button}
+                    onPress={() => Payment()}>
+                    <Text style={styles.ButtonText}>NEXT</Text>
                 </TouchableOpacity>
 
-                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+                <SafeAreaView
+                    style={{ flex: 0, backgroundColor: '#00FF0000' }}
+                />
             </Layout>
-            
-            <TopTabBar index={3}/>
 
+            <TopTabBar index={3} />
         </Layout>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     Container: {
@@ -236,129 +364,129 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         marginTop: 80,
-        marginHorizontal: 30
+        marginHorizontal: 30,
     },
     TitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'center',
     },
     SmallTitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 18,
         textAlign: 'left',
         alignSelf: 'flex-start',
-        marginTop : 50,
-        marginBottom: 30
+        marginTop: 50,
+        marginBottom: 30,
     },
     priceContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     PriceTitle: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        flex : 2,
-        textAlign: 'left'
+        flex: 2,
+        textAlign: 'left',
     },
     PriceTitle2: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
-        flex : 2,
+        flex: 2,
         textAlign: 'left',
-        color: '#BCBCBC'
+        color: '#BCBCBC',
     },
-    Price : {
+    Price: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        flex : 1,
-        textAlign: 'right'
+        flex: 1,
+        textAlign: 'right',
     },
-    Price2 : {
+    Price2: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
-        flex : 1,
-        textAlign: 'right'
+        flex: 1,
+        textAlign: 'right',
     },
-    PromotionPrice : {
+    PromotionPrice: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
-        flex : 1,
+        flex: 1,
         color: '#7777FF',
-        textAlign: 'right'
+        textAlign: 'right',
     },
     TotalText: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: '#7777FF',
         textAlign: 'left',
-        flex: 2
+        flex: 2,
     },
     TotalPriceText: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 26,
         color: '#7777FF',
         textAlign: 'right',
-        flex: 1
+        flex: 1,
     },
     TotalKRWext: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: '#7777FF',
         textAlign: 'right',
-        flex: 1
+        flex: 1,
     },
     Payment: {
         width: '95%',
         alignSelf: 'center',
         height: 180,
         borderRadius: 15,
-        shadowColor: "#000",
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 1,
         },
-        shadowOpacity: 0.20,
+        shadowOpacity: 0.2,
         shadowRadius: 1.41,
         elevation: 2,
         flexDirection: 'row',
         padding: 10,
     },
-    Logo : {
+    Logo: {
         width: 100,
         height: 25,
-        marginBottom: 10
+        marginBottom: 10,
     },
-    Radio : {
+    Radio: {
         flex: 1,
         alignSelf: 'flex-start',
         marginTop: 10,
-        marginLeft: 10
+        marginLeft: 10,
     },
     LogoContainer: {
-        flex : 9,
+        flex: 9,
         marginLeft: 20,
-        marginTop: 8
+        marginTop: 8,
     },
-    PaymentText1 : {
+    PaymentText1: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 12,
         color: 'black',
-        textAlign: 'left'
+        textAlign: 'left',
     },
-    PaymentText2 : {
+    PaymentText2: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 12,
         color: '#7777FF',
-        textAlign: 'left'
+        textAlign: 'left',
     },
     NextButtonContainer: {
         position: 'absolute',
         width: '100%',
         bottom: 10,
         backgroundColor: '#00FF0000',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     Button: {
         backgroundColor: '#7777FF',
@@ -368,9 +496,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    ButtonText:{
+    ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
-    }
-
-})
+    },
+});
