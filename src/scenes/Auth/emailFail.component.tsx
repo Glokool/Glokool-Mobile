@@ -108,11 +108,6 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
         </Layout>
         
         }
-        
-
-        
-
-
     </React.Fragment>
   );
 };

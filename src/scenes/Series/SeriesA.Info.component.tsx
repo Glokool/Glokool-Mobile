@@ -489,7 +489,7 @@ export const SeriesAInfoScreen = (
                                                     styles.CommentsAuthorInner03Layout
                                                 }>
                                                 {item.plus.indexOf(uid) !=
-                                                -1 ? (
+                                                    -1 ? (
                                                     <TouchableOpacity
                                                         style={
                                                             styles.CommentsAuthorInnerIcons03Layout
@@ -552,9 +552,9 @@ export const SeriesAInfoScreen = (
                             </Layout>
                         ) : null}
                     </Layout>
-                    
+
                 </ScrollView>
-                
+
             </KeyboardAvoidingView>
 
             {/* 탑탭바 */}

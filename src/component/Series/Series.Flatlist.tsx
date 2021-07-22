@@ -1,14 +1,14 @@
 import React from 'react'
 import auth from '@react-native-firebase/auth'
-import { 
-    TouchableOpacity,
-    FlatList, 
-    ScrollView,
-    View,
-    Image,
-    Dimensions,  
-    StyleSheet, 
-    Pressable,
+import {
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  Pressable,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -17,11 +17,11 @@ import { SeriesFlatlistProps } from '../../navigation/ScreenNavigator/Series.nav
 import { SceneRoute } from '../../navigation/app.route';
 
 type Series_Item = {
-    banner: string,
-    title: string,
-    _id: string,
-    loc: string,
-    region: string,
+  banner: string,
+  title: string,
+  _id: string,
+  loc: string,
+  region: string,
 }
 
 /*
@@ -34,87 +34,86 @@ type Series_Item = {
 
 const SeriesImgW = Dimensions.get('window').width;
 
-export const SeriesFlatlist = (props : SeriesFlatlistProps) : LayoutElement => {
-    const [content, setContent] = React.useState<Array<Series_Item>>([]);
+export const SeriesFlatlist = (props: SeriesFlatlistProps): LayoutElement => {
+  const [content, setContent] = React.useState<Array<Series_Item>>([]);
 
-    React.useEffect(() => {
-        InitSeries();
-    }, []);
+  React.useEffect(() => {
+    InitSeries();
+  }, []);
 
-    async function InitSeries() {
-      
-      const config = {
-        Method: "get",
-        url: SERVER + "/api/main-tours",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-      };
+  async function InitSeries() {
 
-      var Content = await axios(config);
-      var Data = Content.data;
-        Data.sort(function (a, b) {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-      setContent(Content.data);
-    }
-
-
-
-    const renderTour = (item : {index: number, item: Series_Item}) => {
-
- 
-      return(
-          <Pressable style={styles.ImageContainer} onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, {TourCode : item.item._id})}}>
-            <Image source={{uri : item.item.banner}} style={styles.Image} resizeMode={'stretch'}/>
-
-            <Layout style={styles.TitleContainer}>
-              <Text style={styles.TitleText}>{item.item.title}</Text>
-            </Layout>
-
-          </Pressable>
-      )
+    const config = {
+      Method: "get",
+      url: SERVER + "/api/main-tours",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
     };
 
+    var Content = await axios(config);
+    var Data = Content.data;
+    Data.sort(function (a, b) {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    setContent(Content.data);
+  }
+
+
+
+  const renderTour = (item: { index: number, item: Series_Item }) => {
 
     return (
-            <Layout
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginLeft: 35,
-              marginTop: 5,
-            }}>
-                <FlatList
-                data={content}
-                renderItem={renderTour}
-                contentContainerStyle={{paddingRight: 20}}
-                showsHorizontalScrollIndicator={false}
-                horizontal
-                />
-            </Layout>
+      <Pressable style={styles.ImageContainer} onPress={() => { props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id }) }}>
+        <Image source={{ uri: item.item.banner }} style={styles.Image} resizeMode={'stretch'} />
+
+        <Layout style={styles.TitleContainer}>
+          <Text style={styles.TitleText}>{item.item.title}</Text>
+        </Layout>
+
+      </Pressable>
     )
+  };
+
+
+  return (
+    <Layout
+      style={{
+        flexDirection: "row",
+        justifyContent: "center",
+        marginLeft: 35,
+        marginTop: 5,
+      }}>
+      <FlatList
+        data={content}
+        renderItem={renderTour}
+        contentContainerStyle={{ paddingRight: 20 }}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+      />
+    </Layout>
+  )
 }
 
 const styles = StyleSheet.create({
   SeriesStyle: {
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
-    
+
   },
   SeriesImgStyle: {
     width: SeriesImgW * 0.42,
-    height: SeriesImgW * 0.42 *1.2,
+    height: SeriesImgW * 0.42 * 1.2,
     borderRadius: 10,
-    position:'relative'
+    position: 'relative'
   },
-  SeriesTxtStyle:{
+  SeriesTxtStyle: {
     position: 'absolute',
     bottom: 10,
     fontFamily: 'BrandonGrotesque-BoldItalic',
     fontSize: 20,
-    color: '#FFFFFF',   
+    color: '#FFFFFF',
   },
   ImageContainer: {
     width: SeriesImgW * 0.42,
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#00FF0000'
   },
   TitleText: {
-    fontFamily : 'BrandonGrotesque-BoldItalic',
+    fontFamily: 'BrandonGrotesque-BoldItalic',
     fontSize: 20,
     color: 'white',
     textAlign: 'center',

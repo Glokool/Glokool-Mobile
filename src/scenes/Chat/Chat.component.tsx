@@ -102,6 +102,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                 route={props.route}
                 visible={currentUser === null ? true : false}
             />
+            {/* 로그인 체크하는 */}
         </Layout>
     ) : (
         <Layout style={styles.MainContainer}>

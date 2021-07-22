@@ -22,7 +22,7 @@ type Series_Item = {
     count: number,
 }
 
-export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) : LayoutElement => {
+export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps): LayoutElement => {
 
     const [data, setData] = React.useState();
 
@@ -31,12 +31,12 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
     }, []);
 
     async function InitHiddenGemInKoreaFlatList() {
-        
+
         const config = {
             Method: "get",
             url: SERVER + "/api/main-tours",
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "application/x-www-form-urlencoded",
             }
         };
 
@@ -48,61 +48,59 @@ export const HiddenGemInKoreaFlatList = (props: HiddenGemInKoreaFlatListProps) :
 
     }
 
-    const renderItem = (item : { item : Series_Item, index: number }) : LayoutElement => {
+    const renderItem = (item: { item: Series_Item, index: number }): LayoutElement => {
 
-        return(
-           
+        return (
+            <Layout style={(item.index % 2 === 0) ? styles.TourContainerEvenLayout : styles.TourContainerOddLayout}>
+                <Pressable style={(item.index % 2 === 0) ? styles.TourContainerEven : styles.TourContainerOdd} onPress={() => { props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id }) }}>
 
-                <Layout style={(item.index % 2 === 0)? styles.TourContainerEvenLayout : styles.TourContainerOddLayout }>
-                    <Pressable style={(item.index % 2 === 0)? styles.TourContainerEven : styles.TourContainerOdd } onPress={() => {props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.item._id })}}>
-                        
-                        <Layout style={styles.ImageContainer}>
-                            <Image source={{uri : item.item.banner}} style={(item.index % 2 === 0)? styles.ImageEven : styles.ImageOdd } resizeMode={'stretch'}/>
-                            
-                            <Layout style={styles.TitleContainer}>
-                                <Text style={styles.TitleText}>{item.item.title}</Text>
-                            </Layout>
+                    <Layout style={styles.ImageContainer}>
+                        <Image source={{ uri: item.item.banner }} style={(item.index % 2 === 0) ? styles.ImageEven : styles.ImageOdd} resizeMode={'stretch'} />
+
+                        <Layout style={styles.TitleContainer}>
+                            <Text style={styles.TitleText}>{item.item.title}</Text>
+                        </Layout>
+                    </Layout>
+
+                    <Layout style={styles.infoContainer}>
+
+                        <Layout style={styles.infoContainer1}>
+                            {item.item.tag.map((tag, idx) =>
+                                <Text style={styles.TagText}><Text style={styles.TagText2}>#</Text> {`${tag} `}</Text>
+                            )}
                         </Layout>
 
-                        <Layout style={styles.infoContainer}>
+                        <Layout style={styles.infoContainer2}>
 
-                            <Layout style={styles.infoContainer1}>
-                                {item.item.tag.map((tag, idx) => 
-                                    <Text style={styles.TagText}><Text style={styles.TagText2}>#</Text> {`${tag} `}</Text>
-                                )}                    
+                            <Layout style={{ flex: 1, backgroundColor: '#00FF0000' }}>
+                                <Text style={styles.CreateText} numberOfLines={1}>{moment(item.item.createdAt).format('YY. MM. DD')}</Text>
                             </Layout>
 
-                            <Layout style={styles.infoContainer2}>
-
-                                <Layout style={{flex: 1, backgroundColor: '#00FF0000'}}>
-                                    <Text style={styles.CreateText} numberOfLines={1}>{moment(item.item.createdAt).format('YY. MM. DD')}</Text>
-                                </Layout>
-
-                                <Layout style={styles.CountContainer}>
-                                    <Count />
-                                    <Text style={styles.CountText}>{`  ${item.item.count}`}</Text>
-                                </Layout>                      
-
-                            </Layout>                    
+                            <Layout style={styles.CountContainer}>
+                                <Count />
+                                <Text style={styles.CountText}>{`  ${item.item.count}`}</Text>
+                            </Layout>
 
                         </Layout>
-                        
-                    </Pressable>
-                </Layout>
+
+                    </Layout>
+
+                </Pressable>
+            </Layout>
         )
     }
 
-    return(
+    return (
         <ScrollView>
-            <Layout style={{ backgroundColor: '#00FF0000'}}>
-                    <Text style={styles.TitleTxt}>Hidden Gems in Korea</Text>
-                    <Text style={styles.smallTitleTxt}>{`Guide books of specially chosen tour spots.`}</Text>
+            <Layout style={{ backgroundColor: '#00FF0000' }}>
+                <Text style={styles.TitleTxt}>Hidden Gems in Korea</Text>
+                <Text style={styles.smallTitleTxt}>{`Guide books of specially chosen tour spots.`}</Text>
             </Layout>
             <FlatList
                 data={data}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{marginTop: 10, paddingBottom: 100}}
+                contentContainerStyle={{ marginTop: 10, paddingBottom: 100 }}
                 numColumns={2}
             />
         </ScrollView>
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
         elevation: 5,
     },
-    TourContainerEvenLayout:{
+    TourContainerEvenLayout: {
         width: SeriesImgW * 0.42,
         minHeight: SeriesImgW * 0.57,
         borderRadius: 15,
@@ -185,13 +183,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white'
     },
-    TagText:{
+    TagText: {
         fontFamily: 'BrandonGrotesque-MediumItalic',
         fontSize: 15,
         color: 'black',
         lineHeight: 17,
     },
-    TagText2:{
+    TagText2: {
         fontFamily: 'BrandonGrotesque-MediumItalic',
         fontSize: 15,
         color: '#838383'
@@ -214,17 +212,17 @@ const styles = StyleSheet.create({
     infoContainer2: {
         flexDirection: 'row',
         backgroundColor: '#00FF0000',
-        marginBottom:3,
+        marginBottom: 3,
     },
     CreateText: {
-        fontFamily : 'IBMPlexSansKR-Text',
+        fontFamily: 'IBMPlexSansKR-Text',
         color: '#B5B5B5',
         fontSize: 13,
         textAlign: 'left',
         backgroundColor: '#00FF0000',
     },
-    CountText:{
-        fontFamily : 'IBMPlexSansKR-Text',
+    CountText: {
+        fontFamily: 'IBMPlexSansKR-Text',
         color: '#B5B5B5',
         fontSize: 13,
         textAlign: 'right',

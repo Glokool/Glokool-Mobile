@@ -32,12 +32,9 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
 
     React.useEffect(() => {
         InitMenuDetail();
-
-
     }, []);
 
     async function InitMenuDetail() {
-        
 
         Image.getSize(props.data[0], (width, height) => {
 

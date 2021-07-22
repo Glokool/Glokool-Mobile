@@ -83,7 +83,6 @@ const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
-    // console.log('======================================');
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
@@ -94,6 +93,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         ChatDB,
         setChatDB,
     ] = React.useState<FirebaseDatabaseTypes.Reference>();
+
     const [guide, setGuide] = React.useState({});
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState([]);
@@ -150,8 +150,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setIsActive(true)
         setIsPaused(true)
         increment.current = setInterval(() => {
-          setTimer((timer) => timer + 1)
-          console.log(timer)
+            setTimer((timer) => timer + 1)
+            console.log(timer)
         }, 1000)
     }
 
@@ -322,7 +322,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     //오디오 녹음 창
     const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => {});
+        AudioRecorder.requestAuthorization().then((isAuthorised) => { });
 
         if (startAudio == false) {
             //오디오 버튼 시작
@@ -788,12 +788,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }}
         />
     );
-
+    // 컨텐츠 전송 시 나타나는 창
+    // 채팅 창 좌측 버튼
     const renderActions = (props) => {
         return (
+            // 버튼
             <Pressable
                 style={styles.ActionButton}
                 onPress={() => setVisible2(true)}>
+                {/* visible2 state 에 따라서 바뀜 */}
                 {visible2 === true ? (
                     <FastImage
                         style={styles.MenuImage}
@@ -851,11 +854,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             'The location could not be loaded because ',
                             error.message,
                         ),
-                            {
-                                enableHighAccuracy: false,
-                                timeout: 20000,
-                                maximumAge: 1000,
-                            };
+                        {
+                            enableHighAccuracy: false,
+                            timeout: 20000,
+                            maximumAge: 1000,
+                        };
                     },
                 );
             } else {
@@ -888,11 +891,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         'The location could not be loaded because ',
                         error.message,
                     ),
-                        {
-                            enableHighAccuracy: false,
-                            timeout: 20000,
-                            maximumAge: 1000,
-                        };
+                    {
+                        enableHighAccuracy: false,
+                        timeout: 20000,
+                        maximumAge: 1000,
+                    };
                 },
             );
         }
@@ -900,7 +903,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     // 대화창 말풍선 
     const renderBubble = (props) => {
-        
+
         return (
             <Bubble
                 {...props}
@@ -939,7 +942,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             />
         );
     };
-
+    // 채팅 메세지에 달려있는 시간 표시
     const renderTime = (props: any) => {
         if (props.position === 'right') {
             return (
@@ -993,7 +996,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             );
         }
     };
-
+    // MapView 가 들어가는 말풍선인듯 싶음
     const renderCustomBubble = (props) => {
         if (props.currentMessage.messageType === 'location') {
             return (
@@ -1051,8 +1054,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <>
                 {new Date(day).getFullYear() == new Date().getFullYear() &&
-                new Date(day).getMonth() == new Date().getMonth() &&
-                new Date(day).getDate() == new Date().getDate() ? (
+                    new Date(day).getMonth() == new Date().getMonth() &&
+                    new Date(day).getDate() == new Date().getDate() ? (
                     <InputToolbar
                         {...props}
                         containerStyle={{
@@ -1124,6 +1127,30 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </Layout>
         </Layout>
     );
+
+    // 재훈 함수 !!
+    // 가이드 프로필 띄워보기
+    const showGuideProfile = async(guideInfo) => {
+        try {
+            const res = await axios.get(`${SERVER}/api/guides/`+guideInfo.uid);
+            console.log(res.data);
+            
+            await setGuide({
+                avatar: res.data.avatar,
+                name: res.data.name,
+                gender: res.data.gender,
+                birthDate: res.data.birthDate,
+            })
+
+            console.log(guide);
+
+            setGuideVisible(true);
+
+        } catch (e) {
+            console.log('e', e);
+        }
+    }
+
     //실제 렌더링
     return (
         <Layout
@@ -1186,8 +1213,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 marginVertical: 10,
                             }}>
                             {guide.avatar != '' ||
-                            guide.avatar != undefined ||
-                            guide.avatar != null ? (
+                                guide.avatar != undefined ||
+                                guide.avatar != null ? (
                                 <Image
                                     source={{ uri: guide.avatar }}
                                     style={{
@@ -1239,6 +1266,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         </Layout>
                     </Layout>
                 </Modal>
+                {/* 가이드 모달 끝 */}
 
                 <Modal
                     visible={imageZoomVisible}
@@ -1309,17 +1337,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <AngleLeft_Color />
                     </Pressable>
 
-                    <Layout style={styles.profileContainer}>
-                        <Image
-                            source={require('../../assets/profile/profile_01.png')}
-                            style={styles.Profile}
-                        />
-                        <Text style={styles.title}>
-                            {props.route.params.guide.name === undefined
-                                ? `매칭중..`
-                                : `${props.route.params.guide.name}`}
-                        </Text>
-                    </Layout>
+                    {/* 가이드 프로필 나타내는 부분 */}
+                    <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
+                        <Layout style={styles.profileContainer}>
+                            <Image
+                                source={require('../../assets/profile/profile_01.png')}
+                                style={styles.Profile}
+                            />
+                            <Text style={styles.title}>
+                                {props.route.params.guide.name === undefined
+                                    ? `매칭중..`
+                                    : `${props.route.params.guide.name}`}
+                            </Text>
+                        </Layout>
+                    </TouchableOpacity>
 
                     <Pressable
                         style={styles.IconContainer}
@@ -1664,7 +1695,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 15,
     },
-    AudioCenterContainer:{
+    AudioCenterContainer: {
         backgroundColor: "#00FF0000",
     },
     AudioCenterStopwatch: {

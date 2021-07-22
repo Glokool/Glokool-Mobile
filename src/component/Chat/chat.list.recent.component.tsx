@@ -21,7 +21,6 @@ import { SceneRoute } from '../../navigation/app.route';
 
 export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
     // RECENT 에서는 지난 예약들을 볼 수 있습니당
-
     const user = auth().currentUser;
     const [data, setData] = React.useState<Array<GloChatData>>([]);
 
@@ -45,7 +44,7 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
     }
 
     function PressChatRoom(item: GloChatData) {
-        console.log('go to chat ')
+        console.log('go to chat ');
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: { name: item.guide.name, uid: item.guide.uid },
@@ -101,7 +100,6 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
                 />
                 </Layout>
             }
-
         </Layout>
     );
 }

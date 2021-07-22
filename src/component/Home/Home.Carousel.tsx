@@ -55,6 +55,7 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                 />
 
                 <Layout style={styles.TitleContainer}>
+                    {/* 필요없는 코드인가 싶음 */}
                     <Layout style={styles.TypeContainer}>
                         {item.item.type === 'tour' ? (
                             <Text></Text>
