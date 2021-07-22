@@ -115,8 +115,13 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                         Authorization: 'Bearer ' + res,
                     },
                 };
-                const RevData = await axios(AxiosConfig);
-                setReservationInfo(RevData.data);
+                try {
+                    const RevData = await axios(AxiosConfig);
+                    setReservationInfo(RevData.data);
+                } catch (e) {
+                    /* receive 404 error */
+                    // console.log('e', e);
+                }
                 setLoading(false);
             });
     }, []);
@@ -238,19 +243,13 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                         <Divider style={styles.Divider} />
                     </Layout>
                 </Layout>
-                {loading && <ActivityIndicator color={'black'} />}
-                {!loading ? (
+                {loading ? (
+                    <ActivityIndicator color={'grey'} />
+                ) : (
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         style={styles.scroll}>
-                        {reservationInfo.length === 0 ? (
-                            <Layout style={styles.emptyContainer}>
-                                <Receipt_Large />
-                                <Text style={styles.emptyText}>
-                                    There is no 'Paid list' .
-                                </Text>
-                            </Layout>
-                        ) : (
+                        {reservationInfo?.length ? (
                             reservationInfo.slice(0, 3).map((item, index) => (
                                 <TouchableOpacity
                                     key={index.toString()}
@@ -333,9 +332,16 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                     </Layout>
                                 </TouchableOpacity>
                             ))
+                        ) : (
+                            <Layout style={styles.emptyContainer}>
+                                <Receipt_Large />
+                                <Text style={styles.emptyText}>
+                                    There is no 'Paid list' .
+                                </Text>
+                            </Layout>
                         )}
                     </ScrollView>
-                ) : null}
+                )}
                 <TouchableOpacity
                     style={styles.ViewPaymentButton}
                     onPress={() =>
