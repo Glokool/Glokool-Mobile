@@ -13,6 +13,7 @@ import {
     Pressable,
     TouchableOpacity,
     AppState,
+    Alert,
 } from 'react-native';
 import {
     Layout,
@@ -75,7 +76,8 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { Alert } from '../../assets/icon/Auth';
+// import { Alert } from '../../assets/icon/Auth';
+// 안쓰여서 일단 주석처리
 
 
 var ToastRef: any;
@@ -1131,23 +1133,28 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     // 재훈 함수 !!
     // 가이드 프로필 띄워보기
     const showGuideProfile = async(guideInfo) => {
-        try {
-            const res = await axios.get(`${SERVER}/api/guides/`+guideInfo.uid);
-            console.log(res.data);
-            
-            await setGuide({
-                avatar: res.data.avatar,
-                name: res.data.name,
-                gender: res.data.gender,
-                birthDate: res.data.birthDate,
-            })
-
-            console.log(guide);
-
-            setGuideVisible(true);
-
-        } catch (e) {
-            console.log('e', e);
+        if (guideInfo.uid != ''){
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/`+guideInfo.uid);
+                // console.log(res.data);
+                
+                await setGuide({
+                    avatar: res.data.avatar,
+                    name: res.data.name,
+                    gender: res.data.gender,
+                    birthDate: res.data.birthDate,
+                })
+    
+                console.log(guide);
+    
+                setGuideVisible(true);
+    
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,','Guide Not Matched!');
         }
     }
 
