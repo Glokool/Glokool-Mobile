@@ -1228,8 +1228,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 justifyContent: 'center',
                                 marginVertical: 10,
                             }}>
-                            {guide.avatar != '' ||
-                                guide.avatar != undefined ||
+                            {guide.avatar != " " &&
+                                guide.avatar != undefined &&
                                 guide.avatar != null ? (
                                 <Image
                                     source={{ uri: guide.avatar }}
@@ -1241,7 +1241,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 />
                             ) : (
                                 <Image
-                                    source={require('../../../assets/profile.jpg')}
+                                    source={require('../../assets/profile/profile_01.png')}
                                     style={{
                                         width: 165,
                                         height: 165,
