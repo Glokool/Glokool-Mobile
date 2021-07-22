@@ -84,7 +84,6 @@ export const BookPayScreen = (props: BookPayScreenProps): LayoutElement => {
       }      
     )
     .then((response) => {
-      console.log(response);      
       axios.post(SERVER + '/api/tour/reservation', {
         tour_id: Trip.tourCode,
         email: Trip.email,

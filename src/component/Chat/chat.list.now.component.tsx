@@ -58,6 +58,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         // 날짜 계산
         // 그런데 여기서 내일 날짜도 D-day 로 표시되는 경우가 있네용
         const DDay = moment(item.item.day).diff(Today, 'days');
+        // console.log(item.item.day.getDate())
+        console.log(moment(Today))
+        const ItemDay = (new Date(item.item.day)).getDate();
+        console.log(moment(item.item.day));
+
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -93,7 +98,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                         {DDay > 0 ? (
                             <Text style={styles.DdayTxt}>D - {DDay}</Text>
                         ) : (
-                            <Text style={styles.DdayTxt}>D - Day</Text>
+                            ItemDay == Today.getDate() ? (
+                                <Text style={styles.DdayTxt}>D - Day</Text>
+                            ) : (
+                                <Text style={styles.DdayTxt}>D - 1</Text>
+                            )
                         )}
                         <Text style={styles.dateTxt}>
                             {moment(item.item.day).format('MM.DD')}
@@ -106,7 +115,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     return (
         <>
-            {!loading ? (
                 <Layout>
                     {data.length === 0 ? (
                         <Layout style={styles.EmptyContainer}>
@@ -136,7 +144,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                         </Layout>
                     )}
                 </Layout>
-            ) : null}
         </>
     );
 };
