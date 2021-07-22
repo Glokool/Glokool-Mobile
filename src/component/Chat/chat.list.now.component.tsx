@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import { StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import { Layout, Text, LayoutElement } from '@ui-kitten/components';
+import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
+import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
-import { Alert } from '../../assets/icon/Auth';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
@@ -16,6 +17,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const [data, setData] = React.useState<Array<GloChatData>>([]);
     const [refresh, setRefresh] = React.useState<boolean>(false);
     const [loading, setLoading] = React.useState<boolean>(true);
+
+    const [guide, setGuide] = useState({});
+    const [guideVisible, setGuideVisible] = useState(false);
 
     React.useEffect(() => {
         InitNowList();
@@ -30,7 +34,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 Authorization: 'Bearer ' + Token,
             },
         };
-        const RevData = await axios(AxiosConfig); 
+        const RevData = await axios(AxiosConfig);
         // axios 로 받아온 데이터를 useState 이용해 setData 
         // setData 에서 제네릭 안에 GloChatData 형태로 들어가는듯 
         // GloChatData 는 index.ts 에서 type 으로 export 되어있음
@@ -53,10 +57,33 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             finish: true,
         });
     }
+    // 가이드 사진 클릭 시 가이드 프로필 출력
+    const showGuideProfile = async(item: GloChatData) => {
+        if (item.guide.uid != ''){
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/`+item.guide.uid);
+                console.log(res.data);
+                
+                setGuide({
+                    avatar: res.data.avatar,
+                    name: res.data.name,
+                    gender: res.data.gender,
+                    birthDate: res.data.birthDate,
+                    lang: res.data.lang,
+                })
+    
+                setGuideVisible(true);
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,','Guide Not Matched!');
+        }
+    }
 
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
-        // 그런데 여기서 내일 날짜도 D-day 로 표시되는 경우가 있네용
         const DDay = moment(item.item.day).diff(Today, 'days');
         // console.log(item.item.day.getDate())
         console.log(moment(Today))
@@ -70,13 +97,15 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     style={styles.ChatContainer}
                     onPress={() => PressChatRoom(item.item)}>
                     <Layout style={styles.GuideContainer}>
-                        <Layout style={styles.GuideAvatarContainer}>
-                            <Image
-                                source={require('../../assets/profile/profile_01.png')}
-                                style={styles.GuideAvatar}
-                                resizeMode={'stretch'}
-                            />
-                        </Layout>
+                        <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
+                            <Layout style={styles.GuideAvatarContainer}>
+                                <Image
+                                    source={require('../../assets/profile/profile_01.png')}
+                                    style={styles.GuideAvatar}
+                                    resizeMode={'stretch'}
+                                />
+                            </Layout>
+                        </TouchableOpacity>
 
                         <Layout style={styles.GuideProfileContainer}>
                             <Text style={styles.GuideProfileTxt1}>
@@ -115,35 +144,108 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     return (
         <>
-                <Layout>
-                    {data.length === 0 ? (
-                        <Layout style={styles.EmptyContainer}>
-                            <Text style={styles.EmptyText}>Empty</Text>
-                            <TouchableOpacity
-                                style={styles.EmptyButton}
-                                onPress={() =>
-                                    props.navigation.navigate(
-                                        SceneRoute.SERIES_A_DETAIL,
-                                        { Id: '60cc026bee8b3104211971b5' },
-                                    )
-                                }>
-                                <Text style={styles.EmptyButtonText}>
-                                    How to use GloChat?!
-                                </Text>
-                            </TouchableOpacity>
-                        </Layout>
-                    ) : (
-                        <Layout style={styles.Container}>
-                            <FlatList
-                                data={data}
-                                renderItem={RenderItem}
-                                refreshing={refresh}
-                                showsVerticalScrollIndicator={false}
-                                contentContainerStyle={{ paddingBottom: 500 }}
-                            />
-                        </Layout>
-                    )}
-                </Layout>
+            <Layout>
+                {data.length === 0 ? (
+                    <Layout style={styles.EmptyContainer}>
+                        <Text style={styles.EmptyText}>Empty</Text>
+                        <TouchableOpacity
+                            style={styles.EmptyButton}
+                            onPress={() =>
+                                props.navigation.navigate(
+                                    SceneRoute.SERIES_A_DETAIL,
+                                    { Id: '60cc026bee8b3104211971b5' },
+                                )
+                            }>
+                            <Text style={styles.EmptyButtonText}>
+                                How to use GloChat?!
+                            </Text>
+                        </TouchableOpacity>
+                    </Layout>
+                ) : (
+                    <Layout style={styles.Container}>
+                        <FlatList
+                            data={data}
+                            renderItem={RenderItem}
+                            refreshing={refresh}
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 500 }}
+                        />
+
+                        <Modal
+                            visible={guideVisible}
+                            backdropStyle={styles.backdrop}
+                            onBackdropPress={() => setGuideVisible(false)}>
+                            <Layout style={{ padding: 20, borderRadius: 15 }}>
+                                <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
+                                    <Pressable onPress={() => setGuideVisible(false)}>
+                                        <FontAwesomeIcon icon={faTimes} size={20} />
+                                    </Pressable>
+                                </Layout>
+
+                                <Layout
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginVertical: 10,
+                                    }}>
+                                    {guide.avatar != '' ||
+                                        guide.avatar != undefined ||
+                                        guide.avatar != null ? (
+                                        <Image
+                                            source={{ uri: guide.avatar }}
+                                            style={{
+                                                width: 165,
+                                                height: 165,
+                                                borderRadius: 100,
+                                            }}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={require('../../../assets/profile.jpg')}
+                                            style={{
+                                                width: 165,
+                                                height: 165,
+                                                borderRadius: 100,
+                                            }}
+                                        />
+                                    )}
+                                </Layout>
+
+                                <Layout
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginVertical: 10,
+                                    }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 16,
+                                            fontWeight: 'bold',
+                                            color: 'black',
+                                        }}>
+                                        {guide.name}
+                                    </Text>
+                                </Layout>
+
+                                <Layout
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        marginVertical: 10,
+                                    }}>
+                                    <Text style={{ fontSize: 12, color: 'black' }}>
+                                        {guide.gender} /{' '}
+                                        {moment(guide.birthDate).toDate().getFullYear()}
+                                    </Text>
+                                    <Text
+                                        style={{ fontSize: 12, color: 'black' }}></Text>
+                                </Layout>
+                            </Layout>
+                        </Modal>
+                        {/* 가이드 모달 끝 */}
+                    </Layout>
+                )}
+            </Layout>
         </>
     );
 };
@@ -261,5 +363,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'black',
         marginBottom: -5,
+    },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 });

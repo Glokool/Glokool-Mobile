@@ -1136,19 +1136,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != ''){
             try {
                 const res = await axios.get(`${SERVER}/api/guides/`+guideInfo.uid);
-                // console.log(res.data);
+                console.log(res.data);
                 
-                await setGuide({
+                setGuide({
                     avatar: res.data.avatar,
                     name: res.data.name,
                     gender: res.data.gender,
                     birthDate: res.data.birthDate,
+                    lang: res.data.lang,
                 })
     
-                console.log(guide);
-    
                 setGuideVisible(true);
-    
             } catch (e) {
                 console.log('e', e);
             }
