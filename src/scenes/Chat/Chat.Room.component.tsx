@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 
 import {
     StyleSheet,
@@ -97,6 +97,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     ] = React.useState<FirebaseDatabaseTypes.Reference>();
 
     const [guide, setGuide] = React.useState({});
+    const [ENG, setENG] = useState(false);
+    const [CHN, setCHN] = useState(false);
+
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState([]);
     const [mapvisible, setMapvisible] = React.useState(false);
@@ -1132,27 +1135,35 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     // 재훈 함수 !!
     // 가이드 프로필 띄워보기
-    const showGuideProfile = async(guideInfo) => {
-        if (guideInfo.uid != ''){
+    const showGuideProfile = async (guideInfo) => {
+        if (guideInfo.uid != '') {
             try {
-                const res = await axios.get(`${SERVER}/api/guides/`+guideInfo.uid);
+                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
                 console.log(res.data);
-                
-                setGuide({
+
+                await setGuide({
                     avatar: res.data.avatar,
                     name: res.data.name,
                     gender: res.data.gender,
                     birthDate: res.data.birthDate,
                     lang: res.data.lang,
                 })
-    
+
+                if (res.data.lang.length == 1){
+                    setENG(true);
+                }
+                else {
+                    if (res.data.lang[0]) {setENG(true);}
+                    if (res.data.lang[1]) {setCHN(true);}
+                }
+
                 setGuideVisible(true);
             } catch (e) {
                 console.log('e', e);
             }
         }
         else {
-            Alert.alert('Sorry,','Guide Not Matched!');
+            Alert.alert('Sorry,', 'Guide Not Matched!');
         }
     }
 
@@ -1267,7 +1278,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 {moment(guide.birthDate).toDate().getFullYear()}
                             </Text>
                             <Text
-                                style={{ fontSize: 12, color: 'black' }}></Text>
+                                style={{ fontSize: 12, color: 'black' }}>
+                                Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
+
+                            </Text>
                         </Layout>
                     </Layout>
                 </Modal>

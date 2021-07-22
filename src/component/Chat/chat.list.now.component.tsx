@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
 import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
@@ -9,7 +9,7 @@ import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
@@ -20,6 +20,8 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     const [guide, setGuide] = useState({});
     const [guideVisible, setGuideVisible] = useState(false);
+    const [ENG, setENG] = useState(false);
+    const [CHN, setCHN] = useState(false);
 
     React.useEffect(() => {
         InitNowList();
@@ -58,12 +60,12 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         });
     }
     // 가이드 사진 클릭 시 가이드 프로필 출력
-    const showGuideProfile = async(item: GloChatData) => {
-        if (item.guide.uid != ''){
+    const showGuideProfile = async (item: GloChatData) => {
+        if (item.guide.uid != '') {
             try {
-                const res = await axios.get(`${SERVER}/api/guides/`+item.guide.uid);
+                const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
                 console.log(res.data);
-                
+
                 setGuide({
                     avatar: res.data.avatar,
                     name: res.data.name,
@@ -71,14 +73,21 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     birthDate: res.data.birthDate,
                     lang: res.data.lang,
                 })
-    
+                if (res.data.lang.length == 1){
+                    setENG(true);
+                }
+                else {
+                    if (res.data.lang[0]) {setENG(true);}
+                    if (res.data.lang[1]) {setCHN(true);}
+                }
+                
                 setGuideVisible(true);
             } catch (e) {
                 console.log('e', e);
             }
         }
         else {
-            Alert.alert('Sorry,','Guide Not Matched!');
+            Alert.alert('Sorry,', 'Guide Not Matched!');
         }
     }
 
@@ -86,9 +95,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
         // console.log(item.item.day.getDate())
-        console.log(moment(Today))
+        //console.log(moment(Today))
         const ItemDay = (new Date(item.item.day)).getDate();
-        console.log(moment(item.item.day));
+        //console.log(moment(item.item.day));
 
 
         return (
@@ -238,8 +247,12 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                         {moment(guide.birthDate).toDate().getFullYear()}
                                     </Text>
                                     <Text
-                                        style={{ fontSize: 12, color: 'black' }}></Text>
+                                        style={{ fontSize: 12, color: 'black' }}>
+                                        Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
+                                        
+                                    </Text>
                                 </Layout>
+
                             </Layout>
                         </Modal>
                         {/* 가이드 모달 끝 */}
