@@ -18,6 +18,7 @@ import { requestOneTimePayment, PaypalResponse } from 'react-native-paypal';
 import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
 import { number } from 'yup';
+import { AuthContext } from '../../context/AuthContext';
 
 type PriceData = {
     active: boolean;
@@ -49,6 +50,8 @@ const reducer = (state: State, action): State => {
 };
 
 export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
+    const { currentUser } = React.useContext(AuthContext);
+
     const data = props.route.params;
     const [price, setPrice] = React.useState<PriceData>();
 
@@ -315,30 +318,34 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
                 <Layout style={{ marginVertical: 15 }} />
-                <Layout style={styles.Payment}>
-                    <Radio
-                        checked={state.kakaoClicked}
-                        onChange={(nextChecked) =>
-                            dispatch({ type: 'kakao', nextChecked })
-                        }
-                        style={styles.Radio}
-                    />
-
-                    <Layout style={styles.LogoContainer}>
-                        <Image
-                            source={require('../../assets/kakaoPay_logo.png')}
-                            style={styles.Logo}
-                            resizeMode={'stretch'}
+                {currentUser.email === 'glokooltest@gmail.com' ? (
+                    <Layout style={styles.Payment}>
+                        <Radio
+                            checked={state.kakaoClicked}
+                            onChange={(nextChecked) =>
+                                dispatch({ type: 'kakao', nextChecked })
+                            }
+                            style={styles.Radio}
                         />
-                        <Text style={styles.PaymentText1}>
-                            Your payment will be made in{' '}
-                            <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
-                            <Text style={styles.PaymentText2}></Text>
-                            {'\n'}Use your balance in your Kakao account.
-                            {'\n'}Kakao account is required.
-                        </Text>
+
+                        <Layout style={styles.LogoContainer}>
+                            <Image
+                                source={require('../../assets/kakaoPay_logo.png')}
+                                style={styles.Logo}
+                                resizeMode={'stretch'}
+                            />
+                            <Text style={styles.PaymentText1}>
+                                Your payment will be made in{' '}
+                                <Text style={styles.PaymentText2}>
+                                    KRW{'\n'}
+                                </Text>
+                                <Text style={styles.PaymentText2}></Text>
+                                {'\n'}Use your balance in your Kakao account.
+                                {'\n'}Kakao account is required.
+                            </Text>
+                        </Layout>
                     </Layout>
-                </Layout>
+                ) : null}
                 <Layout style={{ marginVertical: 100 }} />
             </ScrollView>
 
