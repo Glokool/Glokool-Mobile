@@ -42,6 +42,7 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
         }
         const RevData = await axios(AxiosConfig);
         setData(RevData.data);
+        console.log(RevData.data)
     }
 
     function PressChatRoom(item: GloChatData) {
