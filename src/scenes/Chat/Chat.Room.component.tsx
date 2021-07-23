@@ -1147,6 +1147,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     gender: res.data.gender,
                     birthDate: res.data.birthDate,
                     lang: res.data.lang,
+                    country: res.data.country,
+                    intro: res.data.intro,
+                    oneLineIntro: res.data.oneLineIntro,
                 })
 
                 if (res.data.lang.length == 1) {
@@ -1237,6 +1240,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         width: 165,
                                         height: 165,
                                         borderRadius: 100,
+                                        borderColor: '#ccc',
+                                        borderWidth: 0.5,
                                     }}
                                 />
                             ) : (
@@ -1246,6 +1251,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                         width: 165,
                                         height: 165,
                                         borderRadius: 100,
+                                        borderColor: '#ccc',
+                                        borderWidth: 0.5,
                                     }}
                                 />
                             )}
@@ -1275,12 +1282,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>
                                 {guide.gender} /{' '}
+                                {guide.country} /{' '}
                                 {moment(guide.birthDate).toDate().getFullYear()}
                             </Text>
                             <Text
                                 style={{ fontSize: 12, color: 'black' }}>
                                 Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
-
+                            </Text>
+                            <Text
+                                style={{ fontSize: 12, color: 'black' }}>
+                                Intro : {guide.intro}
+                            </Text>
+                            <Text
+                                style={{ fontSize: 12, color: 'black' }}>
+                                oneLineIntro : {guide.oneLineIntro}
                             </Text>
                         </Layout>
                     </Layout>
