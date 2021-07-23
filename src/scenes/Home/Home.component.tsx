@@ -10,7 +10,8 @@ import {
     StyleSheet,
     Text,
     BackHandler,
-    Pressable
+    Pressable,
+    Linking
 } from 'react-native';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -55,8 +56,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-    function PressGloChatAD() {
-        props.navigation.navigate(NavigatorRoute.CHAT);
+    async function PressGloChatAD() {
+        //props.navigation.navigate(NavigatorRoute.CHAT);
+
+        console.log('버튼클릭');
+        await Linking.canOpenURL('glokool://fdkjaksdfkasdf/sdgasdfasd');
+        await Linking.openURL('glokool://12341234123/23423535');
+        console.log('버튼클릭');
     }
 
     

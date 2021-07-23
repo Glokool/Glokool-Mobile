@@ -1,4 +1,5 @@
 import React from 'react';
+import { Linking } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
@@ -19,16 +20,24 @@ export type AppNavigatorParams = {
 
 const Stack = createStackNavigator();
 
-export const AppNavigator = (props: React.ReactElement): React.ReactElement => (
-    <Stack.Navigator {...props} headerMode="none">
-        <Stack.Screen name={NavigatorRoute.MAIN} component={MainNavigator} />
-        <Stack.Screen name={NavigatorRoute.PAY} component={PayNavigator} />
-        <Stack.Screen name={NavigatorRoute.AUTH} component={AuthNavigator} />
-        <Stack.Screen name={NavigatorRoute.BOOK} component={BookNavigator} />
-        <Stack.Screen
-            name={NavigatorRoute.BOOK_CONFIRM}
-            component={BookConfirmNavigator}
-        />
-        <Stack.Screen name={NavigatorRoute.BOOKMARK} component={BookmarkNavigator} />
-    </Stack.Navigator>
-);
+export const AppNavigator = (props: React.ReactElement): React.ReactElement => {
+
+
+    
+
+
+    return(
+        <Stack.Navigator {...props} headerMode="none">
+            <Stack.Screen name={NavigatorRoute.MAIN} component={MainNavigator} />
+            <Stack.Screen name={NavigatorRoute.PAY} component={PayNavigator} />
+            <Stack.Screen name={NavigatorRoute.AUTH} component={AuthNavigator} />
+            <Stack.Screen name={NavigatorRoute.BOOK} component={BookNavigator} />
+            <Stack.Screen
+                name={NavigatorRoute.BOOK_CONFIRM}
+                component={BookConfirmNavigator}
+            />
+            <Stack.Screen name={NavigatorRoute.BOOKMARK} component={BookmarkNavigator} />
+        </Stack.Navigator>
+    )
+    
+};

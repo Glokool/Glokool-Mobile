@@ -26,24 +26,24 @@
 //   if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
 //     return YES;
 //   }
-
-//   if ([RCTLinkingManager application:app openURL:url options:options]) {
-//     return YES;
-//   }
-
-//   return NO;
+//
+////   if ([RCTLinkingManager application:app openURL:url options:options]) {
+////     return YES;
+////   }
+//
+//   return YES;
 // }
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
-{
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                 openURL:url
-                                                 options:options];
-//linking ----->
-   if ([RCTLinkingManager application:application openURL:url sourceApplication:nil annotation:nil]) {
-    return YES;
+  {
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                   openURL:url
+                                                   options:options];
+  //linking ----->
+     if ([RCTLinkingManager application:application openURL:url sourceApplication:nil annotation:nil]) {
+      return YES;
   } <-----------
 
   return YES;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { LogBox, Alert } from 'react-native';
-import { CommonActions, NavigationContainer } from '@react-navigation/native';
+import { LogBox, Alert, Linking } from 'react-native';
+import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
 import {
@@ -24,7 +24,9 @@ import axios from 'axios';
 import { SERVER } from './server.component';
 
 const saveTokenToDatabase = async (token: any) => {
+
     const userId = auth().currentUser?.uid;
+
 
     // 토큰 정리 (firebase에 저장)
     await firestore()
@@ -87,8 +89,50 @@ export default (): React.ReactFragment => {
                 console.log('user logout');
             }
         });
+
+        
     }, []);
 
+
+    React.useEffect(() => {
+        //IOS && ANDROID : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때
+            Linking.getInitialURL()
+                .then((url) => deepLink(url))
+                
+            //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
+            //ANDROID : 앱이 실행 중일 때
+            Linking.addEventListener('url', addListenerLink);
+            
+            return () => 
+                {remover();
+                console.log('앱 종료');
+                }
+    }, []);
+
+    const deepLink = (url) => {
+
+        console.log('딥링크 함수 실행', url)
+
+        if (url) {
+            console.log('딥링크 : ', url);
+        }
+    };
+
+    const addListenerLink = ({url}) => {
+
+        console.log('dㅑ!')
+
+        if (url) {
+            console.log('리스너 링크 : ', url);
+        }
+    };
+    
+    const remover = () => {
+        console.log('tkrwp');
+        Linking.removeEventListener('url', addListenerLink)
+    };
+
+    
     React.useEffect(() => {
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
@@ -125,7 +169,9 @@ export default (): React.ReactFragment => {
             <ApplicationProvider
                 {...eva}
                 theme={{ ...eva.light, ...theme }}
-                customMapping={mapping}>
+                customMapping={mapping}
+                
+                >
                 <SafeAreaProvider>
                     <AuthContext.Provider value={userValue}>
                         <ChatContext.Provider value={value}>
