@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView, 
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import {
   CheckBox,
@@ -197,6 +198,9 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
       })
       .catch((err) => {
         console.log('Firebase Auth Error : ', err);
+        if (err.code === 'auth/email-already-in-use') {
+          Alert.alert('Failed','That email address is already in use!');
+        }
       })
 
 

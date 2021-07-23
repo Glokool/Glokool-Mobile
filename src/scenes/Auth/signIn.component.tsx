@@ -13,6 +13,7 @@ import {
   Dimensions,
   Button,
   Platform,
+  Alert,
 } from 'react-native';
 import {
   Layout,
@@ -81,7 +82,16 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         .catch((error) => {
           var errorMessage = error.message;        
           console.log('로그인화면 - 로그인 실패',errorMessage);
-          toastRef.show(error.code, 3000);
+
+          if (error.code === 'auth/invalid-email') {
+            Alert.alert('Failed','The email address is badly formatted.');
+          } else if (error.code === 'auth/user-not-found') {
+            Alert.alert('Failed','There is no user record corresponding to this identifier.');
+          } else if (error.code === 'auth/wrong-password') {
+            Alert.alert('Failed','The password is invalid or the user does not have a password.');
+          }
+
+          // toastRef.show(error.code, 3000);
         });
     }
     

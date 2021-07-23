@@ -169,8 +169,8 @@ export const SeriesBInfoScreen = (
                     style={styles.ImageContainer}
                 />
                 {item.item.author == null ||
-                item.item.author == '' ||
-                item.item.author == 'undefined' ? null : (
+                    item.item.author == '' ||
+                    item.item.author == 'undefined' ? null : (
                     <Layout style={styles.authorContainer}>
                         {item.item.author[0] === 'i' ? (
                             <Instagram />
@@ -334,8 +334,8 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     ) : null}
 
-<Layout>
-                        <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
+                    <Layout>
+                        <Image source={{ uri: content?.cover }} style={styles.CoverImg} />
                         <Layout style={styles.SeriesBottomLayout}>
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
@@ -347,31 +347,31 @@ export const SeriesBInfoScreen = (
                             <Layout style={styles.TopImgIconLayout}>
                                 {uid ? (
                                     <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                    {bookmarkList.indexOf(Id) == -1 ? 
-                                        <Bookmark />
-                                        :
-                                        <Bookmark_P />
-                                    }
+                                        {bookmarkList.indexOf(Id) == -1 ?
+                                            <Bookmark />
+                                            :
+                                            <Bookmark_P />
+                                        }
                                     </TouchableOpacity>
                                 ) : null}
                                 {uid ? (
                                     <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                    {content?.plus.indexOf(uid) == -1 ?  (
-                                        <Plus />
-                                    ) : (
-                                        <Plus_P />
-                                    )}
+                                        {content?.plus.indexOf(uid) == -1 ? (
+                                            <Plus />
+                                        ) : (
+                                            <Plus_P />
+                                        )}
                                     </TouchableOpacity>
-                                  ) : null}
+                                ) : null}
                             </Layout>
                         </Layout>
                     </Layout>
-                <Layout style={styles.TopTxtContainer}>
-                    <Text style={styles.TitleTxt}>{content?.title}</Text>
-                    <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
-                    <Text style={styles.descTxt}>{content?.desc}</Text>
-                    <Text style={styles.LetsBeginTxt}>Let's Begin ! </Text>
-                </Layout>
+                    <Layout style={styles.TopTxtContainer}>
+                        <Text style={styles.TitleTxt}>{content?.title}</Text>
+                        <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
+                        <Text style={styles.descTxt}>{content?.desc}</Text>
+                        <Text style={styles.LetsBeginTxt}>Let's Begin ! </Text>
+                    </Layout>
 
                     {/* content carousel */}
                     {contentInfo.map((item) => (
@@ -575,7 +575,7 @@ export const SeriesBInfoScreen = (
                                                     styles.CommentsAuthorInner03Layout
                                                 }>
                                                 {item.plus.indexOf(uid) !=
-                                                -1 ? (
+                                                    -1 ? (
                                                     <TouchableOpacity
                                                         style={
                                                             styles.CommentsAuthorInnerIcons03Layout
@@ -793,8 +793,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     TopTxtContainer: {
-        marginLeft: 20,
-        marginRight: 40,
+        marginHorizontal: 25,
     },
     TitleTxt: {
         marginTop: 20,
@@ -861,8 +860,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     ContentTxtLayout: {
-        marginLeft: 20,
-        marginRight: 50,
+        marginHorizontal: 25,
         marginTop: 5,
     },
     ContentTitleTxt: {
