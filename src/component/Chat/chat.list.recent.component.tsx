@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
-    Image
+    Image,
+    Pressable
 } from 'react-native';
 import {
     Layout,
     Text,
-    LayoutElement 
+    LayoutElement,
+    Modal,
 } from '@ui-kitten/components';
 import { ChatListRecentProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import moment from 'moment';
@@ -17,12 +19,18 @@ import { GloChatData } from '.';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-
-export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
+export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     // RECENT 에서는 지난 예약들을 볼 수 있습니당
     const user = auth().currentUser;
     const [data, setData] = React.useState<Array<GloChatData>>([]);
+
+    const [guide, setGuide] = useState({});
+    const [guideVisible, setGuideVisible] = useState(false);
+    const [ENG, setENG] = useState(false);
+    const [CHN, setCHN] = useState(false);
 
     React.useEffect(() => {
 
@@ -33,11 +41,11 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
     async function InitNowList() {
         const Token = await user?.getIdToken(true);
         const AxiosConfig = {
-          method: 'get',
-          url: SERVER + '/api/users/reservations/past',
-          headers: { 
-            'Authorization': 'Bearer ' + Token 
-          }
+            method: 'get',
+            url: SERVER + '/api/users/reservations/past',
+            headers: {
+                'Authorization': 'Bearer ' + Token
+            }
         }
         const RevData = await axios(AxiosConfig);
         setData(RevData.data);
@@ -54,17 +62,50 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
         });
     }
 
-    const RenderItem = (item : {item : GloChatData, index : number}) => {
+    // 가이드 사진 클릭 시 가이드 프로필 출력
+    const showGuideProfile = async (item: GloChatData) => {
+        if (item.guide.uid != '') {
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
+                console.log(res.data);
 
-        return(
-            <TouchableOpacity style={styles.ChatContainer} 
-            onPress={() => PressChatRoom(item.item)}>
+                setGuide({
+                    avatar: res.data.avatar,
+                    name: res.data.name,
+                    gender: res.data.gender,
+                    birthDate: res.data.birthDate,
+                    lang: res.data.lang,
+                })
+                if (res.data.lang.length == 1) {
+                    setENG(true);
+                }
+                else {
+                    if (res.data.lang[0]) { setENG(true); }
+                    if (res.data.lang[1]) { setCHN(true); }
+                }
+
+                setGuideVisible(true);
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,', 'Guide Not Matched!');
+        }
+    }
+
+    const RenderItem = (item: { item: GloChatData, index: number }) => {
+
+        return (
+            <TouchableOpacity style={styles.ChatContainer}
+                onPress={() => PressChatRoom(item.item)}>
 
                 <Layout style={styles.GuideContainer}>
-
-                    <Layout style={styles.GuideAvatarContainer}>
-                        <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'}/>
-                    </Layout>
+                    <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
+                        <Layout style={styles.GuideAvatarContainer}>
+                            <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'} />
+                        </Layout>
+                    </TouchableOpacity>
 
                     <Layout style={styles.GuideProfileContainer}>
                         <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
@@ -81,24 +122,101 @@ export const ChatListRecent = (props : ChatListRecentProps) : LayoutElement => {
         )
     }
 
-    return(
+    return (
         <Layout>
-            {(data.length === 0)? 
+            {(data.length === 0) ?
                 <Layout style={styles.EmptyContainer}>
                     <Text style={styles.EmptyText}>Empty</Text>
-                    <TouchableOpacity style={styles.EmptyButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {Id : '60cc01e0ee8b3104211971b4' })}>
+                    <TouchableOpacity style={styles.EmptyButton} onPress={() => props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: '60cc01e0ee8b3104211971b4' })}>
                         <Text style={styles.EmptyButtonText}>How to use GloChat?!</Text>
                     </TouchableOpacity>
-                </Layout>            
-            :
+                </Layout>
+                :
                 <Layout style={styles.Container}>
 
-                <FlatList 
-                    data={data}
-                    renderItem={RenderItem}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{paddingBottom: 500}}
-                />
+                    <FlatList
+                        data={data}
+                        renderItem={RenderItem}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ paddingBottom: 500 }}
+                    />
+                    {/* 가이드 프로필 모달 */}
+                    <Modal
+                        visible={guideVisible}
+                        backdropStyle={styles.backdrop}
+                        onBackdropPress={() => setGuideVisible(false)}>
+                        <Layout style={{ padding: 20, borderRadius: 15 }}>
+                            <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
+                                <Pressable onPress={() => setGuideVisible(false)}>
+                                    <FontAwesomeIcon icon={faTimes} size={20} />
+                                </Pressable>
+                            </Layout>
+
+                            <Layout
+                                style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginVertical: 10,
+                                }}>
+                                {guide.avatar != " " &&
+                                    guide.avatar != undefined &&
+                                    guide.avatar != null ? (
+                                    <Image
+                                        source={{ uri: guide.avatar }}
+                                        style={{
+                                            width: 165,
+                                            height: 165,
+                                            borderRadius: 100,
+                                        }}
+                                    />
+                                ) : (
+                                    <Image
+                                        source={require('../../assets/profile/profile_01.png')}
+                                        style={{
+                                            width: 165,
+                                            height: 165,
+                                            borderRadius: 100,
+                                        }}
+                                    />
+                                )}
+                            </Layout>
+
+                            <Layout
+                                style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginVertical: 10,
+                                }}>
+                                <Text
+                                    style={{
+                                        fontSize: 16,
+                                        fontWeight: 'bold',
+                                        color: 'black',
+                                    }}>
+                                    {guide.name}
+                                </Text>
+
+                            </Layout>
+
+                            <Layout
+                                style={{
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginVertical: 10,
+                                }}>
+                                <Text style={{ fontSize: 12, color: 'black' }}>
+                                    {guide.gender} /{' '}
+                                    {moment(guide.birthDate).toDate().getFullYear()}
+                                </Text>
+                                <Text
+                                    style={{ fontSize: 12, color: 'black' }}>
+                                    Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
+
+                                </Text>
+                            </Layout>
+
+                        </Layout>
+                    </Modal>
                 </Layout>
             }
         </Layout>
@@ -122,7 +240,7 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 10,
         backgroundColor: 'white',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
@@ -179,13 +297,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000'
     },
     GuideProfileTxt1: {
-        fontFamily:'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: '#C3C3C3',
         marginBottom: -10
     },
     GuideProfileTxt2: {
-        fontFamily:'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: 'black',
         marginTop: 4
@@ -203,9 +321,12 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     dateTxt: {
-        fontFamily:'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 12,
         color: 'black',
         marginVertical: 0
-    }
+    },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
 })

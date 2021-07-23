@@ -11,6 +11,8 @@ import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import { ProfileModal } from './chat.profile.component';
+
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
     const Today = new Date();
@@ -73,14 +75,14 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     birthDate: res.data.birthDate,
                     lang: res.data.lang,
                 })
-                if (res.data.lang.length == 1){
+                if (res.data.lang.length == 1) {
                     setENG(true);
                 }
                 else {
-                    if (res.data.lang[0]) {setENG(true);}
-                    if (res.data.lang[1]) {setCHN(true);}
+                    if (res.data.lang[0]) { setENG(true); }
+                    if (res.data.lang[1]) { setCHN(true); }
                 }
-                
+
                 setGuideVisible(true);
             } catch (e) {
                 console.log('e', e);
@@ -179,7 +181,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={{ paddingBottom: 500 }}
                         />
-
+                        {/* 가이드 프로필 모달 */}
                         <Modal
                             visible={guideVisible}
                             backdropStyle={styles.backdrop}
@@ -234,7 +236,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                         }}>
                                         {guide.name}
                                     </Text>
-                                    
+
                                 </Layout>
 
                                 <Layout
@@ -250,7 +252,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                     <Text
                                         style={{ fontSize: 12, color: 'black' }}>
                                         Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
-                                        
+
                                     </Text>
                                 </Layout>
 

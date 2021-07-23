@@ -1149,12 +1149,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     lang: res.data.lang,
                 })
 
-                if (res.data.lang.length == 1){
+                if (res.data.lang.length == 1) {
                     setENG(true);
                 }
                 else {
-                    if (res.data.lang[0]) {setENG(true);}
-                    if (res.data.lang[1]) {setCHN(true);}
+                    if (res.data.lang[0]) { setENG(true); }
+                    if (res.data.lang[1]) { setCHN(true); }
                 }
 
                 setGuideVisible(true);
@@ -1357,19 +1357,23 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     </Pressable>
 
                     {/* 가이드 프로필 나타내는 부분 */}
-                    <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
-                        <Layout style={styles.profileContainer}>
+                    {/* TouchableOpacity 를 Layout 바깥쪽으로 추가하니까 버튼 위치가 바뀜 */}
+                    {/* 이미지, 텍스트에 각각 씌워주니 해결됨 */}
+                    <Layout style={styles.profileContainer}>
+                        <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
                             <Image
                                 source={require('../../assets/profile/profile_01.png')}
                                 style={styles.Profile}
                             />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
                             <Text style={styles.title}>
                                 {props.route.params.guide.name === undefined
                                     ? `매칭중..`
                                     : `${props.route.params.guide.name}`}
                             </Text>
-                        </Layout>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </Layout>
 
                     <Pressable
                         style={styles.IconContainer}
