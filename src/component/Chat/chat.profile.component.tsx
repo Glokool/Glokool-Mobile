@@ -11,9 +11,15 @@ import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-export const ProfileModal = ({ guide, ENG, CHN }) => {
+export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
 
-    const [guideVisible, setGuideVisible] = useState(true);
+    const [guideVisible, setGuideVisible] = useState(false);
+
+    useEffect(() => {
+        if (isVisible) {
+            setGuideVisible(true);
+        }
+    })
 
     return (
         <>
@@ -59,15 +65,27 @@ export const ProfileModal = ({ guide, ENG, CHN }) => {
                     </Layout>
 
                     <Layout
-                        style={styles.innerContainer}>
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginVertical: 10,
+                        }}>
                         <Text style={{ fontSize: 12, color: 'black' }}>
                             {guide.gender} /{' '}
+                            {guide.country} /{' '}
                             {moment(guide.birthDate).toDate().getFullYear()}
                         </Text>
                         <Text
                             style={{ fontSize: 12, color: 'black' }}>
                             Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
-
+                        </Text>
+                        <Text
+                            style={{ fontSize: 12, color: 'black' }}>
+                            Intro : {guide.intro}
+                        </Text>
+                        <Text
+                            style={{ fontSize: 12, color: 'black' }}>
+                            oneLineIntro : {guide.oneLineIntro}
                         </Text>
                     </Layout>
 
@@ -90,5 +108,7 @@ const styles = StyleSheet.create({
         width: 165,
         height: 165,
         borderRadius: 100,
+        borderColor: '#ccc',
+        borderWidth: 0.5,
     }
 });

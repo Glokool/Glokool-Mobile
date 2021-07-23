@@ -79,6 +79,8 @@ import { ChatContext } from '../../context/ChatContext';
 // import { Alert } from '../../assets/icon/Auth';
 // 안쓰여서 일단 주석처리
 
+import { ProfileModal } from '../../component/Chat/chat.profile.component';
+
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -264,6 +266,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             resetUserUnreadMsgCount();
         }),
     );
+
+    // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
+    React.useEffect(() => {
+        if (guideVisible) {
+            setGuideVisible(false);
+        }
+    }, [guideVisible])
 
     /* 뒤로가기 버튼 */
     const backAction = () => {
@@ -1214,93 +1223,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
-                <Modal
-                    visible={guideVisible}
-                    backdropStyle={styles.backdrop}
-                    onBackdropPress={() => setGuideVisible(false)}>
-                    <Layout style={{ padding: 20, borderRadius: 15 }}>
-                        <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
-                            <Pressable onPress={() => setGuideVisible(false)}>
-                                <FontAwesomeIcon icon={faTimes} size={20} />
-                            </Pressable>
-                        </Layout>
-
-                        <Layout
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginVertical: 10,
-                            }}>
-                            {guide.avatar != " " &&
-                                guide.avatar != undefined &&
-                                guide.avatar != null ? (
-                                <Image
-                                    source={{ uri: guide.avatar }}
-                                    style={{
-                                        width: 165,
-                                        height: 165,
-                                        borderRadius: 100,
-                                        borderColor: '#ccc',
-                                        borderWidth: 0.5,
-                                    }}
-                                />
-                            ) : (
-                                <Image
-                                    source={require('../../assets/profile/profile_01.png')}
-                                    style={{
-                                        width: 165,
-                                        height: 165,
-                                        borderRadius: 100,
-                                        borderColor: '#ccc',
-                                        borderWidth: 0.5,
-                                    }}
-                                />
-                            )}
-                        </Layout>
-
-                        <Layout
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginVertical: 10,
-                            }}>
-                            <Text
-                                style={{
-                                    fontSize: 16,
-                                    fontWeight: 'bold',
-                                    color: 'black',
-                                }}>
-                                {guide.name}
-                            </Text>
-                        </Layout>
-
-                        <Layout
-                            style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginVertical: 10,
-                            }}>
-                            <Text style={{ fontSize: 12, color: 'black' }}>
-                                {guide.gender} /{' '}
-                                {guide.country} /{' '}
-                                {moment(guide.birthDate).toDate().getFullYear()}
-                            </Text>
-                            <Text
-                                style={{ fontSize: 12, color: 'black' }}>
-                                Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
-                            </Text>
-                            <Text
-                                style={{ fontSize: 12, color: 'black' }}>
-                                Intro : {guide.intro}
-                            </Text>
-                            <Text
-                                style={{ fontSize: 12, color: 'black' }}>
-                                oneLineIntro : {guide.oneLineIntro}
-                            </Text>
-                        </Layout>
-                    </Layout>
-                </Modal>
-                {/* 가이드 모달 끝 */}
+                <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} />
 
                 <Modal
                     visible={imageZoomVisible}
