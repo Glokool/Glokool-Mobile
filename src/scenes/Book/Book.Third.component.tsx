@@ -309,8 +309,8 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                             Your payment will be made in{' '}
                             <Text style={styles.PaymentText2}>USD{'\n'}</Text>
                             <Text style={styles.PaymentText2}>
-                                Credit or debit cards issued in Korea are not
-                                accepted
+                                Credit or debit cards issued {'\n'}
+                                in Korea are not accepted
                             </Text>
                             {'\n\n'}Use your balance in your PayPal account.
                             {'\n'}PayPal account is required.

@@ -212,6 +212,7 @@ export const SeriesBInfoScreen = (
             });
     };
 
+    // 하트 버튼
     const PressPlus = async () => {
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
@@ -752,12 +753,13 @@ const styles = StyleSheet.create({
     SeriesBottomLayout: {
         position: 'absolute',
         bottom: 10,
-        backgroundColor: '#00FF0000',
+        backgroundColor: '#00ff0000',
         flexDirection: 'row',
-        marginLeft: 30,
+        marginLeft: 20,
         marginRight: 20,
         marginTop: 20,
         alignItems: 'flex-end',
+        justifyContent: 'center',
     },
     SeriesDateLayoutStyle: {
         flexDirection: 'row',

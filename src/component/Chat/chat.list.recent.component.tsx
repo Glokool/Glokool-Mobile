@@ -19,8 +19,6 @@ import { GloChatData } from '.';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ProfileModal } from './chat.profile.component';
 
 export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {

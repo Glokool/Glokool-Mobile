@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import auth from '@react-native-firebase/auth';
-import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
-import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
-import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
-import axios from 'axios';
-import { SERVER } from '../../server.component';
-import { GloChatData } from '.';
+import { StyleSheet, TouchableOpacity, Image, Pressable, } from 'react-native';
+import { Layout, Text, Modal } from '@ui-kitten/components';
 import moment from 'moment';
-import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
-
+export const ProfileModal = (props: any) => {
+    // props => guide. ENG CHN isVisible
     const [guideVisible, setGuideVisible] = useState(false);
 
     useEffect(() => {
-        if (isVisible) {
+        if (props.isVisible) {
             setGuideVisible(true);
         }
     })
@@ -27,7 +21,9 @@ export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
                 visible={guideVisible}
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setGuideVisible(false)}>
+
                 <Layout style={{ padding: 20, borderRadius: 15 }}>
+                    
                     <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
                         <Pressable onPress={() => setGuideVisible(false)}>
                             <FontAwesomeIcon icon={faTimes} size={20} />
@@ -36,11 +32,11 @@ export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
 
                     <Layout
                         style={styles.innerContainer}>
-                        {guide.avatar != " " &&
-                            guide.avatar != undefined &&
-                            guide.avatar != null ? (
+                        {props.guide.avatar != " " &&
+                            props.guide.avatar != undefined &&
+                            props.guide.avatar != null ? (
                             <Image
-                                source={{ uri: guide.avatar }}
+                                source={{ uri: props.guide.avatar }}
                                 style={styles.profileImage}
                             />
                         ) : (
@@ -59,7 +55,7 @@ export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
                                 fontWeight: 'bold',
                                 color: 'black',
                             }}>
-                            {guide.name}
+                            {props.guide.name}
                         </Text>
 
                     </Layout>
@@ -70,22 +66,19 @@ export const ProfileModal = ({ guide, ENG, CHN, isVisible }) => {
                             justifyContent: 'center',
                             marginVertical: 10,
                         }}>
-                        <Text style={{ fontSize: 12, color: 'black' }}>
-                            {guide.gender} /{' '}
-                            {guide.country} /{' '}
-                            {moment(guide.birthDate).toDate().getFullYear()}
+                        <Text style={styles.textStyle}>
+                            {props.guide.gender} /{' '}
+                            {props.guide.country} /{' '}
+                            {moment(props.guide.birthDate).toDate().getFullYear()}
                         </Text>
-                        <Text
-                            style={{ fontSize: 12, color: 'black' }}>
-                            Language : {ENG ? 'ENG' : null} {ENG && CHN ? ' / CHN' : CHN ? 'CHN' : null}
+                        <Text style={styles.textStyle}>
+                            Language : {props.ENG ? 'props.ENG' : null} {props.ENG && props.CHN ? ' / props.CHN' : props.CHN ? 'props.CHN' : null}
                         </Text>
-                        <Text
-                            style={{ fontSize: 12, color: 'black' }}>
-                            Intro : {guide.intro}
+                        <Text style={styles.textStyle}>
+                            Intro : {props.guide.intro}
                         </Text>
-                        <Text
-                            style={{ fontSize: 12, color: 'black' }}>
-                            oneLineIntro : {guide.oneLineIntro}
+                        <Text style={styles.textStyle}>
+                            oneLineIntro : {props.guide.oneLineIntro}
                         </Text>
                     </Layout>
 
@@ -110,5 +103,9 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderColor: '#ccc',
         borderWidth: 0.5,
+    },
+    textStyle: {
+        fontSize: 12,
+        color: 'black',
     }
 });
