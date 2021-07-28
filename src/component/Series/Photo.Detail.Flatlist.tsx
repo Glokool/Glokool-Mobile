@@ -30,6 +30,8 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
     
     const renderItem = (item : {item : IntroData, index: number}) => {
 
+        console.log(item);
+
         return(
             <Layout style={styles.MainContainer}>
                 <Image source={{uri : item.item.img}} style={styles.Image} resizeMode={'stretch'}/>
@@ -42,10 +44,10 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
                 :
                 <Layout style={styles.authorContainer}>
                     {(item.item.author[0] === 'i')?
-                        <Instagram />
+                        <Instagram style={{opacity: 0.75}}/>
                     :   
                      (item.item.author[0] === 'n')?
-                        <Naver />
+                        <Naver style={{opacity: 0.75}}/>
                     :
                         null
                     }

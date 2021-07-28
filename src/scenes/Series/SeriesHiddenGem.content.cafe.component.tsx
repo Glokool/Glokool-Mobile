@@ -332,13 +332,18 @@ export const SeriesHiddenGemContentCafe = (
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
-                        <Layout>
-                            <Layout style={styles.EditorNoteContainer}>
+                        <Layout style={styles.EditorNoteContainer}>
+                            <Layout style={styles.EditorNoteInnerContainer}>
                                 <EditorNote_Check />
                                 <SelectableText style={styles.EditorNoteText} item={item} />
                             </Layout>
-
-                            <Divider style={styles.EditorNoteDivider} />
+                            {index == data.editorNote.length - 1 ?
+                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height: 80, marginLeft: -30, alignItems: 'center', justifyContent: 'center' }}>
+                                    <Image source={require('../../assets/content/editor_note.png')} style={{ width: WindowSize + 60, resizeMode: 'contain' }} />
+                                </Layout>
+                                :
+                                <Divider style={styles.EditorNoteDivider} />
+                            }
                         </Layout>
                     ))}
                 </Layout>
@@ -384,7 +389,7 @@ export const SeriesHiddenGemContentCafe = (
                         <Layout style={styles.PurpleBottomContainerLayoutStyle}>
                             <Layout
                                 style={styles.PurpleBottomLayoutStyle}
-                                onTouchEnd={() => {setTimeout(()=>{props.navigation.navigate(NavigatorRoute.CHAT);},150)}}>
+                                onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
                                 <Text
                                     style={
                                         styles.PurpleBottomTxtStyle
@@ -590,6 +595,7 @@ const styles = StyleSheet.create({
     },
     InfoContainer: {
         marginHorizontal: 30,
+        marginBottom: 30,
     },
     ContainerTitle: {
         flexDirection: 'row',
@@ -699,6 +705,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     EditorNoteContainer: {
+        // flexDirection: 'row',
+        // alignItems: 'flex-start',
+    },
+    EditorNoteInnerContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
     },
