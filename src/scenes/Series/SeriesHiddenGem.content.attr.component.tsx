@@ -170,8 +170,8 @@ export const SeriesHiddenGemContentAttr = (
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
-                    <Text style={styles.TitleText}>{data?.title}</Text>
-                    <Text style={styles.DescText}>{data?.desc}</Text>
+                    <SelectableText style={styles.TitleText} item={data?.title}/>
+                    <SelectableText style={styles.DescText} item={data?.desc}/>
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
@@ -213,10 +213,7 @@ export const SeriesHiddenGemContentAttr = (
 
                     <Layout style={styles.LocationContainer}>
                         <Location />
-                        <Text
-                            style={
-                                styles.InfoDetailText
-                            }>{`  ${data?.loc}`}</Text>
+                        <SelectableText style={styles.InfoDetailText} item={`  ${data?.loc}`}/>
                     </Layout>
 
                     {data === undefined ? null : (
@@ -247,34 +244,25 @@ export const SeriesHiddenGemContentAttr = (
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <Text style={styles.InfoDetailText}>
-                                {' '}
-                                Open Hour
-                            </Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  Open Hour'}/>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer4}>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.time.everyTime}`}</Text>
+                            <SelectableText style={styles.InfoDetailText} item={`${data?.time.everyTime}`}/>
                         </Layout>
                     </Layout>
 
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Contact />
-                            <Text style={styles.InfoDetailText}> Call</Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  Call'}/>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.phone ? (
-                                <Text style={styles.InfoDetailText}>
-                                    {' '}
-                                    {`${data?.phone}`}
-                                </Text>
+                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.phone}`}/>
                             ) : (
-                                <Text style={styles.InfoDetailText}>-</Text>
+                                <SelectableText style={styles.InfoDetailText} item={'-'}/>
                             )}
                         </Layout>
                     </Layout>
@@ -282,7 +270,7 @@ export const SeriesHiddenGemContentAttr = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <Text style={styles.InfoDetailText}> SNS</Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  SNS'}/>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -292,7 +280,7 @@ export const SeriesHiddenGemContentAttr = (
                                     {`${data?.sns.slice(2)}`}
                                 </Text>
                             ) : (
-                                <Text style={styles.InfoDetailText}>-</Text>
+                                <SelectableText style={styles.InfoDetailText} item={'-'}/>
                             )}
                         </Layout>
                     </Layout>
@@ -300,7 +288,7 @@ export const SeriesHiddenGemContentAttr = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <EntryFee />
-                            <Text style={styles.InfoDetailText}> Entrance</Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  Entrance'}/>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -313,7 +301,7 @@ export const SeriesHiddenGemContentAttr = (
                                     </Text>
                                 </Text>
                             ) : (
-                                <Text style={styles.InfoDetailText}>Free</Text>
+                                <SelectableText style={styles.InfoDetailText} item={'Free'}/>
                             )}
                         </Layout>
                     </Layout>
@@ -343,19 +331,14 @@ export const SeriesHiddenGemContentAttr = (
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.EditorNoteTitleContainer}>
                         <EditorNote />
-                        <Text style={styles.EditorNoteTitle}>
-                            {' '}
-                            Editor's Note
-                        </Text>
+                        <SelectableText style={styles.EditorNoteTitle} item={"  Editor's Note"}/>
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
                         <Layout style={styles.EditorNoteContainer}>
                             <Layout style={styles.EditorNoteInnerContainer}>
                                 <EditorNote_Check />
-                                <Text style={styles.EditorNoteText}>
-                                    {item}
-                                </Text>
+                                <SelectableText style={styles.EditorNoteText} item={item}/>
                             </Layout>
                         {index == data.editorNote.length - 1 ? 
                             null

@@ -35,6 +35,7 @@ import {
     SignatureMenuFlatlist,
 } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
+import { SelectableText } from '../../component/Common/SelectableText.component';
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -168,8 +169,8 @@ export const SeriesHiddenGemContentCafe = (
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
-                    <Text style={styles.TitleText}>{data?.title}</Text>
-                    <Text style={styles.DescText}>{data?.desc}</Text>
+                    <SelectableText style={styles.TitleText} item={data?.title} />
+                    <SelectableText style={styles.DescText} item={data?.desc} />
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
@@ -190,11 +191,11 @@ export const SeriesHiddenGemContentCafe = (
 
                     {Glochat
                         ? data?.glokoolService.map((item, index) => (
-                              <Text style={styles.IndexText}>
-                                  {index + 1}
-                                  <Text>{`    ${item}`}</Text>{' '}
-                              </Text>
-                          ))
+                            <Text style={styles.IndexText}>
+                                {index + 1}
+                                <Text>{`    ${item}`}</Text>{' '}
+                            </Text>
+                        ))
                         : null}
                 </Layout>
 
@@ -225,10 +226,8 @@ export const SeriesHiddenGemContentCafe = (
                         </Layout>
 
                         <Layout style={{ marginLeft: 5 }}>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.loc}`}</Text>
+                            <SelectableText style={styles.InfoDetailText} item={` ${data?.loc}`} />
+
                         </Layout>
                     </Layout>
 
@@ -260,41 +259,31 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <Text style={styles.InfoDetailText}>
-                                {' '}
-                                Open Hour
-                            </Text>
-                            <Text style={styles.InfoDetailText}>
-                                {' '}
-                                Break Time
-                            </Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  Open Hour'} />
+                            <SelectableText style={styles.InfoDetailText} item={'  Break Time'} />
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer4}>
-                            <Text
-                                style={
-                                    styles.InfoDetailText
-                                }>{`${data?.time.everyTime}`}</Text>
-                            <Text style={styles.InfoDetailText}>
-                                {`${data?.time.breakTime}` || '-'}
-                            </Text>
+                            <SelectableText style={styles.InfoDetailText} item={`${data?.time.everyTime}`} />
+                            {data?.time.breakTime ? (
+                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.time.breakTime}`} />
+                            ) : (
+                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                            )}
                         </Layout>
                     </Layout>
 
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Contact />
-                            <Text style={styles.InfoDetailText}> Call</Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  Call'} />
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.phone ? (
-                                <Text style={styles.InfoDetailText}>
-                                    {' '}
-                                    {`${data?.phone}`}
-                                </Text>
+                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.phone}`} />
                             ) : (
-                                <Text style={styles.InfoDetailText}>-</Text>
+                                <SelectableText style={styles.InfoDetailText} item={'-'} />
                             )}
                         </Layout>
                     </Layout>
@@ -302,17 +291,14 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <Text style={styles.InfoDetailText}> SNS</Text>
+                            <SelectableText style={styles.InfoDetailText} item={'  SNS'} />
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.sns ? (
-                                <Text style={styles.InfoDetailText}>
-                                    {' '}
-                                    {`${data?.sns.slice(2)}`}
-                                </Text>
+                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.sns.slice(2)}`} />
                             ) : (
-                                <Text style={styles.InfoDetailText}>-</Text>
+                                <SelectableText style={styles.InfoDetailText} item={'-'} />
                             )}
                         </Layout>
                     </Layout>
@@ -342,19 +328,14 @@ export const SeriesHiddenGemContentCafe = (
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.EditorNoteTitleContainer}>
                         <EditorNote />
-                        <Text style={styles.EditorNoteTitle}>
-                            {' '}
-                            Editor's Note
-                        </Text>
+                        <SelectableText style={styles.EditorNoteTitle} item={"  Editor's Note"} />
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
                         <Layout>
                             <Layout style={styles.EditorNoteContainer}>
                                 <EditorNote_Check />
-                                <Text style={styles.EditorNoteText}>
-                                    {item}
-                                </Text>
+                                <SelectableText style={styles.EditorNoteText} item={item} />
                             </Layout>
 
                             <Divider style={styles.EditorNoteDivider} />

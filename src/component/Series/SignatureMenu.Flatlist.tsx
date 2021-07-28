@@ -10,6 +10,7 @@ import {
     LayoutElement,
     Text
 } from '@ui-kitten/components';
+import {SelectableText} from '../Common/SelectableText.component';
 
 type SgntMenu = {
     _id : string;
@@ -33,7 +34,7 @@ export const SignatureMenuFlatlist = (props : SignatureMenuFlatlistProps) : Layo
             <Layout style={styles.ImageContainer}>
                 <Image source={{uri : item.item.img}} style={styles.Image} resizeMode={'stretch'}/>
 
-                <Text style={styles.MenuTitleText}>{item.item.title}</Text>
+                <SelectableText style={styles.MenuTitleText} item={item.item.title}/>
                 <Layout style={styles.PriceContainer}>
                     <Text style={styles.MenuPriceText}>{item.item.money}</Text>
                     <Text style={styles.KRWText}> KRW</Text>

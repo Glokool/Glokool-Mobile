@@ -8,6 +8,7 @@ export const SelectableText = (props: any) => {
                 editable={false}
                 multiline={true}
                 scrollEnabled={false}
+                textAlignVertical='top'
                 style={props.style}
             >
                 {props.item}

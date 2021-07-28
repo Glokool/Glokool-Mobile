@@ -38,6 +38,7 @@ import { SERVER } from '../../server.component';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
+import { SelectableText } from '../../component/Common/SelectableText.component';
 
 type recommendation_Item = {
     _id: string;
@@ -335,14 +336,10 @@ export const SeriesAInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
-                        <Text style={styles.SeriesTitleTxtStyle}>
-                            {content?.title}
-                        </Text>
+                        <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title}/>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
-                        <Text style={styles.SeriesDescTxtStyle}>
-                            {content?.desc}
-                        </Text>
+                        <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc}/>
                     </Layout>
 
                     {/* check out more */}
