@@ -9,6 +9,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TextInput,
     BackHandler,
     Pressable
 } from 'react-native';
@@ -18,6 +19,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import { AdBanner } from '../../component/Common/AdBanner.component';
+
+import { SelectableText } from '../../component/Common/SelectableText.component';
 
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
@@ -72,9 +75,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
-                    <Text style={styles.TitleText1}>
+                    <TextInput style={styles.TitleText1} 
+                    editable={false} 
+                    multiline={true} 
+                    scrollEnabled={false}>
                         {`Ask us whatever, whenever`}
-                    </Text>
+                    </TextInput>
 
                     <Text style={styles.TitleText2}>
                         {`Glokool gets you goin' in Korea.`}

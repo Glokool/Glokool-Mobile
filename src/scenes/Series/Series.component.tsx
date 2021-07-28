@@ -2,7 +2,8 @@ import React from 'react'
 import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
 import { 
     StyleSheet,
-    Text, 
+    Text,
+    TextInput,
     TouchableOpacity,
     ScrollView,
     BackHandler,

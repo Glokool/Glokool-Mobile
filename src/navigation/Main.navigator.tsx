@@ -69,7 +69,7 @@ function MyTabBar({
     if (!visible && Platform.OS === 'android') return null;
 
     return (
-        <View style={{ marginTop: -10 }}>
+        <View style={{ marginTop: -10}}>
             <View
                 style={{
                     flexDirection: 'row',
