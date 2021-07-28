@@ -69,7 +69,7 @@ export const SeriesHiddenGemDetailScreen = (
     const uid = user?.uid;
 
     React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {});
+        const unsubscribe = props.navigation.addListener('focus', () => { });
 
         return unsubscribe;
     }, [props.navigation]);
@@ -183,7 +183,7 @@ export const SeriesHiddenGemDetailScreen = (
                         onPress={() => {
                             setMap(true);
                             setSelectedButton(3);
-                            }
+                        }
                         }>
                         <Map />
                     </TouchableOpacity>
@@ -323,7 +323,13 @@ export const SeriesHiddenGemDetailScreen = (
             {/* 탑 탭 바 */}
             {Height >= ImageSize - 100 ? (
                 <Layout style={styles.TopTabBar_B}>
-                    <Layout style={styles.TopTabBarContainer}>
+                    <Layout style={{
+                        flexDirection: 'row',
+                        backgroundColor: 'white',
+                        paddingBottom: 10,
+                        flex: 1,
+                        opacity: 0.9,
+                    }}>
                         <TouchableOpacity
                             style={styles.BackButton}
                             onPress={() => props.navigation.goBack()}>
@@ -347,12 +353,12 @@ export const SeriesHiddenGemDetailScreen = (
                                 {content?.tour.title}
                             </Text>
                         </Layout>
-                    </Layout>
+                    
 
                     <SafeAreaView />
-
-                    <Layout style={styles.TopTabBar_B}>
-                        <Layout style={styles.TopTabBarContainer}>
+                    
+                    {/* <Layout style={styles.TopTabBar_B}> */}
+                        {/* <Layout style={styles.TopTabBarContainer}>
                             <TouchableOpacity
                                 style={styles.BackButton}
                                 onPress={() => props.navigation.goBack()}>
@@ -376,7 +382,7 @@ export const SeriesHiddenGemDetailScreen = (
                                     {content?.tour.title}
                                 </Text>
                             </Layout>
-                        </Layout>
+                        </Layout> */}
 
                         {uid ? (
                             <Layout style={styles.TopTabBarContainer2}>
@@ -408,7 +414,7 @@ export const SeriesHiddenGemDetailScreen = (
                                     {content?.tour.plus == null ? (
                                         <Plus />
                                     ) : content?.tour.plus.indexOf(uid) ==
-                                      -1 ? (
+                                        -1 ? (
                                         <Plus />
                                     ) : (
                                         <Plus_P />
@@ -416,6 +422,7 @@ export const SeriesHiddenGemDetailScreen = (
                                 </TouchableOpacity>
                             </Layout>
                         ) : null}
+                    {/* </Layout> */}
                     </Layout>
                 </Layout>
             ) : (
@@ -513,7 +520,7 @@ const styles = StyleSheet.create({
         top: 0,
         width: '100%',
         height: 50,
-        backgroundColor: '#00FF0000',
+        backgroundColor: '#00ff0000',
         alignItems: 'center',
         flexDirection: 'row',
     },
