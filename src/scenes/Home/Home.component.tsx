@@ -75,12 +75,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
-                    <TextInput style={styles.TitleText1} 
-                    editable={false} 
-                    multiline={true} 
-                    scrollEnabled={false}>
+                    <Text style={styles.TitleText1}>
                         {`Ask us whatever, whenever`}
-                    </TextInput>
+                    </Text>
 
                     <Text style={styles.TitleText2}>
                         {`Glokool gets you goin' in Korea.`}

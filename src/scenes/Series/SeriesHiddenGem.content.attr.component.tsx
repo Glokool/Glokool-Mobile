@@ -33,6 +33,7 @@ import {
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
+import { SelectableText } from '../../component/Common/SelectableText.component';
 
 const WindowSize = Dimensions.get('window').width;
 

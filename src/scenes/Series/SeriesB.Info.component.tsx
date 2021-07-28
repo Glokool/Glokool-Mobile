@@ -47,6 +47,7 @@ import {
 import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
+import { SelectableText } from '../../component/Common/SelectableText.component';
 
 type recommendation_Item = {
     _id: string;
@@ -367,10 +368,10 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        <Text style={styles.TitleTxt} selectable={true} selectionColor='orange'>{content?.title}</Text>
-                        <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
-                        <Text style={styles.descTxt}>{content?.desc}</Text>
-                        <Text style={styles.LetsBeginTxt}>Let's Begin ! </Text>
+                        <SelectableText style={styles.TitleTxt} item={content?.title} />
+                        <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} />
+                        <SelectableText style={styles.descTxt} item={content?.desc} />
+                        <SelectableText style={styles.LetsBeginTxt} item={"Let's Begin !"} />
                     </Layout>
 
                     {/* content carousel */}
@@ -404,12 +405,8 @@ export const SeriesBInfoScreen = (
                                 inactiveDotScale={1}
                             />
                             <Layout style={styles.ContentTxtLayout}>
-                                <Text style={styles.ContentTitleTxt}>
-                                    {item.title}
-                                </Text>
-                                <Text style={styles.ContentDescTxt}>
-                                    {item.desc}
-                                </Text>
+                                <SelectableText style={styles.ContentTitleTxt} item={item.title}/>
+                                <SelectableText style={styles.ContentDescTxt} item={item.desc}/>
                             </Layout>
                         </Layout>
                     ))}
