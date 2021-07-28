@@ -127,13 +127,14 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginRight: 30,
         marginBottom: 15,
+        padding: 3,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        shadowRadius: 2,
         elevation: 5,
     },
     TourContainerEvenLayout: {
@@ -143,13 +144,14 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 5,
         marginBottom: 15,
+        padding: 3,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 9,
+        shadowOpacity: 0.20,
+        shadowRadius: 2,
         elevation: 5,
     },
     TourContainerOdd: {

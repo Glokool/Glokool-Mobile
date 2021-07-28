@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 20,
         marginLeft: 35,
         marginRight: 35,
     },

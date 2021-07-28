@@ -468,11 +468,7 @@ export const SeriesBInfoScreen = (
                                 style={styles.PurpleBottomContainerLayoutStyle}>
                                 <Layout
                                     style={styles.PurpleBottomLayoutStyle}
-                                    onTouchEnd={() => {
-                                        props.navigation.navigate(
-                                            NavigatorRoute.CHAT,
-                                        );
-                                    }}>
+                                    onTouchEnd={() => {setTimeout(()=>{props.navigation.navigate(NavigatorRoute.CHAT);},150)}}>
                                     <Text
                                         style={
                                             styles.PurpleBottomTxtStyle

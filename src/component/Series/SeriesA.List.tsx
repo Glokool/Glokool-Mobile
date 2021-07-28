@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         alignItems: 'flex-end',
+        paddingBottom: 5,
     },
     SeriesDateTxtStyle: {
         color: '#B5B5B5',
