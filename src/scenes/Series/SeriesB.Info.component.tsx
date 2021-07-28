@@ -23,6 +23,8 @@ import { SeriesBDetailInfoProps } from '../../navigation/ScreenNavigator/Series.
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment, { max } from 'moment';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { SceneRoute } from '../../navigation/app.route';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import {
     GoUp,
     PurpleArrow,
@@ -118,6 +120,8 @@ export const SeriesBInfoScreen = (
     const [bookmarkList, setBookmarkList] = React.useState([]);
     const user = auth().currentUser;
     const uid = user?.uid;
+
+    const routeName = getFocusedRouteNameFromRoute(props.route);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -443,7 +447,9 @@ export const SeriesBInfoScreen = (
                                 <Layout style={styles.CheckMoreLayoutStyle}>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            setId(item._id);
+                                            // 이전에 있었던 화면은 사라집니다...
+                                            props.navigation.pop()
+                                            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id});
                                         }}>
                                         <Image
                                             source={{ uri: item.image }}
