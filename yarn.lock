@@ -1586,17 +1586,17 @@
   "version" "3.0.3"
 
 "@react-native-firebase/app@^12.0.0":
-  "integrity" "sha512-ONIQUOiApnCwN/Xxnl6o9305hsuUsQaCWOp8JdlIniNM7QkkIlGqYgnvPowjEXEJVhMVME/B6NSNSidnOd/hHw=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-12.0.0.tgz"
-  "version" "12.0.0"
+  "integrity" "sha512-8jF7PXtvAA59YN9Hqf7mqMV4kvmEXO1XrGc8fRuOQ08g6OKEYZPDBvDsiLVy3oLw911Vznu2dllwQVm+K7Wcgw=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-12.3.0.tgz"
+  "version" "12.3.0"
   dependencies:
     "opencollective-postinstall" "^2.0.1"
     "superstruct" "^0.6.2"
 
 "@react-native-firebase/auth@^12.1.0":
-  "integrity" "sha512-9/peQaPYl5M2q4q/06Sih3z+BL9wOlmXgPex7jqbF99DN6IUigEq6eOt0sR3/g0ftS/IRDG7BfbIN5MtuY1vbg=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-12.1.0.tgz"
-  "version" "12.1.0"
+  "integrity" "sha512-Sk8x8+lhN2VIYMld0p5hcs3lNQEnMWok1T2pkC8/yHONZYgaE0rYnkKVmRhxhIiay0ImMRRjRO5kxb1RWp1B3Q=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-12.3.0.tgz"
+  "version" "12.3.0"
 
 "@react-native-firebase/database@^12.0.0":
   "integrity" "sha512-zfKhoLxMdMpLnnBtoKT7bBUDkxazWy28jsM9blg/NO26Wm+5+oA5EL++AZ0XCySU3O69KJVXtYEaeY5pmVKAUw=="

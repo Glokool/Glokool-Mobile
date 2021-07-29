@@ -83,6 +83,8 @@ project.ext.react = [
     entryFile: "index.js",
 ]
 
+
+
 apply from: "../../node_modules/react-native/react.gradle"
 
 /**
@@ -135,8 +137,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 2600
-        versionName "2.6.0"
+        versionCode 2660
+        versionName "2.6.6"
     }
     splits {
         abi {
@@ -216,6 +218,12 @@ dependencies {
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
+    // sync 맞추고 설정
+    // implementation("com.android.tools.build:gradle:4.2.1")
+
+    implementation "androidx.core:core-ktx:+"
+
+    compile project(':react-native-audio')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
