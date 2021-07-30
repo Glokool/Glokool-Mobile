@@ -10,6 +10,7 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
+    processColor
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import {
@@ -22,7 +23,7 @@ import {
 } from '../../assets/icon/Common';
 import {
     CommentSending,
-    CountNum,
+    CountNum_A as CountNum,
     Comments1,
     Comments2,
     Comments3,

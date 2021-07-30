@@ -18,7 +18,6 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
 
-
 // - (BOOL)application:(UIApplication *)app
 //             openURL:(NSURL *)url
 //             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
@@ -38,15 +37,16 @@
             openURL:(NSURL *)url
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
 {
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                 openURL:url
-                                                 options:options];
-//linking ----->
-   if ([RCTLinkingManager application:application openURL:url sourceApplication:nil annotation:nil]) {
-    return YES;
-  } <-----------
-
-  return YES;
+//  [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                                 openURL:url
+//                                                 options:options];
+////linking ----->
+//   if ([RCTLinkingManager application:application openURL:url sourceApplication:nil annotation:nil]) {
+//    return YES;
+//  }
+//
+//  return YES;
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 

@@ -17,7 +17,8 @@ import Comments4 from './Comments4.svg';
 import Comments5 from './Comments5.svg';
 import Comments6 from './Comments6.svg';
 import Comments6_s from './Comments6_s.svg';
-import CountNum from './CountNum.svg';
+import CountNum_A from './CountNum_A.svg';
+import CountNum_B from './CountNum_B.svg';
 import CountNum_Purple from './CountNum_Purple.svg';
 import SgntMenu from './SgntMenu.svg';
 import Menu_Spicy from './Menu_Spicy.svg';
@@ -49,7 +50,8 @@ export {
     Comments5,
     Comments6,
     Comments6_s,
-    CountNum,
+    CountNum_A,
+    CountNum_B,
     CountNum_Purple,
     SgntMenu,
     Menu_Spicy,

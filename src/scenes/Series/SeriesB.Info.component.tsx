@@ -37,7 +37,7 @@ import {
 } from '../../assets/icon/Common';
 import {
     CommentSending,
-    CountNum,
+    CountNum_B as CountNum,
     Comments1,
     Comments2,
     Comments3,
@@ -772,6 +772,7 @@ const styles = StyleSheet.create({
     },
     SeriesCountIconLayoutStyle: {
         marginRight: 6,
+        
     },
     SeriesDateTxtStyle: {
         color: '#D2D2D2',
