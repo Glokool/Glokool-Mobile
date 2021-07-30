@@ -50,13 +50,16 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
       )
     };
 
+    const renderHeader = () => {
+      return <View style={{width:35}}></View>
+    }
+
 
     return (
             <Layout  
             style={{
               flexDirection: "row",
               justifyContent: "center",
-              marginLeft: 35,
               marginTop: 5,
             }}>
                 <FlatList
@@ -65,6 +68,7 @@ export const SeriesBFlatlist = (props : SeriesBFlatlistProps) : LayoutElement =>
                 contentContainerStyle={{paddingRight: 20}}
                 showsHorizontalScrollIndicator={false}
                 horizontal
+                ListHeaderComponent={renderHeader}
                 />
             </Layout>
     )
