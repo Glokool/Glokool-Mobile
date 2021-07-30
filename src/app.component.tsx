@@ -22,6 +22,7 @@ import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
 import axios from 'axios';
 import { SERVER } from './server.component';
+import DeepLinking from 'react-native-deep-linking';
 
 const saveTokenToDatabase = async (token: any) => {
 
@@ -111,12 +112,12 @@ export default (): React.ReactFragment => {
         //     {remover();
         //     console.log('앱 종료');
         //     }
-        return () => {	
+        return () => {
             Linking.removeEventListener('url', (e) => {		// 이벤트 해제
             Alert.alert('remove e.url', e.url);
             console.log('remove')
-        });
-  };
+            });
+        };
     }, []);
 
     const deepLink = (url) => {
