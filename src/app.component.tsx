@@ -44,6 +44,8 @@ export default (): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
+    DeepLinking.addScheme('Glokool://');
+
     const InitNowList = async () => {
         const user = auth().currentUser;
 
