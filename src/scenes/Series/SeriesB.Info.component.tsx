@@ -47,6 +47,8 @@ import {
 import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
+import DeepLinking from 'react-native-deep-linking';
+
 
 type recommendation_Item = {
     _id: string;
@@ -126,7 +128,24 @@ export const SeriesBInfoScreen = (
         return unsubscribe;
     }, []);
 
+    const [response, setResponse] = React.useState({});
+    const handleUrl = ({ url }) => {
+        Linking.canOpenURL(url).then((supported) => {
+          if (supported) {
+            DeepLinking.evaluateUrl(url);
+          }
+          console.log('url:'+url);
+        });
+    }
     async function InitSeries() {
+        DeepLinking.addScheme('Glokool://');
+        Linking.addEventListener('url', handleUrl);
+
+        DeepLinking.addRoute('/test', 
+            // example://test/23
+            setResponse(response)
+          );
+
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
         setContentInfo(Content.data.contents);

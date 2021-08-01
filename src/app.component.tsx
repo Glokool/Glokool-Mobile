@@ -46,6 +46,7 @@ export default (): React.ReactFragment => {
 
     DeepLinking.addScheme('Glokool://');
 
+
     const InitNowList = async () => {
         const user = auth().currentUser;
 
