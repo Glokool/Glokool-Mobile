@@ -19,6 +19,7 @@ import { PaymentLoading } from '../../component/Booking/PaymentLoading';
 import { SceneRoute } from '../../navigation/app.route';
 import { number } from 'yup';
 import { AuthContext } from '../../context/AuthContext';
+import LinearGradient from 'react-native-linear-gradient';
 
 type PriceData = {
     active: boolean;
@@ -350,15 +351,17 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
             </ScrollView>
 
             <Layout style={styles.NextButtonContainer}>
+                <LinearGradient colors={['#ffffff00', 'white','white', 'white', '#ffffff00']} style={styles.LinearGradient}>
                 <TouchableOpacity
                     style={styles.Button}
                     onPress={() => Payment()}>
-                    <Text style={styles.ButtonText}>NEXT</Text>
+                    <Text style={styles.ButtonText}>PAY NOW</Text>
                 </TouchableOpacity>
 
                 <SafeAreaView
                     style={{ flex: 0, backgroundColor: '#00FF0000' }}
                 />
+                </LinearGradient>
             </Layout>
 
             <TopTabBar index={3} />
@@ -494,9 +497,17 @@ const styles = StyleSheet.create({
     NextButtonContainer: {
         position: 'absolute',
         width: '100%',
-        bottom: 10,
-        backgroundColor: '#00FF0000',
+        height: 120,
+        bottom: 0,
+        backgroundColor: '#00ff0000',
         alignItems: 'center',
+        justifyContent: 'center'
+    },
+    LinearGradient: {
+        width: '100%',
+        alignItems:'center',
+        height: 120,
+        justifyContent: 'center',
     },
     Button: {
         backgroundColor: '#7777FF',

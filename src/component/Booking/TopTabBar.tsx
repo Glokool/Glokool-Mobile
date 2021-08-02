@@ -26,7 +26,7 @@ export const TopTabBar = (props : TopTabBarProps) : LayoutElement => {
                 </TouchableOpacity>
 
                 <Layout style={styles.TitleContainer}>
-                    <Text style={styles.TitleText}>Booking</Text>
+                    <Text style={styles.TitleText}>BOOKING</Text>
                 </Layout>
 
                 <TouchableOpacity style={styles.BackButton}/>

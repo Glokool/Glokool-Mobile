@@ -12,7 +12,7 @@ import { AuthContext } from '../../context/AuthContext';
 const WindowSize = Dimensions.get('window').width
 
 
-export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement => {
+export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement => {
     const { currentUser } = React.useContext(AuthContext);
 
     const PickerDate = props.route.params.date;
@@ -22,7 +22,7 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
     const [name, setName] = React.useState(currentUser?.displayName);
     const [email, setEmail] = React.useState(currentUser?.email);
     const [contact, setContact] = React.useState('');
-    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));    
+    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
     const contactType = [
         'Phone Number',
         'Instagram',
@@ -33,12 +33,12 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
 
     function NextButton() {
         props.navigation.navigate(SceneRoute.BOOK_THIRD, {
-            date : PickerDate,
+            date: PickerDate,
             Name: name,
-            Email : email,
-            Contact : {
-                type : displayValue,
-                info : contact
+            Email: email,
+            Contact: {
+                type: displayValue,
+                info: contact
             }
         })
     }
@@ -49,9 +49,9 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
 
 
 
-    return(
+    return (
         <Layout style={styles.Container}>
-            
+
             <ScrollView style={styles.ScrollViewContainer} showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.TitleText}>Fill in your Informaion</Text>
@@ -74,16 +74,16 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     onChangeText={nextValue => setEmail(nextValue)}
                 />
 
-                <Text style={styles.smallTitle}>Contact in Korea    <Text style={styles.smallTitle2}>Optional</Text></Text>
+                <Text style={styles.smallTitle}>CONTACT in Korea    <Text style={styles.smallTitle2}>Optional</Text></Text>
                 <Layout style={styles.ContactContainer}>
                     <Select
                         style={styles.Select}
                         selectedIndex={selectedIndex}
                         value={displayValue}
                         onSelect={index => setSelectedIndex(index)}>
-                        <SelectItem title='Phone Number'/>
-                        <SelectItem title='Instagram'/>
-                        <SelectItem title='Kakao Talk'/>
+                        <SelectItem title='Phone Number' />
+                        <SelectItem title='Instagram' />
+                        <SelectItem title='Kakao Talk' />
                     </Select>
                     <Input
                         style={styles.smallInput}
@@ -94,41 +94,61 @@ export const BookSecondScreen = (props : BookSecondScreenProps) : LayoutElement 
                     />
                 </Layout>
 
+                <Text style={styles.smallTitle}>TRAVEL AREA    <Text style={styles.smallTitle3}>Name of city / disctrict</Text>    <Text style={styles.smallTitle2}>Optional</Text></Text>
+                <Input
+                    placeholder='ex) Gangnam, Jongno-gu'
+                    placeholderTextColor={'#D6D6D6'}
+                    style={styles.Input}
+                    //value={}
+                    textStyle={styles.InputText}
+                // onChangeText={}
+                />
+
+                <Text style={styles.smallTitle}>TRAVEL PLANS    <Text style={styles.smallTitle3}>Specific spots / activities</Text>    <Text style={styles.smallTitle2}>Optional</Text></Text>
+                <Input
+                    placeholder='ex) Sightseeing, Restaurant'
+                    placeholderTextColor={'#D6D6D6'}
+                    style={styles.Input}
+                    //value={}
+                    textStyle={styles.InputText}
+                // onChangeText={}
+                />
+
                 <Text style={styles.DescText}>
                     By proceeding,{'\n'}
                     You agree to our 'Terms of service',{'\n'}
                     'Privacy Policy & Cancellation Policy'
                 </Text>
 
-                <TouchableOpacity style={styles.TermsButton} onPress={() => 
+                <TouchableOpacity style={styles.TermsButton} onPress={() =>
                     props.navigation.navigate(SceneRoute.REFUND_POLICY2)}
                 >
                     <Text style={styles.TermsButtonText}>{`Click to Check     >`}</Text>
                 </TouchableOpacity>
 
 
-                <Layout style={{marginVertical: 100}}/>
+                <Layout style={{ marginVertical: 100 }} />
 
             </ScrollView>
 
             <CancellationPolicy visible={visible} />
 
             <Layout style={styles.NextButtonContainer}>
-                {(NextAble)? 
-                <TouchableOpacity style={styles.Button} onPress={() => NextButton()} >
-                    <Text style={styles.ButtonText}>NEXT</Text>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity style={styles.Button_D} >
+                {(NextAble) ?
+                    <TouchableOpacity style={styles.Button} onPress={() => NextButton()} >
+                        <Text style={styles.ButtonText}>NEXT</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={styles.Button_D} >
                         <Text style={styles.ButtonText_D}>NEXT</Text>
-                </TouchableOpacity>
-                } 
+                    </TouchableOpacity>
+                }
 
-                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+                <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000' }} />
             </Layout>
 
             <TopTabBar index={2} />
-            
+
         </Layout>
     );
 }
@@ -142,7 +162,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         marginTop: 80,
-        marginHorizontal: 30
+        marginHorizontal: 10,
     },
     TitleText: {
         fontFamily: 'IBMPlexSansKR-SemiBold',
@@ -158,7 +178,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    ButtonText:{
+    ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
     },
@@ -170,7 +190,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    ButtonText_D:{
+    ButtonText_D: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: '#AEAEAE',
     },
@@ -188,21 +208,27 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         marginTop: 10
     },
-    smallTitle :{
+    smallTitle: {
         marginTop: 30,
         color: '#7777FF',
         fontSize: 12,
-        
+
     },
-    smallTitle2 :{
+    smallTitle2: {
         marginTop: 15,
         color: '#D2D2D2',
         fontSize: 12,
-        marginBottom : 10
+        marginBottom: 10
+    },
+    smallTitle3: {
+        marginTop: 15,
+        color: '#212121',
+        fontSize: 12,
+        marginBottom: 10
     },
     InputText: {
         fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 18,
+        fontSize: 19,
         marginBottom: -15
     },
     ContactContainer: {
@@ -242,7 +268,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    ButtonText2:{
+    ButtonText2: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
     }
