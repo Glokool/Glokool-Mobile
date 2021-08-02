@@ -23,6 +23,7 @@ import { requestNotificationsPermission } from './component/permission.component
 import axios from 'axios';
 import { SERVER } from './server.component';
 import DeepLinking from 'react-native-deep-linking';
+import linking from './linking';
 
 const saveTokenToDatabase = async (token: any) => {
 
@@ -189,7 +190,7 @@ export default (): React.ReactFragment => {
                 <SafeAreaProvider>
                     <AuthContext.Provider value={userValue}>
                         <ChatContext.Provider value={value}>
-                            <NavigationContainer>
+                            <NavigationContainer linking={linking}>
                                 <AppNavigator />
                             </NavigationContainer>
                         </ChatContext.Provider>

@@ -3,20 +3,18 @@ import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
     Image,
-    ImageBackground,
     Linking,
     SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
-    FlatList,
     ScrollView,
-    View,
     TextInput,
     KeyboardAvoidingView,
-    Platform,
+    Share,
+    Pressable,
 } from 'react-native';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SeriesBDetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
@@ -48,6 +46,7 @@ import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import DeepLinking from 'react-native-deep-linking';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 type recommendation_Item = {
@@ -128,24 +127,33 @@ export const SeriesBInfoScreen = (
         return unsubscribe;
     }, []);
 
-    const [response, setResponse] = React.useState({});
-    const handleUrl = ({ url }) => {
-        Linking.canOpenURL(url).then((supported) => {
-          if (supported) {
-            DeepLinking.evaluateUrl(url);
+    // linking
+   console.log('id: ' + Id)
+   const detailUrl = "Glokool://seriesb"
+    // end linking
+
+    // share
+    const onShare = async () => {
+        try {
+          const result = await Share.share({
+            url:
+            'Glokool://abcd'
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
           }
-          console.log('url:'+url);
-        });
-    }
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
     async function InitSeries() {
-        DeepLinking.addScheme('Glokool://');
-        Linking.addEventListener('url', handleUrl);
-
-        DeepLinking.addRoute('/test', 
-            // example://test/23
-            setResponse(response)
-          );
-
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
         setContentInfo(Content.data.contents);
@@ -352,12 +360,15 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     ) : null}
 
-<Layout>
+        <Layout>
                         <Image source={{ uri : content?.cover }} style={styles.CoverImg} />
                         <Layout style={styles.SeriesBottomLayout}>
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                             </Layout>
+                            <Pressable onPress={() => Linking.openURL(detailUrl)}>
+                                <Text>share</Text>
+                            </Pressable>
                             <Layout style={styles.SeriesCountLayoutStyle}>
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
