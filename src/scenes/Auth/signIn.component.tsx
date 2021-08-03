@@ -229,7 +229,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         <FormInput
           id='email'
           style={styles.formControl}
-          placeholder='email'
+          placeholder='Email'
           keyboardType='email-address'
         />
         <Layout style={styles.resetPasswordContainer}>
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
   },
   CAButton: {
     width: WindowSize - 60,
-    backgroundColor: 'white',
+    backgroundColor: '#00FF0000',
     flexDirection: 'row',
     elevation: 2,
     marginVertical: 5

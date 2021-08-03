@@ -32,7 +32,7 @@ export enum SceneRoute {
     REFUND_POLICY2 = 'Refund Policy2',
 
     //Home Navigator
-    HOME = 'Home',
+    HOME = 'HomeScreen',
 
     //Chat Navigator
     CHAT = 'Chat',
@@ -70,7 +70,7 @@ export enum SceneRoute {
     MY_SETTING = 'My Setting',
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
-    BOOKMARK_LIST = 'Bookmark List',
+    BOOKMARK_LIST = 'BookmarkList',
 
     // Bookmark list
     BOOKMARK_SERIES = 'Bookmark Series',

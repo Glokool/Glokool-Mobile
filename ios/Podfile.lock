@@ -283,8 +283,16 @@ PODS:
     - FirebaseCore (= 8.4.0)
   - Firebase/Database (8.4.0):
     - Firebase/CoreOnly
+<<<<<<< HEAD
     - FirebaseDatabase (~> 8.4.0)
   - Firebase/DynamicLinks (8.4.0):
+=======
+    - FirebaseDatabase (~> 8.0.0)
+  - Firebase/DynamicLinks (8.0.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 8.0.0)
+  - Firebase/Firestore (8.0.0):
+>>>>>>> 87d0deb892a144e979365dae58e79e76b632c6cd
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (~> 8.4.0)
   - Firebase/Firestore (8.4.0):
@@ -331,9 +339,15 @@ PODS:
   - FirebaseDatabase (8.4.0):
     - FirebaseCore (~> 8.0)
     - leveldb-library (~> 1.22)
+<<<<<<< HEAD
   - FirebaseDynamicLinks (8.4.0):
     - FirebaseCore (~> 8.0)
   - FirebaseFirestore (8.4.0):
+=======
+  - FirebaseDynamicLinks (8.0.0):
+    - FirebaseCore (~> 8.0)
+  - FirebaseFirestore (8.0.0):
+>>>>>>> 87d0deb892a144e979365dae58e79e76b632c6cd
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
     - abseil/memory (= 0.20200225.0)
@@ -885,6 +899,7 @@ DEPENDENCIES:
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - FBSDKLoginKit
   - Firebase/Analytics
+  - Firebase/DynamicLinks
   - Firebase/Messaging
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleSignIn
@@ -1138,6 +1153,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
   FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
   FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
+<<<<<<< HEAD
   Firebase: 54cdc8bc9c9b3de54f43dab86e62f5a76b47034f
   FirebaseAnalytics: 4751d6a49598a2b58da678cc07df696bcd809ab9
   FirebaseAuth: 8ef169751d795f20921d425f7b0131cc1c70935c
@@ -1150,6 +1166,20 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 78025c56654f05c7ebd6f7f87f9d4b12c5231207
   FirebaseStorage: e6065bcbf70e2a06a8c3ddc66cbe03a395bbddc4
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+=======
+  Firebase: 73c3e3b216ec1ecbc54d2ffdd4670c65c749edb1
+  FirebaseAnalytics: dcb92c7c9ef4fa7ffac276e8f87bd4fc8c97f1b8
+  FirebaseAuth: b8cd992fca5b53dc6eec09e873a3f375f000c5a1
+  FirebaseCore: 3f09591d51292843e2a46f18358d60bf4e996255
+  FirebaseCoreDiagnostics: a31d987ba0fe16d59886a5dbadc2f1de871f88c8
+  FirebaseDatabase: 363961e25451425be8b14bb8801a592515ec58f2
+  FirebaseDynamicLinks: 42858c22626d9c519b28e0421b2ea6bcc5a241ff
+  FirebaseFirestore: 7f6576eaca9f821e864c3e917d68aa99f4e6b613
+  FirebaseInstallations: c4aab1005d6547b00a7529777fe52f5d4d45165b
+  FirebaseMessaging: 1a33b4af3c8042ed6ddacb6c031894af2064bfab
+  FirebaseStorage: 61bcd27880fa17362f68be67d3683d04bfd7b1c7
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+>>>>>>> 87d0deb892a144e979365dae58e79e76b632c6cd
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: 6b6a08fd9c71f4dbc89e0e812acca81d797aa342
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
@@ -1230,6 +1260,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
 
-PODFILE CHECKSUM: 75cee7b4feee0658ee7f0172840830e56e14b986
+PODFILE CHECKSUM: 79679898b8fdbb767f1e16e93a1d5b1594933431
 
 COCOAPODS: 1.10.1

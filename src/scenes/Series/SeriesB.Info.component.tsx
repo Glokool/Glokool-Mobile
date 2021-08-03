@@ -10,6 +10,7 @@ import {
     Text,
     TouchableOpacity,
     FlatList,
+    Button,
     ScrollView,
     View,
     TextInput,
@@ -50,6 +51,7 @@ import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+
 
 type recommendation_Item = {
     _id: string;
@@ -132,6 +134,8 @@ export const SeriesBInfoScreen = (
     }, []);
 
     async function InitSeries() {
+
+
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
         setContentInfo(Content.data.contents);
@@ -372,6 +376,7 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
+                        
                         <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} />
                         <SelectableText style={styles.descTxt} item={content?.desc} />
@@ -409,8 +414,8 @@ export const SeriesBInfoScreen = (
                                 inactiveDotScale={1}
                             />
                             <Layout style={styles.ContentTxtLayout}>
-                                <SelectableText style={styles.ContentTitleTxt} item={item.title}/>
-                                <SelectableText style={styles.ContentDescTxt} item={item.desc}/>
+                                <SelectableText style={styles.ContentTitleTxt} item={item.title} />
+                                <SelectableText style={styles.ContentDescTxt} item={item.desc} />
                             </Layout>
                         </Layout>
                     ))}
@@ -449,7 +454,7 @@ export const SeriesBInfoScreen = (
                                         onPress={() => {
                                             // 이전에 있었던 화면은 사라집니다...
                                             props.navigation.pop()
-                                            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id});
+                                            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id });
                                         }}>
                                         <Image
                                             source={{ uri: item.image }}
@@ -474,7 +479,7 @@ export const SeriesBInfoScreen = (
                                 style={styles.PurpleBottomContainerLayoutStyle}>
                                 <Layout
                                     style={styles.PurpleBottomLayoutStyle}
-                                    onTouchEnd={() => {setTimeout(()=>{props.navigation.navigate(NavigatorRoute.CHAT);},150)}}>
+                                    onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
                                     <Text
                                         style={
                                             styles.PurpleBottomTxtStyle
@@ -772,7 +777,7 @@ const styles = StyleSheet.create({
     },
     SeriesCountIconLayoutStyle: {
         marginRight: 6,
-        
+
     },
     SeriesDateTxtStyle: {
         color: '#D2D2D2',

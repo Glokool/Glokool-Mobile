@@ -11,11 +11,13 @@ import {
     Text,
     TextInput,
     BackHandler,
-    Pressable
+    Pressable,
+    Linking,
+    Button
 } from 'react-native';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useLinkTo } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import { AdBanner } from '../../component/Common/AdBanner.component';
@@ -28,6 +30,8 @@ const windowWidth = Dimensions.get('window').width;
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
+
+    const linkTo = useLinkTo();
 
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -58,8 +62,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-    function PressGloChatAD() {
-        props.navigation.navigate(NavigatorRoute.CHAT);
+    async function PressGloChatAD() {
+        //props.navigation.navigate(NavigatorRoute.CHAT);
+
+        console.log('버튼클릭');
+        await Linking.openURL('glokool://app/series');
+        console.log('버튼클릭');
     }
 
     
@@ -75,6 +83,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
+                    <Button title="test" onPress={()=>linkTo('/main/series')}></Button>
                     <Text style={styles.TitleText1}>
                         {`Ask us whatever, whenever`}
                     </Text>

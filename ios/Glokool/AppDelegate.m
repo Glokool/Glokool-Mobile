@@ -18,38 +18,6 @@
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
 
-// - (BOOL)application:(UIApplication *)app
-//             openURL:(NSURL *)url
-//             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-// {
-//   if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
-//     return YES;
-//   }
-
-//   if ([RCTLinkingManager application:app openURL:url options:options]) {
-//     return YES;
-//   }
-
-//   return NO;
-// }
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
-{
-//  [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                                 openURL:url
-//                                                 options:options];
-////linking ----->
-//   if ([RCTLinkingManager application:application openURL:url sourceApplication:nil annotation:nil]) {
-//    return YES;
-//  }
-//
-//  return YES;
-  return [RCTLinkingManager application:application openURL:url options:options];
-}
-
-
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -100,6 +68,13 @@ static void InitializeFlipper(UIApplication *application) {
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 
