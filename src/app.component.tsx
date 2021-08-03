@@ -22,13 +22,11 @@ import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
 import axios from 'axios';
 import { SERVER } from './server.component';
-import DeepLinking from 'react-native-deep-linking';
 import linking from './linking';
 
 const saveTokenToDatabase = async (token: any) => {
 
     const userId = auth().currentUser?.uid;
-
 
     // 토큰 정리 (firebase에 저장)
     await firestore()
@@ -44,9 +42,6 @@ export default (): React.ReactFragment => {
     const userValue = { currentUser, setCurrentUser };
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
-
-    DeepLinking.addScheme('Glokool://');
-
 
     const InitNowList = async () => {
         const user = auth().currentUser;
@@ -103,31 +98,28 @@ export default (): React.ReactFragment => {
         //IOS && ANDROID : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때
         Linking.getInitialURL()
             .then((url) => deepLink(url))
-            
         //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
         //ANDROID : 앱이 실행 중일 때
         // Linking.addEventListener('url', addListenerLink);
-        Linking.addEventListener('url', (e) => {		// 앱이 실행되어있는 상태에서 요청이 왔을 때 처리하는 이벤트 등록
-            const route = e.url.replace(/.*?:\/\//g, '');
+        Linking.addEventListener('url', (e) => {	// 앱이 실행되어있는 상태에서 요청이 왔을 때 처리하는 이벤트 등록
             Alert.alert('add e.url', e.url);
+            // const route = e.url.replace(/.*?:\/\//g, '');
+            // console.log('route: ' + e.url.replace(/.*?:\/\//g, ''))
         });
-        
+
         // return () => 
         //     {remover();
         //     console.log('앱 종료');
         //     }
-        return () => {
-            Linking.removeEventListener('url', (e) => {		// 이벤트 해제
-            Alert.alert('remove e.url', e.url);
-            console.log('remove')
-            });
-        };
+        // return () => {
+        //     Linking.removeEventListener('url', (e) => {		// 이벤트 해제
+        //     Alert.alert('remove e.url', e.url);
+        //     console.log('remove')
+        //     });
+        // };
     }, []);
 
     const deepLink = (url) => {
-
-        console.log('딥링크 함수 실행', url)
-
         if (url) {
             console.log('딥링크 : ', url);
         }
@@ -185,7 +177,6 @@ export default (): React.ReactFragment => {
                 {...eva}
                 theme={{ ...eva.light, ...theme }}
                 customMapping={mapping}
-                
                 >
                 <SafeAreaProvider>
                     <AuthContext.Provider value={userValue}>

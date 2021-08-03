@@ -47,6 +47,7 @@ import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import DeepLinking from 'react-native-deep-linking';
 import { NavigationContainer } from '@react-navigation/native';
+import { Alert } from '../../assets/icon/Auth';
 
 
 type recommendation_Item = {
@@ -137,7 +138,7 @@ export const SeriesBInfoScreen = (
         try {
           const result = await Share.share({
             url:
-            'Glokool://abcd'
+            'Glokool://my'
           });
           if (result.action === Share.sharedAction) {
             if (result.activityType) {
@@ -149,7 +150,7 @@ export const SeriesBInfoScreen = (
             // dismissed
           }
         } catch (error) {
-          alert(error.message);
+          Alert(error.message);
         }
       };
 
@@ -366,7 +367,7 @@ export const SeriesBInfoScreen = (
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                             </Layout>
-                            <Pressable onPress={() => Linking.openURL(detailUrl)}>
+                            <Pressable onPress={() => onShare()}>
                                 <Text>share</Text>
                             </Pressable>
                             <Layout style={styles.SeriesCountLayoutStyle}>

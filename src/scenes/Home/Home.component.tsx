@@ -57,12 +57,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     };
 
     async function PressGloChatAD() {
-        //props.navigation.navigate(NavigatorRoute.CHAT);
+        props.navigation.navigate(NavigatorRoute.CHAT);
 
-        console.log('버튼클릭');
-        await Linking.canOpenURL('glokool://fdkjaksdfkasdf/sdgasdfasd');
-        await Linking.openURL('glokool://12341234123/23423535');
-        console.log('버튼클릭');
+        // console.log('버튼클릭');
+        // await Linking.canOpenURL('Glokool://my');
+        // await Linking.openURL('Glokool://');
+        // console.log('버튼클릭');
     }
 
     
