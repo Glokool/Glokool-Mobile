@@ -3,7 +3,6 @@ import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
     Image,
-    ImageBackground,
     Linking,
     SafeAreaView,
     StyleSheet,
@@ -12,12 +11,12 @@ import {
     FlatList,
     Button,
     ScrollView,
-    View,
     TextInput,
     KeyboardAvoidingView,
-    Platform,
+    Share,
+    Pressable,
 } from 'react-native';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SeriesBDetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
@@ -132,10 +131,7 @@ export const SeriesBInfoScreen = (
 
         return unsubscribe;
     }, []);
-
     async function InitSeries() {
-
-
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
         setContentInfo(Content.data.contents);
@@ -349,6 +345,9 @@ export const SeriesBInfoScreen = (
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                             </Layout>
+                            <Pressable onPress={() => onShare()}>
+                                <Text>share</Text>
+                            </Pressable>
                             <Layout style={styles.SeriesCountLayoutStyle}>
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>

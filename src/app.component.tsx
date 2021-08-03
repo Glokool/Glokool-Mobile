@@ -28,7 +28,6 @@ const saveTokenToDatabase = async (token: any) => {
 
     const userId = auth().currentUser?.uid;
 
-
     // 토큰 정리 (firebase에 저장)
     await firestore()
         .collection('Users')

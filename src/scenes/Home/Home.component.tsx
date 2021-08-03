@@ -63,7 +63,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     };
 
     async function PressGloChatAD() {
-        //props.navigation.navigate(NavigatorRoute.CHAT);
+        props.navigation.navigate(NavigatorRoute.CHAT);
 
         console.log('버튼클릭');
         await Linking.openURL('glokool://app/series');
