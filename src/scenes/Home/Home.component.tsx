@@ -11,16 +11,21 @@ import {
     Text,
     TextInput,
     BackHandler,
-    Pressable
+    Pressable,
+    Linking,
+    Button
 } from 'react-native';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useLinkTo } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import { AdBanner } from '../../component/Common/AdBanner.component';
-
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import firebase from "@react-native-firebase/app";
+import 'firebase/auth';
 
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
@@ -58,9 +63,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-    function PressGloChatAD() {
+    async function PressGloChatAD() {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
+
+    React.useEffect(()=>{
+        console.log('home component current user: ' + auth().currentUser?.displayName)
+    })
 
     
 

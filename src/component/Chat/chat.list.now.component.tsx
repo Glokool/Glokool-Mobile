@@ -168,17 +168,17 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             <Layout>
                 {data.length === 0 ? (
                     <Layout style={styles.EmptyContainer}>
-                        <Text style={styles.EmptyText}>Empty</Text>
+                        <Text style={styles.EmptyText}>TRAVEL ASSISTANT SERVICE</Text>
                         <TouchableOpacity
                             style={styles.EmptyButton}
                             onPress={() =>
                                 props.navigation.navigate(
                                     SceneRoute.SERIES_A_DETAIL,
-                                    { Id: '60cc026bee8b3104211971b5' },
+                                    { Id: '60cc01e0ee8b3104211971b4' },
                                 )
                             }>
                             <Text style={styles.EmptyButtonText}>
-                                How to use GloChat?!
+                                HOW TO USE GloChat
                             </Text>
                         </TouchableOpacity>
                     </Layout>
@@ -205,33 +205,44 @@ const styles = StyleSheet.create({
     EmptyContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    EmptyText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 16,
-        color: '#C3C3C3',
-        marginBottom: 20,
-        marginTop: 50,
-    },
-    EmptyButton: {
-        width: 250,
-        height: 60,
-        borderRadius: 10,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 3,
         },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
+        shadowOpacity: 0.1,
+        shadowRadius: 1,
         elevation: 2,
     },
+    EmptyText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 18,
+        color: '#000',
+        marginTop: 24,
+        marginBottom: 3,
+    },
+    EmptyButton: {
+        width: 344,
+        height: 37,
+        borderRadius: 8,
+        borderWidth: 3.5,
+        borderColor: "#f1f1f1",
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 26,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 1.41,
+        // elevation: 2,
+    },
     EmptyButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 20,
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 19,
         color: '#7777FF',
     },
     Container: {

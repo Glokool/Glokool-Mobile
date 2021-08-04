@@ -78,12 +78,12 @@ function MyTabBar({
                     backgroundColor: 'white',
                     borderTopColor: '#fff',
                     borderTopWidth: 0.5,
-                    shadowColor: 'rgba(0, 0, 0, 0.19)',
+                    shadowColor: 'rgba(0, 0, 0, 1)',
                     shadowOffset: {
                         width: 0,
                         height: 6,
                     },
-                    shadowRadius: 30,
+                    shadowRadius: 5,
                     elevation: 5,
                     shadowOpacity: 1,
                 }}>

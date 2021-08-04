@@ -1,6 +1,6 @@
-import React from 'react';
-import { LogBox, Alert } from 'react-native';
-import { CommonActions, NavigationContainer } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { LogBox, Alert, Linking } from 'react-native';
+import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
 import {
@@ -22,8 +22,10 @@ import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
 import axios from 'axios';
 import { SERVER } from './server.component';
+import linking from './linking';
 
 const saveTokenToDatabase = async (token: any) => {
+
     const userId = auth().currentUser?.uid;
 
     // 토큰 정리 (firebase에 저장)
@@ -35,7 +37,7 @@ const saveTokenToDatabase = async (token: any) => {
         });
 };
 
-export default (): React.ReactFragment => {
+export default (props: any): React.ReactFragment => {
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
     const [onChat, setChatIcon] = React.useState(false);
@@ -70,7 +72,23 @@ export default (): React.ReactFragment => {
 
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
-            if (user && user?.emailVerified) {
+            if(user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null){
+                if (user && user?.emailVerified) {
+                    const userInfo = {
+                        displayName: user?.displayName,
+                        email: user?.email,
+                        photoURL: user?.photoURL,
+                        uid: user?.uid,
+                        access_token: null,
+                    };
+    
+                    setCurrentUser(userInfo);
+    
+                    InitNowList();
+                } else {
+                    auth().signOut;
+                }
+            }else{
                 const userInfo = {
                     displayName: user?.displayName,
                     email: user?.email,
@@ -82,11 +100,39 @@ export default (): React.ReactFragment => {
                 setCurrentUser(userInfo);
 
                 InitNowList();
-            } else {
-                auth().signOut;
-                console.log('user logout');
             }
         });
+        console.log('app.component end');
+    }, []);
+
+    const testURL = () => {
+        Linking.getInitialURL()
+            .then((url) => {
+                console.log(url);
+                Linking.openURL(url);
+            })
+    }
+
+
+    React.useEffect(() => {
+        //IOS && ANDROID : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때
+        // testURL();
+
+        // // //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
+        // // //ANDROID : 앱이 실행 중일 때
+        // // // Linking.addEventListener('url', addListenerLink);
+        // Linking.addEventListener('url', (e) => {// 앱이 실행되어있는 상태에서 요청이 왔을 때 처리하는 이벤트 등록
+        //     const route = e.url.replace(/.*?:\/\//g, '');
+        //     Alert.alert('add e.url', e.url);
+        //     Linking.openURL(e.url);
+        //     return;
+        // });
+
+        // return () => {
+        //     Linking.removeEventListener('url', (e) => {		// 이벤트 해제
+        //         console.log('remove')
+        //     });
+        // };
     }, []);
 
     React.useEffect(() => {
@@ -125,11 +171,13 @@ export default (): React.ReactFragment => {
             <ApplicationProvider
                 {...eva}
                 theme={{ ...eva.light, ...theme }}
-                customMapping={mapping}>
+                customMapping={mapping}
+
+            >
                 <SafeAreaProvider>
                     <AuthContext.Provider value={userValue}>
                         <ChatContext.Provider value={value}>
-                            <NavigationContainer>
+                            <NavigationContainer linking={linking}>
                                 <AppNavigator />
                             </NavigationContainer>
                         </ChatContext.Provider>

@@ -35,6 +35,10 @@ target 'Glokool' do
   pod 'Permission-PhotoLibrary', :path => "../node_modules/react-native-permissions/ios/PhotoLibrary"
 
   pod 'GoogleSignIn'
+
+  pod 'Firebase/DynamicLinks'
+
+  pod 'Firebase/Analytics'
   
   pod 'FBSDKLoginKit'
   # pod 'FBSDKCoreKit'

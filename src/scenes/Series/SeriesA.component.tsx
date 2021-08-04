@@ -1,5 +1,5 @@
 import { Layout, LayoutElement } from '@ui-kitten/components';
-import React from 'react';
+import React , {useEffect} from 'react';
 import {
     Dimensions,
     SafeAreaView,
@@ -12,10 +12,22 @@ import { SeriesADetailProps } from '../../navigation/ScreenNavigator/Series.navi
 import { AngleLeft } from '../../assets/icon/Common';
 import { SeriesAList } from '../../component/Series';
 import { Content } from '../../assets/icon/Series';
+import { SceneRoute } from '../../navigation/app.route';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const SeriesAScreen = (props: SeriesADetailProps): LayoutElement => {
+
+    useEffect(()=>{
+        if (props.route.params) {
+            props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, {
+                Id: props.route.params.id,
+            } );
+        } else {
+            setTimeout(()=>console.log("undefined!!!"),2000);
+        }
+    })
+
     return (
         <Layout style={styles.ContainerLayout}>
             <ScrollView

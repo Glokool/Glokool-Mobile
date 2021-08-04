@@ -26,6 +26,7 @@
 		DF1A16DB2670A49500923E2D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1A16D72670A49500923E2D /* File.swift */; };
 		DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */; };
 		DF96D1492604422A0005AD8D /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = DF96D1482604422A0005AD8D /* loading.json */; };
+		DFECF72026BA226B005EBF8F /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFECF71D26BA226B005EBF8F /* Fonts */; };
 		DFF62C392629DEF30038D300 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFF62C382629DEF30038D300 /* Fonts */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		DF96CF972604330C0005AD8D /* Glokool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Glokool.entitlements; path = Glokool/Glokool.entitlements; sourceTree = "<group>"; };
 		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
+		DFECF71D26BA226B005EBF8F /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		DFF62C382629DEF30038D300 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		EA18167F27D376BBB6734226 /* libPods-Glokool-GlokoolTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Glokool-GlokoolTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				DFF62C382629DEF30038D300 /* Fonts */,
+				DFECF71D26BA226B005EBF8F /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Glokool */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* GlokoolTests */,
@@ -455,6 +458,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				DF96D1492604422A0005AD8D /* loading.json in Resources */,
 				DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */,
+				DFECF72026BA226B005EBF8F /* Fonts in Resources */,
 				DFF62C392629DEF30038D300 /* Fonts in Resources */,
 				DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */,
 			);

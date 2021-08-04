@@ -32,7 +32,7 @@ export enum SceneRoute {
     REFUND_POLICY2 = 'Refund Policy2',
 
     //Home Navigator
-    HOME = 'Home',
+    HOME = 'HomeScreen',
 
     //Chat Navigator
     CHAT = 'Chat',

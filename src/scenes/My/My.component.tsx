@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { useFocusEffect } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute, useFocusEffect, useLinkTo } from '@react-navigation/native';
 import {
     StyleSheet,
     Image,
@@ -10,6 +10,8 @@ import {
     Dimensions,
     SafeAreaView,
     ActivityIndicator,
+    Button,
+    Linking,
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { Korean, Resident, Traveler } from '../../assets/icon/UserType';
@@ -70,6 +72,25 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     var timeout: any;
 
     const [loading, setLoading] = React.useState<boolean>(true);
+
+    const [response, setResponse] = React.useState({});
+
+    const seriesURL = "glokool://app/main/series";
+
+    const linkTo = useLinkTo();
+
+    const testOpenURL = async(route = props.route) => {
+        //linkTo('/main');
+
+        const flag = await Linking.openURL(seriesURL);
+        console.log(flag);
+
+        // const routeName = getFocusedRouteNameFromRoute(route);
+        // console.log(props.navigation.goBack());
+    }
+
+
+
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
         React.useCallback(() => {

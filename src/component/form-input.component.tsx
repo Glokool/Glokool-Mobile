@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#00ff0000',
     borderColor: '#00ff0000',
     borderBottomColor: '#8797FF',
+    borderBottomWidth: 2,
+    borderRadius: 2,
     alignItems: 'center',
     marginHorizontal: 10,
     marginVertical: 0,
