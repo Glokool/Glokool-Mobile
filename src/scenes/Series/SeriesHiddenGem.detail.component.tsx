@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, Platform, StyleSheet } from 'react-native';
 import { SeriesHiddenGemDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
@@ -250,13 +250,31 @@ export const SeriesHiddenGemDetailScreen = (
                                 latitudeDelta: 0.015,
                                 longitudeDelta: 0.0121,
                             }}>
-                            <Marker
-                                coordinate={{
-                                    latitude: parseFloat(content?.tour.lat),
-                                    longitude: parseFloat(content?.tour.lon),
-                                }}
-                                image={require('../../assets/icon/Map/Glokool.png')}
-                            />
+
+                            {Platform.OS === 'android' ? (
+                                <Marker
+                                    coordinate={{
+                                        latitude: parseFloat(content?.tour.lat),
+                                        longitude: parseFloat(content?.tour.lon),
+                                    }}
+                                >
+                                    <Image
+                                        source={require('../../assets/icon/Map/Glokool.png')}
+                                        style={{ width: 35, height: 35 }}
+                                        resizeMode='contain'
+                                    />
+                                </Marker>
+                            ) : (
+                                <Marker
+                                    coordinate={{
+                                        latitude: parseFloat(content?.tour.lat),
+                                        longitude: parseFloat(content?.tour.lon),
+                                    }}
+                                    image={require('../../assets/icon/Map/Glokool.png')}
+
+                                />
+                            )}
+
 
                             {content?.attraction.map((item, index) => (
                                 <Marker
@@ -264,9 +282,14 @@ export const SeriesHiddenGemDetailScreen = (
                                         latitude: parseFloat(item.lat),
                                         longitude: parseFloat(item.lon),
                                     }}
-                                    image={require('../../assets/icon/Map/Attraction.png')}
                                     title={item.title}
-                                />
+                                >
+                                    <Image
+                                        source={require('../../assets/icon/Map/Attraction.png')}
+                                        style={{ width: 25, height: 25 }}
+                                        resizeMode='contain'
+                                    />
+                                </Marker>
                             ))}
 
                             {content?.restaurant.map((item, index) => (
@@ -275,9 +298,14 @@ export const SeriesHiddenGemDetailScreen = (
                                         latitude: parseFloat(item.lat),
                                         longitude: parseFloat(item.lon),
                                     }}
-                                    image={require('../../assets/icon/Map/Restaurant.png')}
                                     title={item.title}
-                                />
+                                >
+                                    <Image
+                                        source={require('../../assets/icon/Map/Restaurant.png')}
+                                        style={{ width: 25, height: 25 }}
+                                        resizeMode='contain'
+                                    />
+                                </Marker>
                             ))}
 
                             {content?.cafe.map((item, index) => (
@@ -286,10 +314,16 @@ export const SeriesHiddenGemDetailScreen = (
                                         latitude: parseFloat(item.lat),
                                         longitude: parseFloat(item.lon),
                                     }}
-                                    image={require('../../assets/icon/Map/Cafe.png')}
                                     title={item.title}
-                                />
+                                >
+                                    <Image
+                                        source={require('../../assets/icon/Map/Cafe.png')}
+                                        style={{ width: 25, height: 25 }}
+                                        resizeMode='contain'
+                                    />
+                                </Marker>
                             ))}
+
                         </MapView>
                     </Layout>
                 ) : (
@@ -353,11 +387,11 @@ export const SeriesHiddenGemDetailScreen = (
                                 {content?.tour.title}
                             </Text>
                         </Layout>
-                    
 
-                    <SafeAreaView />
-                    
-                    {/* <Layout style={styles.TopTabBar_B}> */}
+
+                        <SafeAreaView />
+
+                        {/* <Layout style={styles.TopTabBar_B}> */}
                         {/* <Layout style={styles.TopTabBarContainer}>
                             <TouchableOpacity
                                 style={styles.BackButton}
@@ -422,7 +456,7 @@ export const SeriesHiddenGemDetailScreen = (
                                 </TouchableOpacity>
                             </Layout>
                         ) : null}
-                    {/* </Layout> */}
+                        {/* </Layout> */}
                     </Layout>
                 </Layout>
             ) : (
