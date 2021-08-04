@@ -1,26 +1,35 @@
-import { NavigatorRoute } from './navigation/app.route';
+import { NavigatorRoute, SceneRoute } from './navigation/app.route';
 
 const config = {
     screens: {
         [NavigatorRoute.MAIN]: {
             path: "main",
             screens: {
-                Home: {
+                [NavigatorRoute.HOME]: {
                     path: "home",
                 },
-                Series: {
+                [NavigatorRoute.SERIES]: {
                     path: "series",
                     screens: {
-                        Series_A: {
-                            path: "series-a"
+                        [SceneRoute.SERIES_A]: {
+                            path: "series-a",
+                            
                         },
-                        Series_B: {
-                            path: "series-b"
+                        [SceneRoute.SERIES_B]: {
+                            path: "series-b",
+                            screens:{
+                                [SceneRoute.SERIES_B_DETAIL]: {
+                                    path: "/:Id",
+                                    parse: {
+                                        Id: (Id:String) => `${id}`,
+                                      },
+                                }
+                            }
                         }
                     }
                 },
-                Chat: "chat",
-                My: {
+                [NavigatorRoute.CHAT]: "chat",
+                [NavigatorRoute.MY]: {
                     path: "my",
                     screens: {
                         BookmarkList:{

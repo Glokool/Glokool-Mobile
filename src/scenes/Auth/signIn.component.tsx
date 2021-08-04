@@ -120,15 +120,12 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     // Sign the user in with the credential
     await auth().signInWithCredential(appleCredential);
 
-    console.log(auth().currentUser)
-
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
     .then((result) => {
       if(result.data()){
         return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
       }
       return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
     })
@@ -153,7 +150,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     .then((result) => {
       if(result.data()){
         return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
       }
       return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
     })
@@ -162,7 +158,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
 
   // Facebook login
-   const onFacebookButtonPress = async() => {
+  async function onFacebookButtonPress(){
      console.log('enter facebook')
 
       // Attempt login with permissions
@@ -186,10 +182,17 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     firestore().collection('Users').doc(user?.uid).get()
     .then((result) => {
       if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
+         return props.navigation.dispatch(MainNavigate);
       }
       return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
     })
   }
 
@@ -425,8 +428,7 @@ const styles = StyleSheet.create({
     width: WindowSize - 60,
     backgroundColor: '#00FF0000',
     flexDirection: 'row',
-    elevation: 2,
-    marginVertical: 5
+    marginVertical: 5,
   },
   LoginButton: {
     width: WindowSize - 60,

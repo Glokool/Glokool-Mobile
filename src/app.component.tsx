@@ -43,10 +43,6 @@ export default (props: any): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
-    useEffect(() => {
-
-    })
-
 
     const InitNowList = async () => {
         const user = auth().currentUser;
@@ -77,7 +73,23 @@ export default (props: any): React.ReactFragment => {
 
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
-            if (user && user?.emailVerified) {
+            if(user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null){
+                if (user && user?.emailVerified) {
+                    const userInfo = {
+                        displayName: user?.displayName,
+                        email: user?.email,
+                        photoURL: user?.photoURL,
+                        uid: user?.uid,
+                        access_token: null,
+                    };
+    
+                    setCurrentUser(userInfo);
+    
+                    InitNowList();
+                } else {
+                    auth().signOut;
+                }
+            }else{
                 const userInfo = {
                     displayName: user?.displayName,
                     email: user?.email,
@@ -89,13 +101,9 @@ export default (props: any): React.ReactFragment => {
                 setCurrentUser(userInfo);
 
                 InitNowList();
-            } else {
-                auth().signOut;
-                console.log('user logout');
             }
         });
-
-
+        console.log('app.component end');
     }, []);
 
     const testURL = () => {
