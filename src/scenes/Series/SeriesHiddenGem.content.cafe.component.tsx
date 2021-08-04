@@ -527,14 +527,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     GlochatContainer: {
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.0,
-        elevation: 1,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.18,
+        // shadowRadius: 1.0,
+        // elevation: 1,
+        paddingTop: 15,
         marginBottom: 30,
     },
     GlochatTextContainer: {
