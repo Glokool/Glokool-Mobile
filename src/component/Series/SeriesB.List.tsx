@@ -1,13 +1,14 @@
 import React from 'react'
-import { 
+import {
     TouchableOpacity,
-    FlatList, 
+    FlatList,
     ScrollView,
     View,
     Image,
-    Dimensions,  
-    StyleSheet, 
-    Pressable
+    Dimensions,
+    StyleSheet,
+    Pressable,
+    Platform,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -30,7 +31,7 @@ type Series_Item = {
 const SeriesImgW = Dimensions.get('window').width;
 const SeriesImgH = Dimensions.get('window').height;
 
-export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement => {
+export const SeriesBList = (props: SeriesBDetailContentProps): LayoutElement => {
     const [content, setContent] = React.useState<Array<Series_Item>>([]);
 
     React.useEffect(() => {
@@ -49,31 +50,39 @@ export const SeriesBList = (props : SeriesBDetailContentProps) : LayoutElement =
     return (
         <Layout style={styles.SeriesContainer} >
             {(content.map((item) =>
-                <Pressable style={styles.SeriesInnerContainer} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, {Id: item._id})}>
-                    <Image style={styles.SeriesImage} source={{uri: item.cover}} />
-                    <Layout style={styles.SeriesLayout}>
-                        <Text style={styles.SeriesTxtStyle} numberOfLines = {2}>{item.title}</Text>
-                        <Layout style={styles.SeriesBottomLayout}>
-                            <Layout style={styles.SeriesDateLayoutStyle}>
-                                <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY. M. D")}</Text>
-                            </Layout>
-                            <Layout style={styles.SeriesCountLayoutStyle}>
-                                <CountNum_Purple style = {styles.SeriesCountIconLayoutStyle} />
-                                <Text style={styles.SeriesCountTxtStyle}>{item.count}</Text>
+                <Layout style={styles.SeriesInnerContainer}>
+                    <Pressable style={styles.fixBorderRadius} onPress={() => props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id })}>
+                        <Image style={styles.SeriesImage} source={{ uri: item.cover }} />
+                        <Layout style={styles.SeriesLayout}>
+                            <Text style={styles.SeriesTxtStyle} numberOfLines={2}>{item.title}</Text>
+                            <Layout style={styles.SeriesBottomLayout}>
+                                <Layout style={styles.SeriesDateLayoutStyle}>
+                                    <Text style={styles.SeriesDateTxtStyle}>{moment(item.createdAt).format("YYYY. M. D")}</Text>
+                                </Layout>
+                                <Layout style={styles.SeriesCountLayoutStyle}>
+                                    <CountNum_Purple style={styles.SeriesCountIconLayoutStyle} />
+                                    <Text style={styles.SeriesCountTxtStyle}>{item.count}</Text>
+                                </Layout>
                             </Layout>
                         </Layout>
-                    </Layout>
-                </Pressable>
+                    </Pressable>
+                </Layout>
             ))}
         </Layout>
     )
 }
 
 const styles = StyleSheet.create({
+    fixBorderRadius: {
+        flexDirection: 'row',
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
     SeriesContainer: {
         marginTop: 30,
         backgroundColor: '#ffffff',
         height: SeriesImgH,
+
     },
     SeriesInnerContainer: {
         marginLeft: 30,
@@ -81,15 +90,14 @@ const styles = StyleSheet.create({
         width: SeriesImgW - 60,
         shadowColor: "#000",
         shadowOffset: {
-        width: 0,
-        height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 10,
         marginBottom: 20,
-        flexDirection:'row',
         // alignItems:'center',
     },
     SeriesImage: {
@@ -106,24 +114,24 @@ const styles = StyleSheet.create({
     },
     SeriesTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 18,
+        fontSize: Platform.OS === 'android' ? 15 : 18,
         color: '#000000',
         marginLeft: 20,
         marginRight: 5,
         marginTop: 10,
     },
     SeriesBottomLayout: {
-        flexDirection:'row',
+        flexDirection: 'row',
         flex: 1,
         marginLeft: 20,
         marginRight: 20,
         alignItems: 'flex-end',
-        paddingBottom: 5,
+        paddingBottom: 2,
     },
     SeriesDateTxtStyle: {
-        color:'#B5B5B5',
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+        color: '#B5B5B5',
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: Platform.OS === 'android' ? 12 : 15,
     },
     SeriesDateLayoutStyle: {
         flexDirection: 'row',
@@ -135,11 +143,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-    },   
+    },
     SeriesCountTxtStyle: {
-        color:'#B5B5B5',
-        fontFamily:'IBMPlexSansKR-Medium',
-        fontSize:15,
+        color: '#B5B5B5',
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: Platform.OS === 'android' ? 12 : 15,
     },
     SeriesCountIconLayoutStyle: {
         marginRight: 6,

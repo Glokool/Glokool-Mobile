@@ -106,12 +106,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
 
   },
-  SeriesImgStyle: {
-    width: SeriesImgW * 0.42,
-    height: SeriesImgW * 0.42 * 1.2,
-    borderRadius: 10,
-    position: 'relative'
-  },
+  // SeriesImgStyle: {
+  //   width: SeriesImgW * 0.42,
+  //   height: SeriesImgW * 0.42 * 1.2,
+  //   borderRadius: 10,
+  //   position: 'relative'
+  // },
   SeriesTxtStyle: {
     position: 'absolute',
     bottom: 10,
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     width: SeriesImgW * 0.42,
     height: SeriesImgW * 0.52,
     borderRadius: 10,
+    overflow: 'hidden',
     marginRight: 10
   },
   Image: {

@@ -570,7 +570,7 @@ export const SeriesAInfoScreen = (
                                     placeholder="Write your comment"
                                     placeholderTextColor="#D1D1D1"
                                     autoCapitalize="none"
-                                    textAlignVertical='top'
+                                    textAlignVertical='center'
                                     onChangeText={(text) => setNowComment(text)}
                                     value={nowComment}></TextInput>
                                 <TouchableOpacity
@@ -912,7 +912,7 @@ const styles = StyleSheet.create({
         color: '#5D5959',
     },
     CommentsTextLayout: {
-        margin: 15,
+        // margin: 15,
     },
     CommentsTextInput: {
         height: 49,
@@ -921,8 +921,10 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         paddingLeft: 20,
         fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        position: 'relative',
+        paddingTop: 0,
+        paddingBottom: 0,
+        // fontSize: 15,
+        // position: 'relative',
     },
     CommentSendingTouch: {
         position: 'absolute',

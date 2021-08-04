@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginRight: 30,
         marginBottom: 15,
-        padding: 3,
+        padding: 0,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 5,
         marginBottom: 15,
-        padding: 3,
+        padding: 0,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
     },
     ImageContainer: {
         borderTopLeftRadius: 15,
-        borderTopRightRadius: 15
+        borderTopRightRadius: 15,
+        overflow: 'hidden',
     },
     ImageOdd: {
         width: SeriesImgW * 0.42,

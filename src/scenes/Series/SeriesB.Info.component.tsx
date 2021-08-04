@@ -627,6 +627,7 @@ export const SeriesBInfoScreen = (
                                     placeholder="Write your comment"
                                     placeholderTextColor="#D1D1D1"
                                     autoCapitalize="none"
+                                    textAlignVertical='center'
                                     onChangeText={(text) => setNowComment(text)}
                                     value={nowComment}></TextInput>
                                 <TouchableOpacity
@@ -1064,6 +1065,8 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         position: 'relative',
+        paddingTop: 0,
+        paddingBottom: 0,
     },
     CommentSendingTouch: {
         position: 'absolute',
