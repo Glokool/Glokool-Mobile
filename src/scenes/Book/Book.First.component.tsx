@@ -5,20 +5,26 @@ import { TopTabBar } from "../../component/Booking";
 import { BookFirstScreenProps } from '../../navigation/Book.navigator';
 import { SceneRoute } from '../../navigation/app.route';
 
+import { AuthContext } from '../../context/AuthContext';
+import Toast from 'react-native-easy-toast';
+import { LoginCheck } from '../../component/Common';
 
-export const BookFirstScreen = (props : BookFirstScreenProps) : LayoutElement => {
+
+export const BookFirstScreen = (props: BookFirstScreenProps): LayoutElement => {
 
     const [date, setDate] = React.useState<Date>(new Date());
+    const { currentUser } = React.useContext(AuthContext);
 
 
-    return(
+
+    return currentUser != null ? (
         <Layout style={styles.Container}>
 
             <Layout style={styles.MainContainer}>
 
                 <Text style={styles.TitleText}>Select Your Travel Date</Text>
 
-                <Calendar 
+                <Calendar
                     min={new Date()}
                     date={date}
                     onSelect={nextDate => setDate(nextDate)}
@@ -27,20 +33,31 @@ export const BookFirstScreen = (props : BookFirstScreenProps) : LayoutElement =>
             </Layout>
 
             <Layout style={styles.ButtonContainer}>
-                <TouchableOpacity style={styles.Button} onPress={() => {props.navigation.navigate(SceneRoute.BOOK_SECOND, { date : date })}} >
-                        <Text style={styles.ButtonText}>NEXT</Text>
+                <TouchableOpacity style={styles.Button} onPress={() => { props.navigation.navigate(SceneRoute.BOOK_SECOND, { date: date }) }} >
+                    <Text style={styles.ButtonText}>NEXT</Text>
                 </TouchableOpacity>
 
-                <SafeAreaView style={{flex: 0, backgroundColor: '#00FF0000'}}/>
+                <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000' }} />
             </Layout>
 
-            
+
 
             <TopTabBar index={1} />
 
         </Layout>
-        
-    );
+
+    ) : (
+        <Layout>
+            <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
+            <LoginCheck
+                navigation={props.navigation}
+                route={props.route}
+                visible={currentUser === null ? true : false}
+            />
+            {/* 로그인 체크하는 */}
+        </Layout>
+
+    )
 }
 
 const styles = StyleSheet.create({
@@ -71,7 +88,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    ButtonText:{
+    ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
     }

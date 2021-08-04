@@ -23,7 +23,6 @@ import { SeriesBDetailInfoProps } from '../../navigation/ScreenNavigator/Series.
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment, { max } from 'moment';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { SceneRoute } from '../../navigation/app.route';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import {
     GoUp,

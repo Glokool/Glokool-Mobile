@@ -70,7 +70,7 @@ export enum SceneRoute {
     MY_SETTING = 'My Setting',
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
-    BOOKMARK_LIST = 'BookmarkList',
+    BOOKMARK_LIST = 'Bookmark List',
 
     // Bookmark list
     BOOKMARK_SERIES = 'Bookmark Series',

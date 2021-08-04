@@ -31,8 +31,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    const linkTo = useLinkTo();
-
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -65,9 +63,9 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     async function PressGloChatAD() {
         props.navigation.navigate(NavigatorRoute.CHAT);
 
-        console.log('버튼클릭');
-        await Linking.openURL('glokool://app/series');
-        console.log('버튼클릭');
+        // console.log('버튼클릭');
+        // await Linking.openURL('glokool://app/series');
+        // console.log('버튼클릭');
     }
 
     
@@ -83,7 +81,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
-                    <Button title="test" onPress={()=>linkTo('/main/series')}></Button>
                     <Text style={styles.TitleText1}>
                         {`Ask us whatever, whenever`}
                     </Text>

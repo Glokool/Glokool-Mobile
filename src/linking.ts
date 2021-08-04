@@ -1,18 +1,21 @@
-import { NavigatorRoute } from './navigation/app.route';
+import { NavigatorRoute, SceneRoute } from './navigation/app.route';
 
 const config = {
     screens: {
         [NavigatorRoute.MAIN]: {
             path: "main",
             screens: {
-                Home: {
+                [NavigatorRoute.HOME]: {
                     path: "home",
                 },
-                Series: {
+                [NavigatorRoute.SERIES]: {
                     path: "series",
                     screens: {
-                        Series_A: {
-                            path: "series-a"
+                        [SceneRoute.SERIES_A]: {
+                            path: "series-a/:id",
+                            parse: {
+                                id: (id) => `${id}`,
+                            }
                         },
                         Series_B: {
                             path: "series-b"

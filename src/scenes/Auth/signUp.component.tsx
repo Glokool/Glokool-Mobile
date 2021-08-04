@@ -119,7 +119,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
   //Type
   const [selectedTypeIndex, setSelectedTypeIndex] = React.useState<IndexPath>(new IndexPath(0));
   const type = [
-    'Travler',
+    'Traveler',
     'Resident',
     'Korean'
   ];

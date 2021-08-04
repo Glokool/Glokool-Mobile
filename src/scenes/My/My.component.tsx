@@ -372,7 +372,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                         style={
                             styles.ViewPaymentButtonText
                         }>{`View previous payments >`}</Text>
-                        <Button title="test" onPress={()=>testOpenURL()}></Button>
                 </TouchableOpacity>
             </Layout>
 

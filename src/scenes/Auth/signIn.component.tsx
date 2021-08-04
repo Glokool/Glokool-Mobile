@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  ScrollView, 
+  ScrollView,
   TouchableWithoutFeedback,
   Image,
   Dimensions,
@@ -40,7 +40,7 @@ GoogleSignin.configure({
   webClientId: '603637824492-elifaqc06j569ohqnjf1g0nscmvbopsh.apps.googleusercontent.com',
 });
 
-var toastRef : any;
+var toastRef: any;
 const WindowSize = Dimensions.get('window').width
 
 
@@ -50,51 +50,51 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   const MainNavigate = CommonActions.reset({
     index: 0,
-    routes: [{name: NavigatorRoute.MAIN}],
+    routes: [{ name: NavigatorRoute.MAIN }],
   });
 
   const onFormSubmit = (values: SignInData): void => {
 
-    if(values.email == "" || values.password == ""){
-      toastRef.show("Email or Password is Empty!");  
+    if (values.email == "" || values.password == "") {
+      toastRef.show("Email or Password is Empty!");
     }
-    
-    else{
+
+    else {
       toastRef.show("LOGIN...", 2000);
 
       auth().signInWithEmailAndPassword(values.email, values.password)
-        .then((user) => {    
-          
-          firestore().collection('Users').doc(user.user.uid).get()
-              .then((result) => {
-                  if (user.user.emailVerified == true) {
-                    toastRef.show("Login Success!");
-                    props.navigation.dispatch(MainNavigate);
-                  }
-                  else {
-                    props.navigation.navigate(SceneRoute.EMAIL_FAIL, { email : values.email, passward: values.password });
-                  }
-              })
-              .catch((err) => {
+        .then((user) => {
 
-              })  
+          firestore().collection('Users').doc(user.user.uid).get()
+            .then((result) => {
+              if (user.user.emailVerified == true) {
+                toastRef.show("Login Success!");
+                props.navigation.dispatch(MainNavigate);
+              }
+              else {
+                props.navigation.navigate(SceneRoute.EMAIL_FAIL, { email: values.email, passward: values.password });
+              }
+            })
+            .catch((err) => {
+
+            })
         })
         .catch((error) => {
-          var errorMessage = error.message;        
-          console.log('로그인화면 - 로그인 실패',errorMessage);
+          var errorMessage = error.message;
+          console.log('로그인화면 - 로그인 실패', errorMessage);
 
           if (error.code === 'auth/invalid-email') {
-            Alert.alert('Failed','The email address is badly formatted.');
+            Alert.alert('Failed', 'The email address is badly formatted.');
           } else if (error.code === 'auth/user-not-found') {
-            Alert.alert('Failed','There is no user record corresponding to this identifier.');
+            Alert.alert('Failed', 'There is no user record corresponding to this identifier.');
           } else if (error.code === 'auth/wrong-password') {
-            Alert.alert('Failed','The password is invalid or the user does not have a password.');
+            Alert.alert('Failed', 'The password is invalid or the user does not have a password.');
           }
 
           // toastRef.show(error.code, 3000);
         });
     }
-    
+
   };
 
 
@@ -125,13 +125,13 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+          console.log('result --> ' + result.data());
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      })
 
   }
 
@@ -140,7 +140,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   async function onGoogleButtonPress() {
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
-    
+
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
@@ -150,22 +150,22 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+          console.log('result --> ' + result.data());
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      })
 
   }
 
 
   // Facebook login
-   const onFacebookButtonPress = async() => {
-     console.log('enter facebook')
+  const onFacebookButtonPress = async () => {
+    console.log('enter facebook')
 
-      // Attempt login with permissions
+    // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
     // Once signed in, get the users AccesToken
@@ -184,20 +184,20 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-        console.log('result --> ' + result.data());
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+          console.log('result --> ' + result.data());
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      })
   }
 
   const navigateSignUp = (): void => {
     props.navigation.navigate(SceneRoute.SIGN_UP)
   };
 
-  const navigateResetPassword = (): void => {    
+  const navigateResetPassword = (): void => {
     props.navigation.navigate(SceneRoute.PASSWORD);
   };
 
@@ -205,39 +205,39 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const renderPasswordIcon = (props : any) : React.ReactElement => {
+  const renderPasswordIcon = (props: any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
       <TouchableWithoutFeedback onPress={onPasswordIconPress}>
-        <IconComponent {...props}/>
+        <IconComponent {...props} />
       </TouchableWithoutFeedback>
     );
   };
 
   const PressBack = () => {
-    if(auth().currentUser != null){
+    if (auth().currentUser != null) {
       auth().signOut();
     }
     props.navigation.replace(NavigatorRoute.MAIN);
   }
-  
+
   const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (
     <React.Fragment>
-      
+
       <Layout style={styles.InputContainer}>
         <Text style={styles.smallTitle}>E-Mail</Text>
         <FormInput
           id='email'
           style={styles.formControl}
-          placeholder='Email'
+          placeholder='E-mail'
           keyboardType='email-address'
         />
         <Layout style={styles.resetPasswordContainer}>
           <Text style={styles.smallTitle}>Password</Text>
-          <TouchableOpacity onPress={() => {navigateResetPassword()}} style={styles.resetPasswordInner}>
+          <TouchableOpacity onPress={() => { navigateResetPassword() }}>
             <Text style={styles.ForgetButtonText}>forget password?</Text>
           </TouchableOpacity>
-      </Layout>
+        </Layout>
         <FormInput
           id='password'
           style={styles.formControl}
@@ -245,9 +245,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           secureTextEntry={!passwordVisible}
         />
       </Layout>
-      
+
       <Layout style={styles.buttonContainer}>
-        
+
         <TouchableOpacity style={styles.CAButton} onPress={() => navigateSignUp()}>
           <Text style={styles.CABeforeButtonText}>Don't have an account?</Text>
           <Text style={styles.CAButtonText}>Create Account</Text>
@@ -263,73 +263,75 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           <Divider style={styles.Divider} />
         </Layout>
 
-      </Layout>            
+      </Layout>
     </React.Fragment>
   );
-    
+
   return (
     <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/> 
-      
-        <ScrollView style={styles.formContainer}>
+      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
-          {/* 투명 탭바 */}
-          <Layout style={styles.TabBar}>
-              <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-                <TouchableOpacity style={styles.IconContainer} onPress={() => PressBack()}>
-                  <AngleLeft_Color />
-                </TouchableOpacity>
-              </Layout>
-              
-              <Layout style={{flex: 5, backgroundColor: '#00ff0000'}}/>
+      {/* 투명 탭바 */}
+      <Layout style={styles.TabBar}>
+        <Layout style={{ flex: 1, backgroundColor: '#00ff0000', flexDirection: 'row', alignItems:'center' }}>
+          <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+          <TouchableOpacity style={styles.IconContainer} onPress={() => PressBack()}>
+            <AngleLeft_Color />
+          </TouchableOpacity>
+          <Text style={{fontSize: 22, fontFamily:'BrandonGrotesque-BoldItalic', color:'#7777FF'}}>LOGIN</Text>
+        </Layout>
 
-              <Layout style={{flex: 1, backgroundColor: '#00ff0000'}}>
-                <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-              </Layout>
-          </Layout>
+        <Layout style={{ flex: 1, backgroundColor: '#00ff0000' }}>
+          <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+        </Layout>
+      </Layout>
 
-          <Layout style={styles.titleContainer}>
+
+      <ScrollView style={styles.formContainer}>
+        <Layout style={{ flex: 1, justifyContent: 'center', marginTop: 50, }}>
+
+          {/* <Layout style={styles.titleContainer}>
             <Image source={require('../../assets/Glokool_Logo.png')} style={{width: 193, height: 30}} resizeMode={'stretch'}/>
-          </Layout>
-
+          </Layout> */}
           <Formik
             initialValues={SignInData.empty()}
             validationSchema={SignInSchema}
-            
+
             onSubmit={onFormSubmit}>
             {renderForm}
-          </Formik>              
+          </Formik>
 
-            <Toast ref={(toast) => toastRef = toast} position={'center'}/>
+          <Toast ref={(toast) => toastRef = toast} position={'center'} />
 
-            <TouchableOpacity onPress={() => onGoogleButtonPress()} style={styles.SnsLoginLogo}>
-              <GoogleLogin style={styles.GoogleLoginLogo} />
+          <TouchableOpacity onPress={() => onGoogleButtonPress()} style={styles.SnsLoginLogo}>
+            <GoogleLogin style={styles.GoogleLoginLogo} />
+          </TouchableOpacity>
+
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity onPress={() => onAppleButtonPress()} style={styles.SnsLoginLogo}>
+              <AppleLogin />
             </TouchableOpacity>
+          ) : null}
 
-            {Platform.OS === 'ios' ? (
-              <TouchableOpacity onPress={() => onAppleButtonPress()} style={styles.SnsLoginLogo}>
-                <AppleLogin />
-              </TouchableOpacity>
-            ) : null }
+          <TouchableOpacity onPress={() => onFacebookButtonPress()} style={styles.SnsLoginLogo}>
+            <FbLogin />
+          </TouchableOpacity>
+        </Layout>
 
-            <TouchableOpacity onPress={() => onFacebookButtonPress()}  style={styles.SnsLoginLogo}>
-              <FbLogin />
-            </TouchableOpacity>
-        </ScrollView>
+      </ScrollView>
 
-      
+
     </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  formContainer:{
+  formContainer: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
-  title:{
+  title: {
     color: 'white',
     fontSize: 40,
     marginVertical: 15,
@@ -338,11 +340,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-  },
-  resetPasswordInner:{
-    alignItems: 'flex-end',
-    flex: 1,
-    backgroundColor: '#00FF0000',
+    justifyContent: 'space-between'
   },
   formControl: {
     marginVertical: 8,
@@ -357,7 +355,7 @@ const styles = StyleSheet.create({
   SnsLoginLogo: {
     alignItems: 'center',
   },
-  GoogleLoginLogo:{
+  GoogleLoginLogo: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -375,7 +373,8 @@ const styles = StyleSheet.create({
     margin: 10,
     width: '90%',
   },
-  smallTitle :{
+  smallTitle: {
+    fontFamily: 'Pretendard-Medium',
     alignItems: 'flex-start',
     marginHorizontal: 10,
     marginVertical: 5,
@@ -396,7 +395,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   OrTxt: {
-    fontFamily: 'IBMPlexSansKR-Medium',
+    fontFamily: 'Pretendard-Medium',
     fontSize: 15,
     color: '#7777FF',
     marginLeft: 5,
@@ -409,11 +408,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00FF0000',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 25,
   },
-  TabBar:{
-    flex: 1,
+  TabBar: {
     flexDirection: 'row',
-    backgroundColor: '#00ff0000',
+    backgroundColor: '#fff',
   },
   IconContainer: {
     justifyContent: 'center',
@@ -426,12 +425,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#00FF0000',
     flexDirection: 'row',
     elevation: 2,
-    marginVertical: 5
+    marginVertical: 5,
+    justifyContent: 'space-between'
   },
   LoginButton: {
     width: WindowSize - 60,
     height: 50,
-    borderRadius: 15,
+    borderRadius: 8,
     backgroundColor: '#7777FF',
     shadowColor: "#000",
     shadowOffset: {
@@ -445,25 +445,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 5
   },
-  CABeforeButtonText:{
-    fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 21,
+  CABeforeButtonText: {
+    fontFamily: 'Pretendard-Medium',
+    fontSize: 15,
     color: '#D1D1D1'
   },
   CAButtonText: {
-    fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 21,
+    fontFamily: 'Pretendard-Medium',
+    fontSize: 15,
     color: '#7777FF',
     marginLeft: 5,
+
   },
   LoginButtonText: {
     fontFamily: 'BrandonGrotesque-BoldItalic',
-    fontSize: 21,
+    fontSize: 18,
     color: 'white'
   },
 
-  ForgetButtonText : {
-    fontFamily: 'IBMPlexSansKR-Medium',
+  ForgetButtonText: {
+    fontFamily: 'Pretendard-Medium',
     color: '#C9C9C9',
     marginVertical: 10,
   }

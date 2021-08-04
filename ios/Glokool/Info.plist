@@ -142,6 +142,15 @@
 	<string>App would like to use your photo Library for Chat function</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Fonts/Pretendard-Thin.ttf</string>
+		<string>Fonts/Pretendard-SemiBold.ttf</string>
+		<string>Fonts/Pretendard-Regular.ttf</string>
+		<string>Fonts/Pretendard-Medium.ttf</string>
+		<string>Fonts/Pretendard-Light.ttf</string>
+		<string>Fonts/Pretendard-ExtraLight.ttf</string>
+		<string>Fonts/Pretendard-ExtraBold.ttf</string>
+		<string>Fonts/Pretendard-Bold.ttf</string>
+		<string>Fonts/Pretendard-Black.ttf</string>
 		<string>Fonts/BrandonGrotesque-Bold.ttf</string>
 		<string>Fonts/BrandonGrotesque-BoldItalic.ttf</string>
 		<string>Fonts/BrandonGrotesque-Medium.ttf</string>

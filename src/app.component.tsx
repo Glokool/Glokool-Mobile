@@ -43,11 +43,6 @@ export default (props: any): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
-    useEffect(() => {
-
-    })
-
-
     const InitNowList = async () => {
         const user = auth().currentUser;
 
@@ -75,28 +70,28 @@ export default (props: any): React.ReactFragment => {
         }
     };
 
-    React.useEffect(() => {
-        auth().onAuthStateChanged((user) => {
-            if (user && user?.emailVerified) {
-                const userInfo = {
-                    displayName: user?.displayName,
-                    email: user?.email,
-                    photoURL: user?.photoURL,
-                    uid: user?.uid,
-                    access_token: null,
-                };
+    // React.useEffect(() => {
+    //     auth().onAuthStateChanged((user) => {
+    //         if (user && user?.emailVerified) {
+    //             const userInfo = {
+    //                 displayName: user?.displayName,
+    //                 email: user?.email,
+    //                 photoURL: user?.photoURL,
+    //                 uid: user?.uid,
+    //                 access_token: null,
+    //             };
 
-                setCurrentUser(userInfo);
+    //             setCurrentUser(userInfo);
 
-                InitNowList();
-            } else {
-                auth().signOut;
-                console.log('user logout');
-            }
-        });
+    //             InitNowList();
+    //         } else {
+    //             auth().signOut;
+    //             console.log('user logout');
+    //         }
+    //     });
 
 
-    }, []);
+    // }, []);
 
     const testURL = () => {
         Linking.getInitialURL()
@@ -111,13 +106,14 @@ export default (props: any): React.ReactFragment => {
         //IOS && ANDROID : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때
         // testURL();
 
-        // //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
-        // //ANDROID : 앱이 실행 중일 때
-        // // Linking.addEventListener('url', addListenerLink);
+        // // //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
+        // // //ANDROID : 앱이 실행 중일 때
+        // // // Linking.addEventListener('url', addListenerLink);
         // Linking.addEventListener('url', (e) => {// 앱이 실행되어있는 상태에서 요청이 왔을 때 처리하는 이벤트 등록
         //     const route = e.url.replace(/.*?:\/\//g, '');
         //     Alert.alert('add e.url', e.url);
-        //     // Linking.openURL(e.url);
+        //     Linking.openURL(e.url);
+        //     return;
         // });
 
         // return () => {
