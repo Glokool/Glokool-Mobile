@@ -122,7 +122,7 @@ export const SeriesBInfoScreen = (
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
-
+    console.log(Id)
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
@@ -344,9 +344,6 @@ export const SeriesBInfoScreen = (
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
                             </Layout>
-                            <Pressable onPress={() => onShare()}>
-                                <Text>share</Text>
-                            </Pressable>
                             <Layout style={styles.SeriesCountLayoutStyle}>
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>

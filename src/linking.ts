@@ -17,13 +17,13 @@ const config = {
                                 id: (id) => `${id}`,
                             }
                         },
-                        Series_B: {
-                            path: "series-b"
+                        [SceneRoute.SERIES_B]: {
+                            path: "series-b",
                         }
                     }
                 },
-                Chat: "chat",
-                My: {
+                [NavigatorRoute.CHAT]: "chat",
+                [NavigatorRoute.MY]: {
                     path: "my",
                     screens: {
                         BookmarkList:{

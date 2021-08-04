@@ -70,28 +70,40 @@ export default (props: any): React.ReactFragment => {
         }
     };
 
-    // React.useEffect(() => {
-    //     auth().onAuthStateChanged((user) => {
-    //         if (user && user?.emailVerified) {
-    //             const userInfo = {
-    //                 displayName: user?.displayName,
-    //                 email: user?.email,
-    //                 photoURL: user?.photoURL,
-    //                 uid: user?.uid,
-    //                 access_token: null,
-    //             };
+    React.useEffect(() => {
+        auth().onAuthStateChanged((user) => {
+            if(user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null){
+                if (user && user?.emailVerified) {
+                    const userInfo = {
+                        displayName: user?.displayName,
+                        email: user?.email,
+                        photoURL: user?.photoURL,
+                        uid: user?.uid,
+                        access_token: null,
+                    };
+    
+                    setCurrentUser(userInfo);
+    
+                    InitNowList();
+                } else {
+                    auth().signOut;
+                }
+            }else{
+                const userInfo = {
+                    displayName: user?.displayName,
+                    email: user?.email,
+                    photoURL: user?.photoURL,
+                    uid: user?.uid,
+                    access_token: null,
+                };
 
-    //             setCurrentUser(userInfo);
+                setCurrentUser(userInfo);
 
-    //             InitNowList();
-    //         } else {
-    //             auth().signOut;
-    //             console.log('user logout');
-    //         }
-    //     });
-
-
-    // }, []);
+                InitNowList();
+            }
+        });
+        console.log('app.component end');
+    }, []);
 
     const testURL = () => {
         Linking.getInitialURL()
