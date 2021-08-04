@@ -12,19 +12,13 @@ const config = {
                     path: "series",
                     screens: {
                         [SceneRoute.SERIES_A]: {
-                            path: "series-a",
-                            
+                            path: "series-a/:id",
+                            parse: {
+                                id: (id) => `${id}`,
+                            }
                         },
                         [SceneRoute.SERIES_B]: {
                             path: "series-b",
-                            screens:{
-                                [SceneRoute.SERIES_B_DETAIL]: {
-                                    path: "/:Id",
-                                    parse: {
-                                        Id: (Id:String) => `${id}`,
-                                      },
-                                }
-                            }
                         }
                     }
                 },

@@ -34,8 +34,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    const linkTo = useLinkTo();
-
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -67,7 +65,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
     async function PressGloChatAD() {
         props.navigation.navigate(NavigatorRoute.CHAT);
-        await Linking.openURL('glokool://app/series');
     }
 
     React.useEffect(()=>{

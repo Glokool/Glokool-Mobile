@@ -875,17 +875,10 @@
   "resolved" "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.6.2.tgz"
   "version" "0.6.2"
 
-<<<<<<< HEAD
 "@firebase/app@0.6.28", "@firebase/app@0.x":
   "integrity" "sha512-ZsR5372bNDfY9aGMg+0zgoxwUg/Upf8Mq1M82XCByCVdn6krnPwGr486UssiYFCVANweiOR1Mrhrg2y5O01RRw=="
   "resolved" "https://registry.npmjs.org/@firebase/app/-/app-0.6.28.tgz"
   "version" "0.6.28"
-=======
-"@firebase/app@0.6.27", "@firebase/app@0.x":
-  "integrity" "sha512-nbk4TylzN2UmXVAI/S/g5ZyRwHjRcFR2AJtDcp47P/mMHXMH0n15aiyIIdZ/BB7KDzfg6F6hTHdtcgLAJbl5PA=="
-  "resolved" "https://registry.npmjs.org/@firebase/app/-/app-0.6.27.tgz"
-  "version" "0.6.27"
->>>>>>> 87d0deb892a144e979365dae58e79e76b632c6cd
   dependencies:
     "@firebase/app-types" "0.6.2"
     "@firebase/component" "0.5.4"
@@ -1596,11 +1589,7 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/slider/-/slider-3.0.3.tgz"
   "version" "3.0.3"
 
-<<<<<<< HEAD
-"@react-native-firebase/app@^12.3.0", "@react-native-firebase/app@12.0.0", "@react-native-firebase/app@12.1.0", "@react-native-firebase/app@12.3.0":
-=======
-"@react-native-firebase/app@^12.0.0", "@react-native-firebase/app@12.0.0", "@react-native-firebase/app@12.3.0":
->>>>>>> 87d0deb892a144e979365dae58e79e76b632c6cd
+"@react-native-firebase/app@^12.3.0", "@react-native-firebase/app@12.0.0", "@react-native-firebase/app@12.3.0":
   "integrity" "sha512-8jF7PXtvAA59YN9Hqf7mqMV4kvmEXO1XrGc8fRuOQ08g6OKEYZPDBvDsiLVy3oLw911Vznu2dllwQVm+K7Wcgw=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/app/-/app-12.3.0.tgz"
   "version" "12.3.0"
@@ -1617,11 +1606,6 @@
   "integrity" "sha512-zfKhoLxMdMpLnnBtoKT7bBUDkxazWy28jsM9blg/NO26Wm+5+oA5EL++AZ0XCySU3O69KJVXtYEaeY5pmVKAUw=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/database/-/database-12.0.0.tgz"
   "version" "12.0.0"
-
-"@react-native-firebase/dynamic-links@^12.3.0":
-  "integrity" "sha512-j8tpVriFU1/zNzknHZSUUxSgPrZZ9fqk5Qf8QcZwDIAXkNILjFBaGW7XRVKeXQV6Rp7chsWyo4IpYzJClDB/fg=="
-  "resolved" "https://registry.npmjs.org/@react-native-firebase/dynamic-links/-/dynamic-links-12.3.0.tgz"
-  "version" "12.3.0"
 
 "@react-native-firebase/firestore@^12.0.0":
   "integrity" "sha512-Js+oz1hZG0DMPYV3wLIcAWTN0vmjv4ZRlFWoUXPyVFfF7QQapnb9T6iYZ7KPnAY0lITTX1yvtkxGSnY02vkq0Q=="
@@ -4658,6 +4642,11 @@
   "integrity" "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
+
+"fsevents@^2.1.2", "fsevents@^2.3.2":
+  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
+  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="

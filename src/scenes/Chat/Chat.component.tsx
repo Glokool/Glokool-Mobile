@@ -94,17 +94,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         return true;
     };
 
-    return currentUser == null ? (
-        <Layout>
-            <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
-            <LoginCheck
-                navigation={props.navigation}
-                route={props.route}
-                visible={currentUser === null ? true : false}
-            />
-            {/* 로그인 체크하는 */}
-        </Layout>
-    ) : (
+    return (
         <Layout style={styles.MainContainer}>
             <WeatherComponent />
 
@@ -144,73 +134,44 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                 />
             )}
 
-            {ad === true ? (
-                <Layout style={styles.AdContainer}>
-                    <Layout style={styles.AdContainer1}>
-                        <Layout>
-                            <Text style={styles.AdTitle}>
-                                Travel Assistant Service
+            {/* {ad === true ? ( */}
+            <Layout style={styles.AdContainer}>
+                <Layout style={styles.AdContainer2}>
+                    {/* <Discount /> */}
+                    <Text style={styles.DiscountNot}>
+                        {' ' + price?.price
+                            .toString()
+                            .replace(
+                                /\B(?=(\d{3})+(?!\d))/g,
+                                ',',
+                            ) + ' '}
+                    </Text>
+
+                    <Text style={styles.Cost}>
+                        {price?.discountedPrice}
+                        <Text style={styles.KRW}>
+                            KRW{' '}
+                            <Text style={styles.KRWElse}>
+                                / Per DAY
                             </Text>
-                        </Layout>
-
-                        <Layout style={styles.upDownButtonContainer}>
-                            <TouchableOpacity
-                                style={styles.upDownButton}
-                                onPress={() => setAD(false)}>
-                                <AngleDown />
-                            </TouchableOpacity>
-                        </Layout>
-                    </Layout>
-                    <Layout style={styles.AdContainer1}>
-                        <Layout style={styles.AdContainer2}>
-                            <Layout style={styles.DiscountContainer}>
-                                <Layout>
-                                    <Discount />
-                                    <Layout style={styles.DiscountNotContainer}>
-                                        <Text style={styles.DiscountNot}>
-                                            {price?.price
-                                                .toString()
-                                                .replace(
-                                                    /\B(?=(\d{3})+(?!\d))/g,
-                                                    ',',
-                                                )}
-                                        </Text>
-                                    </Layout>
-                                </Layout>
-                                <Text style={styles.DiscountPer}>
-                                    {price?.discount}%
-                                </Text>
-                            </Layout>
-
-                            <Text style={styles.Cost}>
-                                {price?.discountedPrice}
-                                <Text style={styles.KRW}>
-                                    KRW{' '}
-                                    <Text style={styles.KRWElse}>
-                                        / Per DAY
-                                    </Text>
-                                </Text>
-                            </Text>
-                        </Layout>
-
-                        <Layout style={styles.AdContainer2}>
-                            <TouchableOpacity
-                                style={styles.BookButton}
-                                onPress={() => {
-                                    props.navigation.navigate(
-                                        NavigatorRoute.BOOK,
-                                    );
-                                }}>
-                                <Text style={styles.BookButtonText}>
-                                    BOOK Glochat
-                                </Text>
-                            </TouchableOpacity>
-                        </Layout>
-                    </Layout>
-
-                    <SafeAreaView />
+                        </Text>
+                    </Text>
                 </Layout>
-            ) : (
+
+                <Layout style={styles.AdContainer3}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.navigation.navigate(
+                                NavigatorRoute.BOOK,
+                            );
+                        }}>
+                        <Text style={styles.BookButtonText}>
+                            BOOK
+                        </Text>
+                    </TouchableOpacity>
+                </Layout>
+            </Layout>
+            {/* ) : (
                 <Layout style={styles.AdContainerDown}>
                     <Text style={styles.AdTitle2}>
                         Travel Assistant Service
@@ -224,7 +185,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
                     <SafeAreaView />
                 </Layout>
-            )}
+            )} */}
 
             <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
         </Layout>
@@ -238,8 +199,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     TextButtonContainer: {
-        marginLeft: 20,
+        marginLeft: 0,
+        paddingLeft: 20,
         flexDirection: 'row',
+        borderBottomWidth: 3,
+        borderColor: "#f8f8f8",
     },
     TextButton: {
         padding: 10,
@@ -256,18 +220,9 @@ const styles = StyleSheet.create({
     AdContainer: {
         position: 'absolute',
         width: '100%',
-        height: 150,
+        marginBottom: 10,
         bottom: 0,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        flexDirection: 'row',
     },
     AdContainerDown: {
         position: 'absolute',
@@ -287,12 +242,18 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
     },
-    AdContainer1: {
-        flexDirection: 'row',
-    },
     AdContainer2: {
+        borderTopWidth: 2,
+        borderTopColor: '#eee',
+        flex: 2,
+        justifyContent: 'center',
+        paddingVertical: 7,
+    },
+    AdContainer3: {
+        backgroundColor: '#252525',
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
     },
     AdTitle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -308,22 +269,12 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginVertical: 15,
     },
-    DiscountContainer: {
-        flexDirection: 'row',
-        marginLeft: 30,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginBottom: 0,
-    },
-    DiscountNotContainer: {
-        position: 'absolute',
-        top: '-25%',
-        backgroundColor: '#00FF0000',
-    },
     DiscountNot: {
-        fontFamily: 'BrandonGrotesque-Bold',
+        fontFamily: 'Pretendard-Medium',
+        color: '#adadad',
         fontSize: 16,
-        marginLeft: 5,
+        marginLeft: 30,
+        textDecorationLine: 'line-through'
     },
     DiscountPer: {
         fontFamily: 'BrandonGrotesque-Bold',
@@ -332,30 +283,19 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     Cost: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 20,
+        fontFamily: 'Pretendard-Bold',
+        fontSize: 22,
         marginLeft: 30,
-        marginTop: -5,
+        color: '#7777ff',
     },
     KRW: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 14,
     },
     KRWElse: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        fontSize: 15,
-    },
-    BookButton: {
-        borderRadius: 15,
-        borderWidth: 2,
-        borderColor: '#8596FF',
-        backgroundColor: '#252525',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 160,
-        height: 50,
-        alignSelf: 'flex-end',
-        marginRight: 20,
+        fontFamily: 'Pretendard-SemiBold',
+        fontSize: 17,
+        color: 'black',
     },
     BookButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',

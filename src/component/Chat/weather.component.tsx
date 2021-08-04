@@ -49,13 +49,12 @@ export const WeatherComponent = (props : WeatherComponentProps) : LayoutElement 
                 <Layout style={styles.TextContainer1}>
                     <Text style={styles.Location}>SEOUL</Text>
                     <Text style={styles.Date}>{`Today ${moment(today).format('MM / DD')}`}</Text>
-                    <Text style={styles.HighLowTem}>{`H  ${data?.temp_max}° L  ${data?.temp_min}°`}</Text>
+                    <Text style={styles.HighLowTem}>{`H  ${data?.temp_max}° L  ${data?.temp_min}°`}<Text style={styles.Weather}>  {data?.main}</Text></Text>
+                    
                 </Layout>
 
                 <Layout style={styles.TextContainer2}>
-                    {/* 이거 섭씨로 표시하면 좋을거 같다 */}
                     <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
-                    <Text style={styles.Weather}>{data?.main}</Text>
                 </Layout>
                 
             </Layout>
@@ -93,13 +92,13 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     Date: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 18,
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
         color: 'black',
         marginTop: -5
     },
     HighLowTem: {
-        fontFamily: 'BrandonGrotesque-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#8797FF',
     },
@@ -118,8 +117,8 @@ const styles = StyleSheet.create({
         marginTop: -5
     },
     Weather: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 27,
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 17,
         color: '#8797FF',
         marginTop: -10
     }

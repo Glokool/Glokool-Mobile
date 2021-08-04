@@ -10,7 +10,10 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    processColor
+    processColor,
+    Linking,
+    Button,
+    Share
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import {
@@ -107,8 +110,38 @@ export const SeriesAInfoScreen = (
         setCarouselIndex(0);
     }, [Id]);
 
+    // React.useEffect(()=>{
+    //     setId(props.route.params.Id);
+    // })
+
+    const shareItems = async() => {
+        try {
+            const result = await Share.share({
+                url: "glokool://app/main/series/series-a/" + props.route.params.Id,
+                message: "Open in Glokool Application",
+            })
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const appIsRunning = () => {
+        Linking.addEventListener('url', (e) => {
+            const route = e.url.replace(/.*?:\/\//g, '');
+            console.log(e.url);
+        })
+    }
+
+    const catchURL = () => {
+        Linking.getInitialURL()
+            .then((url) => {
+                console.log(url);
+            })
+    }
+
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
+
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
@@ -337,10 +370,11 @@ export const SeriesAInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
-                        <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title}/>
+                        <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
+                        {/* <Button title="Share to Others" onPress={()=>shareItems()}/> */}
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
-                        <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc}/>
+                        <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
                     </Layout>
 
                     {/* check out more */}
@@ -379,7 +413,7 @@ export const SeriesAInfoScreen = (
                                 style={styles.PurpleBottomContainerLayoutStyle}>
                                 <Layout
                                     style={styles.PurpleBottomLayoutStyle}
-                                    onTouchEnd={() => {setTimeout(()=>{props.navigation.navigate(NavigatorRoute.CHAT);},150)}}>
+                                    onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
                                     <Text
                                         style={
                                             styles.PurpleBottomTxtStyle
@@ -536,6 +570,7 @@ export const SeriesAInfoScreen = (
                                     placeholder="Write your comment"
                                     placeholderTextColor="#D1D1D1"
                                     autoCapitalize="none"
+                                    textAlignVertical='top'
                                     onChangeText={(text) => setNowComment(text)}
                                     value={nowComment}></TextInput>
                                 <TouchableOpacity
