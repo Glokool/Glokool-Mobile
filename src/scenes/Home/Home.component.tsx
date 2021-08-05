@@ -123,7 +123,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Pressable>
                 </Layout>
 
-                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000' }}>
+                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000', alignItems:'center' }}>
                     <Pressable onPress={() => Linking.openURL('https://glokool.com/home')}>
                         <Layout style={styles.buttonContainer}>
                             <WebsitePurple />
@@ -175,7 +175,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#7777ff',
         padding: 8,
-        backgroundColor: '#00ff0000'
+        backgroundColor: '#00ff0000',
+        height: 40,
+        alignItems:'center',
     },
     buttonText: {
         fontSize: 14,
