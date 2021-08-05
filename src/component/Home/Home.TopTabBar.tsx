@@ -4,6 +4,7 @@ import {
     SafeAreaView,
     Image,
     StyleSheet,
+    Platform,
 } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { Logo } from '../../assets/icon/Home';
@@ -38,10 +39,9 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
 
     return (
         <Layout style={styles.TopTabBarContainer}>
-            <Layout style={styles.LogoContainer}>
-                <SafeAreaView />
-                <Logo />
-            </Layout>
+            
+            <Image source={require('../../assets/icon/Home/textLogo.png')}/>
+           
 
             <Layout
                 style={{
@@ -50,7 +50,7 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                     backgroundColor: '#00FF0000',
                     marginVertical: 10,
                 }}>
-                <SafeAreaView style={{ flex: 0 }} />
+                {/* <SafeAreaView style={{ flex: 0 }} /> */}
                 <Layout
                     style={{
                         flexDirection: 'row',
@@ -75,7 +75,7 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                                     fontFamily: 'BrandonGrotesque-Medium',
                                     color: '#B8B7B5',
                                     marginHorizontal: 5,
-                                }}>{`Login`}</Text>
+                                }}>{`LOGIN`}</Text>
                         )}
                     </Layout>
 
@@ -88,8 +88,8 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                             currentUser.photoURL === undefined ? (
                                 <Layout
                                     style={{
-                                        width: 34,
-                                        height: 34,
+                                        width: 30,
+                                        height: 30,
                                         borderRadius: 50,
                                         backgroundColor: '#D2D2D2',
                                     }}
@@ -127,23 +127,22 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         width: '100%',
-        height: 80,
+        marginTop: Platform.OS === 'ios' ? 40 : 20,
         paddingHorizontal: 40,
-        paddingTop: 30,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#00ff0000',
     },
     LogoContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'flex-start',
         backgroundColor: '#00FF0000',
     },
     LoginButtonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 5,
+        backgroundColor:'#00ff0000'
     },
 });

@@ -13,7 +13,10 @@ import {
     BackHandler,
     Pressable,
     Linking,
-    Button
+    Button,
+    Image,
+    Platform,
+    ImageBackground
 } from 'react-native';
 import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -26,6 +29,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import firebase from "@react-native-firebase/app";
 import 'firebase/auth';
+import { GloChatAD, InstagramPurple, WebsitePurple, HomeBG } from '../../assets/icon/Home';
 
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
@@ -67,29 +71,44 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         console.log('home component current user: ' + auth().currentUser?.displayName)
     })
 
-    
+
 
     return (
-        <Layout style={{ alignItems: 'flex-start', width: '100%' }}>
-            <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
+        <Layout style={{ alignItems: 'center', width: '100%' }}>
+            <HomeBG 
+            style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                
+            }} />
 
+            <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ width: '100%' }}>
-                <Layout style={{ width: '100%', height: 80 }} />
+                style={{ height: '100%', width: '100%', backgroundColor: '#00ff0000' }}>
+                <Layout style={{ width: '100%', height: 80, backgroundColor: '#00ff0000' }} />
+                {/* <Layout style={styles.topTab}>
+                    <Image source={require('../../assets/icon/Home/textLogo.png')} />
+                    <Text>Login O</Text>
+                </Layout> */}
+
+                <HomeTopTabBar
+                    navigation={props.navigation}
+                    route={props.route}></HomeTopTabBar>
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
                     <Text style={styles.TitleText1}>
-                        {`Ask us whatever, whenever`}
+                        {`ASK US WHATEVER, WHENEVER`}
                     </Text>
 
                     <Text style={styles.TitleText2}>
-                        {`Glokool gets you goin' in Korea.`}
+                        {`GLOKOOL GETS YOU GOIN' IN KOREA`}
                     </Text>
                 </Layout>
 
@@ -98,8 +117,29 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     route={props.route}
                 />
 
+                <Layout style={{ alignItems: 'center', marginTop: 10, backgroundColor: '#00ff0000' }}>
+                    <Pressable onPress={() => PressGloChatAD()}>
+                        <GloChatAD />
+                    </Pressable>
+                </Layout>
+
+                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000' }}>
+                    <Pressable onPress={() => Linking.openURL('https://glokool.com/home')}>
+                        <Layout style={styles.buttonContainer}>
+                            <WebsitePurple />
+                            <Text style={styles.buttonText}>  Website</Text>
+                        </Layout>
+                    </Pressable>
+                    <Pressable onPress={() => Linking.openURL('https://www.instagram.com/glokool_official')}>
+                        <Layout style={[styles.buttonContainer, { marginLeft: 10, }]}>
+                            <InstagramPurple />
+                            <Text style={styles.buttonText}>  Instagram</Text>
+                        </Layout>
+                    </Pressable>
+                </Layout>
+
                 {/* 글로챗 광고 */}
-                <Layout style={styles.GloChatADContainer}>
+                {/* <Layout style={styles.GloChatADContainer}>
                     <Layout style={styles.GloChatContainer1}>
                         <Text
                             style={
@@ -119,19 +159,28 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <Text style={styles.GloChat3}>{`!   `}</Text>
                         <AngleRightDouble style={styles.GloChatIcon} />
                     </Pressable>
-                </Layout>
+                </Layout> */}
 
-                <AdBanner />
+                {/* <AdBanner /> */}
             </ScrollView>
 
-            <HomeTopTabBar
-                navigation={props.navigation}
-                route={props.route}></HomeTopTabBar>
         </Layout>
     );
 };
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        flexDirection: 'row',
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: '#7777ff',
+        padding: 8,
+        backgroundColor: '#00ff0000'
+    },
+    buttonText: {
+        fontSize: 14,
+        fontFamily: 'Pretendard-Medium'
+    },
     mainContainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -143,20 +192,29 @@ const styles = StyleSheet.create({
     },
     TitleTextContainer: {
         marginHorizontal: 40,
-        marginVertical: 20,
+        marginTop: 40,
+        marginBottom: 20,
+        backgroundColor: '#00ff0000'
     },
     TitleText1: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 22,
+        fontSize: 18,
     },
     TitleText2: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 24,
+        fontSize: 18,
     },
     GloChatADContainer: {
-        width: '100%',
-        alignItems: 'center',
-        marginVertical: 15,
+        backgroundColor: '#292434',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 8,
+        marginTop: 20,
+        marginHorizontal: 30,
+    },
+    ADtext: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
     },
     GloChatContainer1: {
         alignSelf: 'flex-start',
@@ -256,4 +314,13 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         borderRadius: 10,
     },
+    topTab: {
+        backgroundColor: '#00ff0000',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginTop: Platform.OS === 'ios' ? 50 : 20,
+        paddingHorizontal: 40,
+        alignItems: 'center'
+    }
 });

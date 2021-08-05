@@ -172,9 +172,6 @@ const styles = StyleSheet.create({
         width: ImageSize,
         height: ImageSize,
         resizeMode: 'cover',
-        borderTopLeftRadius: 50,
-        borderTopRightRadius: 50,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 50,
+        borderRadius: 8,
     },
 });
