@@ -13,7 +13,8 @@ import {
     processColor,
     Linking,
     Button,
-    Share
+    Share,
+    Platform
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import {
@@ -114,7 +115,7 @@ export const SeriesAInfoScreen = (
     //     setId(props.route.params.Id);
     // })
 
-    const shareItems = async() => {
+    const shareItems = async () => {
         try {
             const result = await Share.share({
                 url: "glokool://app/main/series/series-a/" + props.route.params.Id,
@@ -312,7 +313,11 @@ export const SeriesAInfoScreen = (
     };
     return (
         <Layout style={styles.ContainerLayout}>
-            <KeyboardAvoidingView behavior="padding" style={styles.Container}>
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : -230}
+                behavior="padding"
+                style={styles.Container}
+            >
                 <ScrollView
                     style={{ backgroundColor: '#ffffff' }}
                     showsVerticalScrollIndicator={false}

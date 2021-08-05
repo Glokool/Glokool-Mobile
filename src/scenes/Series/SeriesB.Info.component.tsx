@@ -317,7 +317,10 @@ export const SeriesBInfoScreen = (
 
     return (
         <Layout style={styles.ContainerLayout}>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : 0}
+                behavior="padding"
+            >
                 <ScrollView
                     style={{ backgroundColor: '#ffffff' }}
                     showsVerticalScrollIndicator={false}
@@ -371,7 +374,7 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        
+
                         <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} />
                         <SelectableText style={styles.descTxt} item={content?.desc} />
