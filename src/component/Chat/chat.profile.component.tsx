@@ -18,6 +18,7 @@ export const ProfileModal = (props: any) => {
     })
 
     const helpButton = () => {
+        console.log("PARAMS",props.route.params);
         props.navigation.navigate(SceneRoute.CHAT_HELP, {
             id: props.route.params.id,
             guide: {

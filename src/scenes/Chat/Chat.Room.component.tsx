@@ -65,7 +65,7 @@ import {
     SendIcon,
     Record,
 } from '../../assets/icon/Chat';
-import { AngleLeft_Color, Exit_C } from '../../assets/icon/Common';
+import { AngleLeft, Exit_C } from '../../assets/icon/Common';
 import messaging from '@react-native-firebase/messaging';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
@@ -820,7 +820,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 ) : (
                     <FastImage
                         style={styles.MenuImage}
-                        source={require('../../assets/icon/Chat/Menu.png')}
+                        source={require('../../assets/icon/Chat/Menu_S.png')}
                     />
                 )}
             </Pressable>
@@ -1179,40 +1179,40 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     // 재훈 함수 !!
     // 가이드 프로필 띄워보기
-    const showGuideProfile = async (guideInfo: any) => {
-        if (guideInfo.uid != '') {
-            try {
-                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                console.log(res.data);
+    // const showGuideProfile = async (guideInfo: any) => {
+    //     if (guideInfo.uid != '') {
+    //         try {
+    //             const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
+    //             console.log(res.data);
 
-                await setGuide({
-                    avatar: res.data.avatar,
-                    name: res.data.name,
-                    gender: res.data.gender,
-                    birthDate: res.data.birthDate,
-                    lang: res.data.lang,
-                    country: res.data.country,
-                    intro: res.data.intro,
-                    oneLineIntro: res.data.oneLineIntro,
-                })
+    //             await setGuide({
+    //                 avatar: res.data.avatar,
+    //                 name: res.data.name,
+    //                 gender: res.data.gender,
+    //                 birthDate: res.data.birthDate,
+    //                 lang: res.data.lang,
+    //                 country: res.data.country,
+    //                 intro: res.data.intro,
+    //                 oneLineIntro: res.data.oneLineIntro,
+    //             })
 
-                if (res.data.lang.length == 1) {
-                    setENG(true);
-                }
-                else {
-                    if (res.data.lang[0]) { setENG(true); }
-                    if (res.data.lang[1]) { setCHN(true); }
-                }
+    //             if (res.data.lang.length == 1) {
+    //                 setENG(true);
+    //             }
+    //             else {
+    //                 if (res.data.lang[0]) { setENG(true); }
+    //                 if (res.data.lang[1]) { setCHN(true); }
+    //             }
 
-                setGuideVisible(true);
-            } catch (e) {
-                console.log('e', e);
-            }
-        }
-        else {
-            Alert.alert('Sorry,', 'Guide Not Matched!');
-        }
-    }
+    //             setGuideVisible(true);
+    //         } catch (e) {
+    //             console.log('e', e);
+    //         }
+    //     }
+    //     else {
+    //         Alert.alert('Sorry,', 'Guide Not Matched!');
+    //     }
+    // }
 
     //실제 렌더링
     return (
@@ -1326,14 +1326,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     <Pressable
                         style={styles.IconContainer}
                         onPress={() => backAction()}>
-                        <AngleLeft_Color />
+                        <AngleLeft />
                     </Pressable>
 
                     {/* 가이드 프로필 나타내는 부분 */}
                     {/* TouchableOpacity 를 Layout 바깥쪽으로 추가하니까 버튼 위치가 바뀜 */}
                     {/* 이미지, 텍스트에 각각 씌워주니 해결됨 */}
                     <Layout style={styles.profileContainer}>
-                        <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
+                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
                             {guide.avatar != " " &&
                                 guide.avatar != undefined &&
                                 guide.avatar != null ? (
@@ -1348,7 +1348,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 />
                             )}
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
+                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
                             <Text style={styles.title}>
                                 {props.route.params.guide.name === undefined
                                     ? `매칭중..`
@@ -1569,8 +1569,8 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     title: {
-        fontSize: 12,
-        fontWeight: 'bold',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 18,
     },
     alert: {
         width: 10,
@@ -1608,8 +1608,9 @@ const styles = StyleSheet.create({
     ActionButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 15,
-        marginBottom: 12,
+        marginLeft: 17,
+        marginBottom: 17,
+        
     },
     loading: {
         width: '100%',
@@ -1646,11 +1647,10 @@ const styles = StyleSheet.create({
         flex: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     MenuImage: {
-        width: 30,
-        height: 30,
+        width: 20,
+        height: 20,
         resizeMode: 'stretch',
     },
     SideContainerBack: {

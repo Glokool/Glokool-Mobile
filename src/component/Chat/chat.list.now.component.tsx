@@ -25,7 +25,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
 
-    const [items, setItems] = useState({});
+    const [route, setRoute] = useState({});
 
     React.useEffect(() => {
         InitNowList();
@@ -38,7 +38,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         }
     }, [guideVisible])
 
-    async function InitNowList() {
+    const InitNowList = async () => {
         const Token = await user?.getIdToken(true);
         const AxiosConfig = {
             method: 'get',
@@ -70,12 +70,24 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             finish: true,
         });
     }
-    
+
     // 가이드 사진 클릭 시 가이드 프로필 출력
     const showGuideProfile = async (item: GloChatData) => {
+
         if (item.guide.uid != '') {
+            setRoute({
+                params: {
+                    id: item._id,
+                    guide: {
+                        uid: item.guide.uid,
+                        name: item.guide.name,
+                    }
+                }
+            });
+
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
+                //console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -105,10 +117,27 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         }
     }
 
+    const getGuideInfo = async (guideInfo: any) => {
+        if (guideInfo.uid != '') {
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
+                return res.data.avatar
+
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,', 'Guide Not Matched!');
+        }
+    }
+
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
         const ItemDay = (new Date(item.item.day)).getDate();
+
+        console.log("REDI", item.item);
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -118,6 +147,19 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     <Layout style={styles.GuideContainer}>
                         <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
                             <Layout style={styles.GuideAvatarContainer}>
+                                {/* {
+                                    guideAvatar != undefined &&
+                                    guideAvatar != null ? (
+                                    <Image
+                                        source={{ uri: guideAvatar }}
+                                        style={styles.GuideAvatar}
+                                    />
+                                ) : (
+                                    <Image
+                                        source={require('../../assets/profile/profile_01.png')}
+                                        style={styles.GuideAvatar}
+                                    />
+                                )} */}
                                 <Image
                                     source={require('../../assets/profile/profile_01.png')}
                                     style={styles.GuideAvatar}
@@ -190,7 +232,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             contentContainerStyle={{ paddingBottom: 500 }}
                         />
                         {/* 가이드 프로필 모달 */}
-                        <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} />
+                        <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route} />
 
                     </Layout>
                 )}

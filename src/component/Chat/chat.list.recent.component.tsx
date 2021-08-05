@@ -31,6 +31,8 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
 
+    const [route, setRoute] = useState({});
+
     React.useEffect(() => {
 
         InitNowList();
@@ -71,6 +73,17 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     // 가이드 사진 클릭 시 가이드 프로필 출력
     const showGuideProfile = async (item: GloChatData) => {
         if (item.guide.uid != '') {
+
+            setRoute({
+                params: {
+                    id: item._id,
+                    guide: {
+                        uid: item.guide.uid,
+                        name: item.guide.name,
+                    }
+                }
+            });
+
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
                 console.log(res.data);
@@ -159,7 +172,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                         contentContainerStyle={{ paddingBottom: 500 }}
                     />
                     {/* 가이드 프로필 모달 */}
-                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} />
+                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route}  />
 
                 </Layout>
             }
