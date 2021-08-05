@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import { 
     Layout,
     Text,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         left: '10%',
         backgroundColor: '#00FF0000',
         flexDirection: 'row',
-        marginTop: 15,
+        marginTop: Platform.OS === 'ios' ? 15 : 0,
     },
     TextContainer1 : {
         alignItems: 'flex-start',

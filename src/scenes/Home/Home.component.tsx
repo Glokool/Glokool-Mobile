@@ -79,13 +79,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
     return (
         <Layout style={{ alignItems: 'center', width: '100%' }}>
-            <HomeBG 
-            style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                
-            }} />
+
+            {Platform.OS === 'ios' ? (
+                <HomeBG style={styles.backgroundStyle} />
+            ) : (
+                <Image
+                    source={require('../../assets/icon/Home/HomeBGimg.png')}
+                    style={styles.backgroundStyle} />
+            )}
 
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
             <ScrollView
@@ -123,7 +124,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Pressable>
                 </Layout>
 
-                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000', alignItems:'center' }}>
+                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000', alignItems: 'center', paddingBottom: Platform.OS === 'android' ? 40 : 0 }}>
                     <Pressable onPress={() => Linking.openURL('https://glokool.com/home')}>
                         <Layout style={styles.buttonContainer}>
                             <WebsitePurple />
@@ -138,29 +139,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Pressable>
                 </Layout>
 
-                {/* 글로챗 광고 */}
-                {/* <Layout style={styles.GloChatADContainer}>
-                    <Layout style={styles.GloChatContainer1}>
-                        <Text
-                            style={
-                                styles.GloChat1
-                            }>{`What are some popular${`\n`}restaurants nearby?`}</Text>
-                    </Layout>
-
-                    <Layout style={styles.GloChatContainer2}>
-                        <Text style={styles.GloChat2}>{`There are..`}</Text>
-                    </Layout>
-
-                    <Pressable
-                        style={styles.GloChatContainer3}
-                        onPress={() => PressGloChatAD()}>
-                        <Text style={styles.GloChat3}>{`Click to Start `}</Text>
-                        <Text style={styles.GloChat3_1}>{`Glo-Chat`}</Text>
-                        <Text style={styles.GloChat3}>{`!   `}</Text>
-                        <AngleRightDouble style={styles.GloChatIcon} />
-                    </Pressable>
-                </Layout> */}
-
                 {/* <AdBanner /> */}
             </ScrollView>
 
@@ -169,6 +147,15 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 };
 
 const styles = StyleSheet.create({
+    backgroundStyle: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
     buttonContainer: {
         flexDirection: 'row',
         borderRadius: 25,
@@ -177,7 +164,7 @@ const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: '#00ff0000',
         height: 40,
-        alignItems:'center',
+        alignItems: 'center',
     },
     buttonText: {
         fontSize: 14,
