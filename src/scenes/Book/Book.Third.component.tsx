@@ -318,34 +318,31 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
                 <Layout style={{ marginVertical: 15 }} />
-                {currentUser.email === 'glokooltest@gmail.com' ? (
-                    <Layout style={styles.Payment}>
-                        <Radio
-                            checked={state.kakaoClicked}
-                            onChange={(nextChecked) =>
-                                dispatch({ type: 'kakao', nextChecked })
-                            }
-                            style={styles.Radio}
-                        />
+                <Layout style={styles.Payment}>
+                    <Radio
+                        checked={state.kakaoClicked}
+                        onChange={(nextChecked) =>
+                            dispatch({ type: 'kakao', nextChecked })
+                        }
+                        style={styles.Radio}
+                    />
 
-                        <Layout style={styles.LogoContainer}>
-                            <Image
-                                source={require('../../assets/kakaoPay_logo.png')}
-                                style={styles.Logo}
-                                resizeMode={'stretch'}
-                            />
-                            <Text style={styles.PaymentText1}>
-                                Your payment will be made in{' '}
-                                <Text style={styles.PaymentText2}>
-                                    KRW{'\n'}
-                                </Text>
-                                <Text style={styles.PaymentText2}></Text>
-                                {'\n'}Use your balance in your Kakao account.
-                                {'\n'}Kakao account is required.
-                            </Text>
-                        </Layout>
+                    <Layout style={styles.LogoContainer}>
+                        <Image
+                            source={require('../../assets/kakaoPay_logo.png')}
+                            style={styles.Logo}
+                            resizeMode={'stretch'}
+                        />
+                        <Text style={styles.PaymentText1}>
+                            Your payment will be made in{' '}
+                            <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
+                            <Text style={styles.PaymentText2}></Text>
+                            {'\n'}Use your balance in your Kakao account.
+                            {'\n'}Kakao account is required.
+                        </Text>
                     </Layout>
-                ) : null}
+                </Layout>
+
                 <Layout style={{ marginVertical: 100 }} />
             </ScrollView>
 
