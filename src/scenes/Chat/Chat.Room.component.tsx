@@ -1090,7 +1090,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: true }}
+                textInputProps={{ autoFocus: true, selectTextOnFocus: false }}
                 placeholder="Chat Message"
                 textInputStyle={{
                     alignSelf: 'center',
@@ -1193,7 +1193,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <Layout style={styles.mainContainer}>
                     <GiftedChat
                         messages={chatMessages}
-                        textInputProps={{ autoFocus: true }}
+                        textInputProps={{ autoFocus: true  }}
                         onSend={(messages) => onSend(messages)}
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
