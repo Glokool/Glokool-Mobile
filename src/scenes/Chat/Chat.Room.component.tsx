@@ -249,6 +249,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     React.useEffect(() => {
         getGuideToken(props.route.params.guide.uid);
+        initGuide();
     }, []);
 
     React.useEffect(() => {
@@ -1142,9 +1143,43 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         </Layout>
     );
 
+    const initGuide = async (guideInfo = props.route.params.guide) => {
+        if (guideInfo.uid != '') {
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
+                console.log(res.data);
+
+                await setGuide({
+                    avatar: res.data.avatar,
+                    name: res.data.name,
+                    gender: res.data.gender,
+                    birthDate: res.data.birthDate,
+                    lang: res.data.lang,
+                    country: res.data.country,
+                    intro: res.data.intro,
+                    oneLineIntro: res.data.oneLineIntro,
+                })
+
+                if (res.data.lang.length == 1) {
+                    setENG(true);
+                }
+                else {
+                    if (res.data.lang[0]) { setENG(true); }
+                    if (res.data.lang[1]) { setCHN(true); }
+                }
+
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,', 'Guide Not Matched!');
+        }
+    }
+
     // 재훈 함수 !!
     // 가이드 프로필 띄워보기
-    const showGuideProfile = async (guideInfo) => {
+    const showGuideProfile = async (guideInfo: any) => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
@@ -1193,7 +1228,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <Layout style={styles.mainContainer}>
                     <GiftedChat
                         messages={chatMessages}
-                        textInputProps={{ autoFocus: true  }}
+                        textInputProps={{ autoFocus: true }}
                         onSend={(messages) => onSend(messages)}
                         infiniteScroll={true}
                         createdAt={new Date().getTime()}
@@ -1299,10 +1334,19 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     {/* 이미지, 텍스트에 각각 씌워주니 해결됨 */}
                     <Layout style={styles.profileContainer}>
                         <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
-                            <Image
-                                source={require('../../assets/profile/profile_01.png')}
-                                style={styles.Profile}
-                            />
+                            {guide.avatar != " " &&
+                                guide.avatar != undefined &&
+                                guide.avatar != null ? (
+                                <Image
+                                    source={{ uri: guide.avatar }}
+                                    style={styles.Profile}
+                                />
+                            ) : (
+                                <Image
+                                    source={require('../../assets/profile/profile_01.png')}
+                                    style={styles.Profile}
+                                />
+                            )}
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => showGuideProfile(props.route.params.guide)}>
                             <Text style={styles.title}>

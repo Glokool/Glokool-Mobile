@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         top: '25%', 
         left: '10%',
         backgroundColor: '#00FF0000',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: 15,
     },
     TextContainer1 : {
         alignItems: 'flex-start',

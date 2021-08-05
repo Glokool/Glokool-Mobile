@@ -25,6 +25,8 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
 
+    const [items, setItems] = useState({});
+
     React.useEffect(() => {
         InitNowList();
     }, []);
@@ -55,7 +57,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
         const DDay = moment(item.day).diff(Today, 'days');
-        console.log(item.day, Today, DDay);
+        //console.log(item.day, Today, DDay);
 
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
@@ -68,12 +70,12 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             finish: true,
         });
     }
+    
     // 가이드 사진 클릭 시 가이드 프로필 출력
     const showGuideProfile = async (item: GloChatData) => {
         if (item.guide.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -106,11 +108,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
-        // console.log(item.item.day.getDate())
-        //console.log(moment(Today))
         const ItemDay = (new Date(item.item.day)).getDate();
-        //console.log(moment(item.item.day));
-
 
         return (
             <Layout style={styles.ChatLayout}>

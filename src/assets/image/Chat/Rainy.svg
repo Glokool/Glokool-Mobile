@@ -1,51 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="144" viewBox="0 0 414 144">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="134.63" viewBox="0 0 414 134.63">
   <defs>
     <clipPath id="clip-path">
-      <rect id="사각형_2475" data-name="사각형 2475" width="414" height="144" transform="translate(0 528)" fill="#fff"/>
+      <rect id="사각형_2780" data-name="사각형 2780" width="414" height="134.63" fill="#f8f8f8"/>
     </clipPath>
-    <filter id="합치기_9" x="263.655" y="37.88" width="99.325" height="61.996" filterUnits="userSpaceOnUse">
+    <filter id="합치기_56" x="286.099" y="69.901" width="75.371" height="49.012" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feFlood flood-color="#101010" flood-opacity="0.271"/>
+      <feFlood flood-color="#101010" flood-opacity="0.18"/>
       <feComposite operator="in" in2="blur"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="합치기_9-2" x="289.01" y="50.707" width="106.664" height="65.966" filterUnits="userSpaceOnUse">
+    <filter id="합치기_60" x="314.713" y="84.99" width="57.787" height="35.393" filterUnits="userSpaceOnUse">
       <feOffset dy="3" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="3" result="blur-2"/>
-      <feFlood flood-opacity="0.271"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-2"/>
+      <feFlood flood-opacity="0.149"/>
       <feComposite operator="in" in2="blur-2"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="선_144" x="278.002" y="88.664" width="19.964" height="24.574" filterUnits="userSpaceOnUse">
+    <filter id="선_229" x="278.001" y="96.206" width="19.964" height="24.574" filterUnits="userSpaceOnUse">
       <feOffset dy="2" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="2" result="blur-3"/>
       <feFlood flood-opacity="0.141"/>
       <feComposite operator="in" in2="blur-3"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="선_145" x="286.069" y="100.188" width="22.269" height="29.184" filterUnits="userSpaceOnUse">
+    <filter id="선_230" x="286.069" y="107.731" width="22.269" height="29.184" filterUnits="userSpaceOnUse">
       <feOffset dy="2" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="2" result="blur-4"/>
       <feFlood flood-opacity="0.141"/>
       <feComposite operator="in" in2="blur-4"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="선_146" x="318.338" y="103.646" width="18.812" height="22.269" filterUnits="userSpaceOnUse">
+    <filter id="선_231" x="315.304" y="111.188" width="18.812" height="22.269" filterUnits="userSpaceOnUse">
       <feOffset dy="2" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="2" result="blur-5"/>
       <feFlood flood-opacity="0.141"/>
       <feComposite operator="in" in2="blur-5"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="선_147" x="329.863" y="107.103" width="19.964" height="24.574" filterUnits="userSpaceOnUse">
+    <filter id="선_232" x="325.898" y="114.646" width="19.964" height="24.574" filterUnits="userSpaceOnUse">
       <feOffset dy="2" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="2" result="blur-6"/>
       <feFlood flood-opacity="0.141"/>
       <feComposite operator="in" in2="blur-6"/>
       <feComposite in="SourceGraphic"/>
     </filter>
-    <filter id="선_148" x="348.324" y="103.668" width="21.073" height="27.988" filterUnits="userSpaceOnUse">
+    <filter id="선_233" x="342.862" y="111.21" width="21.073" height="27.988" filterUnits="userSpaceOnUse">
       <feOffset dy="2" input="SourceAlpha"/>
       <feGaussianBlur stdDeviation="2" result="blur-7"/>
       <feFlood flood-opacity="0.141"/>
@@ -53,47 +53,45 @@
       <feComposite in="SourceGraphic"/>
     </filter>
   </defs>
-  <g id="날씨위젯_비_" data-name="날씨위젯(비)" transform="translate(0 -528)" clip-path="url(#clip-path)">
-    <g id="그룹_1415" data-name="그룹 1415">
-      <rect id="사각형_2470" data-name="사각형 2470" width="414" height="143.628" transform="translate(0 528)" fill="#f8f8f8"/>
-      <g id="그룹_1407" data-name="그룹 1407" transform="translate(272.655 571.88)">
-        <g transform="matrix(1, 0, 0, 1, -272.66, -43.88)" filter="url(#합치기_9)">
-          <path id="합치기_9-3" data-name="합치기 9" d="M50,40.843a19.6,19.6,0,0,1-20,.787A19.572,19.572,0,0,1,20.664,44C9.252,44,0,34.147,0,22S9.252,0,20.664,0A19.572,19.572,0,0,1,30,2.366a19.6,19.6,0,0,1,20,.787A19.643,19.643,0,0,1,60.661,0C72.074,0,81.325,9.849,81.325,22S72.074,44,60.661,44A19.643,19.643,0,0,1,50,40.843Z" transform="translate(272.66 43.88)" fill="#fff"/>
+  <g id="Chat___비_위젯" data-name="Chat _ 비 위젯" clip-path="url(#clip-path)">
+    <g id="그룹_1780" data-name="그룹 1780">
+      <rect id="사각형_2779" data-name="사각형 2779" width="414" height="134.63" fill="#f8f8f8"/>
+      <g id="그룹_1777" data-name="그룹 1777" transform="translate(295.098 75.901)">
+        <g transform="matrix(1, 0, 0, 1, -295.1, -75.9)" filter="url(#합치기_56)">
+          <path id="합치기_56-2" data-name="합치기 56" d="M35.269,28.789a13.84,13.84,0,0,1-14.108.555,13.816,13.816,0,0,1-6.584,1.668C6.527,31.012,0,24.07,0,15.505S6.527,0,14.578,0a13.816,13.816,0,0,1,6.584,1.668,13.84,13.84,0,0,1,14.108.555A13.866,13.866,0,0,1,42.793,0c8.051,0,14.578,6.942,14.578,15.505S50.845,31.012,42.793,31.012A13.865,13.865,0,0,1,35.269,28.789Z" transform="translate(295.1 75.9)" fill="#fff"/>
         </g>
       </g>
-      <g id="그룹_1410" data-name="그룹 1410" transform="translate(-21.459 615.557)">
-        <path id="합치기_9-4" data-name="합치기 9" d="M40.636,33.2a15.934,15.934,0,0,1-16.254.64A15.908,15.908,0,0,1,16.8,35.76c-9.276,0-16.8-8-16.8-17.88S7.52,0,16.8,0a15.908,15.908,0,0,1,7.586,1.923,15.935,15.935,0,0,1,16.254.64A15.966,15.966,0,0,1,49.305,0c9.276,0,16.8,8,16.8,17.88s-7.52,17.88-16.8,17.88A15.966,15.966,0,0,1,40.636,33.2Z" transform="translate(-3 -7)" fill="#fff"/>
-      </g>
-      <g id="그룹_1405" data-name="그룹 1405" transform="translate(298.01 584.707)">
-        <g transform="matrix(1, 0, 0, 1, -298.01, -56.71)" filter="url(#합치기_9-2)">
-          <path id="합치기_9-5" data-name="합치기 9" d="M54.507,44.529a21.374,21.374,0,0,1-21.8.858,21.338,21.338,0,0,1-10.175,2.579C10.087,47.966,0,37.229,0,23.983S10.087,0,22.529,0A21.338,21.338,0,0,1,32.7,2.579a21.374,21.374,0,0,1,21.8.858A21.416,21.416,0,0,1,66.135,0C78.578,0,88.664,10.737,88.664,23.983S78.578,47.966,66.135,47.966A21.416,21.416,0,0,1,54.507,44.529Z" transform="translate(298.01 56.71)" fill="#8e9dff"/>
+      <g id="그룹_1778" data-name="그룹 1778" transform="translate(319.213 86.49)">
+        <g transform="matrix(1, 0, 0, 1, -319.21, -86.49)" filter="url(#합치기_60)">
+          <path id="합치기_60-2" data-name="합치기 60" d="M29.992,24.5a11.761,11.761,0,0,1-12,.472,11.741,11.741,0,0,1-5.6,1.419C5.551,26.393,0,20.485,0,13.2S5.551,0,12.4,0A11.741,11.741,0,0,1,18,1.419a11.761,11.761,0,0,1,12,.472A11.784,11.784,0,0,1,36.391,0c6.847,0,12.4,5.908,12.4,13.2s-5.55,13.2-12.4,13.2A11.784,11.784,0,0,1,29.992,24.5Z" transform="translate(319.21 86.49)" fill="#8e9dff"/>
         </g>
       </g>
-      <g id="그룹_1406" data-name="그룹 1406" transform="translate(285.679 622.341)">
-        <g transform="matrix(1, 0, 0, 1, -285.68, -94.34)" filter="url(#선_144)">
-          <line id="선_144-2" data-name="선 144" x1="4.61" y2="9.22" transform="translate(285.68 94.34)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+      <g id="그룹_1779" data-name="그룹 1779" transform="translate(285.679 101.883)">
+        <g transform="matrix(1, 0, 0, 1, -285.68, -101.88)" filter="url(#선_229)">
+          <line id="선_229-2" data-name="선 229" x1="4.61" y2="9.22" transform="translate(285.68 101.88)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
         </g>
-        <g transform="matrix(1, 0, 0, 1, -285.68, -94.34)" filter="url(#선_145)">
-          <line id="선_145-2" data-name="선 145" x1="6.915" y2="13.83" transform="translate(293.75 105.87)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        <g transform="matrix(1, 0, 0, 1, -285.68, -101.88)" filter="url(#선_230)">
+          <line id="선_230-2" data-name="선 230" x1="6.915" y2="13.83" transform="translate(293.75 113.41)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
         </g>
-        <g transform="matrix(1, 0, 0, 1, -285.68, -94.34)" filter="url(#선_146)">
-          <line id="선_146-2" data-name="선 146" x1="3.457" y2="6.915" transform="translate(326.02 109.32)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        <g transform="matrix(1, 0, 0, 1, -285.68, -101.88)" filter="url(#선_231)">
+          <line id="선_231-2" data-name="선 231" x1="3.457" y2="6.915" transform="translate(322.98 116.87)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
         </g>
-        <g transform="matrix(1, 0, 0, 1, -285.68, -94.34)" filter="url(#선_147)">
-          <line id="선_147-2" data-name="선 147" x1="4.61" y2="9.22" transform="translate(337.54 112.78)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        <g transform="matrix(1, 0, 0, 1, -285.68, -101.88)" filter="url(#선_232)">
+          <line id="선_232-2" data-name="선 232" x1="4.61" y2="9.22" transform="translate(333.58 120.32)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
         </g>
-        <g transform="matrix(1, 0, 0, 1, -285.68, -94.34)" filter="url(#선_148)">
-          <line id="선_148-2" data-name="선 148" x1="5.762" y2="12.677" transform="translate(355.98 109.32)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
+        <g transform="matrix(1, 0, 0, 1, -285.68, -101.88)" filter="url(#선_233)">
+          <line id="선_233-2" data-name="선 233" x1="5.762" y2="12.677" transform="translate(350.52 116.87)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="2.5"/>
         </g>
       </g>
-      <line id="선_203" data-name="선 203" x1="16.532" y2="27.659" transform="translate(397.468 549.735)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3" opacity="0.91"/>
-      <line id="선_202" data-name="선 202" x1="6.915" y2="11.525" transform="translate(397.468 592.376)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3" opacity="0.91"/>
-      <line id="선_204" data-name="선 204" x1="19" y2="33" transform="translate(20.578 564.817)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
-      <line id="선_209" data-name="선 209" x1="25.5" y2="42.622" transform="translate(-3.217 554.505)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
-      <line id="선_208" data-name="선 208" x1="19" y2="33" transform="translate(397.468 618.883)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
-      <line id="선_205" data-name="선 205" x1="9" y2="16" transform="translate(35.078 575.817)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
-      <line id="선_207" data-name="선 207" x1="9" y2="16" transform="translate(411.968 629.883)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
-      <line id="선_206" data-name="선 206" x1="9.5" y2="16.133" transform="translate(29.578 637.05)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3"/>
+      <line id="선_234" data-name="선 234" x1="16.532" y2="27.659" transform="translate(383 46.175)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3" opacity="0.91"/>
+      <line id="선_235" data-name="선 235" x1="6.915" y2="11.525" transform="translate(397.468 64.376)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3" opacity="0.91"/>
+      <line id="선_236" data-name="선 236" x1="15.083" y2="26.197" transform="translate(15.672 54.36)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.27"/>
+      <line id="선_237" data-name="선 237" x1="20.243" y2="33.836" transform="translate(-3.217 46.175)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.27"/>
+      <line id="선_238" data-name="선 238" x1="19" y2="33" transform="translate(397.468 90.883)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
+      <line id="선_239" data-name="선 239" x1="7.145" y2="12.702" transform="translate(27.183 63.093)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.27"/>
+      <line id="선_240" data-name="선 240" x1="9" y2="16" transform="translate(411.968 101.883)" fill="none" stroke="#8e9dff" stroke-linecap="round" stroke-width="3" opacity="0.59"/>
+      <line id="선_241" data-name="선 241" x1="9.5" y2="16.133" transform="translate(30 121.556)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3"/>
+      <line id="선_242" data-name="선 242" x1="12.5" y2="21.683" transform="translate(17.5 104.817)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3"/>
     </g>
   </g>
 </svg>
