@@ -71,7 +71,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
 
+    const getURL = async() => {
+        console.log(await Linking.getInitialURL());
+    }
+
     React.useEffect(() => {
+        getURL();
         console.log('home component current user: ' + auth().currentUser?.displayName)
     })
 

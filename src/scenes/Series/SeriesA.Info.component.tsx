@@ -376,7 +376,7 @@ export const SeriesAInfoScreen = (
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        {/* <Button title="Share to Others" onPress={()=>shareItems()}/> */}
+                        <Button title="Share to Others" onPress={()=>shareItems()}/>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />

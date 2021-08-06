@@ -23,8 +23,7 @@ import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import Toast from 'react-native-easy-toast';
 import { useFocusEffect } from '@react-navigation/native';
 
-import KakaoShareLink from 'react-native-kakao-share-link';
-import KakaoLink from 'react-native-kakao-link-js';
+
 
 
 var ToastRef: any;
@@ -38,28 +37,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    const kakaoTest = async () => {
-        try {
-            const response = await KakaoShareLink.sendLocation({
-              address: '경기 성남시 분당구 판교역로',
-              addressTitle: '카카오판교오피스',
-              content: {
-                title: 'title',
-                imageUrl:
-                  'http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg',
-                link: {
-                  webUrl: 'https://developers.kakao.com/',
-                  mobileWebUrl: 'https://developers.kakao.com/',
-                },
-                description: 'description',
-              },
-            });
-            console.log(response);
-          } catch (e) {
-            console.error(e);
-            console.error(e.message);
-          }
-    }
+   
 
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -169,7 +147,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 />
 
                 <Layout style={{ height: 220 }} />
-                <Button title='Test Share' onPress={() => kakaoTest()}></Button>
+                
             </ScrollView>
         </Layout>
     );
