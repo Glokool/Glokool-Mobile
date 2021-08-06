@@ -375,8 +375,10 @@ export const SeriesBInfoScreen = (
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
 
-                        <SelectableText style={styles.TitleTxt} item={content?.title} />
-                        <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} />
+                        {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
+                        <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
+                        <Text style={styles.TitleTxt}>{content?.title}</Text>
+                        <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
                         <SelectableText style={styles.descTxt} item={content?.desc} />
                         <SelectableText style={styles.LetsBeginTxt} item={"Let's Begin !"} />
                     </Layout>
