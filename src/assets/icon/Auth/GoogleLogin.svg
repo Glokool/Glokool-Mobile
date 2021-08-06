@@ -1,12 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="366" height="61" viewBox="0 0 366 61">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="354" height="48" viewBox="0 0 354 48">
   <defs>
-    <filter id="사각형_2692" x="0" y="0" width="366" height="61" filterUnits="userSpaceOnUse">
-      <feOffset dy="1" input="SourceAlpha"/>
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feFlood flood-opacity="0.161"/>
-      <feComposite operator="in" in2="blur"/>
-      <feComposite in="SourceGraphic"/>
-    </filter>
     <clipPath id="clip-path">
       <path id="패스_2165" data-name="패스 2165" d="M200.63,217.332a13.063,13.063,0,0,0-.207-2.326H189.712v4.4h6.121a5.232,5.232,0,0,1-2.269,3.433v2.854h3.675a11.092,11.092,0,0,0,3.391-8.359Zm0,0" transform="translate(-189.712 -215.006)" fill="none" clip-rule="evenodd"/>
     </clipPath>
@@ -20,13 +13,10 @@
       <path id="패스_2168" data-name="패스 2168" d="M170.595,192.823a6.042,6.042,0,0,1,4.3,1.7l3.226-3.262a10.747,10.747,0,0,0-7.526-2.962,11.233,11.233,0,0,0-10.053,6.266l3.758,2.947a6.713,6.713,0,0,1,6.294-4.689Zm0,0" transform="translate(-160.542 -188.299)" fill="none" clip-rule="evenodd"/>
     </clipPath>
   </defs>
-  <g id="그룹_1647" data-name="그룹 1647" transform="translate(-24 -516.684)">
-    <g id="그룹_1646" data-name="그룹 1646">
-      <g transform="matrix(1, 0, 0, 1, 24, 516.68)" filter="url(#사각형_2692)">
-        <rect id="사각형_2692-2" data-name="사각형 2692" width="354" height="49" rx="2" transform="translate(6 5)" fill="#fff"/>
-      </g>
-    </g>
-    <g id="그룹_1642" data-name="그룹 1642" transform="translate(106.335 534.905)">
+  <g id="그룹_1766" data-name="그룹 1766" transform="translate(-30 -518.82)">
+    <rect id="사각형_2692" data-name="사각형 2692" width="354" height="48" rx="2" transform="translate(30 518.82)" fill="#fff"/>
+    <path id="사각형_2692_-_윤곽선" data-name="사각형 2692 - 윤곽선" d="M2,1.3a.7.7,0,0,0-.7.7V46a.7.7,0,0,0,.7.7H352a.7.7,0,0,0,.7-.7V2a.7.7,0,0,0-.7-.7H2M2,0H352a2,2,0,0,1,2,2V46a2,2,0,0,1-2,2H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0Z" transform="translate(30 518.82)" fill="#d9d9d9"/>
+    <g id="그룹_1642" data-name="그룹 1642" transform="translate(106.335 532.042)">
       <g id="그룹_1615" data-name="그룹 1615" transform="translate(11.179 9.107)">
         <g id="그룹_1614" data-name="그룹 1614" clip-path="url(#clip-path)">
           <rect id="사각형_2680" data-name="사각형 2680" width="23.555" height="23.322" transform="translate(-6.318 -6.318)" fill="#3e82f1"/>
@@ -48,6 +38,6 @@
         </g>
       </g>
     </g>
-    <text id="Sign_in_with_Google" data-name="Sign in with Google" transform="translate(157.4 551.684)" fill="rgba(0,0,0,0.54)" font-size="17" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">Sign in with Google</tspan></text>
+    <text id="Sign_in_with_Google" data-name="Sign in with Google" transform="translate(157.4 548.82)" fill="rgba(0,0,0,0.54)" font-size="16" font-family="Roboto-Medium, Roboto" font-weight="500"><tspan x="0" y="0">Sign in with Google</tspan></text>
   </g>
 </svg>
