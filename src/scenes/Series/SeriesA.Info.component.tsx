@@ -44,6 +44,7 @@ import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { ShareDialog } from 'react-native-fbsdk-next';
 
 type recommendation_Item = {
     _id: string;
@@ -116,14 +117,31 @@ export const SeriesAInfoScreen = (
     // })
 
     const shareItems = async () => {
-        try {
-            const result = await Share.share({
-                url: "glokool://app/main/series/series-a/" + props.route.params.Id,
-                message: "Open in Glokool Application",
-            })
-        } catch (e) {
-            console.log(e);
-        }
+
+        // facebook 에 공유하는 부분
+        const content = {
+            contentType: 'link',
+            contentUrl: "glokool://",
+            contentDescription: 'Open in Glokool',
+        };
+
+        const result = await ShareDialog.canShow(content).then((canShow)=>{
+            if (canShow) {
+                return ShareDialog.show(content);
+            }
+        })
+
+        console.log(result);
+
+        // 경로 설정해서 공유하는 부분
+        // try {
+        //     const result = await Share.share({
+        //         url: "glokool://app/main/series/series-a/" + props.route.params.Id,
+        //         message: "Open in Glokool Application",
+        //     })
+        // } catch (e) {
+        //     console.log(e);
+        // }
     }
 
     const appIsRunning = () => {
@@ -376,7 +394,7 @@ export const SeriesAInfoScreen = (
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        <Button title="Share to Others" onPress={()=>shareItems()}/>
+                        <Button title="Share to Others" onPress={() => shareItems()} />
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
