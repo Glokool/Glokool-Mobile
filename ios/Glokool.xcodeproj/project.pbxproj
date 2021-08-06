@@ -26,6 +26,7 @@
 		DF1A16DB2670A49500923E2D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1A16D72670A49500923E2D /* File.swift */; };
 		DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */; };
 		DF96D1492604422A0005AD8D /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = DF96D1482604422A0005AD8D /* loading.json */; };
+		DFA32A4026BCFB6B008207FC /* kakaoSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA32A3F26BCFB6B008207FC /* kakaoSDK.swift */; };
 		DFECF72026BA226B005EBF8F /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFECF71D26BA226B005EBF8F /* Fonts */; };
 		DFF62C392629DEF30038D300 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFF62C382629DEF30038D300 /* Fonts */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		DF96CF972604330C0005AD8D /* Glokool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Glokool.entitlements; path = Glokool/Glokool.entitlements; sourceTree = "<group>"; };
 		DF96D1482604422A0005AD8D /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = loading.json; path = Glokool/loading.json; sourceTree = "<group>"; };
+		DFA32A3F26BCFB6B008207FC /* kakaoSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = kakaoSDK.swift; sourceTree = "<group>"; };
 		DFECF71D26BA226B005EBF8F /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		DFF62C382629DEF30038D300 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		EA18167F27D376BBB6734226 /* libPods-Glokool-GlokoolTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Glokool-GlokoolTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +216,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				DFA32A3F26BCFB6B008207FC /* kakaoSDK.swift */,
 				DFF62C382629DEF30038D300 /* Fonts */,
 				DFECF71D26BA226B005EBF8F /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Glokool */,
@@ -735,6 +738,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				DF1A16D82670A49500923E2D /* File.swift in Sources */,
+				DFA32A4026BCFB6B008207FC /* kakaoSDK.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,11 +1062,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1111,11 +1114,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
