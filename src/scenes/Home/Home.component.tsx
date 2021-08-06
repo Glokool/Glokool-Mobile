@@ -71,12 +71,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
 
-    React.useEffect(() => {
-        console.log('home component current user: ' + auth().currentUser?.displayName)
-    })
-
-
-
     return (
         <Layout style={{ alignItems: 'center', width: '100%' }}>
 
