@@ -1,6 +1,6 @@
 import React from 'react';
 import { SeriesHiddenGemContentAttrProps } from '../../navigation/ScreenNavigator/Series.navigator';
-import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Divider, Layout, LayoutElement, Text, Modal } from '@ui-kitten/components';
 import {
     StyleSheet,
     SafeAreaView,
@@ -34,6 +34,10 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { CloseButton } from '../../assets/icon/Series';
+import { GloChatAD } from '../../assets/icon/Home';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -102,6 +106,13 @@ export const SeriesHiddenGemContentAttr = (
     React.useEffect(() => {
         InitContentAttr();
     }, []);
+
+    // modal 에 true 전달 후 false 로 초기화
+    React.useEffect(()=>{
+        if(Glochat) {
+            setGlochat(false);
+        }
+    },[Glochat])
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
@@ -176,30 +187,10 @@ export const SeriesHiddenGemContentAttr = (
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
-                <Layout style={styles.GlochatContainer}>
-                    <TouchableOpacity
-                        style={styles.GlochatButtonContainer}
-                        onPress={() => setGlochat(!Glochat)}>
-                        <Layout style={styles.GlochatTextContainer}>
-                            <GlokoolService />
-                            <Text style={styles.GloChatText}>
-                                {' '}
-                                Glo-Chat Service
-                            </Text>
-                        </Layout>
-
-                        {Glochat ? <AngleUp /> : <AngleDown />}
-                    </TouchableOpacity>
-
-                    {Glochat
-                        ? data?.glokoolService.map((item, index) => (
-                            <Text style={styles.IndexText}>
-                                {index + 1}
-                                <Text>{`    ${item}`}</Text>{' '}
-                            </Text>
-                        ))
-                        : null}
-                </Layout>
+                <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                    <Service />
+                </TouchableOpacity>
+                <ServiceModal isVisible={Glochat} data={data}/>
 
                 {/* 인포메이션 컨테이너 */}
                 <Layout
@@ -342,8 +333,8 @@ export const SeriesHiddenGemContentAttr = (
                                 <SelectableText style={styles.EditorNoteText} item={item} />
                             </Layout>
                             {index == data.editorNote.length - 1 ?
-                                
-                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height:80, marginLeft: -30, alignItems: 'center', justifyContent:'center' }}>
+
+                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height: 80, marginLeft: -30, alignItems: 'center', justifyContent: 'center' }}>
                                     <Image source={require('../../assets/content/editor_note.png')} style={{ width: WindowSize + 60, resizeMode: 'contain' }} />
                                 </Layout>
                                 :
@@ -562,47 +553,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: 'black'
     },
-    GlochatContainer: {
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.18,
-        // shadowRadius: 1.0,
-        // elevation: 1,
-        marginBottom: 20,
-        paddingTop: 15,
-        paddingBottom: 15,
-    },
-    GlochatTextContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 50,
-    },
-    GlochatButtonContainer: {
-        marginHorizontal: 30,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    GloChatText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 20,
-    },
     BottomContainer: {
         marginBottom: 100,
     },
     IndexText: {
-        marginLeft: 30,
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
         color: '#8797FF',
-    },
-    GlochatText: {
-        fontFamily: 'IBMPlexSansKR-Text',
-        fontSize: 16,
-        color: 'black',
     },
     GloChatADContainer: {
         backgroundColor: '#7777FF',

@@ -27,6 +27,7 @@ import HiddenGem_Title from './HiddenGem_Title.svg';
 import Content from './Content.svg';
 import Blog from './Blog.svg';
 import EditorNoteLine from './EditorNoteLine.svg';
+import CloseButton from './CloseButton.svg';
 
 
 export {
@@ -59,4 +60,5 @@ export {
     Content,
     Blog,
     EditorNoteLine,
+    CloseButton,
 }
