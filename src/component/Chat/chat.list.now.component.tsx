@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
 import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
@@ -12,9 +12,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ProfileModal } from './chat.profile.component';
+import { AuthContext } from '../../context/AuthContext';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
+
+    const userContext = useContext(AuthContext);
+
     const Today = new Date();
     const [data, setData] = React.useState<Array<GloChatData>>([]);
     const [refresh, setRefresh] = React.useState<boolean>(false);
@@ -39,25 +43,30 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     }, [guideVisible])
 
     const InitNowList = async () => {
-        const Token = await user?.getIdToken(true);
-        const AxiosConfig = {
-            method: 'get',
-            url: SERVER + '/api/users/reservations/future',
-            headers: {
-                Authorization: 'Bearer ' + Token,
-            },
-        };
-        const RevData = await axios(AxiosConfig);
-        // axios 로 받아온 데이터를 useState 이용해 setData 
-        // setData 에서 제네릭 안에 GloChatData 형태로 들어가는듯 
-        // GloChatData 는 index.ts 에서 type 으로 export 되어있음
-        setData(RevData.data);
-        setLoading(false);
+        console.log(userContext.currentUser);
+
+        if (userContext.currentUser) {
+            const Token = await user?.getIdToken(true);
+            const AxiosConfig = {
+                method: 'get',
+                url: SERVER + '/api/users/reservations/future',
+                headers: {
+                    Authorization: 'Bearer ' + Token,
+                },
+            };
+            const RevData = await axios(AxiosConfig);
+            // axios 로 받아온 데이터를 useState 이용해 setData 
+            // setData 에서 제네릭 안에 GloChatData 형태로 들어가는듯 
+            // GloChatData 는 index.ts 에서 type 으로 export 되어있음
+            setData(RevData.data);
+            setLoading(false);
+        } 
     }
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
         const DDay = moment(item.day).diff(Today, 'days');
         //console.log(item.day, Today, DDay);
+        console.log("TOKEN",item.guide.token);
 
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
@@ -69,6 +78,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             day: item.day,
             finish: true,
         });
+        
     }
 
     // 가이드 사진 클릭 시 가이드 프로필 출력

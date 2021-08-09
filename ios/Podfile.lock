@@ -455,6 +455,17 @@ PODS:
   - GTMSessionFetcher/Core (1.6.1)
   - IamportReactNative (1.6.3):
     - React
+  - KakaoSDK (2.5.6):
+    - KakaoSDKAuth (= 2.5.6)
+    - KakaoSDKCommon (= 2.5.6)
+    - KakaoSDKLink (= 2.5.6)
+    - KakaoSDKNavi (= 2.5.6)
+    - KakaoSDKStory (= 2.5.6)
+    - KakaoSDKTalk (= 2.5.6)
+    - KakaoSDKTemplate (= 2.5.6)
+    - KakaoSDKUser (= 2.5.6)
+  - KakaoSDKAuth (2.5.6):
+    - KakaoSDKCommon (= 2.5.6)
   - KakaoSDKCommon (2.5.6):
     - KakaoSDKCommon/Common (= 2.5.6)
     - KakaoSDKCommon/Network (= 2.5.6)
@@ -465,8 +476,17 @@ PODS:
   - KakaoSDKLink (2.5.6):
     - KakaoSDKCommon (= 2.5.6)
     - KakaoSDKTemplate (= 2.5.6)
+  - KakaoSDKNavi (2.5.6):
+    - KakaoSDKCommon/Common (= 2.5.6)
+  - KakaoSDKStory (2.5.6):
+    - KakaoSDKUser (= 2.5.6)
+  - KakaoSDKTalk (2.5.6):
+    - KakaoSDKTemplate (= 2.5.6)
+    - KakaoSDKUser (= 2.5.6)
   - KakaoSDKTemplate (2.5.6):
     - KakaoSDKCommon/Common (= 2.5.6)
+  - KakaoSDKUser (2.5.6):
+    - KakaoSDKAuth (= 2.5.6)
   - leveldb-library (1.22.1)
   - libwebp (1.2.0):
     - libwebp/demux (= 1.2.0)
@@ -806,12 +826,17 @@ PODS:
   - RNFBApp (12.3.0):
     - Firebase/CoreOnly (= 8.4.0)
     - React-Core
-  - RNFBAuth (12.3.0):
+  - RNFBAuth (12.1.0):
     - Firebase/Auth (= 8.4.0)
     - React-Core
     - RNFBApp
   - RNFBDatabase (12.0.0):
     - Firebase/Database (= 8.4.0)
+    - React-Core
+    - RNFBApp
+  - RNFBDynamicLinks (12.4.0):
+    - Firebase/DynamicLinks (= 8.4.0)
+    - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
   - RNFBFirestore (12.0.0):
@@ -877,6 +902,8 @@ PODS:
   - RNScreens (3.3.0):
     - React-Core
     - React-RCTImage
+  - RNShare (7.0.0):
+    - React-Core
   - RNSound (0.11.0):
     - React
     - RNSound/Core (= 0.11.0)
@@ -906,6 +933,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleSignIn
   - IamportReactNative (from `../node_modules/iamport-react-native`)
+  - KakaoSDK
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
@@ -956,6 +984,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDatabase (from `../node_modules/@react-native-firebase/database`)"
+  - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
@@ -966,6 +995,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1002,9 +1032,15 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - KakaoSDK
+    - KakaoSDKAuth
     - KakaoSDKCommon
     - KakaoSDKLink
+    - KakaoSDKNavi
+    - KakaoSDKStory
+    - KakaoSDKTalk
     - KakaoSDKTemplate
+    - KakaoSDKUser
     - leveldb-library
     - libwebp
     - nanopb
@@ -1122,6 +1158,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBDatabase:
     :path: "../node_modules/@react-native-firebase/database"
+  RNFBDynamicLinks:
+    :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBMessaging:
@@ -1142,6 +1180,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSound:
     :path: "../node_modules/react-native-sound"
   RNSVG:
@@ -1157,9 +1197,9 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Braintree: 94a20907b70aeffb29c40380eec583d783a347b6
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  DoubleConversion: cde416483dac037923206447da6e1454df403714
+  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: 0dcfb6176b5e9890b9026d423ffbdb43945395c5
+  FBReactNativeSpec: 005754c0b6a5a2ae3460880980555c31f1b1561b
   FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
   FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
   FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
@@ -1174,7 +1214,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 1585729afc787877763208c2088ed84221161f77
   FirebaseMessaging: 78025c56654f05c7ebd6f7f87f9d4b12c5231207
   FirebaseStorage: e6065bcbf70e2a06a8c3ddc66cbe03a395bbddc4
-  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: 6b6a08fd9c71f4dbc89e0e812acca81d797aa342
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
@@ -1186,9 +1226,15 @@ SPEC CHECKSUMS:
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   IamportReactNative: 2491e97d9010373cc237ac0e02b13bc51282b0dc
+  KakaoSDK: cf7977079b8b2925ee366ebe29aae51921e648ce
+  KakaoSDKAuth: 1e1fa737e78eed3f301ab5c164526781a37a42f9
   KakaoSDKCommon: cdf340a8f671eef75f4ca012003cb350af3c4b6d
   KakaoSDKLink: 59336155a065da278ba30dc656506295dc682979
+  KakaoSDKNavi: 8f74b7faad26e632c556bdf0584a30a3948f2c70
+  KakaoSDKStory: 5f32ad8525fa8b209ef91578f4be9c2c45a07f51
+  KakaoSDKTalk: 68c72269e9095afb9582f324b94f99dd6284e361
   KakaoSDKTemplate: 0370e640abd33d0acb3d7bbe4ef3c02dc42a4576
+  KakaoSDKUser: f488aa4699b3fd3a836ab5c7e25e2cb4cea190c1
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
@@ -1239,8 +1285,9 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: 64c90ab78b6010ed5c3ade026dfe5ff6442c21fd
-  RNFBAuth: 59fe503707ab7bd2c2790ac5b7a11d4e14b44452
+  RNFBAuth: ddd40d15c503bc2509ea16141b03c583bbe6484f
   RNFBDatabase: abef43a3e34644f5947771df74484f5bb417310e
+  RNFBDynamicLinks: 1bac6e56f78061a2fee68fe39a93b7241b838993
   RNFBFirestore: 50e46b26ebcce75c64ab2e10c85edda51d2280c7
   RNFBMessaging: 48ad50a79ac4b035d27cf8e7536307e8a1155abb
   RNFBStorage: 46f957ab768425fa221c977e7d618ceae957175c
@@ -1251,6 +1298,7 @@ SPEC CHECKSUMS:
   RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
   RNScreens: bf59f17fbf001f1025243eeed5f19419d3c11ef2
+  RNShare: 00e7409201e3cab13e0febc41fd4465a83ae8225
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -1258,6 +1306,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
 
-PODFILE CHECKSUM: 91c6ae1a075e9a87de320fe91c3521f656d0bceb
+PODFILE CHECKSUM: 7ecd9c2a765fb13585937643d51f95e672415117
 
 COCOAPODS: 1.10.1

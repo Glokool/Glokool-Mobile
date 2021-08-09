@@ -13,7 +13,6 @@ import {
     processColor,
     Linking,
     Button,
-    Share,
     Platform
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -45,6 +44,7 @@ import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
 
 type recommendation_Item = {
     _id: string;
@@ -118,10 +118,21 @@ export const SeriesAInfoScreen = (
 
     const shareItems = async () => {
 
-        // facebook 에 공유하는 부분
+        // const shareOptions = {
+        //     title: 'Share via',
+        //     message: 'some message',
+        //     url: 'https://google.com',
+        //     social: Share.Social.INSTAGRAM,
+        //   };
+        
+        //   Share.shareSingle(shareOptions)
+        //     .then((res) => { console.log(res) })
+        //     .catch((err) => { err && console.log(err); });
+
+        //facebook 에 공유하는 부분
         const content = {
             contentType: 'link',
-            contentUrl: "glokool://",
+            contentUrl: "https://google.com",
             contentDescription: 'Open in Glokool',
         };
 

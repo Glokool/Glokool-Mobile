@@ -1607,6 +1607,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/database/-/database-12.0.0.tgz"
   "version" "12.0.0"
 
+"@react-native-firebase/dynamic-links@^12.4.0":
+  "integrity" "sha512-PcQI9cYbMeR3ypDmbmluWgKuDujbBwaVhZ8C26fEmBYe3oMvH7XN8h82iFjHdR4Oiq+sL33gIOW+3o6uCqyH1g=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/dynamic-links/-/dynamic-links-12.4.0.tgz"
+  "version" "12.4.0"
+
 "@react-native-firebase/firestore@^12.0.0":
   "integrity" "sha512-Js+oz1hZG0DMPYV3wLIcAWTN0vmjv4ZRlFWoUXPyVFfF7QQapnb9T6iYZ7KPnAY0lITTX1yvtkxGSnY02vkq0Q=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-12.0.0.tgz"
@@ -8189,6 +8194,11 @@
   "integrity" "sha512-ni11jC6I9cFVXdLIDwkgafDHw/STXUNzkR5Fx3w8Wikdzi8gfTEan2kiOm7aS42d2F/LXddZ6i74Z2em0L6LPQ=="
   "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.3.0.tgz"
   "version" "3.3.0"
+
+"react-native-share@^7.0.0":
+  "integrity" "sha512-2ImJYJotFg3bTihNrQIqDKCAJ2xV0/MjGmH5MaC1GXDvGTeuU1L2/sFrJLHTAYi+K6D6VTWGbv5h9SzXtuo39Q=="
+  "resolved" "https://registry.npmjs.org/react-native-share/-/react-native-share-7.0.0.tgz"
+  "version" "7.0.0"
 
 "react-native-snap-carousel@^3.9.1":
   "integrity" "sha512-xWEGusacIgK1YaDXLi7Gao2+ISLoGPVEBR8fcMf4tOOJQufutlNwkoLu0l6B8Qgsrre0nTxoVZikRgGRDWlLaQ=="

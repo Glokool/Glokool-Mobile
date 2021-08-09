@@ -52,7 +52,6 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 
 import KakaoShareLink from 'react-native-kakao-share-link';
 
-
 type recommendation_Item = {
     _id: string;
     image: string;
@@ -168,44 +167,45 @@ export const SeriesBInfoScreen = (
     }
 
     const kakaoTest = async () => {
+
         // 현재 링크 클릭 시 첨부된 링크로 연결되지 않고
         // 앱의 메인 경로로만 연결됩니다 -> 해결 필요
-        try {
-            const response = await KakaoShareLink.sendFeed({
-                content: {
-                    title: content?.title,
-                    imageUrl:
-                        content?.cover,
-                    link: {
-                        webUrl: 'https://www.google.com',
-                        mobileWebUrl: 'https://www.google.com',
-                    },
-                    description: content?.smallTitle,
-                },
-                social: {
-                    likeCount: content?.plus.length,
-                    viewCount: content?.count,
-                },
-                buttons: [
-                    {
-                        title: 'Open in Glokool',
-                        link: {
-                            webUrl: 'https://www.google.com',
-                            mobileWebUrl: 'https://www.google.com',
-                            androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-                            iosExecutionParams: [
-                                { key: 'key1', value: 'value1' },
-                                { key: 'key2', value: 'value2' },
-                            ],
-                        },
-                    },
-                ],
-            });
-            console.log(response);
-        } catch (e) {
-            console.error(e);
-            console.error(e.message);
-        }
+        // try {
+        //     const response = await KakaoShareLink.sendFeed({
+        //         content: {
+        //             title: content?.title,
+        //             imageUrl:
+        //                 content?.cover,
+        //             link: {
+        //                 webUrl: 'https://www.google.com',
+        //                 mobileWebUrl: 'https://www.google.com',
+        //             },
+        //             description: content?.smallTitle,
+        //         },
+        //         social: {
+        //             likeCount: content?.plus.length,
+        //             viewCount: content?.count,
+        //         },
+        //         buttons: [
+        //             {
+        //                 title: 'Open in Glokool',
+        //                 link: {
+        //                     webUrl: 'https://www.google.com',
+        //                     mobileWebUrl: 'https://www.google.com',
+        //                     androidExecutionParams: [{ key: 'key1', value: 'value1' }],
+        //                     iosExecutionParams: [
+        //                         { key: 'key1', value: 'value1' },
+        //                         { key: 'key2', value: 'value2' },
+        //                     ],
+        //                 },
+        //             },
+        //         ],
+        //     });
+        //     console.log(response);
+        // } catch (e) {
+        //     console.error(e);
+        //     console.error(e.message);
+        // }
     }
 
     const RenderCarousel = (item: { item: ContentImg_Item; index: number }) => {
@@ -417,7 +417,7 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        {/* <Button title='Test Share' onPress={() => kakaoTest()}></Button> */}
+                        <Button title='Test Share' onPress={() => kakaoTest()}></Button>
                         {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
