@@ -16,7 +16,7 @@ import {
     Share,
     Platform
 } from 'react-native';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
     AngleLeft,
     PurpleArrow,
@@ -105,11 +105,6 @@ export const SeriesAInfoScreen = (
         return unsubscribe;
     }, []);
 
-    React.useEffect(() => {
-        InitSeries();
-        ScrollVewRef.current.scrollTo({ x: 0, y: 0, animated: false });
-        setCarouselIndex(0);
-    }, [Id]);
 
     // React.useEffect(()=>{
     //     setId(props.route.params.Id);
@@ -394,7 +389,9 @@ export const SeriesAInfoScreen = (
                             <Layout style={styles.CheckMoreLayoutStyle}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        setId(item._id);
+                                        // 이전에 있었던 화면은 사라집니다...
+                                        props.navigation.pop()
+                                        props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id });
                                     }}>
                                     <Image
                                         source={{ uri: item.image }}
