@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
@@ -20,12 +20,16 @@ import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
 import { ProfileModal } from './chat.profile.component';
+import { AuthContext } from '../../context/AuthContext';
+
 
 export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     // RECENT 에서는 지난 예약들을 볼 수 있습니당
     const user = auth().currentUser;
-    const [data, setData] = React.useState<Array<GloChatData>>([]);
 
+    const userContext = useContext(AuthContext);
+
+    const [data, setData] = React.useState<Array<GloChatData>>([]);
     const [guide, setGuide] = useState({});
     const [guideVisible, setGuideVisible] = useState(false);
     const [ENG, setENG] = useState(false);
@@ -47,17 +51,20 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     }, [guideVisible])
 
     async function InitNowList() {
-        const Token = await user?.getIdToken(true);
-        const AxiosConfig = {
-            method: 'get',
-            url: SERVER + '/api/users/reservations/past',
-            headers: {
-                'Authorization': 'Bearer ' + Token
+
+        if (userContext.currentUser) {
+            const Token = await user?.getIdToken(true);
+            const AxiosConfig = {
+                method: 'get',
+                url: SERVER + '/api/users/reservations/past',
+                headers: {
+                    'Authorization': 'Bearer ' + Token
+                }
             }
+            const RevData = await axios(AxiosConfig);
+            setData(RevData.data);
+            console.log(RevData.data)
         }
-        const RevData = await axios(AxiosConfig);
-        setData(RevData.data);
-        console.log(RevData.data)
     }
 
     function PressChatRoom(item: GloChatData) {
@@ -172,7 +179,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                         contentContainerStyle={{ paddingBottom: 500 }}
                     />
                     {/* 가이드 프로필 모달 */}
-                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route}  />
+                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route} />
 
                 </Layout>
             }
