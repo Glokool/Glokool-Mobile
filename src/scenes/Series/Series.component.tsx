@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Divider, Layout, LayoutElement, } from '@ui-kitten/components'
 import {
     StyleSheet,
@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     ScrollView,
     BackHandler,
+    Image,
     Button
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
@@ -22,9 +23,17 @@ import { SeriesCarousel } from '../../component/Series/Series.Carousel';
 import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import Toast from 'react-native-easy-toast';
 import { useFocusEffect } from '@react-navigation/native';
+import { FlatGrid } from 'react-native-super-grid';
 
 
-
+type Series_Item = {
+    banner: string,
+    title: string,
+    _id: string,
+    loc: string,
+    region: string,
+  }
+  
 
 var ToastRef: any;
 
@@ -34,10 +43,16 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
 
+    const [hiddenGem, setHiddenGem] = React.useState();
+    const [seriesA, setSeriesA] = React.useState();
+
     var exitApp: any = undefined;
     var timeout: any;
 
-   
+    useEffect(()=>{
+        initHiddenGem();
+        console.log(hiddenGem);
+    })
 
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -69,6 +84,36 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
+    const initHiddenGem = async () => {
+        const config = {
+            Method: "get",
+            url: SERVER + "/api/main-tours",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+          };
+      
+          var Content = await axios(config);
+          var Data = Content.data;
+          Data.sort(function (a, b) {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
+          setHiddenGem(Content.data);
+    }
+
+    const initSeriesA = () => {
+
+    }
+
+    const renderItem = (item: { index: number, item: Series_Item}) => {
+        return (
+            <Layout style={{flex:1, alignItems:'center', justifyContent:'center', borderRadius:10, overflow:'hidden'}}>
+                <Image source={{uri: item.item.banner}} style={{width:110, height:110,}} resizeMode={'stretch'}/>
+                {/* <Text>{item.item.title}</Text> */}
+            </Layout>
+        )
+    }
+
     return (
         <Layout>
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
@@ -76,11 +121,17 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             <ScrollView
                 style={{ backgroundColor: 'white', height: '100%' }}
                 showsVerticalScrollIndicator={false}>
+
+                <FlatGrid
+                    itemDimension={100}
+                    data={hiddenGem}
+                    renderItem={renderItem}
+                />
                 {/* 시리즈 캐러셀 */}
-                <SeriesCarousel />
+                {/* <SeriesCarousel /> */}
 
                 {/* hidden gems title */}
-                <Layout style={styles.seriesHidden1}>
+                {/* <Layout style={styles.seriesHidden1}>
                     <Layout style={styles.seriesHiddenLayout}>
                         <HiddenGem_Title />
                         <Text
@@ -102,10 +153,10 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 <SeriesFlatlist
                     navigation={props.navigation}
                     route={props.route}
-                />
+                /> */}
 
                 {/* seriesA title - 카드뉴스*/}
-                <Layout style={styles.seriesHidden}>
+                {/* <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>
                         <Content />
                         <Text
@@ -122,10 +173,10 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 <SeriesAFlatlist
                     navigation={props.navigation}
                     route={props.route}
-                />
+                /> */}
 
                 {/* seriesB title - 블로그 */}
-                <Layout style={styles.seriesHidden}>
+                {/* <Layout style={styles.seriesHidden}>
                     <Layout style={styles.seriesHiddenLayout}>
                         <Blog style={{}} />
                         <Text
@@ -146,8 +197,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     route={props.route}
                 />
 
-                <Layout style={{ height: 220 }} />
-                
+                <Layout style={{ height: 220 }} /> */}
+
             </ScrollView>
         </Layout>
     );

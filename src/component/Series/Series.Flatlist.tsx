@@ -41,6 +41,7 @@ export const SeriesFlatlist = (props: SeriesFlatlistProps): LayoutElement => {
     InitSeries();
   }, []);
 
+  
   async function InitSeries() {
 
     const config = {
