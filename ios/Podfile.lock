@@ -806,7 +806,7 @@ PODS:
   - RNFBApp (12.3.0):
     - Firebase/CoreOnly (= 8.4.0)
     - React-Core
-  - RNFBAuth (12.1.0):
+  - RNFBAuth (12.3.0):
     - Firebase/Auth (= 8.4.0)
     - React-Core
     - RNFBApp
@@ -1157,9 +1157,9 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Braintree: 94a20907b70aeffb29c40380eec583d783a347b6
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: 005754c0b6a5a2ae3460880980555c31f1b1561b
+  FBReactNativeSpec: 0dcfb6176b5e9890b9026d423ffbdb43945395c5
   FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
   FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
   FBSDKShareKit: 70889c97c62f0c6b3ccb8b999e73a85f19024001
@@ -1174,7 +1174,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 1585729afc787877763208c2088ed84221161f77
   FirebaseMessaging: 78025c56654f05c7ebd6f7f87f9d4b12c5231207
   FirebaseStorage: e6065bcbf70e2a06a8c3ddc66cbe03a395bbddc4
-  glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
+  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleAppMeasurement: 6b6a08fd9c71f4dbc89e0e812acca81d797aa342
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
@@ -1239,7 +1239,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: 64c90ab78b6010ed5c3ade026dfe5ff6442c21fd
-  RNFBAuth: ddd40d15c503bc2509ea16141b03c583bbe6484f
+  RNFBAuth: 59fe503707ab7bd2c2790ac5b7a11d4e14b44452
   RNFBDatabase: abef43a3e34644f5947771df74484f5bb417310e
   RNFBFirestore: 50e46b26ebcce75c64ab2e10c85edda51d2280c7
   RNFBMessaging: 48ad50a79ac4b035d27cf8e7536307e8a1155abb

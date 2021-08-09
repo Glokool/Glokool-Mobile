@@ -16,10 +16,6 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
     
     const { currentUser } = useContext(AuthContext);
     
-    React.useEffect(()=>{
-        console.log('home toptab current user: ' + currentUser?.displayName)
-    })
-
     const name =
         currentUser?.displayName === null || currentUser?.displayName === ''
             ? 'Glokool'

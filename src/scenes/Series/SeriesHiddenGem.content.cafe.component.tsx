@@ -276,7 +276,7 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Contact />
-                            <SelectableText style={styles.InfoDetailText} item={'  Call'} />
+                            <Text style={styles.InfoDetailText}>{'  Call'}</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -291,7 +291,8 @@ export const SeriesHiddenGemContentCafe = (
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <SelectableText style={styles.InfoDetailText} item={'  SNS'} />
+                            {/* <SelectableText style={styles.InfoDetailText} item={'  SNS'} /> */}
+                            <Text style={styles.InfoDetailText}>{'  SNS'}</Text>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -518,6 +519,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginTop: 30,
         marginBottom: 0,
+        color: 'black'
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Medium',
@@ -525,6 +527,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginTop: 0,
         marginBottom: 10,
+        color: 'black'
     },
     GlochatContainer: {
         // shadowColor: '#000',
@@ -673,6 +676,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontFamily: 'IBMPlexSansKR-SemiBold',
         fontSize: 14,
+        color: 'black'
     },
     InfoDetailText2: {
         flex: 2,
@@ -704,6 +708,7 @@ const styles = StyleSheet.create({
     EditorNoteTitle: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 20,
+        color: 'black'
     },
     EditorNoteContainer: {
         // flexDirection: 'row',
