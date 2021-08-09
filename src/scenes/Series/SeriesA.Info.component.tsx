@@ -44,7 +44,8 @@ import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
-import Share from 'react-native-share';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 type recommendation_Item = {
     _id: string;
@@ -95,6 +96,8 @@ export const SeriesAInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
+    const [Glochat, setGlochat] = React.useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -119,7 +122,7 @@ export const SeriesAInfoScreen = (
         //     url: 'https://google.com',
         //     social: Share.Social.INSTAGRAM,
         //   };
-        
+
         //   Share.shareSingle(shareOptions)
         //     .then((res) => { console.log(res) })
         //     .catch((err) => { err && console.log(err); });
@@ -131,7 +134,7 @@ export const SeriesAInfoScreen = (
             contentDescription: 'Open in Glokool',
         };
 
-        const result = await ShareDialog.canShow(content).then((canShow)=>{
+        const result = await ShareDialog.canShow(content).then((canShow) => {
             if (canShow) {
                 return ShareDialog.show(content);
             }
@@ -400,11 +403,18 @@ export const SeriesAInfoScreen = (
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        <Button title="Share to Others" onPress={() => shareItems()} />
+                        {/* <Button title="Share to Others" onPress={() => shareItems()} /> */}
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
                     </Layout>
+
+                    {/* 글로챗 컨테이너 */}
+                    {/* DB 에서 정보 받아오고 나서 주석 해제 */}
+                    {/* <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                        <Service />
+                    </TouchableOpacity>
+                    <ServiceModal isVisible={Glochat} data={data} /> */}
 
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>

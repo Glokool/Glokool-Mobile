@@ -49,6 +49,8 @@ import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 import KakaoShareLink from 'react-native-kakao-share-link';
 
@@ -119,6 +121,8 @@ export const SeriesBInfoScreen = (
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
+    const [Glochat, setGlochat] = React.useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -417,7 +421,7 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        <Button title='Test Share' onPress={() => kakaoTest()}></Button>
+                        {/* <Button title='Test Share' onPress={() => kakaoTest()}></Button> */}
                         {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
@@ -460,6 +464,12 @@ export const SeriesBInfoScreen = (
                                 <SelectableText style={styles.ContentTitleTxt} item={item.title} />
                                 <SelectableText style={styles.ContentDescTxt} item={item.desc} />
                             </Layout>
+                            {/* 글로챗 컨테이너 */}
+                            {/* DB 에서 정보 받아오고 나서 주석 해제 */}
+                            {/* <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                                <Service />
+                            </TouchableOpacity>
+                            <ServiceModal isVisible={Glochat} data={data} /> */}
                         </Layout>
                     ))}
 

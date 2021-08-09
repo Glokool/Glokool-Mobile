@@ -36,6 +36,8 @@ import {
 } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -100,6 +102,13 @@ export const SeriesHiddenGemContentCafe = (
     React.useEffect(() => {
         InitContentAttr();
     }, []);
+
+    // modal 에 true 전달 후 false 로 초기화
+    React.useEffect(()=>{
+        if(Glochat) {
+            setGlochat(false);
+        }
+    },[Glochat])
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
@@ -174,30 +183,10 @@ export const SeriesHiddenGemContentCafe = (
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
-                <Layout style={styles.GlochatContainer}>
-                    <TouchableOpacity
-                        style={styles.GlochatButtonContainer}
-                        onPress={() => setGlochat(!Glochat)}>
-                        <Layout style={styles.GlochatTextContainer}>
-                            <GlokoolService />
-                            <Text style={styles.GloChatText}>
-                                {' '}
-                                Glo-Chat Service
-                            </Text>
-                        </Layout>
-
-                        {Glochat ? <AngleUp /> : <AngleDown />}
-                    </TouchableOpacity>
-
-                    {Glochat
-                        ? data?.glokoolService.map((item, index) => (
-                            <Text style={styles.IndexText}>
-                                {index + 1}
-                                <Text>{`    ${item}`}</Text>{' '}
-                            </Text>
-                        ))
-                        : null}
-                </Layout>
+                <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                    <Service />
+                </TouchableOpacity>
+                <ServiceModal isVisible={Glochat} data={data}/>
 
                 {/* 시그니처 메뉴 컨테이너 */}
                 <Layout>
