@@ -120,7 +120,7 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
                         <Layout style={styles.InfoContainer2}>
                             <Text style={styles.info}>{moment(data.day).format('YYYY . MM . DD')}</Text>
-                            <Text style={styles.info}>{(data.guide.name === '')? ` ` : `${data.guide.name}` }</Text>
+                            <Text style={styles.info}>{(data.guide?.name === undefined)? ` ` : `${data.guide.name}` }</Text>
                             <Text style={styles.info}>{(data.lang === 'eng')? `English` : `Chinese`}</Text>
                         </Layout>
 
