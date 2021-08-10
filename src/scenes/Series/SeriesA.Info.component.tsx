@@ -13,7 +13,8 @@ import {
     processColor,
     Linking,
     Button,
-    Platform
+    Platform,
+    Share as OGshare,
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import {
@@ -45,6 +46,7 @@ import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
+import RNFetchBlob from 'rn-fetch-blob';
 
 type recommendation_Item = {
     _id: string;
@@ -95,6 +97,8 @@ export const SeriesAInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
+    const [testImage, setTestImage] = React.useState();
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -116,43 +120,95 @@ export const SeriesAInfoScreen = (
     //     setId(props.route.params.Id);
     // })
 
-    const shareItems = async () => {
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", image[0], true);
+        xhr.responseType = "blob";
+        xhr.onload = function (e) {
+            //console.log(this.response);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setTestImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
 
-        // const shareOptions = {
-        //     title: 'Share via',
-        //     message: 'some message',
-        //     url: 'https://google.com',
-        //     social: Share.Social.INSTAGRAM,
-        //   };
-        
-        //   Share.shareSingle(shareOptions)
-        //     .then((res) => { console.log(res) })
-        //     .catch((err) => { err && console.log(err); });
+    }
 
-        //facebook 에 공유하는 부분
+    // facebook 에 이미지 공유하는 함수
+    // 실행하면 앱 꺼짐 ㅜㅜ
+    const fetchBlob = async () => {
+
+        // // const res = await RNFetchBlob.config({
+        // //     fileCache: true,
+        // // }).fetch('GET', image[0])
+
+        // // console.log(testImage);
+
+
+        // const content: any = {
+        //     contentType: 'photo',
+        //     photos: [{ imageUrl: './test.png' }],
+        // };
+
+        // const result = await ShareDialog.canShow(content).then((canShow) => {
+        //     if (canShow) {
+        //         ShareDialog.show(content);
+        //     }
+        // }).catch((e) => console.log(e));
+
+
+
+        // console.log(result);
+    }
+
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크테스트)
         const content = {
             contentType: 'link',
-            contentUrl: "https://google.com",
-            contentDescription: 'Open in Glokool',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: 'open in glokool app',
         };
 
-        const result = await ShareDialog.canShow(content).then((canShow)=>{
+        const result = await ShareDialog.canShow(content).then((canShow) => {
             if (canShow) {
                 return ShareDialog.show(content);
             }
-        })
-
+        }).catch((e)=>console.log(e));
         console.log(result);
+    }
+
+    // sns 공유 메소드
+    const shareItems = async () => {
+
+        encodeBase64Img();
+        console.log(testImage);
+
+        // // sns 공유
+        // const shareOptions = {
+        //     title: 'Share Contents',
+        //     message: 'Download Glokool App',
+        //     url: testImage,
+        // };
+
+        // Share.open(shareOptions);
+
+
 
         // 경로 설정해서 공유하는 부분
-        // try {
-        //     const result = await Share.share({
-        //         url: "glokool://app/main/series/series-a/" + props.route.params.Id,
-        //         message: "Open in Glokool Application",
-        //     })
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        try {
+            const result = await OGshare.share({
+                url: testImage,
+                message: "Open in Glokool Application",
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const appIsRunning = () => {
@@ -406,6 +462,7 @@ export const SeriesAInfoScreen = (
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
                         <Button title="Share to Others" onPress={() => shareItems()} />
+                        <Button title="facebook test" onPress={() => fetchBlob()} />
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
