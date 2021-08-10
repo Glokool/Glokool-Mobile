@@ -180,7 +180,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             <Text style={styles.GuideProfileTxt1}>
                                 Travel Assistant
                             </Text>
-                            {item.item.guide.uid === '' ? (
+                            {item.item.guide?.uid === '' ||
+                            item.item.guide?.uid === undefined ||
+                            item.item.guide?.uid === null ? (
                                 <Text style={styles.GuideProfileTxt3}>
                                     Matching... please wait :)
                                 </Text>
