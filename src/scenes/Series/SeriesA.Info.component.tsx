@@ -10,8 +10,6 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    processColor,
-    Linking,
     Button,
     Platform,
     Share as ShareRN
@@ -47,7 +45,6 @@ import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
-import { contextType } from 'lottie-react-native';
 
 type recommendation_Item = {
     _id: string;
@@ -105,7 +102,7 @@ export const SeriesAInfoScreen = (
 
     React.useEffect(() => {
         encodeBase64Img();
-    }, []);
+    }, [content]);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -134,29 +131,13 @@ export const SeriesAInfoScreen = (
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
+                console.log(res);
                 setShareImage(res);
             }
             var file = this.response;
             reader.readAsDataURL(file)
         };
         xhr.send()
-
-    }
-
-    // facebook 에 이미지 공유하는 함수
-    // 실행하면 앱 꺼짐 ㅜㅜ
-    const sharingTest = async () => {
-
-        const imageUrl = 'data:image/png;base64<' + shareImage + '>';
-
-        const ShareOptions = {
-            title: 'Title',
-            message: 'Message to share https://glokool.page.link/jdF1', // Note that according to the documentation at least one of "message" or "url" fields is required
-            url: `data:image/png;base64,${shareImage}`,
-            subject: 'Subject'
-        }
-
-        ShareRN.share(ShareOptions);
 
     }
 
@@ -181,7 +162,7 @@ export const SeriesAInfoScreen = (
 
         console.log(content?.title)
 
-        console.log(shareImage);
+        // console.log(shareImage);
 
         // // sns 공유
         const shareOptions = {
@@ -194,7 +175,6 @@ glokool.page.link/jdF1`,
         };
 
         Share.open(shareOptions);
-
     }
 
     async function InitSeries() {

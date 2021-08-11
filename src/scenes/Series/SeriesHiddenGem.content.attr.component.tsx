@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Button
 } from 'react-native';
 import {
     AngleDown,
@@ -34,6 +35,8 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -98,10 +101,15 @@ export const SeriesHiddenGemContentAttr = (
     const [infoPos, setInfoPos] = React.useState<number>(0);
     const [detailPos, setDetailPos] = React.useState<number>(0);
     const [instaPos, setInstaPos] = React.useState<number>(0);
+    const [shareImage, setShareImage] = React.useState();
 
     React.useEffect(() => {
         InitContentAttr();
     }, []);
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, [data]);
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
@@ -148,6 +156,61 @@ export const SeriesHiddenGemContentAttr = (
         }
     }
 
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
+            contentType: 'link',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
+        };
+
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+            if (canShow) {
+                return ShareDialog.show(sharingOptions);
+            }
+        }).catch((e) => console.log(e));
+    }
+
+    // sns 공유 메소드
+    const shareItems = async () => {
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${data?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+
+        Share.open(shareOptions);
+
+    }
+
+
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", data.cover, true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function (e) {
+            //console.log(this.response);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
+
+    }
+
+
     return (
         <Layout style={styles.MainContainer}>
 
@@ -171,6 +234,8 @@ export const SeriesHiddenGemContentAttr = (
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
+                    <Button title="share test" onPress={() => shareItems()} />
+                    <Button title="facebook test" onPress={() => facebookShare()} />
                     <SelectableText style={styles.TitleText} item={data?.title} />
                     <SelectableText style={styles.DescText} item={data?.desc} />
                 </Layout>
@@ -342,8 +407,8 @@ export const SeriesHiddenGemContentAttr = (
                                 <SelectableText style={styles.EditorNoteText} item={item} />
                             </Layout>
                             {index == data.editorNote.length - 1 ?
-                                
-                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height:80, marginLeft: -30, alignItems: 'center', justifyContent:'center' }}>
+
+                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height: 80, marginLeft: -30, alignItems: 'center', justifyContent: 'center' }}>
                                     <Image source={require('../../assets/content/editor_note.png')} style={{ width: WindowSize + 60, resizeMode: 'contain' }} />
                                 </Layout>
                                 :

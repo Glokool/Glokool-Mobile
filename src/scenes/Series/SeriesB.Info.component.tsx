@@ -13,7 +13,6 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Share,
     Pressable,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
@@ -49,7 +48,8 @@ import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
-
+import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
 import KakaoShareLink from 'react-native-kakao-share-link';
 
 type recommendation_Item = {
@@ -119,11 +119,17 @@ export const SeriesBInfoScreen = (
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
+    const [shareImage, setShareImage] = React.useState();
     const user = auth().currentUser;
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
     console.log(Id)
+
+    React.useEffect(()=>{
+        encodeBase64Img();
+    },[content]);
+
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
@@ -131,6 +137,7 @@ export const SeriesBInfoScreen = (
 
         return unsubscribe;
     }, []);
+
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
@@ -207,6 +214,57 @@ export const SeriesBInfoScreen = (
             console.error(e.message);
         }
     }
+
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
+            contentType: 'link',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
+        };
+
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+            if (canShow) {
+                return ShareDialog.show(sharingOptions);
+            }
+        }).catch((e) => console.log(e));
+    }
+
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", content?.cover, true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function (e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
+    }
+
+    // sns 공유 메소드
+    const shareItems = async () => {
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+        Share.open(shareOptions);
+
+    }
+
 
     const RenderCarousel = (item: { item: ContentImg_Item; index: number }) => {
         return (
@@ -417,7 +475,8 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        <Button title='Test Share' onPress={() => kakaoTest()}></Button>
+                        <Button title='Test Share' onPress={() => shareItems()}></Button>
+                        <Button title='facebook Share' onPress={() => facebookShare()}></Button>
                         {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
