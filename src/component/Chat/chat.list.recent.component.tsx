@@ -132,7 +132,18 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                 <Layout style={styles.GuideContainer}>
                     <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
                         <Layout style={styles.GuideAvatarContainer}>
-                            <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'} />
+                            {item.item.guide?.avatar != undefined &&
+                                item.item.guide?.avatar != null ? (
+                                <Image
+                                    source={{ uri: item.item.guide?.avatar }}
+                                    style={styles.GuideAvatar}
+                                />
+                            ) : (
+                                <Image
+                                    source={require('../../assets/profile/profile_01.png')}
+                                    style={styles.GuideAvatar}
+                                />
+                            )}
                         </Layout>
                     </TouchableOpacity>
 
@@ -267,7 +278,9 @@ const styles = StyleSheet.create({
     GuideAvatar: {
         width: 50,
         height: 50,
-        borderRadius: 50
+        borderRadius: 50,
+        borderWidth: 0.5,
+        borderColor: '#ccc',
     },
     GuideProfileContainer: {
         marginLeft: 10,
