@@ -63,12 +63,12 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
             }
             const RevData = await axios(AxiosConfig);
             setData(RevData.data);
-            console.log(RevData.data)
+            // console.log(RevData.data)
         }
     }
 
     function PressChatRoom(item: GloChatData) {
-        console.log('go to chat ');
+        // console.log('go to chat ');
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: { name: item.guide.name, uid: item.guide.uid },
@@ -93,7 +93,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                console.log(res.data);
+                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,

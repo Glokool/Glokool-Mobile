@@ -11,14 +11,14 @@ export const ProfileModal = (props: any) => {
     const [guideVisible, setGuideVisible] = useState(false);
 
     useEffect(() => {
-        console.log(props);
+        // console.log(props);
         if (props.isVisible) {
             setGuideVisible(true);
         }
     })
 
     const helpButton = () => {
-        console.log("PARAMS",props.route.params);
+        // console.log("PARAMS",props.route.params);
         props.navigation.navigate(SceneRoute.CHAT_HELP, {
             id: props.route.params.id,
             guide: {
@@ -32,7 +32,7 @@ export const ProfileModal = (props: any) => {
     return (
         <>
             < Modal
-                style={{ padding: 20 }}
+                style={{ padding: 20, width:'100%' }}
                 visible={guideVisible}
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setGuideVisible(false)}

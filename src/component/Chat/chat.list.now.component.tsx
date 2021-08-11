@@ -131,7 +131,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         const DDay = moment(item.item.day).diff(Today, 'days');
         const ItemDay = (new Date(item.item.day)).getDate();
 
-        console.log("REDI", item.item.guide);
+        // console.log("REDI", item.item.guide);
 
         return (
             <Layout style={styles.ChatLayout}>
