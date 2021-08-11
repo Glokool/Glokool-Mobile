@@ -80,7 +80,7 @@ export const ProfileModal = (props: any) => {
 
                         <Layout style={{ flexDirection: 'row' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
-                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN ? '中文' : null}</Text>
+                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN || props.CHN != '' ? '中文' : null} {props.CHN}</Text>
                         </Layout>
 
                         <Layout style={{ flexDirection: 'row', marginTop: 3, }}>

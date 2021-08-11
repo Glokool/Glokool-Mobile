@@ -60,7 +60,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             // GloChatData 는 index.ts 에서 type 으로 export 되어있음
             setData(RevData.data);
             setLoading(false);
-        } 
+        }
     }
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
@@ -111,6 +111,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 })
                 if (res.data.lang.length == 1) {
                     setENG(true);
+                    setCHN(false);
                 }
                 else {
                     if (res.data.lang[0]) { setENG(true); }
@@ -182,7 +183,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             <Text style={styles.GuideProfileTxt1}>
                                 Travel Assistant
                             </Text>
-                            {item.item.guide.uid === '' ? (
+                            {item.item.guide?.uid === '' ||
+                                item.item.guide?.uid === undefined ||
+                                item.item.guide?.uid === null ? (
                                 <Text style={styles.GuideProfileTxt3}>
                                     Matching... please wait :)
                                 </Text>

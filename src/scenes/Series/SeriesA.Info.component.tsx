@@ -109,66 +109,17 @@ export const SeriesAInfoScreen = (
         return unsubscribe;
     }, []);
 
-
-    // React.useEffect(()=>{
-    //     setId(props.route.params.Id);
-    // })
-
-    const shareItems = async () => {
-
-        // const shareOptions = {
-        //     title: 'Share via',
-        //     message: 'some message',
-        //     url: 'https://google.com',
-        //     social: Share.Social.INSTAGRAM,
-        //   };
-
-        //   Share.shareSingle(shareOptions)
-        //     .then((res) => { console.log(res) })
-        //     .catch((err) => { err && console.log(err); });
-
-        //facebook 에 공유하는 부분
-        const content = {
-            contentType: 'link',
-            contentUrl: "https://google.com",
-            contentDescription: 'Open in Glokool',
-        };
-
-        const result = await ShareDialog.canShow(content).then((canShow) => {
-            if (canShow) {
-                return ShareDialog.show(content);
-            }
-        })
-
-        console.log(result);
-
-        // 경로 설정해서 공유하는 부분
-        // try {
-        //     const result = await Share.share({
-        //         url: "glokool://app/main/series/series-a/" + props.route.params.Id,
-        //         message: "Open in Glokool Application",
-        //     })
-        // } catch (e) {
-        //     console.log(e);
-        // }
-    }
-
-    const appIsRunning = () => {
-        Linking.addEventListener('url', (e) => {
-            const route = e.url.replace(/.*?:\/\//g, '');
-            console.log(e.url);
-        })
-    }
-
-    const catchURL = () => {
-        Linking.getInitialURL()
-            .then((url) => {
-                console.log(url);
-            })
-    }
+    // 모달 컴포넌트에 bool 값 전달후 바로 초기화
+    React.useEffect(()=>{
+        if(Glochat) {
+            setGlochat(false);
+        }
+    },[Glochat])
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
+
+        console.log(Content.data);
 
         setContent(Content.data);
         setImage(Content.data.images);
@@ -410,11 +361,10 @@ export const SeriesAInfoScreen = (
                     </Layout>
 
                     {/* 글로챗 컨테이너 */}
-                    {/* DB 에서 정보 받아오고 나서 주석 해제 */}
-                    {/* <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                    <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
                         <Service />
                     </TouchableOpacity>
-                    <ServiceModal isVisible={Glochat} data={data} /> */}
+                    <ServiceModal isVisible={Glochat} data={content} />
 
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>

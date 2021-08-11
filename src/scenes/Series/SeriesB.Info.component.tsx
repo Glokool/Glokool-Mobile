@@ -122,12 +122,21 @@ export const SeriesBInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
     const [Glochat, setGlochat] = React.useState(false);
+    const [modalItem, setModalItem] = React.useState();
 
     const user = auth().currentUser;
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
-    console.log(Id)
+    // console.log(Id)
+    
+    // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
+    React.useEffect(() => {
+        if (Glochat) {
+            setGlochat(false);
+        }
+    }, [Glochat])
+
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
@@ -135,8 +144,12 @@ export const SeriesBInfoScreen = (
 
         return unsubscribe;
     }, []);
+
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
+
+        console.log(Content.data);
+
         setContent(Content.data);
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
@@ -170,46 +183,11 @@ export const SeriesBInfoScreen = (
         }
     }
 
-    const kakaoTest = async () => {
-
-        // 현재 링크 클릭 시 첨부된 링크로 연결되지 않고
-        // 앱의 메인 경로로만 연결됩니다 -> 해결 필요
-        // try {
-        //     const response = await KakaoShareLink.sendFeed({
-        //         content: {
-        //             title: content?.title,
-        //             imageUrl:
-        //                 content?.cover,
-        //             link: {
-        //                 webUrl: 'https://www.google.com',
-        //                 mobileWebUrl: 'https://www.google.com',
-        //             },
-        //             description: content?.smallTitle,
-        //         },
-        //         social: {
-        //             likeCount: content?.plus.length,
-        //             viewCount: content?.count,
-        //         },
-        //         buttons: [
-        //             {
-        //                 title: 'Open in Glokool',
-        //                 link: {
-        //                     webUrl: 'https://www.google.com',
-        //                     mobileWebUrl: 'https://www.google.com',
-        //                     androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-        //                     iosExecutionParams: [
-        //                         { key: 'key1', value: 'value1' },
-        //                         { key: 'key2', value: 'value2' },
-        //                     ],
-        //                 },
-        //             },
-        //         ],
-        //     });
-        //     console.log(response);
-        // } catch (e) {
-        //     console.error(e);
-        //     console.error(e.message);
-        // }
+    // glo-chat service 클릭 시 visible = true
+    // item 을 전달받아서 set 해줍니다!
+    const pressService = (item: any) => {
+        setGlochat(!Glochat);
+        setModalItem(item);
     }
 
     const RenderCarousel = (item: { item: ContentImg_Item; index: number }) => {
@@ -464,14 +442,16 @@ export const SeriesBInfoScreen = (
                                 <SelectableText style={styles.ContentTitleTxt} item={item.title} />
                                 <SelectableText style={styles.ContentDescTxt} item={item.desc} />
                             </Layout>
-                            {/* 글로챗 컨테이너 */}
-                            {/* DB 에서 정보 받아오고 나서 주석 해제 */}
-                            {/* <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+
+                            {/* 글로서비스 컨테이너 */}
+                            <TouchableOpacity onPress={() => pressService(item)}>
                                 <Service />
                             </TouchableOpacity>
-                            <ServiceModal isVisible={Glochat} data={data} /> */}
+
                         </Layout>
                     ))}
+                    {/* 글로서비스 모달 */}
+                    {/* <ServiceModal isVisible={Glochat} data={modalItem} /> */}
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
