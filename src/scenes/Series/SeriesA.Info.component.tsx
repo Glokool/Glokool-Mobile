@@ -14,7 +14,7 @@ import {
     Linking,
     Button,
     Platform,
-    Share as OGshare,
+    Share as ShareRN
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import {
@@ -35,6 +35,7 @@ import {
     Comments5,
     Comments6,
     Comments6_s,
+    Content,
 } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -46,7 +47,7 @@ import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
-import RNFetchBlob from 'rn-fetch-blob';
+import { contextType } from 'lottie-react-native';
 
 type recommendation_Item = {
     _id: string;
@@ -97,10 +98,14 @@ export const SeriesAInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
-    const [testImage, setTestImage] = React.useState();
+    const [shareImage, setShareImage] = React.useState();
 
     const user = auth().currentUser;
     const uid = user?.uid;
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, []);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -116,22 +121,20 @@ export const SeriesAInfoScreen = (
         setCarouselIndex(0);
     }, [Id]);
 
-    // React.useEffect(()=>{
-    //     setId(props.route.params.Id);
-    // })
-
     // url 형식의 이미지를 base64 형식으로 encoding
     // 해당 과정이 없으면 이미지 공유 불가능!!
     const encodeBase64Img = async () => {
         var xhr = new XMLHttpRequest();
+
         xhr.open("GET", image[0], true);
         xhr.responseType = "blob";
+
         xhr.onload = function (e) {
             //console.log(this.response);
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
-                setTestImage(res);
+                setShareImage(res);
             }
             var file = this.response;
             reader.readAsDataURL(file)
@@ -142,87 +145,56 @@ export const SeriesAInfoScreen = (
 
     // facebook 에 이미지 공유하는 함수
     // 실행하면 앱 꺼짐 ㅜㅜ
-    const fetchBlob = async () => {
+    const sharingTest = async () => {
 
-        // // const res = await RNFetchBlob.config({
-        // //     fileCache: true,
-        // // }).fetch('GET', image[0])
+        const imageUrl = 'data:image/png;base64<' + shareImage + '>';
 
-        // // console.log(testImage);
+        const ShareOptions = {
+            title: 'Title',
+            message: 'Message to share https://glokool.page.link/jdF1', // Note that according to the documentation at least one of "message" or "url" fields is required
+            url: `data:image/png;base64,${shareImage}`,
+            subject: 'Subject'
+        }
 
+        ShareRN.share(ShareOptions);
 
-        // const content: any = {
-        //     contentType: 'photo',
-        //     photos: [{ imageUrl: './test.png' }],
-        // };
-
-        // const result = await ShareDialog.canShow(content).then((canShow) => {
-        //     if (canShow) {
-        //         ShareDialog.show(content);
-        //     }
-        // }).catch((e) => console.log(e));
-
-
-
-        // console.log(result);
     }
 
     const facebookShare = async () => {
-        // facebook 에 공유하는 부분 (링크테스트)
-        const content = {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
-            quote: 'open in glokool app',
+            quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
         };
 
-        const result = await ShareDialog.canShow(content).then((canShow) => {
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
             if (canShow) {
-                return ShareDialog.show(content);
+                return ShareDialog.show(sharingOptions);
             }
-        }).catch((e)=>console.log(e));
+        }).catch((e) => console.log(e));
         console.log(result);
     }
 
     // sns 공유 메소드
     const shareItems = async () => {
 
-        encodeBase64Img();
-        console.log(testImage);
+        console.log(content?.title)
+
+        console.log(shareImage);
 
         // // sns 공유
-        // const shareOptions = {
-        //     title: 'Share Contents',
-        //     message: 'Download Glokool App',
-        //     url: testImage,
-        // };
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
 
-        // Share.open(shareOptions);
+        Share.open(shareOptions);
 
-
-
-        // 경로 설정해서 공유하는 부분
-        try {
-            const result = await OGshare.share({
-                url: testImage,
-                message: "Open in Glokool Application",
-            })
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const appIsRunning = () => {
-        Linking.addEventListener('url', (e) => {
-            const route = e.url.replace(/.*?:\/\//g, '');
-            console.log(e.url);
-        })
-    }
-
-    const catchURL = () => {
-        Linking.getInitialURL()
-            .then((url) => {
-                console.log(url);
-            })
     }
 
     async function InitSeries() {
@@ -462,7 +434,7 @@ export const SeriesAInfoScreen = (
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
                         <Button title="Share to Others" onPress={() => shareItems()} />
-                        <Button title="facebook test" onPress={() => fetchBlob()} />
+                        <Button title="facebook test" onPress={() => facebookShare()} />
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
