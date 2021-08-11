@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Divider, Layout, LayoutElement, } from '@ui-kitten/components'
 import {
     StyleSheet,
@@ -8,7 +8,8 @@ import {
     ScrollView,
     BackHandler,
     Image,
-    Button
+    Button,
+    View
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -24,7 +25,12 @@ import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import Toast from 'react-native-easy-toast';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatGrid } from 'react-native-super-grid';
-import { SeriesGrid } from '../../component/Series'
+import { SeriesGrid } from '../../component/Series';
+import * as Animatable from 'react-native-animatable';
+import FastImage from 'react-native-fast-image';
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+
+
 
 type Series_Item = {
     banner: string,
@@ -32,8 +38,8 @@ type Series_Item = {
     _id: string,
     loc: string,
     region: string,
-  }
-  
+}
+
 
 var ToastRef: any;
 
@@ -46,8 +52,36 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [hiddenGem, setHiddenGem] = React.useState();
     const [seriesA, setSeriesA] = React.useState();
 
+    const [gesture, setGesture] = useState();
+    const [animation, setAnimation] = useState<String>();
+
+    const config = {
+        velocityThreshold: 0.3,
+        directionalOffsetThreshold: 80
+    };
+
     var exitApp: any = undefined;
     var timeout: any;
+
+    const onSwipe = (gestureName: any, gestureState: any) => {
+        const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
+        setGesture(gestureName);
+
+        switch (gestureName) {
+            case SWIPE_UP:
+                setAnimation('slideOutUp');
+                break;
+            case SWIPE_DOWN:
+                setAnimation('fadeInDown');
+                break;
+            case SWIPE_LEFT:
+                setAnimation('fadeInDown');
+                break;
+            case SWIPE_RIGHT:
+                setAnimation('fadeInDown');
+                break;
+        }
+    }
 
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -80,14 +114,16 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     }
 
     return (
-        <Layout>
-            <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
 
-            <ScrollView
-                style={{ backgroundColor: 'white', height: '100%' }}
-                showsVerticalScrollIndicator={false}>
+        <View>
 
-                <SeriesGrid/>
+            <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
+                <GestureRecognizer
+                    onSwipe={(direction, state) => onSwipe(direction, state)}
+                    config={config}
+                    style={{ flex: 1, }} >
+                    <SeriesGrid />
+                </GestureRecognizer>
 
                 {/* 시리즈 캐러셀 */}
                 {/* <SeriesCarousel /> */}
@@ -162,7 +198,15 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 <Layout style={{ height: 220 }} /> */}
 
             </ScrollView>
-        </Layout>
+
+            <Animatable.Image
+                source={require('../../assets/icon/Series/TestBanner.png')}
+                animation={animation}
+                style={{ position: 'absolute' }}
+            />
+        </View>
+
+
     );
 };
 

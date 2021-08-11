@@ -22,9 +22,14 @@ export const SeriesGrid = () => {
 
     const [content, setContent] = useState<Object>([]);
 
+
+
+
     useEffect(() => {
         InitGrid();
     }, [])
+
+
 
     const InitGrid = async () => {
         const tmpContent: Array<Object> = [];
@@ -78,17 +83,16 @@ export const SeriesGrid = () => {
     }
 
     return (
-        <View>
-            <TestBanner />
-
+        <View style={{ flex: 1, backgroundColor: 'red' }}>
             <FlatGrid
                 itemDimension={100}
                 data={content}
                 renderItem={renderItem}
                 spacing={1.5}
+                style={{ marginTop: 100 }}
             />
-
         </View>
+
     )
 
 }

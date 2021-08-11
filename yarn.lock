@@ -7966,6 +7966,13 @@
   "resolved" "https://registry.npmjs.org/react-native-actions-sheet/-/react-native-actions-sheet-0.4.9.tgz"
   "version" "0.4.9"
 
+"react-native-animatable@^1.3.3":
+  "integrity" "sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w=="
+  "resolved" "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.3.tgz"
+  "version" "1.3.3"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-animation-hooks@^1.0.1":
   "integrity" "sha512-s1o71m9sPpEYwFpHTdBouO50jzvyxIVB4MmNwfVGgPWkdL02zKOzyXcNuPJmoCuLIstUj5TBEwtnGk1WMFJx5A=="
   "resolved" "https://registry.npmjs.org/react-native-animation-hooks/-/react-native-animation-hooks-1.0.1.tgz"
@@ -8242,6 +8249,11 @@
   dependencies:
     "css-select" "^2.1.0"
     "css-tree" "^1.0.0-alpha.39"
+
+"react-native-swipe-gestures@^1.0.5":
+  "integrity" "sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw=="
+  "resolved" "https://registry.npmjs.org/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz"
+  "version" "1.0.5"
 
 "react-native-tab-view@^3.0.1", "react-native-tab-view@>= 2.0.0":
   "integrity" "sha512-L7qXtYz5Z+NdWyu38zaJrlHA/8H6rNFRZXe3ydym12UEEPPoefbVZ71b9YK2O6QP0u4pUlzMpMVM/Lsz2DJ4jg=="
