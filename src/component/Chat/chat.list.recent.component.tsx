@@ -138,7 +138,12 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
                     <Layout style={styles.GuideProfileContainer}>
                         <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
-                        <Text style={styles.GuideProfileTxt2}>{item.item.guide.name}</Text>
+
+                        {item.item.guide?.uid === '' ||
+                            item.item.guide?.uid === undefined ||
+                            item.item.guide?.uid === null ? null :
+                            (<Text style={styles.GuideProfileTxt2}>{item.item.guide?.name}</Text>)}
+
                     </Layout>
 
                 </Layout>
