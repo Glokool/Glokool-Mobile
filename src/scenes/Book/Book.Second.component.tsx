@@ -8,6 +8,10 @@ import { BookSecondScreenProps } from '../../navigation/Book.navigator';
 import { StackActions } from '@react-navigation/native';
 import { AuthContext } from '../../context/AuthContext';
 
+import qs from 'query-string';
+import auth from '@react-native-firebase/auth';
+import { SERVER } from '../../server.component';
+import axios from 'axios';
 
 const WindowSize = Dimensions.get('window').width
 
@@ -22,6 +26,9 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
     const [name, setName] = React.useState(currentUser?.displayName);
     const [email, setEmail] = React.useState(currentUser?.email);
     const [contact, setContact] = React.useState('');
+    const [area, setArea] = React.useState('');
+    const [plan, setPlan] = React.useState('');
+
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
     const contactType = [
         'Phone Number',
@@ -36,6 +43,8 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
             date: PickerDate,
             Name: name,
             Email: email,
+            travelArea: area,
+            travelPlan: plan,
             Contact: {
                 type: displayValue,
                 info: contact
@@ -99,9 +108,9 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
                     placeholder='ex) Gangnam, Jongno-gu'
                     placeholderTextColor={'#D6D6D6'}
                     style={styles.Input}
-                    //value={}
+                    value={area}
                     textStyle={styles.InputText}
-                // onChangeText={}
+                    onChangeText={nextValue => setArea(nextValue)}
                 />
 
                 <Text style={styles.smallTitle}>TRAVEL PLANS    <Text style={styles.smallTitle3}>Specific spots / activities</Text>    <Text style={styles.smallTitle2}>Optional</Text></Text>
@@ -109,9 +118,9 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
                     placeholder='ex) Sightseeing, Restaurant'
                     placeholderTextColor={'#D6D6D6'}
                     style={styles.Input}
-                    //value={}
+                    value={plan}
                     textStyle={styles.InputText}
-                // onChangeText={}
+                    onChangeText={nextValue => setPlan(nextValue)}
                 />
 
                 <Text style={styles.DescText}>

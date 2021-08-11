@@ -64,6 +64,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
     const token = 'sandbox_s9cw8cv5_99sqcyv5st4dpfr2';
 
     React.useEffect(() => {
+        console.log(data);
         InitBookThird();
     }, []);
 
@@ -77,6 +78,8 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
         };
 
         var result = await axios(config);
+        console.log(result.data);
+
         setPrice({
             active: result.data.active,
             discountedPrice: result.data.discountedPrice,

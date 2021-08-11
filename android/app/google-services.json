@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "603637824492-rdu8c87lh8donovl6vmf46atd0rdc0le.apps.googleusercontent.com",
+          "client_id": "603637824492-3ai4koc69dlm755ksfaljskt1pslhehs.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.glokool",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "603637824492-hs2gt4v6lbjc73esr2gq9ncgo04h7ur6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.glokool",
+            "certificate_hash": "c2cb5c07011357b9b919c48684c56a0c72724186"
           }
         },
         {

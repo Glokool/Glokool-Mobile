@@ -43,7 +43,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     }, [guideVisible])
 
     const InitNowList = async () => {
-        console.log(userContext.currentUser);
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
@@ -95,7 +94,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                //console.log(res.data);
+                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -126,27 +125,13 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         }
     }
 
-    const getGuideInfo = async (guideInfo: any) => {
-        if (guideInfo.uid != '') {
-            try {
-                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                return res.data.avatar
-
-            } catch (e) {
-                console.log('e', e);
-            }
-        }
-        else {
-            Alert.alert('Sorry,', 'Guide Not Matched!');
-        }
-    }
 
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
         const ItemDay = (new Date(item.item.day)).getDate();
 
-        console.log("REDI", item.item);
+        // console.log("REDI", item.item.guide);
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -156,11 +141,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     <Layout style={styles.GuideContainer}>
                         <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
                             <Layout style={styles.GuideAvatarContainer}>
-                                {/* {
-                                    guideAvatar != undefined &&
-                                    guideAvatar != null ? (
+                                {
+                                    item.item.guide?.avatar != undefined &&
+                                    item.item.guide?.avatar != null ? (
                                     <Image
-                                        source={{ uri: guideAvatar }}
+                                        source={{ uri: item.item.guide?.avatar }}
                                         style={styles.GuideAvatar}
                                     />
                                 ) : (
@@ -168,12 +153,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                         source={require('../../assets/profile/profile_01.png')}
                                         style={styles.GuideAvatar}
                                     />
-                                )} */}
-                                <Image
-                                    source={require('../../assets/profile/profile_01.png')}
-                                    style={styles.GuideAvatar}
-                                    resizeMode={'stretch'}
-                                />
+                                )}
                             </Layout>
                         </TouchableOpacity>
 
@@ -337,6 +317,8 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 50,
+        borderWidth: 0.5,
+        borderColor: '#ccc',
     },
     GuideProfileContainer: {
         marginLeft: 10,
