@@ -65,6 +65,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     function PressChatRoom(item: GloChatData) {
         const DDay = moment(item.day).diff(Today, 'days');
         //console.log(item.day, Today, DDay);
+        console.log("TOKEN",item.guide.token);
 
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
@@ -76,6 +77,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             day: item.day,
             finish: true,
         });
+        
     }
 
     // 가이드 사진 클릭 시 가이드 프로필 출력

@@ -19,6 +19,9 @@ const config = {
                         },
                         [SceneRoute.SERIES_B]: {
                             path: "series-b",
+                            parse: {
+                                id: (id) => `${id}`,
+                            }
                         }
                     }
                 },

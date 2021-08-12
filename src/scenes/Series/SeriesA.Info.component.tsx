@@ -10,11 +10,9 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    processColor,
-    Linking,
     Button,
-    Share,
-    Platform
+    Platform,
+    Share as ShareRN
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -35,6 +33,7 @@ import {
     Comments5,
     Comments6,
     Comments6_s,
+    Content,
 } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -44,6 +43,9 @@ import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
     _id: string;
@@ -94,8 +96,14 @@ export const SeriesAInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
+    const [shareImage, setShareImage] = React.useState();
+
     const user = auth().currentUser;
     const uid = user?.uid;
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, [content]);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -106,33 +114,63 @@ export const SeriesAInfoScreen = (
     }, []);
 
 
-    // React.useEffect(()=>{
-    //     setId(props.route.params.Id);
-    // })
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
 
+        xhr.open("GET", image[0], true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function (e) {
+            //console.log(this.response);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                console.log(res);
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
+
+    }
+
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
+            contentType: 'link',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
+        };
+
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+            if (canShow) {
+                return ShareDialog.show(sharingOptions);
+            }
+        }).catch((e) => console.log(e));
+        console.log(result);
+    }
+
+    // sns 공유 메소드
     const shareItems = async () => {
-        try {
-            const result = await Share.share({
-                url: "glokool://app/main/series/series-a/" + props.route.params.Id,
-                message: "Open in Glokool Application",
-            })
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
-    const appIsRunning = () => {
-        Linking.addEventListener('url', (e) => {
-            const route = e.url.replace(/.*?:\/\//g, '');
-            console.log(e.url);
-        })
-    }
+        console.log(content?.title)
 
-    const catchURL = () => {
-        Linking.getInitialURL()
-            .then((url) => {
-                console.log(url);
-            })
+        // console.log(shareImage);
+
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+
+        Share.open(shareOptions);
     }
 
     async function InitSeries() {
@@ -371,10 +409,28 @@ export const SeriesAInfoScreen = (
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        {/* <Button title="Share to Others" onPress={()=>shareItems()}/> */}
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
+                    </Layout>
+
+                    {/* 공유 부분 */}
+                    <Layout style={{ alignItems: 'center', marginTop: 20, }}>
+                        <Text style={styles.ShareText}>Share with Others!</Text>
+                        <Layout style={{ flexDirection: 'row', }}>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                onPress={() => shareItems()}
+                            >
+                                <ShareOut />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                onPress={() => facebookShare()}
+                            >
+                                <FacebookShare />
+                            </TouchableOpacity>
+                        </Layout>
                     </Layout>
 
                     {/* check out more */}
@@ -583,6 +639,7 @@ export const SeriesAInfoScreen = (
                             </Layout>
                         ) : null}
                     </Layout>
+
 
                 </ScrollView>
 
@@ -932,5 +989,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
+    },
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 18,
+        color: '#7777ff'
     },
 });

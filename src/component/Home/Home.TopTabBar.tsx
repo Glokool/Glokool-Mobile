@@ -11,6 +11,7 @@ import { Logo } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { HomeTopTabBarProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { AuthContext } from '../../context/AuthContext';
+import { TextLogo } from '../../assets/icon/Home';
 
 export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
     
@@ -36,7 +37,8 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
     return (
         <Layout style={styles.TopTabBarContainer}>
             
-            <Image source={require('../../assets/icon/Home/textLogo.png')}/>
+            {/* <Image source={require('../../assets/icon/Home/textLogo.png')}/> */}
+            <TextLogo/>
            
 
             <Layout

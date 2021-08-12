@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { LogBox, Alert, Linking } from 'react-native';
+import { LogBox, Alert, Linking, } from 'react-native';
 import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -24,6 +24,7 @@ import axios from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
 
+
 const saveTokenToDatabase = async (token: any) => {
 
     const userId = auth().currentUser?.uid;
@@ -42,6 +43,7 @@ export default (props: any): React.ReactFragment => {
     const userValue = { currentUser, setCurrentUser };
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
+
 
     const InitNowList = async () => {
         const user = auth().currentUser;

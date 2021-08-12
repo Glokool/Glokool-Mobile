@@ -1,12 +1,13 @@
 import React from 'react'
-import { Divider, Layout, LayoutElement,  } from '@ui-kitten/components'
-import { 
+import { Divider, Layout, LayoutElement, } from '@ui-kitten/components'
+import {
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
     ScrollView,
     BackHandler,
+    Button
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -22,46 +23,51 @@ import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import Toast from 'react-native-easy-toast';
 import { useFocusEffect } from '@react-navigation/native';
 
+
+
+
 var ToastRef: any;
 
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
-    
+
     const [refresh, setRefresh] = React.useState(true);
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
 
-    var exitApp : any = undefined;  
-    var timeout : any;
+    var exitApp: any = undefined;
+    var timeout: any;
 
-  const focusEvent = useFocusEffect(
-    React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-      
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
-      }
-    }, [])
-  );
+   
 
-  const handleBackButton = () => {
-    
-    if (exitApp == undefined || !exitApp){
+    const focusEvent = useFocusEffect(
+        React.useCallback(() => {
+            BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
-      ToastRef.show('Press one more time to exit', 1000);
-      exitApp = true;
+            return () => {
+                BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+            }
+        }, [])
+    );
 
-      timeout = setTimeout(() => {
-        exitApp = false;
-      }, 2000);
+    const handleBackButton = () => {
+
+        if (exitApp == undefined || !exitApp) {
+
+            ToastRef.show('Press one more time to exit', 1000);
+            exitApp = true;
+
+            timeout = setTimeout(() => {
+                exitApp = false;
+            }, 2000);
+        }
+
+        else {
+            clearTimeout(timeout);
+            BackHandler.exitApp();
+        }
+
+        return true;
     }
-
-    else{
-      clearTimeout(timeout);
-      BackHandler.exitApp();
-    }       
-    
-    return true;
-  }
 
     return (
         <Layout>
@@ -141,6 +147,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 />
 
                 <Layout style={{ height: 220 }} />
+                
             </ScrollView>
         </Layout>
     );

@@ -30,7 +30,7 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
     
     const renderItem = (item : {item : IntroData, index: number}) => {
 
-        console.log(item);
+        // console.log(item);
 
         return(
             <Layout style={styles.MainContainer}>

@@ -13,7 +13,6 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Share,
     Pressable,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
@@ -49,7 +48,10 @@ import qs from 'query-string';
 import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
-
+import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
+import KakaoShareLink from 'react-native-kakao-share-link';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
     _id: string;
@@ -118,11 +120,17 @@ export const SeriesBInfoScreen = (
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
+    const [shareImage, setShareImage] = React.useState();
     const user = auth().currentUser;
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
     console.log(Id)
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, [content]);
+
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
@@ -130,6 +138,7 @@ export const SeriesBInfoScreen = (
 
         return unsubscribe;
     }, []);
+
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
         setContent(Content.data);
@@ -164,6 +173,99 @@ export const SeriesBInfoScreen = (
                 });
         }
     }
+
+    const kakaoTest = async () => {
+
+        // 현재 링크 클릭 시 첨부된 링크로 연결되지 않고
+        // 앱의 메인 경로로만 연결됩니다 -> 해결 필요
+        try {
+            const response = await KakaoShareLink.sendFeed({
+                content: {
+                    title: content?.title,
+                    imageUrl:
+                        content?.cover,
+                    link: {
+                        webUrl: 'https://www.google.com',
+                        mobileWebUrl: 'https://www.google.com',
+                    },
+                    description: content?.smallTitle,
+                },
+                social: {
+                    likeCount: content?.plus.length,
+                    viewCount: content?.count,
+                },
+                buttons: [
+                    {
+                        title: 'Open in Glokool',
+                        link: {
+                            webUrl: 'https://www.google.com',
+                            mobileWebUrl: 'https://www.google.com',
+                            androidExecutionParams: [{ key: 'key1', value: 'value1' }],
+                            iosExecutionParams: [
+                                { key: 'key1', value: 'value1' },
+                                { key: 'key2', value: 'value2' },
+                            ],
+                        },
+                    },
+                ],
+            });
+            console.log(response);
+        } catch (e) {
+            console.error(e);
+            console.error(e.message);
+        }
+    }
+
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
+            contentType: 'link',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
+        };
+
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+            if (canShow) {
+                return ShareDialog.show(sharingOptions);
+            }
+        }).catch((e) => console.log(e));
+    }
+
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", content?.cover, true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function (e) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
+    }
+
+    // sns 공유 메소드
+    const shareItems = async () => {
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+        Share.open(shareOptions);
+
+    }
+
 
     const RenderCarousel = (item: { item: ContentImg_Item; index: number }) => {
         return (
@@ -374,7 +476,8 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-
+                        <Button title='Test Share' onPress={() => shareItems()}></Button>
+                        <Button title='facebook Share' onPress={() => facebookShare()}></Button>
                         {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
@@ -422,7 +525,24 @@ export const SeriesBInfoScreen = (
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
-                        <Text style={styles.ThankyouText}>Thank You!</Text>
+                        {/* 공유 부분 */}
+                        <Layout style={{ alignItems: 'center' }}>
+                            <Text style={styles.ShareText}>Share with Others!</Text>
+                            <Layout style={{ flexDirection: 'row', }}>
+                                <TouchableOpacity
+                                    style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                    onPress={() => shareItems()}
+                                >
+                                    <ShareOut />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                    onPress={() => facebookShare()}
+                                >
+                                    <FacebookShare />
+                                </TouchableOpacity>
+                            </Layout>
+                        </Layout>
 
                         <TouchableOpacity
                             style={styles.GoUpButton}
@@ -885,6 +1005,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         marginBottom: 20,
     },
     ThankyouText: {
@@ -1077,5 +1198,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
+    },
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+        color: '#7777ff'
     },
 });
