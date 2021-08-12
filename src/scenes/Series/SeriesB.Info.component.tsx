@@ -451,7 +451,7 @@ export const SeriesBInfoScreen = (
                         </Layout>
                     ))}
                     {/* 글로서비스 모달 */}
-                    {/* <ServiceModal isVisible={Glochat} data={modalItem} /> */}
+                    <ServiceModal isVisible={Glochat} data={modalItem} />
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>

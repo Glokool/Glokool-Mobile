@@ -13,9 +13,9 @@ export const ServiceModal = (props: any) => {
 
     const [visible, setVisible] = useState(false);
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(props.isVisible){
+        if (props.isVisible) {
             setVisible(true);
         }
         // console.log('id1',props.id);
@@ -23,17 +23,17 @@ export const ServiceModal = (props: any) => {
         // if(props.type && props.id && props.id != props.data?.id) {
         //     setVisible(false);
         // }
-        
+
     })
 
     return (
         <Modal
             visible={visible}
-            backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)',}}
+            backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', }}
             onBackdropPress={() => setVisible(false)}
         >
-            <Layout style={{ padding: 30, borderRadius: 20,}}>
-                <Layout style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, width: windowWidth*0.7 }}>
+            <Layout style={{ padding: 30, borderRadius: 20, }}>
+                <Layout style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, width: windowWidth * 0.7 }}>
                     <Layout style={{ flexDirection: 'row' }}>
                         <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 15 }}>GloChat Services</Text>
                         <GlokoolService />
@@ -43,12 +43,16 @@ export const ServiceModal = (props: any) => {
                     </TouchableOpacity>
                 </Layout>
                 <Layout style={{ marginRight: 45, }}>
-                    {props.data?.glokoolService.map((item: any, index: number) => (
-                        <Text style={styles.IndexText}>
-                            {index + 1}
-                            <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 16 }}>{`    ${item}`}</Text>
-                        </Text>
-                    ))}
+                    {props.data?.glokoolService != null &&
+                        props.data?.glokoolService != undefined ? (
+                            props.data?.glokoolService.map((item: any, index: number) => (
+                                <Text style={styles.IndexText}>
+                                    {index + 1}
+                                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 16 }}>{`    ${item}`}</Text>
+                                </Text>
+                            ))
+                         ) : null}
+
                 </Layout>
             </Layout>
         </Modal>
