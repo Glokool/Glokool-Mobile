@@ -51,6 +51,7 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import KakaoShareLink from 'react-native-kakao-share-link';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
     _id: string;
@@ -126,9 +127,9 @@ export const SeriesBInfoScreen = (
     const routeName = getFocusedRouteNameFromRoute(props.route);
     console.log(Id)
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         encodeBase64Img();
-    },[content]);
+    }, [content]);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -524,7 +525,24 @@ glokool.page.link/jdF1`,
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
-                        <Text style={styles.ThankyouText}>Thank You!</Text>
+                        {/* 공유 부분 */}
+                        <Layout style={{ alignItems: 'center' }}>
+                            <Text style={styles.ShareText}>Share with Others!</Text>
+                            <Layout style={{ flexDirection: 'row', }}>
+                                <TouchableOpacity
+                                    style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                    onPress={() => shareItems()}
+                                >
+                                    <ShareOut />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                    onPress={() => facebookShare()}
+                                >
+                                    <FacebookShare />
+                                </TouchableOpacity>
+                            </Layout>
+                        </Layout>
 
                         <TouchableOpacity
                             style={styles.GoUpButton}
@@ -987,6 +1005,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         marginBottom: 20,
     },
     ThankyouText: {
@@ -1179,5 +1198,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
+    },
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+        color: '#7777ff'
     },
 });

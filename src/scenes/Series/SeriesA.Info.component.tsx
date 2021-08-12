@@ -45,6 +45,7 @@ import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
     _id: string;
@@ -413,11 +414,28 @@ glokool.page.link/jdF1`,
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        <Button title="Share to Others" onPress={() => shareItems()} />
-                        <Button title="facebook test" onPress={() => facebookShare()} />
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
+                    </Layout>
+
+                    {/* 공유 부분 */}
+                    <Layout style={{ alignItems: 'center', marginTop: 20, }}>
+                        <Text style={styles.ShareText}>Share with Others!</Text>
+                        <Layout style={{ flexDirection: 'row', }}>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                onPress={() => shareItems()}
+                            >
+                                <ShareOut />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                onPress={() => facebookShare()}
+                            >
+                                <FacebookShare />
+                            </TouchableOpacity>
+                        </Layout>
                     </Layout>
 
                     {/* check out more */}
@@ -624,6 +642,7 @@ glokool.page.link/jdF1`,
                             </Layout>
                         ) : null}
                     </Layout>
+
 
                 </ScrollView>
 
@@ -973,5 +992,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
+    },
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 18,
+        color: '#7777ff'
     },
 });

@@ -27,7 +27,8 @@ import HiddenGem_Title from './HiddenGem_Title.svg';
 import Content from './Content.svg';
 import Blog from './Blog.svg';
 import EditorNoteLine from './EditorNoteLine.svg';
-
+import Share from './Share.svg';
+import FacebookShare from './FacebookShare.svg';
 
 export {
     HiddenGem,
@@ -59,4 +60,6 @@ export {
     Content,
     Blog,
     EditorNoteLine,
+    Share,
+    FacebookShare,
 }

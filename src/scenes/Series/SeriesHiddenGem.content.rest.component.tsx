@@ -39,6 +39,7 @@ import { NavigatorRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -232,8 +233,6 @@ glokool.page.link/jdF1`,
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
-                    <Button title="share test" onPress={() => shareItems()} />
-                    <Button title="facebook test" onPress={() => facebookShare()} />
                     <SelectableText style={styles.TitleText} item={data?.title} />
                     <SelectableText style={styles.DescText} item={data?.desc} />
                 </Layout>
@@ -263,6 +262,8 @@ glokool.page.link/jdF1`,
                         ))
                         : null}
                 </Layout>
+
+
 
                 {/* 글로챗 광고 컨테이너 */}
                 {/* <Layout style={styles.GloChatADContainer}>
@@ -432,7 +433,24 @@ glokool.page.link/jdF1`,
 
                 {/* 땡큐 버튼 및 Go up 버튼 */}
                 <Layout style={styles.FinalConatiner}>
-                    <Text style={styles.ThankyouText}>Thank You!</Text>
+                    {/* 공유 부분 */}
+                    <Layout style={{ alignItems: 'center' }}>
+                        <Text style={styles.ShareText}>Share with Others!</Text>
+                        <Layout style={{ flexDirection: 'row', }}>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                onPress={() => shareItems()}
+                            >
+                                <ShareOut />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                onPress={() => facebookShare()}
+                            >
+                                <FacebookShare />
+                            </TouchableOpacity>
+                        </Layout>
+                    </Layout>
 
                     <TouchableOpacity
                         style={styles.GoUpButton}
@@ -547,6 +565,19 @@ glokool.page.link/jdF1`,
 };
 
 const styles = StyleSheet.create({
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+        color: '#7777ff'
+    },
     MainContainer: {
         flex: 1,
         backgroundColor: 'white',
@@ -869,6 +900,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 50,
+        alignItems: 'center'
     },
     ThankyouText: {
         color: '#7777FF',
