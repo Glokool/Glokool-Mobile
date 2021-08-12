@@ -29,6 +29,7 @@ import Blog from './Blog.svg';
 import EditorNoteLine from './EditorNoteLine.svg';
 import CloseButton from './CloseButton.svg';
 import TestBanner from './TestBanner.svg';
+import SeriesBottomLogo from './SeriesBottomLogo.svg';
 
 
 export {
@@ -63,4 +64,5 @@ export {
     EditorNoteLine,
     CloseButton,
     TestBanner,
+    SeriesBottomLogo
 }

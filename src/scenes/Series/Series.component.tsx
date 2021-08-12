@@ -61,7 +61,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     useEffect(() => {
         setSecondY(firstY);
         const dY = firstY - secondY;
-        console.log(dY);
+        //console.log(dY);
 
         if (dY > 0) {
             setAnimation('slideOutUp')
@@ -124,7 +124,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 decelerationRate='fast'
                 bounces={false}
             >
-                <SeriesGrid />
+                <SeriesGrid navigation={props.navigation}/>
 
                 {/* hidden gems title */}
                 {/* <Layout style={styles.seriesHidden1}>
