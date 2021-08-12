@@ -7,7 +7,8 @@ import {
   ChatScreen,
   ChatRoomScreen,
   ChatHelpScreen,
-  ChatReportScreen
+  ChatReportScreen,
+  ChatQuickSearch,
 } from '../../scenes/Chat';
 import { SeriesAInfoScreen } from '../../scenes/Series';
 
@@ -39,7 +40,8 @@ type ChatNavigatorParams = AppNavigatorParams & {
   };
   [SceneRoute.SERIES_A_DETAIL] : {
     Id : string;
-  }
+  };
+  [SceneRoute.CHAT_QUICK_SEARCH]: undefined;
 }
 
 export interface ChatScreenProps {
@@ -72,6 +74,11 @@ export interface ChatReportScreenProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
 }
 
+export interface ChatQuickSearchProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
+}
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
@@ -79,5 +86,6 @@ export const ChatNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
+    <Stack.Screen name={SceneRoute.CHAT_QUICK_SEARCH} component={ChatQuickSearch} />
   </Stack.Navigator>
 );
