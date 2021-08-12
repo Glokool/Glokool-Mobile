@@ -9,7 +9,8 @@ import {
     BackHandler,
     Image,
     Button,
-    View
+    View,
+    FlatList
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -28,7 +29,6 @@ import { FlatGrid } from 'react-native-super-grid';
 import { SeriesGrid } from '../../component/Series';
 import * as Animatable from 'react-native-animatable';
 import FastImage from 'react-native-fast-image';
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
 
 
@@ -49,38 +49,35 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [tourInfo, setTourInfo] = React.useState([]);
     const [tourBanner, setTourBanner] = React.useState([]);
 
-    const [hiddenGem, setHiddenGem] = React.useState();
-    const [seriesA, setSeriesA] = React.useState();
+    const [animation, setAnimation] = useState<String>('');
+    const [firstY, setFirstY] = useState(0);
+    const [secondY, setSecondY] = useState(0);
 
-    const [gesture, setGesture] = useState();
-    const [animation, setAnimation] = useState<String>();
-
-    const config = {
-        velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
-    };
+    const [category, setCategory] = useState([]);
 
     var exitApp: any = undefined;
     var timeout: any;
 
-    const onSwipe = (gestureName: any, gestureState: any) => {
-        const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
-        setGesture(gestureName);
+    useEffect(() => {
+        setSecondY(firstY);
+        const dY = firstY - secondY;
+        console.log(dY);
 
-        switch (gestureName) {
-            case SWIPE_UP:
-                setAnimation('slideOutUp');
-                break;
-            case SWIPE_DOWN:
-                setAnimation('fadeInDown');
-                break;
-            case SWIPE_LEFT:
-                setAnimation('fadeInDown');
-                break;
-            case SWIPE_RIGHT:
-                setAnimation('fadeInDown');
-                break;
+        if (dY > 0) {
+            setAnimation('slideOutUp')
+        } else {
+            setAnimation('slideInDown');
         }
+
+    }, [firstY])
+
+    useEffect(() => {
+        initCategories();
+    }, [])
+
+    const initCategories = async () => {
+        const result = await axios.get(SERVER + '/api/category')
+        setCategory(result.data);
     }
 
     const focusEvent = useFocusEffect(
@@ -94,18 +91,14 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     );
 
     const handleBackButton = () => {
-
         if (exitApp == undefined || !exitApp) {
-
             ToastRef.show('Press one more time to exit', 1000);
             exitApp = true;
 
             timeout = setTimeout(() => {
                 exitApp = false;
             }, 2000);
-        }
-
-        else {
+        } else {
             clearTimeout(timeout);
             BackHandler.exitApp();
         }
@@ -113,20 +106,25 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
+    const renderItem = (item: any) => {
+        return (
+            <View style={styles.categoryButton}>
+                <Text>{item.item.name}</Text>
+            </View>
+        )
+    }
+
     return (
 
         <View>
 
-            <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
-                <GestureRecognizer
-                    onSwipe={(direction, state) => onSwipe(direction, state)}
-                    config={config}
-                    style={{ flex: 1, }} >
-                    <SeriesGrid />
-                </GestureRecognizer>
-
-                {/* 시리즈 캐러셀 */}
-                {/* <SeriesCarousel /> */}
+            <ScrollView
+                style={{ backgroundColor: 'white', height: '100%' }}
+                onScroll={(e) => setFirstY(e.nativeEvent.contentOffset.y)}
+                decelerationRate='fast'
+                bounces={false}
+            >
+                <SeriesGrid />
 
                 {/* hidden gems title */}
                 {/* <Layout style={styles.seriesHidden1}>
@@ -199,14 +197,26 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
             </ScrollView>
 
-            <Animatable.Image
+            {/* <Animatable.Image
                 source={require('../../assets/icon/Series/TestBanner.png')}
                 animation={animation}
+                duration={100}
                 style={{ position: 'absolute' }}
-            />
+            /> */}
+            <Animatable.View
+                animation={animation}
+                duration={300}
+                style={{ position: 'absolute' }}
+            >
+                <Image source={require('../../assets/icon/Series/TestBanner.png')} />
+                <FlatList
+                    data={category}
+                    renderItem={renderItem}
+                    contentContainerStyle={{ paddingRight: 20 }}
+                    horizontal
+                />
+            </Animatable.View>
         </View>
-
-
     );
 };
 
@@ -219,7 +229,6 @@ const styles = StyleSheet.create({
         marginLeft: 35,
         marginRight: 35,
     },
-
     seriesHidden: {
         alignSelf: 'center',
         flexDirection: 'row',
@@ -248,4 +257,12 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
     },
+    categoryButton: {
+        borderColor: 'black',
+        borderWidth: 0.5,
+        borderRadius: 100,
+        padding: 10,
+        margin: 5,
+        backgroundColor: 'white'
+    }
 });

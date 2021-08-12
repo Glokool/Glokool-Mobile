@@ -22,17 +22,13 @@ export const SeriesGrid = () => {
 
     const [content, setContent] = useState<Object>([]);
 
-
-
-
     useEffect(() => {
         InitGrid();
     }, [])
 
-
-
     const InitGrid = async () => {
         const tmpContent: Array<Object> = [];
+
         const config = {
             Method: "get",
             url: SERVER + "/api/main-tours",
@@ -71,6 +67,8 @@ export const SeriesGrid = () => {
         })
         tmpContent.sort(() => Math.random() - 0.5);
         setContent(tmpContent);
+
+
     }
 
     const renderItem = (item: { index: number, item: GridItem }) => {
@@ -83,13 +81,13 @@ export const SeriesGrid = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'red' }}>
+        <View style={{ flex: 1, }}>
             <FlatGrid
                 itemDimension={100}
                 data={content}
                 renderItem={renderItem}
                 spacing={1.5}
-                style={{ marginTop: 100 }}
+                style={{ marginTop: 150, backgroundColor: '#1b1b1b', borderTopRightRadius: 10, borderTopLeftRadius: 10, }}
             />
         </View>
 
