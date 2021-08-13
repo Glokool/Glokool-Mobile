@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     TouchableOpacity,
     SafeAreaView,
@@ -14,9 +14,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { TextLogo } from '../../assets/icon/Home';
 
 export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
-    
+
     const { currentUser } = useContext(AuthContext);
-    
+
     const name =
         currentUser?.displayName === null || currentUser?.displayName === ''
             ? 'Glokool'
@@ -36,10 +36,10 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
 
     return (
         <Layout style={styles.TopTabBarContainer}>
-            
+
             {/* <Image source={require('../../assets/icon/Home/textLogo.png')}/> */}
-            <TextLogo/>
-           
+            <TextLogo />
+
 
             <Layout
                 style={{
@@ -82,8 +82,8 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                         style={{ backgroundColor: '#00FF0000' }}>
                         {currentUser != null ? (
                             currentUser.photoURL === '' ||
-                            currentUser.photoURL === null ||
-                            currentUser.photoURL === undefined ? (
+                                currentUser.photoURL === null ||
+                                currentUser.photoURL === undefined ? (
                                 <Layout
                                     style={{
                                         width: 30,
@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 5,
-        backgroundColor:'#00ff0000'
+        backgroundColor: '#00ff0000'
     },
 });

@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     modalTitle: {
         fontFamily : 'BrandonGrotesque-Bold',
         fontSize: 22,
-        fontWeight: 'bold',
         color: '#8797FF'
     },
     ModalBtnContainer:{

@@ -297,6 +297,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
             min={startDay}
             max={yesterDay}
             {...minMaxPickerState}
+            placement='top'
           />
           
           <Text style={styles.smallTitle}>Nationality</Text>
