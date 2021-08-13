@@ -476,8 +476,8 @@ glokool.page.link/jdF1`,
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        <Button title='Test Share' onPress={() => shareItems()}></Button>
-                        <Button title='facebook Share' onPress={() => facebookShare()}></Button>
+                        {/* <Button title='Test Share' onPress={() => shareItems()}></Button>
+                        <Button title='facebook Share' onPress={() => facebookShare()}></Button> */}
                         {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
                         <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
