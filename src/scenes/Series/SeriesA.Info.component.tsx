@@ -46,6 +46,8 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 type recommendation_Item = {
     _id: string;
@@ -97,6 +99,7 @@ export const SeriesAInfoScreen = (
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
     const [shareImage, setShareImage] = React.useState();
+    const [Glochat, setGlochat] = React.useState(false);
 
     const user = auth().currentUser;
     const uid = user?.uid;
@@ -172,9 +175,17 @@ glokool.page.link/jdF1`,
 
         Share.open(shareOptions);
     }
+    // 모달 컴포넌트에 bool 값 전달후 바로 초기화
+    React.useEffect(() => {
+        if (Glochat) {
+            setGlochat(false);
+        }
+    }, [Glochat])
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
+
+        console.log(Content.data);
 
         setContent(Content.data);
         setImage(Content.data.images);
@@ -409,10 +420,17 @@ glokool.page.link/jdF1`,
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
                         <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
+                        {/* <Button title="Share to Others" onPress={() => shareItems()} /> */}
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
                     </Layout>
+
+                    {/* 글로챗 컨테이너 */}
+                    <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                        <Service />
+                    </TouchableOpacity>
+                    <ServiceModal isVisible={Glochat} data={content} />
 
                     {/* 공유 부분 */}
                     <Layout style={{ alignItems: 'center', marginTop: 20, }}>
@@ -432,6 +450,8 @@ glokool.page.link/jdF1`,
                             </TouchableOpacity>
                         </Layout>
                     </Layout>
+
+
 
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>

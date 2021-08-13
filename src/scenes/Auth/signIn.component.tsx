@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import firebase from "@react-native-firebase/app";
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
   Image,
   Dimensions,
   Button,
@@ -34,6 +35,7 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
 import { GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
+import { AuthContext } from '../../context/AuthContext';
 
 
 GoogleSignin.configure({
@@ -47,6 +49,7 @@ const WindowSize = Dimensions.get('window').width
 export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
 
   const MainNavigate = CommonActions.reset({
     index: 0,
@@ -64,11 +67,20 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
       auth().signInWithEmailAndPassword(values.email, values.password)
         .then((user) => {
-
           firestore().collection('Users').doc(user.user.uid).get()
             .then((result) => {
               if (user.user.emailVerified == true) {
                 toastRef.show("Login Success!");
+
+                const userInfo = {
+                  displayName: user.user.displayName,
+                  email: user.user.email,
+                  photoURL: user.user.photoURL,
+                  uid: user.user.uid,
+                  access_token: null,
+                }
+                setCurrentUser(userInfo);
+
                 props.navigation.dispatch(MainNavigate);
               }
               else {
@@ -76,12 +88,11 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
               }
             })
             .catch((err) => {
-
+              Alert.alert(err);
             })
         })
         .catch((error) => {
           var errorMessage = error.message;
-          console.log('로그인화면 - 로그인 실패', errorMessage);
 
           if (error.code === 'auth/invalid-email') {
             Alert.alert('Failed', 'The email address is badly formatted.');
@@ -90,8 +101,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           } else if (error.code === 'auth/wrong-password') {
             Alert.alert('Failed', 'The password is invalid or the user does not have a password.');
           }
-
-          // toastRef.show(error.code, 3000);
         });
     }
 
@@ -123,12 +132,12 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      })
 
   }
 
@@ -147,18 +156,18 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-        return props.navigation.dispatch(MainNavigate);
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      })
 
   }
 
 
   // Facebook login
-  async function onFacebookButtonPress(){
+  async function onFacebookButtonPress() {
 
     // Attempt login with permissions
     const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
@@ -179,20 +188,20 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     const user = auth().currentUser;
 
     firestore().collection('Users').doc(user?.uid).get()
-    .then((result) => {
-      if(result.data()){
-         return props.navigation.dispatch(MainNavigate);
-      }
-      return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
-    }).catch((error) => {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-    })
+      .then((result) => {
+        if (result.data()) {
+          return props.navigation.dispatch(MainNavigate);
+        }
+        return props.navigation.navigate(SceneRoute.SNS_SIGN_UP);
+      }).catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+      })
   }
 
   const navigateSignUp = (): void => {
@@ -237,7 +246,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         <Layout style={styles.resetPasswordContainer}>
           <Text style={styles.smallTitle}>Password</Text>
           <TouchableOpacity onPress={() => { navigateResetPassword() }}>
-            <Text style={styles.ForgetButtonText}>forget password?</Text>
+            <Text style={styles.ForgetButtonText}>forgot password?</Text>
           </TouchableOpacity>
         </Layout>
         <FormInput
@@ -275,19 +284,23 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
 
       {/* 투명 탭바 */}
       <Layout style={styles.TabBar}>
-        <Layout style={{ flex: 1, backgroundColor: '#00ff0000', flexDirection: 'row', alignItems:'center' }}>
+        <Layout style={{ flex: 1, backgroundColor: '#00ff0000', flexDirection: 'row', alignItems: 'center' }}>
           <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
           <TouchableOpacity style={styles.IconContainer} onPress={() => PressBack()}>
             <AngleLeft_Color />
           </TouchableOpacity>
-          <Text style={{fontSize: 22, fontFamily:'BrandonGrotesque-BoldItalic', color:'#7777FF'}}>LOGIN</Text>
+          <Text style={{ fontSize: 22, fontFamily: 'BrandonGrotesque-BoldItalic', color: '#7777FF' }}>LOGIN</Text>
         </Layout>
 
         <Layout style={{ flex: 1, backgroundColor: '#00ff0000' }}>
           <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
         </Layout>
       </Layout>
-
+      {/* <KeyboardAvoidingView
+                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : -230}
+                behavior="padding"
+                style={styles.Container}
+            > */}
 
       <ScrollView style={styles.formContainer}>
         <Layout style={{ flex: 1, justifyContent: 'center', marginTop: 50, }}>
@@ -321,6 +334,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
         </Layout>
 
       </ScrollView>
+      {/* </KeyboardAvoidingView> */}
 
 
     </React.Fragment>

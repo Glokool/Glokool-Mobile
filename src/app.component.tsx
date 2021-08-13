@@ -41,6 +41,7 @@ const saveTokenToDatabase = async (token: any) => {
 export default (props: any): React.ReactFragment => {
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
+
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
@@ -107,36 +108,6 @@ export default (props: any): React.ReactFragment => {
         console.log('app.component end');
     }, []);
 
-    const testURL = () => {
-        Linking.getInitialURL()
-            .then((url) => {
-                console.log(url);
-                Linking.openURL(url);
-            })
-    }
-
-
-    React.useEffect(() => {
-        //IOS && ANDROID : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때
-        // testURL();
-
-        // // //IOS : 앱이 딥링크로 처음 실행될때, 앱이 열려있지 않을 때 && 앱이 실행 중일 때
-        // // //ANDROID : 앱이 실행 중일 때
-        // // // Linking.addEventListener('url', addListenerLink);
-        // Linking.addEventListener('url', (e) => {// 앱이 실행되어있는 상태에서 요청이 왔을 때 처리하는 이벤트 등록
-        //     const route = e.url.replace(/.*?:\/\//g, '');
-        //     Alert.alert('add e.url', e.url);
-        //     Linking.openURL(e.url);
-        //     return;
-        // });
-
-        // return () => {
-        //     Linking.removeEventListener('url', (e) => {		// 이벤트 해제
-        //         console.log('remove')
-        //     });
-        // };
-    }, []);
-
     React.useEffect(() => {
         const unsubscribe = messaging().onMessage(async (remoteMessage) => {
             setChatIcon(true);
@@ -174,7 +145,6 @@ export default (props: any): React.ReactFragment => {
                 {...eva}
                 theme={{ ...eva.light, ...theme }}
                 customMapping={mapping}
-
             >
                 <SafeAreaProvider>
                     <AuthContext.Provider value={userValue}>

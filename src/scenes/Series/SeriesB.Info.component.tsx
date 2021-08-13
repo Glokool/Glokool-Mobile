@@ -13,7 +13,7 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Pressable,
+    Platform,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
@@ -50,6 +50,9 @@ import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
+import { Service } from '../../component/Series/Service.component';
+import { ServiceModal } from '../../component/Series/Service.Modal.component';
+
 import KakaoShareLink from 'react-native-kakao-share-link';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
@@ -121,6 +124,9 @@ export const SeriesBInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
     const [shareImage, setShareImage] = React.useState();
+    const [Glochat, setGlochat] = React.useState(false);
+    const [modalItem, setModalItem] = React.useState();
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -130,6 +136,14 @@ export const SeriesBInfoScreen = (
     React.useEffect(() => {
         encodeBase64Img();
     }, [content]);
+    // console.log(Id)
+    
+    // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
+    React.useEffect(() => {
+        if (Glochat) {
+            setGlochat(false);
+        }
+    }, [Glochat])
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -141,6 +155,9 @@ export const SeriesBInfoScreen = (
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
+
+        console.log(Content.data);
+
         setContent(Content.data);
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
@@ -249,6 +266,12 @@ export const SeriesBInfoScreen = (
             reader.readAsDataURL(file)
         };
         xhr.send()
+    }
+    // glo-chat service 클릭 시 visible = true
+    // item 을 전달받아서 set 해줍니다!
+    const pressService = (item: any) => {
+        setGlochat(!Glochat);
+        setModalItem(item);
     }
 
     // sns 공유 메소드
@@ -476,10 +499,6 @@ glokool.page.link/jdF1`,
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
-                        {/* <Button title='Test Share' onPress={() => shareItems()}></Button>
-                        <Button title='facebook Share' onPress={() => facebookShare()}></Button> */}
-                        {/* <SelectableText style={styles.TitleTxt} item={content?.title} />
-                        <SelectableText style={styles.SmallTitleTxt} item={content?.smallTitle} /> */}
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
                         <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
                         <SelectableText style={styles.descTxt} item={content?.desc} />
@@ -520,8 +539,16 @@ glokool.page.link/jdF1`,
                                 <SelectableText style={styles.ContentTitleTxt} item={item.title} />
                                 <SelectableText style={styles.ContentDescTxt} item={item.desc} />
                             </Layout>
+
+                            {/* 글로서비스 컨테이너 */}
+                            <TouchableOpacity onPress={() => pressService(item)}>
+                                <Service />
+                            </TouchableOpacity>
+
                         </Layout>
                     ))}
+                    {/* 글로서비스 모달 */}
+                    <ServiceModal isVisible={Glochat} data={modalItem} />
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
@@ -1176,9 +1203,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#5D5959',
     },
-    Container: {
-        flex: 1,
-    },
     CommentsTextLayout: {
         margin: 15,
     },
@@ -1212,4 +1236,4 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: '#7777ff'
     },
-});
+})

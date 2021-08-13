@@ -29,6 +29,8 @@ import Blog from './Blog.svg';
 import EditorNoteLine from './EditorNoteLine.svg';
 import Share from './Share.svg';
 import FacebookShare from './FacebookShare.svg';
+import CloseButton from './CloseButton.svg';
+
 
 export {
     HiddenGem,
@@ -62,4 +64,5 @@ export {
     EditorNoteLine,
     Share,
     FacebookShare,
+    CloseButton,
 }
