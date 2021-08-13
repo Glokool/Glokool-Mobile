@@ -14,6 +14,7 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Pressable,
+    Platform,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
@@ -125,7 +126,6 @@ export const SeriesBInfoScreen = (
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
-    console.log(Id)
 
     React.useEffect(() => {
         encodeBase64Img();
@@ -145,6 +145,7 @@ export const SeriesBInfoScreen = (
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
+        console.log(Content.data.contents)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -332,6 +333,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
+                // console.log(response.status)
+                
                 InitSeries();
             })
             .catch((error) => {
@@ -420,7 +423,7 @@ glokool.page.link/jdF1`,
     return (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
-                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : 0}
+                keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
                 behavior="padding"
             >
                 <ScrollView
@@ -783,7 +786,7 @@ glokool.page.link/jdF1`,
                             <Layout style={styles.TopTabIconLayout}>
                                 <TouchableOpacity
                                     style={styles.BookmarkTouch}
-                                    onPress={() => PressBookmark}>
+                                    onPress={() => PressBookmark()}>
                                     {bookmarkList.indexOf(Id) == -1 ? (
                                         <Bookmark />
                                     ) : (
