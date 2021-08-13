@@ -42,7 +42,7 @@ export const ServiceModal = (props: any) => {
                         <CloseButton />
                     </TouchableOpacity>
                 </Layout>
-                <Layout style={{ marginRight: 45, }}>
+                <Layout style={{ marginRight: 0, }}>
                     {props.data?.glokoolService != null &&
                         props.data?.glokoolService != undefined ? (
                             props.data?.glokoolService.map((item: any, index: number) => (

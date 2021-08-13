@@ -713,6 +713,7 @@ const styles = StyleSheet.create({
         color: 'black',
         marginVertical: -10,
         marginLeft: 10,
+        marginRight: 25,
     },
     EditorNoteDivider: {
         marginHorizontal: 20,
