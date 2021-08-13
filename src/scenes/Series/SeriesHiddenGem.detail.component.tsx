@@ -251,30 +251,18 @@ export const SeriesHiddenGemDetailScreen = (
                                 longitudeDelta: 0.0121,
                             }}>
 
-                            {Platform.OS === 'android' ? (
-                                <Marker
-                                    coordinate={{
-                                        latitude: parseFloat(content?.tour.lat),
-                                        longitude: parseFloat(content?.tour.lon),
-                                    }}
-                                >
-                                    <Image
-                                        source={require('../../assets/icon/Map/Glokool.png')}
-                                        style={{ width: 35, height: 35 }}
-                                        resizeMode='contain'
-                                    />
-                                </Marker>
-                            ) : (
-                                <Marker
-                                    coordinate={{
-                                        latitude: parseFloat(content?.tour.lat),
-                                        longitude: parseFloat(content?.tour.lon),
-                                    }}
-                                    image={require('../../assets/icon/Map/Glokool.png')}
-
+                            <Marker
+                                coordinate={{
+                                    latitude: parseFloat(content?.tour.lat),
+                                    longitude: parseFloat(content?.tour.lon),
+                                }}
+                            >
+                                <Image
+                                    source={require('../../assets/icon/Map/Glokool.png')}
+                                    style={{ width: 25, height: 25 }}
+                                    resizeMode='contain'
                                 />
-                            )}
-
+                            </Marker>
 
                             {content?.attraction.map((item, index) => (
                                 <Marker

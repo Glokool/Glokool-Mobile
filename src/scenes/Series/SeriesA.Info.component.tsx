@@ -130,7 +130,6 @@ export const SeriesAInfoScreen = (
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
-                console.log(res);
                 setShareImage(res);
             }
             var file = this.response;
@@ -191,6 +190,7 @@ glokool.page.link/jdF1`,
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
+        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -246,7 +246,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
+            .then((response: { data: any; }) => {
                 InitSeries();
             })
             .catch((error) => {
@@ -358,7 +358,7 @@ glokool.page.link/jdF1`,
     return (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
-                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : -230}
+                keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
                 behavior="padding"
                 style={styles.Container}
             >
@@ -419,8 +419,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
-                        <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        {/* <Button title="Share to Others" onPress={() => shareItems()} /> */}
+                        <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />

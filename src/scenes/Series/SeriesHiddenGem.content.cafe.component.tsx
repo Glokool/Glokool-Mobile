@@ -832,6 +832,7 @@ const styles = StyleSheet.create({
         width: WindowSize,
         height: 129,
         position: 'relative',
+        marginBottom: 10,
     },
     PurpleArrow: {
         position: 'absolute',
