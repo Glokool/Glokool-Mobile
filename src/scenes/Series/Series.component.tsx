@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Divider, Layout, LayoutElement, } from '@ui-kitten/components'
+import React, { useEffect, useState, useRef } from 'react'
+import { LayoutElement, } from '@ui-kitten/components'
 import {
     StyleSheet,
     Text,
-    TextInput,
-    TouchableOpacity,
+    RefreshControl,
     ScrollView,
     BackHandler,
     Image,
-    Button,
     View,
-    FlatList
+    FlatList,
+    Animated,
+    Dimensions,
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -23,14 +23,16 @@ import {
 } from '../../component/Series';
 import { SeriesCarousel } from '../../component/Series/Series.Carousel';
 import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
-import Toast from 'react-native-easy-toast';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatGrid } from 'react-native-super-grid';
 import { SeriesGrid } from '../../component/Series';
-import * as Animatable from 'react-native-animatable';
-import FastImage from 'react-native-fast-image';
 
 
+type GridItem = {
+    image: string,
+    title: string,
+    id: string,
+    type: string,
+}
 
 type Series_Item = {
     banner: string,
@@ -40,40 +42,52 @@ type Series_Item = {
     region: string,
 }
 
-
 var ToastRef: any;
+const windowWidth = Dimensions.get('window').width;
+
+const wait = (timeout: number) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
-    const [refresh, setRefresh] = React.useState(true);
-    const [tourInfo, setTourInfo] = React.useState([]);
-    const [tourBanner, setTourBanner] = React.useState([]);
-
-    const [animation, setAnimation] = useState<String>('');
-    const [firstY, setFirstY] = useState(0);
-    const [secondY, setSecondY] = useState(0);
+    const [refreshing, setRefreshing] = useState(false);
+    const [refreshEnd, setRefreshEnd] = useState(false);
+    const [tourInfo, setTourInfo] = useState([]);
+    const [tourBanner, setTourBanner] = useState([]);
 
     const [category, setCategory] = useState([]);
+    const [endReached, setEndReached] = useState(false);
+
+    const [itemCount, setItemCount] = useState(12);
+    const itemCountRef = useRef(12);
+
+    const scrollY = new Animated.Value(0);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 150);
+    const translateY = diffClamp.interpolate({
+        inputRange: [0, 150],
+        outputRange: [0, -150]
+    })
 
     var exitApp: any = undefined;
     var timeout: any;
 
     useEffect(() => {
-        setSecondY(firstY);
-        const dY = firstY - secondY;
-        //console.log(dY);
-
-        if (dY > 0) {
-            setAnimation('slideOutUp')
-        } else {
-            setAnimation('slideInDown');
-        }
-
-    }, [firstY])
-
-    useEffect(() => {
         initCategories();
     }, [])
+
+    useEffect(()=>{
+        if (refreshing == false) {
+            setRefreshEnd(true);
+        }
+        setTimeout(()=>setRefreshEnd(false),1);
+
+    },[refreshing])
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(500).then(() => setRefreshing(false));
+    }, []);
 
     const initCategories = async () => {
         const result = await axios.get(SERVER + '/api/category')
@@ -106,7 +120,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
-    const renderItem = (item: any) => {
+    const renderButtonItem = (item: any) => {
         return (
             <View style={styles.categoryButton}>
                 <Text>{item.item.name}</Text>
@@ -114,149 +128,70 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         )
     }
 
+    const handleScroll = (e: any) => {
+        let paddingToBottom = 1;
+        paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+
+        if (endReached == false && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
+            setEndReached(true);
+            setTimeout(() => {
+                itemCountRef.current += 12;
+                setItemCount(itemCountRef.current);
+                setEndReached(false);
+            }, 1000);
+        }
+
+        if (e.nativeEvent.contentOffset.y > 0) {
+            scrollY.setValue(e.nativeEvent.contentOffset.y);
+        }
+    }
+
     return (
-
         <View>
+            <Animated.View
+                style={{
+                    transform: [{ translateY: translateY }],
+                    elevation: 4,
+                    zIndex: 100,
+                    backgroundColor: '#00ff0000',
+                    position: 'absolute',
 
-            <ScrollView
-                style={{ backgroundColor: 'white', height: '100%' }}
-                onScroll={(e) => setFirstY(e.nativeEvent.contentOffset.y)}
-                decelerationRate='fast'
-                bounces={false}
-            >
-                <SeriesGrid navigation={props.navigation}/>
-
-                {/* hidden gems title */}
-                {/* <Layout style={styles.seriesHidden1}>
-                    <Layout style={styles.seriesHiddenLayout}>
-                        <HiddenGem_Title />
-                        <Text
-                            style={
-                                styles.seriesHiddenTxt
-                            }>{`Hidden Gems in Korea`}</Text>
-                    </Layout>
-                    <TouchableOpacity
-                        style={styles.moreBtnLayout}
-                        onPress={() =>
-                            props.navigation.navigate(
-                                SceneRoute.SERIES_HIDDEN_GEM,
-                            )
-                        }>
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                    </TouchableOpacity>
-                </Layout>
-
-                <SeriesFlatlist
-                    navigation={props.navigation}
-                    route={props.route}
-                /> */}
-
-                {/* seriesA title - 카드뉴스*/}
-                {/* <Layout style={styles.seriesHidden}>
-                    <Layout style={styles.seriesHiddenLayout}>
-                        <Content />
-                        <Text
-                            style={styles.seriesHiddenTxt}>{`Korea A-Z `}</Text>
-                    </Layout>
-                    <TouchableOpacity
-                        style={styles.moreBtnLayout}
-                        onPress={() =>
-                            props.navigation.navigate(SceneRoute.SERIES_A)
-                        }>
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                    </TouchableOpacity>
-                </Layout>
-                <SeriesAFlatlist
-                    navigation={props.navigation}
-                    route={props.route}
-                /> */}
-
-                {/* seriesB title - 블로그 */}
-                {/* <Layout style={styles.seriesHidden}>
-                    <Layout style={styles.seriesHiddenLayout}>
-                        <Blog style={{}} />
-                        <Text
-                            style={
-                                styles.seriesHiddenTxt
-                            }>{`Day Trip with Glokool`}</Text>
-                    </Layout>
-                    <TouchableOpacity
-                        style={styles.moreBtnLayout}
-                        onPress={() =>
-                            props.navigation.navigate(SceneRoute.SERIES_B)
-                        }>
-                        <Text style={styles.moreBtnTxt}>{`More`}</Text>
-                    </TouchableOpacity>
-                </Layout>
-                <SeriesBFlatlist
-                    navigation={props.navigation}
-                    route={props.route}
-                />
-
-                <Layout style={{ height: 220 }} /> */}
-
-            </ScrollView>
-
-            {/* <Animatable.Image
-                source={require('../../assets/icon/Series/TestBanner.png')}
-                animation={animation}
-                duration={100}
-                style={{ position: 'absolute' }}
-            /> */}
-            <Animatable.View
-                animation={animation}
-                duration={300}
-                style={{ position: 'absolute' }}
+                }}
             >
                 <Image source={require('../../assets/icon/Series/TestBanner.png')} />
                 <FlatList
                     data={category}
-                    renderItem={renderItem}
+                    renderItem={renderButtonItem}
                     contentContainerStyle={{ paddingRight: 20 }}
                     horizontal
                 />
-            </Animatable.View>
+            </Animated.View>
+
+            <ScrollView
+                style={{ backgroundColor: 'white', height: '100%' }}
+                scrollEventThrottle={1}
+                onScroll={(e) => handleScroll(e)}
+                bounces={true}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />}
+
+            >
+                <SeriesGrid
+                    navigation={props.navigation}
+                    refreshing={refreshEnd}
+                    itemCount={itemCount}
+                    endReached={endReached} />
+
+            </ScrollView>
+
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    seriesHidden1: {
-        alignSelf: 'center',
-        marginTop: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 35,
-        marginRight: 35,
-    },
-    seriesHidden: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 20,
-        marginLeft: 35,
-        marginRight: 35,
-    },
-    seriesHiddenLayout: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    seriesHiddenTxt: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        fontSize: 17,
-        color: '#000000',
-        marginLeft: 10,
-    },
-    moreBtnLayout: {
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        flex: 1,
-    },
-    moreBtnTxt: {
-        color: '#AFAFAF',
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-    },
     categoryButton: {
         borderColor: 'black',
         borderWidth: 0.5,
@@ -264,5 +199,5 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 5,
         backgroundColor: 'white'
-    }
+    },
 });

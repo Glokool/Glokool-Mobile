@@ -7,10 +7,12 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
+import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
 
@@ -25,40 +27,23 @@ const windowWidth = Dimensions.get('window').width;
 
 export const SeriesGrid = (props: any) => {
 
-    const [content, setContent] = useState<Object>([]);
+    const [content, setContent] = useState([]);
 
     useEffect(() => {
-        InitGrid();
+        initGrid();
     }, [])
 
-    const InitGrid = async () => {
+    useEffect(() => {
+        console.log(props.itemCount);
+        if (props.refreshing == true) {
+            initGrid();
+        }
+    })
+
+    const initGrid = async () => {
         const tmpContent: Array<Object> = [];
-
-        const config = {
-            Method: "get",
-            url: SERVER + "/api/main-tours",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-        };
-
-        const hiddenGem = await axios(config);
-        const hiddenGemData = hiddenGem.data;
-        hiddenGemData.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-
-        hiddenGem.data.map((item: any, index: any) => {
-            tmpContent.push(({
-                image: item.banner,
-                title: item.title,
-                id: item._id,
-                type: 'guide book'
-            }))
-        })
-
-        const seriesA = await axios.get(SERVER + '/api/contents');
-        seriesA.data.map((item: any, index: any) => {
+        const response = await axios.get(SERVER + '/api/series');
+        response.data.map((item: any, index: any) => {
             tmpContent.push(({
                 image: item.image,
                 title: item.title,
@@ -66,17 +51,6 @@ export const SeriesGrid = (props: any) => {
                 type: 'card news'
             }))
         })
-
-        const seriesB = await axios.get(SERVER + '/api/blog');
-        seriesB.data.map((item: any, index: any) => {
-            tmpContent.push(({
-                image: item.cover,
-                title: item.title,
-                id: item._id,
-                type: 'blog'
-            }))
-        })
-        tmpContent.sort(() => Math.random() - 0.5);
         setContent(tmpContent);
     }
 
@@ -98,7 +72,7 @@ export const SeriesGrid = (props: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.itemContainer}>
-                    <Image
+                    <FastImage
                         source={{ uri: item.item.image }}
                         style={{
                             width: windowWidth * 0.33,
@@ -120,16 +94,19 @@ export const SeriesGrid = (props: any) => {
     }
 
     return (
-        <View style={{ flex: 1, }}>
+        <View style={{ flex: 1,}}>
             <FlatGrid
                 itemDimension={100}
-                data={content}
+                data={content.slice(0, props.itemCount)}
                 renderItem={renderItem}
                 spacing={1.5}
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo />
+                <SeriesBottomLogo style={{marginBottom:10,}}/>
+                {props.endReached == true &&
+                    content.length > props.itemCount ? <ActivityIndicator /> : null}
+
             </View>
         </View>
     )
