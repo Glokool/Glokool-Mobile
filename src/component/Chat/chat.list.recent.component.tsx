@@ -138,7 +138,15 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
                     <Layout style={styles.GuideProfileContainer}>
                         <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
-                        <Text style={styles.GuideProfileTxt2}>{item.item.guide.name}</Text>
+                        {item.item.guide.uid === '' || item.item.guide.uid === null || item.item.guide.uid === undefined ? (
+                                <Text style={styles.GuideProfileTxt3}>
+                                    Matching... please wait :)
+                                </Text>
+                            ) : (
+                                <Text style={styles.GuideProfileTxt2}>
+                                    {item.item.guide.name}
+                                </Text>
+                            )}
                     </Layout>
 
                 </Layout>
@@ -284,6 +292,12 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
         marginTop: 4
+    },
+    GuideProfileTxt3: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        color: '#7777FF',
+        marginTop: 0,
     },
     DateContainer: {
         flex: 3,

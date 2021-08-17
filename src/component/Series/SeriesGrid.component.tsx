@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {
-    ScrollView,
     Text,
     View,
     Dimensions,
-    Image,
     StyleSheet,
     TouchableOpacity,
     ActivityIndicator,
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 7,
     },
     GridStyle: {
-        marginTop: 150,
+        marginTop: 135,
         backgroundColor: '#1b1b1b',
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,

@@ -11,6 +11,7 @@ import {
     FlatList,
     Animated,
     Dimensions,
+    TouchableOpacity,
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -25,6 +26,13 @@ import { SeriesCarousel } from '../../component/Series/Series.Carousel';
 import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import { useFocusEffect } from '@react-navigation/native';
 import { SeriesGrid } from '../../component/Series';
+import { text } from '@fortawesome/fontawesome-svg-core';
+
+import series_all from '../../assets/icon/Series/series_all.png';
+import series_attraction from '../../assets/icon/Series/series_attraction.png';
+import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
+import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
+import { numberLiteralTypeAnnotation } from '@babel/types';
 
 var ToastRef: any;
 
@@ -33,15 +41,18 @@ const wait = (timeout: number) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
 
+const windowWidth = Dimensions.get('window').width;
+
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [refreshEnd, setRefreshEnd] = useState(false);
-    const [tourInfo, setTourInfo] = useState([]);
-    const [tourBanner, setTourBanner] = useState([]);
+    const [focusedCategory, setFocusedCategory] = useState();
+    const [banner, setBanner] = useState(series_all);
 
     const [category, setCategory] = useState([]);
     const [endReached, setEndReached] = useState(false);
+    const [refreshCategory, setRefreshCategory] = useState(false);
 
     const [itemCount, setItemCount] = useState(12);
     const itemCountRef = useRef(12);
@@ -62,13 +73,14 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     }, [])
 
     // 새로고침 이벤트가 끝날때 refresh 해주기
-    useEffect(()=>{
+    useEffect(() => {
         if (refreshing == false) {
             setRefreshEnd(true);
+            initCategories();
         }
-        setTimeout(()=>setRefreshEnd(false),1);
+        setTimeout(() => setRefreshEnd(false), 1);
 
-    },[refreshing])
+    }, [refreshing])
 
     // 새로고침 시 refresh 상태변화
     const onRefresh = React.useCallback(() => {
@@ -80,6 +92,16 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const initCategories = async () => {
         const result = await axios.get(SERVER + '/api/category')
         setCategory(result.data);
+
+        result.data.map((item) => {
+            if (item.name == 'ALL' && refreshCategory == false) {
+                setFocusedCategory({
+                    id: item._id,
+                    name: item.name,
+                })
+                setRefreshCategory(true);
+            }
+        })
     }
 
     // 아마도 안드로이드 뒤로가기 버튼 이벤트 핸들러인듯!
@@ -109,12 +131,34 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
+    const checkFocused = (item) => {
+        setFocusedCategory({
+            id: item._id,
+            name: item.name,
+        })
+
+        if (item.name == 'ALL') {
+            setBanner(series_all);
+        } else if (item.name == 'ATTRACTION') {
+            setBanner(series_attraction);
+        } else if (item.name == 'KOREA A-Z') {
+            setBanner(series_korea_atoz);
+        } else if (item.name == 'DAY TRIP') {
+            setBanner(series_daytrip);
+        }
+    }
+
     // 대분류 버튼 렌더링
     const renderButtonItem = (item: any) => {
+        const buttonStyle = item.item._id === focusedCategory?.id ? styles.focusedCategoryButton : styles.categoryButton;
+        const textColor = item.item._id === focusedCategory?.id ? 'white' : 'black';
+
         return (
-            <View style={styles.categoryButton}>
-                <Text>{item.item.name}</Text>
-            </View>
+            <TouchableOpacity onPress={() => checkFocused(item.item)}>
+                <View style={buttonStyle}>
+                    <Text style={[styles.categoryText, { color: textColor }]}>{item.item.name}</Text>
+                </View>
+            </TouchableOpacity>
         )
     }
 
@@ -151,46 +195,75 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
                 }}
             >
-                <Image source={require('../../assets/icon/Series/TestBanner.png')} />
-                <FlatList
-                    data={category}
-                    renderItem={renderButtonItem}
-                    contentContainerStyle={{ paddingRight: 20 }}
-                    horizontal
-                />
+                <Image
+                    style={styles.bannerImage}
+                    source={banner}
+                    resizeMode='contain' />
+                <View style={{ backgroundColor: 'white', alignItems: 'center' }}>
+                    <FlatList
+                        data={category}
+                        renderItem={renderButtonItem}
+                        contentContainerStyle={{ paddingRight: 20 }}
+                        horizontal
+                    />
+                </View>
             </Animated.View>
-            
-            {/* grid scrollview */}
-            <ScrollView
-                style={{ backgroundColor: 'white', height: '100%' }}
-                scrollEventThrottle={1}
-                onScroll={(e) => handleScroll(e)}
-                bounces={true}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />}
-            >
-                <SeriesGrid
-                    navigation={props.navigation}
-                    refreshing={refreshEnd}
-                    itemCount={itemCount}
-                    endReached={endReached} />
 
-            </ScrollView>
+            {/* ALL */}
+            {/* grid scrollview */}
+            {focusedCategory?.name == 'ALL' ? (
+                <ScrollView
+                    style={{ backgroundColor: 'white', height: '100%' }}
+                    scrollEventThrottle={1}
+                    onScroll={(e) => handleScroll(e)}
+                    decelerationRate='fast'
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />}
+                >
+                    <SeriesGrid
+                        navigation={props.navigation}
+                        refreshing={refreshEnd}
+                        itemCount={itemCount}
+                        endReached={endReached} />
+
+                </ScrollView>
+            ) : (
+                null
+            )
+            }
 
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    categoryText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 14,
+    },
     categoryButton: {
-        borderColor: 'black',
-        borderWidth: 0.5,
+        borderColor: '#eee',
+        borderWidth: 2,
         borderRadius: 100,
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
         margin: 5,
         backgroundColor: 'white'
     },
+    focusedCategoryButton: {
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius: 100,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        margin: 5,
+        backgroundColor: 'black'
+    },
+    bannerImage: {
+        width: windowWidth,
+        height: windowWidth / 1920 * 404,
+    }
 });
