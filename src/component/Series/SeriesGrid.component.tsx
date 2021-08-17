@@ -29,17 +29,19 @@ export const SeriesGrid = (props: any) => {
 
     const [content, setContent] = useState([]);
 
+    // grid item 초기화
     useEffect(() => {
         initGrid();
     }, [])
 
+    // 새로고침 시 refresh
     useEffect(() => {
-        console.log(props.itemCount);
         if (props.refreshing == true) {
             initGrid();
         }
     })
 
+    // grid item 초기화
     const initGrid = async () => {
         const tmpContent: Array<Object> = [];
         const response = await axios.get(SERVER + '/api/series');
@@ -48,22 +50,25 @@ export const SeriesGrid = (props: any) => {
                 image: item.image,
                 title: item.title,
                 id: item._id,
-                type: 'card news'
+                type: item.type,
             }))
         })
         setContent(tmpContent);
     }
 
+    // item 클릭 시 화면 전환
+    // 이후 어느정도 수정 필요할듯...
     const onPressItem = (item: GridItem) => {
-        if (item.type == 'guide book') {
+        if (item.type == 'tour') {
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item.id });
-        } else if (item.type == 'card news') {
+        } else if (item.type == 'content') {
             props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item.id })
         } else if (item.type == 'blog') {
             props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item.id })
         }
     }
 
+    // grid 아이템 렌더링
     const renderItem = (item: { index: number, item: GridItem }) => {
 
         const textFont = item.item.type == 'guide book' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';

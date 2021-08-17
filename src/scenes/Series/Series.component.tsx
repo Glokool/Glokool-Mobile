@@ -26,25 +26,9 @@ import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import { useFocusEffect } from '@react-navigation/native';
 import { SeriesGrid } from '../../component/Series';
 
-
-type GridItem = {
-    image: string,
-    title: string,
-    id: string,
-    type: string,
-}
-
-type Series_Item = {
-    banner: string,
-    title: string,
-    _id: string,
-    loc: string,
-    region: string,
-}
-
 var ToastRef: any;
-const windowWidth = Dimensions.get('window').width;
 
+// 새로고침 시 setTimeout 으로 실행되는 함수
 const wait = (timeout: number) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -72,10 +56,12 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
+    // 대분류 초기화
     useEffect(() => {
         initCategories();
     }, [])
 
+    // 새로고침 이벤트가 끝날때 refresh 해주기
     useEffect(()=>{
         if (refreshing == false) {
             setRefreshEnd(true);
@@ -84,16 +70,19 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     },[refreshing])
 
+    // 새로고침 시 refresh 상태변화
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(500).then(() => setRefreshing(false));
     }, []);
 
+    // 대분류 초기화
     const initCategories = async () => {
         const result = await axios.get(SERVER + '/api/category')
         setCategory(result.data);
     }
 
+    // 아마도 안드로이드 뒤로가기 버튼 이벤트 핸들러인듯!
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
@@ -120,6 +109,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
+    // 대분류 버튼 렌더링
     const renderButtonItem = (item: any) => {
         return (
             <View style={styles.categoryButton}>
@@ -128,7 +118,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         )
     }
 
+    // Scroll 이벤트 핸들러
     const handleScroll = (e: any) => {
+        // ScrollView end detected 검사
         let paddingToBottom = 1;
         paddingToBottom += e.nativeEvent.layoutMeasurement.height;
 
@@ -140,7 +132,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 setEndReached(false);
             }, 1000);
         }
-
+        // Scroll 위치 변화 (hiding top tab)
         if (e.nativeEvent.contentOffset.y > 0) {
             scrollY.setValue(e.nativeEvent.contentOffset.y);
         }
@@ -148,6 +140,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     return (
         <View>
+            {/* top tab bar */}
             <Animated.View
                 style={{
                     transform: [{ translateY: translateY }],
@@ -166,7 +159,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     horizontal
                 />
             </Animated.View>
-
+            
+            {/* grid scrollview */}
             <ScrollView
                 style={{ backgroundColor: 'white', height: '100%' }}
                 scrollEventThrottle={1}
@@ -177,7 +171,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         refreshing={refreshing}
                         onRefresh={onRefresh}
                     />}
-
             >
                 <SeriesGrid
                     navigation={props.navigation}
