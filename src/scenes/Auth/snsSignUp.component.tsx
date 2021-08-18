@@ -175,7 +175,6 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
         console.log("login 정보 end ");
         if (profile.displayName != undefined) {
           setName(profile.displayName);
-          console.log("user name undefined")
         }
         setEmail(profile.email);
       });
