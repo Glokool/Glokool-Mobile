@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Dimensions,
     FlatList,
     Image,
-    StyleSheet
+    StyleSheet,
+    View,
+    Text,
 } from 'react-native'
 import {
     Layout,
     LayoutElement,
-    Text,
 } from '@ui-kitten/components'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AngleLeft_Color, AngleRight_Color, Bookmark } from '../../assets/icon/Common';
@@ -41,6 +42,9 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
     const [change, setChange] = React.useState<Array<boolean>>(Array.from({ length: data?.length }, (undefined, i) => { return false }));
     const [refresh, setRefresh] = React.useState<boolean>(false);
 
+    // useEffect(() => {
+    //     console.log(props.data);
+    // }, []);
 
     const PressChage = (index: number) => {
 
@@ -96,7 +100,7 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
                             />
-                            <SelectableText style={styles.LocationText} item={item.item.desc}/>
+                            <SelectableText style={styles.LocationText} item={item.item.desc} />
                         </Layout>
 
                     </Layout>
@@ -130,7 +134,7 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
 
                             <Layout style={styles.LocationContainer}>
                                 <Pin style={styles.Pin} />
-                                <SelectableText style={styles.LocationText} item={item.item.location}/>
+                                <SelectableText style={styles.LocationText} item={item.item.location} />
                             </Layout>
                         </Layout>
                     </Layout>
@@ -143,17 +147,63 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
         );
     }
 
+    const renderHeader = () => {
+        return (
+            <View style={{ width: 30 }}></View>
+        )
+    }
+
+    const renderInnerList = (item: any) => {
+        // console.log(item.item);
+        return (
+            <View>
+                <Image
+                    source={{ uri: item.item.img }}
+                    style={styles.InsideImage} resizeMode={'stretch'}
+                />
+            </View>
+        )
+    }
+
+    const renderOuterList = (item: any) => {
+        console.log(item.item);
+        return (
+            <View style={{marginTop: 25}}>
+                <FlatList
+                    data={item.item.images}
+                    renderItem={renderInnerList}
+                    ListHeaderComponent={renderHeader}
+                    horizontal
+                />
+                <View style={{ marginHorizontal: 30 }}>
+                    <View style={{ flexDirection: 'row', marginTop: 10, }}>
+                        <Pin style={styles.Pin} />
+                        <Text style={styles.LocationText}>{item.item.location}</Text>
+                    </View>
+                    <Text style={styles.DescriptionText}>{item.item.desc}</Text>
+                </View>
+            </View>
+        )
+    }
 
 
     return (
-        <Layout>
+        <View style={{marginBottom: 25}}>
+
             <FlatList
-                data={data}
-                extraData={refresh}
-                renderItem={renderItem}
-                showsVerticalScrollIndicator={false}
+                data={props.data}
+                renderItem={renderOuterList}
             />
-        </Layout>
+
+        </View>
+        // <Layout>
+        //     <FlatList
+        //         data={data}
+        //         extraData={refresh}
+        //         renderItem={renderItem}
+        //         showsVerticalScrollIndicator={false}
+        //     />
+        // </Layout>
     );
 }
 
@@ -203,13 +253,18 @@ const styles = StyleSheet.create({
     InsideImage: {
         width: WindowSize * 0.58,
         height: WindowSize * 0.77,
+        marginRight: 5,
     },
     LocationText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 17,
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
         color: 'black',
-        marginTop: -5,
-        marginRight: 30
+    },
+    DescriptionText: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 15,
+        color: 'black',
+        marginTop: 8,
     },
     NextButton: {
         justifyContent: 'center',
