@@ -47,14 +47,17 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [refreshEnd, setRefreshEnd] = useState(false);
-    const [focusedCategory, setFocusedCategory] = useState();
+    const [focusedCategory, setFocusedCategory] = useState({
+        id: 'series_all',
+        name: 'ALL'
+    });
     const [banner, setBanner] = useState(series_all);
 
     const [category, setCategory] = useState([]);
     const [endReached, setEndReached] = useState(false);
     const [refreshCategory, setRefreshCategory] = useState(false);
-
     const [itemCount, setItemCount] = useState(12);
+
     const itemCountRef = useRef(12);
 
     const scrollY = new Animated.Value(0);
@@ -90,18 +93,14 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     // 대분류 초기화
     const initCategories = async () => {
-        const result = await axios.get(SERVER + '/api/category')
-        setCategory(result.data);
+        const result = await axios.get(SERVER + '/api/category');
 
-        result.data.map((item) => {
-            if (item.name == 'ALL' && refreshCategory == false) {
-                setFocusedCategory({
-                    id: item._id,
-                    name: item.name,
-                })
-                setRefreshCategory(true);
-            }
-        })
+        const tmpContent = [{
+            id: 'series_all',
+            name: 'ALL'
+        }].concat(result.data);
+
+        setCategory(tmpContent);
     }
 
     // 아마도 안드로이드 뒤로가기 버튼 이벤트 핸들러인듯!
@@ -150,12 +149,25 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     // 대분류 버튼 렌더링
     const renderButtonItem = (item: any) => {
-        const buttonStyle = item.item._id === focusedCategory?.id ? styles.focusedCategoryButton : styles.categoryButton;
-        const textColor = item.item._id === focusedCategory?.id ? 'white' : 'black';
+
+        const buttonBG = (item.item.name === 'ALL' && focusedCategory?.name === 'ALL') ?
+            'black' : (item.item.name === 'ALL' && focusedCategory?.name !== 'ALL') ?
+                '#eee' : (item.item.name === focusedCategory?.name) ?
+                    '#7777ff' : 'white';
+
+        const buttonBorder = (item.item.name === 'ALL' && focusedCategory?.name === 'ALL') ?
+            'black' : (item.item.name === 'ALL' && focusedCategory?.name !== 'ALL') ?
+                '#eee' : (item.item.name === focusedCategory?.name) ?
+                    '#7777ff' : '#eee';
+
+        const textColor = (item.item.name === 'ALL' && focusedCategory?.name === 'ALL') ?
+            'white' : (item.item.name === 'ALL' && focusedCategory?.name !== 'ALL') ?
+                '#7777ff' : (item.item.name === focusedCategory?.name) ?
+                    'white' : 'black';
 
         return (
             <TouchableOpacity onPress={() => checkFocused(item.item)}>
-                <View style={buttonStyle}>
+                <View style={[styles.categoryButton, { borderColor: buttonBorder, backgroundColor: buttonBG }]}>
                     <Text style={[styles.categoryText, { color: textColor }]}>{item.item.name}</Text>
                 </View>
             </TouchableOpacity>
@@ -244,22 +256,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     categoryButton: {
-        borderColor: '#eee',
         borderWidth: 2,
         borderRadius: 100,
         paddingVertical: 10,
         paddingHorizontal: 15,
         margin: 5,
-        backgroundColor: 'white'
-    },
-    focusedCategoryButton: {
-        borderColor: 'black',
-        borderWidth: 2,
-        borderRadius: 100,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        margin: 5,
-        backgroundColor: 'black'
     },
     bannerImage: {
         width: windowWidth,
