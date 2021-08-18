@@ -26,6 +26,7 @@ import { Profile } from '../../assets/icon/My';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import { Loading } from '../../component/Common/Loading';
 import { AuthContext } from '../../context/AuthContext';
+import { ChangeProfile, ProfileBasic, ProfileBlue, ProfileGray, ProfileOrange, ProfileGreen, ProfilePurple } from '../../assets/icon/My';
 
 var toastRef: any;
 
@@ -34,6 +35,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
     const [name, setName] = React.useState('');
     const [profile, setProfile] = React.useState(null);
+    const [defaultProfile, setDefaultProfile] = React.useState();
     const [checkProfileChange, setCheckProfileCHange] = React.useState<boolean>(
         false,
     );
@@ -84,6 +86,12 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         return picRef.putFile(profile).then(() => picRef.getDownloadURL());
     };
 
+    const testUploadImg = async () => {
+        const storageRef = storage().ref();
+        const picRef = storageRef.child(`profile/${currentUser?.uid}`);
+        return picRef.putFile(profile).then(() => picRef.getDownloadURL());
+    }
+
     /* save the profile btn */
     const PressChange = async () => {
         setLoading(true);
@@ -122,7 +130,9 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         props.navigation.goBack();
     };
 
-    const PressDefaultPic = (index: string) => {};
+    const PressDefaultPic = (index: string) => { 
+
+    };
 
     /* 이미지 변경 */
     const PressPicture = async () => {
@@ -144,6 +154,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
             },
         );
     };
+
     React.useEffect(() => {
         setName(currentUser?.displayName);
         setProfile(currentUser?.photoURL);
@@ -225,49 +236,29 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                                     <Layout style={styles.miniProfileContainer}>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('1')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_01.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic('1')}>
+                                            <ProfileGray />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('2')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_02.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic('2')}>
+                                            <ProfileOrange />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('3')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_03.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic('3')}>
+                                            <ProfilePurple />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('4')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_04.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic('4')}>
+                                            <ProfileGreen />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('5')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_05.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic('5')}>
+                                            <ProfileBlue />
                                         </TouchableOpacity>
                                     </Layout>
                                 </Layout>
@@ -275,19 +266,22 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                 <Layout style={{ flex: 1, marginRight: 15 }}>
                                     <TouchableOpacity onPress={PressPicture}>
                                         {profile == undefined ||
-                                        profile == null ||
-                                        profile == '' ? (
-                                            <Image
-                                                style={styles.profile}
-                                                source={require('../../assets/profile/profile_01.png')}
-                                            />
+                                            profile == null ||
+                                            profile == '' ? (
+                                            <Layout style={{ width: 75, height: 75, }}>
+                                                <ProfileBasic />
+                                                <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
+                                            </Layout>
                                         ) : (
+                                            <Layout style={{ width: 75, height: 75, }}>
                                             <Image
                                                 style={styles.profile}
                                                 source={{
                                                     uri: profile,
                                                 }}
                                             />
+                                            <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
+                                            </Layout>
                                         )}
                                     </TouchableOpacity>
                                 </Layout>
@@ -295,7 +289,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>User Name</Text>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>User Name</Text>
                                 </Layout>
 
                                 <Layout
@@ -316,7 +310,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         User Status
                                     </Text>
                                 </Layout>
@@ -353,7 +347,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={styles.title}>Gender</Text>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>Gender</Text>
                                 </Layout>
                                 <Layout style={{ flex: 1 }} />
                                 <Layout
@@ -366,7 +360,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={styles.title}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         Date of Birth
                                     </Text>
                                 </Layout>
@@ -382,7 +376,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         Nationality
                                     </Text>
                                 </Layout>
@@ -399,7 +393,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                 style={styles.SaveButton}
                                 onPress={() => PressChange()}>
                                 <Text style={styles.ButtonText}>
-                                    Save the Profile
+                                    Save Profile
                                 </Text>
                             </TouchableOpacity>
                         </ScrollView>
@@ -431,9 +425,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     title: {
-        fontSize: 18,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#7777FF',
+        fontSize: 16,
+        fontFamily: 'Pretendard-Medium',
     },
     photoContainer: {
         flexDirection: 'row',
@@ -443,8 +436,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     profile: {
-        width: 80,
-        height: 80,
+        width: 75,
+        height: 75,
         borderRadius: 100,
     },
     miniProfileContainer: {
@@ -477,16 +470,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         height: 50,
-        borderWidth: 1.5,
-        borderColor: '#8797FF',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#7777ff',
     },
     ButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
+        color: 'white',
+    },
+    smallProfileContainer: {
+        marginRight: 5,
     },
 });
