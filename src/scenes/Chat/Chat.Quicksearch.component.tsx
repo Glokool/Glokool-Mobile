@@ -7,8 +7,7 @@ import { CloseButton } from '../../assets/icon/Series';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
-
-import series_all from '../../assets/icon/Series/series_all.png';
+import FastImage from 'react-native-fast-image';
 import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
@@ -21,6 +20,8 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
     const [focusedCategory, setFocusedCategory] = useState(null);
+    const [focusedSubCategory, setFocusedSubCategory] = useState(null);
+    const [banner, setBanner] = useState();
 
     useEffect(() => {
         initCategories();
@@ -31,12 +32,28 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         setCategory(result.data);
     }
 
-    const checkFocused = (item: any) => {
+    const pressCategory = (item: any) => {
         setFocusedCategory({
             id: item._id,
             name: item.name,
         })
+
+        if (item.name == 'ATTRACTION') {
+            setBanner(series_attraction);
+        } else if (item.name == 'KOREA A-Z') {
+            setBanner(series_korea_atoz);
+        } else if (item.name == 'DAY TRIP') {
+            setBanner(series_daytrip);
+        }
+
         setSubCategory(item.subCategory);
+    }
+
+    const pressSubCategory = (item: any) => {
+        setFocusedSubCategory({
+            id: item._id,
+            name: item.name
+        })
     }
 
     const renderItem = (item: any) => {
@@ -44,7 +61,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         const textColor = item.item._id === focusedCategory?.id ? 'white' : '#7777ff';
 
         return (
-            <TouchableOpacity onPress={() => checkFocused(item.item)}>
+            <TouchableOpacity onPress={() => pressCategory(item.item)}>
                 <View style={[styles.categoryButton, { backgroundColor: buttonBackground }]}>
                     <Text style={[styles.buttonText, { color: textColor }]}>{item.item.name}</Text>
                 </View>
@@ -53,11 +70,14 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     }
 
     const renderSubCategory = (item: any) => {
-        console.log(item);
+        const buttonBackground = item.item._id === focusedSubCategory?.id ? '#eee' : 'white';
+
         return (
-            <View style={styles.subCategoryButton}>
-                <Text style={styles.subButtonText}>{item.item.name}</Text>
-            </View>
+            <TouchableOpacity onPress={() => pressSubCategory(item.item)}>
+                <View style={[styles.subCategoryButton,{backgroundColor:buttonBackground}]}>
+                    <Text style={styles.subButtonText}>{item.item.name}</Text>
+                </View>
+            </TouchableOpacity>
         )
     }
 
@@ -72,7 +92,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
                     <Text style={styles.topTabText}>QUICK SEARCH</Text>
                 </View>
-                <Image source={require('../../assets/icon/Chat/QuickSearchButtonPressed.png')} style={{ width: 91, height: 40 }} resizeMode='contain' />
+                <FastImage source={require('../../assets/icon/Chat/QuickSearchButtonPressed.png')} style={{ width: 91, height: 40 }} resizeMode='contain' />
             </View>
 
 
@@ -90,8 +110,8 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
             {focusedCategory !== null ? (
                 <View style={{ alignItems: 'center', marginTop: 10, }}>
-                    <Image
-                        source={require('../../assets/icon/Series/series_attraction.png')}
+                    <FastImage
+                        source={banner}
                         style={styles.categoryImage}
                         resizeMode='contain'
                     />
@@ -101,6 +121,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                             data={subCategory}
                             renderItem={renderSubCategory}
                             spacing={5}
+                            scrollEnabled={false}
                         />
                     </View>
                 </View>

@@ -27,7 +27,7 @@ import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import { useFocusEffect } from '@react-navigation/native';
 import { SeriesGrid } from '../../component/Series';
 import { text } from '@fortawesome/fontawesome-svg-core';
-
+import FastImage from 'react-native-fast-image';
 import series_all from '../../assets/icon/Series/series_all.png';
 import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
@@ -194,7 +194,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     position: 'absolute',
                 }}
             >
-                <Image
+                <FastImage
                     style={styles.bannerImage}
                     source={banner}
                     resizeMode='contain' />
