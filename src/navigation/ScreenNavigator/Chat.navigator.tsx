@@ -86,6 +86,6 @@ export const ChatNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
-    <Stack.Screen name={SceneRoute.CHAT_QUICK_SEARCH} component={ChatQuickSearch} />
+    <Stack.Screen name={SceneRoute.CHAT_QUICK_SEARCH} component={ChatQuickSearch}/>
   </Stack.Navigator>
 );

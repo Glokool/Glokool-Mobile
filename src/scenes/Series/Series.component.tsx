@@ -192,7 +192,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     zIndex: 100,
                     backgroundColor: '#00ff0000',
                     position: 'absolute',
-
                 }}
             >
                 <Image
@@ -264,6 +263,6 @@ const styles = StyleSheet.create({
     },
     bannerImage: {
         width: windowWidth,
-        height: windowWidth / 1920 * 404,
+        height: windowWidth / 1920 * 404
     }
 });
