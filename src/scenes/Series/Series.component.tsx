@@ -54,6 +54,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [banner, setBanner] = useState(series_all);
 
     const [category, setCategory] = useState([]);
+    const [subCategory, setSubCategory] = useState([]);
     const [endReached, setEndReached] = useState(false);
     const [refreshCategory, setRefreshCategory] = useState(false);
     const [itemCount, setItemCount] = useState(12);
@@ -93,7 +94,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     // 대분류 초기화
     const initCategories = async () => {
-        const result = await axios.get(SERVER + '/api/category');
+        const result = await axios.get(SERVER + '/api/main-categories');
 
         const tmpContent = [{
             id: 'series_all',
@@ -130,11 +131,23 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return true;
     }
 
-    const checkFocused = (item) => {
+    const checkFocused = async (item: any) => {
         setFocusedCategory({
             id: item._id,
             name: item.name,
         })
+        
+        console.log(item._id);
+
+        const config = {
+            Method: "get",
+            url: SERVER + "/api/categories/" + item.name,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        };
+        const response = await axios(config);
+        console.log(response.data)
 
         if (item.name == 'ALL') {
             setBanner(series_all);
@@ -145,6 +158,11 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         } else if (item.name == 'DAY TRIP') {
             setBanner(series_daytrip);
         }
+    }
+
+    const fetchAttraction = async () => {
+        const response = await axios.get(SERVER + 'api/main-tours');
+        console.log(response.data);
     }
 
     // 대분류 버튼 렌더링
@@ -222,7 +240,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
             {/* ALL */}
             {/* grid scrollview */}
-            {focusedCategory?.name == 'ALL' ? (
+            {focusedCategory?.name == 'ALL' && (
                 <ScrollView
                     style={{ backgroundColor: 'white', height: '100%' }}
                     scrollEventThrottle={1}
@@ -241,10 +259,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         endReached={endReached} />
 
                 </ScrollView>
-            ) : (
-                null
-            )
-            }
+            )}
+
 
         </View>
     );

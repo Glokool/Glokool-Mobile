@@ -43,6 +43,7 @@ export const SeriesGrid = (props: any) => {
     const initGrid = async () => {
         const tmpContent: Array<Object> = [];
         const response = await axios.get(SERVER + '/api/series');
+        
         response.data.map((item: any, index: any) => {
             tmpContent.push(({
                 image: item.image,
