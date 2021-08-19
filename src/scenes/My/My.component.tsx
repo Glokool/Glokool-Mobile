@@ -79,7 +79,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
     const linkTo = useLinkTo();
 
-    const testOpenURL = async(route = props.route) => {
+    const testOpenURL = async (route = props.route) => {
         //linkTo('/main');
 
         const flag = await Linking.openURL(seriesURL);
@@ -198,8 +198,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 <Layout style={styles.Container}>
                     <Layout style={styles.ProfileContainer}>
                         {currentUser.photoURL === '' ||
-                        currentUser.photoURL === null ||
-                        currentUser.photoURL === undefined ? (
+                            currentUser.photoURL === null ||
+                            currentUser.photoURL === undefined ? (
                             <Image
                                 source={require('../../assets/profile/profile_01.png')}
                                 style={styles.profileImage}
@@ -281,72 +281,29 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                                 ? styles.PaidContainerC
                                                 : styles.PaidContainer
                                         }>
-                                        <Layout
-                                            style={styles.PaidInfoContainer}>
-                                            <Layout
-                                                style={
-                                                    styles.PaidTitleContainer1
-                                                }>
-                                                <Text style={styles.PaidTitle}>
-                                                    Payment
+                                        <Layout style={styles.PaidInfoContainer}>
+
+                                            <Layout style={styles.PaidTitleContainer1}>
+                                                <Text style={styles.PaidTitle}>Payment</Text>
+                                                <Text style={styles.PaidTitle}>Trip Date</Text>
+                                            </Layout>
+
+                                            <Layout style={styles.PaidTitleContainer2}>
+                                                <Text style={item.refund.complete === true ? styles.PaidDescR : styles.PaidDesc}>
+                                                    {moment(item.paymentDate,).format('YY . MM . DD')}
                                                 </Text>
-                                                <Text style={styles.PaidTitle}>
-                                                    Trip Date
+                                                <Text style={ item.refund.check === true ? styles.PaidDescR : styles.PaidDesc }>
+                                                    {moment(item.day).format( 'YY . MM . DD', )}
                                                 </Text>
                                             </Layout>
 
-                                            <Layout
-                                                style={
-                                                    styles.PaidTitleContainer2
-                                                }>
-                                                <Text
-                                                    style={
-                                                        item.refund.complete ===
-                                                        true
-                                                            ? styles.PaidDescR
-                                                            : styles.PaidDesc
-                                                    }>
-                                                    {moment(
-                                                        item.paymentDate,
-                                                    ).format('YY . MM . DD')}
-                                                </Text>
-                                                <Text
-                                                    style={
-                                                        item.refund.check ===
-                                                        true
-                                                            ? styles.PaidDescR
-                                                            : styles.PaidDesc
-                                                    }>
-                                                    {moment(item.day).format(
-                                                        'YY . MM . DD',
-                                                    )}
-                                                </Text>
-                                            </Layout>
                                         </Layout>
 
-                                        <Layout
-                                            style={styles.PaidInfoContainer}>
-                                            <Layout
-                                                style={
-                                                    styles.PaidTitleContainer1
-                                                }>
-                                                <Text
-                                                    style={
-                                                        styles.PaidTitle
-                                                    }>{` `}</Text>
-                                                <Text
-                                                    style={
-                                                        item.refund.complete ===
-                                                        true
-                                                            ? styles.RefundCompleted
-                                                            : styles.RefundProgress
-                                                    }>
-                                                    {item.refund.check === false
-                                                        ? ''
-                                                        : item.refund
-                                                              .complete === true
-                                                        ? `Refund Completed`
-                                                        : `Refund in progress`}
+                                        <Layout style={styles.PaidInfoContainer}>
+                                            <Layout style={  styles.PaidTitleContainer1 }>
+                                                <Text style={ styles.PaidTitle }>{` `}</Text>
+                                                <Text style={ item.refund.complete === true ? styles.RefundCompleted : styles.RefundProgress }>
+                                                    {item.refund.check === false ? '' : item.refund .complete === true ? `Refund Completed` : `Refund in progress`}
                                                 </Text>
                                             </Layout>
                                         </Layout>
@@ -493,22 +450,20 @@ const styles = StyleSheet.create({
     },
     PaidInfoContainer: {
         flexDirection: 'row',
-        backgroundColor: '#00FF0000',
-        flex: 1,
+        backgroundColor: '#00ff0000',
     },
     PaidTitleContainer1: {
-        flex: 1,
-        backgroundColor: '#00FF0000',
+        backgroundColor: '#00ff0000',
         marginLeft: 30,
         marginBottom: 10,
         marginTop: 10,
         flexDirection: 'column',
     },
     PaidTitleContainer2: {
-        flex: 1,
-        backgroundColor: '#00FF0000',
+        backgroundColor: '#00ff0000',
         marginTop: 10,
         marginBottom: 10,
+        marginLeft: 15,
         flexDirection: 'column',
     },
     PaidTitle: {

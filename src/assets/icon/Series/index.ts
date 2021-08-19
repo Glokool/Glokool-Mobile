@@ -27,6 +27,8 @@ import HiddenGem_Title from './HiddenGem_Title.svg';
 import Content from './Content.svg';
 import Blog from './Blog.svg';
 import EditorNoteLine from './EditorNoteLine.svg';
+import Share from './Share.svg';
+import FacebookShare from './FacebookShare.svg';
 import CloseButton from './CloseButton.svg';
 import TestBanner from './TestBanner.svg';
 import SeriesBottomLogo from './SeriesBottomLogo.svg';
@@ -62,6 +64,8 @@ export {
     Content,
     Blog,
     EditorNoteLine,
+    Share,
+    FacebookShare,
     CloseButton,
     TestBanner,
     SeriesBottomLogo

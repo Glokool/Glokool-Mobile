@@ -43,7 +43,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     }, [guideVisible])
 
     const InitNowList = async () => {
-        console.log(userContext.currentUser);
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
@@ -60,7 +59,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             // GloChatData 는 index.ts 에서 type 으로 export 되어있음
             setData(RevData.data);
             setLoading(false);
-        } 
+        }
     }
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
@@ -97,7 +96,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                //console.log(res.data);
+                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -111,6 +110,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 })
                 if (res.data.lang.length == 1) {
                     setENG(true);
+                    setCHN(false);
                 }
                 else {
                     if (res.data.lang[0]) { setENG(true); }
@@ -127,27 +127,13 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         }
     }
 
-    const getGuideInfo = async (guideInfo: any) => {
-        if (guideInfo.uid != '') {
-            try {
-                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                return res.data.avatar
-
-            } catch (e) {
-                console.log('e', e);
-            }
-        }
-        else {
-            Alert.alert('Sorry,', 'Guide Not Matched!');
-        }
-    }
 
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
         const ItemDay = (new Date(item.item.day)).getDate();
 
-        console.log("REDI", item.item);
+        // console.log("REDI", item.item.guide);
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -157,11 +143,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     <Layout style={styles.GuideContainer}>
                         <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
                             <Layout style={styles.GuideAvatarContainer}>
-                                {/* {
-                                    guideAvatar != undefined &&
-                                    guideAvatar != null ? (
+                                {
+                                    item.item.guide?.avatar != undefined &&
+                                    item.item.guide?.avatar != null ? (
                                     <Image
-                                        source={{ uri: guideAvatar }}
+                                        source={{ uri: item.item.guide?.avatar }}
                                         style={styles.GuideAvatar}
                                     />
                                 ) : (
@@ -169,12 +155,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                         source={require('../../assets/profile/profile_01.png')}
                                         style={styles.GuideAvatar}
                                     />
-                                )} */}
-                                <Image
-                                    source={require('../../assets/profile/profile_01.png')}
-                                    style={styles.GuideAvatar}
-                                    resizeMode={'stretch'}
-                                />
+                                )}
                             </Layout>
                         </TouchableOpacity>
 
@@ -182,7 +163,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             <Text style={styles.GuideProfileTxt1}>
                                 Travel Assistant
                             </Text>
-                            {item.item.guide.uid === '' || item.item.guide.uid === null || item.item.guide.uid === undefined ? (
+                            {item.item.guide?.uid === '' ||
+                                item.item.guide?.uid === undefined ||
+                                item.item.guide?.uid === null ? (
                                 <Text style={styles.GuideProfileTxt3}>
                                     Matching... please wait :)
                                 </Text>
@@ -336,6 +319,8 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 50,
+        borderWidth: 0.5,
+        borderColor: '#ccc',
     },
     GuideProfileContainer: {
         marginLeft: 10,

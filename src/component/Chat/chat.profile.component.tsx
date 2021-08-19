@@ -11,14 +11,14 @@ export const ProfileModal = (props: any) => {
     const [guideVisible, setGuideVisible] = useState(false);
 
     useEffect(() => {
-        console.log(props);
+        // console.log(props);
         if (props.isVisible) {
             setGuideVisible(true);
         }
     })
 
     const helpButton = () => {
-        console.log("PARAMS",props.route.params);
+        // console.log("PARAMS",props.route.params);
         props.navigation.navigate(SceneRoute.CHAT_HELP, {
             id: props.route.params.id,
             guide: {
@@ -32,7 +32,7 @@ export const ProfileModal = (props: any) => {
     return (
         <>
             < Modal
-                style={{ padding: 20 }}
+                style={{ padding: 20, width:'100%' }}
                 visible={guideVisible}
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setGuideVisible(false)}
@@ -80,7 +80,7 @@ export const ProfileModal = (props: any) => {
 
                         <Layout style={{ flexDirection: 'row' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
-                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN ? '中文' : null}</Text>
+                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN || props.CHN != '' ? '中文' : null} {props.CHN}</Text>
                         </Layout>
 
                         <Layout style={{ flexDirection: 'row', marginTop: 3, }}>

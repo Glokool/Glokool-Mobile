@@ -10,10 +10,9 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    processColor,
-    Linking,
     Button,
-    Platform
+    Platform,
+    Share as ShareRN
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -34,6 +33,7 @@ import {
     Comments5,
     Comments6,
     Comments6_s,
+    Content,
 } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -44,6 +44,8 @@ import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
@@ -96,10 +98,15 @@ export const SeriesAInfoScreen = (
     const [nowComment, setNowComment] = React.useState('');
     const [bookmarkList, setBookmarkList] = React.useState([]);
 
+    const [shareImage, setShareImage] = React.useState();
     const [Glochat, setGlochat] = React.useState(false);
 
     const user = auth().currentUser;
     const uid = user?.uid;
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, [content]);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -110,70 +117,80 @@ export const SeriesAInfoScreen = (
     }, []);
 
 
-    // React.useEffect(()=>{
-    //     setId(props.route.params.Id);
-    // })
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
 
-    const shareItems = async () => {
+        xhr.open("GET", image[0], true);
+        xhr.responseType = "blob";
 
-        // const shareOptions = {
-        //     title: 'Share via',
-        //     message: 'some message',
-        //     url: 'https://google.com',
-        //     social: Share.Social.INSTAGRAM,
-        //   };
+        xhr.onload = function (e) {
+            //console.log(this.response);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
 
-        //   Share.shareSingle(shareOptions)
-        //     .then((res) => { console.log(res) })
-        //     .catch((err) => { err && console.log(err); });
+    }
 
-        //facebook 에 공유하는 부분
-        const content = {
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
             contentType: 'link',
-            contentUrl: "https://google.com",
-            contentDescription: 'Open in Glokool',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
         };
 
-        const result = await ShareDialog.canShow(content).then((canShow) => {
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
             if (canShow) {
-                return ShareDialog.show(content);
+                return ShareDialog.show(sharingOptions);
             }
-        })
-
+        }).catch((e) => console.log(e));
         console.log(result);
-
-        // 경로 설정해서 공유하는 부분
-        // try {
-        //     const result = await Share.share({
-        //         url: "glokool://app/main/series/series-a/" + props.route.params.Id,
-        //         message: "Open in Glokool Application",
-        //     })
-        // } catch (e) {
-        //     console.log(e);
-        // }
     }
 
-    const appIsRunning = () => {
-        Linking.addEventListener('url', (e) => {
-            const route = e.url.replace(/.*?:\/\//g, '');
-            console.log(e.url);
-        })
-    }
+    // sns 공유 메소드
+    const shareItems = async () => {
 
-    const catchURL = () => {
-        Linking.getInitialURL()
-            .then((url) => {
-                console.log(url);
-            })
+        console.log(content?.title)
+
+        // console.log(shareImage);
+
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+
+        Share.open(shareOptions);
     }
+    // 모달 컴포넌트에 bool 값 전달후 바로 초기화
+    React.useEffect(() => {
+        if (Glochat) {
+            setGlochat(false);
+        }
+    }, [Glochat])
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
+
+        console.log(Content.data);
 
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
+        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -229,7 +246,7 @@ export const SeriesAInfoScreen = (
         };
 
         axios(config)
-            .then((response) => {
+            .then((response: { data: any; }) => {
                 InitSeries();
             })
             .catch((error) => {
@@ -341,7 +358,7 @@ export const SeriesAInfoScreen = (
     return (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
-                keyboardVerticalOffset={Platform.OS === 'android' ? -160 : -230}
+                keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
                 behavior="padding"
                 style={styles.Container}
             >
@@ -402,19 +419,38 @@ export const SeriesAInfoScreen = (
                         </Layout>
                     </Layout>
                     <Layout style={styles.SeriesTitleLayoutStyle}>
-                        <SelectableText style={styles.SeriesTitleTxtStyle} item={content?.title} />
-                        {/* <Button title="Share to Others" onPress={() => shareItems()} /> */}
+                        <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
                         <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
                     </Layout>
 
                     {/* 글로챗 컨테이너 */}
-                    {/* DB 에서 정보 받아오고 나서 주석 해제 */}
-                    {/* <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                    <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
                         <Service />
                     </TouchableOpacity>
-                    <ServiceModal isVisible={Glochat} data={data} /> */}
+                    <ServiceModal isVisible={Glochat} data={content} />
+
+                    {/* 공유 부분 */}
+                    <Layout style={{ alignItems: 'center', marginTop: 20, }}>
+                        <Text style={styles.ShareText}>Share with Others!</Text>
+                        <Layout style={{ flexDirection: 'row', }}>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                onPress={() => shareItems()}
+                            >
+                                <ShareOut />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                onPress={() => facebookShare()}
+                            >
+                                <FacebookShare />
+                            </TouchableOpacity>
+                        </Layout>
+                    </Layout>
+
+
 
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>
@@ -622,6 +658,7 @@ export const SeriesAInfoScreen = (
                             </Layout>
                         ) : null}
                     </Layout>
+
 
                 </ScrollView>
 
@@ -971,5 +1008,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 3,
         top: 3,
+    },
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 18,
+        color: '#7777ff'
     },
 });

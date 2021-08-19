@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Button,
 } from 'react-native';
 import {
     AngleDown,
@@ -36,6 +37,9 @@ import {
 } from '../../component/Series';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import { ShareDialog } from 'react-native-fbsdk-next';
+import Share from 'react-native-share';
+import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
@@ -98,10 +102,15 @@ export const SeriesHiddenGemContentRest = (
     const [infoPos, setInfoPos] = React.useState<number>(0);
     const [detailPos, setDetailPos] = React.useState<number>(0);
     const [menuPos, setMenuPos] = React.useState<number>(0);
+    const [shareImage, setShareImage] = React.useState();
 
     React.useEffect(() => {
         InitContentRest();
     }, []);
+
+    React.useEffect(() => {
+        encodeBase64Img();
+    }, [data]);
 
     // modal 에 true 전달 후 false 로 초기화
     React.useEffect(()=>{
@@ -155,6 +164,60 @@ export const SeriesHiddenGemContentRest = (
         }
     }
 
+    const facebookShare = async () => {
+        // facebook 에 공유하는 부분 (링크, quotion)
+        const sharingOptions = {
+            contentType: 'link',
+            contentUrl: 'https://glokool.page.link/jdF1',
+            quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
+        };
+
+        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+            if (canShow) {
+                return ShareDialog.show(sharingOptions);
+            }
+        }).catch((e) => console.log(e));
+    }
+
+    // sns 공유 메소드
+    const shareItems = async () => {
+
+        // // sns 공유
+        const shareOptions = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${data?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            url: shareImage,
+        };
+
+        Share.open(shareOptions);
+
+    }
+
+    // url 형식의 이미지를 base64 형식으로 encoding
+    // 해당 과정이 없으면 이미지 공유 불가능!!
+    const encodeBase64Img = async () => {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", data?.cover, true);
+        xhr.responseType = "blob";
+
+        xhr.onload = function (e) {
+            //console.log(this.response);
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var res = event.target.result;
+                setShareImage(res);
+            }
+            var file = this.response;
+            reader.readAsDataURL(file)
+        };
+        xhr.send()
+
+    }
+
     return (
         <Layout style={styles.MainContainer}>
             <ScrollView
@@ -187,6 +250,8 @@ export const SeriesHiddenGemContentRest = (
                     <Service />
                 </TouchableOpacity>
                 <ServiceModal isVisible={Glochat} data={data}/>
+
+
 
                 {/* 글로챗 광고 컨테이너 */}
                 {/* <Layout style={styles.GloChatADContainer}>
@@ -333,7 +398,7 @@ export const SeriesHiddenGemContentRest = (
                                 <SelectableText style={styles.EditorNoteText} item={item} />
                             </Layout>
                             {index == data.editorNote.length - 1 ?
-                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height:80, marginLeft: -30, alignItems: 'center', justifyContent:'center' }}>
+                                <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height: 80, marginLeft: -30, alignItems: 'center', justifyContent: 'center' }}>
                                     <Image source={require('../../assets/content/editor_note.png')} style={{ width: WindowSize + 60, resizeMode: 'contain' }} />
                                 </Layout>
                                 :
@@ -356,7 +421,24 @@ export const SeriesHiddenGemContentRest = (
 
                 {/* 땡큐 버튼 및 Go up 버튼 */}
                 <Layout style={styles.FinalConatiner}>
-                    <Text style={styles.ThankyouText}>Thank You!</Text>
+                    {/* 공유 부분 */}
+                    <Layout style={{ alignItems: 'center' }}>
+                        <Text style={styles.ShareText}>Share with Others!</Text>
+                        <Layout style={{ flexDirection: 'row', }}>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                onPress={() => shareItems()}
+                            >
+                                <ShareOut />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.ShareButtonContainer, { borderRadius: 100 }]}
+                                onPress={() => facebookShare()}
+                            >
+                                <FacebookShare />
+                            </TouchableOpacity>
+                        </Layout>
+                    </Layout>
 
                     <TouchableOpacity
                         style={styles.GoUpButton}
@@ -471,6 +553,19 @@ export const SeriesHiddenGemContentRest = (
 };
 
 const styles = StyleSheet.create({
+    ShareButtonContainer: {
+        borderWidth: 1,
+        borderColor: '#e9e9e9',
+        padding: 5,
+        marginHorizontal: 3,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ShareText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 17,
+        color: '#7777ff'
+    },
     MainContainer: {
         flex: 1,
         backgroundColor: 'white',
@@ -613,7 +708,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 30,
-        marginRight: 30,
+        marginHorizontal: 30,
     },
     ContainerTitle2: {
         flexDirection: 'row',
@@ -726,6 +821,7 @@ const styles = StyleSheet.create({
         color: 'black',
         marginVertical: -10,
         marginLeft: 10,
+        marginRight: 25,
     },
     EditorNoteDivider: {
         marginHorizontal: 20,
@@ -744,7 +840,6 @@ const styles = StyleSheet.create({
         lineHeight: 30,
     },
     DetailContainer: {
-        marginLeft: 30,
         marginVertical: 30,
     },
     PurpleContainerLayoutStyle: {
@@ -752,6 +847,7 @@ const styles = StyleSheet.create({
         width: WindowSize,
         height: 129,
         position: 'relative',
+        marginBottom: 10,
     },
     PurpleArrow: {
         position: 'absolute',
@@ -793,6 +889,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 50,
+        alignItems: 'center'
     },
     ThankyouText: {
         color: '#7777FF',

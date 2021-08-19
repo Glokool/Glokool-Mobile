@@ -41,6 +41,8 @@ export const BookFouthScreen = (props: BookFouthScreenProps): LayoutElement => {
             paymentID: data.imp_uid,
             lang: 'eng',
             money: data.paid_amount,
+            travelArea: PaymentData?.travelArea,
+            travelPlan: PaymentData?.travelPlan,
         });
 
         const config = {

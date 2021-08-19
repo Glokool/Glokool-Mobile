@@ -63,12 +63,12 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
             }
             const RevData = await axios(AxiosConfig);
             setData(RevData.data);
-            console.log(RevData.data)
+            // console.log(RevData.data)
         }
     }
 
     function PressChatRoom(item: GloChatData) {
-        console.log('go to chat ');
+        // console.log('go to chat ');
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: { name: item.guide.name, uid: item.guide.uid },
@@ -93,7 +93,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                console.log(res.data);
+                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -132,21 +132,29 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                 <Layout style={styles.GuideContainer}>
                     <TouchableOpacity onPress={() => showGuideProfile(item.item)}>
                         <Layout style={styles.GuideAvatarContainer}>
-                            <Image source={require('../../assets/profile/profile_01.png')} style={styles.GuideAvatar} resizeMode={'stretch'} />
+                            {item.item.guide?.avatar != undefined &&
+                                item.item.guide?.avatar != null ? (
+                                <Image
+                                    source={{ uri: item.item.guide?.avatar }}
+                                    style={styles.GuideAvatar}
+                                />
+                            ) : (
+                                <Image
+                                    source={require('../../assets/profile/profile_01.png')}
+                                    style={styles.GuideAvatar}
+                                />
+                            )}
                         </Layout>
                     </TouchableOpacity>
 
                     <Layout style={styles.GuideProfileContainer}>
                         <Text style={styles.GuideProfileTxt1}>Travel Assistant</Text>
-                        {item.item.guide.uid === '' || item.item.guide.uid === null || item.item.guide.uid === undefined ? (
-                                <Text style={styles.GuideProfileTxt3}>
-                                    Matching... please wait :)
-                                </Text>
-                            ) : (
-                                <Text style={styles.GuideProfileTxt2}>
-                                    {item.item.guide.name}
-                                </Text>
-                            )}
+
+                        {item.item.guide?.uid === '' ||
+                            item.item.guide?.uid === undefined ||
+                            item.item.guide?.uid === null ? null :
+                            (<Text style={styles.GuideProfileTxt2}>{item.item.guide?.name}</Text>)}
+
                     </Layout>
 
                 </Layout>
@@ -225,14 +233,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 26,
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 1.41,
-        // elevation: 2,
     },
     EmptyButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -275,7 +275,9 @@ const styles = StyleSheet.create({
     GuideAvatar: {
         width: 50,
         height: 50,
-        borderRadius: 50
+        borderRadius: 50,
+        borderWidth: 0.5,
+        borderColor: '#ccc',
     },
     GuideProfileContainer: {
         marginLeft: 10,
