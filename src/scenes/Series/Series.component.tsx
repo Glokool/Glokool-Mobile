@@ -33,6 +33,7 @@ import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
 import { numberLiteralTypeAnnotation } from '@babel/types';
+import { CategoryDetail } from '../../component/Series/CategoryDetail.component';
 
 var ToastRef: any;
 
@@ -57,9 +58,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [subCategory, setSubCategory] = useState([]);
     const [endReached, setEndReached] = useState(false);
     const [refreshCategory, setRefreshCategory] = useState(false);
-    const [itemCount, setItemCount] = useState(12);
+    const [itemCount, setItemCount] = useState(30);
 
-    const itemCountRef = useRef(12);
+    const itemCountRef = useRef(30);
 
     const scrollY = new Animated.Value(0);
     const diffClamp = Animated.diffClamp(scrollY, 0, 150);
@@ -136,8 +137,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             id: item._id,
             name: item.name,
         })
-        
-        console.log(item._id);
 
         const config = {
             Method: "get",
@@ -147,7 +146,16 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             }
         };
         const response = await axios(config);
-        console.log(response.data)
+        const tmpContent = [];
+
+        response.data.categories.map((item: any) => {
+            tmpContent.push(item.name);
+        })
+        setSubCategory(tmpContent);
+
+        response.data.categoryInfo.map((item: any) => {
+            console.log(item);
+        })
 
         if (item.name == 'ALL') {
             setBanner(series_all);
@@ -158,11 +166,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         } else if (item.name == 'DAY TRIP') {
             setBanner(series_daytrip);
         }
-    }
-
-    const fetchAttraction = async () => {
-        const response = await axios.get(SERVER + 'api/main-tours');
-        console.log(response.data);
     }
 
     // 대분류 버튼 렌더링
@@ -240,7 +243,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
             {/* ALL */}
             {/* grid scrollview */}
-            {focusedCategory?.name == 'ALL' && (
+            {focusedCategory?.name == 'ALL' ? (
                 <ScrollView
                     style={{ backgroundColor: 'white', height: '100%' }}
                     scrollEventThrottle={1}
@@ -259,7 +262,22 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         endReached={endReached} />
 
                 </ScrollView>
+            ) : (
+                <ScrollView
+                    style={{ backgroundColor: 'white', marginTop: 135, }}
+                    scrollEventThrottle={1}
+                    onScroll={(e) => handleScroll(e)}
+                    decelerationRate='fast'
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />}
+                >
+                    <CategoryDetail data={subCategory} />
+                </ScrollView>
             )}
+
 
 
         </View>
