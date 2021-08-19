@@ -67,7 +67,7 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
                     horizontal
                 />
                 <View style={{ marginHorizontal: 30 }}>
-                    <View style={{ flexDirection: 'row', marginTop: 10, }}>
+                    <View style={{ flexDirection: 'row', marginTop: 10, marginRight: 30 }}>
                         <Pin style={styles.Pin} />
                         <Text style={styles.LocationText}>{item.item.location}</Text>
                     </View>
