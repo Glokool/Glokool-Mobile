@@ -11,6 +11,14 @@ import CustomerService from './Setting_CustomerService.svg';
 import Profile from './Setting_Profile.svg';
 import MY_Refund_Policy from './MY_RefundPolicy.svg';
 
+import ChangeProfile from './ChangeProfile.svg';
+import ProfileBlue from './ProfileBlue.svg';
+import ProfileGray from './ProfileGray.svg';
+import ProfileGreen from './ProfileGreen.svg';
+import ProfileOrange from './ProfileOrange.svg';
+import ProfilePurple from './ProfilePurple.svg';
+import ProfileBasic from './ProfileBasic.svg';
+
 export {
     Receipt,
     Receipt_Large,
@@ -21,6 +29,13 @@ export {
     Privacy,
     CustomerService,
     Profile,
-    MY_Refund_Policy
+    MY_Refund_Policy,
 
+    ChangeProfile,
+    ProfileBlue,
+    ProfileGray,
+    ProfileGreen,
+    ProfileOrange,
+    ProfilePurple,
+    ProfileBasic,
 }

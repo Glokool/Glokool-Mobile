@@ -20,12 +20,13 @@ import {
 } from '@ui-kitten/components';
 import { MYProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { launchImageLibrary } from 'react-native-image-picker/src';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import { Loading } from '../../component/Common/Loading';
 import { AuthContext } from '../../context/AuthContext';
+import { ChangeProfile, ProfileBasic, ProfileBlue, ProfileGray, ProfileOrange, ProfileGreen, ProfilePurple } from '../../assets/icon/My';
 
 var toastRef: any;
 
@@ -34,7 +35,10 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
     const [name, setName] = React.useState('');
     const [profile, setProfile] = React.useState(null);
-    const [checkProfileChange, setCheckProfileCHange] = React.useState<boolean>(
+    const [checkProfileChange, setCheckProfileChange] = React.useState<boolean>(
+        false,
+    );
+    const [checkDefaultProfileChange, setCheckDefaultProfileChange] = React.useState<boolean>(
         false,
     );
 
@@ -73,6 +77,16 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
     const ResidentIcon = () => <Mini_R />;
 
+    const PGray = () => <ProfileGray />;
+
+    // const POrange = () => <ProfileOrange />;
+
+    // const PPurple = () => <ProfilePurple />;
+
+    // const PGreen = () => <ProfileGreen />;
+
+    // const PBlue = () => <ProfileBlue />;
+
     const PressBack = () => {
         props.navigation.goBack();
     };
@@ -83,6 +97,13 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         const picRef = storageRef.child(`profile/${currentUser?.uid}`);
         return picRef.putFile(profile).then(() => picRef.getDownloadURL());
     };
+
+    const testUploadImg = async () => {
+        const storageRef = storage().ref();
+        const picRef = storageRef.child(`profile/${currentUser?.uid}`);
+        return picRef.putFile(profile).then(() => picRef)
+        ;
+    }
 
     /* save the profile btn */
     const PressChange = async () => {
@@ -99,6 +120,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
         if (checkProfileChange) {
             const pic = await uploadImg();
+            console.log('pic' + pic)
 
             Object.assign(firestoreUpdate, {
                 avatar: pic,
@@ -106,6 +128,17 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
             Object.assign(authUpdate, {
                 photoURL: pic,
+            });
+        }
+
+        if(checkDefaultProfileChange){
+
+            Object.assign(firestoreUpdate, {
+                avatar: profile,
+            });
+
+            Object.assign(authUpdate, {
+                photoURL: profile,
             });
         }
 
@@ -122,7 +155,22 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         props.navigation.goBack();
     };
 
-    const PressDefaultPic = (index: string) => {};
+    const PressDefaultPic =  (idx) => { 
+        let defaultProfile;
+        if(idx == '1'){
+            defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault5.png?alt=media&token=9590f8ce-f405-474f-936c-9d880e1b1b2e'
+        }else if(idx == '2'){
+            defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault2.png?alt=media&token=77abf795-cd96-4f79-88af-0b170d6f9d7e'
+        }else if(idx == '3'){
+            defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault3.png?alt=media&token=2a1bc2ed-9d1b-4b64-95fb-968691e8bf72'
+        }else if(idx == '4'){
+            defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault4.png?alt=media&token=79d39c00-7a5e-405e-b4c7-c31d3fd41eb1'
+        }else{
+            defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault1.png?alt=media&token=df83f1e1-5efc-40bf-a62f-f1191d3cef81'
+        }
+        setProfile(defaultProfile);
+        setCheckDefaultProfileChange(true);
+    };
 
     /* 이미지 변경 */
     const PressPicture = async () => {
@@ -139,11 +187,12 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                     //중도 취소시
                 } else {
                     setProfile(response.uri);
-                    setCheckProfileCHange(true);
+                    setCheckProfileChange(true);
                 }
             },
         );
     };
+
     React.useEffect(() => {
         setName(currentUser?.displayName);
         setProfile(currentUser?.photoURL);
@@ -221,53 +270,33 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                         <ScrollView style={{ marginHorizontal: 15 }}>
                             <Layout style={styles.photoContainer}>
                                 <Layout style={{ flex: 4 }}>
-                                    <Text style={styles.title}>Photo</Text>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>Photo</Text>
 
                                     <Layout style={styles.miniProfileContainer}>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('1')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_01.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={()=>PressDefaultPic(1)}>
+                                            <ProfileGray />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('2')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_02.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic(2)}>
+                                            <ProfileOrange />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('3')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_03.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic(3)}>
+                                            <ProfilePurple />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('4')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_04.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic(4)}>
+                                            <ProfileGreen />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                PressDefaultPic('5')
-                                            }>
-                                            <Image
-                                                style={styles.miniProfile}
-                                                source={require('../../assets/profile/profile_05.png')}
-                                            />
+                                            style={styles.smallProfileContainer}
+                                            onPress={() => PressDefaultPic(5)}>
+                                            <ProfileBlue />
                                         </TouchableOpacity>
                                     </Layout>
                                 </Layout>
@@ -275,37 +304,36 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                 <Layout style={{ flex: 1, marginRight: 15 }}>
                                     <TouchableOpacity onPress={PressPicture}>
                                         {profile == undefined ||
-                                        profile == null ||
-                                        profile == '' ? (
-                                            <Image
-                                                style={styles.profile}
-                                                source={require('../../assets/profile/profile_01.png')}
-                                            />
+                                            profile == null ||
+                                            profile == '' ? (
+                                            <Layout style={{ width: 75, height: 75, }}>
+                                                <ProfileBasic />
+                                                <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
+                                            </Layout>
                                         ) : (
+                                            <Layout style={{ width: 75, height: 75, }}>
                                             <Image
                                                 style={styles.profile}
                                                 source={{
                                                     uri: profile,
                                                 }}
                                             />
+                                            <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
+                                            </Layout>
                                         )}
                                     </TouchableOpacity>
                                 </Layout>
                             </Layout>
 
                             <Layout style={styles.infoContainer}>
-                                <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>User Name</Text>
+                                <Layout style={{ flex: 2 }}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>User Name</Text>
                                 </Layout>
 
                                 <Layout
-                                    style={{ flex: 2, alignItems: 'flex-end' }}>
-                                    <Input
-                                        style={{
-                                            maxWidth:
-                                                Dimensions.get('window').width *
-                                                0.5,
-                                        }}
+                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8'}}>
+                                    <TextInput
+                                        style={[styles.title]}
                                         value={name}
                                         onChangeText={(nextValue) =>
                                             setName(nextValue)
@@ -316,7 +344,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         User Status
                                     </Text>
                                 </Layout>
@@ -327,8 +355,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                         selectedIndex={selectedTypeIndex}
                                         style={{
                                             minWidth:
-                                                Dimensions.get('window').width *
-                                                0.5,
+                                                Dimensions.get('window').width *0.5,
                                         }}
                                         onSelect={(index) =>
                                             setSelectedTypeIndex(index)
@@ -353,11 +380,10 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={styles.title}>Gender</Text>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>Gender</Text>
                                 </Layout>
-                                <Layout style={{ flex: 1 }} />
                                 <Layout
-                                    style={{ flex: 1, alignItems: 'flex-end' }}>
+                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8' }}>
                                     <Text style={styles.title}>
                                         {userData?.gender}
                                     </Text>
@@ -366,13 +392,13 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={styles.title}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         Date of Birth
                                     </Text>
                                 </Layout>
 
                                 <Layout
-                                    style={{ flex: 1, alignItems: 'flex-end' }}>
+                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8' }}>
                                     <Text style={styles.title}>
                                         {birthDate.year}.{birthDate.month}.
                                         {birthDate.day}
@@ -381,14 +407,13 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                             </Layout>
 
                             <Layout style={styles.infoContainer}>
-                                <Layout style={{ flex: 1 }}>
-                                    <Text style={styles.title}>
+                                <Layout style={{ flex: 2 }}>
+                                    <Text style={[styles.title,{color:'#7777ff'}]}>
                                         Nationality
                                     </Text>
                                 </Layout>
-                                <Layout style={{ flex: 1 }} />
                                 <Layout
-                                    style={{ flex: 1, alignItems: 'flex-end' }}>
+                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8' }}>
                                     <Text style={styles.title}>
                                         {userData?.country}
                                     </Text>
@@ -399,7 +424,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                 style={styles.SaveButton}
                                 onPress={() => PressChange()}>
                                 <Text style={styles.ButtonText}>
-                                    Save the Profile
+                                    Save Profile
                                 </Text>
                             </TouchableOpacity>
                         </ScrollView>
@@ -431,9 +456,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     title: {
-        fontSize: 18,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#7777FF',
+        fontSize: 16,
+        fontFamily: 'Pretendard-Medium',
+        fontWeight: '400',
+        color: '#000000'
     },
     photoContainer: {
         flexDirection: 'row',
@@ -443,8 +469,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     profile: {
-        width: 80,
-        height: 80,
+        width: 75,
+        height: 75,
         borderRadius: 100,
     },
     miniProfileContainer: {
@@ -477,16 +503,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         height: 50,
-        borderWidth: 1.5,
-        borderColor: '#8797FF',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#7777ff',
     },
     ButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
+        color: 'white',
+    },
+    smallProfileContainer: {
+        marginRight: 5,
     },
 });
