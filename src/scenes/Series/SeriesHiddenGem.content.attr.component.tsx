@@ -680,7 +680,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 30,
-        marginRight: 30,
+        marginHorizontal: 30,
     },
     ContainerTitle2: {
         flexDirection: 'row',
@@ -817,7 +817,6 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     DetailContainer: {
-        marginLeft: 30,
         marginVertical: 30,
     },
     PurpleContainerLayoutStyle: {

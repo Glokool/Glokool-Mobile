@@ -59,13 +59,19 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
         )
     }
 
-    
+    const renderSpace = () => {
+        return (
+            <Layout style={{width:30}}/>
+        )
+    }
 
     return(
         <Layout>
             <FlatList
                 data={data}
                 renderItem={renderItem}
+                ListHeaderComponent={renderSpace}
+                ListFooterComponent={renderSpace}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
             />
