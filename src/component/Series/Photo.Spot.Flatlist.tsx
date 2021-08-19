@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Dimensions,
     FlatList,
@@ -8,11 +8,8 @@ import {
     Text,
 } from 'react-native'
 import {
-    Layout,
     LayoutElement,
 } from '@ui-kitten/components'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AngleLeft_Color, AngleRight_Color, Bookmark } from '../../assets/icon/Common';
 import { Pin } from '../../assets/icon/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component'
@@ -38,141 +35,35 @@ const WindowSize = Dimensions.get('window').width;
 
 export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => {
 
-    const data = props.data;
-    const [change, setChange] = React.useState<Array<boolean>>(Array.from({ length: data?.length }, (undefined, i) => { return false }));
-    const [refresh, setRefresh] = React.useState<boolean>(false);
-
-    // useEffect(() => {
-    //     console.log(props.data);
-    // }, []);
-
-    const PressChage = (index: number) => {
-
-        var tempChange = change;
-        tempChange[index] = !change[index];
-
-        setChange(tempChange);
-        setRefresh(!refresh);
-    }
-
-    const InsideRenderItem = (item: { item: photoSpotImage, index: number }) => {
-
-        return (
-            <Layout style={styles.InsideImageContainer}>
-                <Image source={{ uri: item.item.img }} style={styles.InsideImage} resizeMode={'stretch'} />
-
-                <Layout style={styles.authorContainer}>
-                    {(item.item.author[0] === 'i') ?
-                        <Instagram />
-                        :
-                        (item.item.author[0] === 'n') ?
-                            <Naver />
-                            :
-                            null
-                    }
-                    {(item.item.author == "" || item.item.author == 'undefined' || item.item.author == undefined) ?
-                        null
-                        :
-                        <Text style={styles.authorText}>
-                            {`  ${item.item.author.slice(2,)}`}
-                        </Text>
-                    }
-                </Layout>
-            </Layout>
-        )
-    }
-
-    const renderItem = (item: { item: photoSpot, index: number }) => {
-
-
-        return (
-            <Layout>
-                {(change[item.index] === true) ?
-                    <Layout style={styles.MainContainer2}>
-                        <TouchableOpacity style={styles.BackButton} onPress={() => PressChage(item.index)}>
-                            <AngleLeft_Color style={styles.AngleRightButton} />
-                        </TouchableOpacity>
-
-                        <Layout>
-                            <FlatList
-                                data={item.item.images.slice(1,)}
-                                renderItem={InsideRenderItem}
-                                horizontal={true}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                            <SelectableText style={styles.LocationText} item={item.item.desc} />
-                        </Layout>
-
-                    </Layout>
-                    :
-                    <Layout style={styles.MainContainer}>
-                        <Layout>
-                            <Layout style={styles.ImageContainer}>
-                                <Image source={{ uri: item.item.images[0].img }} style={styles.Image} resizeMode={'stretch'} />
-                                <Layout style={styles.authorContainer}>
-                                    {(item.item.images[0].author[0] === 'i') ?
-                                        <Instagram />
-                                        :
-                                        (item.item.images[0].author[0] === 'n') ?
-                                            <Naver />
-                                            :
-                                            null
-                                    }
-
-                                    {(item.item.images[0].author == "" || item.item.images[0].author == 'undefined' || item.item.images[0].author == undefined) ?
-                                        null
-                                        :
-                                        <Text style={styles.authorText}>
-                                            {`${item.item.images[0].author.slice(2,)}`}
-                                        </Text>
-                                    }
-                                </Layout>
-                                <TouchableOpacity style={styles.NextButton} onPress={() => PressChage(item.index)}>
-                                    <AngleRight_Color style={styles.AngleRightButton} />
-                                </TouchableOpacity>
-                            </Layout>
-
-                            <Layout style={styles.LocationContainer}>
-                                <Pin style={styles.Pin} />
-                                <SelectableText style={styles.LocationText} item={item.item.location} />
-                            </Layout>
-                        </Layout>
-                    </Layout>
-                }
-
-            </Layout>
-
-
-
-        );
-    }
-
-    const renderHeader = () => {
+    const renderSpace = () => {
         return (
             <View style={{ width: 30 }}></View>
         )
     }
 
     const renderInnerList = (item: any) => {
-        // console.log(item.item);
         return (
             <View>
                 <Image
                     source={{ uri: item.item.img }}
                     style={styles.InsideImage} resizeMode={'stretch'}
                 />
+                <View style={styles.authorContainer}>
+                    {item.item.author === 'i' && <Instagram />}
+                    {item.item.author === 'n' && <Naver />}
+                </View>
             </View>
         )
     }
 
     const renderOuterList = (item: any) => {
-        console.log(item.item);
         return (
-            <View style={{marginTop: 25}}>
+            <View style={{ marginTop: 25 }}>
                 <FlatList
                     data={item.item.images}
                     renderItem={renderInnerList}
-                    ListHeaderComponent={renderHeader}
+                    ListHeaderComponent={renderSpace}
+                    ListFooterComponent={renderSpace}
                     horizontal
                 />
                 <View style={{ marginHorizontal: 30 }}>
@@ -188,40 +79,16 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
 
 
     return (
-        <View style={{marginBottom: 25}}>
-
+        <View style={{ marginBottom: 25 }}>
             <FlatList
                 data={props.data}
                 renderItem={renderOuterList}
             />
-
         </View>
-        // <Layout>
-        //     <FlatList
-        //         data={data}
-        //         extraData={refresh}
-        //         renderItem={renderItem}
-        //         showsVerticalScrollIndicator={false}
-        //     />
-        // </Layout>
     );
 }
 
 const styles = StyleSheet.create({
-    MainContainer: {
-        width: WindowSize * 0.72,
-        minHeight: WindowSize,
-        overflow: 'visible',
-        marginLeft: 60,
-        marginVertical: 20
-    },
-    MainContainer2: {
-        width: WindowSize * 0.72,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 10,
-        marginVertical: 20
-    },
     authorContainer: {
         position: 'absolute',
         flexDirection: 'row',
@@ -234,21 +101,6 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 13,
         color: 'white'
-    },
-    ImageContainer: {
-        width: WindowSize * 0.90,
-        height: WindowSize * 0.97,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    InsideImageContainer: {
-        width: WindowSize * 0.72,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    Image: {
-        width: WindowSize * 0.72,
-        height: WindowSize * 0.97,
     },
     InsideImage: {
         width: WindowSize * 0.58,
@@ -265,44 +117,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
         marginTop: 8,
-    },
-    NextButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderTopEndRadius: 15,
-        borderBottomEndRadius: 15,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
-    },
-    BackButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderTopStartRadius: 15,
-        borderBottomStartRadius: 15,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
-        marginLeft: 10,
-    },
-    AngleRightButton: {
-        margin: 15
-    },
-    LocationContainer: {
-        flexDirection: 'row',
-        marginTop: 10
     },
     Pin: {
         marginLeft: 0,
