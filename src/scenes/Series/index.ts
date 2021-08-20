@@ -8,4 +8,5 @@ export { SeriesHiddenGemDetailScreen } from './SeriesHiddenGem.detail.component'
 export { SeriesHiddenGemContentAttr } from './SeriesHiddenGem.content.attr.component';
 export { SeriesHiddenGemContentRest } from './SeriesHiddenGem.content.rest.component';
 export { SeriesHiddenGemContentCafe } from './SeriesHiddenGem.content.cafe.component';
+export {SubCategoryDetail} from './SubCategoryDetail.component';
 

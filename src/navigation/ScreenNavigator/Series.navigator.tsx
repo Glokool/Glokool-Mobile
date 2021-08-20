@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
-import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import {
@@ -13,6 +13,7 @@ import {
   SeriesHiddenGemContentRest,
   SeriesHiddenGemScreen,
   SeriesScreen,
+  SubCategoryDetail,
 } from '../../scenes/Series'
 import { SeriesHiddenGemDetailScreen } from '../../scenes/Series/SeriesHiddenGem.detail.component';
 
@@ -22,7 +23,12 @@ const Stack = createStackNavigator();
 
 type SeriesNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SERIES]: undefined;
-  
+
+  [SceneRoute.SUBCATEGORY_DETAIL]: {
+    Name: String,
+
+  };
+
   [SceneRoute.SERIES_A]: undefined;
   [SceneRoute.SERIES_A_DETAIL]: {
     Id: string,
@@ -34,18 +40,18 @@ type SeriesNavigatorParams = AppNavigatorParams & {
   };
 
   [SceneRoute.SERIES_HIDDEN_GEM]: undefined;
-  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL]: {
     TourCode: string;
   }
-  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR] : {
-    TourCode: string;
-    PlaceCode: string;
-  }
-  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST] : {
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR]: {
     TourCode: string;
     PlaceCode: string;
   }
-  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE] : {
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST]: {
+    TourCode: string;
+    PlaceCode: string;
+  }
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE]: {
     TourCode: string;
     PlaceCode: string;
   }
@@ -69,6 +75,11 @@ export interface SeriesAFlatlistProps {
 export interface SeriesBFlatlistProps {
   navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES>;
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES>;
+}
+
+export interface SubCategoryDetailProps {
+  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SUBCATEGORY_DETAIL>;
+  route: RouteProp<SeriesNavigatorParams, SceneRoute.SUBCATEGORY_DETAIL>;
 }
 
 export interface SeriesADetailProps {
@@ -122,7 +133,7 @@ export interface SeriesHiddenGemDetailProps {
 }
 
 export interface SeriesCarouselProps {
-  
+
 }
 
 export type DetailData = {
@@ -157,18 +168,20 @@ export interface SeriesHiddenGemContentRestProps {
 
 export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen}/>
+    <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen} />
 
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM} component={SeriesHiddenGemScreen}/>
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen}/>
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM} component={SeriesHiddenGemScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen} />
 
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR} component={SeriesHiddenGemContentAttr}/>
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST} component={SeriesHiddenGemContentRest}/>
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE} component={SeriesHiddenGemContentCafe}/>
+    <Stack.Screen name={SceneRoute.SUBCATEGORY_DETAIL} component={SubCategoryDetail} />
 
-    <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen}/>
-    <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen}/>
-    <Stack.Screen name={SceneRoute.SERIES_B} component={SeriesBScreen}/>
-    <Stack.Screen name={SceneRoute.SERIES_B_DETAIL} component={SeriesBInfoScreen}/>
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR} component={SeriesHiddenGemContentAttr} />
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST} component={SeriesHiddenGemContentRest} />
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE} component={SeriesHiddenGemContentCafe} />
+
+    <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_B} component={SeriesBScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_B_DETAIL} component={SeriesBInfoScreen} />
   </Stack.Navigator>
 );

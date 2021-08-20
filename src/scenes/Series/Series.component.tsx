@@ -34,6 +34,7 @@ import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
 import { numberLiteralTypeAnnotation } from '@babel/types';
 import { CategoryDetail } from '../../component/Series/CategoryDetail.component';
+import { SubCategoryDetail } from './SubCategoryDetail.component';
 
 var ToastRef: any;
 
@@ -137,7 +138,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             id: item._id,
             name: item.name,
         })
-
+        
+        // console.log(item.name);
         const config = {
             Method: "get",
             url: SERVER + "/api/categories/" + item.name,
@@ -145,17 +147,11 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
         };
-        const response = await axios(config);
-        const tmpContent = [];
+        const response = await axios(config).catch((e) => console.log(e));
+        console.log(response.data);
+        setSubCategory(response.data);
 
-        response.data.categories.map((item: any) => {
-            tmpContent.push(item.name);
-        })
-        setSubCategory(tmpContent);
 
-        response.data.categoryInfo.map((item: any) => {
-            console.log(item);
-        })
 
         if (item.name == 'ALL') {
             setBanner(series_all);
@@ -266,7 +262,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 <ScrollView
                     style={{ backgroundColor: 'white', marginTop: 135, }}
                     scrollEventThrottle={1}
-                    onScroll={(e) => handleScroll(e)}
+                    // onScroll={(e) => handleScroll(e)}
                     decelerationRate='fast'
                     refreshControl={
                         <RefreshControl
@@ -274,7 +270,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                             onRefresh={onRefresh}
                         />}
                 >
-                    <CategoryDetail data={subCategory} />
+                    <CategoryDetail data={subCategory} navigation={props.navigation} />
                 </ScrollView>
             )}
 
