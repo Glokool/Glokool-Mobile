@@ -17,7 +17,14 @@ import { SeriesBottomLogo } from '../../assets/icon/Series';
 
 export const CategoryDetail = (props: any) => {
 
-    const sampleData = [1, 2, 3, 4, 5, 6]
+    const pressedMore = (item: any) => {
+        console.log(props.main);
+        props.navigation.navigate(SceneRoute.SUBCATEGORY_DETAIL,
+            {
+                Name: item.name,
+                Main: props.main,
+            });
+    }
 
     const renderSpace = () => {
         return (<View style={{ width: 25 }} />)
@@ -41,12 +48,12 @@ export const CategoryDetail = (props: any) => {
 
     const renderCategory = (item: any) => {
         const textColor = item.item.name === 'GUIDE BOOK' ? '#7777ff' : 'black';
-        console.log(item);
+        // console.log(item);
         return (
             <View style={{ marginBottom: 20 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginHorizontal: 25, marginVertical: 5, }}>
                     <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', fontSize: 19, color: textColor }}>{item.item.name}</Text>
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.SUBCATEGORY_DETAIL, { Name: item.item.name })}>
+                    <TouchableOpacity onPress={() => pressedMore(item.item)}>
                         <Text style={{ fontFamily: 'Pretendard-Regular', fontSize: 15, color: '#7777ff' }}>View More</Text>
                     </TouchableOpacity>
                 </View>
@@ -111,10 +118,10 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 2,
         },
-        shadowOpacity: 0.2,
-        shadowRadius: 3.84,
+        shadowOpacity: 0.11,
+        shadowRadius: 2,
         elevation: 5,
     }
 })

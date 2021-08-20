@@ -12,6 +12,7 @@ import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
 import { FlatGrid } from 'react-native-super-grid';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -21,6 +22,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     const [subCategory, setSubCategory] = useState([]);
     const [focusedCategory, setFocusedCategory] = useState(null);
     const [focusedSubCategory, setFocusedSubCategory] = useState(null);
+    const [contents, setContents] = useState();
     const [banner, setBanner] = useState();
 
     useEffect(() => {
@@ -28,15 +30,29 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     }, []);
 
     const initCategories = async () => {
-        const result = await axios.get(SERVER + '/api/category')
+        const result = await axios.get(SERVER + '/api/main-categories')
         setCategory(result.data);
     }
 
-    const pressCategory = (item: any) => {
+    const pressCategory = async (item: any) => {
+
+        focusedSubCategory !== null && setFocusedSubCategory(null)
+
         setFocusedCategory({
             id: item._id,
             name: item.name,
         })
+
+        const config = {
+            Method: "get",
+            url: SERVER + "/api/categories/" + item.name,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        };
+        const response = await axios(config).catch((e) => console.log(e));
+        // console.log(response.data);
+        setSubCategory(response.data);
 
         if (item.name == 'ATTRACTION') {
             setBanner(series_attraction);
@@ -45,8 +61,6 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         } else if (item.name == 'DAY TRIP') {
             setBanner(series_daytrip);
         }
-
-        setSubCategory(item.subCategory);
     }
 
     const pressSubCategory = (item: any) => {
@@ -54,6 +68,8 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
             id: item._id,
             name: item.name
         })
+
+        setContents(item.items);
     }
 
     const renderItem = (item: any) => {
@@ -74,10 +90,19 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
         return (
             <TouchableOpacity onPress={() => pressSubCategory(item.item)}>
-                <View style={[styles.subCategoryButton,{backgroundColor:buttonBackground}]}>
+                <View style={[styles.subCategoryButton, { backgroundColor: buttonBackground }]}>
                     <Text style={styles.subButtonText}>{item.item.name}</Text>
                 </View>
             </TouchableOpacity>
+        )
+    }
+
+    const renderContents = (item: any) => {
+        console.log(item.item);
+        return (
+            <View>
+                <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='contain' />
+            </View>
         )
     }
 
@@ -108,26 +133,36 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                 />
             </View>
 
-            {focusedCategory !== null ? (
-                <View style={{ alignItems: 'center', marginTop: 10, }}>
-                    <FastImage
-                        source={banner}
-                        style={styles.categoryImage}
-                        resizeMode='contain'
-                    />
-                    <View style={styles.GridContainer}>
-                        <FlatGrid
-                            itemDimension={150}
-                            data={subCategory}
-                            renderItem={renderSubCategory}
-                            spacing={5}
-                            scrollEnabled={false}
+            <ScrollView>
+                {focusedCategory !== null && (
+                    <View style={{ alignItems: 'center', marginTop: 10, }}>
+                        <FastImage
+                            source={banner}
+                            style={styles.categoryImage}
+                            resizeMode='contain'
                         />
+                        <View style={styles.GridContainer}>
+                            <FlatGrid
+                                itemDimension={150}
+                                data={subCategory}
+                                renderItem={renderSubCategory}
+                                spacing={5}
+                                scrollEnabled={false}
+                            />
+                        </View>
                     </View>
-                </View>
-            ) : (
-                null
-            )}
+                )}
+
+                {focusedSubCategory !== null && (
+                    <FlatGrid
+                        itemDimension={130}
+                        data={contents}
+                        renderItem={renderContents}
+                        scrollEnabled={false}
+                        style={{ marginHorizontal: 20, }}
+                    />
+                )}
+            </ScrollView>
 
 
         </View>
@@ -189,5 +224,10 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.9,
         paddingTop: 5,
     },
-
+    contentsImage: {
+        width: 150,
+        height: 150,
+        borderWidth: 1,
+        borderRadius: 10,
+    }
 });

@@ -26,7 +26,7 @@ type SeriesNavigatorParams = AppNavigatorParams & {
 
   [SceneRoute.SUBCATEGORY_DETAIL]: {
     Name: String,
-
+    Main: String,
   };
 
   [SceneRoute.SERIES_A]: undefined;

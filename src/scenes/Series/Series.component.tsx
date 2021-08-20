@@ -57,6 +57,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
+
     const [endReached, setEndReached] = useState(false);
     const [refreshCategory, setRefreshCategory] = useState(false);
     const [itemCount, setItemCount] = useState(30);
@@ -138,19 +139,20 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             id: item._id,
             name: item.name,
         })
-        
-        // console.log(item.name);
-        const config = {
-            Method: "get",
-            url: SERVER + "/api/categories/" + item.name,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            }
-        };
-        const response = await axios(config).catch((e) => console.log(e));
-        console.log(response.data);
-        setSubCategory(response.data);
 
+        // console.log(item.name);
+        if (item.name !== 'ALL') {
+            const config = {
+                Method: "get",
+                url: SERVER + "/api/categories/" + item.name,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                }
+            };
+            const response = await axios(config);
+            // console.log(response.data);
+            setSubCategory(response.data);
+        }
 
 
         if (item.name == 'ALL') {
@@ -270,7 +272,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                             onRefresh={onRefresh}
                         />}
                 >
-                    <CategoryDetail data={subCategory} navigation={props.navigation} />
+                    <CategoryDetail data={subCategory} navigation={props.navigation} main={focusedCategory.name} />
                 </ScrollView>
             )}
 

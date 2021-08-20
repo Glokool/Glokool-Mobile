@@ -16,6 +16,7 @@ import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
 import { AngleLeft } from '../../assets/icon/Common';
+import FastImage from 'react-native-fast-image';
 
 type Series_Item = {
     image: string;
@@ -31,29 +32,43 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     const sampleData = [86, 223, 34, 452, 5234, 653];
 
+    const [listData, setListData] = useState();
+
     useEffect(() => {
-        console.log(props.route.params.Name);
+        initItems();
     }, []);
+
+    const initItems = async () => {
+        const config = '/api/sub-categories?main='
+            + props.route.params.Main + '&sub='
+            + props.route.params.Name + '&limit=0';
+
+        const response = await axios.get(SERVER + config);
+        console.log(config);
+        setListData(response.data);
+    }
 
     const renderItem = (item: any) => {
         return (
             <View style={styles.listItemContainer}>
                 {/* Image */}
-                <View style={styles.imageContainer} />
+                <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
 
                 <View style={styles.propsContainer}>
 
                     <View>
-                        <Text style={styles.titleText}>Title text goes here.</Text>
+                        <Text style={styles.titleText}>{item.item.title}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={styles.grayText}>
-                            Date goes here.
+                            {moment(item.createdAt).format(
+                                'YYYY. M. D',
+                            )}
                         </Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '35%' }}>
                             <CountNum_Purple />
-                            <Text style={styles.grayText}>{item.item}</Text>
+                            <Text style={styles.grayText}>{item.item.count}</Text>
                         </View>
                     </View>
 
@@ -63,10 +78,10 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1, backgroundColor: 'white', }}>
             <View style={styles.topTab}>
-                <TouchableOpacity onPress={()=>props.navigation.pop()}> 
-                <AngleLeft />
+                <TouchableOpacity onPress={() => props.navigation.pop()}>
+                    <AngleLeft />
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>
@@ -74,9 +89,9 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
                 <Text style={styles.descText}>Everything you want to know about Korea</Text>
             </View>
             <FlatList
-                data={sampleData}
+                data={listData}
                 renderItem={renderItem}
-                style={{paddingTop: 20,}}
+                style={{ paddingTop: 20, }}
             />
         </View>
     );
@@ -125,11 +140,10 @@ const styles = StyleSheet.create({
         height: 113,
         borderTopLeftRadius: 8,
         borderBottomLeftRadius: 8,
-        backgroundColor: '#6495ED'
     },
-    propsContainer:{
-        flex: 1, 
-        backgroundColor: 'white', 
+    propsContainer: {
+        flex: 1,
+        backgroundColor: 'white',
         borderTopRightRadius: 8,
         borderBottomRightRadius: 8,
         paddingLeft: 15,
