@@ -14,8 +14,12 @@ import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
+import { withTheme } from 'styled-components';
 
 export const CategoryDetail = (props: any) => {
+
+    const regex = new RegExp(props.main, "gi");
+    const flag = regex.test('korea a-z');
 
     const pressedMore = (item: any) => {
         console.log(props.main);
@@ -34,6 +38,18 @@ export const CategoryDetail = (props: any) => {
         return (
             <View>
                 <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, }} resizeMode='contain' />
+                {/* <View style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, backgroundColor: '#1f12ff' }} /> */}
+                {flag == false && (
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 15,
+                        alignItems: 'center',
+                        paddingHorizontal: 15,
+                    }}>
+                        <Text style={{ fontFamily: 'Pretendard-Medium', color: 'white', fontSize: 17 }}>{item.item.title}</Text>
+                    </View>
+                )}
+
             </View>
         )
     }
