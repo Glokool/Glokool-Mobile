@@ -5,7 +5,8 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    Pressable
+    Pressable,
+    Alert
 } from 'react-native';
 import {
     Layout,
@@ -68,6 +69,11 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     }
 
     function PressChatRoom(item: GloChatData) {
+
+        if (item.guide == undefined) {
+            Alert.alert('Sorry','We are currently matching your travel assistant :)');
+            return;
+        }
         // console.log('go to chat ');
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,

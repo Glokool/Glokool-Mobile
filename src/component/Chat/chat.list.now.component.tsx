@@ -64,8 +64,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
         const DDay = moment(item.day).diff(Today, 'days');
-        //console.log(item.day, Today, DDay);
-        console.log("TOKEN",item.guide.token);
+
+        if (item.guide == undefined) {
+            Alert.alert('Sorry','We are currently matching your travel assistant :)');
+            return;
+        }
 
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
