@@ -23,7 +23,7 @@ type GridItem = {
 
 const windowWidth = Dimensions.get('window').width;
 
-// Series 메인에서 Grid 형태로 렌더링되는 컴포넌트
+// Series 메인에서 Grid 형태로 나타나는 컴포넌트
 
 export const SeriesGrid = (props: any) => {
 
@@ -72,7 +72,8 @@ export const SeriesGrid = (props: any) => {
     const renderItem = (item: { index: number, item: GridItem }) => {
 
         const textFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
-        const textSize = item.item.type == 'tour' ? 17 : 13;
+        const textSize = item.item.type == 'tour' ? 16 : 13;
+        const textAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -87,7 +88,7 @@ export const SeriesGrid = (props: any) => {
                 </View>
                 <View style={{ alignItems: item.item.type == 'guide book' ? 'center' : 'auto' }}>
                     {item.item.type != 'content' && (
-                        <View style={styles.itemTextContainer}>
+                        <View style={[styles.itemTextContainer, { alignItems: textAlign }]}>
                             <Text style={[styles.itemText, { fontFamily: textFont, fontSize: textSize }]}>
                                 {item.item.title}
                             </Text>
@@ -99,7 +100,7 @@ export const SeriesGrid = (props: any) => {
     }
 
     return (
-        <View style={{ flex: 1,}}>
+        <View style={{ flex: 1, }}>
             <FlatGrid
                 itemDimension={100}
                 data={content.slice(0, props.itemCount)}
@@ -108,7 +109,7 @@ export const SeriesGrid = (props: any) => {
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo style={{marginBottom:10,}}/>
+                <SeriesBottomLogo style={{ marginBottom: 10, }} />
                 {props.endReached == true &&
                     content.length > props.itemCount ? <ActivityIndicator /> : null}
 
@@ -131,8 +132,8 @@ const styles = StyleSheet.create({
     itemTextContainer: {
         position: 'absolute',
         bottom: 10,
-        alignItems: 'center',
         paddingHorizontal: 7,
+        width: windowWidth*0.33
     },
     GridStyle: {
         marginTop: 135,
