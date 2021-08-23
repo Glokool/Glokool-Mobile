@@ -14,6 +14,7 @@ import {
   SeriesHiddenGemScreen,
   SeriesScreen,
   SubCategoryDetail,
+  GuidebookDetail
 } from '../../scenes/Series'
 import { SeriesHiddenGemDetailScreen } from '../../scenes/Series/SeriesHiddenGem.detail.component';
 
@@ -25,6 +26,11 @@ type SeriesNavigatorParams = AppNavigatorParams & {
   [SceneRoute.SERIES]: undefined;
 
   [SceneRoute.SUBCATEGORY_DETAIL]: {
+    Name: String,
+    Main: String,
+  };
+
+  [SceneRoute.GUIDEBOOK_DETAIL]: {
     Name: String,
     Main: String,
   };
@@ -174,6 +180,7 @@ export const SeriesNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen} />
 
     <Stack.Screen name={SceneRoute.SUBCATEGORY_DETAIL} component={SubCategoryDetail} />
+    <Stack.Screen name={SceneRoute.GUIDEBOOK_DETAIL} component={GuidebookDetail} />
 
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR} component={SeriesHiddenGemContentAttr} />
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST} component={SeriesHiddenGemContentRest} />

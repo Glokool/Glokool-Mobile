@@ -22,12 +22,27 @@ export const CategoryDetail = (props: any) => {
     const flag = regex.test('korea a-z');
 
     const pressedMore = (item: any) => {
-        console.log(props.main);
-        props.navigation.navigate(SceneRoute.SUBCATEGORY_DETAIL,
-            {
-                Name: item.name,
-                Main: props.main,
-            });
+        const config = {
+            Name: item.name,
+            Main: props.main,
+        };
+        item.name == 'GUIDE BOOK' ? (
+            props.navigation.navigate(SceneRoute.GUIDEBOOK_DETAIL, config)
+        ) : (
+            props.navigation.navigate(SceneRoute.SUBCATEGORY_DETAIL, config)
+        );
+
+    }
+
+    const onPressItem = (item: any) => {
+        console.log(item);
+        if (item.type == 'tour') {
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
+        } else if (item.type == 'content') {
+            props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id })
+        } else if (item.type == 'blog') {
+            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id })
+        }
     }
 
     const renderSpace = () => {
@@ -36,29 +51,39 @@ export const CategoryDetail = (props: any) => {
 
     const renderItem = (item: any) => {
         return (
-            <View>
-                <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, }} resizeMode='contain' />
-                {/* <View style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, backgroundColor: '#1f12ff' }} /> */}
-                {flag == false && (
-                    <View style={{
-                        position: 'absolute',
-                        bottom: 15,
-                        alignItems: 'center',
-                        paddingHorizontal: 15,
-                    }}>
-                        <Text style={{ fontFamily: 'Pretendard-Medium', color: 'white', fontSize: 17 }}>{item.item.title}</Text>
-                    </View>
-                )}
-
-            </View>
+            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+                <View>
+                    <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, }} resizeMode='contain' />
+                    {flag == false && (
+                        <View style={{
+                            position: 'absolute',
+                            bottom: 15,
+                            alignItems: 'center',
+                            paddingHorizontal: 15,
+                        }}>
+                            <Text style={{ fontFamily: 'Pretendard-Medium', color: 'white', fontSize: 17 }}>{item.item.title}</Text>
+                        </View>
+                    )}
+                </View>
+            </TouchableOpacity>
         )
     }
 
     const renderGridItem = (item: any) => {
         return (
-            <View>
-                <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, }} resizeMode='contain' />
-            </View>
+            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+                <View>
+                    <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, }} resizeMode='contain' />
+                    <View style={{
+                        position: 'absolute',
+                        bottom: 15,
+                        alignItems: 'center',
+                        width: 150,
+                    }}>
+                        <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', color: 'white', fontSize: 15 }}>{item.item.title}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
         )
     }
 

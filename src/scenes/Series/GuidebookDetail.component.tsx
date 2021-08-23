@@ -8,8 +8,6 @@ import {
     Platform,
     View,
     Text,
-    ScrollView,
-    RefreshControl
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -19,35 +17,19 @@ import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
 import { AngleLeft } from '../../assets/icon/Common';
 import FastImage from 'react-native-fast-image';
-
-type Series_Item = {
-    image: string;
-    count: number;
-    _id: string;
-    title: string;
-    createdAt: Date;
-};
+import { FlatGrid } from 'react-native-super-grid';
 
 const windowWidth = Dimensions.get('window').width;
 
-export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
+export const GuidebookDetail = (props: SubCategoryDetailProps) => {
+
+    const sampleData = [86, 223, 34, 452, 5234, 653];
 
     const [listData, setListData] = useState();
-    const [refreshing, setRefreshing] = useState(false);
-    const [refreshEnd, setRefreshEnd] = useState(false);
 
     useEffect(() => {
         initItems();
     }, []);
-
-    useEffect(() => {
-        if (refreshing == false) {
-            setRefreshEnd(true);
-            initItems();
-        }
-        setTimeout(() => setRefreshEnd(false), 1);
-
-    }, [refreshing])
 
     const initItems = async () => {
         const config = '/api/sub-categories?main='
@@ -58,13 +40,6 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
         console.log(config);
         setListData(response.data);
     }
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 500);
-    }, []);
 
     const onPressItem = (item: any) => {
         console.log(item);
@@ -79,15 +54,15 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     const renderItem = (item: any) => {
         return (
-            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+            <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.listItemContainer}>
                     {/* Image */}
                     <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
 
                     <View style={styles.propsContainer}>
 
-                        <View>
-                            <Text style={styles.titleText}>{item.item.title}</Text>
+                        <View style={{ height: 50 }}>
+                            <Text style={styles.titleText}>#hashtag  #hashtag  #hashtag</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -117,21 +92,13 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>
             <View style={styles.descContainer}>
-                <Text style={styles.descText}>Everything you want to know about Korea</Text>
+                <Text style={styles.descText}>Guide books of specially chosen tour spots.</Text>
             </View>
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />}
-            >
-                <FlatList
-                    data={listData}
-                    renderItem={renderItem}
-                    style={{ paddingTop: 20, }}
-                />
-            </ScrollView>
+            <FlatGrid
+                data={listData}
+                renderItem={renderItem}
+                style={{ paddingTop: 20 }}
+            />
         </View>
     );
 };
@@ -161,10 +128,11 @@ const styles = StyleSheet.create({
         color: '#a0a0a0',
     },
     listItemContainer: {
-        flexDirection: 'row',
-        marginHorizontal: 20,
-        marginVertical: 5,
-        width: windowWidth - 40,
+        width: windowWidth * 0.46,
+        overflow: 'hidden',
+        borderRadius: 8,
+    },
+    OuterContainer: {
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -175,23 +143,19 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     imageContainer: {
-        width: 113,
-        height: 113,
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
+        width: windowWidth * 0.46,
+        height: windowWidth * 0.46,
     },
     propsContainer: {
-        flex: 1,
+        width: windowWidth * 0.46,
         backgroundColor: 'white',
-        borderTopRightRadius: 8,
-        borderBottomRightRadius: 8,
         paddingLeft: 15,
         paddingVertical: 15,
         justifyContent: 'space-between'
     },
     titleText: {
-        fontFamily: 'Pretendard-SemiBold',
-        fontSize: 17,
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 14,
     },
     grayText: {
         fontFamily: 'Pretendard-Regular',

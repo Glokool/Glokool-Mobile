@@ -43,7 +43,6 @@ export const SeriesGrid = (props: any) => {
     const initGrid = async () => {
         const tmpContent: Array<Object> = [];
         const response = await axios.get(SERVER + '/api/series');
-        
         response.data.map((item: any, index: any) => {
             tmpContent.push(({
                 image: item.image,
@@ -70,8 +69,8 @@ export const SeriesGrid = (props: any) => {
     // grid 아이템 렌더링
     const renderItem = (item: { index: number, item: GridItem }) => {
 
-        const textFont = item.item.type == 'guide book' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
-        const textSize = item.item.type == 'guide book' ? 17 : 13;
+        const textFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
+        const textSize = item.item.type == 'tour' ? 17 : 13;
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -85,13 +84,13 @@ export const SeriesGrid = (props: any) => {
                         resizeMode={'stretch'} />
                 </View>
                 <View style={{ alignItems: item.item.type == 'guide book' ? 'center' : 'auto' }}>
-                    {item.item.type != 'card news' ? (
+                    {item.item.type != 'content' && (
                         <View style={styles.itemTextContainer}>
                             <Text style={[styles.itemText, { fontFamily: textFont, fontSize: textSize }]}>
                                 {item.item.title}
                             </Text>
                         </View>
-                    ) : null}
+                    )}
                 </View>
             </TouchableOpacity>
         )

@@ -38,10 +38,6 @@ import { SubCategoryDetail } from './SubCategoryDetail.component';
 
 var ToastRef: any;
 
-// 새로고침 시 setTimeout 으로 실행되는 함수
-const wait = (timeout: number) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -49,6 +45,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     const [refreshing, setRefreshing] = useState(false);
     const [refreshEnd, setRefreshEnd] = useState(false);
+    const [focusedItem, setFocusedItem] = useState();
     const [focusedCategory, setFocusedCategory] = useState({
         id: 'series_all',
         name: 'ALL'
@@ -84,6 +81,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         if (refreshing == false) {
             setRefreshEnd(true);
             initCategories();
+            checkFocused(focusedItem);
         }
         setTimeout(() => setRefreshEnd(false), 1);
 
@@ -92,7 +90,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     // 새로고침 시 refresh 상태변화
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        wait(500).then(() => setRefreshing(false));
+        setTimeout(() => {
+            setRefreshing(false);
+        },500);
     }, []);
 
     // 대분류 초기화
@@ -135,6 +135,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     }
 
     const checkFocused = async (item: any) => {
+        setFocusedItem(item);
         setFocusedCategory({
             id: item._id,
             name: item.name,
@@ -149,7 +150,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     "Content-Type": "application/x-www-form-urlencoded",
                 }
             };
-            const response = await axios(config);
+            const response = await axios(config).catch(e=>console.log(e));
             // console.log(response.data);
             setSubCategory(response.data);
         }

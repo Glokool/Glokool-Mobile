@@ -58,6 +58,7 @@ export enum SceneRoute {
     SERIES_B_DETAIL = 'Series_B Detail',
 
     SUBCATEGORY_DETAIL = 'SubCategory Detail',
+    GUIDEBOOK_DETAIL = 'Guidebook Detail',
 
     //Auth Navigator
     SIGN_IN = 'Sign In',
