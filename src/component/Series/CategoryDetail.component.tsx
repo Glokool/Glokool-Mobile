@@ -2,25 +2,23 @@ import React, { useEffect, useState } from 'react'
 import {
     Text,
     View,
-    Dimensions,
     StyleSheet,
     TouchableOpacity,
-    ActivityIndicator,
     FlatList,
 } from 'react-native';
-import { SERVER } from '../../server.component';
-import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
-import { withTheme } from 'styled-components';
+
+// Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 
 export const CategoryDetail = (props: any) => {
 
     const regex = new RegExp(props.main, "gi");
     const flag = regex.test('korea a-z');
 
+    // View More 버튼 클릭 시 화면 이동
     const pressedMore = (item: any) => {
         const config = {
             Name: item.name,
@@ -34,8 +32,8 @@ export const CategoryDetail = (props: any) => {
 
     }
 
+    // 아이템 클릭 시 화면 전환
     const onPressItem = (item: any) => {
-        console.log(item);
         if (item.type == 'tour') {
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
         } else if (item.type == 'content') {
@@ -45,23 +43,25 @@ export const CategoryDetail = (props: any) => {
         }
     }
 
+    // List Header / Footer Component
     const renderSpace = () => {
         return (<View style={{ width: 25 }} />)
     }
 
+    // 소분류 하위 Flatlist
     const renderItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View>
-                    <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, marginRight: 5, }} resizeMode='contain' />
+                    <FastImage
+                        source={{ uri: item.item.image }}
+                        style={styles.subItemContainer}
+                        resizeMode='contain'
+                    />
+
                     {flag == false && (
-                        <View style={{
-                            position: 'absolute',
-                            bottom: 15,
-                            alignItems: 'center',
-                            paddingHorizontal: 15,
-                        }}>
-                            <Text style={{ fontFamily: 'Pretendard-Medium', color: 'white', fontSize: 17 }}>{item.item.title}</Text>
+                        <View style={styles.subItemTitle}>
+                            <Text style={styles.subItemTitleText}>{item.item.title}</Text>
                         </View>
                     )}
                 </View>
@@ -69,36 +69,38 @@ export const CategoryDetail = (props: any) => {
         )
     }
 
+    // Guide book 하위 Grid
     const renderGridItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View>
-                    <FastImage source={{ uri: item.item.image }} style={{ width: 150, height: 150, borderRadius: 10, borderWidth: 1, }} resizeMode='contain' />
-                    <View style={{
-                        position: 'absolute',
-                        bottom: 15,
-                        alignItems: 'center',
-                        width: 150,
-                    }}>
-                        <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', color: 'white', fontSize: 15 }}>{item.item.title}</Text>
+                    <FastImage
+                        source={{ uri: item.item.image }}
+                        style={styles.GridImage}
+                        resizeMode='contain'
+                    />
+                    <View style={styles.GridItemTitle}>
+                        <Text style={styles.GridItemTitleText}>{item.item.title}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
         )
     }
 
+    // 소분류 제목 , View More 버튼 렌더링
     const renderCategory = (item: any) => {
         const textColor = item.item.name === 'GUIDE BOOK' ? '#7777ff' : 'black';
-        // console.log(item);
         return (
             <View style={{ marginBottom: 20 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginHorizontal: 25, marginVertical: 5, }}>
-                    <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', fontSize: 19, color: textColor }}>{item.item.name}</Text>
+
+                <View style={styles.categoryItemContainer}>
+                    <Text style={[styles.categoryItemText, { color: textColor }]}>{item.item.name}</Text>
                     <TouchableOpacity onPress={() => pressedMore(item.item)}>
-                        <Text style={{ fontFamily: 'Pretendard-Regular', fontSize: 15, color: '#7777ff' }}>View More</Text>
+                        <Text style={styles.MoreButton}>View More</Text>
                     </TouchableOpacity>
                 </View>
 
+                {/* 가이드북이면 그리드로 출력 */}
                 {item.item.name === 'GUIDE BOOK' ? (
                     <View style={{ height: 315 }}>
                         <FlatGrid
@@ -126,8 +128,10 @@ export const CategoryDetail = (props: any) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingBottom: 20, }}>
+
+            {/* TRENDING NOW */}
             <View style={styles.trendingNowContainer}>
-                <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', fontSize: 21, color: '#7777ff', marginLeft: 25, }}>
+                <Text style={styles.MainContainer}>
                     TRENDING NOW
                 </Text>
                 {/* <FlatList
@@ -138,11 +142,12 @@ export const CategoryDetail = (props: any) => {
                     horizontal
                 /> */}
             </View>
+
+            {/* 소분류 부분 */}
             <View style={{ backgroundColor: '#f8f8f8', marginTop: 20, }}>
                 <FlatList
                     data={props.data}
                     renderItem={renderCategory}
-                    style={{}}
                 />
             </View>
             <View style={{ alignItems: 'center' }}>
@@ -153,6 +158,11 @@ export const CategoryDetail = (props: any) => {
 }
 
 const styles = StyleSheet.create({
+    MainContainer: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 21, color: '#7777ff',
+        marginLeft: 25,
+    },
     trendingNowContainer: {
         backgroundColor: 'white',
         paddingVertical: 20,
@@ -164,5 +174,54 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 2,
         elevation: 5,
+    },
+    subItemContainer: {
+        width: 150,
+        height: 150,
+        borderRadius: 10,
+        marginRight: 5,
+    },
+    subItemTitle: {
+        position: 'absolute',
+        bottom: 15,
+        alignItems: 'center',
+        paddingHorizontal: 15,
+    },
+    subItemTitleText: {
+        fontFamily: 'Pretendard-Medium',
+        color: 'white',
+        fontSize: 17
+    },
+    GridItemTitleText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
+        fontSize: 15
+    },
+    GridItemTitle: {
+        position: 'absolute',
+        bottom: 15,
+        alignItems: 'center',
+        width: 150,
+    },
+    GridImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 10,
+    },
+    categoryItemContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        marginHorizontal: 25,
+        marginVertical: 5,
+    },
+    categoryItemText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 19,
+    },
+    MoreButton: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 15,
+        color: '#7777ff'
     }
 })

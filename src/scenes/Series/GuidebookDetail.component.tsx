@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
     TouchableOpacity,
-    Image,
     Dimensions,
     StyleSheet,
-    FlatList,
     Platform,
     View,
     Text,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { SeriesADetailContentProps, SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
@@ -21,28 +19,28 @@ import { FlatGrid } from 'react-native-super-grid';
 
 const windowWidth = Dimensions.get('window').width;
 
+// 소분류가 GUIDE BOOK 일때 해당 페이지로 
 export const GuidebookDetail = (props: SubCategoryDetailProps) => {
-
-    const sampleData = [86, 223, 34, 452, 5234, 653];
 
     const [listData, setListData] = useState();
 
+    // 아이템 초기화
     useEffect(() => {
         initItems();
     }, []);
 
+    // 아이템 초기화
     const initItems = async () => {
         const config = '/api/sub-categories?main='
             + props.route.params.Main + '&sub='
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
-        console.log(config);
         setListData(response.data);
     }
 
+    // 아이템 클릭 시 화면 이동
     const onPressItem = (item: any) => {
-        console.log(item);
         if (item.type == 'tour') {
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
         } else if (item.type == 'content') {
@@ -52,6 +50,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
         }
     }
 
+    // 가이드북 아이템 렌더링
     const renderItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
@@ -65,13 +64,13 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                             <Text style={styles.titleText}>#hashtag  #hashtag  #hashtag</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={styles.listBottomContainer}>
                             <Text style={styles.grayText}>
                                 {moment(item.createdAt).format(
                                     'YYYY. M. D',
                                 )}
                             </Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '35%' }}>
+                            <View style={styles.countNumContainer}>
                                 <CountNum_Purple />
                                 <Text style={styles.grayText}>{item.item.count}</Text>
                             </View>
@@ -163,4 +162,15 @@ const styles = StyleSheet.create({
         color: '#b5b5b5',
         marginLeft: 5,
     },
+    listBottomContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between'
+    },
+    countNumContainer: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'flex-start', 
+        width: '35%' 
+    }
 });

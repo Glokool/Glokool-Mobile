@@ -23,6 +23,8 @@ type GridItem = {
 
 const windowWidth = Dimensions.get('window').width;
 
+// Series 메인에서 Grid 형태로 렌더링되는 컴포넌트
+
 export const SeriesGrid = (props: any) => {
 
     const [content, setContent] = useState([]);

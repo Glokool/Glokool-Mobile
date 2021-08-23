@@ -23,18 +23,14 @@ import {
     SeriesFlatlist,
 } from '../../component/Series';
 import { SeriesCarousel } from '../../component/Series/Series.Carousel';
-import { Blog, Content, HiddenGem_Title } from '../../assets/icon/Series';
 import { useFocusEffect } from '@react-navigation/native';
 import { SeriesGrid } from '../../component/Series';
-import { text } from '@fortawesome/fontawesome-svg-core';
 import FastImage from 'react-native-fast-image';
 import series_all from '../../assets/icon/Series/series_all.png';
 import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
-import { numberLiteralTypeAnnotation } from '@babel/types';
 import { CategoryDetail } from '../../component/Series/CategoryDetail.component';
-import { SubCategoryDetail } from './SubCategoryDetail.component';
 
 var ToastRef: any;
 
@@ -141,7 +137,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             name: item.name,
         })
 
-        // console.log(item.name);
         if (item.name !== 'ALL') {
             const config = {
                 Method: "get",
@@ -151,7 +146,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 }
             };
             const response = await axios(config).catch(e=>console.log(e));
-            // console.log(response.data);
             setSubCategory(response.data);
         }
 

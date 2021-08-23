@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, StyleSheet, Platform, Image, FlatList, TouchableOpacity, Dimensions
+    View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, Dimensions
 } from 'react-native';
 import { QuickSearchBanner, QuickSearchGlo } from '../../assets/icon/Chat';
 import { CloseButton } from '../../assets/icon/Series';
@@ -26,15 +26,18 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     const [contents, setContents] = useState();
     const [banner, setBanner] = useState();
 
+    // 카테고리 초기화
     useEffect(() => {
         initCategories();
     }, []);
 
+    // 카테고리 초기화
     const initCategories = async () => {
         const result = await axios.get(SERVER + '/api/main-categories')
         setCategory(result.data);
     }
 
+    // 카테고리 클릭 시 focus 지정
     const pressCategory = async (item: any) => {
 
         focusedSubCategory !== null && setFocusedSubCategory(null)
@@ -52,7 +55,6 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
             }
         };
         const response = await axios(config).catch((e) => console.log(e));
-        // console.log(response.data);
         setSubCategory(response.data);
 
         if (item.name.toUpperCase() == 'ATTRACTION') {
@@ -64,6 +66,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         }
     }
 
+    // subCategory 클릭 시 focus 지정
     const pressSubCategory = (item: any) => {
         setFocusedSubCategory({
             id: item._id,
@@ -73,8 +76,8 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         setContents(item.items);
     }
 
+    // 아이템 클릭 시 화면전환
     const onPressItem = (item: any) => {
-        console.log(item);
         if (item.type == 'tour') {
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
         } else if (item.type == 'content') {
@@ -84,6 +87,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         }
     }
 
+    // 카테고리 버튼 렌더링
     const renderItem = (item: any) => {
         const buttonBackground = item.item._id === focusedCategory?.id ? '#7777ff' : 'white';
         const textColor = item.item._id === focusedCategory?.id ? 'white' : '#7777ff';
@@ -91,12 +95,13 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         return (
             <TouchableOpacity onPress={() => pressCategory(item.item)}>
                 <View style={[styles.categoryButton, { backgroundColor: buttonBackground }]}>
-                    <Text style={[styles.buttonText, { color: textColor }]}>{item.item.name}</Text>
+                    <Text style={[styles.buttonText, { color: textColor }]}>{item.item.name.toUpperCase()}</Text>
                 </View>
             </TouchableOpacity>
         )
     }
 
+    // subCategory 렌더링
     const renderSubCategory = (item: any) => {
         const buttonBackground = item.item._id === focusedSubCategory?.id ? '#eee' : 'white';
 
@@ -109,24 +114,18 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         )
     }
 
+    // 카테고리 내 아이템 렌더링
     const renderContents = (item: any) => {
-        console.log(item.item.type);
         const titleFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
         const titleAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
         const titleSize = item.item.type == 'tour' ? 17 : 14;
 
         return (
-            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+            <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.ImageContainer}>
                     <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='contain' />
                     {item.item.type != 'content' && (
-                        <View style={{
-                            position: 'absolute',
-                            bottom: 15,
-                            width: 150,
-                            alignItems: titleAlign,
-                            paddingHorizontal: 15,
-                        }}>
+                        <View style={[styles.itemTitleContainer,{alignItems:titleAlign}]}>
                             <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize }}>{item.item.title}</Text>
                         </View>
                     )}
@@ -192,7 +191,6 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                     />
                 )}
             </ScrollView>
-
 
         </View>
     )
@@ -261,5 +259,21 @@ const styles = StyleSheet.create({
     ImageContainer: {
         borderRadius: 10,
         overflow: 'hidden'
-    }
+    },
+    OuterContainer: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.11,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    itemTitleContainer: {
+        position: 'absolute',
+        bottom: 15,
+        width: 150,
+        paddingHorizontal: 15,
+    },
 });

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
     TouchableOpacity,
-    Image,
     Dimensions,
     StyleSheet,
     FlatList,
@@ -13,20 +12,12 @@ import {
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { SeriesADetailContentProps, SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
+import { SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
 import { AngleLeft } from '../../assets/icon/Common';
 import FastImage from 'react-native-fast-image';
-
-type Series_Item = {
-    image: string;
-    count: number;
-    _id: string;
-    title: string;
-    createdAt: Date;
-};
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -34,31 +25,30 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     const [listData, setListData] = useState();
     const [refreshing, setRefreshing] = useState(false);
-    const [refreshEnd, setRefreshEnd] = useState(false);
 
+    // 아이템 초기화
     useEffect(() => {
         initItems();
     }, []);
 
+    // 당겨서 새로고침 끝날때 요청
     useEffect(() => {
-        if (refreshing == false) {
-            setRefreshEnd(true);
-            initItems();
-        }
-        setTimeout(() => setRefreshEnd(false), 1);
+        refreshing == false && initItems();
 
     }, [refreshing])
 
+    // 아이템 초기화 
     const initItems = async () => {
         const config = '/api/sub-categories?main='
             + props.route.params.Main + '&sub='
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
-        console.log(config);
+
         setListData(response.data);
     }
 
+    // 당겨서 새로고침
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -66,8 +56,8 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
         }, 500);
     }, []);
 
+    // 아이템 클릭 시 화면 이동
     const onPressItem = (item: any) => {
-        console.log(item);
         if (item.type == 'tour') {
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
         } else if (item.type == 'content') {
@@ -77,6 +67,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
         }
     }
 
+    // Flatlist Component
     const renderItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -90,13 +81,13 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
                             <Text style={styles.titleText}>{item.item.title}</Text>
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={styles.listBottomContainer}>
                             <Text style={styles.grayText}>
                                 {moment(item.createdAt).format(
                                     'YYYY. M. D',
                                 )}
                             </Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '35%' }}>
+                            <View style={styles.countNumContainer}>
                                 <CountNum_Purple />
                                 <Text style={styles.grayText}>{item.item.count}</Text>
                             </View>
@@ -110,6 +101,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white', }}>
+
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
                     <AngleLeft />
@@ -119,6 +111,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
             <View style={styles.descContainer}>
                 <Text style={styles.descText}>Everything you want to know about Korea</Text>
             </View>
+
             <ScrollView
                 refreshControl={
                     <RefreshControl
@@ -199,4 +192,15 @@ const styles = StyleSheet.create({
         color: '#b5b5b5',
         marginLeft: 5,
     },
+    listBottomContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between'
+    },
+    countNumContainer:{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'flex-start', 
+        width: '35%' 
+    }
 });
