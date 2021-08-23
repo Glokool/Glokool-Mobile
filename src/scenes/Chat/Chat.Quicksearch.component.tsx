@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { QuickSearchBanner, QuickSearchGlo } from '../../assets/icon/Chat';
 import { CloseButton } from '../../assets/icon/Series';
+import { SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
@@ -54,11 +55,11 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         // console.log(response.data);
         setSubCategory(response.data);
 
-        if (item.name == 'ATTRACTION') {
+        if (item.name.toUpperCase() == 'ATTRACTION') {
             setBanner(series_attraction);
-        } else if (item.name == 'KOREA A-Z') {
+        } else if (item.name.toUpperCase() == 'KOREA A-Z') {
             setBanner(series_korea_atoz);
-        } else if (item.name == 'DAY TRIP') {
+        } else if (item.name.toUpperCase() == 'DAY TRIP') {
             setBanner(series_daytrip);
         }
     }
@@ -70,6 +71,17 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         })
 
         setContents(item.items);
+    }
+
+    const onPressItem = (item: any) => {
+        console.log(item);
+        if (item.type == 'tour') {
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
+        } else if (item.type == 'content') {
+            props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id })
+        } else if (item.type == 'blog') {
+            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id })
+        }
     }
 
     const renderItem = (item: any) => {
@@ -98,11 +110,28 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     }
 
     const renderContents = (item: any) => {
-        console.log(item.item);
+        console.log(item.item.type);
+        const titleFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
+        const titleAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
+        const titleSize = item.item.type == 'tour' ? 17 : 14;
+
         return (
-            <View>
-                <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='contain' />
-            </View>
+            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+                <View style={styles.ImageContainer}>
+                    <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='contain' />
+                    {item.item.type != 'content' && (
+                        <View style={{
+                            position: 'absolute',
+                            bottom: 15,
+                            width: 150,
+                            alignItems: titleAlign,
+                            paddingHorizontal: 15,
+                        }}>
+                            <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize }}>{item.item.title}</Text>
+                        </View>
+                    )}
+                </View>
+            </TouchableOpacity>
         )
     }
 
@@ -227,7 +256,10 @@ const styles = StyleSheet.create({
     contentsImage: {
         width: 150,
         height: 150,
-        borderWidth: 1,
         borderRadius: 10,
+    },
+    ImageContainer: {
+        borderRadius: 10,
+        overflow: 'hidden'
     }
 });

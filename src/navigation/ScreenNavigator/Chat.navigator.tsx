@@ -10,7 +10,7 @@ import {
   ChatReportScreen,
   ChatQuickSearch,
 } from '../../scenes/Chat';
-import { SeriesAInfoScreen } from '../../scenes/Series';
+import { SeriesAInfoScreen, SeriesBInfoScreen, SeriesHiddenGemDetailScreen } from '../../scenes/Series';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +40,12 @@ type ChatNavigatorParams = AppNavigatorParams & {
   };
   [SceneRoute.SERIES_A_DETAIL] : {
     Id : string;
+  };
+  [SceneRoute.SERIES_B_DETAIL] : {
+    Id : string;
+  };
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
+    TourCode : string;
   };
   [SceneRoute.CHAT_QUICK_SEARCH]: undefined;
 }
@@ -83,6 +89,9 @@ export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
     <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_B_DETAIL} component={SeriesBInfoScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen} />
+
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
