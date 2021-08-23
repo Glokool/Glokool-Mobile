@@ -5,9 +5,7 @@ import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import {
   SeriesAInfoScreen,
-  SeriesAScreen,
   SeriesBInfoScreen,
-  SeriesBScreen,
   SeriesHiddenGemContentAttr,
   SeriesHiddenGemContentCafe,
   SeriesHiddenGemContentRest,
@@ -35,12 +33,10 @@ type SeriesNavigatorParams = AppNavigatorParams & {
     Main: String,
   };
 
-  [SceneRoute.SERIES_A]: undefined;
   [SceneRoute.SERIES_A_DETAIL]: {
     Id: string,
   };
 
-  [SceneRoute.SERIES_B]: undefined;
   [SceneRoute.SERIES_B_DETAIL]: {
     Id: string,
   };
@@ -88,16 +84,6 @@ export interface SubCategoryDetailProps {
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SUBCATEGORY_DETAIL>;
 }
 
-export interface SeriesADetailProps {
-  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
-  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
-}
-
-export interface SeriesADetailContentProps {
-  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
-  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A>;
-}
-
 export interface SeriesADetailInfoProps {
   navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
@@ -106,16 +92,6 @@ export interface SeriesADetailInfoProps {
 export interface SeriesADetailInfoCommentsProps {
   navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
   route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_A_DETAIL>;
-}
-
-export interface SeriesBDetailProps {
-  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
-  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
-}
-
-export interface SeriesBDetailContentProps {
-  navigation: StackNavigationProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
-  route: RouteProp<SeriesNavigatorParams, SceneRoute.SERIES_B>;
 }
 
 export interface SeriesBDetailInfoProps {
@@ -186,9 +162,7 @@ export const SeriesNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST} component={SeriesHiddenGemContentRest} />
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE} component={SeriesHiddenGemContentCafe} />
 
-    <Stack.Screen name={SceneRoute.SERIES_A} component={SeriesAScreen} />
     <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen} />
-    <Stack.Screen name={SceneRoute.SERIES_B} component={SeriesBScreen} />
     <Stack.Screen name={SceneRoute.SERIES_B_DETAIL} component={SeriesBInfoScreen} />
   </Stack.Navigator>
 );
