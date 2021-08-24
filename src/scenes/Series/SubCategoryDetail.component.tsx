@@ -8,7 +8,7 @@ import {
     View,
     Text,
     ScrollView,
-    RefreshControl
+    RefreshControl,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -43,7 +43,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
-        
+
         setListData(response.data);
     }
 
@@ -165,6 +165,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        borderWidth: 0,
+        borderRadius: 8
     },
     imageContainer: {
         width: 113,
@@ -192,14 +194,14 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     listBottomContainer: {
-        flexDirection: 'row', 
-        alignItems: 'center', 
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between'
     },
-    countNumContainer:{
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'flex-start', 
-        width: '35%' 
+    countNumContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '35%'
     }
 });

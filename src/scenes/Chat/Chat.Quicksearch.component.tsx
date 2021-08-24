@@ -123,7 +123,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.ImageContainer}>
-                    <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='contain' />
+                    <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='stretch' />
                     {item.item.type != 'content' && (
                         <View style={[styles.itemTitleContainer,{alignItems:titleAlign}]}>
                             <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize }}>{item.item.title}</Text>
@@ -157,6 +157,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                     data={category}
                     renderItem={renderItem}
                     contentContainerStyle={{ paddingRight: 20 }}
+                    showsHorizontalScrollIndicator={false}
                     horizontal
                 />
             </View>
@@ -269,6 +270,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 3.84,
         elevation: 5,
+        borderWidth: 0,
+        borderRadius: 10,
     },
     itemTitleContainer: {
         position: 'absolute',

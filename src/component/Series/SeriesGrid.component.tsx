@@ -86,7 +86,7 @@ export const SeriesGrid = (props: any) => {
                         }}
                         resizeMode={'stretch'} />
                 </View>
-                <View style={{ alignItems: item.item.type == 'guide book' ? 'center' : 'auto' }}>
+                <View style={{ alignItems: item.item.type == 'tour' ? 'center' : 'auto' }}>
                     {item.item.type != 'content' && (
                         <View style={[styles.itemTextContainer, { alignItems: textAlign }]}>
                             <Text style={[styles.itemText, { fontFamily: textFont, fontSize: textSize }]}>

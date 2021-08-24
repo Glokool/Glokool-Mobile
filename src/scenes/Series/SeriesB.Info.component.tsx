@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
@@ -14,6 +14,7 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Platform,
+    ActivityIndicator
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
@@ -112,7 +113,7 @@ export const SeriesBInfoScreen = (
     const ScrollVewRef = React.useRef(null);
     const [height, setHeight] = React.useState<number>(0);
     const [Id, setId] = React.useState(props.route.params.Id);
-    const [content, setContent] = React.useState<Series_Item>();
+    const [content, setContent] = React.useState<Series_Item>(null);
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>(
         [],
     );
@@ -136,7 +137,7 @@ export const SeriesBInfoScreen = (
         encodeBase64Img();
     }, [content]);
     // console.log(Id)
-    
+
     // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
     React.useEffect(() => {
         if (Glochat) {
@@ -356,7 +357,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 // console.log(response.status)
-                
+
                 InitSeries();
             })
             .catch((error) => {
@@ -442,7 +443,11 @@ glokool.page.link/jdF1`,
             });
     };
 
-    return (
+    return content == null ? (
+        <Layout style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+            <ActivityIndicator color='#999' size='large'/>
+        </Layout>
+    ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
                 keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}

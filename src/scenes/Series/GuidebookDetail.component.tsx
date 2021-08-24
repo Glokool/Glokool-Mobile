@@ -94,7 +94,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                             </Text>
                             <View style={styles.countNumContainer}>
                                 <CountNum_Purple />
-                                <Text style={styles.grayText}>{item.item.count}</Text>
+                                <Text style={styles.grayText}> {item.item.count}</Text>
                             </View>
                         </View>
 
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     descText: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 16,
+        fontSize: Platform.OS === 'ios' ? 16 : 14,
         color: '#a0a0a0',
     },
     listItemContainer: {
@@ -170,6 +170,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        borderRadius: 8,
+        borderWidth: 0,
     },
     imageContainer: {
         width: windowWidth * 0.46,
@@ -184,13 +186,12 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
     },
     grayText: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 13,
+        fontSize: Platform.OS === 'ios' ? 13 : 11,
         color: '#b5b5b5',
-        marginLeft: 5,
     },
     listBottomContainer: {
         flexDirection: 'row',

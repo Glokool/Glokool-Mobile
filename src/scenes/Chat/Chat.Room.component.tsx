@@ -296,6 +296,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setRoomName(id);
 
         chat.on('value', (snapshot) => {
+            
             if (!snapshot.val()) {
                 setChatMessages([]);
                 setFetchChat(true);
@@ -303,6 +304,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }
 
             let { messages } = snapshot.val();
+
+            if (!messages) {
+                return;
+            }
+
             messages = messages.map((node) => {
                 const message = {};
                 message._id = node._id;
@@ -1566,7 +1572,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 18,
+        fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
     alert: {
         width: 10,

@@ -17,9 +17,6 @@ import { SERVER } from '../../server.component';
 
 export const CategoryDetail = (props: any) => {
 
-    const regex = new RegExp(props.main, "gi");
-    const flag = regex.test('korea a-z');
-
     // View More 버튼 클릭 시 화면 이동
     const pressedMore = (item: any) => {
         const config = {
@@ -61,7 +58,7 @@ export const CategoryDetail = (props: any) => {
                         resizeMode='stretch'
                     />
 
-                    {flag == false && (
+                    {item.item.type != 'content' && (
                         <View style={styles.subItemTitle}>
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
                         </View>
@@ -132,6 +129,8 @@ export const CategoryDetail = (props: any) => {
 
     // trendingNow 아이템 렌더링
     const renderTrendingNow = (item: any) => {
+        
+
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.trendingListItemContainer}>
@@ -141,7 +140,7 @@ export const CategoryDetail = (props: any) => {
                         resizeMode='stretch'
                     />
 
-                    {flag == false && (
+                    {item.item.type != 'content' && (
                         <View style={styles.subItemTitle}>
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
                         </View>
@@ -261,6 +260,11 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         marginBottom: 20,
+        borderWidth: 0,
+        borderRadius: 10,
+        width: 150,
+        height: 150,
+        marginRight: 5,
     },
     GridItemContainer: {
         shadowColor: "#000",
@@ -271,8 +275,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 3.84,
         elevation: 5,
+        borderWidth: 0,
+        borderRadius: 10,
+        width: 150,
+        height: 150,
     },
     trendingListItemContainer: {
+        width: 156,
+        height: 156,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -282,11 +292,13 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         marginBottom: 5,
+        borderWidth: 0,
+        borderRadius: 10,
+        marginRight: 7,
     },
     trendingItemContainer: {
         width: 156,
         height: 156,
         borderRadius: 10,
-        marginRight: 7,
     },
 })

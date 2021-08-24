@@ -12,7 +12,8 @@ import {
     KeyboardAvoidingView,
     Button,
     Platform,
-    Share as ShareRN
+    Share as ShareRN,
+    ActivityIndicator,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -89,7 +90,7 @@ export const SeriesAInfoScreen = (
     const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
-    const [content, setContent] = React.useState<Series_Item>();
+    const [content, setContent] = React.useState<Series_Item>(null);
     const [image, setImage] = React.useState<Array<string>>([]);
     const [recommendation, setRecommendation] = React.useState<
         Array<recommendation_Item>
@@ -355,7 +356,11 @@ glokool.page.link/jdF1`,
                 console.log(error);
             });
     };
-    return (
+    return content == null ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
                 keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}

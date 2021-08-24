@@ -36,7 +36,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [focusedItem, setFocusedItem] = useState();
     const [focusedCategory, setFocusedCategory] = useState({
         id: 'series_all',
-        name: 'ALL'
+        name: 'ALL',
     });
     const [banner, setBanner] = useState(series_all);
 
@@ -80,7 +80,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         setRefreshing(true);
         setTimeout(() => {
             setRefreshing(false);
-        },500);
+        }, 500);
     }, []);
 
     // 대분류 초기화
@@ -89,9 +89,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
         const tmpContent = [{
             id: 'series_all',
-            name: 'ALL'
+            name: 'ALL',
         }].concat(result.data);
-
         setCategory(tmpContent);
     }
 
@@ -144,7 +143,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     "Content-Type": "application/x-www-form-urlencoded",
                 }
             };
-            const response = await axios(config).catch(e=>console.log(e));
+            const response = await axios(config).catch(e => console.log(e));
             setSubCategory(response.data);
             initTrendingNow(item.name);
         }
@@ -228,6 +227,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         data={category}
                         renderItem={renderButtonItem}
                         contentContainerStyle={{ paddingRight: 20 }}
+                        showsHorizontalScrollIndicator={false}
                         horizontal
                     />
                 </View>
