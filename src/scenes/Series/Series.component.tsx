@@ -42,6 +42,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
+    const [trendingNow, setTrendingNow] = useState([]);
 
     const [endReached, setEndReached] = useState(false);
     const [itemCount, setItemCount] = useState(30);
@@ -94,6 +95,13 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         setCategory(tmpContent);
     }
 
+    // TrendingNow 초기화
+    const initTrendingNow = async (category: String) => {
+        const config = SERVER + '/api/categories/' + category + '/trending';
+        const response = await axios.get(config).catch((e) => console.log(e));
+        setTrendingNow(response?.data);
+    }
+
     // 아마도 안드로이드 뒤로가기 버튼 이벤트 핸들러인듯!
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -138,6 +146,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             };
             const response = await axios(config).catch(e=>console.log(e));
             setSubCategory(response.data);
+            initTrendingNow(item.name);
         }
 
         if (item.name == 'ALL') {
@@ -257,7 +266,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                             onRefresh={onRefresh}
                         />}
                 >
-                    <CategoryDetail data={subCategory} navigation={props.navigation} main={focusedCategory.name} />
+                    <CategoryDetail data={subCategory} navigation={props.navigation} main={focusedCategory.name} trendingNow={trendingNow} />
                 </ScrollView>
             )}
 

@@ -34,7 +34,6 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
     // 당겨서 새로고침 끝날때 요청
     useEffect(() => {
         refreshing == false && initItems();
-
     }, [refreshing])
 
     // 아이템 초기화 
@@ -44,7 +43,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
-
+        
         setListData(response.data);
     }
 

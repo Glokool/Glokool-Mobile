@@ -6,6 +6,8 @@ import {
     Platform,
     View,
     Text,
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -23,11 +25,17 @@ const windowWidth = Dimensions.get('window').width;
 export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
     const [listData, setListData] = useState();
+    const [refreshing, setRefreshing] = useState(false);
 
     // 아이템 초기화
     useEffect(() => {
         initItems();
     }, []);
+
+    // 당겨서 새로고침 끝날때 요청
+    useEffect(() => {
+        refreshing == false && initItems();
+    }, [refreshing])
 
     // 아이템 초기화
     const initItems = async () => {
@@ -36,8 +44,17 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
+        console.log(response.data);
         setListData(response.data);
     }
+
+    // 당겨서 새로고침
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 500);
+    }, []);
 
     // 아이템 클릭 시 화면 이동
     const onPressItem = (item: any) => {
@@ -60,8 +77,13 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
                     <View style={styles.propsContainer}>
 
-                        <View style={{ height: 50 }}>
-                            <Text style={styles.titleText}>#hashtag  #hashtag  #hashtag</Text>
+                        <View style={styles.tagContainer}>
+                            {item.item.tag.map((item) => (
+                                <Text style={styles.titleText}>
+                                    <Text style={[styles.titleText, { color: '#808080' }]}>#</Text>
+                                    {item + '  '}
+                                </Text>
+                            ))}
                         </View>
 
                         <View style={styles.listBottomContainer}>
@@ -93,11 +115,19 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
             <View style={styles.descContainer}>
                 <Text style={styles.descText}>Guide books of specially chosen tour spots.</Text>
             </View>
-            <FlatGrid
-                data={listData}
-                renderItem={renderItem}
-                style={{ paddingTop: 20 }}
-            />
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />}
+            >
+                <FlatGrid
+                    data={listData}
+                    renderItem={renderItem}
+                    style={{ paddingTop: 20 }}
+                />
+            </ScrollView>
         </View>
     );
 };
@@ -163,14 +193,22 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     listBottomContainer: {
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: 10,
     },
-    countNumContainer: { 
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'flex-start', 
-        width: '35%' 
+    countNumContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '35%',
+    },
+    tagContainer: {
+        height: 50,
+        width: windowWidth * 0.46,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        paddingRight: 10,
     }
 });

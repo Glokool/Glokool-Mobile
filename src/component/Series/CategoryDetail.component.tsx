@@ -6,10 +6,12 @@ import {
     TouchableOpacity,
     FlatList,
 } from 'react-native';
+import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
+import { SERVER } from '../../server.component';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 
@@ -128,21 +130,43 @@ export const CategoryDetail = (props: any) => {
         )
     }
 
+    // trendingNow 아이템 렌더링
+    const renderTrendingNow = (item: any) => {
+        return (
+            <TouchableOpacity onPress={() => onPressItem(item.item)}>
+                <View style={styles.trendingListItemContainer}>
+                    <FastImage
+                        source={{ uri: item.item.image }}
+                        style={styles.trendingItemContainer}
+                        resizeMode='stretch'
+                    />
+
+                    {flag == false && (
+                        <View style={styles.subItemTitle}>
+                            <Text style={styles.subItemTitleText}>{item.item.title}</Text>
+                        </View>
+                    )}
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingBottom: 20, }}>
 
             {/* TRENDING NOW */}
             <View style={styles.trendingNowContainer}>
-                <Text style={styles.MainContainer}>
+                <Text style={styles.trendingNowText}>
                     TRENDING NOW
                 </Text>
-                {/* <FlatList
-                    data={sampleData}
-                    renderItem={renderItem}
+                <FlatList
+                    data={props.trendingNow}
+                    renderItem={renderTrendingNow}
                     ListHeaderComponent={renderSpace}
                     ListFooterComponent={renderSpace}
+                    showsHorizontalScrollIndicator={false}
                     horizontal
-                /> */}
+                />
             </View>
 
             {/* 소분류 부분 */}
@@ -160,10 +184,11 @@ export const CategoryDetail = (props: any) => {
 }
 
 const styles = StyleSheet.create({
-    MainContainer: {
+    trendingNowText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 21, color: '#7777ff',
         marginLeft: 25,
+        marginBottom: 7,
     },
     trendingNowContainer: {
         backgroundColor: 'white',
@@ -246,5 +271,22 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.11,
         shadowRadius: 3.84,
         elevation: 5,
-    }
+    },
+    trendingListItemContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.11,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginBottom: 5,
+    },
+    trendingItemContainer: {
+        width: 156,
+        height: 156,
+        borderRadius: 10,
+        marginRight: 7,
+    },
 })
