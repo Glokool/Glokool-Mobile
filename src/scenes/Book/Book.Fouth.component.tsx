@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
-import { BookFouthScreenProps } from '../../navigation/Book.Confirm.navigator';
+import { BookFouthScreenProps } from "../../navigation/BookConfirmNavigatorParams";
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { TopTabBar } from '../../component/Booking';
 import { Booking_F, Booking_S } from '../../assets/icon/Booking';

@@ -136,7 +136,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
             pay_method: PayMethod,
             merchant_uid: `merchant_${new Date().getTime()}`,
             name: 'Glokool-Assistant-Service',
-            amount: amount,
+            amount: 1,
             buyer_email: data.Email,
             buyer_name: data.Name,
             buyer_tel: contact,
