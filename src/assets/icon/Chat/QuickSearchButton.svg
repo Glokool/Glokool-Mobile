@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="95.5" height="49" viewBox="0 0 95.5 49">
+  <defs>
+    <filter id="타원_350" x="30.508" y="4.102" width="38.492" height="39.77" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="타원_350-2" x="10.169" y="4.102" width="39.509" height="39.77" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="합치기_34" x="0" y="0" width="69" height="49" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-3"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path">
+      <ellipse id="타원_350-3" data-name="타원 350" cx="15" cy="15.5" rx="15" ry="15.5" transform="translate(-0.205 -0.096)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="그룹_1734" data-name="그룹 1734" transform="translate(-294.5 -36.5)">
+    <g id="그룹_1729" data-name="그룹 1729" transform="translate(-29.536 4.137)">
+      <g transform="matrix(1, 0, 0, 1, 324.04, 32.36)" filter="url(#합치기_34)">
+        <path id="합치기_34-2" data-name="합치기 34" d="M30.38,37.4A20.513,20.513,0,0,1,20.34,40,20.172,20.172,0,0,1,0,20,20.171,20.171,0,0,1,20.34,0,20.511,20.511,0,0,1,30.38,2.6,19.613,19.613,0,0,1,40.17,0a19.875,19.875,0,0,1,19.3,15.365A16.073,16.073,0,0,1,60,19.487c0,.081,0,.161,0,.24s0,.182,0,.273A19.916,19.916,0,0,1,40.17,40,19.611,19.611,0,0,1,30.38,37.4Z" transform="translate(4.5 3.5)" fill="#8797ff"/>
+      </g>
+      <g id="그룹_1730" data-name="그룹 1730" transform="translate(369.5 35.863)" opacity="0.57">
+        <g id="그룹_1420" data-name="그룹 1420" transform="translate(0 0)">
+          <circle id="타원_3" data-name="타원 3" cx="20" cy="20" r="20" transform="translate(0.036 0)" fill="#8797ff"/>
+        </g>
+      </g>
+    </g>
+    <text id="QUICK" transform="translate(309 57)" fill="#fff" font-size="13" font-family="BrandonGrotesque-BoldItalic, Brandon Grotesque" font-weight="700" font-style="italic"><tspan x="0" y="0">QUICK</tspan></text>
+    <text id="SEARCH" transform="translate(306 71)" fill="#fff" font-size="13" font-family="BrandonGrotesque-BoldItalic, Brandon Grotesque" font-weight="700" font-style="italic"><tspan x="0" y="0">SEARCH</tspan></text>
+    <rect id="사각형_2758" data-name="사각형 2758" width="27" height="2" transform="translate(363 62)" fill="#fff"/>
+    <rect id="사각형_2759" data-name="사각형 2759" width="27" height="2" transform="translate(361 67)" fill="#fff"/>
+    <rect id="사각형_2760" data-name="사각형 2760" width="27" height="2" transform="translate(358 72)" fill="#fff"/>
+  </g>
+</svg>

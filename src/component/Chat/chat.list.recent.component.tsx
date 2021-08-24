@@ -301,6 +301,12 @@ const styles = StyleSheet.create({
         color: 'black',
         marginTop: 4
     },
+    GuideProfileTxt3: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        color: '#7777FF',
+        marginTop: 0,
+    },
     DateContainer: {
         flex: 3,
         justifyContent: 'center',
