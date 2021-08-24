@@ -28,9 +28,9 @@ import {
     PurpleArrow,
     AngleLeft,
     AngleLeft_W,
-    Bookmark,
+    Bookmark_D2D2D2,
     Bookmark_P,
-    Plus,
+    Plus_D2D2D2,
     Plus_P,
 } from '../../assets/icon/Common';
 import {
@@ -478,26 +478,7 @@ glokool.page.link/jdF1`,
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                             </Layout>
-                            <Layout style={styles.TopImgIconLayout}>
-                                {uid ? (
-                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                        {bookmarkList.indexOf(Id) == -1 ?
-                                            <Bookmark />
-                                            :
-                                            <Bookmark_P />
-                                        }
-                                    </TouchableOpacity>
-                                ) : null}
-                                {uid ? (
-                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                        {content?.plus.indexOf(uid) == -1 ? (
-                                            <Plus />
-                                        ) : (
-                                            <Plus_P />
-                                        )}
-                                    </TouchableOpacity>
-                                ) : null}
-                            </Layout>
+                            
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
@@ -842,6 +823,26 @@ glokool.page.link/jdF1`,
                         style={styles.ContainerAngleLeft}
                         onPress={() => props.navigation.goBack()}>
                         <AngleLeft_W style={styles.AngleLeft} />
+                        <Layout style={styles.TopImgIconLayout}>
+                                {uid ? (
+                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                        {bookmarkList.indexOf(Id) == -1 ?
+                                            <Bookmark_D2D2D2 />
+                                            :
+                                            <Bookmark_P />
+                                        }
+                                    </TouchableOpacity>
+                                ) : null}
+                                {uid ? (
+                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                                        {content?.plus.indexOf(uid) == -1 ? (
+                                            <Plus_D2D2D2 />
+                                        ) : (
+                                            <Plus_P />
+                                        )}
+                                    </TouchableOpacity>
+                                ) : null}
+                            </Layout>
                     </TouchableOpacity>
                 </Layout>
             )}
@@ -874,6 +875,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
     },
     ContainerAngleLeft: {
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
         width: windowWidth,
         backgroundColor: '#00FF0000',
         padding: 20,
@@ -940,12 +944,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     TopImgIconLayout: {
-        width: '50%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
         backgroundColor: '#00FF0000',
-        height: '100%',
     },
     TopTxtContainer: {
         marginHorizontal: 25,

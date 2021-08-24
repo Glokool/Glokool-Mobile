@@ -15,10 +15,12 @@ import Map from './Map.svg';
 import Plus from './Plus.svg';
 import Plus_W from './Plus_White.svg';
 import Plus_P from './Plus_Purple.svg';
+import Plus_D2D2D2 from './Plus_D2D2D2.svg';
 import Bookmark from './Bookmark.svg';
 import Bookmark_W from './Bookmark_White.svg';
 import Bookmark_P from './Bookmark_Purple.svg';
 import Bookmark_PL from './Bookmark_PurPleLine.svg';
+import Bookmark_D2D2D2 from './Bookmark_D2D2D2.svg';
 import PurpleArrow from './PurpleArrow.svg';
 import AngleUp from './AngleUp.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
@@ -43,9 +45,11 @@ export {
     Bookmark, 
     Bookmark_W,
     Bookmark_P,
+    Bookmark_D2D2D2,
     Plus, 
     Plus_W, 
     Plus_P,
+    Plus_D2D2D2,
     Bookmark_PL,
     Count,
     Map, 
