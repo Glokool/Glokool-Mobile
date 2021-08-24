@@ -52,11 +52,11 @@ export const CategoryDetail = (props: any) => {
     const renderItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
-                <View>
+                <View style={styles.listItemContainer}>
                     <FastImage
                         source={{ uri: item.item.image }}
                         style={styles.subItemContainer}
-                        resizeMode='contain'
+                        resizeMode='stretch'
                     />
 
                     {flag == false && (
@@ -73,11 +73,11 @@ export const CategoryDetail = (props: any) => {
     const renderGridItem = (item: any) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
-                <View>
+                <View style={styles.GridItemContainer}>
                     <FastImage
                         source={{ uri: item.item.image }}
                         style={styles.GridImage}
-                        resizeMode='contain'
+                        resizeMode='stretch'
                     />
                     <View style={styles.GridItemTitle}>
                         <Text style={styles.GridItemTitleText}>{item.item.title}</Text>
@@ -91,7 +91,7 @@ export const CategoryDetail = (props: any) => {
     const renderCategory = (item: any) => {
         const textColor = item.item.name === 'GUIDE BOOK' ? '#7777ff' : 'black';
         return (
-            <View style={{ marginBottom: 20 }}>
+            <View>
 
                 <View style={styles.categoryItemContainer}>
                     <Text style={[styles.categoryItemText, { color: textColor }]}>{item.item.name}</Text>
@@ -109,6 +109,7 @@ export const CategoryDetail = (props: any) => {
                             renderItem={renderGridItem}
                             spacing={5}
                             ListHeaderComponent={renderSpace}
+                            showsHorizontalScrollIndicator={false}
                             horizontal
                         />
                     </View>
@@ -118,6 +119,7 @@ export const CategoryDetail = (props: any) => {
                         renderItem={renderItem}
                         ListHeaderComponent={renderSpace}
                         ListFooterComponent={renderSpace}
+                        showsHorizontalScrollIndicator={false}
                         horizontal
                     />
                 )}
@@ -223,5 +225,26 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Regular',
         fontSize: 15,
         color: '#7777ff'
+    },
+    listItemContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.11,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginBottom: 20,
+    },
+    GridItemContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.11,
+        shadowRadius: 3.84,
+        elevation: 5,
     }
 })

@@ -6,7 +6,6 @@ import {
     RefreshControl,
     ScrollView,
     BackHandler,
-    Image,
     View,
     FlatList,
     Animated,
@@ -16,13 +15,6 @@ import {
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
 import axios from 'axios';
-import { SceneRoute } from '../../navigation/app.route';
-import {
-    SeriesAFlatlist,
-    SeriesBFlatlist,
-    SeriesFlatlist,
-} from '../../component/Series';
-import { SeriesCarousel } from '../../component/Series/Series.Carousel';
 import { useFocusEffect } from '@react-navigation/native';
 import { SeriesGrid } from '../../component/Series';
 import FastImage from 'react-native-fast-image';
@@ -52,7 +44,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [subCategory, setSubCategory] = useState([]);
 
     const [endReached, setEndReached] = useState(false);
-    const [refreshCategory, setRefreshCategory] = useState(false);
     const [itemCount, setItemCount] = useState(30);
 
     const itemCountRef = useRef(30);
@@ -149,7 +140,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             setSubCategory(response.data);
         }
 
-
         if (item.name == 'ALL') {
             setBanner(series_all);
         } else if (item.name == 'ATTRACTION') {
@@ -182,7 +172,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         return (
             <TouchableOpacity onPress={() => checkFocused(item.item)}>
                 <View style={[styles.categoryButton, { borderColor: buttonBorder, backgroundColor: buttonBG }]}>
-                    <Text style={[styles.categoryText, { color: textColor }]}>{item.item.name}</Text>
+                    <Text style={[styles.categoryText, { color: textColor }]}>{item.item.name.toUpperCase()}</Text>
                 </View>
             </TouchableOpacity>
         )
