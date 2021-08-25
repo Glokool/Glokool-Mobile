@@ -41,6 +41,7 @@ export enum SceneRoute {
     CHAT_REPORT = 'Chat Report',
     CHAT_ROOM = 'Chat Room',
     CHAT_ERROR_REPORT = 'Chat Error Report',
+    CHAT_QUICK_SEARCH = 'Chat Quick Search',
 
     //Series Navigator
     SERIES = 'Series',
@@ -55,6 +56,9 @@ export enum SceneRoute {
     SERIES_A_DETAIL = 'Series_A Detail',
     SERIES_B = 'Series_B',
     SERIES_B_DETAIL = 'Series_B Detail',
+
+    SUBCATEGORY_DETAIL = 'SubCategory Detail',
+    GUIDEBOOK_DETAIL = 'Guidebook Detail',
 
     //Auth Navigator
     SIGN_IN = 'Sign In',

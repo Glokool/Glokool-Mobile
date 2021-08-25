@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Image,
     Pressable,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import {
     Layout,
@@ -31,6 +32,8 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     const userContext = useContext(AuthContext);
 
     const [data, setData] = React.useState<Array<GloChatData>>([]);
+    const [loading, setLoading] = React.useState<boolean>(true);
+
     const [guide, setGuide] = useState({});
     const [guideVisible, setGuideVisible] = useState(false);
     const [ENG, setENG] = useState(false);
@@ -62,16 +65,21 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                     'Authorization': 'Bearer ' + Token
                 }
             }
-            const RevData = await axios(AxiosConfig);
-            setData(RevData.data);
-            // console.log(RevData.data)
+            axios(AxiosConfig)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((e) => {
+                    console.log('error : ',e);
+                });
         }
+        setLoading(false);
     }
 
     function PressChatRoom(item: GloChatData) {
 
         if (item.guide == undefined) {
-            Alert.alert('Sorry','We are currently matching your travel assistant :)');
+            Alert.alert('Sorry', 'We are currently matching your travel assistant :)');
             return;
         }
         // console.log('go to chat ');
@@ -173,7 +181,11 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
         )
     }
 
-    return (
+    return loading ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout>
             {(data.length === 0) ?
                 <Layout style={styles.EmptyContainer}>
@@ -300,6 +312,12 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
         marginTop: 4
+    },
+    GuideProfileTxt3: {
+        fontFamily: 'IBMPlexSansKR-Medium',
+        fontSize: 15,
+        color: '#7777FF',
+        marginTop: 0,
     },
     DateContainer: {
         flex: 3,

@@ -80,6 +80,7 @@ import { ChatContext } from '../../context/ChatContext';
 // 안쓰여서 일단 주석처리
 
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
+import { QuickSearchButton } from '../../assets/icon/Chat'
 
 
 var ToastRef: any;
@@ -295,6 +296,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setRoomName(id);
 
         chat.on('value', (snapshot) => {
+            
             if (!snapshot.val()) {
                 setChatMessages([]);
                 setFetchChat(true);
@@ -302,6 +304,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }
 
             let { messages } = snapshot.val();
+
+            if (!messages) {
+                return;
+            }
+
             messages = messages.map((node) => {
                 const message = {};
                 message._id = node._id;
@@ -1360,15 +1367,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     <Pressable
                         style={styles.IconContainer}
                         onPress={() => {
-                            props.navigation.navigate(SceneRoute.CHAT_HELP, {
-                                id: props.route.params.id,
-                                guide: {
-                                    uid: props.route.params.guide.uid,
-                                    name: props.route.params.guide.name,
-                                },
-                            });
+                            props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
                         }}>
-                        <Help />
+                        <QuickSearchButton />
                     </Pressable>
                 </Layout>
 
@@ -1538,6 +1539,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 15,
+        marginRight: 15,
     },
     IconHelpContainer: {
         flex: 1,
@@ -1570,7 +1572,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 18,
+        fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
     alert: {
         width: 10,
@@ -1610,7 +1612,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 17,
         marginBottom: 17,
-        
+
     },
     loading: {
         width: '100%',

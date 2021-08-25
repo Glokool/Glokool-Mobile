@@ -7,9 +7,10 @@ import {
   ChatScreen,
   ChatRoomScreen,
   ChatHelpScreen,
-  ChatReportScreen
+  ChatReportScreen,
+  ChatQuickSearch,
 } from '../../scenes/Chat';
-import { SeriesAInfoScreen } from '../../scenes/Series';
+import { SeriesAInfoScreen, SeriesBInfoScreen, SeriesHiddenGemDetailScreen } from '../../scenes/Series';
 
 const Stack = createStackNavigator();
 
@@ -39,7 +40,14 @@ type ChatNavigatorParams = AppNavigatorParams & {
   };
   [SceneRoute.SERIES_A_DETAIL] : {
     Id : string;
-  }
+  };
+  [SceneRoute.SERIES_B_DETAIL] : {
+    Id : string;
+  };
+  [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
+    TourCode : string;
+  };
+  [SceneRoute.CHAT_QUICK_SEARCH]: undefined;
 }
 
 export interface ChatScreenProps {
@@ -72,12 +80,21 @@ export interface ChatReportScreenProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
 }
 
+export interface ChatQuickSearchProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
+}
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
     <Stack.Screen name={SceneRoute.SERIES_A_DETAIL} component={SeriesAInfoScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_B_DETAIL} component={SeriesBInfoScreen} />
+    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen} />
+
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
+    <Stack.Screen name={SceneRoute.CHAT_QUICK_SEARCH} component={ChatQuickSearch}/>
   </Stack.Navigator>
 );

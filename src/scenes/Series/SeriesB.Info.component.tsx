@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
@@ -14,6 +14,7 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Platform,
+    ActivityIndicator
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
@@ -112,7 +113,7 @@ export const SeriesBInfoScreen = (
     const ScrollVewRef = React.useRef(null);
     const [height, setHeight] = React.useState<number>(0);
     const [Id, setId] = React.useState(props.route.params.Id);
-    const [content, setContent] = React.useState<Series_Item>();
+    const [content, setContent] = React.useState<Series_Item>(null);
     const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>(
         [],
     );
@@ -127,6 +128,9 @@ export const SeriesBInfoScreen = (
     const [Glochat, setGlochat] = React.useState(false);
     const [modalItem, setModalItem] = React.useState();
 
+    const [pressLike, setPressLike] = React.useState(false);
+    const [pressBookmark, setPressBookmark] = React.useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -136,7 +140,7 @@ export const SeriesBInfoScreen = (
         encodeBase64Img();
     }, [content]);
     // console.log(Id)
-    
+
     // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
     React.useEffect(() => {
         if (Glochat) {
@@ -155,13 +159,10 @@ export const SeriesBInfoScreen = (
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
 
-        console.log(Content.data);
-
         setContent(Content.data);
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
-        console.log(Content.data.contents)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -183,54 +184,19 @@ export const SeriesBInfoScreen = (
                         dataTemp.push(item.id);
                     });
 
+                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
+        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
     }
 
-    const kakaoTest = async () => {
-
-        // 현재 링크 클릭 시 첨부된 링크로 연결되지 않고
-        // 앱의 메인 경로로만 연결됩니다 -> 해결 필요
-        try {
-            const response = await KakaoShareLink.sendFeed({
-                content: {
-                    title: content?.title,
-                    imageUrl:
-                        content?.cover,
-                    link: {
-                        webUrl: 'https://www.google.com',
-                        mobileWebUrl: 'https://www.google.com',
-                    },
-                    description: content?.smallTitle,
-                },
-                social: {
-                    likeCount: content?.plus.length,
-                    viewCount: content?.count,
-                },
-                buttons: [
-                    {
-                        title: 'Open in Glokool',
-                        link: {
-                            webUrl: 'https://www.google.com',
-                            mobileWebUrl: 'https://www.google.com',
-                            androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-                            iosExecutionParams: [
-                                { key: 'key1', value: 'value1' },
-                                { key: 'key2', value: 'value2' },
-                            ],
-                        },
-                    },
-                ],
-            });
-            console.log(response);
-        } catch (e) {
-            console.error(e);
-            console.error(e.message);
-        }
+    const InitComments = async () => {
+        var Content = await axios.get(SERVER + '/api/blog/' + Id);
+        setComments(Content.data.comments);
     }
 
     const facebookShare = async () => {
@@ -334,7 +300,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                console.log(response.status);
+                setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
                 console.log(error);
@@ -355,9 +322,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                // console.log(response.status)
-                
-                InitSeries();
+                setPressLike(!pressLike);
             })
             .catch((error) => {
                 console.log(error);
@@ -389,7 +354,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 setNowComment('');
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -409,7 +374,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -435,14 +400,18 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    return (
+    return content == null ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
                 keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
@@ -478,7 +447,26 @@ glokool.page.link/jdF1`,
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                             </Layout>
-                            
+                            <Layout style={styles.TopImgIconLayout}>
+                                {uid ? (
+                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                        {pressBookmark ?
+                                            <Bookmark />
+                                            :
+                                            <Bookmark_P />
+                                        }
+                                    </TouchableOpacity>
+                                ) : null}
+                                {uid ? (
+                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                                        {pressLike ? (
+                                            <Plus />
+                                        ) : (
+                                            <Plus_P />
+                                        )}
+                                    </TouchableOpacity>
+                                ) : null}
+                            </Layout>
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>

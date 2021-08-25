@@ -9,27 +9,18 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     BackHandler,
-    Pressable,
-    Linking,
-    Button,
     Image,
     Platform,
-    ImageBackground
+    TouchableOpacity
 } from 'react-native';
-import { AngleRightDouble } from '../../assets/icon/Home';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { useFocusEffect, useLinkTo } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
-import { AdBanner } from '../../component/Common/AdBanner.component';
-import { SelectableText } from '../../component/Common/SelectableText.component';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import firebase from "@react-native-firebase/app";
 import 'firebase/auth';
-import { GloChatAD, InstagramPurple, WebsitePurple, HomeBG } from '../../assets/icon/Home';
+import { GloChatAD, InstagramPurple, WebsitePurple, HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
+import { SceneRoute } from '../../navigation/app.route';
 
 
 var ToastRef: any;
@@ -86,55 +77,62 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ height: '100%', width: '100%', backgroundColor: '#00ff0000' }}>
+                style={{ width: '100%', backgroundColor: '#00ff0000' }}>
+
                 <Layout style={{ width: '100%', height: 80, backgroundColor: '#00ff0000' }} />
-                {/* <Layout style={styles.topTab}>
-                    <Image source={require('../../assets/icon/Home/textLogo.png')} />
-                    <Text>Login O</Text>
-                </Layout> */}
 
                 <HomeTopTabBar
                     navigation={props.navigation}
-                    route={props.route}></HomeTopTabBar>
+                    route={props.route} />
 
                 {/* 타이틀 텍스트 */}
                 <Layout style={styles.TitleTextContainer}>
-                    <Text style={styles.TitleText1}>
+                    <Text style={styles.TitleText}>
                         {`ASK US WHATEVER, WHENEVER`}
                     </Text>
 
-                    <Text style={styles.TitleText2}>
+                    <Text style={styles.TitleText}>
                         {`GLOKOOL GETS YOU GOIN' IN KOREA`}
                     </Text>
                 </Layout>
 
-                <HomeCarousel
-                    navigation={props.navigation}
-                    route={props.route}
-                />
+                <TouchableOpacity
+                    onPress={() =>
+                        props.navigation.navigate(
+                            SceneRoute.SERIES_A_DETAIL,
+                            { Id: '60cc01e0ee8b3104211971b4' },
+                        )}
+                    style={{ alignItems: 'center', backgroundColor: '#00ff0000', }}>
+                    <Layout style={styles.GloChatInfoContainer}>
+                        <Layout style={{ backgroundColor: '#00ff0000' }}>
+                            <Layout style={{ alignItems: 'center', flexDirection: 'row', backgroundColor: '#00ff0000' }}>
+                                <Text style={styles.GloChatInfoSmallText}>You wonder </Text><GloChatInfoIcon />
+                            </Layout>
+                            <Text style={styles.GloChatInfoText}>How to use</Text>
+                            <Text style={[styles.GloChatInfoText, { color: '#7777ff' }]}>GloChat</Text>
+                            <Text style={styles.GloChatInfoText}>Service?!</Text>
+                        </Layout>
+                        <GloChatInfo />
+                    </Layout>
+                </TouchableOpacity>
 
-                <Layout style={{ alignItems: 'center', marginTop: 10, backgroundColor: '#00ff0000' }}>
-                    <Pressable onPress={() => PressGloChatAD()}>
-                        <GloChatAD />
-                    </Pressable>
+                <TouchableOpacity
+                    onPress={() => PressGloChatAD()}
+                    style={styles.GloChatADContainer}>
+                    <Image
+                        source={require('../../assets/icon/Home/GloChatAD.png')}
+                        style={{ width: windowWidth * 0.85, height: windowWidth / 4906 * 1504 }}
+                        resizeMode='contain'
+                    />
+                </TouchableOpacity>
+
+                <Layout style={{ paddingBottom: 30 }}>
+                    <HomeCarousel
+                        navigation={props.navigation}
+                        route={props.route}
+                    />
                 </Layout>
 
-                <Layout style={{ flexDirection: 'row', marginLeft: 20, backgroundColor: '#00ff0000', alignItems: 'center', paddingBottom: Platform.OS === 'android' ? 40 : 0 }}>
-                    <Pressable onPress={() => Linking.openURL('https://glokool.com/home')}>
-                        <Layout style={styles.buttonContainer}>
-                            <WebsitePurple />
-                            <Text style={styles.buttonText}>  Website</Text>
-                        </Layout>
-                    </Pressable>
-                    <Pressable onPress={() => Linking.openURL('https://www.instagram.com/glokool_official')}>
-                        <Layout style={[styles.buttonContainer, { marginLeft: 10, }]}>
-                            <InstagramPurple />
-                            <Text style={styles.buttonText}>  Instagram</Text>
-                        </Layout>
-                    </Pressable>
-                </Layout>
-
-                {/* <AdBanner /> */}
             </ScrollView>
 
         </Layout>
@@ -151,160 +149,37 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        borderRadius: 25,
-        borderWidth: 1,
-        borderColor: '#7777ff',
-        padding: 8,
-        backgroundColor: '#00ff0000',
-        height: 40,
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 14,
-        fontFamily: 'Pretendard-Medium'
-    },
-    mainContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#00FF0000',
-        borderRadius: 15,
-        height: 120,
-        width: Dimensions.get('window').width,
-        marginVertical: 10,
-    },
     TitleTextContainer: {
         marginHorizontal: 40,
         marginTop: 40,
         marginBottom: 20,
         backgroundColor: '#00ff0000'
     },
-    TitleText1: {
+    TitleText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 18,
-    },
-    TitleText2: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 18,
+        fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
     GloChatADContainer: {
-        backgroundColor: '#292434',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        marginTop: 20,
-        marginHorizontal: 30,
+        alignItems: 'center', 
+        borderBottomColor: '#eee', 
+        borderBottomWidth: 2, 
+        paddingBottom: 5,
     },
-    ADtext: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        color: 'white',
+    GloChatInfoText: {
+        fontFamily: 'Pretendard-Bold',
+        fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
-    GloChatContainer1: {
-        alignSelf: 'flex-start',
-        marginLeft: 30,
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
-        borderBottomStartRadius: 5,
-        borderBottomEndRadius: 15,
-        padding: 10,
-        width: windowWidth * 0.6,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.0,
-        elevation: 1,
+    GloChatInfoSmallText:{
+        fontFamily: 'Pretendard-SemiBold', 
+        fontSize: Platform.OS === 'ios' ? 11: 9, 
+        color: '#7777ff' 
     },
-    GloChat1: {
-        fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 21,
-        lineHeight: 25,
-    },
-    GloChatContainer2: {
-        alignSelf: 'flex-end',
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
-        marginRight: 30,
-        marginTop: 10,
-        padding: 10,
-        width: '30%',
-        backgroundColor: '#F7F7F7',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.0,
-        elevation: 1,
-    },
-    GloChat2: {
-        fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 21,
-    },
-    GloChatContainer3: {
-        alignSelf: 'flex-end',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        borderTopStartRadius: 15,
-        borderTopEndRadius: 15,
-        borderBottomStartRadius: 15,
-        borderBottomEndRadius: 5,
-        marginRight: 30,
-        marginTop: -10,
-        padding: 10,
-        width: '70%',
-        backgroundColor: '#292434',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.0,
-        elevation: 1,
-    },
-    GloChat3: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 21,
-        color: '#8797FF',
-    },
-    GloChat3_1: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 21,
-        color: '#FFFFFF',
-    },
-    GloChatIcon: {
-        alignSelf: 'center',
-    },
-
-    CarouselContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        backgroundColor: '#00FF0000',
-    },
-    Carousel: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 15,
-    },
-    CarouselImage: {
-        width: Dimensions.get('window').width * 0.8,
-        height: 110,
-        resizeMode: 'stretch',
-        borderRadius: 10,
-    },
-    topTab: {
-        backgroundColor: '#00ff0000',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginTop: Platform.OS === 'ios' ? 50 : 20,
-        paddingHorizontal: 40,
-        alignItems: 'center'
+    GloChatInfoContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        marginBottom: 10, 
+        backgroundColor: '#00ff0000', 
+        width: windowWidth * 0.85
     }
 });

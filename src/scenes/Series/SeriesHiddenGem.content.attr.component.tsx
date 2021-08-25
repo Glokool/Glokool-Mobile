@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    Button
+    Button,
+    ActivityIndicator
 } from 'react-native';
 import {
     AngleDown,
@@ -99,7 +100,7 @@ export const SeriesHiddenGemContentAttr = (
     const PlaceCode = props.route.params.PlaceCode;
     const ScrollVewRef = React.useRef(null);
 
-    const [data, setData] = React.useState<AttractionData>();
+    const [data, setData] = React.useState<AttractionData>(null);
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
     const [Glochat, setGlochat] = React.useState<boolean>(false);
 
@@ -116,11 +117,11 @@ export const SeriesHiddenGemContentAttr = (
         encodeBase64Img();
     }, [data]);
     // modal 에 true 전달 후 false 로 초기화
-    React.useEffect(()=>{
-        if(Glochat) {
+    React.useEffect(() => {
+        if (Glochat) {
             setGlochat(false);
         }
-    },[Glochat])
+    }, [Glochat])
 
     async function InitContentAttr() {
         var ContentAttr = await axios.get(
@@ -222,7 +223,11 @@ glokool.page.link/jdF1`,
     }
 
 
-    return (
+    return data == null ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout style={styles.MainContainer}>
 
             <ScrollView
@@ -253,7 +258,7 @@ glokool.page.link/jdF1`,
                 <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
                     <Service />
                 </TouchableOpacity>
-                <ServiceModal isVisible={Glochat} data={data}/>
+                <ServiceModal isVisible={Glochat} data={data} />
 
                 {/* 인포메이션 컨테이너 */}
                 <Layout
@@ -780,7 +785,7 @@ const styles = StyleSheet.create({
         color: 'black'
     },
     EditorNoteContainer: {
-        marginRight:0,
+        marginRight: 0,
         // marginVertical: 10,
         // marginBottom: 20,
     },

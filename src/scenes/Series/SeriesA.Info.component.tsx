@@ -12,7 +12,9 @@ import {
     KeyboardAvoidingView,
     Button,
     Platform,
-    Share as ShareRN
+    Share as ShareRN,
+    ActivityIndicator,
+    Alert
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -89,7 +91,7 @@ export const SeriesAInfoScreen = (
     const ScrollVewRef = React.useRef(null);
     const [Id, setId] = React.useState(props.route.params.Id);
     const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
-    const [content, setContent] = React.useState<Series_Item>();
+    const [content, setContent] = React.useState<Series_Item>(null);
     const [image, setImage] = React.useState<Array<string>>([]);
     const [recommendation, setRecommendation] = React.useState<
         Array<recommendation_Item>
@@ -100,6 +102,9 @@ export const SeriesAInfoScreen = (
 
     const [shareImage, setShareImage] = React.useState();
     const [Glochat, setGlochat] = React.useState(false);
+
+    const [pressLike, setPressLike] = React.useState(false);
+    const [pressBookmark, setPressBookmark] = React.useState(false);
 
     const user = auth().currentUser;
     const uid = user?.uid;
@@ -184,13 +189,10 @@ glokool.page.link/jdF1`,
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
 
-        console.log(Content.data);
-
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -212,13 +214,19 @@ glokool.page.link/jdF1`,
                     data.forEach((item) => {
                         dataTemp.push(item.id);
                     });
-
+                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
+        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
+    }
+
+    const InitComments = async () => {
+        var Content = await axios.get(SERVER + '/api/contents/' + Id);
+        setComments(Content.data.comments);
     }
 
     const RenderCarousel = ({ item }) => {
@@ -247,7 +255,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response: { data: any; }) => {
-                InitSeries();
+                // InitSeries();
+                setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
                 console.log(error);
@@ -268,7 +277,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                // InitSeries();
+                setPressLike(!pressLike);
             })
             .catch((error) => {
                 console.log(error);
@@ -301,7 +311,7 @@ glokool.page.link/jdF1`,
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setNowComment('');
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -322,7 +332,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -349,13 +359,17 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
             });
     };
-    return (
+    return content == null ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
                 keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
@@ -678,7 +692,7 @@ glokool.page.link/jdF1`,
                             <TouchableOpacity
                                 style={styles.BookmarkTouch}
                                 onPress={() => PressBookmark()}>
-                                {bookmarkList.indexOf(Id) == -1 ? (
+                                {pressBookmark ? (
                                     <Bookmark />
                                 ) : (
                                     <Bookmark_P />
@@ -687,7 +701,7 @@ glokool.page.link/jdF1`,
                             <TouchableOpacity
                                 style={styles.PlusTouch}
                                 onPress={() => PressPlus()}>
-                                {content?.plus.indexOf(uid) == -1 ? (
+                                {pressLike ? (
                                     <Plus />
                                 ) : (
                                     <Plus_P />

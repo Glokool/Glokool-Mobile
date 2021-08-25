@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="414" height="64" viewBox="0 0 414 64">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="0.038" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#8797ff"/>
+      <stop offset="1" stop-color="#77f"/>
+    </linearGradient>
+  </defs>
+  <g id="그룹_1825" data-name="그룹 1825" transform="translate(0 -89)">
+    <rect id="사각형_2754" data-name="사각형 2754" width="414" height="64" transform="translate(0 89)" fill="url(#linear-gradient)"/>
+    <text id="Select_the_button" data-name="Select the button" transform="translate(99 117)" fill="#fff" font-size="15" font-family="Helvetica"><tspan x="-56.29" y="0">Select the button</tspan></text>
+    <text id="that_you_want_to_know_more_" data-name="that you want to know more!" transform="translate(136 135)" fill="#fff" font-size="15" font-family="Helvetica"><tspan x="-93.798" y="0">that you want to know more!</tspan></text>
+    <text id="Hi_" data-name="Hi!" transform="translate(297.063 126.769) rotate(-13)" fill="#fff" font-size="28" font-family="BrandonGrotesque-Medium, Brandon Grotesque" font-weight="500" opacity="0.55"><tspan x="-17.752" y="0">Hi!</tspan></text>
+  </g>
+</svg>

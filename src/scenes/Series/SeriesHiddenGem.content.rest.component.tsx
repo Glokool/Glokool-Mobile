@@ -9,6 +9,7 @@ import {
     Image,
     ScrollView,
     Button,
+    ActivityIndicator
 } from 'react-native';
 import {
     AngleDown,
@@ -95,7 +96,7 @@ export const SeriesHiddenGemContentRest = (
     const PlaceCode = props.route.params.PlaceCode;
     const ScrollVewRef = React.useRef(null);
 
-    const [data, setData] = React.useState<RestaurantData>();
+    const [data, setData] = React.useState<RestaurantData>(null);
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
     const [Glochat, setGlochat] = React.useState<boolean>(false);
 
@@ -218,7 +219,11 @@ glokool.page.link/jdF1`,
 
     }
 
-    return (
+    return data == null ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <Layout style={styles.MainContainer}>
             <ScrollView
                 ref={ScrollVewRef}
