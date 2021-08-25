@@ -30,6 +30,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
+    console.log(process.env.NODE_ENV);
+
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
