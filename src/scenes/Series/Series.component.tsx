@@ -23,6 +23,7 @@ import series_attraction from '../../assets/icon/Series/series_attraction.png';
 import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
 import { CategoryDetail } from '../../component/Series/CategoryDetail.component';
+import Toast from 'react-native-easy-toast';
 
 var ToastRef: any;
 
@@ -209,6 +210,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     return (
         <View>
             {/* top tab bar */}
+            <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
             <Animated.View
                 style={{
                     transform: [{ translateY: translateY }],

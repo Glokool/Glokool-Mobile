@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, Dimensions
 } from 'react-native';
-import { QuickSearchBanner, QuickSearchGlo } from '../../assets/icon/Chat';
 import { CloseButton } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
@@ -125,7 +124,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                 <View style={styles.ImageContainer}>
                     <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='stretch' />
                     {item.item.type != 'content' && (
-                        <View style={[styles.itemTitleContainer,{alignItems:titleAlign}]}>
+                        <View style={[styles.itemTitleContainer, { alignItems: titleAlign }]}>
                             <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize }}>{item.item.title}</Text>
                         </View>
                     )}
@@ -148,10 +147,11 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                 <FastImage source={require('../../assets/icon/Chat/QuickSearchButtonPressed.png')} style={{ width: 91, height: 40 }} resizeMode='contain' />
             </View>
 
-
-            <QuickSearchBanner />
-            {/* <QuickSearchGlo /> */}
-            {/* <Image source={require('../../assets/icon/Chat/QuickSearchBanner.png')} /> */}
+            <FastImage
+                source={require('../../assets/icon/Chat/QuickSearchBanner.png')}
+                style={{ width: windowWidth, height: windowWidth / 1700 * 263 }}
+                resizeMode='contain'
+            />
             <View>
                 <FlatList
                     data={category}

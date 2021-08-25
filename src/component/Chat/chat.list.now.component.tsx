@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
@@ -9,10 +9,11 @@ import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChessBishop, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
+import { contextType } from 'lottie-react-native';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
@@ -53,20 +54,23 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     Authorization: 'Bearer ' + Token,
                 },
             };
-            const RevData = await axios(AxiosConfig);
-            // axios 로 받아온 데이터를 useState 이용해 setData 
-            // setData 에서 제네릭 안에 GloChatData 형태로 들어가는듯 
-            // GloChatData 는 index.ts 에서 type 으로 export 되어있음
-            setData(RevData.data);
-            setLoading(false);
+            axios(AxiosConfig)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((e) => {
+                    console.log('error : ',e);
+                });
+
         }
+        setLoading(false);
     }
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
         const DDay = moment(item.day).diff(Today, 'days');
 
         if (item.guide == undefined) {
-            Alert.alert('Sorry','We are currently matching your travel assistant :)');
+            Alert.alert('Sorry', 'We are currently matching your travel assistant :)');
             return;
         }
 
@@ -80,7 +84,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             day: item.day,
             finish: true,
         });
-        
+
     }
 
     // 가이드 사진 클릭 시 가이드 프로필 출력
@@ -148,17 +152,17 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             <Layout style={styles.GuideAvatarContainer}>
                                 {
                                     item.item.guide?.avatar != undefined &&
-                                    item.item.guide?.avatar != null ? (
-                                    <Image
-                                        source={{ uri: item.item.guide?.avatar }}
-                                        style={styles.GuideAvatar}
-                                    />
-                                ) : (
-                                    <Image
-                                        source={require('../../assets/profile/profile_01.png')}
-                                        style={styles.GuideAvatar}
-                                    />
-                                )}
+                                        item.item.guide?.avatar != null ? (
+                                        <Image
+                                            source={{ uri: item.item.guide?.avatar }}
+                                            style={styles.GuideAvatar}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={require('../../assets/profile/profile_01.png')}
+                                            style={styles.GuideAvatar}
+                                        />
+                                    )}
                             </Layout>
                         </TouchableOpacity>
 
@@ -199,7 +203,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         );
     };
 
-    return (
+    return loading ? (
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
+        </Layout>
+    ) : (
         <>
             <Layout>
                 {data.length === 0 ? (
