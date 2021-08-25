@@ -14,6 +14,7 @@ import {
     Platform,
     Share as ShareRN,
     ActivityIndicator,
+    Alert
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -102,6 +103,9 @@ export const SeriesAInfoScreen = (
     const [shareImage, setShareImage] = React.useState();
     const [Glochat, setGlochat] = React.useState(false);
 
+    const [pressLike, setPressLike] = React.useState(false);
+    const [pressBookmark, setPressBookmark] = React.useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -185,13 +189,10 @@ glokool.page.link/jdF1`,
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
 
-        console.log(Content.data);
-
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
         setRecommendation(Content.data.recommendation);
-        console.log(Content.data)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -213,13 +214,19 @@ glokool.page.link/jdF1`,
                     data.forEach((item) => {
                         dataTemp.push(item.id);
                     });
-
+                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
+        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
+    }
+
+    const InitComments = async () => {
+        var Content = await axios.get(SERVER + '/api/contents/' + Id);
+        setComments(Content.data.comments);
     }
 
     const RenderCarousel = ({ item }) => {
@@ -248,7 +255,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response: { data: any; }) => {
-                InitSeries();
+                // InitSeries();
+                setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
                 console.log(error);
@@ -269,7 +277,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                // InitSeries();
+                setPressLike(!pressLike);
             })
             .catch((error) => {
                 console.log(error);
@@ -302,7 +311,7 @@ glokool.page.link/jdF1`,
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 setNowComment('');
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -323,7 +332,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -350,7 +359,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -683,7 +692,7 @@ glokool.page.link/jdF1`,
                             <TouchableOpacity
                                 style={styles.BookmarkTouch}
                                 onPress={() => PressBookmark()}>
-                                {bookmarkList.indexOf(Id) == -1 ? (
+                                {pressBookmark ? (
                                     <Bookmark />
                                 ) : (
                                     <Bookmark_P />
@@ -692,7 +701,7 @@ glokool.page.link/jdF1`,
                             <TouchableOpacity
                                 style={styles.PlusTouch}
                                 onPress={() => PressPlus()}>
-                                {content?.plus.indexOf(uid) == -1 ? (
+                                {pressLike ? (
                                     <Plus />
                                 ) : (
                                     <Plus_P />

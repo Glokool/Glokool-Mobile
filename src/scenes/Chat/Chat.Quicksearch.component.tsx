@@ -139,7 +139,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
             <View style={styles.topTabBar}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => props.navigation.pop()}>
-                        <CloseButton />
+                        <View><CloseButton /></View>
                     </TouchableOpacity>
 
                     <Text style={styles.topTabText}>QUICK SEARCH</Text>
@@ -235,11 +235,11 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
     },
     subButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#7777ff'
     },
     GridContainer: {

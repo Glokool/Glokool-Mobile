@@ -128,6 +128,9 @@ export const SeriesBInfoScreen = (
     const [Glochat, setGlochat] = React.useState(false);
     const [modalItem, setModalItem] = React.useState();
 
+    const [pressLike, setPressLike] = React.useState(false);
+    const [pressBookmark, setPressBookmark] = React.useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -156,13 +159,10 @@ export const SeriesBInfoScreen = (
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
 
-        console.log(Content.data);
-
         setContent(Content.data);
         setContentInfo(Content.data.contents);
         setRecommendation(Content.data.recommendation);
         setComments(Content.data.comments);
-        console.log(Content.data.contents)
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -184,54 +184,19 @@ export const SeriesBInfoScreen = (
                         dataTemp.push(item.id);
                     });
 
+                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
+        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
     }
 
-    const kakaoTest = async () => {
-
-        // 현재 링크 클릭 시 첨부된 링크로 연결되지 않고
-        // 앱의 메인 경로로만 연결됩니다 -> 해결 필요
-        try {
-            const response = await KakaoShareLink.sendFeed({
-                content: {
-                    title: content?.title,
-                    imageUrl:
-                        content?.cover,
-                    link: {
-                        webUrl: 'https://www.google.com',
-                        mobileWebUrl: 'https://www.google.com',
-                    },
-                    description: content?.smallTitle,
-                },
-                social: {
-                    likeCount: content?.plus.length,
-                    viewCount: content?.count,
-                },
-                buttons: [
-                    {
-                        title: 'Open in Glokool',
-                        link: {
-                            webUrl: 'https://www.google.com',
-                            mobileWebUrl: 'https://www.google.com',
-                            androidExecutionParams: [{ key: 'key1', value: 'value1' }],
-                            iosExecutionParams: [
-                                { key: 'key1', value: 'value1' },
-                                { key: 'key2', value: 'value2' },
-                            ],
-                        },
-                    },
-                ],
-            });
-            console.log(response);
-        } catch (e) {
-            console.error(e);
-            console.error(e.message);
-        }
+    const InitComments = async () => {
+        var Content = await axios.get(SERVER + '/api/blog/' + Id);
+        setComments(Content.data.comments);
     }
 
     const facebookShare = async () => {
@@ -335,7 +300,8 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                console.log(response.status);
+                setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
                 console.log(error);
@@ -356,9 +322,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                // console.log(response.status)
-
-                InitSeries();
+                setPressLike(!pressLike);
             })
             .catch((error) => {
                 console.log(error);
@@ -390,7 +354,7 @@ glokool.page.link/jdF1`,
         axios(config)
             .then((response) => {
                 setNowComment('');
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -410,7 +374,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -436,7 +400,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                InitSeries();
+                InitComments();
             })
             .catch((error) => {
                 console.log(error);
@@ -444,8 +408,8 @@ glokool.page.link/jdF1`,
     };
 
     return content == null ? (
-        <Layout style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-            <ActivityIndicator color='#999' size='large'/>
+        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator color='#999' size='large' />
         </Layout>
     ) : (
         <Layout style={styles.ContainerLayout}>
@@ -486,7 +450,7 @@ glokool.page.link/jdF1`,
                             <Layout style={styles.TopImgIconLayout}>
                                 {uid ? (
                                     <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                        {bookmarkList.indexOf(Id) == -1 ?
+                                        {pressBookmark ?
                                             <Bookmark />
                                             :
                                             <Bookmark_P />
@@ -495,7 +459,7 @@ glokool.page.link/jdF1`,
                                 ) : null}
                                 {uid ? (
                                     <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                        {content?.plus.indexOf(uid) == -1 ? (
+                                        {pressLike ? (
                                             <Plus />
                                         ) : (
                                             <Plus_P />

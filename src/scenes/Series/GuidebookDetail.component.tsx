@@ -108,7 +108,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
         <View style={{ flex: 1, backgroundColor: 'white', }}>
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
-                    <AngleLeft />
+                    <View><AngleLeft/></View>
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>

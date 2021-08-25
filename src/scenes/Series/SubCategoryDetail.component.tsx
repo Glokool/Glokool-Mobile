@@ -103,7 +103,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
-                    <AngleLeft />
+                    <View><AngleLeft /></View>
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>

@@ -11,6 +11,8 @@ import {
     Animated,
     Dimensions,
     TouchableOpacity,
+    ActivityIndicator,
+    Platform,
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -211,6 +213,12 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         <View>
             {/* top tab bar */}
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
+
+            {(refreshing && focusedCategory.name == 'ALL') &&
+                (<View style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 99, justifyContent: 'center', backgroundColor: 'black', opacity: 0.5 }}>
+                    <ActivityIndicator size='large' color='white' />
+                </View>)}
+
             <Animated.View
                 style={{
                     transform: [{ translateY: translateY }],
@@ -239,7 +247,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             {/* grid scrollview */}
             {focusedCategory?.name == 'ALL' ? (
                 <ScrollView
-                    style={{ backgroundColor: 'white', height: '100%' }}
+                    style={{ backgroundColor: 'white', height: '100%', }}
                     scrollEventThrottle={1}
                     onScroll={(e) => handleScroll(e)}
                     decelerationRate='fast'
