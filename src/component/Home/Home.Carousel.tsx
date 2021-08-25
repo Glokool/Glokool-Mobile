@@ -119,6 +119,8 @@ const styles = StyleSheet.create({
         height: ImageSize,
         width: '100%',
         backgroundColor: '#00FF0000',
+        marginTop: 15,
+        
     },
     Carousel: {
         height: ImageSize,
