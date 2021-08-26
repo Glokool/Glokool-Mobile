@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext } from 'react';
 import {
     BottomTabBarOptions,
     BottomTabBarProps,
@@ -11,6 +11,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    StyleSheet,
 } from 'react-native';
 import {
     HomeNavigator,
@@ -45,6 +46,7 @@ function MyTabBar({
 
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
+
     React.useEffect(() => {
         let keyboardEventListeners: any;
         if (Platform.OS === 'android') {
@@ -69,15 +71,15 @@ function MyTabBar({
     if (!visible && Platform.OS === 'android') return null;
 
     return (
-        <View style={{ marginTop: -10}}>
+        <View style={{ }}>
             <View
                 style={{
                     flexDirection: 'row',
                     borderTopLeftRadius: 15,
                     borderTopRightRadius: 15,
                     backgroundColor: 'white',
-                    borderTopColor: '#fff',
-                    borderTopWidth: 0.5,
+                    // borderTopColor: '#fff',
+                    // borderTopWidth: 0.5,
                     shadowColor: 'rgba(0, 0, 0, 1)',
                     shadowOffset: {
                         width: 0,
@@ -93,8 +95,8 @@ function MyTabBar({
                         options.tabBarLabel !== undefined
                             ? options.tabBarLabel
                             : options.title !== undefined
-                            ? options.title
-                            : route.name;
+                                ? options.title
+                                : route.name;
 
                     const isFocused = state.index === index;
 
@@ -129,12 +131,7 @@ function MyTabBar({
                             testID={options.tabBarTestID}
                             onPress={onPress}
                             onLongPress={onLongPress}
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                margin: 10,
-                            }}>
+                            style={index != 1 ? styles.ButtonContainer : styles.ChatButtonContainer}>
                             <View
                                 style={{
                                     borderRadius: 25,
@@ -152,8 +149,8 @@ function MyTabBar({
                                 ) : label === NavigatorRoute.CHAT ? (
                                     isFocused ? (
                                         <Chat_S />
-                                    ) : ( onChat ?
-                                            <Chat_Alert/> : <Chat />
+                                    ) : (onChat ?
+                                        <Chat_Alert /> : <Chat />
                                     )
                                 ) : label === NavigatorRoute.SERIES ? (
                                     isFocused ? (
@@ -183,7 +180,7 @@ function MyTabBar({
                     );
                 })}
             </View>
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} />
+            {/* <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} /> */}
         </View>
     );
 }
@@ -212,7 +209,10 @@ export const MainNavigator = (): React.ReactElement => (
         <Tab.Screen
             name={NavigatorRoute.HOME}
             component={HomeNavigator}
-            options={({ route }) => ({ unmountOnBlur: false })}
+            options={({ route }) => ({
+                unmountOnBlur: false
+
+            })}
         />
         <Tab.Screen
             name={NavigatorRoute.CHAT}
@@ -226,7 +226,7 @@ export const MainNavigator = (): React.ReactElement => (
             name={NavigatorRoute.SERIES}
             component={SeriesNavigator}
             options={({ route }) => ({
-                unmountOnBlur: false,
+                unmountOnBlur: true,
             })}
         />
         <Tab.Screen
@@ -238,3 +238,35 @@ export const MainNavigator = (): React.ReactElement => (
         />
     </Tab.Navigator>
 );
+
+const styles = StyleSheet.create({
+    ButtonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 10,
+        marginBottom: 20,
+        paddingBottom: 10,
+        paddingTop: 10,
+    },
+    ChatButtonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 10,
+        marginBottom: 20,
+        paddingBottom: 10,
+        paddingTop: 10,
+        // backgroundColor: 'white',
+        // borderBottomLeftRadius: 20,
+        // borderBottomRightRadius: 20,
+        // shadowColor: 'rgba(0, 0, 0, 1)',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowRadius: 5,
+        // elevation: 1,
+        // shadowOpacity: 0.11,
+    }
+})

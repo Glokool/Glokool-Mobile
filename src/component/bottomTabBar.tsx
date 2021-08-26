@@ -4,11 +4,6 @@ import { StyleSheet } from 'react-native';
 
 export const BottomTabBar : React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
 
-
-
-
-
-
     return(
         null
     )

@@ -3817,6 +3817,11 @@
   dependencies:
     "is-obj" "^1.0.0"
 
+"dotenv@^10.0.0":
+  "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  "version" "10.0.0"
+
 "duplexer2@^0.1.4":
   "integrity" "sha1-ixLauHjA1p4+eJEFFmKjL8a93ME="
   "resolved" "https://registry.npmjs.org/duplexer2/-/duplexer2-0.1.4.tgz"
@@ -8037,6 +8042,13 @@
   "integrity" "sha512-PKShbOsa/oxjSzZ/Bag98O/J+jaZOI6ic5YdanPirTpRAraAvKUzJWQUhE5Yy0Isl9yfIkSogOClE9BRfSyUbA=="
   "resolved" "https://registry.npmjs.org/react-native-deep-linking/-/react-native-deep-linking-2.2.0.tgz"
   "version" "2.2.0"
+
+"react-native-dotenv@^3.2.0":
+  "integrity" "sha512-/gHyvEVkgzLOI1DBes8g52vLV0cRWtxNDG/LgxRqQCeGvbzqJE7Z3tgcg5NsGOMDdr3tNYsm3yDE3GtMQi4sEg=="
+  "resolved" "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-3.2.0.tgz"
+  "version" "3.2.0"
+  dependencies:
+    "dotenv" "^10.0.0"
 
 "react-native-draggable-view@^0.0.6":
   "integrity" "sha512-Em7H/GbBJrgizXZkm16ZsE5LsMBNbkXWu5QLzsu+f7jQyCHUCEN7ypHLce5d2Z+Nhv+quLZtmclGcDwsOGM1Qw=="
