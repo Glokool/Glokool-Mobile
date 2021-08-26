@@ -9,7 +9,6 @@ import {
   SeriesHiddenGemContentAttr,
   SeriesHiddenGemContentCafe,
   SeriesHiddenGemContentRest,
-  SeriesHiddenGemScreen,
   SeriesScreen,
   SubCategoryDetail,
   GuidebookDetail
@@ -152,7 +151,6 @@ export const SeriesNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.SERIES} component={SeriesScreen} />
 
-    <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM} component={SeriesHiddenGemScreen} />
     <Stack.Screen name={SceneRoute.SERIES_HIDDEN_GEM_DETAIL} component={SeriesHiddenGemDetailScreen} />
 
     <Stack.Screen name={SceneRoute.SUBCATEGORY_DETAIL} component={SubCategoryDetail} />

@@ -14,16 +14,9 @@ export const ServiceModal = (props: any) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-
         if (props.isVisible) {
             setVisible(true);
         }
-        // console.log('id1',props.id);
-        // console.log('id2',props.data?._id);
-        // if(props.type && props.id && props.id != props.data?.id) {
-        //     setVisible(false);
-        // }
-
     })
 
     return (

@@ -20,10 +20,10 @@ type image = {
 }
 
 interface MenuDetailProps {
-    data : Array<string>;
+    data: Array<string>;
 }
 
-export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
+export const MenuDetail = (props: MenuDetailProps): LayoutElement => {
 
     const [image, setImage] = React.useState<image>();
     const WindowWidth = Dimensions.get('window').width;
@@ -39,27 +39,27 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
         Image.getSize(props.data[0], (width, height) => {
 
             var ImageRatio = WindowWidth / width;
-            
-            setImage({width: WindowWidth - 60, height: height * ImageRatio});
+
+            setImage({ width: WindowWidth - 60, height: height * ImageRatio });
         });
-        
+
 
     }
 
 
     return (
-        <Layout style={{width: '100%'}}>
+        <Layout style={{ width: '100%' }}>
 
             <Layout style={styles.ContainerTitle}>
                 <Text style={styles.ContainerTitleText}>Menu</Text>
-                <Divider style={styles.Divider}/>
+                <Divider style={styles.Divider} />
             </Layout>
 
             <Layout style={styles.DetailContainer}>
 
                 <Text style={styles.DetailText}>Here are some of the most popular menus</Text>
-                
-                <Layout style={{flex: 1}}>
+
+                <Layout style={{ flex: 1 }}>
                     <Layout style={styles.DetailContainer2}>
                         <Menu_Vegetble />
                         <Text style={styles.DetailText2}>  Vegan</Text>
@@ -67,18 +67,18 @@ export const MenuDetail = (props : MenuDetailProps) : LayoutElement => {
                     <Layout style={styles.DetailContainer2}>
                         <Menu_Spicy />
                         <Text style={styles.DetailText2}>  Spiciness</Text>
-                    </Layout>                   
+                    </Layout>
                 </Layout>
 
 
             </Layout>
 
-            {(props.data != undefined && image != undefined)? 
-                <FastImage  source={{uri : props.data[0]}} style={{width: (image?.width), height: image?.height, alignSelf: 'center'}} resizeMode={'stretch'}/>
-            :
+            {(props.data != undefined && image != undefined) ?
+                <FastImage source={{ uri: props.data[0] }} style={{ width: (image?.width), height: image?.height, alignSelf: 'center' }} resizeMode={'stretch'} />
+                :
                 null
             }
-            
+
         </Layout>
     );
 }
