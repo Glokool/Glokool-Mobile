@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     SafeAreaView,
@@ -25,7 +25,7 @@ import { ChatHelpScreenProps } from '../../navigation/ScreenNavigator/Chat.navig
 var toastRef: any;
 
 export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
-    const [modal, setModal] = React.useState(false);
+    const [modal, setModal] = useState(false);
     const id = props.route.params.id;
     const guide = props.route.params.guide;
 
@@ -36,7 +36,7 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
     };
 
     const PressLink = () => {
-        Linking.openURL('https://www.instagram.com/glokool_official/');
+        Linking.openURL('https://www.instagram.com/glokool_korea/');
     };
 
     return (
@@ -107,20 +107,11 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
                     style={{ width: Dimensions.get('window').width * 0.8 }}>
                     <Layout>
                         <Text
-                            style={{
-                                fontSize: 12,
-                                fontWeight: 'bold',
-                                textAlign: 'center',
-                                marginVertical: 10,
-                            }}>
+                            style={styles.ModalKeyText}>
                             Call
                         </Text>
                         <Text
-                            style={{
-                                fontSize: 16,
-                                textAlign: 'center',
-                                marginBottom: 20,
-                            }}>
+                            style={styles.ModalValText}>
                             070-4300-0833
                         </Text>
                         <Button onPress={PressCopy}>Copy</Button>
@@ -134,21 +125,12 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
 
                     <Layout>
                         <Text
-                            style={{
-                                fontSize: 12,
-                                fontWeight: 'bold',
-                                textAlign: 'center',
-                                marginBottom: 10,
-                            }}>
+                            style={styles.ModalKeyText}>
                             Instagram Direct
                         </Text>
                         <Text
-                            style={{
-                                fontSize: 16,
-                                textAlign: 'center',
-                                marginBottom: 20,
-                            }}>
-                            @glokool_official
+                            style={styles.ModalValText}>
+                            @glokool_korea
                         </Text>
                         <Button onPress={PressLink}>Link</Button>
                     </Layout>
@@ -164,35 +146,16 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
 };
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
     TabBar: {
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-    },
-    MainContainer: {
-        flex: 10,
-        backgroundColor: '#FFC043',
     },
     IconContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 15,
-    },
-    icon: {
-        width: 32,
-        height: 32,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    icon2: {
-        marginHorizontal: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     banner: {
         flexDirection: 'row',
@@ -208,4 +171,15 @@ const styles = StyleSheet.create({
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+    ModalKeyText: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    ModalValText:{
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 20,
+    }
 });

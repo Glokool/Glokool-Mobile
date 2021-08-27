@@ -1,11 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
     Image,
-    Pressable,
     Alert,
     ActivityIndicator
 } from 'react-native';
@@ -13,7 +12,6 @@ import {
     Layout,
     Text,
     LayoutElement,
-    Modal,
 } from '@ui-kitten/components';
 import { ChatListRecentProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import moment from 'moment';
@@ -31,8 +29,8 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
     const userContext = useContext(AuthContext);
 
-    const [data, setData] = React.useState<Array<GloChatData>>([]);
-    const [loading, setLoading] = React.useState<boolean>(true);
+    const [data, setData] = useState<Array<GloChatData>>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const [guide, setGuide] = useState({});
     const [guideVisible, setGuideVisible] = useState(false);
@@ -41,20 +39,18 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
     const [route, setRoute] = useState({});
 
-    React.useEffect(() => {
-
+    useEffect(() => {
         InitNowList();
-
     }, []);
 
     // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    React.useEffect(() => {
+    useEffect(() => {
         if (guideVisible) {
             setGuideVisible(false);
         }
     }, [guideVisible])
 
-    async function InitNowList() {
+    const InitNowList = async () => {
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
@@ -70,19 +66,18 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                     setData(res.data);
                 })
                 .catch((e) => {
-                    console.log('error : ',e);
+                    console.log('error : ', e);
                 });
         }
         setLoading(false);
     }
 
-    function PressChatRoom(item: GloChatData) {
+    const PressChatRoom = (item: GloChatData) => {
 
         if (item.guide == undefined) {
             Alert.alert('Sorry', 'We are currently matching your travel assistant :)');
             return;
         }
-        // console.log('go to chat ');
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: { name: item.guide.name, uid: item.guide.uid },
@@ -107,7 +102,6 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -330,14 +324,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#8797FF',
         marginTop: 15
-    },
-    dateTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 12,
-        color: 'black',
-        marginVertical: 0
-    },
-    backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 })

@@ -1,14 +1,13 @@
 
 import React from 'react';
 import { StyleSheet, Platform } from 'react-native'
-import { 
+import {
     Layout,
     Text,
-    LayoutElement 
+    LayoutElement
 } from '@ui-kitten/components';
 
-import { Snow, Sunny, Rainy, Cloudy} from '../../assets/image/Chat'
-import { WeatherComponentProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { Snow, Sunny, Rainy, Cloudy } from '../../assets/image/Chat'
 import moment from 'moment';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
@@ -20,43 +19,46 @@ type WeatherInfo = {
     temp_max: string
 }
 
-export const WeatherComponent = (props : WeatherComponentProps) : LayoutElement => {
+export const WeatherComponent = (props: any): LayoutElement => {
 
     const [data, setData] = React.useState<WeatherInfo>();
     const today = new Date();
 
-    React.useEffect(() => { 
+    React.useEffect(() => {
         InitWeather();
     }, []);
 
-    async function InitWeather() {
-
-        var Weather = await axios.get(SERVER + '/api/weather');
+    const InitWeather = async () => {
+        const Weather = await axios.get(SERVER + '/api/weather');
         setData(Weather.data);
-
-
 
     }
 
 
-    return(
+    return (
         <Layout style={styles.Container}>
-
             {/* Snow, Rain, Clouds, Clear ... */}
-            {(data?.main === 'Snow')? <Snow /> : (data?.main === 'Rain')? <Rainy /> : (data?.main === 'Clouds')? <Cloudy /> : <Sunny />}
+            {(data?.main === 'Snow') ? <Snow /> : (data?.main === 'Rain') ? <Rainy /> : (data?.main === 'Clouds') ? <Cloudy /> : <Sunny />}
             <Layout style={styles.TextContainer}>
 
                 <Layout style={styles.TextContainer1}>
-                    <Text style={styles.Location}>SEOUL</Text>
-                    <Text style={styles.Date}>{`Today ${moment(today).format('MM / DD')}`}</Text>
-                    <Text style={styles.HighLowTem}>{`H  ${data?.temp_max}° L  ${data?.temp_min}°`}<Text style={styles.Weather}>  {data?.main}</Text></Text>
-                    
+                    <Text style={styles.Location}>
+                        SEOUL
+                    </Text>
+                    <Text style={styles.Date}>
+                        {`Today ${moment(today).format('MM / DD')}`}
+                    </Text>
+                    <Text style={styles.HighLowTem}>
+                        {`H  ${data?.temp_max}° L  ${data?.temp_min}°`}
+                        <Text style={styles.Weather}>  {data?.main}</Text>
+                    </Text>
+
                 </Layout>
 
                 <Layout style={styles.TextContainer2}>
                     <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
                 </Layout>
-                
+
             </Layout>
         </Layout>
     )
@@ -68,21 +70,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    TextContainer:{
+    TextContainer: {
         position: 'absolute',
-        top: '25%', 
+        top: '25%',
         left: '10%',
         backgroundColor: '#00FF0000',
         flexDirection: 'row',
         marginTop: Platform.OS === 'ios' ? 15 : 0,
     },
-    TextContainer1 : {
+    TextContainer1: {
         alignItems: 'flex-start',
         flexDirection: 'column',
         backgroundColor: '#00FF0000',
         marginRight: 30
     },
-    TextContainer2 : {
+    TextContainer2: {
         alignItems: 'center',
         flexDirection: 'column',
         backgroundColor: '#00FF0000',

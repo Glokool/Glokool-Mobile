@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
-import {
-    Layout,
-    LayoutElement,
-} from '@ui-kitten/components';
+import React, {useCallback} from 'react';
+import { Layout, LayoutElement, } from '@ui-kitten/components';
 import { HomeScreenProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import {
     Dimensions,
@@ -15,11 +12,11 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { useFocusEffect, useLinkTo } from '@react-navigation/native';
+import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import 'firebase/auth';
-import { GloChatAD, InstagramPurple, WebsitePurple, HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
+import { HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
 
 
@@ -30,10 +27,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    console.log(process.env.NODE_ENV);
-
     const focusEvent = useFocusEffect(
-        React.useCallback(() => {
+        useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
             return () => {
@@ -61,13 +56,14 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-    async function PressGloChatAD() {
+    const PressGloChatAD = () => {
         props.navigation.navigate(NavigatorRoute.CHAT);
     }
 
     return (
         <Layout style={{ alignItems: 'center', width: '100%' }}>
 
+            {/* 백그라운드 이미지, 안드로이드에서 해당 svg 가 안보여서 png 로 */}
             {Platform.OS === 'ios' ? (
                 <HomeBG style={styles.backgroundStyle} />
             ) : (
@@ -80,8 +76,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{ width: '100%', backgroundColor: '#00ff0000' }}>
-
-                <Layout style={{ width: '100%', height: 80, backgroundColor: '#00ff0000' }} />
 
                 <HomeTopTabBar
                     navigation={props.navigation}
@@ -162,26 +156,26 @@ const styles = StyleSheet.create({
         fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
     GloChatADContainer: {
-        alignItems: 'center', 
-        borderBottomColor: '#eee', 
-        borderBottomWidth: 2, 
+        alignItems: 'center',
+        borderBottomColor: '#eee',
+        borderBottomWidth: 2,
         paddingBottom: 5,
     },
     GloChatInfoText: {
         fontFamily: 'Pretendard-Bold',
         fontSize: Platform.OS === 'ios' ? 18 : 15,
     },
-    GloChatInfoSmallText:{
-        fontFamily: 'Pretendard-SemiBold', 
-        fontSize: Platform.OS === 'ios' ? 11: 9, 
-        color: '#7777ff' 
+    GloChatInfoSmallText: {
+        fontFamily: 'Pretendard-SemiBold',
+        fontSize: Platform.OS === 'ios' ? 11 : 9,
+        color: '#7777ff'
     },
     GloChatInfoContainer: {
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        marginBottom: 10, 
-        backgroundColor: '#00ff0000', 
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+        backgroundColor: '#00ff0000',
         width: windowWidth * 0.85
     }
 });

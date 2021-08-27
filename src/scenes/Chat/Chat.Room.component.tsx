@@ -159,7 +159,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setIsPaused(true)
         increment.current = setInterval(() => {
             setTimer((timer) => timer + 1)
-            console.log(timer)
+            // console.log(timer)
         }, 1000)
     }
 
@@ -1154,7 +1154,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                console.log(res.data);
 
                 await setGuide({
                     avatar: res.data.avatar,
@@ -1183,43 +1182,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             Alert.alert('Sorry,', 'Guide Not Matched!');
         }
     }
-
-    // 재훈 함수 !!
-    // 가이드 프로필 띄워보기
-    // const showGuideProfile = async (guideInfo: any) => {
-    //     if (guideInfo.uid != '') {
-    //         try {
-    //             const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-    //             console.log(res.data);
-
-    //             await setGuide({
-    //                 avatar: res.data.avatar,
-    //                 name: res.data.name,
-    //                 gender: res.data.gender,
-    //                 birthDate: res.data.birthDate,
-    //                 lang: res.data.lang,
-    //                 country: res.data.country,
-    //                 intro: res.data.intro,
-    //                 oneLineIntro: res.data.oneLineIntro,
-    //             })
-
-    //             if (res.data.lang.length == 1) {
-    //                 setENG(true);
-    //             }
-    //             else {
-    //                 if (res.data.lang[0]) { setENG(true); }
-    //                 if (res.data.lang[1]) { setCHN(true); }
-    //             }
-
-    //             setGuideVisible(true);
-    //         } catch (e) {
-    //             console.log('e', e);
-    //         }
-    //     }
-    //     else {
-    //         Alert.alert('Sorry,', 'Guide Not Matched!');
-    //     }
-    // }
 
     //실제 렌더링
     return (
@@ -1336,9 +1298,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <AngleLeft />
                     </Pressable>
 
-                    {/* 가이드 프로필 나타내는 부분 */}
-                    {/* TouchableOpacity 를 Layout 바깥쪽으로 추가하니까 버튼 위치가 바뀜 */}
-                    {/* 이미지, 텍스트에 각각 씌워주니 해결됨 */}
                     <Layout style={styles.profileContainer}>
                         <TouchableOpacity onPress={() => setGuideVisible(true)}>
                             {guide.avatar != " " &&
@@ -1502,6 +1461,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
             </Modal> */}
+            
         </Layout>
     );
 };

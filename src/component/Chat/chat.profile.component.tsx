@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, Image, Pressable, } from 'react-native';
-import { Layout, Text, Modal } from '@ui-kitten/components';
-import moment from 'moment';
+import { StyleSheet, Image, Pressable, View, Text } from 'react-native';
+import { Modal } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
@@ -11,14 +10,12 @@ export const ProfileModal = (props: any) => {
     const [guideVisible, setGuideVisible] = useState(false);
 
     useEffect(() => {
-        // console.log(props);
         if (props.isVisible) {
             setGuideVisible(true);
         }
     })
 
     const helpButton = () => {
-        // console.log("PARAMS",props.route.params);
         props.navigation.navigate(SceneRoute.CHAT_HELP, {
             id: props.route.params.id,
             guide: {
@@ -32,26 +29,26 @@ export const ProfileModal = (props: any) => {
     return (
         <>
             < Modal
-                style={{ padding: 20, width:'100%' }}
+                style={{ padding: 20, width: '100%', }}
                 visible={guideVisible}
                 backdropStyle={styles.backdrop}
                 onBackdropPress={() => setGuideVisible(false)}
             >
 
-                <Layout style={{ padding: 20, borderRadius: 15 }}>
+                <View style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
 
-                    <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Pressable onPress={()=>helpButton()}>
-                            <Layout style={{ borderColor: '#f1f1f1', borderWidth: 0.7, borderRadius: 9, paddingHorizontal: 7, paddingVertical: 3, }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Pressable onPress={() => helpButton()}>
+                            <View style={styles.helpButtonContainer}>
                                 <Text style={{ fontSize: 14, color: '#9b9b9b' }}>HELP</Text>
-                            </Layout>
+                            </View>
                         </Pressable>
                         <Pressable onPress={() => setGuideVisible(false)}>
                             <FontAwesomeIcon icon={faTimes} size={20} />
                         </Pressable>
-                    </Layout>
+                    </View>
 
-                    <Layout style={styles.innerContainer}>
+                    <View style={styles.innerContainer}>
                         {props.guide.avatar != " " &&
                             props.guide.avatar != undefined &&
                             props.guide.avatar != null ? (
@@ -66,34 +63,24 @@ export const ProfileModal = (props: any) => {
                             />
                         )}
                         <Text
-                            style={{
-                                fontFamily: 'Pretendard-Medium',
-                                fontSize: 16,
-                                marginTop: 13,
-                                fontWeight: '500',
-                            }}>
+                            style={styles.guideNameText}>
                             {props.guide.name}
                         </Text>
-                    </Layout>
+                    </View>
 
-                    <Layout style={styles.infoContainer}>
+                    <View style={styles.infoContainer}>
 
-                        <Layout style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
                             <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN || props.CHN != '' ? '中文' : null} {props.CHN}</Text>
-                        </Layout>
+                        </View>
 
-                        <Layout style={{ flexDirection: 'row', marginTop: 3, }}>
+                        <View style={{ flexDirection: 'row', marginTop: 3, }}>
                             <Text style={styles.keyTextStyle}>Nationality</Text>
                             <Text style={styles.valTextStyle}>{props.guide.country}</Text>
-                        </Layout>
+                        </View>
 
-                        {/* <Text style={styles.textStyle}>
-                            {props.guide.gender} /{' '}
-                            {moment(props.guide.birthDate).toDate().getFullYear()}
-                        </Text> */}
-
-                        <Layout style={styles.introContainer}>
+                        <View style={styles.introContainer}>
                             <Text style={styles.oneLineIntro}>
                                 {props.guide.oneLineIntro}
                             </Text>
@@ -101,11 +88,11 @@ export const ProfileModal = (props: any) => {
                             <Text style={styles.intro}>
                                 {props.guide.intro}
                             </Text>
-                        </Layout>
+                        </View>
 
-                    </Layout>
+                    </View>
 
-                </Layout>
+                </View>
             </Modal >
         </>
     )
@@ -127,10 +114,6 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderColor: '#ccc',
         borderWidth: 0.5,
-    },
-    textStyle: {
-        fontSize: 12,
-        color: 'black',
     },
     keyTextStyle: {
         fontFamily: 'Pretendard-Bold',
@@ -163,5 +146,18 @@ const styles = StyleSheet.create({
     infoContainer: {
         paddingHorizontal: 15,
         paddingBottom: 45,
+    },
+    guideNameText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
+        marginTop: 13,
+        fontWeight: '500',
+    },
+    helpButtonContainer: { 
+        borderColor: '#f1f1f1', 
+        borderWidth: 0.7, 
+        borderRadius: 9, 
+        paddingHorizontal: 7, 
+        paddingVertical: 3, 
     }
 });

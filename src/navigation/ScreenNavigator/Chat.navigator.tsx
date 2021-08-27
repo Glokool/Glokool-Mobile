@@ -21,6 +21,7 @@ type ChatNavigatorParams = AppNavigatorParams & {
     guide: {
       name : string;
       uid : string;
+      token: string;
     }
     day: Date,
     finish : boolean;

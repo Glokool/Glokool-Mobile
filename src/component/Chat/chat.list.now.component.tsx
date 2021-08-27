@@ -1,19 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
-import { StyleSheet, FlatList, TouchableOpacity, Image, Pressable, Alert, ActivityIndicator } from 'react-native';
-import { Layout, Text, LayoutElement, Modal } from '@ui-kitten/components';
+import { StyleSheet, FlatList, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
+import { Layout, Text, LayoutElement,} from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChessBishop, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
-import { contextType } from 'lottie-react-native';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const user = auth().currentUser;
@@ -21,9 +18,9 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const userContext = useContext(AuthContext);
 
     const Today = new Date();
-    const [data, setData] = React.useState<Array<GloChatData>>([]);
-    const [refresh, setRefresh] = React.useState<boolean>(false);
-    const [loading, setLoading] = React.useState<boolean>(true);
+    const [data, setData] = useState<Array<GloChatData>>([]);
+    const [refresh, setRefresh] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const [guide, setGuide] = useState({});
     const [guideVisible, setGuideVisible] = useState(false);
@@ -32,12 +29,12 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     const [route, setRoute] = useState({});
 
-    React.useEffect(() => {
+    useEffect(() => {
         InitNowList();
     }, []);
 
     // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    React.useEffect(() => {
+    useEffect(() => {
         if (guideVisible) {
             setGuideVisible(false);
         }
@@ -103,7 +100,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-                // console.log(res.data);
 
                 setGuide({
                     avatar: res.data.avatar,
@@ -139,8 +135,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         // 날짜 계산
         const DDay = moment(item.item.day).diff(Today, 'days');
         const ItemDay = (new Date(item.item.day)).getDate();
-
-        // console.log("REDI", item.item.guide);
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -275,14 +269,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 26,
-        // shadowColor: '#000',
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowOpacity: 0.2,
-        // shadowRadius: 1.41,
-        // elevation: 2,
     },
     EmptyButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -371,8 +357,5 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'black',
         marginBottom: -5,
-    },
-    backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 });

@@ -1,10 +1,7 @@
-import React from 'react';
-import auth from '@react-native-firebase/auth';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     StyleSheet,
-    SafeAreaView,
     Text,
     TouchableOpacity,
     BackHandler,
@@ -14,11 +11,9 @@ import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { LoginCheck } from '../../component/Common';
 import { WeatherComponent } from '../../component/Chat/weather.component';
 import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
-import { AngleDown, AngleUp_W, Discount } from '../../assets/icon/Common';
 import Toast from 'react-native-easy-toast';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -32,18 +27,15 @@ type PriceData = {
 };
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
-    const { currentUser } = React.useContext(AuthContext);
-    // useState 선언할때 <> 으로 타입을 초기화 시켜줌 
-    const [now, setNow] = React.useState<boolean>(true);
-    const [ad, setAD] = React.useState<boolean>(true);
-    const [price, setPrice] = React.useState<PriceData>();
+    const [now, setNow] = useState<boolean>(true);
+    const [price, setPrice] = useState<PriceData>();
 
     var exitApp: any = undefined;
     var timeout: any;
 
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
-        React.useCallback(() => {
+        useCallback(() => {
             BackHandler.addEventListener('hardwareBackPress', handleBackButton);
 
             return () => {
@@ -55,11 +47,11 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         }, []),
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
         InitResSetting();
     }, []);
 
-    async function InitResSetting() {
+    const InitResSetting = async () => {
         var config = {
             Method: 'get',
             url: SERVER + '/api/price',
@@ -68,7 +60,6 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             },
         };
 
-        // 여기서 price 랑 discount 등등 바뀌는데 아마.. config 에서 받아오는 것 같음
         var result = await axios(config);
         setPrice({
             active: result.data.active,
@@ -103,7 +94,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                     <Text
                         style={
                             now === true
-                                ? styles.TextButtonS
+                                ? styles.TextButtonSelected
                                 : styles.TextButton
                         }>
                         NOW
@@ -114,7 +105,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                     <Text
                         style={
                             now === false
-                                ? styles.TextButtonS
+                                ? styles.TextButtonSelected
                                 : styles.TextButton
                         }>
                         RECENT
@@ -134,10 +125,8 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                 />
             )}
 
-            {/* {ad === true ? ( */}
             <Layout style={styles.AdContainer}>
                 <Layout style={styles.AdContainer2}>
-                    {/* <Discount /> */}
                     <Text style={styles.DiscountNot}>
                         {' ' + price?.price
                             .toString()
@@ -161,9 +150,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                 <Layout style={styles.AdContainer3}>
                     <TouchableOpacity
                         onPress={() => {
-                            props.navigation.navigate(
-                                NavigatorRoute.BOOK,
-                            );
+                            props.navigation.navigate(NavigatorRoute.BOOK);
                         }}>
                         <Text style={styles.BookButtonText}>
                             BOOK
@@ -171,21 +158,6 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                     </TouchableOpacity>
                 </Layout>
             </Layout>
-            {/* ) : (
-                <Layout style={styles.AdContainerDown}>
-                    <Text style={styles.AdTitle2}>
-                        Travel Assistant Service
-                    </Text>
-
-                    <TouchableOpacity
-                        style={styles.upButton}
-                        onPress={() => setAD(true)}>
-                        <AngleUp_W />
-                    </TouchableOpacity>
-
-                    <SafeAreaView />
-                </Layout>
-            )} */}
 
             <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
         </Layout>
@@ -211,7 +183,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 18,
     },
-    TextButtonS: {
+    TextButtonSelected: {
         padding: 10,
         color: 'black',
         fontFamily: 'BrandonGrotesque-Medium',
@@ -223,24 +195,6 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         bottom: 0,
         flexDirection: 'row',
-    },
-    AdContainerDown: {
-        position: 'absolute',
-        width: '100%',
-        height: 70,
-        bottom: 0,
-        backgroundColor: '#7777FF',
-        flexDirection: 'row',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
     },
     AdContainer2: {
         borderTopWidth: 2,
@@ -255,32 +209,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    AdTitle: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 23,
-        color: '#7777FF',
-        marginLeft: 30,
-        marginVertical: 15,
-    },
-    AdTitle2: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 23,
-        color: '#FFFFFF',
-        marginLeft: 30,
-        marginVertical: 15,
-    },
     DiscountNot: {
         fontFamily: 'Pretendard-Medium',
         color: '#adadad',
         fontSize: 16,
         marginLeft: 30,
         textDecorationLine: 'line-through'
-    },
-    DiscountPer: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 25,
-        color: '#7777FF',
-        marginLeft: 10,
     },
     Cost: {
         fontFamily: 'Pretendard-Bold',
@@ -301,22 +235,5 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 22,
         color: '#7777FF',
-    },
-    upDownButtonContainer: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    upDownButton: {
-        padding: 10,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        marginRight: 30,
-    },
-    upButton: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        padding: 10,
-        marginRight: 30,
     },
 });

@@ -1,17 +1,11 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { StyleSheet, SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
 import { Layout, LayoutElement, Input, Button } from '@ui-kitten/components';
-import Toast from 'react-native-easy-toast';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Report } from '../../assets/icon/Chat';
 import { AuthContext } from '../../context/AuthContext';
-
-var ToastRef: any;
 
 export const ChatReportScreen = (
     props: ChatReportScreenProps,
@@ -24,7 +18,7 @@ export const ChatReportScreen = (
     const PressSend = () => {
         if (value == '') {
             // 이거 실행 에러남
-            ToastRef.show('Please enter contents', 3000);
+            Alert.alert('Please enter contents');
         } else {
             const report = {
                 id: props.route.params.id,
@@ -110,44 +104,16 @@ export const ChatReportScreen = (
 };
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
     TabBar: {
         flexDirection: 'row',
         alignItems: 'center',
         flex: 1,
-    },
-    MainContainer: {
-        flex: 10,
-        backgroundColor: '#FFC043',
     },
     IconContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 15,
-    },
-    icon: {
-        width: 32,
-        height: 32,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    icon2: {
-        marginHorizontal: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    banner: {
-        flexDirection: 'row',
-        marginVertical: 15,
-    },
-    text: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'left',
     },
     desc: {
         fontFamily: 'IBMPlexSansKR-Medium',
@@ -158,11 +124,6 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         height: '50%',
-    },
-    submitButton: {
-        marginVertical: 30,
-        width: '100%',
-        height: '10%',
     },
     SendContainer: {
         flexDirection: 'row',
