@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dimensions, Image, Platform, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Dimensions, Image, StyleSheet } from 'react-native';
 import { SeriesHiddenGemDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
@@ -17,9 +17,8 @@ import {
     Plus_W,
     Plus_P,
 } from '../../assets/icon/Common';
-import { HiddenGemInKoreaFlatList } from '../../component/Series';
 import { HiddenGemInKoreaDetailList } from '../../component/Series/HiddenGemInKoreaDetail.List';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import qs from 'query-string';
 
@@ -59,22 +58,23 @@ export const SeriesHiddenGemDetailScreen = (
     props: SeriesHiddenGemDetailProps,
 ): LayoutElement => {
     const TourCode = props.route.params.TourCode;
-    const [map, setMap] = React.useState<boolean>(false);
-    const [content, setContent] = React.useState<GlokoolTourData>();
-    const [Height, setHeight] = React.useState<number>(0);
-    const [selectedButton, setSelectedButton] = React.useState<number>(0);
-    const [bookmarkList, setBookmarkList] = React.useState([]);
+
+    const [map, setMap] = useState<boolean>(false);
+    const [content, setContent] = useState<GlokoolTourData>();
+    const [Height, setHeight] = useState<number>(0);
+    const [selectedButton, setSelectedButton] = useState<number>(0);
+    const [bookmarkList, setBookmarkList] = useState([]);
 
     const user = auth().currentUser;
     const uid = user?.uid;
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => { });
 
         return unsubscribe;
     }, [props.navigation]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         InitHiddenGemDetail();
     }, []);
 

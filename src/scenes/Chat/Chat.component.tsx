@@ -192,7 +192,6 @@ const styles = StyleSheet.create({
     AdContainer: {
         position: 'absolute',
         width: '100%',
-        marginBottom: 10,
         bottom: 0,
         flexDirection: 'row',
     },

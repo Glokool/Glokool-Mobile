@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
-import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
+import React, { useEffect, useState, useRef } from 'react';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
     Image,
-    Linking,
     SafeAreaView,
     StyleSheet,
     Text,
     TouchableOpacity,
-    FlatList,
-    Button,
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
@@ -37,16 +34,12 @@ import {
 import {
     CommentSending,
     CountNum_B as CountNum,
-    Comments1,
     Comments2,
-    Comments3,
     Comments4,
-    Comments5,
     Comments6,
     Comments6_s,
 } from '../../assets/icon/Series';
 import qs from 'query-string';
-import { SeriesTopTabBar } from '../../component/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
@@ -54,7 +47,6 @@ import Share from 'react-native-share';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
-import KakaoShareLink from 'react-native-kakao-share-link';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
@@ -107,48 +99,47 @@ type Series_Item = {
 
 const windowWidth = Dimensions.get('window').width;
 
-export const SeriesBInfoScreen = (
-    props: SeriesBDetailInfoProps,
-): LayoutElement => {
-    const ScrollVewRef = React.useRef(null);
-    const [height, setHeight] = React.useState<number>(0);
-    const [Id, setId] = React.useState(props.route.params.Id);
-    const [content, setContent] = React.useState<Series_Item>(null);
-    const [contentInfo, setContentInfo] = React.useState<Array<Content_Item>>(
+export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement => {
+
+    const ScrollVewRef = useRef(null);
+
+    const [height, setHeight] = useState<number>(0);
+    const [Id, setId] = useState(props.route.params.Id);
+    const [content, setContent] = useState<Series_Item>(null);
+    const [contentInfo, setContentInfo] = useState<Array<Content_Item>>(
         [],
     );
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
-    const [recommendation, setRecommendation] = React.useState<
+    const [carouselIndex, setCarouselIndex] = useState<number>(0);
+    const [recommendation, setRecommendation] = useState<
         Array<recommendation_Item>
     >([]);
-    const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
-    const [nowComment, setNowComment] = React.useState('');
-    const [bookmarkList, setBookmarkList] = React.useState([]);
-    const [shareImage, setShareImage] = React.useState();
-    const [Glochat, setGlochat] = React.useState(false);
-    const [modalItem, setModalItem] = React.useState();
+    const [comments, setComments] = useState<Array<Comments_Item>>([]);
+    const [nowComment, setNowComment] = useState('');
+    const [bookmarkList, setBookmarkList] = useState([]);
+    const [shareImage, setShareImage] = useState();
+    const [Glochat, setGlochat] = useState(false);
+    const [modalItem, setModalItem] = useState();
 
-    const [pressLike, setPressLike] = React.useState(false);
-    const [pressBookmark, setPressBookmark] = React.useState(false);
+    const [pressLike, setPressLike] = useState(false);
+    const [pressBookmark, setPressBookmark] = useState(false);
 
     const user = auth().currentUser;
     const uid = user?.uid;
 
     const routeName = getFocusedRouteNameFromRoute(props.route);
 
-    React.useEffect(() => {
+    useEffect(() => {
         encodeBase64Img();
     }, [content]);
-    // console.log(Id)
 
     // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
-    React.useEffect(() => {
+    useEffect(() => {
         if (Glochat) {
             setGlochat(false);
         }
     }, [Glochat])
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
         });
@@ -300,7 +291,6 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                console.log(response.status);
                 setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
@@ -812,25 +802,25 @@ glokool.page.link/jdF1`,
                         onPress={() => props.navigation.goBack()}>
                         <AngleLeft_W style={styles.AngleLeft} />
                         <Layout style={styles.TopImgIconLayout}>
-                                {uid ? (
-                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                        {bookmarkList.indexOf(Id) == -1 ?
-                                            <Bookmark_D2D2D2 />
-                                            :
-                                            <Bookmark_P />
-                                        }
-                                    </TouchableOpacity>
-                                ) : null}
-                                {uid ? (
-                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                        {content?.plus.indexOf(uid) == -1 ? (
-                                            <Plus_D2D2D2 />
-                                        ) : (
-                                            <Plus_P />
-                                        )}
-                                    </TouchableOpacity>
-                                ) : null}
-                            </Layout>
+                            {uid ? (
+                                <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                    {bookmarkList.indexOf(Id) == -1 ?
+                                        <Bookmark_D2D2D2 />
+                                        :
+                                        <Bookmark_P />
+                                    }
+                                </TouchableOpacity>
+                            ) : null}
+                            {uid ? (
+                                <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                                    {content?.plus.indexOf(uid) == -1 ? (
+                                        <Plus_D2D2D2 />
+                                    ) : (
+                                        <Plus_P />
+                                    )}
+                                </TouchableOpacity>
+                            ) : null}
+                        </Layout>
                     </TouchableOpacity>
                 </Layout>
             )}
@@ -863,9 +853,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
     },
     ContainerAngleLeft: {
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         width: windowWidth,
         backgroundColor: '#00FF0000',
         padding: 20,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SeriesHiddenGemContentRestProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import {
@@ -8,13 +8,10 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    Button,
     ActivityIndicator
 } from 'react-native';
 import {
-    AngleDown,
     AngleLeft,
-    AngleUp,
     GoUp,
     PurpleArrow,
 } from '../../assets/icon/Common';
@@ -24,7 +21,6 @@ import {
     Contact,
     EditorNote,
     EditorNote_Check,
-    GlokoolService,
     Location,
     SgntMenu,
     Sns,
@@ -94,31 +90,32 @@ export const SeriesHiddenGemContentRest = (
 ): LayoutElement => {
     const TourCode = props.route.params.TourCode;
     const PlaceCode = props.route.params.PlaceCode;
-    const ScrollVewRef = React.useRef(null);
 
-    const [data, setData] = React.useState<RestaurantData>(null);
-    const [selectedButton, setSelectedButton] = React.useState<number>(0);
-    const [Glochat, setGlochat] = React.useState<boolean>(false);
+    const ScrollVewRef = useRef(null);
 
-    const [infoPos, setInfoPos] = React.useState<number>(0);
-    const [detailPos, setDetailPos] = React.useState<number>(0);
-    const [menuPos, setMenuPos] = React.useState<number>(0);
-    const [shareImage, setShareImage] = React.useState();
+    const [data, setData] = useState<RestaurantData>(null);
+    const [selectedButton, setSelectedButton] = useState<number>(0);
+    const [Glochat, setGlochat] = useState<boolean>(false);
 
-    React.useEffect(() => {
+    const [infoPos, setInfoPos] = useState<number>(0);
+    const [detailPos, setDetailPos] = useState<number>(0);
+    const [menuPos, setMenuPos] = useState<number>(0);
+    const [shareImage, setShareImage] = useState();
+
+    useEffect(() => {
         InitContentRest();
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         encodeBase64Img();
     }, [data]);
 
     // modal 에 true 전달 후 false 로 초기화
-    React.useEffect(()=>{
-        if(Glochat) {
+    useEffect(() => {
+        if (Glochat) {
             setGlochat(false);
         }
-    },[Glochat])
+    }, [Glochat])
 
     async function InitContentRest() {
         var ContentRest = await axios.get(
@@ -206,7 +203,6 @@ glokool.page.link/jdF1`,
         xhr.responseType = "blob";
 
         xhr.onload = function (e) {
-            //console.log(this.response);
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
@@ -254,7 +250,7 @@ glokool.page.link/jdF1`,
                 <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
                     <Service />
                 </TouchableOpacity>
-                <ServiceModal isVisible={Glochat} data={data}/>
+                <ServiceModal isVisible={Glochat} data={data} />
 
 
 

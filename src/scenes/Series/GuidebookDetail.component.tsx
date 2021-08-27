@@ -44,7 +44,6 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
             + props.route.params.Name + '&limit=0';
 
         const response = await axios.get(SERVER + config);
-        console.log(response.data);
         setListData(response.data);
     }
 
@@ -108,7 +107,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
         <View style={{ flex: 1, backgroundColor: 'white', }}>
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
-                    <View><AngleLeft/></View>
+                    <View><AngleLeft /></View>
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>

@@ -12,7 +12,6 @@ import {
     Dimensions,
     TouchableOpacity,
     ActivityIndicator,
-    Platform,
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -28,7 +27,6 @@ import { CategoryDetail } from '../../component/Series/CategoryDetail.component'
 import Toast from 'react-native-easy-toast';
 
 var ToastRef: any;
-
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -215,7 +213,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
 
             {(refreshing && focusedCategory.name == 'ALL') &&
-                (<View style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 99, justifyContent: 'center', backgroundColor: 'black', opacity: 0.5 }}>
+                (<View style={styles.ActivityIndicatorContainer}>
                     <ActivityIndicator size='large' color='white' />
                 </View>)}
 
@@ -265,10 +263,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
                 </ScrollView>
             ) : (
+                // 대분류 출력 화면
                 <ScrollView
                     style={{ backgroundColor: 'white', marginTop: 135, }}
-                    scrollEventThrottle={1}
-                    // onScroll={(e) => handleScroll(e)}
                     decelerationRate='fast'
                     refreshControl={
                         <RefreshControl
@@ -301,5 +298,14 @@ const styles = StyleSheet.create({
     bannerImage: {
         width: windowWidth,
         height: windowWidth / 1920 * 404
+    },
+    ActivityIndicatorContainer: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 99,
+        justifyContent: 'center',
+        backgroundColor: 'black',
+        opacity: 0.5
     }
 });

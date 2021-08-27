@@ -10,11 +10,8 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Button,
     Platform,
-    Share as ShareRN,
     ActivityIndicator,
-    Alert
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -28,14 +25,10 @@ import {
 import {
     CommentSending,
     CountNum_A as CountNum,
-    Comments1,
     Comments2,
-    Comments3,
     Comments4,
-    Comments5,
     Comments6,
     Comments6_s,
-    Content,
 } from '../../assets/icon/Series';
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -131,7 +124,6 @@ export const SeriesAInfoScreen = (
         xhr.responseType = "blob";
 
         xhr.onload = function (e) {
-            //console.log(this.response);
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
@@ -157,16 +149,10 @@ export const SeriesAInfoScreen = (
                 return ShareDialog.show(sharingOptions);
             }
         }).catch((e) => console.log(e));
-        console.log(result);
     }
 
     // sns 공유 메소드
     const shareItems = async () => {
-
-        console.log(content?.title)
-
-        // console.log(shareImage);
-
         // // sns 공유
         const shareOptions = {
             title: 'Share Contents',
@@ -264,7 +250,6 @@ glokool.page.link/jdF1`,
     };
 
     const PressPlus = async () => {
-        console.log('like')
         const authToken = await auth().currentUser?.getIdToken();
         var config = {
             method: 'patch',
@@ -309,7 +294,6 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setNowComment('');
                 InitComments();
             })
@@ -331,7 +315,6 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 InitComments();
             })
             .catch((error) => {
@@ -358,7 +341,6 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 InitComments();
             })
             .catch((error) => {

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SeriesHiddenGemContentAttrProps } from '../../navigation/ScreenNavigator/Series.navigator';
-import { Divider, Layout, LayoutElement, Text, Modal } from '@ui-kitten/components';
+import { Divider, Layout, LayoutElement, Text, } from '@ui-kitten/components';
 import {
     StyleSheet,
     SafeAreaView,
@@ -8,13 +8,10 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    Button,
     ActivityIndicator
 } from 'react-native';
 import {
-    AngleDown,
     AngleLeft,
-    AngleUp,
     GoUp,
     PurpleArrow,
 } from '../../assets/icon/Common';
@@ -24,13 +21,11 @@ import {
     Contact,
     EditorNote,
     EditorNote_Check,
-    GlokoolService,
     Location,
     PhotoSpot,
     Sns,
     Time,
     EntryFee,
-    EditorNoteLine,
 } from '../../assets/icon/Series';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { PhotoDetailFlatlist, PhotoSpotFlatlist } from '../../component/Series';
@@ -39,8 +34,6 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
-import { CloseButton } from '../../assets/icon/Series';
-import { GloChatAD } from '../../assets/icon/Home';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
@@ -98,26 +91,26 @@ export const SeriesHiddenGemContentAttr = (
 ): LayoutElement => {
     const TourCode = props.route.params.TourCode;
     const PlaceCode = props.route.params.PlaceCode;
-    const ScrollVewRef = React.useRef(null);
+    const ScrollVewRef = useRef(null);
 
-    const [data, setData] = React.useState<AttractionData>(null);
-    const [selectedButton, setSelectedButton] = React.useState<number>(0);
-    const [Glochat, setGlochat] = React.useState<boolean>(false);
+    const [data, setData] = useState<AttractionData>(null);
+    const [selectedButton, setSelectedButton] = useState<number>(0);
+    const [Glochat, setGlochat] = useState<boolean>(false);
 
-    const [infoPos, setInfoPos] = React.useState<number>(0);
-    const [detailPos, setDetailPos] = React.useState<number>(0);
-    const [instaPos, setInstaPos] = React.useState<number>(0);
-    const [shareImage, setShareImage] = React.useState();
+    const [infoPos, setInfoPos] = useState<number>(0);
+    const [detailPos, setDetailPos] = useState<number>(0);
+    const [instaPos, setInstaPos] = useState<number>(0);
+    const [shareImage, setShareImage] = useState();
 
-    React.useEffect(() => {
+    useEffect(() => {
         InitContentAttr();
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         encodeBase64Img();
     }, [data]);
     // modal 에 true 전달 후 false 로 초기화
-    React.useEffect(() => {
+    useEffect(() => {
         if (Glochat) {
             setGlochat(false);
         }
@@ -209,7 +202,6 @@ glokool.page.link/jdF1`,
         xhr.responseType = "blob";
 
         xhr.onload = function (e) {
-            //console.log(this.response);
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
