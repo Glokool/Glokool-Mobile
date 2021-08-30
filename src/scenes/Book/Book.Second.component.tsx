@@ -103,7 +103,7 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
                     />
                 </Layout>
 
-                <Text style={styles.smallTitle}>TRAVEL AREA    <Text style={styles.smallTitle3}>Name of city / disctrict</Text>    <Text style={styles.smallTitle2}>Optional</Text></Text>
+                <Text style={styles.smallTitle}>TRAVEL AREA    <Text style={styles.smallTitle3}>Name of city / district</Text>    <Text style={styles.smallTitle2}>Optional</Text></Text>
                 <Input
                     placeholder='ex) Gangnam, Jongno-gu'
                     placeholderTextColor={'#D6D6D6'}

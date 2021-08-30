@@ -86,12 +86,10 @@ export const SeriesAInfoScreen = (
     const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
     const [content, setContent] = React.useState<Series_Item>(null);
     const [image, setImage] = React.useState<Array<string>>([]);
-    const [recommendation, setRecommendation] = React.useState<
-        Array<recommendation_Item>
-    >([]);
+    const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
+
     const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = React.useState('');
-    const [bookmarkList, setBookmarkList] = React.useState([]);
 
     const [shareImage, setShareImage] = React.useState();
     const [Glochat, setGlochat] = React.useState(false);
@@ -144,7 +142,7 @@ export const SeriesAInfoScreen = (
             quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
         };
 
-        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+        await ShareDialog.canShow(sharingOptions).then((canShow) => {
             if (canShow) {
                 return ShareDialog.show(sharingOptions);
             }
@@ -201,7 +199,6 @@ glokool.page.link/jdF1`,
                         dataTemp.push(item.id);
                     });
                     dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
-                    setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -361,7 +358,8 @@ glokool.page.link/jdF1`,
                 <ScrollView
                     style={{ backgroundColor: '#ffffff' }}
                     showsVerticalScrollIndicator={false}
-                    ref={ScrollVewRef}>
+                // ref={ScrollVewRef}
+                >
                     <SafeAreaView
                         style={{ flex: 0, backgroundColor: '#00FF0000' }}
                     />
@@ -487,18 +485,16 @@ glokool.page.link/jdF1`,
                                 <Layout
                                     style={styles.PurpleBottomLayoutStyle}
                                     onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
-                                    <Text
-                                        style={
-                                            styles.PurpleBottomTxtStyle
-                                        }>{`Go to Glochat >>`}</Text>
+                                    <Text style={styles.PurpleBottomTxtStyle}>
+                                        {`Go to Glochat >>`}
+                                    </Text>
                                 </Layout>
                             </Layout>
                         </Layout>
                     </Layout>
 
                     {/* 보라색 배경 아래 얇은 그레이 선 */}
-                    <Layout
-                        style={styles.GrayLineContainerLayoutStyle}></Layout>
+                    <Layout style={styles.GrayLineContainerLayoutStyle}/>
 
                     {/* Comments */}
                     <Layout style={styles.CommentsConainer}>
