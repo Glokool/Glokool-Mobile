@@ -6,12 +6,10 @@ import {
     TouchableOpacity,
     FlatList,
 } from 'react-native';
-import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
-import { SERVER } from '../../server.component';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 

@@ -437,11 +437,11 @@ glokool.page.link/jdF1`,
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                             </Layout>
-                            <Layout style={styles.TopImgIconLayout}>
+                            {/* <Layout style={styles.TopImgIconLayout}>
                                 {uid ? (
                                     <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
                                         {pressBookmark ?
-                                            <Bookmark />
+                                            <Bookmark_D2D2D2 />
                                             :
                                             <Bookmark_P />
                                         }
@@ -450,13 +450,13 @@ glokool.page.link/jdF1`,
                                 {uid ? (
                                     <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
                                         {pressLike ? (
-                                            <Plus />
+                                            <Plus_D2D2D2 />
                                         ) : (
                                             <Plus_P />
                                         )}
                                     </TouchableOpacity>
                                 ) : null}
-                            </Layout>
+                            </Layout> */}
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
@@ -772,17 +772,17 @@ glokool.page.link/jdF1`,
                                 <TouchableOpacity
                                     style={styles.BookmarkTouch}
                                     onPress={() => PressBookmark()}>
-                                    {bookmarkList.indexOf(Id) == -1 ? (
-                                        <Bookmark />
-                                    ) : (
+                                    {pressBookmark ?
+                                        <Bookmark_D2D2D2 />
+                                        :
                                         <Bookmark_P />
-                                    )}
+                                    }
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.PlusTouch}
                                     onPress={() => PressPlus()}>
-                                    {content?.plus.indexOf(uid) == -1 ? (
-                                        <Plus />
+                                    {pressLike ? (
+                                        <Plus_D2D2D2 />
                                     ) : (
                                         <Plus_P />
                                     )}
@@ -804,7 +804,7 @@ glokool.page.link/jdF1`,
                         <Layout style={styles.TopImgIconLayout}>
                             {uid ? (
                                 <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                    {bookmarkList.indexOf(Id) == -1 ?
+                                    {pressBookmark ?
                                         <Bookmark_D2D2D2 />
                                         :
                                         <Bookmark_P />
@@ -813,7 +813,7 @@ glokool.page.link/jdF1`,
                             ) : null}
                             {uid ? (
                                 <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                    {content?.plus.indexOf(uid) == -1 ? (
+                                    {pressLike ? (
                                         <Plus_D2D2D2 />
                                     ) : (
                                         <Plus_P />

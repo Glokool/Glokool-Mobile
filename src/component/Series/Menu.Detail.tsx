@@ -24,28 +24,21 @@ interface MenuDetailProps {
 }
 
 export const MenuDetail = (props: MenuDetailProps): LayoutElement => {
-
     const [image, setImage] = React.useState<image>();
     const WindowWidth = Dimensions.get('window').width;
-
-
 
     React.useEffect(() => {
         InitMenuDetail();
     }, []);
 
     async function InitMenuDetail() {
-
         Image.getSize(props.data[0], (width, height) => {
 
             var ImageRatio = WindowWidth / width;
 
             setImage({ width: WindowWidth - 60, height: height * ImageRatio });
         });
-
-
     }
-
 
     return (
         <Layout style={{ width: '100%' }}>
@@ -69,7 +62,6 @@ export const MenuDetail = (props: MenuDetailProps): LayoutElement => {
                         <Text style={styles.DetailText2}>  Spiciness</Text>
                     </Layout>
                 </Layout>
-
 
             </Layout>
 

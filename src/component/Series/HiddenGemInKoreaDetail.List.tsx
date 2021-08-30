@@ -10,7 +10,6 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
 
     function PressDetail(placeCode : string) {
         
-
         if(props.type === 'attr'){
             props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
         }
@@ -26,7 +25,7 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
 
     return(
         <Layout style={{backgroundColor: '#00FF0000'}}>
-            {(props.data?.map((item, index) => 
+            {(props.data?.map((item) => 
                 <Pressable style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
 
                     <Image source={{ uri : item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
@@ -42,7 +41,6 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
 };
 
 const styles = StyleSheet.create({
-
     DataContainer: {
         width: WindowWidth - 60,
         minHeight : WindowWidth * 0.64,
