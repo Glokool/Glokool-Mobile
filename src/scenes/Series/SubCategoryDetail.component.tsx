@@ -33,10 +33,6 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     const scrollY = new Animated.Value(0);
 
-    // 아이템 초기화
-    // useEffect(() => {
-    //     initItems();
-    // }, []);
 
     // 당겨서 새로고침 끝날때 요청
     useEffect(() => {
@@ -45,7 +41,6 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     // 아이템 초기화 
     const initItems = async () => {
-        console.log(paging.current);
         const config = '/api/sub-categories?main='
             + props.route.params.Main + '&sub='
             + props.route.params.Name + '&limit=' + String(paging.current);

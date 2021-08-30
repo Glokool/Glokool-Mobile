@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     TouchableOpacity,
     Dimensions,
@@ -7,7 +7,9 @@ import {
     View,
     Text,
     ScrollView,
-    RefreshControl
+    RefreshControl,
+    Animated,
+    ActivityIndicator
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -24,13 +26,13 @@ const windowWidth = Dimensions.get('window').width;
 // 소분류가 GUIDE BOOK 일때 해당 페이지로 
 export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
-    const [listData, setListData] = useState();
-    const [refreshing, setRefreshing] = useState(false);
+    const paging = useRef(0);
 
-    // 아이템 초기화
-    useEffect(() => {
-        initItems();
-    }, []);
+    const [listData, setListData] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+    const [endReached, setEndReached] = useState(false);
+
+    const scrollY = new Animated.Value(0);
 
     // 당겨서 새로고침 끝날때 요청
     useEffect(() => {
@@ -41,10 +43,33 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
     const initItems = async () => {
         const config = '/api/sub-categories?main='
             + props.route.params.Main + '&sub='
-            + props.route.params.Name + '&limit=0';
+            + props.route.params.Name + '&limit=' + String(paging.current);
 
         const response = await axios.get(SERVER + config);
-        setListData(response.data);
+        paging.current += 1;
+
+        const tmpListData = listData.concat(response.data);
+
+        setListData(tmpListData);
+    }
+
+    // Scroll 이벤트 핸들러
+    const handleScroll = (e: any) => {
+        // ScrollView end detected 검사
+        let paddingToBottom = 100;
+        paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+
+        if (endReached == false && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
+            setEndReached(true);
+            initItems();
+            setTimeout(() => {
+                setEndReached(false);
+            }, 1000);
+        }
+        // Scroll 위치 변화 (hiding top tab)
+        if (e.nativeEvent.contentOffset.y > 0) {
+            scrollY.setValue(e.nativeEvent.contentOffset.y);
+        }
     }
 
     // 당겨서 새로고침
@@ -107,7 +132,9 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
         <View style={{ flex: 1, backgroundColor: 'white', }}>
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
-                    <View><AngleLeft /></View>
+                    <View style={{ width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                        <AngleLeft />
+                    </View>
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>
@@ -115,6 +142,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                 <Text style={styles.descText}>Guide books of specially chosen tour spots.</Text>
             </View>
             <ScrollView
+                onScroll={(e) => handleScroll(e)}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
@@ -126,6 +154,12 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                     renderItem={renderItem}
                     style={{ paddingTop: 20 }}
                 />
+
+                {endReached && (
+                    <View style={{ paddingBottom: 15, zIndex: 100, }}>
+                        <ActivityIndicator />
+                    </View>
+                )}
             </ScrollView>
         </View>
     );

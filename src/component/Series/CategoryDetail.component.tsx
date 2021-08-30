@@ -23,7 +23,7 @@ export const CategoryDetail = (props: any) => {
             Name: item.name,
             Main: props.main,
         };
-        item.name == 'GUIDE BOOK' ? (
+        item.name.toUpperCase() == 'GUIDE BOOK' ? (
             props.navigation.navigate(SceneRoute.GUIDEBOOK_DETAIL, config)
         ) : (
             props.navigation.navigate(SceneRoute.SUBCATEGORY_DETAIL, config)
