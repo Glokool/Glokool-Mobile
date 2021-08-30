@@ -61,7 +61,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
     // Scroll 이벤트 핸들러
     const handleScroll = (e: any) => {
         // ScrollView end detected 검사
-        let paddingToBottom = 1;
+        let paddingToBottom = 100;
         paddingToBottom += e.nativeEvent.layoutMeasurement.height;
 
         if (endReached == false && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
@@ -133,7 +133,9 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
             <View style={styles.topTab}>
                 <TouchableOpacity onPress={() => props.navigation.pop()}>
-                    <View><AngleLeft /></View>
+                    <View style={{ width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                        <AngleLeft />
+                    </View>
                 </TouchableOpacity>
                 <Text style={styles.topTabText}>{props.route.params.Name}</Text>
             </View>
@@ -152,15 +154,17 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
                 <FlatList
                     data={listData}
                     renderItem={renderItem}
-                    style={{ paddingTop: 20,}}
+                    style={{ paddingTop: 20, paddingBottom:20 }}
                 />
 
+                {endReached && (
+                    <View style={{ paddingBottom: 15, zIndex: 100, }}>
+                        <ActivityIndicator />
+                    </View>
+                )}
+
             </ScrollView>
-            {endReached && (
-                <View style={{ marginTop: 15, paddingBottom: 15, zIndex: 100, backgroundColor:'white'}}>
-                    <ActivityIndicator />
-                </View>
-            )}
+
         </View>
     );
 };
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.15,
         shadowRadius: 3.84,
         elevation: 5,
         borderWidth: 0,
