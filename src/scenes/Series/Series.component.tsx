@@ -12,6 +12,7 @@ import {
     Dimensions,
     TouchableOpacity,
     ActivityIndicator,
+    Platform
 } from 'react-native';
 import { SeriesScreenProps } from "../../navigation/ScreenNavigator/Series.navigator"
 import { SERVER } from '../../server.component';
@@ -286,14 +287,15 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 const styles = StyleSheet.create({
     categoryText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 13 : 11,
     },
     categoryButton: {
         borderWidth: 2,
         borderRadius: 100,
-        paddingVertical: 10,
+        paddingVertical: 9,
         paddingHorizontal: 15,
-        margin: 5,
+        marginVertical: 6,
+        marginHorizontal: 3,
     },
     bannerImage: {
         width: windowWidth,

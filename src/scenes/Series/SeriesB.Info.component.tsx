@@ -412,9 +412,7 @@ glokool.page.link/jdF1`,
                     showsVerticalScrollIndicator={false}
                     ref={ScrollVewRef}
                     onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
-                    <SafeAreaView
-                        style={{ flex: 0, backgroundColor: '#00FF0000' }}
-                    />
+                    
                     {height >= windowWidth - 100 ? (
                         <Layout>
                             <Layout style={{ height: 50 }} />
@@ -818,6 +816,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         backgroundColor: '#ffffff',
+        opacity: 0.75
     },
     ContainerIconLayout: {
         flexDirection: 'row',

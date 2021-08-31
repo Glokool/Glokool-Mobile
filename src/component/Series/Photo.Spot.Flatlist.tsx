@@ -6,6 +6,7 @@ import {
     StyleSheet,
     View,
     Text,
+    Platform,
 } from 'react-native'
 import {
     LayoutElement,
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     },
     LocationText: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 16,
-        color: 'black',
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
+        color: '#747474',
     },
     DescriptionText: {
         fontFamily: 'Pretendard-Regular',

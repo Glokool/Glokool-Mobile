@@ -11,6 +11,7 @@ import {
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
+import LinearGradient from 'react-native-linear-gradient';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
@@ -46,7 +47,7 @@ export const CategoryDetail = (props: any) => {
 
     // List Header / Footer Component
     const renderSpace = () => {
-        return (<View style={{ width: 25 }} />)
+        return (<View style={{ width: 15 }} />)
     }
 
     // 소분류 하위 Flatlist
@@ -61,9 +62,12 @@ export const CategoryDetail = (props: any) => {
                     />
 
                     {item.item.type != 'content' && (
-                        <View style={styles.subItemTitle}>
+                        <LinearGradient
+                            colors={['#00000000', '#00000099']}
+                            style={[styles.subItemTitle, { width: 150, height: 150, }]}
+                        >
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
-                        </View>
+                        </LinearGradient>
                     )}
                 </View>
             </TouchableOpacity>
@@ -111,7 +115,7 @@ export const CategoryDetail = (props: any) => {
                             data={itemList}
                             renderItem={renderGridItem}
                             spacing={5}
-                            ListHeaderComponent={<View style={{ width: 20 }} />}
+                            ListHeaderComponent={<View style={{ width: 10 }} />}
                             showsHorizontalScrollIndicator={false}
                             horizontal
                         />
@@ -143,9 +147,12 @@ export const CategoryDetail = (props: any) => {
                     />
 
                     {item.item.type != 'content' && (
-                        <View style={styles.subItemTitle}>
+                        <LinearGradient
+                            colors={['#00000000', '#00000099']}
+                            style={[styles.subItemTitle, { width: 156, height: 156 , }]}
+                        >
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
-                        </View>
+                        </LinearGradient>
                     )}
                 </View>
             </TouchableOpacity>
@@ -154,11 +161,6 @@ export const CategoryDetail = (props: any) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingBottom: 20, }}>
-
-            {loading &&
-                (<View style={styles.ActivityIndicatorContainer}>
-                    <ActivityIndicator size='large' color='white' />
-                </View>)}
 
             {/* TRENDING NOW */}
             <View style={styles.trendingNowContainer}>
@@ -183,7 +185,7 @@ export const CategoryDetail = (props: any) => {
                 />
             </View>
             <View style={{ alignItems: 'center' }}>
-                <SeriesBottomLogo width={'25%'} style={{ marginTop: 10 }} />
+                <SeriesBottomLogo width={'15%'} style={{ marginTop: 10 }} />
             </View>
         </View>
     )
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: Platform.OS === 'ios' ? 19 : 17,
         color: '#7777ff',
-        marginLeft: 25,
+        marginLeft: 15,
         marginBottom: 7,
     },
     trendingNowContainer: {
@@ -217,14 +219,16 @@ const styles = StyleSheet.create({
     },
     subItemTitle: {
         position: 'absolute',
-        bottom: 15,
-        alignItems: 'center',
+        justifyContent: 'flex-end',
         paddingHorizontal: 15,
+        borderRadius: 10,
     },
     subItemTitleText: {
         fontFamily: 'Pretendard-Medium',
         color: 'white',
-        fontSize: Platform.OS === 'ios' ? 17 : 14,
+        fontSize: Platform.OS === 'ios' ? 15 : 12,
+        fontWeight: '400',
+        bottom: 10,
     },
     GridItemTitleText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -234,8 +238,8 @@ const styles = StyleSheet.create({
     GridItemTitle: {
         position: 'absolute',
         bottom: 15,
-        alignItems: 'center',
         width: 150,
+        paddingHorizontal: 15,
     },
     GridImage: {
         width: 150,
@@ -246,7 +250,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginHorizontal: 25,
+        marginHorizontal: 15,
         marginVertical: 5,
     },
     categoryItemText: {

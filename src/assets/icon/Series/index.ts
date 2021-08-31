@@ -30,6 +30,7 @@ import EditorNoteLine from './EditorNoteLine.svg';
 import Share from './Share.svg';
 import FacebookShare from './FacebookShare.svg';
 import CloseButton from './CloseButton.svg';
+import CloseButton_Bold from './CloseButton_Bold.svg';
 import TestBanner from './TestBanner.svg';
 import SeriesBottomLogo from './SeriesBottomLogo.svg';
 
@@ -67,6 +68,7 @@ export {
     Share,
     FacebookShare,
     CloseButton,
+    CloseButton_Bold,
     TestBanner,
     SeriesBottomLogo
 }

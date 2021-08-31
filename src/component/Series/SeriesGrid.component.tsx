@@ -6,11 +6,13 @@ import {
     StyleSheet,
     TouchableOpacity,
     ActivityIndicator,
+    Platform,
 } from 'react-native';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
 
@@ -74,6 +76,7 @@ export const SeriesGrid = (props: any) => {
         const textFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
         const textSize = item.item.type == 'tour' ? 16 : 13;
         const textAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
+        const lineHeight = item.item.type == 'tour' ? 16 : 15;
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -88,11 +91,14 @@ export const SeriesGrid = (props: any) => {
                 </View>
                 <View style={{ alignItems: item.item.type == 'tour' ? 'center' : 'auto' }}>
                     {item.item.type != 'content' && (
-                        <View style={[styles.itemTextContainer, { alignItems: textAlign }]}>
-                            <Text style={[styles.itemText, { fontFamily: textFont, fontSize: textSize }]}>
+                        <LinearGradient
+                            colors={['#00000000', '#00000099']}
+                            style={[styles.itemTextContainer, { alignItems: textAlign }]}
+                        >
+                            <Text style={[styles.itemText, { fontFamily: textFont, fontSize: Platform.OS === 'android' ? textSize - 2 : textSize, lineHeight: lineHeight }]}>
                                 {item.item.title}
                             </Text>
-                        </View>
+                        </LinearGradient>
                     )}
                 </View>
             </TouchableOpacity>
@@ -109,7 +115,7 @@ export const SeriesGrid = (props: any) => {
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'25%'} />
+                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'15%'} />
                 {props.endReached == true &&
                     content.length > props.itemCount ? <ActivityIndicator /> : null}
 
@@ -131,9 +137,13 @@ const styles = StyleSheet.create({
     },
     itemTextContainer: {
         position: 'absolute',
-        bottom: 10,
+        bottom: 0,
         paddingHorizontal: 7,
-        width: windowWidth * 0.33
+        width: windowWidth * 0.33,
+        height: windowWidth * 0.33,
+        borderRadius: 10,
+        justifyContent: 'flex-end',
+        paddingBottom: 10,
     },
     GridStyle: {
         marginTop: 135,

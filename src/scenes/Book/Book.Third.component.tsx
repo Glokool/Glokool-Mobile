@@ -135,7 +135,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
             pay_method: PayMethod,
             merchant_uid: `merchant_${new Date().getTime()}`,
             name: 'Glokool-Assistant-Service',
-            amount: 1,
+            amount: amount,
             buyer_email: data.Email,
             buyer_name: data.Name,
             buyer_tel: contact,
@@ -293,17 +293,21 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                 <Layout style={{ marginVertical: 10 }} />
 
                 <Text style={styles.SmallTitleText}>Payment Method</Text>
-                <Layout style={[styles.Payment, { height: 180 }]}>
-                    <Radio
-                        checked={state.paypalClicked}
-                        onChange={(nextChecked) =>
-                            dispatch({ type: 'paypal', nextChecked })
-                        }
-                        style={styles.Radio}
-                    />
 
+                {/* paypal box */}
+                <Layout style={styles.Payment}>
                     <Layout style={styles.LogoContainer}>
+                        <Radio
+                            checked={state.paypalClicked}
+                            onChange={(nextChecked) =>
+                                dispatch({ type: 'paypal', nextChecked })
+                            }
+                            style={styles.Radio}
+                        />
                         <Paypal />
+                    </Layout>
+
+                    <Layout style={{ marginTop: 10 }}>
                         <Text style={styles.PaymentText1}>
                             Your payment will be made in{' '}
                             <Text style={styles.PaymentText2}>USD{'\n'}</Text>
@@ -316,36 +320,40 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                         </Text>
                     </Layout>
                 </Layout>
-                <Layout style={{ marginVertical: 15 }} />
-                <Layout style={[styles.Payment, { height: 160 }]}>
-                    <Radio
-                        checked={state.kakaoClicked}
-                        onChange={(nextChecked) =>
-                            dispatch({ type: 'kakao', nextChecked })
-                        }
-                        style={styles.Radio}
-                    />
 
+                {/* kakaopay box*/}
+                <Layout style={[styles.Payment, { marginTop: 20 }]}>
                     <Layout style={styles.LogoContainer}>
+                        <Radio
+                            checked={state.kakaoClicked}
+                            onChange={(nextChecked) =>
+                                dispatch({ type: 'kakao', nextChecked })
+                            }
+                            style={styles.Radio}
+                        />
                         <Image
                             source={require('../../assets/icon/Booking/kakaopay.png')}
                             style={styles.Logo}
                             resizeMode={'contain'}
                         />
-                        <Text style={styles.PaymentText1}>
-                            Your payment will be made in{' '}
-                            <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
-                            {'\n'}Use your balance in your Kakao account.
-                            {'\n'}Kakao account is required.
-                        </Text>
                     </Layout>
+
+                    <Text style={styles.PaymentText1}>
+                        Your payment will be made in{' '}
+                        <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
+                        {'\n'}Use your balance in your Kakao account.
+                        {'\n'}Kakao account is required.
+                    </Text>
                 </Layout>
 
                 <Layout style={{ marginVertical: 100 }} />
             </ScrollView>
 
             <Layout style={styles.NextButtonContainer}>
-                <LinearGradient colors={['#ffffff00', 'white', 'white', 'white', '#ffffff00']} style={styles.LinearGradient}>
+                <LinearGradient
+                    colors={['#ffffff00', 'white', 'white', 'white', '#ffffff00']}
+                    style={styles.LinearGradient}
+                >
                     <TouchableOpacity
                         style={styles.Button}
                         onPress={() => Payment()}>
@@ -447,6 +455,8 @@ const styles = StyleSheet.create({
     Payment: {
         width: '95%',
         alignSelf: 'center',
+        paddingVertical: 20,
+        paddingLeft: 20,
         borderRadius: 15,
         shadowColor: '#000',
         shadowOffset: {
@@ -456,8 +466,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 1.41,
         elevation: 2,
-        flexDirection: 'row',
-        padding: 10,
     },
     Logo: {
         width: 90,
@@ -465,15 +473,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     Radio: {
-        flex: 1,
         alignSelf: 'flex-start',
-        marginTop: 10,
-        marginLeft: 10,
+        marginRight: 10
     },
     LogoContainer: {
-        flex: 9,
-        marginLeft: 20,
-        marginTop: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     PaymentText1: {
         fontFamily: 'IBMPlexSansKR-Medium',

@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
     TitleText: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
-        fontWeight: Platform.OS === 'ios' ? '600' : 'bold'
+        fontWeight: Platform.OS === 'ios' ? '600' : 'bold',
+        color: '#7777ff'
     },
     CloseButton: {
         width: 30,

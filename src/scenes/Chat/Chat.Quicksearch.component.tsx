@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, Dimensions
 } from 'react-native';
-import { CloseButton } from '../../assets/icon/Series';
+import { CloseButton_Bold } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
@@ -140,7 +140,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => props.navigation.pop()}>
                         <View style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
-                            <CloseButton />
+                            <CloseButton_Bold />
                         </View>
                     </TouchableOpacity>
 

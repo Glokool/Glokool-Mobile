@@ -19,6 +19,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import { CountNum_Purple } from '../../assets/icon/Series';
 import { AngleLeft } from '../../assets/icon/Common';
 import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
 import { FlatGrid } from 'react-native-super-grid';
 
 const windowWidth = Dimensions.get('window').width;
@@ -93,13 +94,17 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
     // 가이드북 아이템 렌더링
     const renderItem = (item: any) => {
-        console.log(item.item)
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.listItemContainer}>
                     {/* Image */}
                     <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
-
+                    <LinearGradient
+                        colors={['#00000000', '#00000099']}
+                        style={styles.ItemTitle}
+                    >
+                        <Text style={styles.ItemTitleText}>{item.item.title}</Text>
+                    </LinearGradient>
                     <View style={styles.propsContainer}>
 
                         <View style={styles.tagContainer}>
@@ -245,5 +250,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         paddingRight: 10,
-    }
+    },
+    ItemTitle: {
+        position: 'absolute',
+        justifyContent: 'flex-end',
+        paddingHorizontal: 15,
+        width: windowWidth * 0.46,
+        height: windowWidth * 0.46,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+    },
+    ItemTitleText: {
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        color: 'white',
+        fontSize: Platform.OS === 'ios' ? 16 : 13,
+        fontWeight: '400',
+        bottom: 10,
+    },
 });
