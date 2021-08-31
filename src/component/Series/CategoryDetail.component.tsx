@@ -5,6 +5,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     FlatList,
+    Platform,
+    ActivityIndicator
 } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
@@ -14,6 +16,8 @@ import { SeriesBottomLogo } from '../../assets/icon/Series';
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 
 export const CategoryDetail = (props: any) => {
+
+    const [loading, setLoading] = useState(true);
 
     // View More 버튼 클릭 시 화면 이동
     const pressedMore = (item: any) => {
@@ -87,32 +91,34 @@ export const CategoryDetail = (props: any) => {
     // 소분류 제목 , View More 버튼 렌더링
     const renderCategory = (item: any) => {
         const textColor = item.item.name === 'GUIDE BOOK' ? '#7777ff' : 'black';
+        const itemList = item.item.items;
+
         return (
             <View>
 
                 <View style={styles.categoryItemContainer}>
-                    <Text style={[styles.categoryItemText, { color: textColor }]}>{item.item.name}</Text>
+                    <Text style={[styles.categoryItemText, { color: textColor }]}>{item.item.name.toUpperCase()}</Text>
                     <TouchableOpacity onPress={() => pressedMore(item.item)}>
                         <Text style={styles.MoreButton}>View More</Text>
                     </TouchableOpacity>
                 </View>
 
                 {/* 가이드북이면 그리드로 출력 */}
-                {item.item.name === 'GUIDE BOOK' ? (
-                    <View style={{ height: 315 }}>
+                {item.item.name.toUpperCase() === 'GUIDE BOOK' ? (
+                    <View style={{ height: 315, marginBottom: 15 }}>
                         <FlatGrid
                             itemDimension={150}
-                            data={item.item.items}
+                            data={itemList}
                             renderItem={renderGridItem}
                             spacing={5}
-                            ListHeaderComponent={renderSpace}
+                            ListHeaderComponent={<View style={{ width: 20 }} />}
                             showsHorizontalScrollIndicator={false}
                             horizontal
                         />
                     </View>
                 ) : (
                     <FlatList
-                        data={item.item.items}
+                        data={itemList}
                         renderItem={renderItem}
                         ListHeaderComponent={renderSpace}
                         ListFooterComponent={renderSpace}
@@ -127,8 +133,6 @@ export const CategoryDetail = (props: any) => {
 
     // trendingNow 아이템 렌더링
     const renderTrendingNow = (item: any) => {
-        
-
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.trendingListItemContainer}>
@@ -150,6 +154,11 @@ export const CategoryDetail = (props: any) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingBottom: 20, }}>
+
+            {loading &&
+                (<View style={styles.ActivityIndicatorContainer}>
+                    <ActivityIndicator size='large' color='white' />
+                </View>)}
 
             {/* TRENDING NOW */}
             <View style={styles.trendingNowContainer}>
@@ -174,7 +183,7 @@ export const CategoryDetail = (props: any) => {
                 />
             </View>
             <View style={{ alignItems: 'center' }}>
-                <SeriesBottomLogo />
+                <SeriesBottomLogo width={'25%'} style={{ marginTop: 10 }} />
             </View>
         </View>
     )
@@ -183,7 +192,8 @@ export const CategoryDetail = (props: any) => {
 const styles = StyleSheet.create({
     trendingNowText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 21, color: '#7777ff',
+        fontSize: Platform.OS === 'ios' ? 19 : 17,
+        color: '#7777ff',
         marginLeft: 25,
         marginBottom: 7,
     },
@@ -214,7 +224,7 @@ const styles = StyleSheet.create({
     subItemTitleText: {
         fontFamily: 'Pretendard-Medium',
         color: 'white',
-        fontSize: 17
+        fontSize: Platform.OS === 'ios' ? 17 : 14,
     },
     GridItemTitleText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -234,18 +244,18 @@ const styles = StyleSheet.create({
     },
     categoryItemContainer: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'space-between',
         marginHorizontal: 25,
         marginVertical: 5,
     },
     categoryItemText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 19,
+        fontSize: Platform.OS === 'ios' ? 19 : 17,
     },
     MoreButton: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 15,
+        fontSize: Platform.OS === 'ios' ? 15 : 13,
         color: '#7777ff'
     },
     listItemContainer: {
@@ -299,4 +309,13 @@ const styles = StyleSheet.create({
         height: 156,
         borderRadius: 10,
     },
+    ActivityIndicatorContainer: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        zIndex: 99,
+        justifyContent: 'center',
+        backgroundColor: 'black',
+        opacity: 0.5
+    }
 })

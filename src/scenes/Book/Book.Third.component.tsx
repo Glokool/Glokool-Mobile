@@ -20,6 +20,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import { number } from 'yup';
 import { AuthContext } from '../../context/AuthContext';
 import LinearGradient from 'react-native-linear-gradient';
+import { Paypal, KakaoPay } from '../../assets/icon/Booking';
 
 type PriceData = {
     active: boolean;
@@ -64,7 +65,6 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
     const token = 'sandbox_s9cw8cv5_99sqcyv5st4dpfr2';
 
     React.useEffect(() => {
-        console.log(data);
         InitBookThird();
     }, []);
 
@@ -78,7 +78,6 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
         };
 
         var result = await axios(config);
-        console.log(result.data);
 
         setPrice({
             active: result.data.active,
@@ -100,7 +99,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
         const PayMethod: IMP_PAY_METHOD = 'card';
         const amount = price?.active
             ? price?.price / 1000 -
-              (price?.discount * price?.price) / 100 / 1000
+            (price?.discount * price?.price) / 100 / 1000
             : price?.price / 1000;
 
         const params = {
@@ -198,8 +197,8 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                                     <Text style={styles.TotalPriceText}>
                                         {price?.price / 1000 -
                                             (price?.discount * price?.price) /
-                                                100 /
-                                                1000}
+                                            100 /
+                                            1000}
                                     </Text>{' '}
                                     USD
                                 </Text>
@@ -223,11 +222,11 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                                 style={
                                     styles.Price
                                 }>{`${price?.price
-                                .toString()
-                                .replace(
-                                    /\B(?=(\d{3})+(?!\d))/g,
-                                    ',',
-                                )} KRW`}</Text>
+                                    .toString()
+                                    .replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ',',
+                                    )} KRW`}</Text>
                         </Layout>
 
                         {price?.active ? (
@@ -255,7 +254,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                                         {(
                                             price?.price -
                                             (price?.discount * price?.price) /
-                                                100
+                                            100
                                         )
                                             .toString()
                                             .replace(
@@ -294,7 +293,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                 <Layout style={{ marginVertical: 10 }} />
 
                 <Text style={styles.SmallTitleText}>Payment Method</Text>
-                <Layout style={styles.Payment}>
+                <Layout style={[styles.Payment, { height: 180 }]}>
                     <Radio
                         checked={state.paypalClicked}
                         onChange={(nextChecked) =>
@@ -304,11 +303,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                     />
 
                     <Layout style={styles.LogoContainer}>
-                        <Image
-                            source={require('../../assets/Paypal_logo.png')}
-                            style={styles.Logo}
-                            resizeMode={'stretch'}
-                        />
+                        <Paypal />
                         <Text style={styles.PaymentText1}>
                             Your payment will be made in{' '}
                             <Text style={styles.PaymentText2}>USD{'\n'}</Text>
@@ -322,7 +317,7 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
                 <Layout style={{ marginVertical: 15 }} />
-                <Layout style={styles.Payment}>
+                <Layout style={[styles.Payment, { height: 160 }]}>
                     <Radio
                         checked={state.kakaoClicked}
                         onChange={(nextChecked) =>
@@ -333,14 +328,13 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
 
                     <Layout style={styles.LogoContainer}>
                         <Image
-                            source={require('../../assets/kakaoPay_logo.png')}
+                            source={require('../../assets/icon/Booking/kakaopay.png')}
                             style={styles.Logo}
-                            resizeMode={'stretch'}
+                            resizeMode={'contain'}
                         />
                         <Text style={styles.PaymentText1}>
                             Your payment will be made in{' '}
                             <Text style={styles.PaymentText2}>KRW{'\n'}</Text>
-                            <Text style={styles.PaymentText2}></Text>
                             {'\n'}Use your balance in your Kakao account.
                             {'\n'}Kakao account is required.
                         </Text>
@@ -351,16 +345,16 @@ export const BookThirdScreen = (props: BookThirdScreenProps): LayoutElement => {
             </ScrollView>
 
             <Layout style={styles.NextButtonContainer}>
-                <LinearGradient colors={['#ffffff00', 'white','white', 'white', '#ffffff00']} style={styles.LinearGradient}>
-                <TouchableOpacity
-                    style={styles.Button}
-                    onPress={() => Payment()}>
-                    <Text style={styles.ButtonText}>PAY NOW</Text>
-                </TouchableOpacity>
+                <LinearGradient colors={['#ffffff00', 'white', 'white', 'white', '#ffffff00']} style={styles.LinearGradient}>
+                    <TouchableOpacity
+                        style={styles.Button}
+                        onPress={() => Payment()}>
+                        <Text style={styles.ButtonText}>PAY NOW</Text>
+                    </TouchableOpacity>
 
-                <SafeAreaView
-                    style={{ flex: 0, backgroundColor: '#00FF0000' }}
-                />
+                    <SafeAreaView
+                        style={{ flex: 0, backgroundColor: '#00FF0000' }}
+                    />
                 </LinearGradient>
             </Layout>
 
@@ -453,7 +447,6 @@ const styles = StyleSheet.create({
     Payment: {
         width: '95%',
         alignSelf: 'center',
-        height: 180,
         borderRadius: 15,
         shadowColor: '#000',
         shadowOffset: {
@@ -467,8 +460,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     Logo: {
-        width: 100,
-        height: 25,
+        width: 90,
+        height: 20,
         marginBottom: 10,
     },
     Radio: {
@@ -484,13 +477,13 @@ const styles = StyleSheet.create({
     },
     PaymentText1: {
         fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 12 : 10,
         color: 'black',
         textAlign: 'left',
     },
     PaymentText2: {
         fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 12 : 10,
         color: '#7777FF',
         textAlign: 'left',
     },
@@ -505,7 +498,7 @@ const styles = StyleSheet.create({
     },
     LinearGradient: {
         width: '100%',
-        alignItems:'center',
+        alignItems: 'center',
         height: 120,
         justifyContent: 'center',
     },

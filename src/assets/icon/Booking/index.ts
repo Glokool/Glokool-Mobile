@@ -5,7 +5,8 @@ import Book_4 from './Book_4.svg';
 import Divide_Spot from './Divide_Spot.svg';
 import Booking_S from './Booking_Success.svg';
 import Booking_F from './Booking_Failure.svg';
-
+import Paypal from './Paypal.svg';
+import KakaoPay from './KakaoPay.svg';
 
 export {
     Book_1,
@@ -14,5 +15,7 @@ export {
     Book_4,
     Divide_Spot,
     Booking_F,
-    Booking_S
+    Booking_S,
+    Paypal,
+    KakaoPay
 }

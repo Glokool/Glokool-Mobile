@@ -41,9 +41,7 @@ function MyTabBar({
     navigation,
 }: BottomTabBarProps<BottomTabBarOptions>) {
     const { onChat } = useContext(ChatContext);
-
     const [visible, setVisible] = React.useState(true);
-
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
 
@@ -71,116 +69,113 @@ function MyTabBar({
     if (!visible && Platform.OS === 'android') return null;
 
     return (
-        <View style={{ }}>
-            <View
-                style={{
-                    flexDirection: 'row',
-                    borderTopLeftRadius: 15,
-                    borderTopRightRadius: 15,
-                    backgroundColor: 'white',
-                    // borderTopColor: '#fff',
-                    // borderTopWidth: 0.5,
-                    shadowColor: 'rgba(0, 0, 0, 1)',
-                    shadowOffset: {
-                        width: 0,
-                        height: 6,
-                    },
-                    shadowRadius: 5,
-                    elevation: 5,
-                    shadowOpacity: 1,
-                }}>
-                {state.routes.map((route, index) => {
-                    const { options } = descriptors[route.key];
-                    const label =
-                        options.tabBarLabel !== undefined
-                            ? options.tabBarLabel
-                            : options.title !== undefined
-                                ? options.title
-                                : route.name;
+        <View
+            style={{
+                flexDirection: 'row',
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
+                backgroundColor: 'white',
+                // borderTopColor: '#fff',
+                // borderTopWidth: 0.5,
+                shadowColor: 'rgba(0, 0, 0, 1)',
+                shadowOffset: {
+                    width: 0,
+                    height: 6,
+                },
+                shadowRadius: 5,
+                elevation: 5,
+                shadowOpacity: 1,
+            }}>
+            {state.routes.map((route, index) => {
+                const { options } = descriptors[route.key];
+                const label =
+                    options.tabBarLabel !== undefined
+                        ? options.tabBarLabel
+                        : options.title !== undefined
+                            ? options.title
+                            : route.name;
 
-                    const isFocused = state.index === index;
+                const isFocused = state.index === index;
 
-                    const onPress = () => {
-                        const event = navigation.emit({
-                            type: 'tabPress',
-                            target: route.key,
-                            canPreventDefault: true,
-                        });
+                const onPress = () => {
+                    const event = navigation.emit({
+                        type: 'tabPress',
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
 
-                        if (!isFocused && !event.defaultPrevented) {
-                            navigation.navigate(route.name);
+                    if (!isFocused && !event.defaultPrevented) {
+                        navigation.navigate(route.name);
+                    }
+                };
+
+                const onLongPress = () => {
+                    navigation.emit({
+                        type: 'tabLongPress',
+                        target: route.key,
+                    });
+                };
+
+                return (
+                    <TouchableOpacity
+                        accessibilityRole="button"
+                        accessibilityState={
+                            isFocused ? { selected: true } : {}
                         }
-                    };
+                        accessibilityLabel={
+                            options.tabBarAccessibilityLabel
+                        }
+                        testID={options.tabBarTestID}
+                        onPress={onPress}
+                        onLongPress={onLongPress}
+                        style={index != 1 ? styles.ButtonContainer : styles.ChatButtonContainer}>
+                        <View
+                            style={{
+                                borderRadius: 25,
+                                width: 70,
+                                height: 35,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                            {label === NavigatorRoute.HOME ? (
+                                isFocused ? (
+                                    <Home_S />
+                                ) : (
+                                    <Home />
+                                )
+                            ) : label === NavigatorRoute.CHAT ? (
+                                isFocused ? (
+                                    <Chat_S />
+                                ) : (onChat ?
+                                    <Chat_Alert /> : <Chat />
+                                )
+                            ) : label === NavigatorRoute.SERIES ? (
+                                isFocused ? (
+                                    <Series_S />
+                                ) : (
+                                    <Series />
+                                )
+                            ) : label === NavigatorRoute.MY ? (
+                                isFocused ? (
+                                    <MyPage_S />
+                                ) : (
+                                    <MyPage />
+                                )
+                            ) : null}
+                        </View>
 
-                    const onLongPress = () => {
-                        navigation.emit({
-                            type: 'tabLongPress',
-                            target: route.key,
-                        });
-                    };
-
-                    return (
-                        <TouchableOpacity
-                            accessibilityRole="button"
-                            accessibilityState={
-                                isFocused ? { selected: true } : {}
-                            }
-                            accessibilityLabel={
-                                options.tabBarAccessibilityLabel
-                            }
-                            testID={options.tabBarTestID}
-                            onPress={onPress}
-                            onLongPress={onLongPress}
-                            style={index != 1 ? styles.ButtonContainer : styles.ChatButtonContainer}>
-                            <View
-                                style={{
-                                    borderRadius: 25,
-                                    width: 70,
-                                    height: 35,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                {label === NavigatorRoute.HOME ? (
-                                    isFocused ? (
-                                        <Home_S />
-                                    ) : (
-                                        <Home />
-                                    )
-                                ) : label === NavigatorRoute.CHAT ? (
-                                    isFocused ? (
-                                        <Chat_S />
-                                    ) : (onChat ?
-                                        <Chat_Alert /> : <Chat />
-                                    )
-                                ) : label === NavigatorRoute.SERIES ? (
-                                    isFocused ? (
-                                        <Series_S />
-                                    ) : (
-                                        <Series />
-                                    )
-                                ) : label === NavigatorRoute.MY ? (
-                                    isFocused ? (
-                                        <MyPage_S />
-                                    ) : (
-                                        <MyPage />
-                                    )
-                                ) : null}
-                            </View>
-
-                            <Text
-                                style={{
-                                    color: isFocused ? '#7777FF' : '#C6C6C6',
-                                    textAlign: 'center',
-                                    fontSize: 11,
-                                    fontWeight: 'bold',
-                                }}>
-                                {label}
-                            </Text>
-                        </TouchableOpacity>
-                    );
-                })}
-            </View>
-            {/* <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} /> */}
+                        <Text
+                            style={{
+                                color: isFocused ? '#7777FF' : '#C6C6C6',
+                                textAlign: 'center',
+                                fontSize: 11,
+                                fontWeight: 'bold',
+                            }}>
+                            {label}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
         </View>
     );
 }
@@ -204,8 +199,11 @@ const GuideVisiblity = (route) => {
 export const MainNavigator = (): React.ReactElement => (
     <Tab.Navigator
         tabBar={(props) => <MyTabBar {...props} />}
-        tabBarOptions={{ keyboardHidesTabBar: true }}
-        initialRouteName={'HOME'}>
+        tabBarOptions={{
+            keyboardHidesTabBar: true,
+        }}
+        initialRouteName={'HOME'}
+    >
         <Tab.Screen
             name={NavigatorRoute.HOME}
             component={HomeNavigator}

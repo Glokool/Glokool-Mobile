@@ -437,26 +437,6 @@ glokool.page.link/jdF1`,
                                 <CountNum style={styles.SeriesCountIconLayoutStyle} />
                                 <Text style={styles.SeriesCountTxtStyle}>{content?.count}</Text>
                             </Layout>
-                            {/* <Layout style={styles.TopImgIconLayout}>
-                                {uid ? (
-                                    <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                        {pressBookmark ?
-                                            <Bookmark_D2D2D2 />
-                                            :
-                                            <Bookmark_P />
-                                        }
-                                    </TouchableOpacity>
-                                ) : null}
-                                {uid ? (
-                                    <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                        {pressLike ? (
-                                            <Plus_D2D2D2 />
-                                        ) : (
-                                            <Plus_P />
-                                        )}
-                                    </TouchableOpacity>
-                                ) : null}
-                            </Layout> */}
                         </Layout>
                     </Layout>
                     <Layout style={styles.TopTxtContainer}>
@@ -518,7 +498,7 @@ glokool.page.link/jdF1`,
                             <Text style={styles.ShareText}>Share with Others!</Text>
                             <Layout style={{ flexDirection: 'row', }}>
                                 <TouchableOpacity
-                                    style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                    style={[styles.ShareButtonContainer, { paddingHorizontal: 25, borderRadius: 8, }]}
                                     onPress={() => shareItems()}
                                 >
                                     <ShareOut />
@@ -765,7 +745,7 @@ glokool.page.link/jdF1`,
                         <TouchableOpacity
                             style={styles.ContainerAngleLeft_W}
                             onPress={() => props.navigation.goBack()}>
-                            <AngleLeft style={styles.AngleLeft} />
+                            <AngleLeft />
                         </TouchableOpacity>
                         {uid ? (
                             <Layout style={styles.TopTabIconLayout}>
@@ -794,34 +774,32 @@ glokool.page.link/jdF1`,
             ) : (
                 // 맨위에 포커스
                 <Layout style={styles.ContainerOpacityLayoutAngleLeft}>
-                    <SafeAreaView
-                        style={{ flex: 0, backgroundColor: '#00FF0000' }}
-                    />
                     <TouchableOpacity
                         style={styles.ContainerAngleLeft}
                         onPress={() => props.navigation.goBack()}>
-                        <AngleLeft_W style={styles.AngleLeft} />
-                        <Layout style={styles.TopImgIconLayout}>
-                            {uid ? (
-                                <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
-                                    {pressBookmark ?
-                                        <Bookmark_D2D2D2 />
-                                        :
-                                        <Bookmark_P />
-                                    }
-                                </TouchableOpacity>
-                            ) : null}
-                            {uid ? (
-                                <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
-                                    {pressLike ? (
-                                        <Plus_D2D2D2 />
-                                    ) : (
-                                        <Plus_P />
-                                    )}
-                                </TouchableOpacity>
-                            ) : null}
-                        </Layout>
+                        <AngleLeft_W />
                     </TouchableOpacity>
+                    <Layout style={styles.TopImgIconLayout}>
+                        {uid ? (
+                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                                {pressBookmark ?
+                                    <Bookmark_D2D2D2 />
+                                    :
+                                    <Bookmark_P />
+                                }
+                            </TouchableOpacity>
+                        ) : null}
+                        {uid ? (
+                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                                {pressLike ? (
+                                    <Plus_D2D2D2 />
+                                ) : (
+                                    <Plus_P />
+                                )}
+                            </TouchableOpacity>
+                        ) : null}
+                    </Layout>
+
                 </Layout>
             )}
         </Layout>
@@ -836,43 +814,44 @@ const styles = StyleSheet.create({
     // 탑탭 style
     ContainerLayoutAngleLeft: {
         width: '100%',
-        height: 50,
+        paddingVertical: 10,
         position: 'absolute',
         top: 0,
         backgroundColor: '#ffffff',
     },
     ContainerIconLayout: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
         width: windowWidth,
     },
     ContainerOpacityLayoutAngleLeft: {
         width: windowWidth,
-        height: 50,
         position: 'absolute',
-        top: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: Platform.OS === 'ios' ? 50 : 10,
         backgroundColor: '#00FF0000',
+        paddingHorizontal: 10,
     },
     ContainerAngleLeft: {
-        flexDirection: 'row',
+        backgroundColor: '#00ff0000',
+        width: 30,
+        height: 30,
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: windowWidth,
-        backgroundColor: '#00FF0000',
-        padding: 20,
+        justifyContent: 'center'
     },
     ContainerAngleLeft_W: {
         backgroundColor: '#ffffff',
-        padding: 20,
-    },
-    AngleLeft: {
-        marginLeft: 20,
+        width: 30,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     TopTabIconLayout: {
-        width: '75%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        backgroundColor: '#00FF0000',
     },
     BookmarkTouch: {
         marginRight: 25,
@@ -1214,7 +1193,7 @@ const styles = StyleSheet.create({
     },
     ShareText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 17,
+        fontSize: Platform.OS === 'ios' ? 16 : 14,
         color: '#7777ff'
     },
 })

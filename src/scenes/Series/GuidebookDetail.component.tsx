@@ -93,6 +93,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
     // 가이드북 아이템 렌더링
     const renderItem = (item: any) => {
+        console.log(item.item)
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.listItemContainer}>
@@ -102,7 +103,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                     <View style={styles.propsContainer}>
 
                         <View style={styles.tagContainer}>
-                            {item.item.tag.map((item) => (
+                            {item.item.tag.map((item: string) => (
                                 <Text style={styles.titleText}>
                                     <Text style={[styles.titleText, { color: '#808080' }]}>#</Text>
                                     {item + '  '}
@@ -112,7 +113,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
 
                         <View style={styles.listBottomContainer}>
                             <Text style={styles.grayText}>
-                                {moment(item.createdAt).format(
+                                {moment(item.item.createdAt).format(
                                     'YYYY. M. D',
                                 )}
                             </Text>

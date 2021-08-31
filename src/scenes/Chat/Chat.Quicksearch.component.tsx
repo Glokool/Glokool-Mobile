@@ -107,7 +107,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         return (
             <TouchableOpacity onPress={() => pressSubCategory(item.item)}>
                 <View style={[styles.subCategoryButton, { backgroundColor: buttonBackground }]}>
-                    <Text style={styles.subButtonText}>{item.item.name}</Text>
+                    <Text style={styles.subButtonText}>{item.item.name.toUpperCase()}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -139,7 +139,9 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
             <View style={styles.topTabBar}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => props.navigation.pop()}>
-                        <View><CloseButton /></View>
+                        <View style={{ width: 30, height: 30, alignItems: 'center', justifyContent: 'center' }}>
+                            <CloseButton />
+                        </View>
                     </TouchableOpacity>
 
                     <Text style={styles.topTabText}>QUICK SEARCH</Text>
@@ -259,7 +261,9 @@ const styles = StyleSheet.create({
     },
     ImageContainer: {
         borderRadius: 10,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        justifyContent:'center',
+        alignItems: 'center'
     },
     OuterContainer: {
         shadowColor: '#000',

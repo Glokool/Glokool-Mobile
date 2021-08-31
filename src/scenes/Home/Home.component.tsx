@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     },
     TitleTextContainer: {
         marginHorizontal: 40,
-        marginTop: 40,
+        marginTop: 10,
         marginBottom: 20,
         backgroundColor: '#00ff0000'
     },

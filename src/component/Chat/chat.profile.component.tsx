@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Pressable, View, Text } from 'react-native';
+import { StyleSheet, Image, Pressable, View, Text, Platform } from 'react-native';
 import { Modal } from '@ui-kitten/components';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { CloseButton } from '../../assets/icon/Series';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 
@@ -44,7 +45,7 @@ export const ProfileModal = (props: any) => {
                             </View>
                         </Pressable>
                         <Pressable onPress={() => setGuideVisible(false)}>
-                            <FontAwesomeIcon icon={faTimes} size={20} />
+                            <CloseButton/>
                         </Pressable>
                     </View>
 
@@ -117,26 +118,26 @@ const styles = StyleSheet.create({
     },
     keyTextStyle: {
         fontFamily: 'Pretendard-Bold',
-        fontSize: 14,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#7777ff',
         fontWeight: 'bold',
         flex: 1,
     },
     valTextStyle: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 15,
+        fontSize: Platform.OS === 'ios' ? 15 : 13,
         fontWeight: '400',
         flex: 2.5,
     },
     oneLineIntro: {
         fontFamily: 'Pretendard-Bold',
-        fontSize: 20,
+        fontSize: Platform.OS === 'ios' ? 20 : 18,
         color: '#7777ff',
         fontWeight: 'bold',
     },
     intro: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 15,
+        fontSize: Platform.OS === 'ios' ? 15 : 13,
         fontWeight: '400',
         marginTop: 15,
     },

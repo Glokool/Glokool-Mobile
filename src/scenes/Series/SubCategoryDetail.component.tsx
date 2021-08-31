@@ -107,7 +107,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
                         <View style={styles.listBottomContainer}>
                             <Text style={styles.grayText}>
-                                {moment(item.createdAt).format(
+                                {moment(item.item.createdAt).format(
                                     'YYYY. M. D',
                                 )}
                             </Text>
@@ -221,11 +221,12 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontFamily: 'Pretendard-SemiBold',
-        fontSize: 17,
+        fontSize: Platform.OS === 'ios' ? 15 : 13,
+        paddingRight: 10,
     },
     grayText: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 13,
+        fontSize: Platform.OS === 'ios' ? 12 : 10,
         color: '#b5b5b5',
         marginLeft: 5,
     },

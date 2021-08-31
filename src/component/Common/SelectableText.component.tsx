@@ -9,7 +9,7 @@ export const SelectableText = (props: any) => {
                 multiline={true}
                 scrollEnabled={false}
                 textAlignVertical='top'
-                style={[props.style,{paddingTop:0, paddingBottom:0}]}
+                style={[props.style, { paddingTop: 0, paddingBottom: 0 }]}
             >
                 {props.item}
             </TextInput>

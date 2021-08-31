@@ -109,7 +109,7 @@ export const SeriesGrid = (props: any) => {
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo style={{ marginBottom: 10, }} />
+                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'25%'} />
                 {props.endReached == true &&
                     content.length > props.itemCount ? <ActivityIndicator /> : null}
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         paddingHorizontal: 7,
-        width: windowWidth*0.33
+        width: windowWidth * 0.33
     },
     GridStyle: {
         marginTop: 135,

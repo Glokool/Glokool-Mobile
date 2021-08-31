@@ -427,7 +427,7 @@ glokool.page.link/jdF1`,
                         <Text style={styles.ShareText}>Share with Others!</Text>
                         <Layout style={{ flexDirection: 'row', }}>
                             <TouchableOpacity
-                                style={[styles.ShareButtonContainer, { paddingHorizontal: 20, borderRadius: 8, }]}
+                                style={[styles.ShareButtonContainer, { paddingHorizontal: 25, borderRadius: 8, }]}
                                 onPress={() => shareItems()}
                             >
                                 <ShareOut />
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
     },
     ShareText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 17,
+        fontSize: Platform.OS === 'ios' ? 16 : 14,
         color: '#7777ff'
     },
     MainContainer: {

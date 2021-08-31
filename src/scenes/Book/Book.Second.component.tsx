@@ -1,17 +1,11 @@
 import React from 'react';
-
+import { Platform } from 'react-native';
 import { IndexPath, Input, Layout, LayoutElement, Select, SelectItem, Text } from '@ui-kitten/components';
 import { StyleSheet, ScrollView, TouchableOpacity, Dimensions, SafeAreaView } from 'react-native';
 import { CancellationPolicy, TopTabBar } from '../../component/Booking';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import { BookSecondScreenProps } from '../../navigation/Book.navigator';
-import { StackActions } from '@react-navigation/native';
 import { AuthContext } from '../../context/AuthContext';
-
-import qs from 'query-string';
-import auth from '@react-native-firebase/auth';
-import { SERVER } from '../../server.component';
-import axios from 'axios';
 
 const WindowSize = Dimensions.get('window').width
 
@@ -237,7 +231,7 @@ const styles = StyleSheet.create({
     },
     InputText: {
         fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 19,
+        fontSize: Platform.OS === 'ios' ? 17 : 15,
         marginBottom: -15
     },
     ContactContainer: {
