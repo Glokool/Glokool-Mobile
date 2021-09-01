@@ -440,9 +440,8 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.TopTxtContainer}>
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
                         <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
-                        <SelectableText style={styles.descTxt} item={content?.desc} />
-                        {/* <Text selectable={true} >{content?.desc}</Text> */}
-                        <SelectableText style={styles.LetsBeginTxt} item={"Let's Begin !"} />
+                        <SelectableText style={styles.descTxt}>{content?.desc}</SelectableText>
+                        <SelectableText style={styles.LetsBeginTxt}>Let's Begin!</SelectableText>
                     </Layout>
 
                     {/* content carousel */}
@@ -476,8 +475,8 @@ glokool.page.link/jdF1`,
                                 inactiveDotScale={1}
                             />
                             <Layout style={styles.ContentTxtLayout}>
-                                <SelectableText style={styles.ContentTitleTxt} item={item.title} />
-                                <SelectableText style={styles.ContentDescTxt} item={item.desc} />
+                                <SelectableText style={styles.ContentTitleTxt} >{item.title}</SelectableText>
+                                <SelectableText style={styles.ContentDescTxt} >{item.desc}</SelectableText>
                             </Layout>
 
                             {/* 글로서비스 컨테이너 */}

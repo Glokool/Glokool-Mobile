@@ -242,8 +242,8 @@ glokool.page.link/jdF1`,
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
-                    <SelectableText style={styles.TitleText} item={data?.title} />
-                    <SelectableText style={styles.DescText} item={data?.desc} />
+                    <SelectableText style={styles.TitleText}>{data?.title}</SelectableText>
+                    <SelectableText style={styles.DescText}>{data?.desc}</SelectableText>
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
@@ -265,7 +265,7 @@ glokool.page.link/jdF1`,
 
                     <Layout style={styles.LocationContainer}>
                         <Location />
-                        <SelectableText style={styles.InfoDetailText} item={`  ${data?.loc}`} />
+                        <SelectableText style={styles.InfoDetailText}>{`  ${data?.loc}`}</SelectableText>
                     </Layout>
 
                     {data === undefined ? null : (
@@ -296,25 +296,25 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <SelectableText style={styles.InfoDetailText} item={'  Open Hour'} />
+                            <SelectableText style={styles.InfoDetailText}>{'  Open Hour'}</SelectableText>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer4}>
-                            <SelectableText style={styles.InfoDetailText} item={`${data?.time.everyTime}`} />
+                            <SelectableText style={styles.InfoDetailText}>{`${data?.time.everyTime}`}</SelectableText>
                         </Layout>
                     </Layout>
 
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Contact />
-                            <SelectableText style={styles.InfoDetailText} item={'  Call'} />
+                            <SelectableText style={styles.InfoDetailText}>{'  Call'}</SelectableText>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.phone ? (
-                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.phone}`} />
+                                <SelectableText style={styles.InfoDetailText}>{' ' + `${data?.phone}`}</SelectableText>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                                <SelectableText style={styles.InfoDetailText}>{'-'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
@@ -322,7 +322,7 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <Sns />
-                            <SelectableText style={styles.InfoDetailText} item={'  SNS'} />
+                            <SelectableText style={styles.InfoDetailText}>{'  SNS'}</SelectableText>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -332,7 +332,7 @@ glokool.page.link/jdF1`,
                                     {`${data?.sns.slice(2)}`}
                                 </Text>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                                <SelectableText style={styles.InfoDetailText}>{'-'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
@@ -340,7 +340,7 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.InfoDetailContainer}>
                         <Layout style={styles.InfoDetailContainer1}>
                             <EntryFee />
-                            <SelectableText style={styles.InfoDetailText} item={'  Entrance'} />
+                            <SelectableText style={styles.InfoDetailText}>{'  Entrance'}</SelectableText>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer2}>
@@ -353,16 +353,15 @@ glokool.page.link/jdF1`,
                                     </Text>
                                 </Text>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'Free'} />
+                                <SelectableText style={styles.InfoDetailText}>{'Free'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
 
-                    {data?.note === '' || data?.note === 'undefined' ? null : (
-                        <Layout style={styles.NoteContainer}>
-                            <Text style={styles.NoteText}>{data?.note}</Text>
-                        </Layout>
-                    )}
+                    <Layout style={styles.NoteContainer}>
+                        <Text style={styles.NoteText}>There may be changes due to Covid-19. Ask the Travel Assistant before you visit!</Text>
+                    </Layout>
+
                 </Layout>
 
                 {/* 디테일 컨테이너 */}
@@ -383,14 +382,14 @@ glokool.page.link/jdF1`,
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.EditorNoteTitleContainer}>
                         <EditorNote />
-                        <SelectableText style={styles.EditorNoteTitle} item={"  Editor's Note"} />
+                        <SelectableText style={styles.EditorNoteTitle}>{"  Editor's Note"}</SelectableText>
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
                         <Layout style={styles.EditorNoteContainer}>
                             <Layout style={styles.EditorNoteInnerContainer}>
                                 <EditorNote_Check />
-                                <SelectableText style={styles.EditorNoteText} item={item} />
+                                <SelectableText style={styles.EditorNoteText}>{item}</SelectableText>
                             </Layout>
                             {index == data.editorNote.length - 1 ?
 
@@ -757,7 +756,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 15,
         backgroundColor: '#8797FF',
-        marginVertical: 20,
+        marginTop: 20,
     },
     NoteText: {
         fontFamily: 'IBMPlexSansKR-Medium',

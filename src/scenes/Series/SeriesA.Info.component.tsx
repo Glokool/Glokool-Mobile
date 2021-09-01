@@ -416,7 +416,7 @@ glokool.page.link/jdF1`,
                         <Text style={styles.SeriesTitleTxtStyle}>{content?.title}</Text>
                     </Layout>
                     <Layout style={styles.SeriesDescLayoutStyle}>
-                        <SelectableText style={styles.SeriesDescTxtStyle} item={content?.desc} />
+                        <SelectableText style={styles.SeriesDescTxtStyle} >{content?.desc}</SelectableText>
                     </Layout>
 
                     {/* 글로챗 컨테이너 */}
