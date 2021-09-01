@@ -84,9 +84,12 @@ export const CategoryDetail = (props: any) => {
                         style={styles.GridImage}
                         resizeMode='stretch'
                     />
-                    <View style={styles.GridItemTitle}>
+                    <LinearGradient
+                        colors={['#00000000', '#00000099']}
+                        style={[styles.GridItemTitle, { width: 150, height: 150, }]}
+                    >
                         <Text style={styles.GridItemTitleText}>{item.item.title}</Text>
-                    </View>
+                    </LinearGradient>
                 </View>
             </TouchableOpacity>
         )
@@ -149,7 +152,7 @@ export const CategoryDetail = (props: any) => {
                     {item.item.type != 'content' && (
                         <LinearGradient
                             colors={['#00000000', '#00000099']}
-                            style={[styles.subItemTitle, { width: 156, height: 156 , }]}
+                            style={[styles.subItemTitle, { width: 156, height: 156, }]}
                         >
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
                         </LinearGradient>
@@ -233,12 +236,14 @@ const styles = StyleSheet.create({
     GridItemTitleText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
-        fontSize: 15
+        fontSize: 15,
+        bottom: 10
     },
     GridItemTitle: {
         position: 'absolute',
-        bottom: 15,
         width: 150,
+        borderRadius: 10,
+        justifyContent: 'flex-end',
         paddingHorizontal: 15,
     },
     GridImage: {

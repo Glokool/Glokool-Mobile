@@ -441,6 +441,7 @@ glokool.page.link/jdF1`,
                         <Text style={styles.TitleTxt}>{content?.title}</Text>
                         <Text style={styles.SmallTitleTxt}>{content?.smallTitle}</Text>
                         <SelectableText style={styles.descTxt} item={content?.desc} />
+                        {/* <Text selectable={true} >{content?.desc}</Text> */}
                         <SelectableText style={styles.LetsBeginTxt} item={"Let's Begin !"} />
                     </Layout>
 
