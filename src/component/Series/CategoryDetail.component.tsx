@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     FlatList,
     Platform,
-    ActivityIndicator
+    ActivityIndicator,
+    Dimensions
 } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
@@ -15,6 +16,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
+
+const windowWidth = Dimensions.get('window').width
 
 export const CategoryDetail = (props: any) => {
 
@@ -114,7 +117,7 @@ export const CategoryDetail = (props: any) => {
                 {item.item.name.toUpperCase() === 'GUIDE BOOK' ? (
                     <View style={{ height: 315, marginBottom: 15 }}>
                         <FlatGrid
-                            itemDimension={150}
+                            itemDimension={windowWidth*0.3}
                             data={itemList}
                             renderItem={renderGridItem}
                             spacing={5}

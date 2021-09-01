@@ -108,7 +108,7 @@ export const SeriesGrid = (props: any) => {
     return (
         <View style={{ flex: 1, }}>
             <FlatGrid
-                itemDimension={100}
+                itemDimension={windowWidth*0.3}
                 data={content.slice(0, props.itemCount)}
                 renderItem={renderItem}
                 spacing={1.5}

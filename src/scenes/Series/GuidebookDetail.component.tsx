@@ -156,6 +156,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                     />}
             >
                 <FlatGrid
+                    itemDimension={windowWidth * 0.4}
                     data={listData}
                     renderItem={renderItem}
                     style={{ paddingTop: 20 }}

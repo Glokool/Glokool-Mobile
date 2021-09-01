@@ -123,7 +123,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     />
                 </TouchableOpacity>
 
-                <Layout style={{ paddingBottom: 30 }}>
+                <Layout style={{ paddingBottom: 30, backgroundColor:'#00000000' }}>
                     <HomeCarousel
                         navigation={props.navigation}
                         route={props.route}
