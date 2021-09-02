@@ -31,11 +31,6 @@ export const SeriesGrid = (props: any) => {
 
     const [content, setContent] = useState([]);
 
-    // grid item 초기화
-    useEffect(() => {
-        initGrid();
-    }, [])
-
     // 새로고침 시 refresh
     useEffect(() => {
         if (props.refreshing == true) {

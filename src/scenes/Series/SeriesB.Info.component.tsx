@@ -242,8 +242,9 @@ Click to find out exclusive Korea travel tips!
 glokool.page.link/jdF1`,
             url: shareImage,
         };
-        Share.open(shareOptions);
-
+        Share.open(shareOptions)
+            .then((res) => console.log(res))
+            .catch((e) => console.log(e));
     }
 
 
@@ -412,7 +413,7 @@ glokool.page.link/jdF1`,
                     showsVerticalScrollIndicator={false}
                     ref={ScrollVewRef}
                     onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
-                    
+
                     {height >= windowWidth - 100 ? (
                         <Layout>
                             <Layout style={{ height: 50 }} />

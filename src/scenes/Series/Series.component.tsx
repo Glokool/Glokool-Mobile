@@ -70,7 +70,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     useEffect(() => {
         if (refreshing == false) {
             setRefreshEnd(true);
-            initCategories();
+            // initCategories();
             checkFocused(focusedItem);
         }
         setTimeout(() => setRefreshEnd(false), 1);

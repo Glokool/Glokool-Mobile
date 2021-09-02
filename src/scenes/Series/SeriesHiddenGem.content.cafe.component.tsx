@@ -241,8 +241,8 @@ glokool.page.link/jdF1`,
 
                 {/* 타이틀 컨테이너 */}
                 <Layout style={styles.TitleContainer}>
-                    <SelectableText style={styles.TitleText} item={data?.title} />
-                    <SelectableText style={styles.DescText} item={data?.desc} />
+                    <SelectableText style={styles.TitleText}>{data?.title}</SelectableText>
+                    <SelectableText style={styles.DescText}>{data?.desc}</SelectableText>
                 </Layout>
 
                 {/* 글로챗 컨테이너 */}
@@ -278,7 +278,7 @@ glokool.page.link/jdF1`,
                         </Layout>
 
                         <Layout style={{ marginLeft: 5 }}>
-                            <SelectableText style={styles.InfoDetailText} item={` ${data?.loc}`} />
+                            <SelectableText style={styles.InfoDetailText}>{` ${data?.loc}`}</SelectableText>
 
                         </Layout>
                     </Layout>
@@ -311,16 +311,16 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.InfoDetailContainer5}>
                         <Time />
                         <Layout style={styles.InfoDetailContainer3}>
-                            <SelectableText style={styles.InfoDetailText} item={'  Open Hour'} />
-                            <SelectableText style={styles.InfoDetailText} item={'  Break Time'} />
+                            <SelectableText style={styles.InfoDetailText}>{'  Open Hour'}</SelectableText>
+                            <SelectableText style={styles.InfoDetailText}>{'  Break Time'}</SelectableText>
                         </Layout>
 
                         <Layout style={styles.InfoDetailContainer4}>
-                            <SelectableText style={styles.InfoDetailText} item={`${data?.time.everyTime}`} />
+                            <SelectableText style={styles.InfoDetailText}>{`${data?.time.everyTime}`}</SelectableText>
                             {data?.time.breakTime ? (
-                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.time.breakTime}`} />
+                                <SelectableText style={styles.InfoDetailText}>{' ' + `${data?.time.breakTime}`}</SelectableText>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                                <SelectableText style={styles.InfoDetailText}>{'-'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
@@ -333,9 +333,9 @@ glokool.page.link/jdF1`,
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.phone ? (
-                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.phone}`} />
+                                <SelectableText style={styles.InfoDetailText}>{' ' + `${data?.phone}`}</SelectableText>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                                <SelectableText style={styles.InfoDetailText}>{'-'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
@@ -349,9 +349,9 @@ glokool.page.link/jdF1`,
 
                         <Layout style={styles.InfoDetailContainer2}>
                             {data?.sns ? (
-                                <SelectableText style={styles.InfoDetailText} item={' ' + `${data?.sns.slice(2)}`} />
+                                <SelectableText style={styles.InfoDetailText}>{' ' + `${data?.sns.slice(2)}`}</SelectableText>
                             ) : (
-                                <SelectableText style={styles.InfoDetailText} item={'-'} />
+                                <SelectableText style={styles.InfoDetailText}>{'-'}</SelectableText>
                             )}
                         </Layout>
                     </Layout>
@@ -381,14 +381,14 @@ glokool.page.link/jdF1`,
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.EditorNoteTitleContainer}>
                         <EditorNote />
-                        <SelectableText style={styles.EditorNoteTitle} item={"  Editor's Note"} />
+                        <SelectableText style={styles.EditorNoteTitle}>{"  Editor's Note"}</SelectableText>
                     </Layout>
 
                     {data?.editorNote.map((item, index) => (
                         <Layout style={styles.EditorNoteContainer}>
                             <Layout style={styles.EditorNoteInnerContainer}>
                                 <EditorNote_Check />
-                                <SelectableText style={styles.EditorNoteText} item={item} />
+                                <SelectableText style={styles.EditorNoteText}>{item}</SelectableText>
                             </Layout>
                             {index == data.editorNote.length - 1 ?
                                 <Layout style={{ backgroundColor: '#0f00', width: WindowSize, height: 80, marginLeft: -30, alignItems: 'center', justifyContent: 'center' }}>

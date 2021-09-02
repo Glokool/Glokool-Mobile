@@ -8214,10 +8214,10 @@
   "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.3.0.tgz"
   "version" "3.3.0"
 
-"react-native-share@^7.0.0":
-  "integrity" "sha512-2ImJYJotFg3bTihNrQIqDKCAJ2xV0/MjGmH5MaC1GXDvGTeuU1L2/sFrJLHTAYi+K6D6VTWGbv5h9SzXtuo39Q=="
-  "resolved" "https://registry.npmjs.org/react-native-share/-/react-native-share-7.0.0.tgz"
-  "version" "7.0.0"
+"react-native-share@^7.0.2":
+  "integrity" "sha512-eIcp27XgQq5saO3/LUgFtX5gWWYgYi/xXTZ3pP4boIM+3Rl374LsOn6U2YOzVQDW6m1MsOSI/Bnw7P6aUvZhYA=="
+  "resolved" "https://registry.npmjs.org/react-native-share/-/react-native-share-7.0.2.tgz"
+  "version" "7.0.2"
 
 "react-native-snap-carousel@^3.9.1":
   "integrity" "sha512-xWEGusacIgK1YaDXLi7Gao2+ISLoGPVEBR8fcMf4tOOJQufutlNwkoLu0l6B8Qgsrre0nTxoVZikRgGRDWlLaQ=="
