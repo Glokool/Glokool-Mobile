@@ -939,13 +939,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         backgroundColor: 'white',
                         borderRadius: 10,
                         marginBottom: 3,
-                        padding: 5,
-                        shadowColor: '#000',
+                        shadowColor: '#222',
                         shadowOffset: {
                             width: 0,
                             height: 1,
                         },
-                        shadowOpacity: 0.2,
+                        shadowOpacity: 0.15,
                         shadowRadius: 1.41,
                         elevation: 2,
                     },
@@ -953,11 +952,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 textStyle={{
                     left: {
                         color: 'white',
-                        fontFamily: 'IBMPlexSansKR-Medium',
+                        fontFamily: 'Pretendard-Medium',
                     },
                     right: {
                         color: '#4E4ED8',
-                        fontFamily: 'IBMPlexSansKR-Medium',
+                        fontSize: 15,
+                        fontFamily: 'Pretendard-Medium',
                     },
                 }}
                 tickStyle={{ color: 'black' }}

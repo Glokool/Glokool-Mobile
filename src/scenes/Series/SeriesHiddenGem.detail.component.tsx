@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, Platform } from 'react-native';
 import { SeriesHiddenGemDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
@@ -170,6 +170,9 @@ export const SeriesHiddenGemDetailScreen = (
                     />
 
                     <Layout style={styles.DescContainer}>
+                        <Text style={styles.TitleText}>
+                            {content?.tour.title}
+                        </Text>
                         <Text style={styles.DescText}>
                             {content?.tour.desc}
                         </Text>
@@ -348,6 +351,7 @@ export const SeriesHiddenGemDetailScreen = (
                     <Layout style={{
                         flexDirection: 'row',
                         backgroundColor: 'white',
+                        alignItems: 'center',
                         paddingBottom: 10,
                         flex: 1,
                         opacity: 0.9,
@@ -371,9 +375,9 @@ export const SeriesHiddenGemDetailScreen = (
                                     backgroundColor: '#00FF0000',
                                 }}
                             />
-                            <Text style={styles.TitleText_B}>
+                            {/* <Text style={styles.TitleText_B}>
                                 {content?.tour.title}
-                            </Text>
+                            </Text> */}
                         </Layout>
 
 
@@ -462,16 +466,14 @@ export const SeriesHiddenGemDetailScreen = (
                             <AngleLeft_W />
                         </TouchableOpacity>
 
-                        <Layout style={{ backgroundColor: '#00ff0000' }}>
+                        <Layout style={{ backgroundColor: '#0000' }}>
                             <SafeAreaView
                                 style={{
                                     flex: 0,
                                     backgroundColor: '#00FF0000',
                                 }}
                             />
-                            <Text style={styles.TitleText}>
-                                {content?.tour.title}
-                            </Text>
+
                         </Layout>
                     </Layout>
 
@@ -564,8 +566,7 @@ const styles = StyleSheet.create({
     TitleText: {
         color: 'white',
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 23,
-        marginLeft: 30,
+        fontSize: Platform.OS === 'ios' ? 23 : 20,
     },
     TitleText_B: {
         color: 'black',

@@ -13,6 +13,7 @@ import series_korea_atoz from '../../assets/icon/Series/series_korea_atoz.png'
 import series_daytrip from '../../assets/icon/Series/series_daytrip.png';
 import { FlatGrid } from 'react-native-super-grid';
 import { ScrollView } from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -116,17 +117,23 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
     // 카테고리 내 아이템 렌더링
     const renderContents = (item: any) => {
         const titleFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
-        const titleAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
         const titleSize = item.item.type == 'tour' ? 17 : 14;
+        const lineHeight = item.item.type == 'tour' ? 18 : 15;
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.ImageContainer}>
                     <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='stretch' />
                     {item.item.type != 'content' && (
-                        <View style={[styles.itemTitleContainer, { alignItems: titleAlign }]}>
-                            <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize }}>{item.item.title}</Text>
-                        </View>
+
+                        <LinearGradient
+                            colors={['#00000000', '#00000000', '#0008']}
+                            style={styles.itemTitleContainer}
+                        >
+                            <Text style={{ fontFamily: titleFont, color: 'white', fontSize: titleSize, bottom: 7, lineHeight: lineHeight }}>
+                                {item.item.title}
+                            </Text>
+                        </LinearGradient>
                     )}
                 </View>
             </TouchableOpacity>
@@ -262,7 +269,7 @@ const styles = StyleSheet.create({
     ImageContainer: {
         borderRadius: 10,
         overflow: 'hidden',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     OuterContainer: {
@@ -279,8 +286,10 @@ const styles = StyleSheet.create({
     },
     itemTitleContainer: {
         position: 'absolute',
-        bottom: 15,
         width: 150,
+        height: 150,
         paddingHorizontal: 15,
+        borderRadius: 10,
+        justifyContent: 'flex-end'
     },
 });
