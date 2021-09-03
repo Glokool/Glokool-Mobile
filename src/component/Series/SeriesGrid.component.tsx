@@ -29,29 +29,8 @@ const windowWidth = Dimensions.get('window').width;
 
 export const SeriesGrid = (props: any) => {
 
-    const [content, setContent] = useState([]);
-
-    // 새로고침 시 refresh
-    useEffect(() => {
-        if (props.refreshing == true) {
-            initGrid();
-        }
-    })
-
-    // grid item 초기화
-    const initGrid = async () => {
-        const tmpContent: Array<Object> = [];
-        const response = await axios.get(SERVER + '/api/series');
-        response.data.map((item: any, index: any) => {
-            tmpContent.push(({
-                image: item.image,
-                title: item.title,
-                id: item._id,
-                type: item.type,
-            }))
-        })
-        setContent(tmpContent);
-    }
+    const [content, setContent] = useState(props.data);
+    const [first, setFirst] = useState(true);
 
     // item 클릭 시 화면 전환
     // 이후 어느정도 수정 필요할듯...
@@ -71,7 +50,7 @@ export const SeriesGrid = (props: any) => {
         const textFont = item.item.type == 'tour' ? 'BrandonGrotesque-BoldItalic' : 'Pretendard-Medium';
         const textSize = item.item.type == 'tour' ? 16 : 13;
         const textAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
-        const lineHeight = item.item.type == 'tour' ? 16 : 15;
+        const lineHeight = item.item.type == 'tour' ? 18 : 15;
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -87,7 +66,7 @@ export const SeriesGrid = (props: any) => {
                 <View style={{ alignItems: item.item.type == 'tour' ? 'center' : 'auto' }}>
                     {item.item.type != 'content' && (
                         <LinearGradient
-                            colors={['#00000000', '#00000099']}
+                            colors={['#00000000', '#00000000', '#0008']}
                             style={[styles.itemTextContainer, { alignItems: textAlign }]}
                         >
                             <Text style={[styles.itemText, { fontFamily: textFont, fontSize: Platform.OS === 'android' ? textSize - 2 : textSize, lineHeight: lineHeight }]}>
@@ -103,8 +82,8 @@ export const SeriesGrid = (props: any) => {
     return (
         <View style={{ flex: 1, }}>
             <FlatGrid
-                itemDimension={windowWidth*0.3}
-                data={content.slice(0, props.itemCount)}
+                itemDimension={windowWidth * 0.3}
+                data={props.data.slice(0, props.itemCount)}
                 renderItem={renderItem}
                 spacing={1.5}
                 style={styles.GridStyle}
@@ -112,7 +91,7 @@ export const SeriesGrid = (props: any) => {
             <View style={styles.bottomContainer}>
                 <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'15%'} />
                 {props.endReached == true &&
-                    content.length > props.itemCount ? <ActivityIndicator /> : null}
+                    props.data.length > props.itemCount ? <ActivityIndicator /> : null}
 
             </View>
         </View>

@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import {
     AngleLeft,
@@ -141,16 +142,27 @@ export const SeriesHiddenGemContentCafe = (
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions = {
-            title: 'Share Contents',
-            // 여기 메세지 앞에 indent 추가하지 말아주세요!
-            message: `${data?.title}
+        const shareOptions = Platform.OS === 'ios' ? (
+            {
+                title: 'Share Contents',
+                // 여기 메세지 앞에 indent 추가하지 말아주세요!
+                message: `${data?.title}
 Click to find out exclusive Korea travel tips!
 glokool.page.link/jdF1`,
-            url: shareImage,
-        };
-
-        Share.open(shareOptions);
+                url: shareImage,
+            }
+        ) : (
+            {
+                title: 'Share Contents',
+                // 여기 메세지 앞에 indent 추가하지 말아주세요!
+                message: `${data?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            }
+        )
+        Share.open(shareOptions)
+            .then((res) => console.log(res))
+            .catch((e) => console.log(e));
 
     }
 

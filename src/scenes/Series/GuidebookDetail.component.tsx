@@ -100,7 +100,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
                     {/* Image */}
                     <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
                     <LinearGradient
-                        colors={['#00000000', '#00000099']}
+                        colors={['#00000000', '#00000000', '#0008']}
                         style={styles.ItemTitle}
                     >
                         <Text style={styles.ItemTitleText}>{item.item.title}</Text>

@@ -66,7 +66,7 @@ export const CategoryDetail = (props: any) => {
 
                     {item.item.type != 'content' && (
                         <LinearGradient
-                            colors={['#00000000', '#00000099']}
+                            colors={['#00000000', '#00000000', '#0008']}
                             style={[styles.subItemTitle, { width: 150, height: 150, }]}
                         >
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>
@@ -88,7 +88,7 @@ export const CategoryDetail = (props: any) => {
                         resizeMode='stretch'
                     />
                     <LinearGradient
-                        colors={['#00000000', '#00000099']}
+                        colors={['#00000000', '#00000000', '#0008']}
                         style={[styles.GridItemTitle, { width: 150, height: 150, }]}
                     >
                         <Text style={styles.GridItemTitleText}>{item.item.title}</Text>
@@ -117,7 +117,7 @@ export const CategoryDetail = (props: any) => {
                 {item.item.name.toUpperCase() === 'GUIDE BOOK' ? (
                     <View style={{ height: 315, marginBottom: 15 }}>
                         <FlatGrid
-                            itemDimension={windowWidth*0.3}
+                            itemDimension={windowWidth * 0.3}
                             data={itemList}
                             renderItem={renderGridItem}
                             spacing={5}
@@ -154,7 +154,7 @@ export const CategoryDetail = (props: any) => {
 
                     {item.item.type != 'content' && (
                         <LinearGradient
-                            colors={['#00000000', '#00000099']}
+                            colors={['#00000000', '#00000000', '#0008']}
                             style={[styles.subItemTitle, { width: 156, height: 156, }]}
                         >
                             <Text style={styles.subItemTitleText}>{item.item.title}</Text>

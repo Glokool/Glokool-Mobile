@@ -146,8 +146,9 @@ export const CustomerServiceComponent = (
                                         Address
                                     </Text>
                                     <Text style={styles.aboutDesc}>
-                                        1929-9, Nambusunhwan-ro, Gwanak-gu,
-                                        {'\n'}Seoul, Republic of Korea
+                                        Room 301, 6, Eonju-ro 81-gil,
+                                        {'\n'}Gangnam-gu, Seoul,
+                                        {'\n'}Republic of Korea
                                     </Text>
                                 </Layout>
 
@@ -180,7 +181,7 @@ export const CustomerServiceComponent = (
                                         070-4300-0833
                                     </Text>
                                     <Text style={styles.aboutDesc}>
-                                        @glokool_official
+                                        @glokool_korea
                                     </Text>
                                 </Layout>
                             </Layout>

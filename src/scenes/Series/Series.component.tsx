@@ -49,6 +49,8 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const [endReached, setEndReached] = useState(false);
     const [itemCount, setItemCount] = useState(30);
 
+    const [Grid, setGrid] = useState([]);
+
     const itemCountRef = useRef(30);
 
     const scrollY = new Animated.Value(0);
@@ -64,24 +66,26 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     // 대분류 초기화
     useEffect(() => {
         initCategories();
+        initGrid();
     }, [])
 
     // 새로고침 이벤트가 끝날때 refresh 해주기
-    useEffect(() => {
-        if (refreshing == false) {
-            setRefreshEnd(true);
-            // initCategories();
-            checkFocused(focusedItem);
-        }
-        setTimeout(() => setRefreshEnd(false), 1);
+    // useEffect(() => {
+    //     if (refreshing == false) {
+    //         setRefreshEnd(true);
+    //         // initCategories();
+    //         checkFocused(focusedItem);
+    //     }
+    //     setTimeout(() => setRefreshEnd(false), 1);
 
-    }, [refreshing])
+    // }, [refreshing])
 
     // 새로고침 시 refresh 상태변화
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
             setRefreshing(false);
+            initGrid();
         }, 500);
     }, []);
 
@@ -101,6 +105,21 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         const config = SERVER + '/api/categories/' + category + '/trending';
         const response = await axios.get(config).catch((e) => console.log(e));
         setTrendingNow(response?.data);
+    }
+
+    // grid item 초기화
+    const initGrid = async () => {
+        const tmpContent: Array<Object> = [];
+        const response = await axios.get(SERVER + '/api/series');
+        response.data.map((item: any, index: any) => {
+            tmpContent.push(({
+                image: item.image,
+                title: item.title,
+                id: item._id,
+                type: item.type,
+            }))
+        })
+        setGrid(tmpContent);
     }
 
     // 아마도 안드로이드 뒤로가기 버튼 이벤트 핸들러인듯!
@@ -208,7 +227,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         }
     }
 
-    return (
+    return  (
         <View>
             {/* top tab bar */}
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
@@ -257,6 +276,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         />}
                 >
                     <SeriesGrid
+                        data={Grid}
                         navigation={props.navigation}
                         refreshing={refreshEnd}
                         itemCount={itemCount}

@@ -102,7 +102,7 @@ export const SeriesAInfoScreen = (
 
     React.useEffect(() => {
         encodeBase64Img();
-    }, [content]);
+    }, [image]);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -125,6 +125,7 @@ export const SeriesAInfoScreen = (
             var reader = new FileReader();
             reader.onload = function (event) {
                 var res = event.target.result;
+                res = res.replace("\\r?\\n", "");
                 setShareImage(res);
             }
             var file = this.response;
@@ -152,16 +153,27 @@ export const SeriesAInfoScreen = (
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions = {
-            title: 'Share Contents',
-            // 여기 메세지 앞에 indent 추가하지 말아주세요!
-            message: `${content?.title}
+        const shareOptions = Platform.OS === 'ios' ? (
+            {
+                title: 'Share Contents',
+                // 여기 메세지 앞에 indent 추가하지 말아주세요!
+                message: `${content?.title}
 Click to find out exclusive Korea travel tips!
 glokool.page.link/jdF1`,
-            url: shareImage,
-        };
-
-        Share.open(shareOptions);
+                url: shareImage,
+            }
+        ) : (
+            {
+                title: 'Share Contents',
+                // 여기 메세지 앞에 indent 추가하지 말아주세요!
+                message: `${content?.title}
+Click to find out exclusive Korea travel tips!
+glokool.page.link/jdF1`,
+            }
+        )
+        Share.open(shareOptions)
+            .then((res) => console.log(res))
+            .catch((e) => console.log(e));
     }
     // 모달 컴포넌트에 bool 값 전달후 바로 초기화
     React.useEffect(() => {
@@ -494,7 +506,7 @@ glokool.page.link/jdF1`,
                     </Layout>
 
                     {/* 보라색 배경 아래 얇은 그레이 선 */}
-                    <Layout style={styles.GrayLineContainerLayoutStyle}/>
+                    <Layout style={styles.GrayLineContainerLayoutStyle} />
 
                     {/* Comments */}
                     <Layout style={styles.CommentsConainer}>
