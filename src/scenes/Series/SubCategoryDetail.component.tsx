@@ -41,9 +41,11 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
 
     // 아이템 초기화 
     const initItems = async () => {
+        // 소분류에 & 들어가면 쿼리로 인식해서 바꿔줌
+        const subCategoryName = props.route.params.Name.replace('&','%26');
         const config = '/api/sub-categories?main='
             + props.route.params.Main + '&sub='
-            + props.route.params.Name + '&limit=' + String(paging.current);
+            + subCategoryName + '&limit=' + String(paging.current);
 
         const response = await axios.get(SERVER + config).catch((e) => console.log(e));
         paging.current += 1;

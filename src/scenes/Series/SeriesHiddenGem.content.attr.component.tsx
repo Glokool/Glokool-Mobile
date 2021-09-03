@@ -713,7 +713,7 @@ const styles = StyleSheet.create({
     },
     LocationContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     InfoDetailContainer1: {
         flex: 1,

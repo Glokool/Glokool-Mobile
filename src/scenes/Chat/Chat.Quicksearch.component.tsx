@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-    View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, Dimensions
+    View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, Dimensions, Animated, ActivityIndicator
 } from 'react-native';
 import { CloseButton_Bold } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
@@ -19,17 +19,26 @@ const windowWidth = Dimensions.get('window').width;
 
 export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
+    const paging = useRef(0);
+
     const [category, setCategory] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
     const [focusedCategory, setFocusedCategory] = useState(null);
     const [focusedSubCategory, setFocusedSubCategory] = useState(null);
-    const [contents, setContents] = useState();
+    const [contents, setContents] = useState([]);
     const [banner, setBanner] = useState();
+    const [endReached, setEndReached] = useState(false);
+
+    const scrollY = new Animated.Value(0);
 
     // 카테고리 초기화
     useEffect(() => {
         initCategories();
     }, []);
+
+    useEffect(() => {
+        fetchItems();
+    }, [focusedSubCategory])
 
     // 카테고리 초기화
     const initCategories = async () => {
@@ -68,12 +77,48 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
     // subCategory 클릭 시 focus 지정
     const pressSubCategory = (item: any) => {
+        setContents([]);
         setFocusedSubCategory({
             id: item._id,
             name: item.name
         })
+        paging.current = 0;
 
-        setContents(item.items);
+    }
+
+    const fetchItems = async () => {
+        const subCategoryName = focusedSubCategory.name.replace('&', '%26');
+        const config = '/api/sub-categories?main='
+            + focusedCategory.name + '&sub='
+            + subCategoryName + '&limit=' + String(paging.current);
+
+        const response = await axios.get(SERVER + config)
+            .catch((e) => {
+                console.log(e);
+            });
+        paging.current += 1;
+        const tmpListData = contents.concat(response.data);
+
+        setContents(tmpListData);
+    }
+
+    // Scroll 이벤트 핸들러
+    const handleScroll = (e: any) => {
+        // ScrollView end detected 검사
+        let paddingToBottom = 100;
+        paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+
+        if (endReached == false && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
+            setEndReached(true);
+            fetchItems();
+            setTimeout(() => {
+                setEndReached(false);
+            }, 1000);
+        }
+        // Scroll 위치 변화 (hiding top tab)
+        if (e.nativeEvent.contentOffset.y > 0) {
+            scrollY.setValue(e.nativeEvent.contentOffset.y);
+        }
     }
 
     // 아이템 클릭 시 화면전환
@@ -171,7 +216,9 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                 />
             </View>
 
-            <ScrollView>
+            <ScrollView
+                onScroll={(e) => handleScroll(e)}
+            >
                 {focusedCategory !== null && (
                     <View style={{ alignItems: 'center', marginTop: 10, }}>
                         <FastImage
@@ -199,6 +246,11 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
                         scrollEnabled={false}
                         style={{ marginHorizontal: 20, }}
                     />
+                )}
+                {endReached && (
+                    <View style={{ paddingVertical: 15, zIndex: 100, }}>
+                        <ActivityIndicator />
+                    </View>
                 )}
             </ScrollView>
 
