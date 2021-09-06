@@ -30,6 +30,7 @@ import Toast from 'react-native-easy-toast';
 var ToastRef: any;
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
 
@@ -227,7 +228,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         }
     }
 
-    return  (
+    return (
         <View>
             {/* top tab bar */}
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
@@ -265,10 +266,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             {/* grid scrollview */}
             {focusedCategory?.name == 'ALL' ? (
                 <ScrollView
-                    style={{ backgroundColor: 'white', height: '100%', }}
+                    style={{ backgroundColor: 'white', height: '100%',}}
                     scrollEventThrottle={1}
                     onScroll={(e) => handleScroll(e)}
-                    decelerationRate='fast'
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
@@ -287,7 +287,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                 // 대분류 출력 화면
                 <ScrollView
                     style={{ backgroundColor: 'white', marginTop: 135, }}
-                    decelerationRate='fast'
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

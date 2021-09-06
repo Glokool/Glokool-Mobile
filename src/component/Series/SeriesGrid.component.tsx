@@ -24,6 +24,7 @@ type GridItem = {
 }
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 // Series 메인에서 Grid 형태로 나타나는 컴포넌트
 
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
     bottomContainer: {
         alignItems: 'center',
         paddingTop: 10,
-        paddingBottom: 20,
+        paddingBottom: windowHeight * 0.13,
         backgroundColor: '#1b1b1b'
     }
 });

@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { Layout, LayoutElement, } from '@ui-kitten/components';
 import { HomeScreenProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import {
@@ -23,6 +23,7 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
@@ -62,7 +63,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     }
 
     return (
-        <Layout style={{ alignItems: 'center', width: '100%' }}>
+        <Layout style={{ alignItems: 'center', width: '100%', paddingBottom: windowHeight * 0.11 }}>
 
             {/* 백그라운드 이미지, 안드로이드에서 해당 svg 가 안보여서 png 로 */}
             {Platform.OS === 'ios' ? (
@@ -123,7 +124,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     />
                 </TouchableOpacity>
 
-                <Layout style={{ paddingBottom: 30, backgroundColor:'#00000000' }}>
+                <Layout style={{ paddingBottom: 30, backgroundColor: '#00000000' }}>
                     <HomeCarousel
                         navigation={props.navigation}
                         route={props.route}

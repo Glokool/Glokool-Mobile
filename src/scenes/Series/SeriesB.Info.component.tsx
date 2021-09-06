@@ -98,6 +98,7 @@ type Series_Item = {
 };
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement => {
 
@@ -816,7 +817,9 @@ glokool.page.link/jdF1`,
 };
 
 const styles = StyleSheet.create({
-    ContainerLayout: {},
+    ContainerLayout: {
+        paddingBottom: windowHeight * 0.11
+    },
     Container: {
         backgroundColor: 'white',
     },

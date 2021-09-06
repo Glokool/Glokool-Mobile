@@ -39,6 +39,7 @@ import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 
 const WindowSize = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 type IntroData = {
     _id: string;
@@ -582,6 +583,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         backgroundColor: 'white',
+        paddingBottom: windowHeight * 0.11
     },
     TopTabBar: {
         position: 'absolute',

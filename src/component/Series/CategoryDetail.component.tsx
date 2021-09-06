@@ -17,7 +17,8 @@ import { SeriesBottomLogo } from '../../assets/icon/Series';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 
-const windowWidth = Dimensions.get('window').width
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const CategoryDetail = (props: any) => {
 
@@ -190,7 +191,7 @@ export const CategoryDetail = (props: any) => {
                     renderItem={renderCategory}
                 />
             </View>
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', paddingBottom: windowHeight * 0.13 }}>
                 <SeriesBottomLogo width={'15%'} style={{ marginTop: 10 }} />
             </View>
         </View>

@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
     StyleSheet,
     Text,
     TouchableOpacity,
     BackHandler,
+    Dimensions
 } from 'react-native';
 import { Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -18,6 +19,7 @@ import Toast from 'react-native-easy-toast';
 import { AuthContext } from '../../context/AuthContext';
 
 var ToastRef: any;
+const windowHeight = Dimensions.get('window').height;
 
 type PriceData = {
     active: boolean;
@@ -192,7 +194,7 @@ const styles = StyleSheet.create({
     AdContainer: {
         position: 'absolute',
         width: '100%',
-        bottom: 0,
+        bottom: windowHeight * 0.11,
         flexDirection: 'row',
     },
     AdContainer2: {

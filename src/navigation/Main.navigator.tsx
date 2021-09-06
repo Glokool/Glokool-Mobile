@@ -44,7 +44,6 @@ function MyTabBar({
     const [visible, setVisible] = React.useState(true);
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
-
     React.useEffect(() => {
         let keyboardEventListeners: any;
         if (Platform.OS === 'android') {
@@ -71,12 +70,14 @@ function MyTabBar({
     return (
         <View
             style={{
+                position: 'absolute',
+                bottom: 0,
                 flexDirection: 'row',
                 borderTopLeftRadius: 15,
                 borderTopRightRadius: 15,
                 backgroundColor: 'white',
-                // borderTopColor: '#fff',
-                // borderTopWidth: 0.5,
+                borderTopColor: '#fff',
+                borderTopWidth: 0.5,
                 shadowColor: 'rgba(0, 0, 0, 1)',
                 shadowOffset: {
                     width: 0,

@@ -77,6 +77,7 @@ type Series_Item = {
 };
 
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export const SeriesAInfoScreen = (
     props: SeriesADetailInfoProps,
@@ -711,6 +712,7 @@ const styles = StyleSheet.create({
     },
     ContainerLayout: {
         position: 'relative',
+        paddingBottom: windowHeight * 0.11
     },
     // 탑탭 style
     ContainerLayoutAngleLeft: {
