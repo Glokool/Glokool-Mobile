@@ -12,6 +12,7 @@ import {
     ActivityIndicator,
     Button,
     Linking,
+    Platform
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { Korean, Resident, Traveler } from '../../assets/icon/UserType';
@@ -24,6 +25,7 @@ import {
     Comment_Btn,
     Bookmark_Btn,
 } from '../../assets/icon/My';
+import { HomeBG, } from '../../assets/icon/Home';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import moment from 'moment';
@@ -187,7 +189,15 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         </Layout>
     ) : (
         <Layout style={styles.SuperContainer}>
+
             <SafeAreaView />
+            {Platform.OS === 'ios' ? (
+                <HomeBG style={styles.backgroundStyle} />
+            ) : (
+                <Image
+                    source={require('../../assets/icon/Home/HomeBGimg.png')}
+                    style={styles.backgroundStyle} />
+            )}
 
             <PaidDetail
                 navigation={props.navigation}
@@ -233,13 +243,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                             <Setting_Btn style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>Setting</Text>
                         </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={styles.Button}
-                            onPress={() => PressComment()}>
-                            <Comment_Btn style={styles.ButtonIcon} />
-                            <Text style={styles.ButtonText}>Comment</Text>
-                        </TouchableOpacity>
+                        <Layout style={styles.VerticalLine} />
 
                         <TouchableOpacity
                             style={styles.Button}
@@ -292,18 +296,18 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                                 <Text style={item.refund.complete === true ? styles.PaidDescR : styles.PaidDesc}>
                                                     {moment(item.paymentDate,).format('YY . MM . DD')}
                                                 </Text>
-                                                <Text style={ item.refund.check === true ? styles.PaidDescR : styles.PaidDesc }>
-                                                    {moment(item.day).format( 'YY . MM . DD', )}
+                                                <Text style={item.refund.check === true ? styles.PaidDescR : styles.PaidDesc}>
+                                                    {moment(item.day).format('YY . MM . DD',)}
                                                 </Text>
                                             </Layout>
 
                                         </Layout>
 
                                         <Layout style={styles.PaidInfoContainer}>
-                                            <Layout style={  styles.PaidTitleContainer1 }>
-                                                <Text style={ styles.PaidTitle }>{` `}</Text>
-                                                <Text style={ item.refund.complete === true ? styles.RefundCompleted : styles.RefundProgress }>
-                                                    {item.refund.check === false ? '' : item.refund .complete === true ? `Refund Completed` : `Refund in progress`}
+                                            <Layout style={styles.PaidTitleContainer1}>
+                                                <Text style={styles.PaidTitle}>{` `}</Text>
+                                                <Text style={item.refund.complete === true ? styles.RefundCompleted : styles.RefundProgress}>
+                                                    {item.refund.check === false ? '' : item.refund.complete === true ? `Refund Completed` : `Refund in progress`}
                                                 </Text>
                                             </Layout>
                                         </Layout>
@@ -341,14 +345,16 @@ const styles = StyleSheet.create({
     SuperContainer: {
         width: '100%',
         height: '100%',
+        backgroundColor: '#00000000'
     },
     MainContainer: {
-        backgroundColor: 'white',
+        backgroundColor: '#00000000',
     },
     Container: {
         marginHorizontal: 30,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#00000000'
     },
     ProfileContainer: {
         justifyContent: 'center',
@@ -365,12 +371,26 @@ const styles = StyleSheet.create({
         fontSize: 23,
         color: 'black',
     },
+    VerticalLine: {
+        backgroundColor: '#8797ff55',
+        width: 2,
+        height: '60%',
+    },
     ButtonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 20,
         alignSelf: 'center',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
     },
     Button: {
         width: Screen * 0.25,
@@ -379,15 +399,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 10,
         marginHorizontal: 10,
-        shadowColor: '#000',
         backgroundColor: 'white',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
     },
     ButtonIcon: {
         marginTop: 10,
@@ -521,5 +533,14 @@ const styles = StyleSheet.create({
     },
     scroll: {
         maxHeight: 200,
+    },
+    backgroundStyle: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
 });

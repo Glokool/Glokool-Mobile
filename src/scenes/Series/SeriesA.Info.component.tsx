@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Layout, LayoutElement } from '@ui-kitten/components';
 import {
     Dimensions,
@@ -21,6 +21,7 @@ import {
     Bookmark_P,
     Plus,
     Plus_P,
+    Comments
 } from '../../assets/icon/Common';
 import {
     CommentSending,
@@ -82,30 +83,32 @@ const windowHeight = Dimensions.get('window').height;
 export const SeriesAInfoScreen = (
     props: SeriesADetailInfoProps,
 ): LayoutElement => {
-    const ScrollVewRef = React.useRef(null);
-    const [Id, setId] = React.useState(props.route.params.Id);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(0);
-    const [content, setContent] = React.useState<Series_Item>(null);
-    const [image, setImage] = React.useState<Array<string>>([]);
-    const [recommendation, setRecommendation] = React.useState<Array<recommendation_Item>>([]);
+    const ScrollViewRef = useRef(null);
+    const [Id, setId] = useState(props.route.params.Id);
+    const [carouselIndex, setCarouselIndex] = useState<number>(0);
+    const [content, setContent] = useState<Series_Item>(null);
+    const [image, setImage] = useState<Array<string>>([]);
+    const [recommendation, setRecommendation] = useState<Array<recommendation_Item>>([]);
 
-    const [comments, setComments] = React.useState<Array<Comments_Item>>([]);
-    const [nowComment, setNowComment] = React.useState('');
+    const [comments, setComments] = useState<Array<Comments_Item>>([]);
+    const [nowComment, setNowComment] = useState('');
 
-    const [shareImage, setShareImage] = React.useState();
-    const [Glochat, setGlochat] = React.useState(false);
+    const [shareImage, setShareImage] = useState();
+    const [Glochat, setGlochat] = useState(false);
 
-    const [pressLike, setPressLike] = React.useState(false);
-    const [pressBookmark, setPressBookmark] = React.useState(false);
+    const [pressLike, setPressLike] = useState(false);
+    const [pressBookmark, setPressBookmark] = useState(false);
+
+    const [commentPosition, setCommentPosition] = useState<number>(0);
 
     const user = auth().currentUser;
     const uid = user?.uid;
 
-    React.useEffect(() => {
+    useEffect(() => {
         encodeBase64Img();
     }, [image]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             InitSeries();
         });
@@ -177,7 +180,7 @@ glokool.page.link/jdF1`,
             .catch((e) => console.log(e));
     }
     // 모달 컴포넌트에 bool 값 전달후 바로 초기화
-    React.useEffect(() => {
+    useEffect(() => {
         if (Glochat) {
             setGlochat(false);
         }
@@ -232,6 +235,14 @@ glokool.page.link/jdF1`,
             </Layout>
         );
     };
+
+    const PressScrollButton = () => {
+        ScrollViewRef.current.scrollTo({
+            x: 0,
+            y: commentPosition - 100,
+            animated: true
+        })
+    }
 
     const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
@@ -371,7 +382,7 @@ glokool.page.link/jdF1`,
                 <ScrollView
                     style={{ backgroundColor: '#ffffff' }}
                     showsVerticalScrollIndicator={false}
-                // ref={ScrollVewRef}
+                    ref={ScrollViewRef}
                 >
                     <SafeAreaView
                         style={{ flex: 0, backgroundColor: '#00FF0000' }}
@@ -510,8 +521,11 @@ glokool.page.link/jdF1`,
                     <Layout style={styles.GrayLineContainerLayoutStyle} />
 
                     {/* Comments */}
-                    <Layout style={styles.CommentsConainer}>
-                        <Layout style={styles.CommentsInnerConainer}>
+                    <Layout
+                        style={styles.CommentsContainer}
+                        onLayout={(e) => { setCommentPosition(e.nativeEvent.layout.y) }}
+                    >
+                        <Layout style={styles.CommentsInnerContainer}>
                             {/* comments title */}
                             <Layout style={styles.CommentsTitleLayout}>
                                 <Text style={styles.CommentsTitleTxt}>
@@ -681,7 +695,13 @@ glokool.page.link/jdF1`,
                     {uid ? (
                         <Layout style={styles.TopTabIconLayout}>
                             <TouchableOpacity
-                                style={styles.BookmarkTouch}
+                                style={styles.ScrollButtonTouch}
+                                onPress={() => PressScrollButton()}
+                            >
+                                <Comments />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.ScrollButtonTouch}
                                 onPress={() => PressBookmark()}>
                                 {pressBookmark ? (
                                     <Bookmark />
@@ -751,7 +771,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
-    BookmarkTouch: {
+    ScrollButtonTouch: {
         marginRight: 25,
         padding: 2,
     },
@@ -918,12 +938,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#EBEBEB',
         height: 12,
     },
-    CommentsConainer: {
+    CommentsContainer: {
         marginBottom: 10,
         // borderWidth: 1,
         // borderColor: 'pink',
     },
-    CommentsInnerConainer: {
+    CommentsInnerContainer: {
         marginLeft: 20,
         marginRight: 20,
         marginTop: 15,

@@ -30,6 +30,7 @@ import {
     Bookmark_P,
     Plus_D2D2D2,
     Plus_P,
+    Comments
 } from '../../assets/icon/Common';
 import {
     CommentSending,
@@ -102,7 +103,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement => {
 
-    const ScrollVewRef = useRef(null);
+    const ScrollViewRef = useRef(null);
 
     const [height, setHeight] = useState<number>(0);
     const [Id, setId] = useState(props.route.params.Id);
@@ -123,6 +124,8 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
 
     const [pressLike, setPressLike] = useState(false);
     const [pressBookmark, setPressBookmark] = useState(false);
+
+    const [commentPosition, setCommentPosition] = useState<number>(0);
 
     const user = auth().currentUser;
     const uid = user?.uid;
@@ -285,6 +288,14 @@ glokool.page.link/jdF1`,
         );
     };
 
+    const PressScrollButton = () => {
+        ScrollViewRef.current.scrollTo({
+            x: 0,
+            y: commentPosition - 100,
+            animated: true
+        })
+    }
+
     const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
         var axios = require('axios');
@@ -422,9 +433,9 @@ glokool.page.link/jdF1`,
                 <ScrollView
                     style={{ backgroundColor: '#ffffff' }}
                     showsVerticalScrollIndicator={false}
-                    ref={ScrollVewRef}
-                    onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}>
-
+                    ref={ScrollViewRef}
+                    onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}
+                >
                     {height >= windowWidth - 100 ? (
                         <Layout>
                             <Layout style={{ height: 50 }} />
@@ -525,7 +536,7 @@ glokool.page.link/jdF1`,
                         <TouchableOpacity
                             style={styles.GoUpButton}
                             onPress={() =>
-                                ScrollVewRef.current.scrollTo({
+                                ScrollViewRef.current.scrollTo({
                                     x: 0,
                                     y: 0,
                                     animated: true,
@@ -588,7 +599,10 @@ glokool.page.link/jdF1`,
                     </Layout>
 
                     {/* Comments */}
-                    <Layout style={styles.CommentsConainer}>
+                    <Layout
+                        style={styles.CommentsConainer}
+                        onLayout={(e) => { setCommentPosition(e.nativeEvent.layout.y) }}
+                    >
                         <Layout style={styles.CommentsInnerConainer}>
                             {/* comments title */}
                             <Layout style={styles.CommentsTitleLayout}>
@@ -761,7 +775,14 @@ glokool.page.link/jdF1`,
                             <Layout style={styles.TopTabIconLayout}>
                                 <TouchableOpacity
                                     style={styles.BookmarkTouch}
-                                    onPress={() => PressBookmark()}>
+                                    onPress={() => PressScrollButton()}
+                                >
+                                    <Comments />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.BookmarkTouch}
+                                    onPress={() => PressBookmark()}
+                                >
                                     {pressBookmark ?
                                         <Bookmark_D2D2D2 />
                                         :
@@ -770,7 +791,8 @@ glokool.page.link/jdF1`,
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.PlusTouch}
-                                    onPress={() => PressPlus()}>
+                                    onPress={() => PressPlus()}
+                                >
                                     {pressLike ? (
                                         <Plus_D2D2D2 />
                                     ) : (
@@ -790,6 +812,12 @@ glokool.page.link/jdF1`,
                         <AngleLeft_W />
                     </TouchableOpacity>
                     <Layout style={styles.TopImgIconLayout}>
+                        <TouchableOpacity
+                            style={styles.BookmarkTouch}
+                            onPress={() => PressScrollButton()}
+                        >
+                            <Comments />
+                        </TouchableOpacity>
                         {uid ? (
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
                                 {pressBookmark ?
