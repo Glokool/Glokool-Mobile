@@ -577,11 +577,7 @@ glokool.page.link/jdF1`,
                                                         style={
                                                             styles.CommentsAuthorInner02PlusContainerLayout
                                                         }>
-                                                        <Comments6_s
-                                                            style={
-                                                                styles.CommentsAuthorInner02PlusIconLayout
-                                                            }
-                                                        />
+                                                        <Comments6_s/>
                                                         <Text
                                                             style={
                                                                 styles.CommentsAuthorInnerPlusNum02Layout
@@ -940,8 +936,6 @@ const styles = StyleSheet.create({
     },
     CommentsContainer: {
         marginBottom: 10,
-        // borderWidth: 1,
-        // borderColor: 'pink',
     },
     CommentsInnerContainer: {
         marginLeft: 20,
@@ -963,8 +957,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 2,
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CommentsAuthorInner01Layout: {},
     CommentsAuthorInner02Layout: {
@@ -988,7 +980,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         alignItems: 'center',
     },
-    CommentsAuthorInner02PlusIconLayout: {},
     CommentsAuthorInnerPlusNum02Layout: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 11,

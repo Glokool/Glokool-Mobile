@@ -87,13 +87,25 @@ type CafeData = {
     sgntMenu: Array<SgntMenu>;
 };
 
+type ShareItem = {
+    title: string;
+    message: string;
+    url?: string;
+};
+
+type FacebookShareItem = {
+    contentType: any;
+    contentUrl: string;
+    quote?: string;
+}
+
 export const SeriesHiddenGemContentCafe = (
     props: SeriesHiddenGemContentCafeProps,
 ): LayoutElement => {
     const TourCode = props.route.params.TourCode;
     const PlaceCode = props.route.params.PlaceCode;
 
-    const ScrollVewRef = useRef(null);
+    const ScrollViewRef = useRef(null);
 
     const [data, setData] = useState<CafeData>(null);
     const [selectedButton, setSelectedButton] = useState<number>(0);
@@ -111,6 +123,7 @@ export const SeriesHiddenGemContentCafe = (
     useEffect(() => {
         encodeBase64Img();
     }, [data]);
+
     // modal 에 true 전달 후 false 로 초기화
     useEffect(() => {
         if (Glochat) {
@@ -118,7 +131,7 @@ export const SeriesHiddenGemContentCafe = (
         }
     }, [Glochat])
 
-    async function InitContentAttr() {
+    const InitContentAttr = async () => {
         var ContentAttr = await axios.get(
             `${SERVER}/api/tours/${TourCode}/cafes/${PlaceCode}/info`,
         );
@@ -127,7 +140,7 @@ export const SeriesHiddenGemContentCafe = (
 
     const facebookShare = async () => {
         // facebook 에 공유하는 부분 (링크, quotion)
-        const sharingOptions = {
+        const sharingOptions: FacebookShareItem = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
             quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
@@ -143,7 +156,7 @@ export const SeriesHiddenGemContentCafe = (
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions = Platform.OS === 'ios' ? (
+        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
             {
                 title: 'Share Contents',
                 // 여기 메세지 앞에 indent 추가하지 말아주세요!
@@ -193,19 +206,19 @@ glokool.page.link/jdF1`,
         setSelectedButton(index);
 
         if (index === 0) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: infoPos - 100,
                 animated: true,
             });
         } else if (index === 1) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: detailPos - 100,
                 animated: true,
             });
         } else if (index === 2) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: menuPos - 100,
                 animated: true,
@@ -234,7 +247,7 @@ glokool.page.link/jdF1`,
     ) : (
         <Layout style={styles.MainContainer}>
             <ScrollView
-                ref={ScrollVewRef}
+                ref={ScrollViewRef}
                 style={styles.MainContainer}
                 showsVerticalScrollIndicator={false}
                 onScroll={(e) => {
@@ -448,7 +461,7 @@ glokool.page.link/jdF1`,
                     <TouchableOpacity
                         style={styles.GoUpButton}
                         onPress={() =>
-                            ScrollVewRef.current.scrollTo({
+                            ScrollViewRef.current.scrollTo({
                                 x: 0,
                                 y: 0,
                                 animated: true,

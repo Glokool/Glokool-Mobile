@@ -54,6 +54,7 @@ type GlokoolTourData = {
     lon: string;
 };
 
+
 export const SeriesHiddenGemDetailScreen = (
     props: SeriesHiddenGemDetailProps,
 ): LayoutElement => {

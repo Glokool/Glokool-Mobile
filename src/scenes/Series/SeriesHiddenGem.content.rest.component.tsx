@@ -87,6 +87,18 @@ type RestaurantData = {
     sgntMenu: Array<SgntMenu>;
 };
 
+type ShareItem = {
+    title: string;
+    message: string;
+    url?: string;
+};
+
+type FacebookShareItem = {
+    contentType: any;
+    contentUrl: string;
+    quote?: string;
+}
+
 export const SeriesHiddenGemContentRest = (
     props: SeriesHiddenGemContentRestProps,
 ): LayoutElement => {
@@ -166,7 +178,7 @@ export const SeriesHiddenGemContentRest = (
 
     const facebookShare = async () => {
         // facebook 에 공유하는 부분 (링크, quotion)
-        const sharingOptions = {
+        const sharingOptions: FacebookShareItem = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
             quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
@@ -183,7 +195,7 @@ export const SeriesHiddenGemContentRest = (
     const shareItems = async () => {
 
         // // sns 공유
-        const shareOptions = Platform.OS === 'ios' ? (
+        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
             {
                 title: 'Share Contents',
                 // 여기 메세지 앞에 indent 추가하지 말아주세요!

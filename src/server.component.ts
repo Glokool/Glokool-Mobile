@@ -1,7 +1,7 @@
 let serverAPI;
 
 if (process.env.NODE_ENV === "development"){
-    serverAPI = 'https://glokool.info';
+    serverAPI = 'https://glokool-guide.com';
 } else {
     serverAPI = 'https://glokool.info';
 }
