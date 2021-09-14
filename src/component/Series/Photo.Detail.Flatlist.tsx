@@ -11,49 +11,50 @@ import {
     Text,
 } from '@ui-kitten/components'
 import { Instagram, Naver } from '../../assets/icon/SNS';
+import { CDN } from '../../server.component';
 
 type IntroData = {
-    _id : string;
+    _id: string;
     author: string;
     img: string;
 }
 
 interface DetailFlatlistProps {
-    data : Array<IntroData> | undefined
+    data: Array<IntroData> | undefined
 }
 
 const WindowSize = Dimensions.get('window').width;
 
-export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement => {
+export const PhotoDetailFlatlist = (props: DetailFlatlistProps): LayoutElement => {
 
     const data = props.data;
-    
-    const renderItem = (item : {item : IntroData, index: number}) => {
+
+    const renderItem = (item: { item: IntroData, index: number }) => {
 
         // console.log(item);
 
-        return(
+        return (
             <Layout style={styles.MainContainer}>
-                <Image source={{uri : item.item.img}} style={styles.Image} resizeMode={'stretch'}/>
+                <Image source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'stretch'} />
 
-                {(item.item.author === 'undefined')? 
+                {(item.item.author === 'undefined') ?
                     null
-                :
-                (item.item.author === '')?
-                    null
-                :
-                <Layout style={styles.authorContainer}>
-                    {(item.item.author[0] === 'i')?
-                        <Instagram style={{opacity: 0.75}}/>
-                    :   
-                     (item.item.author[0] === 'n')?
-                        <Naver style={{opacity: 0.75}}/>
                     :
+                    (item.item.author === '') ?
                         null
-                    }
-                    <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
-                </Layout>
-                }                
+                        :
+                        <Layout style={styles.authorContainer}>
+                            {(item.item.author[0] === 'i') ?
+                                <Instagram style={{ opacity: 0.75 }} />
+                                :
+                                (item.item.author[0] === 'n') ?
+                                    <Naver style={{ opacity: 0.75 }} />
+                                    :
+                                    null
+                            }
+                            <Text style={styles.authorText}>{`  ${item.item.author.slice(2,)}`}</Text>
+                        </Layout>
+                }
 
             </Layout>
         )
@@ -61,11 +62,11 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
 
     const renderSpace = () => {
         return (
-            <Layout style={{width:30}}/>
+            <Layout style={{ width: 30 }} />
         )
     }
 
-    return(
+    return (
         <Layout>
             <FlatList
                 data={data}
@@ -82,7 +83,7 @@ export const PhotoDetailFlatlist = (props : DetailFlatlistProps) : LayoutElement
 
 const styles = StyleSheet.create({
     MainContainer: {
-        width : WindowSize * 0.85,
+        width: WindowSize * 0.85,
         height: WindowSize * 1.14,
         marginRight: 10
     },
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
         opacity: 0.6,
     },
     Image: {
-        width : WindowSize * 0.85,
+        width: WindowSize * 0.85,
         height: WindowSize * 1.14,
     }
 })

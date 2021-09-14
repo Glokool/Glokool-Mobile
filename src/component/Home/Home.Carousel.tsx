@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { Dimensions, Image, StyleSheet, Pressable } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
@@ -50,7 +50,7 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                 style={styles.ItemContainer}
                 onPress={() => PressCarousel(item.item.type, item.item._id)}>
                 <Image
-                    source={{ uri: item.item.image }}
+                    source={{ uri: CDN + item.item.image }}
                     style={styles.ImageContainer}
                 />
 

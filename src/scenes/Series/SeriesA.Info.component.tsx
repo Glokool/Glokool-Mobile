@@ -34,7 +34,7 @@ import {
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from 'moment';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
@@ -107,6 +107,10 @@ export const SeriesAInfoScreen = (
     useEffect(() => {
         encodeBase64Img();
     }, [image]);
+
+    useEffect(()=>{
+        console.log(pressBookmark, pressLike);
+    },[]);
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -231,7 +235,7 @@ glokool.page.link/jdF1`,
     const RenderCarousel = ({ item }) => {
         return (
             <Layout style={styles.ItemContainer}>
-                <Image source={{ uri: item }} style={styles.ImageContainer} />
+                <Image source={{ uri: CDN + item }} style={styles.ImageContainer} />
             </Layout>
         );
     };
@@ -489,7 +493,7 @@ glokool.page.link/jdF1`,
                                         props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id });
                                     }}>
                                     <Image
-                                        source={{ uri: item.image }}
+                                        source={{ uri: CDN + item.image }}
                                         style={styles.RecommendationImg}
                                     />
                                 </TouchableOpacity>

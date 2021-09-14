@@ -11,7 +11,7 @@ import {
     ScrollView,
 } from 'react-native';
 import { BookmarkListProps } from '../../../navigation/ScreenNavigator/My.navigator';
-import { SERVER } from '../../../server.component';
+import { SERVER, CDN } from '../../../server.component';
 import { AngleLeft, Bookmark_PL } from '../../../assets/icon/Common';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
@@ -100,7 +100,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
                     PressTours(item.item.id);
                 }}>
                 <Image
-                    source={{ uri: item.item.image }}
+                    source={{ uri: CDN + item.item.image }}
                     style={styles.Image}
                     resizeMode={'stretch'}
                 />
@@ -119,7 +119,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
                     PressContent(item.item.id);
                 }}>
                 <Image
-                    source={{ uri: item.item.image }}
+                    source={{ uri: CDN + item.item.image }}
                     style={styles.SeriesImgStyle}
                 />
             </TouchableOpacity>
@@ -132,7 +132,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
                 style={styles.SeriesStyle}
                 onPress={() => {PressBlog(item.item.id)}}>
                 <Image
-                    source={{ uri: item.item.image }}
+                    source={{ uri: CDN + item.item.image }}
                     style={styles.SeriesImgStyle}
                 />
             </TouchableOpacity>

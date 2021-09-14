@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { CloseButton_Bold } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
@@ -168,7 +168,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.ImageContainer}>
-                    <FastImage source={{ uri: item.item.image }} style={styles.contentsImage} resizeMode='stretch' />
+                    <FastImage source={{ uri: CDN + item.item.image }} style={styles.contentsImage} resizeMode='stretch' />
                     {item.item.type != 'content' && (
 
                         <LinearGradient

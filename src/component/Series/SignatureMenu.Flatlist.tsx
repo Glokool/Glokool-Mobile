@@ -10,10 +10,10 @@ import {
     LayoutElement,
     Text
 } from '@ui-kitten/components';
-import {SelectableText} from '../Common/SelectableText.component';
+import { SelectableText } from '../Common/SelectableText.component';
 
 type SgntMenu = {
-    _id : string;
+    _id: string;
     author: string;
     img: string;
     money: string;
@@ -21,20 +21,20 @@ type SgntMenu = {
 }
 
 interface SignatureMenuFlatlistProps {
-    data : Array<SgntMenu> | undefined;
+    data: Array<SgntMenu> | undefined;
 }
 
 const WindowSize = Dimensions.get('window').width
 
-export const SignatureMenuFlatlist = (props : SignatureMenuFlatlistProps) : LayoutElement => {
+export const SignatureMenuFlatlist = (props: SignatureMenuFlatlistProps): LayoutElement => {
 
-    const renderItem = (item : {item : SgntMenu, index: number}) => {
+    const renderItem = (item: { item: SgntMenu, index: number }) => {
         console.log(item.item.img)
-        return(
+        return (
             <Layout style={styles.ImageContainer}>
-                <Image source={{uri : item.item.img}} style={styles.Image} resizeMode={'stretch'}/>
+                <Image source={{ uri: item.item.img }} style={styles.Image} resizeMode={'stretch'} />
 
-                <SelectableText style={styles.MenuTitleText} item={item.item.title}/>
+                <SelectableText style={styles.MenuTitleText} item={item.item.title} />
                 <Layout style={styles.PriceContainer}>
                     <Text style={styles.MenuPriceText}>{item.item.money}</Text>
                     <Text style={styles.KRWText}> KRW</Text>
@@ -45,10 +45,10 @@ export const SignatureMenuFlatlist = (props : SignatureMenuFlatlistProps) : Layo
 
     return (
         <Layout style={styles.MainContainer}>
-            <FlatList 
+            <FlatList
                 data={props.data}
                 renderItem={renderItem}
-                contentContainerStyle={{marginRight: 15}}
+                contentContainerStyle={{ marginRight: 15 }}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
             />
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         width: WindowSize * 0.35,
         height: WindowSize * 0.35,
     },
-    MenuTitleText : {
+    MenuTitleText: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 16,
         color: 'black'

@@ -14,6 +14,7 @@ import FastImage from 'react-native-fast-image';
 import { FlatGrid } from 'react-native-super-grid';
 import LinearGradient from 'react-native-linear-gradient';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
+import { CDN } from '../../server.component';
 
 // Series 메인에서 상단 카테고리 버튼 클릭 시 렌더링되는 컴포넌트
 
@@ -60,7 +61,7 @@ export const CategoryDetail = (props: any) => {
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.listItemContainer}>
                     <FastImage
-                        source={{ uri: item.item.image }}
+                        source={{ uri: CDN + item.item.image }}
                         style={styles.subItemContainer}
                         resizeMode='stretch'
                     />
@@ -84,7 +85,7 @@ export const CategoryDetail = (props: any) => {
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.GridItemContainer}>
                     <FastImage
-                        source={{ uri: item.item.image }}
+                        source={{ uri: CDN + item.item.image }}
                         style={styles.GridImage}
                         resizeMode='stretch'
                     />
@@ -144,11 +145,12 @@ export const CategoryDetail = (props: any) => {
 
     // trendingNow 아이템 렌더링
     const renderTrendingNow = (item: any) => {
+
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.trendingListItemContainer}>
                     <FastImage
-                        source={{ uri: item.item.image }}
+                        source={{ uri: CDN + item.item.image }}
                         style={styles.trendingItemContainer}
                         resizeMode='stretch'
                     />
