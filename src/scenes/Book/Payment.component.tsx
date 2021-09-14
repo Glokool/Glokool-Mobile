@@ -16,7 +16,7 @@ export const PaymentScreen = (props: PaymentScreenProps): LayoutElement => {
     };
 
     function callback(response: CallbackRsp) {
-        props.navigation.replace(NavigatorRoute.BOOK, {
+        props.navigation.navigate(NavigatorRoute.BOOK, {
             screen: SceneRoute.BOOK_FOUTH,
             params: {
                 response: response,

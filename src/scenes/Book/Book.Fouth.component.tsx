@@ -95,7 +95,10 @@ export const BookFouthScreen = (props: BookFouthScreenProps): LayoutElement => {
                     <TouchableOpacity
                         style={styles.FailureButton}
                         onPress={() => {
-                            props.navigation.navigate(NavigatorRoute.HOME);
+                            props.navigation.navigate(NavigatorRoute.CHAT);
+                            // props.navigation.pop();
+                            // props.navigation.pop();
+                            // props.navigation.pop();
                         }}>
                         <Text style={styles.Button_Text}>BACK TO HOME</Text>
                     </TouchableOpacity>
