@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, Pressable, View, Text, Platform, FlatList } from 'react-native';
 import { Modal } from '@ui-kitten/components';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { CloseButton } from '../../assets/icon/Series';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
 
 export const ProfileModal = (props: any) => {
