@@ -11,7 +11,7 @@ import {
     Animated,
     ActivityIndicator
 } from 'react-native';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from 'moment';
@@ -98,7 +98,7 @@ export const GuidebookDetail = (props: SubCategoryDetailProps) => {
             <TouchableOpacity onPress={() => onPressItem(item.item)} style={styles.OuterContainer}>
                 <View style={styles.listItemContainer}>
                     {/* Image */}
-                    <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
+                    <FastImage source={{ uri: CDN + item.item.image }} style={styles.imageContainer} resizeMode='contain' />
                     <LinearGradient
                         colors={['#00000000', '#00000000', '#0008']}
                         style={styles.ItemTitle}

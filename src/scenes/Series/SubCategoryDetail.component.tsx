@@ -12,7 +12,7 @@ import {
     Animated,
     ActivityIndicator
 } from 'react-native';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { SubCategoryDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import moment from 'moment';
@@ -99,7 +99,7 @@ export const SubCategoryDetail = (props: SubCategoryDetailProps) => {
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.listItemContainer}>
                     {/* Image */}
-                    <FastImage source={{ uri: item.item.image }} style={styles.imageContainer} resizeMode='contain' />
+                    <FastImage source={{ uri: CDN + item.item.image }} style={styles.imageContainer} resizeMode='contain' />
 
                     <View style={styles.propsContainer}>
 

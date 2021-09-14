@@ -3,7 +3,7 @@ import { Dimensions, Image, StyleSheet, Platform } from 'react-native';
 import { SeriesHiddenGemDetailProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { LayoutElement, Layout, Text } from '@ui-kitten/components';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {
@@ -164,7 +164,7 @@ export const SeriesHiddenGemDetailScreen = (
                 {/* 탑 이미지 */}
                 <Layout style={styles.TopImageContainer}>
                     <Image
-                        source={{ uri: content?.tour.cover }}
+                        source={{ uri: CDN + content?.tour.cover }}
                         style={styles.TopImageContainer}
                         resizeMode={'stretch'}
                     />

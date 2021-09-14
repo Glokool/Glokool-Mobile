@@ -14,6 +14,7 @@ import {
 import { Pin } from '../../assets/icon/Series';
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component'
+import { CDN } from '../../server.component';
 
 type photoSpot = {
     _id: string;
@@ -46,7 +47,7 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
         return (
             <View>
                 <Image
-                    source={{ uri: item.item.img }}
+                    source={{ uri: CDN + item.item.img }}
                     style={styles.InsideImage} resizeMode={'stretch'}
                 />
                 <View style={styles.authorContainer}>

@@ -17,7 +17,7 @@ import {
     PurpleArrow,
 } from '../../assets/icon/Common';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import {
     Contact,
     EditorNote,
@@ -247,7 +247,7 @@ glokool.page.link/jdF1`,
 
                 {/* 썸네일 이미지 */}
                 <Image
-                    source={{ uri: data?.cover }}
+                    source={{ uri: CDN + data?.cover }}
                     style={styles.Thumbnail}
                     resizeMode={'stretch'}
                 />
