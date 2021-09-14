@@ -1,13 +1,13 @@
 let serverAPI;
 
 if (process.env.NODE_ENV === "development"){
-    serverAPI = 'http://192.168.35.204:4000';
+    serverAPI = 'https://glokool-guide.com';
 } else {
     serverAPI = 'https://glokool.info';
 }
 
 export const SERVER = serverAPI;
-export const CDN = 'https://img.glokool-guide.com';
+export const CDN = 'https://img.glokool.com';
 
 // export const SERVER = 'https://glokool.info'; // 배포 서버
 // export const SERVER = 'https://glokool-guide.com'; // 테스트 서버 <- 배포 서버 copy
