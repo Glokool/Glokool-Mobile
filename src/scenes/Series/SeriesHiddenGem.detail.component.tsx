@@ -65,6 +65,9 @@ export const SeriesHiddenGemDetailScreen = (
     const [selectedButton, setSelectedButton] = useState<number>(0);
     const [bookmarkList, setBookmarkList] = useState([]);
 
+    const [pressLike, setPressLike] = useState(false);
+    const [pressBookmark, setPressBookmark] = useState(false);
+
     const user = auth().currentUser;
     const uid = user?.uid;
 
@@ -83,6 +86,7 @@ export const SeriesHiddenGemDetailScreen = (
             SERVER + '/api/tours/' + TourCode + '/places',
         );
         setContent(HiddenGemDetailData.data);
+        HiddenGemDetailData.data.tour.plus.indexOf(uid) !== -1 && setPressLike(true);
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -105,6 +109,7 @@ export const SeriesHiddenGemDetailScreen = (
                     });
 
                     setBookmarkList(dataTemp);
+                    dataTemp.indexOf(TourCode) !== -1 && setPressBookmark(true);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -117,6 +122,7 @@ export const SeriesHiddenGemDetailScreen = (
         var data = qs.stringify({
             tourCode: content?.tour.tourCode,
         });
+        
         var config = {
             method: 'post',
             url: SERVER + '/api/users/bookmark',
@@ -129,7 +135,8 @@ export const SeriesHiddenGemDetailScreen = (
 
         axios(config)
             .then((response) => {
-                InitHiddenGemDetail();
+                // InitHiddenGemDetail();
+                setPressBookmark(!pressBookmark);
             })
             .catch((error) => {
                 console.log(error);
@@ -149,7 +156,8 @@ export const SeriesHiddenGemDetailScreen = (
 
         axios(config)
             .then((response) => {
-                InitHiddenGemDetail();
+                // InitHiddenGemDetail();
+                setPressLike(!pressLike)
             })
             .catch((error) => {
                 console.log(error);
@@ -421,7 +429,7 @@ export const SeriesHiddenGemDetailScreen = (
                                             backgroundColor: '#00FF0000',
                                         }}
                                     />
-                                    {bookmarkList.indexOf(TourCode) == -1 ? (
+                                    {!pressBookmark ? (
                                         <Bookmark />
                                     ) : (
                                         <Bookmark_P />
@@ -437,10 +445,7 @@ export const SeriesHiddenGemDetailScreen = (
                                             backgroundColor: '#00FF0000',
                                         }}
                                     />
-                                    {content?.tour.plus == null ? (
-                                        <Plus />
-                                    ) : content?.tour.plus.indexOf(uid) ==
-                                        -1 ? (
+                                    {!pressLike ? (
                                         <Plus />
                                     ) : (
                                         <Plus_P />
@@ -488,7 +493,7 @@ export const SeriesHiddenGemDetailScreen = (
                                         backgroundColor: '#00FF0000',
                                     }}
                                 />
-                                {bookmarkList.indexOf(TourCode) == -1 ? (
+                                {!pressBookmark ? (
                                     <Bookmark_W />
                                 ) : (
                                     <Bookmark_P />
@@ -504,9 +509,7 @@ export const SeriesHiddenGemDetailScreen = (
                                         backgroundColor: '#00FF0000',
                                     }}
                                 />
-                                {content?.tour.plus == null ? (
-                                    <Plus_W />
-                                ) : content?.tour.plus.indexOf(uid) == -1 ? (
+                                {!pressLike ? (
                                     <Plus_W />
                                 ) : (
                                     <Plus_P />

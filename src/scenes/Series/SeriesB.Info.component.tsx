@@ -179,14 +179,14 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
                         dataTemp.push(item.id);
                     });
 
-                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
+                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
+        Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
     }
 
     const InitComments = async () => {
@@ -784,9 +784,9 @@ glokool.page.link/jdF1`,
                                     onPress={() => PressBookmark()}
                                 >
                                     {pressBookmark ?
-                                        <Bookmark_D2D2D2 />
-                                        :
                                         <Bookmark_P />
+                                        :
+                                        <Bookmark_D2D2D2 />
                                     }
                                 </TouchableOpacity>
                                 <TouchableOpacity
@@ -794,9 +794,9 @@ glokool.page.link/jdF1`,
                                     onPress={() => PressPlus()}
                                 >
                                     {pressLike ? (
-                                        <Plus_D2D2D2 />
-                                    ) : (
                                         <Plus_P />
+                                    ) : (
+                                        <Plus_D2D2D2 />
                                     )}
                                 </TouchableOpacity>
                             </Layout>
@@ -821,18 +821,18 @@ glokool.page.link/jdF1`,
                         {uid ? (
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
                                 {pressBookmark ?
-                                    <Bookmark_D2D2D2 />
-                                    :
                                     <Bookmark_P />
+                                    :
+                                    <Bookmark_D2D2D2 />
                                 }
                             </TouchableOpacity>
                         ) : null}
                         {uid ? (
                             <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
                                 {pressLike ? (
-                                    <Plus_D2D2D2 />
-                                ) : (
                                     <Plus_P />
+                                ) : (
+                                    <Plus_D2D2D2 />
                                 )}
                             </TouchableOpacity>
                         ) : null}
