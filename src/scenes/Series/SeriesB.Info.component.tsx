@@ -14,7 +14,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { SeriesBDetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -179,14 +179,14 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
                         dataTemp.push(item.id);
                     });
 
-                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
+                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
+        Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
     }
 
     const InitComments = async () => {
@@ -266,7 +266,7 @@ glokool.page.link/jdF1`,
         return (
             <Layout>
                 <Image
-                    source={{ uri: item.item.img }}
+                    source={{ uri: CDN + item.item.img }}
                     style={styles.ImageContainer}
                 />
                 {item.item.author == null ||
@@ -449,7 +449,7 @@ glokool.page.link/jdF1`,
                     ) : null}
 
                     <Layout>
-                        <Image source={{ uri: content?.cover }} style={styles.CoverImg} />
+                        <Image source={{ uri: CDN + content?.cover }} style={styles.CoverImg} />
                         <Layout style={styles.SeriesBottomLayout}>
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>
@@ -566,7 +566,7 @@ glokool.page.link/jdF1`,
                                             props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id });
                                         }}>
                                         <Image
-                                            source={{ uri: item.image }}
+                                            source={{ uri: CDN + item.image }}
                                             style={styles.RecommendationImg}
                                         />
                                     </TouchableOpacity>
@@ -784,9 +784,9 @@ glokool.page.link/jdF1`,
                                     onPress={() => PressBookmark()}
                                 >
                                     {pressBookmark ?
-                                        <Bookmark_D2D2D2 />
-                                        :
                                         <Bookmark_P />
+                                        :
+                                        <Bookmark_D2D2D2 />
                                     }
                                 </TouchableOpacity>
                                 <TouchableOpacity
@@ -794,9 +794,9 @@ glokool.page.link/jdF1`,
                                     onPress={() => PressPlus()}
                                 >
                                     {pressLike ? (
-                                        <Plus_D2D2D2 />
-                                    ) : (
                                         <Plus_P />
+                                    ) : (
+                                        <Plus_D2D2D2 />
                                     )}
                                 </TouchableOpacity>
                             </Layout>
@@ -821,18 +821,18 @@ glokool.page.link/jdF1`,
                         {uid ? (
                             <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
                                 {pressBookmark ?
-                                    <Bookmark_D2D2D2 />
-                                    :
                                     <Bookmark_P />
+                                    :
+                                    <Bookmark_D2D2D2 />
                                 }
                             </TouchableOpacity>
                         ) : null}
                         {uid ? (
                             <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
                                 {pressLike ? (
-                                    <Plus_D2D2D2 />
-                                ) : (
                                     <Plus_P />
+                                ) : (
+                                    <Plus_D2D2D2 />
                                 )}
                             </TouchableOpacity>
                         ) : null}

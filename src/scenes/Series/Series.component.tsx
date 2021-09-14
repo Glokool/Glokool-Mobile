@@ -94,6 +94,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
     const initTrendingNow = async (category: String) => {
         const config = SERVER + '/api/categories/' + category + '/trending';
         const response = await axios.get(config).catch((e) => console.log(e));
+        console.log(response.data);
         setTrendingNow(response?.data);
     }
 

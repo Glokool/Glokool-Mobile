@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Image, TouchableOpacity, Pressable } from 'reac
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { HiddenGemInKoreaDetailListProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import { SceneRoute } from '../../navigation/app.route';
+import { CDN } from '../../server.component';
 
 const WindowWidth = Dimensions.get('window').width
 
@@ -28,7 +29,7 @@ export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListPro
             {(props.data?.map((item) => 
                 <Pressable style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
 
-                    <Image source={{ uri : item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
+                    <Image source={{ uri : CDN + item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
 
                     <Text style={styles.TitleText}>{item.title}</Text>
                     <Text style={styles.DescText}>{item.desc}</Text>

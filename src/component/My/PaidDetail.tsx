@@ -14,42 +14,47 @@ import { DateTime } from 'luxon'
 
 const WindowSize = Dimensions.get('window').width;
 
-export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
-   
+export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
+
 
     const [visible, setVisible] = React.useState<boolean>(false);
     const [visible2, setVisible2] = React.useState<boolean>(false);
-    const [refundCheck, setRefundCheck] = React.useState<boolean>(false);
+    const [refundCheck, setRefundCheck] = React.useState<boolean>(true);
     const [data, setData] = React.useState<ReservationInfo>({
-          uid: '', 
-          name: 'hello', 
-          email: 'glokoolofficial@naver.com', 
-          contact: '010-xxxx-xxxx',
-          refund: {
-            check: true, 
-            complete : false,
+        uid: '',
+        name: 'hello',
+        email: 'glokoolofficial@naver.com',
+        contact: '010-xxxx-xxxx',
+        refund: {
+            check: true,
+            complete: false,
             createdAt: new Date(),
-            completedAt: new Date(), 
-          },
-          guide: {
-              uid: '', 
-              name:  'guide',
-              score: 0, 
-          },
-          day: new Date(),
-          lang: 'eng',
-          money: '10000',
-          paymentID: '',
-          paymentDate: new Date,
-          _id: ''
+            completedAt: new Date(),
+        },
+        guide: {
+            uid: '',
+            name: 'guide',
+            score: 0,
+        },
+        day: new Date(),
+        lang: 'eng',
+        money: '10000',
+        paymentID: '',
+        paymentDate: new Date,
+        _id: ''
     });
 
     React.useEffect(() => {
 
-        if(props.visible === true){
+        if (props.visible === true) {
             setData(props.data);
             setVisible(props.visible);
-        } 
+
+            const today = moment(new Date());
+            const subDate = moment(props.data.day).subtract(1, 'days');
+            setRefundCheck(subDate < today);
+            console.log(subDate < today)
+        }
 
     }, [props]);
 
@@ -59,9 +64,9 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
         const config = {
             method: 'patch',
-            url : SERVER + '/api/reservations/' + data._id + '/refund',
-            headers: { 
-                'Authorization': 'Bearer ' + Token 
+            url: SERVER + '/api/reservations/' + data._id + '/refund',
+            headers: {
+                'Authorization': 'Bearer ' + Token
             }
         }
 
@@ -72,139 +77,139 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
 
     function PressRefundButton() {
 
-        if(data.refund.check === true){
+        if (data.refund.check === true) {
             return null
         }
-        else{
+        else {
             setVisible2(true)
         }
-        
+
     }
 
-    if(visible == true){
+    if (visible == true) {
         return (
-            <Layout style={{backgroundColor: '#00FF0000', width: '100%', height: '100%'}}>
+            <Layout style={{ backgroundColor: '#00FF0000', width: '100%', height: '100%' }}>
 
-            <Modal
-                visible={visible}
-                backdropStyle={styles.backdrop}
-                style={styles.DetailContainer}
-            >
-                <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: "#00FF0000"}}>
+                <Modal
+                    visible={visible}
+                    backdropStyle={styles.backdrop}
+                    style={styles.DetailContainer}
+                >
+                    <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#00FF0000" }}>
 
-                    <Layout style={styles.titleContainer}>
+                        <Layout style={styles.titleContainer}>
 
-                        <Layout style={styles.emptyContainer}/>
-                        
-                        <Layout style={styles.TitleContainer}>
-                            <Text style={styles.DetailTitle}>Details</Text>
+                            <Layout style={styles.emptyContainer} />
+
+                            <Layout style={styles.TitleContainer}>
+                                <Text style={styles.DetailTitle}>Details</Text>
+                            </Layout>
+
+                            <Layout style={styles.emptyContainer} onTouchStart={() => setVisible(false)}>
+                                <Delete style={styles.DeleteIcon} />
+                            </Layout>
+
                         </Layout>
 
-                        <Layout style={styles.emptyContainer} onTouchStart={() => setVisible(false)}>
-                                <Delete style={styles.DeleteIcon}/>
-                        </Layout>
-
-                    </Layout>
-
-                    <Layout>
-                        {(data.refund.complete != false)? <Text style={styles.policyText}>Refund Completed</Text> : <Text></Text>}
-                    </Layout>
-
-                    <Layout style={styles.InfoContainer}>
-                        
                         <Layout>
-                            <Text style={styles.infoTitle}>Trip Date</Text>
-                            <Text style={styles.infoTitle}>Assistant Name</Text>
-                            <Text style={styles.infoTitle}>Assistant Language</Text>
+                            {(data.refund.complete != false) ? <Text style={styles.policyText}>Refund Completed</Text> : <Text></Text>}
                         </Layout>
 
-                        <Layout style={styles.InfoContainer2}>
-                            <Text style={styles.info}>{moment(data.day).format('YYYY . MM . DD')}</Text>
-                            <Text style={styles.info}>{(data.guide?.name === '' || data.guide?.name === undefined || data.guide?.name === null)? ` ` : `${data.guide.name}` }</Text>
-                            <Text style={styles.info}>{(data.lang === 'eng')? `English` : `Chinese`}</Text>
-                        </Layout>
+                        <Layout style={styles.InfoContainer}>
 
-                    </Layout>
+                            <Layout>
+                                <Text style={styles.infoTitle}>Trip Date</Text>
+                                <Text style={styles.infoTitle}>Assistant Name</Text>
+                                <Text style={styles.infoTitle}>Assistant Language</Text>
+                            </Layout>
 
-                    <Divider style={styles.Divider} />
-
-                    <Layout style={styles.InfoContainer}>
-                        
-                        <Layout>
-                            <Text style={styles.infoTitle}>Name</Text>
-                            <Text style={styles.infoTitle}>E-Mail</Text>
-                            <Text style={styles.infoTitle}>Contact</Text>
-                        </Layout>
-
-                        <Layout style={styles.InfoContainer2}>
-                            <Text style={styles.info}>{data.name}</Text>
-                            <Text style={styles.info} numberOfLines={1}>{data.email}</Text>
-                            <Text style={styles.info}>{data.contact}</Text>
-                        </Layout>
-
-                    </Layout>
-
-                    <Divider style={styles.Divider} />
-
-                    <Layout style={styles.InfoContainer}>
-                        
-                        <Layout>
-                            <Text style={styles.infoTitle}>Amount Cost</Text>
-                            <Text style={styles.infoTitle}>Payment Day</Text>
+                            <Layout style={styles.InfoContainer2}>
+                                <Text style={styles.info}>{moment(data.day).format('YYYY . MM . DD')}</Text>
+                                <Text style={styles.info}>{(data.guide?.name === '' || data.guide?.name === undefined || data.guide?.name === null) ? ` ` : `${data.guide.name}`}</Text>
+                                <Text style={styles.info}>{(data.lang === 'eng') ? `English` : `Chinese`}</Text>
+                            </Layout>
 
                         </Layout>
 
-                        <Layout style={styles.InfoContainer2}>
-                            <Text style={styles.info}>{data.money}</Text>
-                            <Text style={styles.info}>{moment(data.paymentDate).format('YYYY . MM . DD')}</Text>
+                        <Divider style={styles.Divider} />
+
+                        <Layout style={styles.InfoContainer}>
+
+                            <Layout>
+                                <Text style={styles.infoTitle}>Name</Text>
+                                <Text style={styles.infoTitle}>E-Mail</Text>
+                                <Text style={styles.infoTitle}>Contact</Text>
+                            </Layout>
+
+                            <Layout style={styles.InfoContainer2}>
+                                <Text style={styles.info}>{data.name}</Text>
+                                <Text style={styles.info} numberOfLines={1}>{data.email}</Text>
+                                <Text style={styles.info}>{data.contact}</Text>
+                            </Layout>
+
                         </Layout>
 
-                    </Layout>
+                        <Divider style={styles.Divider} />
 
-                    <Layout style={styles.emailContainer}>
-                        <Text style={styles.email}>glokooloffical@gmail.com</Text>
-                        <Text style={styles.emailInfo}>Please Contact us if you have any questions</Text>
-                    </Layout>
+                        <Layout style={styles.InfoContainer}>
 
-                    <TouchableOpacity style={styles.policyContainer} onPress={() => {
-                        props.navigation.navigate(SceneRoute.REFUND_POLICY);
-                        setVisible(false);
-                    }}>
-                        <Text style={styles.policyText}>Refund Policy</Text>
-                        <MY_Refund_Policy />
-                    </TouchableOpacity>
+                            <Layout>
+                                <Text style={styles.infoTitle}>Amount Cost</Text>
+                                <Text style={styles.infoTitle}>Payment Day</Text>
 
-                </ScrollView>
+                            </Layout>
 
-                <Layout style={styles.RefundButtonContainer}>
-                    <TouchableOpacity style={(data.refund.check === false)? styles.RefundButton : styles.RefundButtonC}  onPress={() => PressRefundButton()}>
-                        <Text style={(data.refund.check === false)? styles.RefundButtonText : styles.RefundButtonTextC}>Refund</Text>
-                    </TouchableOpacity>
-                </Layout>
-            </Modal>
+                            <Layout style={styles.InfoContainer2}>
+                                <Text style={styles.info}>{data.money}</Text>
+                                <Text style={styles.info}>{moment(data.paymentDate).format('YYYY . MM . DD')}</Text>
+                            </Layout>
 
-            <Modal
-                visible={visible2}
-                backdropStyle={{backgroundColor : 'rgba(0, 0, 0, 0.5)'}}  
-            >
-                    <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}>
-                    
-                    <Text style={styles.modalTitle}>Are you Sure?</Text>
+                        </Layout>
 
-                    <Text style={styles.modalDesc}>{`Do you really want to Refund GloChat Service?`}</Text>
-                    
-                    <Layout style={{flexDirection: 'row'}}>
+                        <Layout style={styles.emailContainer}>
+                            <Text style={styles.email}>glokooloffical@gmail.com</Text>
+                            <Text style={styles.emailInfo}>Please Contact us if you have any questions</Text>
+                        </Layout>
 
-                        <TouchableOpacity style={styles.StayButon} onPress={() => setVisible2(false)}>
-                        <Text style={styles.StayButonText}>Cancel</Text>
+                        <TouchableOpacity style={styles.policyContainer} onPress={() => {
+                            props.navigation.navigate(SceneRoute.REFUND_POLICY);
+                            setVisible(false);
+                        }}>
+                            <Text style={styles.policyText}>Refund Policy</Text>
+                            <MY_Refund_Policy />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.WithdrawalButton} onPress={() => {PressRefund()}}>
-                        <Text style={styles.WithdrawalButtonText}>Refund</Text>
+                    </ScrollView>
+
+                    <Layout style={styles.RefundButtonContainer}>
+                        <TouchableOpacity style={(refundCheck || data.refund.check) ? styles.RefundButtonC : styles.RefundButton} onPress={() => PressRefundButton()} disabled={refundCheck}>
+                            <Text style={(refundCheck || data.refund.check) ? styles.RefundButtonTextC: styles.RefundButtonText}>Refund</Text>
                         </TouchableOpacity>
-                            
                     </Layout>
-                            
+                </Modal>
+
+                <Modal
+                    visible={visible2}
+                    backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                >
+                    <Card disabled={true} style={{ backgroundColor: '#F8F8F8' }}>
+
+                        <Text style={styles.modalTitle}>Are you Sure?</Text>
+
+                        <Text style={styles.modalDesc}>{`Do you really want to Refund GloChat Service?`}</Text>
+
+                        <Layout style={{ flexDirection: 'row' }}>
+
+                            <TouchableOpacity style={styles.StayButon} onPress={() => setVisible2(false)}>
+                                <Text style={styles.StayButonText}>Cancel</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.WithdrawalButton} onPress={() => { PressRefund() }}>
+                                <Text style={styles.WithdrawalButtonText}>Refund</Text>
+                            </TouchableOpacity>
+
+                        </Layout>
+
                     </Card>
                 </Modal>
 
@@ -212,28 +217,28 @@ export const PaidDetail = (props : PaidDetailProps) : LayoutElement => {
         )
     }
 
-    else{
-        return(<Layout></Layout>);
+    else {
+        return (<Layout></Layout>);
     }
-        
+
 
 }
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({
     container: {
-      flex: 1
+        flex: 1
     },
     backdrop: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     cancelButton: {
-      borderColor: '#FFC043',
-      backgroundColor: 'white',   
+        borderColor: '#FFC043',
+        backgroundColor: 'white',
     },
     DetailContainer: {
-      borderRadius: 10,
-      backgroundColor: 'white',
-      width: WindowSize - 60,
-      height: Dimensions.get('window').height * 0.9
+        borderRadius: 10,
+        backgroundColor: 'white',
+        width: WindowSize - 60,
+        height: Dimensions.get('window').height * 0.9
     },
     titleContainer: {
         flexDirection: 'row',
@@ -259,7 +264,7 @@ const styles = StyleSheet.create({
 
     },
     DetailTitle: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 23,
         textAlign: 'center',
     },
@@ -268,7 +273,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#00FF0000'
     },
-    InfoContainer2 : {
+    InfoContainer2: {
         flex: 1,
         alignItems: 'flex-end',
     },
@@ -278,7 +283,7 @@ const styles = StyleSheet.create({
         color: '#BCBCBC',
         textAlign: 'left'
     },
-    info : {
+    info: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 15,
         color: 'black',
@@ -291,8 +296,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginVertical: 15
     },
-    emailContainer : {
-        marginTop : 30,
+    emailContainer: {
+        marginTop: 30,
         alignItems: 'flex-end',
         marginRight: 20,
         backgroundColor: '#00FF0000'
@@ -312,7 +317,7 @@ const styles = StyleSheet.create({
         marginTop: -10,
     },
     policyContainer: {
-        marginTop : 30,
+        marginTop: 30,
         alignItems: 'center',
         justifyContent: 'flex-end',
         backgroundColor: '#00FF0000',
@@ -326,17 +331,17 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginRight: 10,
     },
-    RefundButtonContainer : {
+    RefundButtonContainer: {
         position: 'absolute',
-        bottom : 0,
+        bottom: 0,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 1,
         },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 1,
         width: 280,
         height: 54,
         borderRadius: 15,
@@ -367,29 +372,29 @@ const styles = StyleSheet.create({
         borderColor: '#00FF0000',
     },
     RefundButtonText: {
-        textAlign:'center',
+        textAlign: 'center',
         justifyContent: 'center',
         marginVertical: 10,
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize : 22,
+        fontSize: 22,
         color: '#8797FF'
     },
     RefundButtonTextC: {
-        textAlign:'center',
+        textAlign: 'center',
         justifyContent: 'center',
         marginVertical: 10,
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize : 22,
-        color: '#AEAEAE'
+        fontSize: 22,
+        color: '#eee'
     },
     modalTitle: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 22,
         color: '#8797FF',
         textAlign: 'center'
     },
     modalDesc: {
-        fontFamily : 'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: '#AEAEAE',
         marginTop: 10,
@@ -407,7 +412,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     StayButonText: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 22,
         color: '#8797FF'
     },
@@ -421,7 +426,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     WithdrawalButtonText: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 22,
         color: '#8797FF'
     },

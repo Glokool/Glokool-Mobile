@@ -34,7 +34,7 @@ import {
 import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from 'moment';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
@@ -107,6 +107,10 @@ export const SeriesAInfoScreen = (
     useEffect(() => {
         encodeBase64Img();
     }, [image]);
+
+    useEffect(()=>{
+        console.log(pressBookmark, pressLike);
+    },[]);
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -214,13 +218,13 @@ glokool.page.link/jdF1`,
                     data.forEach((item) => {
                         dataTemp.push(item.id);
                     });
-                    dataTemp.indexOf(Id) == -1 && setPressBookmark(true);
+                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        Content.data.plus.indexOf(uid) == -1 && setPressLike(true);
+        Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
     }
 
     const InitComments = async () => {
@@ -231,7 +235,7 @@ glokool.page.link/jdF1`,
     const RenderCarousel = ({ item }) => {
         return (
             <Layout style={styles.ItemContainer}>
-                <Image source={{ uri: item }} style={styles.ImageContainer} />
+                <Image source={{ uri: CDN + item }} style={styles.ImageContainer} />
             </Layout>
         );
     };
@@ -246,10 +250,12 @@ glokool.page.link/jdF1`,
 
     const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
+        
         var axios = require('axios');
         var data = qs.stringify({
             contentCode: content?._id,
         });
+
         var config = {
             method: 'post',
             url: SERVER + '/api/users/bookmark',
@@ -261,11 +267,11 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response: { data: any; }) => {
+            .then((response: { data: any }) => {
                 // InitSeries();
                 setPressBookmark(!pressBookmark);
             })
-            .catch((error) => {
+            .catch((error: Error) => {
                 console.log(error);
             });
     };
@@ -487,7 +493,7 @@ glokool.page.link/jdF1`,
                                         props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id });
                                     }}>
                                     <Image
-                                        source={{ uri: item.image }}
+                                        source={{ uri: CDN + item.image }}
                                         style={styles.RecommendationImg}
                                     />
                                 </TouchableOpacity>
@@ -700,18 +706,18 @@ glokool.page.link/jdF1`,
                                 style={styles.ScrollButtonTouch}
                                 onPress={() => PressBookmark()}>
                                 {pressBookmark ? (
-                                    <Bookmark />
-                                ) : (
                                     <Bookmark_P />
+                                ) : (
+                                    <Bookmark />
                                 )}
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.PlusTouch}
                                 onPress={() => PressPlus()}>
                                 {pressLike ? (
-                                    <Plus />
-                                ) : (
                                     <Plus_P />
+                                ) : (
+                                    <Plus />
                                 )}
                             </TouchableOpacity>
                         </Layout>

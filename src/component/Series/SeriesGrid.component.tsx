@@ -8,7 +8,7 @@ import {
     ActivityIndicator,
     Platform,
 } from 'react-native';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { SceneRoute } from '../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
@@ -57,7 +57,7 @@ export const SeriesGrid = (props: any) => {
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
                 <View style={styles.itemContainer}>
                     <FastImage
-                        source={{ uri: item.item.image }}
+                        source={{ uri: CDN + item.item.image }}
                         style={{
                             width: windowWidth * 0.33,
                             height: windowWidth * 0.33,
