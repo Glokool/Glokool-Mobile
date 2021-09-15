@@ -17,7 +17,7 @@ import { ChatListRecentProps } from '../../navigation/ScreenNavigator/Chat.navig
 import moment from 'moment';
 import { GloChatData } from '.';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
@@ -112,6 +112,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                     country: res.data.country,
                     intro: res.data.intro,
                     oneLineIntro: res.data.oneLineIntro,
+                    keyword: res.data.keyword,
                 })
                 if (res.data.lang.length == 1) {
                     setENG(true);
@@ -143,7 +144,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                             {item.item.guide?.avatar != undefined &&
                                 item.item.guide?.avatar != null ? (
                                 <Image
-                                    source={{ uri: item.item.guide?.avatar }}
+                                    source={{ uri: CDN + item.item.guide?.avatar }}
                                     style={styles.GuideAvatar}
                                 />
                             ) : (

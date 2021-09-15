@@ -72,7 +72,7 @@ import {
     requestCameraPermission,
     requestStoragePermission,
 } from '../../component/permission.component';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
@@ -456,7 +456,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Pressable onPress={() => imageZoom(imgUrl)}>
                 <FastImage
-                    source={{ uri: imgUrl }}
+                    source={{ uri: CDN + imgUrl }}
                     resizeMode={FastImage.resizeMode.cover}
                     style={{
                         width: 150,
@@ -1154,6 +1154,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
+                console.log(res.data);
 
                 await setGuide({
                     avatar: res.data.avatar,
@@ -1164,6 +1165,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     country: res.data.country,
                     intro: res.data.intro,
                     oneLineIntro: res.data.oneLineIntro,
+                    keyword: res.data.keyword,
                 })
 
                 if (res.data.lang.length == 1) {
@@ -1252,7 +1254,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             </Text>
                         </Pressable>
                         <FastImage
-                            source={{ uri: imageURL }}
+                            source={{ uri: CDN + imageURL }}
                             resizeMode={FastImage.resizeMode.cover}
                             style={{
                                 width: WindowWidth,
@@ -1304,7 +1306,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                 guide.avatar != undefined &&
                                 guide.avatar != null ? (
                                 <Image
-                                    source={{ uri: guide.avatar }}
+                                    source={{ uri: CDN + guide.avatar }}
                                     style={styles.Profile}
                                 />
                             ) : (

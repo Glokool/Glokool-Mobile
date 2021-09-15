@@ -3,12 +3,11 @@ import { StyleSheet, Image, Pressable, View, Text, Platform, FlatList } from 're
 import { Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
+import { CDN } from '../../server.component';
 
 export const ProfileModal = (props: any) => {
     // props => guide. ENG CHN isVisible
     const [guideVisible, setGuideVisible] = useState(false);
-
-    const keyword = ["K-POP lover", "Hidden Spots", "Vegan"];
 
     useEffect(() => {
         if (props.isVisible) {
@@ -64,7 +63,7 @@ export const ProfileModal = (props: any) => {
                             props.guide.avatar != undefined &&
                             props.guide.avatar != null ? (
                             <Image
-                                source={{ uri: props.guide.avatar }}
+                                source={{ uri: CDN + props.guide.avatar }}
                                 style={styles.profileImage}
                             />
                         ) : (
@@ -103,7 +102,7 @@ export const ProfileModal = (props: any) => {
 
                         <View style={{marginTop: 20,}}>
                             <FlatList
-                                data={keyword}
+                                data={props.guide.keyword}
                                 renderItem={renderItem}
                                 horizontal
                                 scrollEnabled={false}
