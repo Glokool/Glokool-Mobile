@@ -80,11 +80,11 @@ type Series_Item = {
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export const SeriesAInfoScreen = (
-    props: SeriesADetailInfoProps,
-): LayoutElement => {
+export const SeriesAInfoScreen = (props: SeriesADetailInfoProps,): LayoutElement => {
+
     const ScrollViewRef = useRef(null);
-    const [Id, setId] = useState(props.route.params.Id);
+    const Id = props.route.params.Id
+
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
     const [content, setContent] = useState<Series_Item>(null);
     const [image, setImage] = useState<Array<string>>([]);
@@ -107,10 +107,6 @@ export const SeriesAInfoScreen = (
     useEffect(() => {
         encodeBase64Img();
     }, [image]);
-
-    useEffect(()=>{
-        console.log(pressBookmark, pressLike);
-    },[]);
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -250,7 +246,7 @@ glokool.page.link/jdF1`,
 
     const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
-        
+
         var axios = require('axios');
         var data = qs.stringify({
             contentCode: content?._id,
@@ -479,13 +475,12 @@ glokool.page.link/jdF1`,
                     {/* check out more */}
                     <Layout style={styles.CheckMoreContainerLayoutStyle}>
                         <Layout style={styles.CheckMoreLayoutStyle}>
-                            <Text
-                                style={
-                                    styles.CheckMoreTxtStyle
-                                }>{`Check out more`}</Text>
+                            <Text style={styles.CheckMoreTxtStyle}>
+                                {`CHECK\nOUT\nMORE`}
+                            </Text>
                         </Layout>
                         {recommendation.map((item) => (
-                            <Layout style={styles.CheckMoreLayoutStyle}>
+                            <Layout style={styles.CheckMoreItemContainer}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         // 이전에 있었던 화면은 사라집니다...
@@ -510,15 +505,14 @@ glokool.page.link/jdF1`,
                                 {'\n'}
                                 {`Ask our travel assistants for more! `}
                             </Text>
-                            <Layout
-                                style={styles.PurpleBottomContainerLayoutStyle}>
-                                <Layout
-                                    style={styles.PurpleBottomLayoutStyle}
-                                    onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
-                                    <Text style={styles.PurpleBottomTxtStyle}>
-                                        {`Go to Glochat >>`}
-                                    </Text>
-                                </Layout>
+                            <Layout style={styles.PurpleBottomContainerLayoutStyle}>
+                                <TouchableOpacity onPress={() => props.navigation.navigate(NavigatorRoute.CHAT)}>
+                                    <Layout style={styles.PurpleBottomLayoutStyle}>
+                                        <Text style={styles.PurpleBottomTxtStyle}>
+                                            {`GO TO Glochat >>`}
+                                        </Text>
+                                    </Layout>
+                                </TouchableOpacity>
                             </Layout>
                         </Layout>
                     </Layout>
@@ -583,11 +577,7 @@ glokool.page.link/jdF1`,
                                                         style={
                                                             styles.CommentsAuthorInner02PlusContainerLayout
                                                         }>
-                                                        <Comments6_s
-                                                            style={
-                                                                styles.CommentsAuthorInner02PlusIconLayout
-                                                            }
-                                                        />
+                                                        <Comments6_s />
                                                         <Text
                                                             style={
                                                                 styles.CommentsAuthorInnerPlusNum02Layout
@@ -871,24 +861,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flexDirection: 'row',
         marginTop: 20,
+        padding: 20,
     },
     CheckMoreLayoutStyle: {
-        marginVertical: 30,
-        marginRight: 10,
-        backgroundColor: '#00FF0000',
-        width: windowWidth * 0.3,
-        alignItems: 'center',
+        backgroundColor: '#0000',
+        marginRight: 45,
+    },
+    CheckMoreItemContainer: {
+        marginLeft: 10,
     },
     CheckMoreTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 23,
+        fontSize: 15,
         color: '#000000',
-        marginLeft: 10,
-        lineHeight: 25,
     },
     RecommendationImg: {
-        width: windowWidth * 0.27,
-        height: windowWidth * 0.27,
+        width: windowWidth * 0.3,
+        height: windowWidth * 0.3,
         borderRadius: 10,
     },
     RecommendationTxt: {
@@ -917,8 +906,8 @@ const styles = StyleSheet.create({
     },
     PurpleTopTxtStyle: {
         color: '#FFFFFF',
-        fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 18,
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 16,
     },
     PurpleBottomContainerLayoutStyle: {
         backgroundColor: '#00FF0000',
@@ -926,10 +915,9 @@ const styles = StyleSheet.create({
     },
     PurpleBottomLayoutStyle: {
         backgroundColor: '#ffffff',
-        width: windowWidth * 0.46,
+        width: windowWidth * 0.62,
         height: 42,
-        lineHeight: 42,
-        marginTop: 5,
+        marginTop: 15,
         borderRadius: 14,
         alignItems: 'center',
         justifyContent: 'center',
@@ -937,7 +925,7 @@ const styles = StyleSheet.create({
     PurpleBottomTxtStyle: {
         color: '#7777FF',
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 20,
+        fontSize: 18,
     },
     GrayLineContainerLayoutStyle: {
         width: windowWidth,

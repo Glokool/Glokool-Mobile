@@ -47,7 +47,7 @@ import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
-
+import { GloChatButton } from '../../component/Series';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 
 type recommendation_Item = {
@@ -552,13 +552,12 @@ glokool.page.link/jdF1`,
                     {recommendation ? (
                         <Layout style={styles.CheckMoreContainerLayoutStyle}>
                             <Layout style={styles.CheckMoreLayoutStyle}>
-                                <Text
-                                    style={
-                                        styles.CheckMoreTxtStyle
-                                    }>{`Check out more`}</Text>
+                                <Text style={styles.CheckMoreTxtStyle}>
+                                    {`CHECK\nOUT\nMORE`}
+                                </Text>
                             </Layout>
                             {recommendation.map((item) => (
-                                <Layout style={styles.CheckMoreLayoutStyle}>
+                                <Layout style={{ marginLeft: 10, }}>
                                     <TouchableOpacity
                                         onPress={() => {
                                             // 이전에 있었던 화면은 사라집니다...
@@ -575,28 +574,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     ) : null}
 
-                    {/* 그레이색 배경 */}
-                    <Layout style={styles.PurpleContainerLayoutStyle}>
-                        <PurpleArrow style={styles.PurpleArrow} />
-                        <Layout style={styles.PurpleTopLayoutStyle}>
-                            <Text style={styles.PurpleTopTxtStyle}>
-                                {`Can't find the information you need?`}
-                                {'\n'}
-                                {`Ask our travel assistants for more! `}
-                            </Text>
-                            <Layout
-                                style={styles.PurpleBottomContainerLayoutStyle}>
-                                <Layout
-                                    style={styles.PurpleBottomLayoutStyle}
-                                    onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
-                                    <Text
-                                        style={
-                                            styles.PurpleBottomTxtStyle
-                                        }>{`Go to Glochat >>`}</Text>
-                                </Layout>
-                            </Layout>
-                        </Layout>
-                    </Layout>
+                    <GloChatButton navigation={props.navigation} />
 
                     {/* Comments */}
                     <Layout
@@ -1062,24 +1040,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F6F6',
         flexDirection: 'row',
         marginTop: 20,
+        padding: 20,
     },
     CheckMoreLayoutStyle: {
-        marginVertical: 30,
-        marginRight: 10,
-        backgroundColor: '#00FF0000',
-        width: windowWidth * 0.3,
-        alignItems: 'center',
+        backgroundColor: '#0000',
+        marginRight: 45,
     },
     CheckMoreTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 23,
+        fontSize: 15,
         color: '#000000',
-        marginLeft: 10,
-        lineHeight: 25,
     },
     RecommendationImg: {
-        width: windowWidth * 0.27,
-        height: windowWidth * 0.27,
+        width: windowWidth * 0.3,
+        height: windowWidth * 0.3,
         borderRadius: 10,
     },
     RecommendationTxt: {
@@ -1092,8 +1066,6 @@ const styles = StyleSheet.create({
     PurpleContainerLayoutStyle: {
         backgroundColor: '#7777FF',
         width: windowWidth,
-        height: 129,
-        position: 'relative',
     },
     PurpleArrow: {
         position: 'absolute',
@@ -1101,15 +1073,26 @@ const styles = StyleSheet.create({
         left: 20,
     },
     PurpleTopLayoutStyle: {
-        backgroundColor: '#00FF0000',
-        marginTop: 15,
-        marginLeft: 20,
-        marginRight: 20,
+        backgroundColor: '#0000',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 2,
+    },
+    GloChatTextContainer: {
+        backgroundColor: '#0000',
+        padding: 20,
+    },
+    GloChatButtonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 35,
+        paddingVertical: 40,
     },
     PurpleTopTxtStyle: {
         color: '#FFFFFF',
-        fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 18,
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 14,
     },
     PurpleBottomContainerLayoutStyle: {
         backgroundColor: '#00FF0000',
