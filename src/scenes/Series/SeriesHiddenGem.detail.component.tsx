@@ -86,7 +86,6 @@ export const SeriesHiddenGemDetailScreen = (
             SERVER + '/api/tours/' + TourCode + '/places',
         );
         setContent(HiddenGemDetailData.data);
-        HiddenGemDetailData.data.tour.plus.indexOf(uid) !== -1 && setPressLike(true);
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -110,6 +109,7 @@ export const SeriesHiddenGemDetailScreen = (
 
                     setBookmarkList(dataTemp);
                     dataTemp.indexOf(TourCode) !== -1 && setPressBookmark(true);
+                    HiddenGemDetailData.data.tour.plus.indexOf(uid) !== -1 && setPressLike(true);
                 })
                 .catch(function (error) {
                     console.log(error);

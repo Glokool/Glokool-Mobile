@@ -180,13 +180,13 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
                     });
 
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+                    Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
                     setBookmarkList(dataTemp);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
     }
 
     const InitComments = async () => {

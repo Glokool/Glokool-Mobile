@@ -215,12 +215,12 @@ glokool.page.link/jdF1`,
                         dataTemp.push(item.id);
                     });
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+                    Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
     }
 
     const InitComments = async () => {
