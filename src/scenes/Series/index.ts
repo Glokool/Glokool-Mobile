@@ -7,4 +7,3 @@ export { SeriesHiddenGemContentRest } from './SeriesHiddenGem.content.rest.compo
 export { SeriesHiddenGemContentCafe } from './SeriesHiddenGem.content.cafe.component';
 export { SubCategoryDetail } from './SubCategoryDetail.component';
 export { GuidebookDetail } from './GuidebookDetail.component';
-

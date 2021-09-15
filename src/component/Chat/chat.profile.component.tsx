@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Pressable, View, Text, Platform } from 'react-native';
+import { StyleSheet, Image, Pressable, View, Text, Platform, FlatList } from 'react-native';
 import { Modal } from '@ui-kitten/components';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { CloseButton } from '../../assets/icon/Series';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../navigation/app.route';
+import { CDN } from '../../server.component';
 
 export const ProfileModal = (props: any) => {
     // props => guide. ENG CHN isVisible
@@ -27,6 +26,16 @@ export const ProfileModal = (props: any) => {
         setGuideVisible(false);
     }
 
+    const renderItem = (item: any) => {
+        return (
+            <View style={styles.keywordBox}>
+                <Text style={styles.keywordText}>
+                    {item.item}
+                </Text>
+            </View>
+        )
+    }
+
     return (
         <>
             < Modal
@@ -45,7 +54,7 @@ export const ProfileModal = (props: any) => {
                             </View>
                         </Pressable>
                         <Pressable onPress={() => setGuideVisible(false)}>
-                            <CloseButton/>
+                            <CloseButton />
                         </Pressable>
                     </View>
 
@@ -54,7 +63,7 @@ export const ProfileModal = (props: any) => {
                             props.guide.avatar != undefined &&
                             props.guide.avatar != null ? (
                             <Image
-                                source={{ uri: props.guide.avatar }}
+                                source={{ uri: CDN + props.guide.avatar }}
                                 style={styles.profileImage}
                             />
                         ) : (
@@ -89,6 +98,15 @@ export const ProfileModal = (props: any) => {
                             <Text style={styles.intro}>
                                 {props.guide.intro}
                             </Text>
+                        </View>
+
+                        <View style={{marginTop: 20,}}>
+                            <FlatList
+                                data={props.guide.keyword}
+                                renderItem={renderItem}
+                                horizontal
+                                scrollEnabled={false}
+                            />
                         </View>
 
                     </View>
@@ -146,7 +164,7 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         paddingHorizontal: 15,
-        paddingBottom: 45,
+        paddingBottom: 30,
     },
     guideNameText: {
         fontFamily: 'Pretendard-Medium',
@@ -154,11 +172,23 @@ const styles = StyleSheet.create({
         marginTop: 13,
         fontWeight: '500',
     },
-    helpButtonContainer: { 
-        borderColor: '#f1f1f1', 
-        borderWidth: 0.7, 
-        borderRadius: 9, 
-        paddingHorizontal: 7, 
-        paddingVertical: 3, 
+    helpButtonContainer: {
+        borderColor: '#f1f1f1',
+        borderWidth: 0.7,
+        borderRadius: 9,
+        paddingHorizontal: 7,
+        paddingVertical: 3,
+    },
+    keywordBox: {
+        borderWidth: 1,
+        borderColor: '#7777ff',
+        borderRadius: 50,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginRight: 4,
+    },
+    keywordText: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: Platform.OS === 'ios' ? 12 : 10,
     }
 });

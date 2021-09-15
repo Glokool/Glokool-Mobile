@@ -67,7 +67,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const [selectedTypeIndex, setSelectedTypeIndex] = React.useState(
         new IndexPath(0),
     );
-    const type = ['Travler', 'Resident', 'Korean'];
+    const type = ['Traveler', 'Resident', 'Korean'];
     const displayTypeValue = type[selectedTypeIndex.row];
     const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -76,16 +76,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const KoreanIcon = () => <Mini_K />;
 
     const ResidentIcon = () => <Mini_R />;
-
-    const PGray = () => <ProfileGray />;
-
-    // const POrange = () => <ProfileOrange />;
-
-    // const PPurple = () => <ProfilePurple />;
-
-    // const PGreen = () => <ProfileGreen />;
-
-    // const PBlue = () => <ProfileBlue />;
 
     const PressBack = () => {
         props.navigation.goBack();
@@ -97,13 +87,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         const picRef = storageRef.child(`profile/${currentUser?.uid}`);
         return picRef.putFile(profile).then(() => picRef.getDownloadURL());
     };
-
-    const testUploadImg = async () => {
-        const storageRef = storage().ref();
-        const picRef = storageRef.child(`profile/${currentUser?.uid}`);
-        return picRef.putFile(profile).then(() => picRef)
-        ;
-    }
 
     /* save the profile btn */
     const PressChange = async () => {

@@ -40,6 +40,7 @@ import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
+import { GloChatButton } from '../../component/Series';
 
 const WindowSize = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -277,19 +278,6 @@ glokool.page.link/jdF1`,
                 </TouchableOpacity>
                 <ServiceModal isVisible={Glochat} data={data} />
 
-
-
-                {/* 글로챗 광고 컨테이너 */}
-                {/* <Layout style={styles.GloChatADContainer}>
-
-                    <Text style={styles.GloChatADText}>Book Glo-Chat and enjoy all thee services!</Text>
-
-                    <TouchableOpacity style={styles.GloChatButton}>
-                        <Text style={styles.GloChatButtonText}>{`Go to Glochat >>`}</Text>
-                    </TouchableOpacity>
-
-                </Layout> */}
-
                 {/* 시그니처 메뉴 컨테이너 */}
                 <Layout>
                     <Layout style={styles.SgntMenuTitleContainer}>
@@ -481,27 +469,8 @@ glokool.page.link/jdF1`,
                     </TouchableOpacity>
                 </Layout>
 
-                {/* 보라색 배경 */}
-                <Layout style={styles.PurpleContainerLayoutStyle}>
-                    <PurpleArrow style={styles.PurpleArrow} />
-                    <Layout style={styles.PurpleTopLayoutStyle}>
-                        <Text style={styles.PurpleTopTxtStyle}>
-                            {`Can't find the information you need?`}
-                            {'\n'}
-                            {`Ask our travel assistants for more! `}
-                        </Text>
-                        <Layout style={styles.PurpleBottomContainerLayoutStyle}>
-                            <Layout
-                                style={styles.PurpleBottomLayoutStyle}
-                                onTouchEnd={() => { setTimeout(() => { props.navigation.navigate(NavigatorRoute.CHAT); }, 150) }}>
-                                <Text
-                                    style={
-                                        styles.PurpleBottomTxtStyle
-                                    }>{`Go to Glochat >>`}</Text>
-                            </Layout>
-                        </Layout>
-                    </Layout>
-                </Layout>
+                <GloChatButton navigation={props.navigation} />
+
             </ScrollView>
 
             {/* 탑 탭 바 */}

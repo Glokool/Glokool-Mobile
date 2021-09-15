@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import { StyleSheet, FlatList, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
-import { Layout, Text, LayoutElement,} from '@ui-kitten/components';
+import { Layout, Text, LayoutElement, } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER, CDN } from '../../server.component';
 import { GloChatData } from '.';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
@@ -56,7 +56,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     setData(res.data);
                 })
                 .catch((e) => {
-                    console.log('error : ',e);
+                    console.log('error : ', e);
                 });
 
         }
@@ -110,6 +110,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     country: res.data.country,
                     intro: res.data.intro,
                     oneLineIntro: res.data.oneLineIntro,
+                    keyword: res.data.keyword,
                 })
                 if (res.data.lang.length == 1) {
                     setENG(true);
@@ -148,7 +149,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                     item.item.guide?.avatar != undefined &&
                                         item.item.guide?.avatar != null ? (
                                         <Image
-                                            source={{ uri: item.item.guide?.avatar }}
+                                            source={{ uri: CDN + item.item.guide?.avatar }}
                                             style={styles.GuideAvatar}
                                         />
                                     ) : (
