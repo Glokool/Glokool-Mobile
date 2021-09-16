@@ -33,7 +33,7 @@ export const MenuDetail = (props: MenuDetailProps): LayoutElement => {
     }, []);
 
     async function InitMenuDetail() {
-        Image.getSize(props.data[0], (width, height) => {
+        Image.getSize(CDN + props.data[0], (width, height) => {
 
             var ImageRatio = WindowWidth / width;
 

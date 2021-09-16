@@ -30,7 +30,6 @@ const WindowSize = Dimensions.get('window').width
 export const SignatureMenuFlatlist = (props: SignatureMenuFlatlistProps): LayoutElement => {
 
     const renderItem = (item: { item: SgntMenu, index: number }) => {
-        console.log(item.item.img)
         return (
             <Layout style={styles.ImageContainer}>
                 <Image source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'stretch'} />
