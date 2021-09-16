@@ -138,8 +138,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 2702
-        versionName "2.7.2"
+        versionCode 2703
+        versionName "2.7.3"
     }
     splits {
         abi {
@@ -181,6 +181,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // proguard-android.txt <-> proguard-android-optimize.txt
             signingConfig signingConfigs.release
         }
     }
