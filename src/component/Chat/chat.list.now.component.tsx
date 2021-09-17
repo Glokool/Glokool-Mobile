@@ -5,7 +5,7 @@ import { Layout, Text, LayoutElement, } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
-import { GloChatData } from '.';
+import { GloChatData } from '../../types';
 import moment from 'moment';
 import { SceneRoute } from '../../navigation/app.route';
 

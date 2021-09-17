@@ -23,8 +23,6 @@ const windowHeight = Dimensions.get('window').height;
 
 export const CategoryDetail = (props: any) => {
 
-    const [loading, setLoading] = useState(true);
-
     // View More 버튼 클릭 시 화면 이동
     const pressedMore = (item: any) => {
         const config = {

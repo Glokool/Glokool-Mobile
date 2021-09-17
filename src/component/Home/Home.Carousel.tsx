@@ -6,13 +6,7 @@ import { SERVER, CDN } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { Dimensions, Image, StyleSheet, Pressable } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
-
-type HomeCarousel_Item = {
-    title: string;
-    type: string;
-    image: string;
-    _id: string;
-};
+import { HomeCarousel_Item } from '../../types';
 
 const ImageSize = Dimensions.get('window').width * 0.85;
 
@@ -67,8 +61,8 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                             {item.item.type === 'tour'
                                 ? `Hidden Gems in Korea`
                                 : item.item.type === 'blog'
-                                ? `Day Trip with Glokool`
-                                : 'Korea A-Z'}
+                                    ? `Day Trip with Glokool`
+                                    : 'Korea A-Z'}
                         </Text>
                     </Layout>
                     <Text style={styles.Title}>
@@ -120,7 +114,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#00FF0000',
         marginTop: 15,
-        
+
     },
     Carousel: {
         height: ImageSize,

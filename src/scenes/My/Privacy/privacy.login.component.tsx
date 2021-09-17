@@ -20,7 +20,6 @@ import Toast from 'react-native-easy-toast';
 import { PrivacyLoginProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { CommonActions, NavigationActions } from '@react-navigation/native';
 import { SceneRoute } from '../../../navigation/app.route'
 
 var toastRef : any;

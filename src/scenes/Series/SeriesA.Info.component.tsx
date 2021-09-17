@@ -44,38 +44,7 @@ import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
-
-type recommendation_Item = {
-    _id: string;
-    image: string;
-    title: string;
-};
-
-type Comments_Item = {
-    _id: string;
-    writer: {
-        uid: string;
-        name: string;
-        avatar: string;
-        grade: string;
-    };
-    comment: string;
-    createdAt: Date;
-    plus: Array<string>;
-};
-
-type Series_Item = {
-    images: Array<string>;
-    comments: Array<Comments_Item>;
-    _id: string;
-    count: string;
-    desc: string;
-    gloPick: string;
-    plus: Array<string>;
-    title: string;
-    createdAt: Date;
-    recommendation: Array<recommendation_Item>;
-};
+import { recommendation_Item, Comments_Item, Series_Item } from '../../types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

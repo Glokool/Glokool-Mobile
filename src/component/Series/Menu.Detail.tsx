@@ -13,12 +13,8 @@ import {
 } from '@ui-kitten/components'
 import FastImage from 'react-native-fast-image'
 import { Menu_Vegetble, Menu_Spicy } from '../../assets/icon/Series';
-import {CDN} from '../../server.component';
-
-type image = {
-    width: number,
-    height: number
-}
+import { CDN } from '../../server.component';
+import { image } from '../../types';
 
 interface MenuDetailProps {
     data: Array<string>;

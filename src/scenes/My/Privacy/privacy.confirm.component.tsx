@@ -88,9 +88,6 @@ export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
   );
 
   const onFormSubmit = (values: PrivacyConfirmData): void => {
-
-    
-
     if(values.password == "" || values.passwordConfirm == ""){
 
     }    
@@ -105,7 +102,6 @@ export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
           toastRef.show('Change Failed!', 3000);
         })
     }
-    
   };
 
   return (

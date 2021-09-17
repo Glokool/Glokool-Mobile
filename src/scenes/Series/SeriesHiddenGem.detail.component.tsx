@@ -21,39 +21,9 @@ import { HiddenGemInKoreaDetailList } from '../../component/Series/HiddenGemInKo
 import auth from '@react-native-firebase/auth';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import qs from 'query-string';
+import { GlokoolTourData } from '../../types';
 
 const ImageSize = Dimensions.get('window').width;
-
-type TourData = {
-    tourCode: string;
-    title: string;
-    cover: string;
-    desc: string;
-    tag: Array<string>;
-    plus: Array<string>;
-    lat: string;
-    lon: string;
-};
-
-type DetailData = {
-    banner: string;
-    desc: string;
-    visible: boolean;
-    title: string;
-    placeCode: string;
-    lat: string;
-    lon: string;
-};
-
-type GlokoolTourData = {
-    tour: TourData;
-    attraction: Array<DetailData>;
-    restaurant: Array<DetailData>;
-    cafe: Array<DetailData>;
-    lat: string;
-    lon: string;
-};
-
 
 export const SeriesHiddenGemDetailScreen = (
     props: SeriesHiddenGemDetailProps,
@@ -123,7 +93,7 @@ export const SeriesHiddenGemDetailScreen = (
         var data = qs.stringify({
             tourCode: content?.tour.tourCode,
         });
-        
+
         var config = {
             method: 'post',
             url: SERVER + '/api/users/bookmark',

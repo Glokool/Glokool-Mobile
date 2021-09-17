@@ -49,54 +49,7 @@ import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
-
-type recommendation_Item = {
-    _id: string;
-    image: string;
-    title: string;
-};
-
-type Comments_Item = {
-    writer: {
-        uid: string;
-        name: string;
-        avatar: string;
-        grade: string;
-    };
-    comment: string;
-    parentComment: string;
-    isDeleted: Boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    plus: Array<string>;
-};
-
-type ContentImg_Item = {
-    _id: string;
-    author: string;
-    img: string;
-};
-
-type Content_Item = {
-    _id: string;
-    desc: string;
-    images: Array<ContentImg_Item>;
-    title: string;
-};
-
-type Series_Item = {
-    count: string;
-    cover: string;
-    createdAt: Date;
-    desc: string;
-    plus: Array<string>;
-    smallTitle: string;
-    title: string;
-    _id: string;
-    comments: Array<Comments_Item>;
-    content: Array<Content_Item>;
-    recommendation: Array<recommendation_Item>;
-};
+import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog } from '../../types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -107,7 +60,7 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
 
     const [height, setHeight] = useState<number>(0);
     const [Id, setId] = useState(props.route.params.Id);
-    const [content, setContent] = useState<Series_Item>(null);
+    const [content, setContent] = useState<Series_Item_Blog>(null);
     const [contentInfo, setContentInfo] = useState<Array<Content_Item>>(
         [],
     );
@@ -115,7 +68,7 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
     const [recommendation, setRecommendation] = useState<
         Array<recommendation_Item>
     >([]);
-    const [comments, setComments] = useState<Array<Comments_Item>>([]);
+    const [comments, setComments] = useState<Array<Comments_Item_Blog>>([]);
     const [nowComment, setNowComment] = useState('');
     const [bookmarkList, setBookmarkList] = useState([]);
     const [shareImage, setShareImage] = useState();

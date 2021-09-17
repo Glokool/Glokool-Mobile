@@ -30,9 +30,6 @@ export const CustomerServiceComponent = (
     const { currentUser } = React.useContext(AuthContext);
     const [visible, setVisible] = React.useState(false);
     const [passward, setPassward] = React.useState<string>('');
-    const [withDrawalVisible, setWithDrawalVisible] = React.useState<boolean>(
-        false,
-    );
     const [aboutUsVisible, setAboutUsVisible] = React.useState(false);
     const [termsofService, setTermsofService] = React.useState(false);
     const [privacy, setPrivacy] = React.useState(false);

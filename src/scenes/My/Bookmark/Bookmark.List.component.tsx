@@ -16,22 +16,7 @@ import { AngleLeft, Bookmark_PL } from '../../../assets/icon/Common';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-
-type Detail_Item = {
-    _id: string;
-    id: string;
-    image: string;
-    title: string;
-};
-
-type Bookmark_Item = {
-    _id: string;
-    tours: Array<Detail_Item>;
-    blog: Array<Detail_Item>;
-    contents: Array<Detail_Item>;
-    createdAt: string;
-    uid: string;
-};
+import { Detail_Item, Bookmark_Item } from '../../../types';
 
 const SeriesImgW = Dimensions.get('window').width;
 const SeriesImgH = Dimensions.get('window').height;
@@ -47,7 +32,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
     React.useEffect(() => {
         InitSeries();
     }, []);
-    
+
     async function InitSeries() {
         // 북마크 조회 하기 위한 함수
         const authToken = await auth().currentUser?.getIdToken();
@@ -130,7 +115,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
         return (
             <TouchableOpacity
                 style={styles.SeriesStyle}
-                onPress={() => {PressBlog(item.item.id)}}>
+                onPress={() => { PressBlog(item.item.id) }}>
                 <Image
                     source={{ uri: CDN + item.item.image }}
                     style={styles.SeriesImgStyle}
@@ -141,7 +126,7 @@ export const BookmarkList = (props: BookmarkListProps): LayoutElement => {
 
     return (
         <Layout style={{ backgroundColor: '#ffffff', height: SeriesImgH }}>
-            
+
             {/* Top tab bar */}
             <SafeAreaView style={{ flex: 0, backgroundColor: '#00FF0000' }} />
             <Layout style={styles.TabBarLayout}>

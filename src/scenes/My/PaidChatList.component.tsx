@@ -2,7 +2,7 @@ import React from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
-import { ReservationInfo } from '.';
+import { ReservationInfo } from '../../types';
 import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Receipt, Receipt_Large } from '../../assets/icon/My';

@@ -15,13 +15,7 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import { FlatGrid } from 'react-native-super-grid';
 import { SeriesBottomLogo } from '../../assets/icon/Series';
-
-type GridItem = {
-    image: string,
-    title: string,
-    id: string,
-    type: string,
-}
+import { GridItem } from '../../types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

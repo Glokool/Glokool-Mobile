@@ -11,24 +11,17 @@ import {
     Text
 } from '@ui-kitten/components';
 import { SelectableText } from '../Common/SelectableText.component';
-
-type SgntMenu = {
-    _id: string;
-    author: string;
-    img: string;
-    money: string;
-    title: string;
-}
+import { SignatureMenu } from '../../types';
 
 interface SignatureMenuFlatlistProps {
-    data: Array<SgntMenu> | undefined;
+    data: Array<SignatureMenu> | undefined;
 }
 
 const WindowSize = Dimensions.get('window').width
 
 export const SignatureMenuFlatlist = (props: SignatureMenuFlatlistProps): LayoutElement => {
 
-    const renderItem = (item: { item: SgntMenu, index: number }) => {
+    const renderItem = (item: { item: SignatureMenu, index: number }) => {
         console.log(item.item.img)
         return (
             <Layout style={styles.ImageContainer}>

@@ -17,16 +17,10 @@ import { ChatListNow } from '../../component/Chat/chat.list.now.component';
 import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
 import Toast from 'react-native-easy-toast';
 import { AuthContext } from '../../context/AuthContext';
+import { PriceData } from '../../types';
 
 var ToastRef: any;
 const windowHeight = Dimensions.get('window').height;
-
-type PriceData = {
-    active: boolean;
-    discountedPrice: number;
-    price: string;
-    discount: number;
-};
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     const [now, setNow] = useState<boolean>(true);

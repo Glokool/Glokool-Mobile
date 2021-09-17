@@ -13,10 +13,6 @@ import {
   Divider
 } from '@ui-kitten/components';
 import { FAQProps } from '../../../navigation/ScreenNavigator/My.navigator';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import {
-  faAngleLeft
-} from '@fortawesome/free-solid-svg-icons';
 import { AngleLeft } from '../../../assets/icon/Common';
 
 
