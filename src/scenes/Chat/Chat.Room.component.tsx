@@ -296,7 +296,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setRoomName(id);
 
         chat.on('value', (snapshot) => {
-            
+
             if (!snapshot.val()) {
                 setChatMessages([]);
                 setFetchChat(true);
@@ -1189,13 +1189,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     return (
         <Layout
             style={{ width: '100%', height: '100%' }}
-            onTouchStart={Keyboard.dismiss}>
+            
+        >
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
             <KeyboardAvoidingView
                 style={styles.Container}
                 behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 30 : -230}>
+                keyboardVerticalOffset={Platform.OS === 'android' ? 30 : -230}
+            >
                 <Layout style={styles.mainContainer}>
                     <GiftedChat
                         messages={chatMessages}
@@ -1293,7 +1295,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Modal>
 
                 {/*탭바 디자인*/}
-                <Layout style={styles.TabBar}>
+                <Layout style={styles.TabBar} onTouchStart={Keyboard.dismiss}>
                     <Pressable
                         style={styles.IconContainer}
                         onPress={() => backAction()}>
@@ -1463,7 +1465,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
             </Modal> */}
-            
+
         </Layout>
     );
 };
