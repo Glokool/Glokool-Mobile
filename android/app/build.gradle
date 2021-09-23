@@ -138,8 +138,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 2702
-        versionName "2.7.2"
+        versionCode 2705
+        versionName "2.7.5"
     }
     splits {
         abi {
@@ -158,7 +158,7 @@ android {
         }
 
         release {
-            storeFile file('/Users/jaehoon/develop/Glokool-Mobile/android/my-release-key.keystore')
+            storeFile file('C:\\Projects\\Glokool-Mobile\\android\\app\\my-release-key.keystore')
             keyPassword 'tjdtn327'
             keyAlias 'my-key-alias'
             storePassword 'tjdtn327'
@@ -181,6 +181,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // proguard-android.txt <-> proguard-android-optimize.txt
             signingConfig signingConfigs.release
         }
     }
