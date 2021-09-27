@@ -1098,7 +1098,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false }}
+                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
                 placeholder="Chat Message"
                 textInputStyle={{
                     alignSelf: 'center',
@@ -1106,6 +1106,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     textDecorationLine: 'none',
                     borderBottomWidth: 0,
                     textAlignVertical: 'center',
+                    maxHeight: 90,
                 }}
                 style={{ borderRadius: 35 }}
             />
@@ -1189,7 +1190,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     return (
         <Layout
             style={{ width: '100%', height: '100%' }}
-            
+
         >
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
