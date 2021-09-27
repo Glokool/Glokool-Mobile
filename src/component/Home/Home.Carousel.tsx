@@ -111,23 +111,24 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                 inactiveDotScale={1}
             /> */}
             <SwiperFlatList
-                autoplay
-                autoplayDelay={1}
-                autoplayLoop
+                index={0}
+                autoplay={true}
+                autoplayDelay={2}
+                autoplayLoop={true}
                 autoplayLoopKeepAnimation={true}
                 data={content}
                 renderItem={RenderCarousel}
                 showPagination
-                paginationStyle={{bottom:-10}}
+                paginationStyle={{ bottom: -10 }}
                 paginationDefaultColor={'#d2d2d2'}
                 paginationStyleItemActive={{
-                    width:10,
-                    height:5,
+                    width: 10,
+                    height: 5,
                 }}
                 paginationActiveColor={'#7777ff'}
                 paginationStyleItemInactive={{
-                    width:10,
-                    height:5,
+                    width: 10,
+                    height: 5,
                 }}
             />
         </Layout>
