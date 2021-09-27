@@ -6,18 +6,13 @@ import {
     Text,
     LayoutElement
 } from '@ui-kitten/components';
-
+import { WeatherInfo } from '../../types';
 import { Snow, Sunny, Rainy, Cloudy } from '../../assets/image/Chat'
 import moment from 'moment';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 
-type WeatherInfo = {
-    main: string,
-    temp: string,
-    temp_min: string,
-    temp_max: string
-}
+
 
 export const WeatherComponent = (props: any): LayoutElement => {
 

@@ -20,7 +20,6 @@ import { HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 
-
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

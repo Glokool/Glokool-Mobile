@@ -38,56 +38,10 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
+import { AttractionData } from '../../types';
 
 const WindowSize = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-};
-
-type photoSpot = {
-    _id: string;
-    desc: string;
-    images: Array<photoSpotImage>;
-    location: string;
-};
-
-type photoSpotImage = {
-    _id: string;
-    author: string;
-    img: string;
-};
-
-type AttractionData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    photoSpot: Array<photoSpot>;
-};
 
 export const SeriesHiddenGemContentAttr = (
     props: SeriesHiddenGemContentAttrProps,

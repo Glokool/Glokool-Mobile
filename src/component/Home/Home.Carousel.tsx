@@ -7,13 +7,7 @@ import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigat
 import { Dimensions, Image, StyleSheet, Pressable } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
-
-type HomeCarousel_Item = {
-    title: string;
-    type: string;
-    image: string;
-    _id: string;
-};
+import { HomeCarousel_Item } from '../../types';
 
 const ImageSize = Dimensions.get('window').width * 0.85;
 

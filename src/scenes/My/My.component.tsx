@@ -31,24 +31,16 @@ import { SERVER } from '../../server.component';
 import moment from 'moment';
 import { ScrollView } from 'react-native-gesture-handler';
 import { PaidDetail } from '../../component/My/PaidDetail';
-import { ReservationInfo } from '.';
+import { ReservationInfo } from '../../types';
 import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
+import { FirebaseUserInfo } from '../../types';
 
 var toastRef: any;
 
 const Screen = Dimensions.get('window').width;
 
-type FirebaseUserInfo = {
-    type: string;
-    avatar: string;
-    birthDate: Date;
-    country: string;
-    email: string;
-    gender: string;
-    name: string;
-    signupDate: Date;
-};
+
 import { AuthContext } from '../../context/AuthContext';
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
@@ -241,7 +233,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                 props.navigation.navigate(SceneRoute.MY_SETTING)
                             }>
                             <Setting_Btn style={styles.ButtonIcon} />
-                            <Text style={styles.ButtonText}>Setting</Text>
+                            <Text style={styles.ButtonText}>Settings</Text>
                         </TouchableOpacity>
                         <Layout style={styles.VerticalLine} />
 

@@ -70,17 +70,6 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
         initGrid();
     }, [])
 
-    // 새로고침 이벤트가 끝날때 refresh 해주기
-    // useEffect(() => {
-    //     if (refreshing == false) {
-    //         setRefreshEnd(true);
-    //         // initCategories();
-    //         checkFocused(focusedItem);
-    //     }
-    //     setTimeout(() => setRefreshEnd(false), 1);
-
-    // }, [refreshing])
-
     // 새로고침 시 refresh 상태변화
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);

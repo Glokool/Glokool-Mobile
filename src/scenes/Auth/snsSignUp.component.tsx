@@ -40,8 +40,6 @@ import { CommonActions } from '@react-navigation/native';
 import { NavigatorRoute } from '../../navigation/app.route'
 import { Profile } from 'react-native-fbsdk-next';
 
-
-
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
   return { date, onSelect: setDate };

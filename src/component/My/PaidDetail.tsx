@@ -10,7 +10,6 @@ import { ReservationInfo } from '../../scenes/My';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { MY_Refund_Policy } from '../../assets/icon/My';
-import { DateTime } from 'luxon'
 
 const WindowSize = Dimensions.get('window').width;
 
@@ -59,9 +58,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
     }, [props]);
 
     async function PressRefund() {
-
         const Token = await auth().currentUser?.getIdToken();
-
         const config = {
             method: 'patch',
             url: SERVER + '/api/reservations/' + data._id + '/refund',
@@ -72,15 +69,12 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
         const result = await axios(config);
         setVisible(false);
-
     }
 
     function PressRefundButton() {
-
         if (data.refund.check === true) {
             return null
-        }
-        else {
+        } else {
             setVisible2(true)
         }
 
@@ -183,7 +177,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
                     <Layout style={styles.RefundButtonContainer}>
                         <TouchableOpacity style={(refundCheck || data.refund.check) ? styles.RefundButtonC : styles.RefundButton} onPress={() => PressRefundButton()} disabled={refundCheck}>
-                            <Text style={(refundCheck || data.refund.check) ? styles.RefundButtonTextC: styles.RefundButtonText}>Refund</Text>
+                            <Text style={(refundCheck || data.refund.check) ? styles.RefundButtonTextC : styles.RefundButtonText}>Refund</Text>
                         </TouchableOpacity>
                     </Layout>
                 </Modal>

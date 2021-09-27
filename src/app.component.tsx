@@ -20,10 +20,9 @@ import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/permission.component';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
-
 
 const saveTokenToDatabase = async (token: any) => {
 
@@ -50,7 +49,7 @@ export default (props: any): React.ReactFragment => {
         const user = auth().currentUser;
 
         const Token = await user?.getIdToken(true);
-        const AxiosConfig = {
+        const AxiosConfig: AxiosRequestConfig = {
             method: 'get',
             url: SERVER + '/api/users/reservations/future',
             headers: {
@@ -75,7 +74,7 @@ export default (props: any): React.ReactFragment => {
 
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
-            if(user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null){
+            if (user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null) {
                 if (user && user?.emailVerified) {
                     const userInfo = {
                         displayName: user?.displayName,
@@ -84,14 +83,14 @@ export default (props: any): React.ReactFragment => {
                         uid: user?.uid,
                         access_token: null,
                     };
-    
+
                     setCurrentUser(userInfo);
-    
+
                     InitNowList();
                 } else {
                     auth().signOut;
                 }
-            }else{
+            } else {
                 const userInfo = {
                     displayName: user?.displayName,
                     email: user?.email,

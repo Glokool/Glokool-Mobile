@@ -7,44 +7,44 @@ import { CDN } from '../../server.component';
 
 const WindowWidth = Dimensions.get('window').width
 
-export const HiddenGemInKoreaDetailList = (props : HiddenGemInKoreaDetailListProps) : LayoutElement => {
+export const HiddenGemInKoreaDetailList = (props: HiddenGemInKoreaDetailListProps): LayoutElement => {
 
-    function PressDetail(placeCode : string) {
-        
-        if(props.type === 'attr'){
-            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+    function PressDetail(placeCode: string) {
+
+        if (props.type === 'attr') {
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_ATTR, { TourCode: props.route.params.TourCode, PlaceCode: placeCode });
         }
 
-        else if (props.type === 'rest'){
-            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+        else if (props.type === 'rest') {
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_REST, { TourCode: props.route.params.TourCode, PlaceCode: placeCode });
         }
 
-        else if (props.type === 'cafe'){
-            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE, { TourCode: props.route.params.TourCode , PlaceCode : placeCode } );
+        else if (props.type === 'cafe') {
+            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL_CAFE, { TourCode: props.route.params.TourCode, PlaceCode: placeCode });
         }
     }
 
-    return(
-        <Layout style={{backgroundColor: '#00FF0000'}}>
-            {(props.data?.map((item) => 
-                <Pressable style={styles.DataContainer} onPress={() => {PressDetail(item.placeCode)}}>
+    return (
+        <Layout style={{ backgroundColor: '#00FF0000' }}>
+            {(props.data?.map((item) =>
+                <Pressable style={styles.DataContainer} onPress={() => { PressDetail(item.placeCode) }}>
 
-                    <Image source={{ uri : CDN + item.banner }} style={styles.ImageContainer} resizeMode={'stretch'}/>
+                    <Image source={{ uri: CDN + item.banner }} style={styles.ImageContainer} resizeMode={'stretch'} />
 
                     <Text style={styles.TitleText}>{item.title}</Text>
                     <Text style={styles.DescText}>{item.desc}</Text>
 
-                </Pressable>               
+                </Pressable>
             ))}
         </Layout>
     )
-    
+
 };
 
 const styles = StyleSheet.create({
     DataContainer: {
         width: WindowWidth - 60,
-        minHeight : WindowWidth * 0.64,
+        minHeight: WindowWidth * 0.64,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 3,
         fontWeight: 'bold',
-        lineHeight: 22, 
+        lineHeight: 22,
     },
     DescText: {
         fontFamily: 'IBMPlexSansKR-Text',

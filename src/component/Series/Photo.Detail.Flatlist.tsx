@@ -12,12 +12,7 @@ import {
 } from '@ui-kitten/components'
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { CDN } from '../../server.component';
-
-type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-}
+import { IntroData } from '../../types';
 
 interface DetailFlatlistProps {
     data: Array<IntroData> | undefined
@@ -30,8 +25,6 @@ export const PhotoDetailFlatlist = (props: DetailFlatlistProps): LayoutElement =
     const data = props.data;
 
     const renderItem = (item: { item: IntroData, index: number }) => {
-
-        // console.log(item);
 
         return (
             <Layout style={styles.MainContainer}>

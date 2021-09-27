@@ -41,52 +41,10 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
+import { ShareItem, FacebookShareItem, CafeData } from '../../types';
 
 const WindowSize = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-};
-
-type SgntMenu = {
-    _id: string;
-    author: string;
-    img: string;
-    money: string;
-    title: string;
-};
-
-type CafeData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SgntMenu>;
-};
 
 export const SeriesHiddenGemContentCafe = (
     props: SeriesHiddenGemContentCafeProps,
@@ -94,7 +52,7 @@ export const SeriesHiddenGemContentCafe = (
     const TourCode = props.route.params.TourCode;
     const PlaceCode = props.route.params.PlaceCode;
 
-    const ScrollVewRef = useRef(null);
+    const ScrollViewRef = useRef(null);
 
     const [data, setData] = useState<CafeData>(null);
     const [selectedButton, setSelectedButton] = useState<number>(0);
@@ -112,6 +70,7 @@ export const SeriesHiddenGemContentCafe = (
     useEffect(() => {
         encodeBase64Img();
     }, [data]);
+
     // modal 에 true 전달 후 false 로 초기화
     useEffect(() => {
         if (Glochat) {
@@ -119,7 +78,7 @@ export const SeriesHiddenGemContentCafe = (
         }
     }, [Glochat])
 
-    async function InitContentAttr() {
+    const InitContentAttr = async () => {
         var ContentAttr = await axios.get(
             `${SERVER}/api/tours/${TourCode}/cafes/${PlaceCode}/info`,
         );
@@ -128,7 +87,7 @@ export const SeriesHiddenGemContentCafe = (
 
     const facebookShare = async () => {
         // facebook 에 공유하는 부분 (링크, quotion)
-        const sharingOptions = {
+        const sharingOptions: FacebookShareItem = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
             quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
@@ -144,7 +103,7 @@ export const SeriesHiddenGemContentCafe = (
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions = Platform.OS === 'ios' ? (
+        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
             {
                 title: 'Share Contents',
                 // 여기 메세지 앞에 indent 추가하지 말아주세요!
@@ -194,19 +153,19 @@ glokool.page.link/jdF1`,
         setSelectedButton(index);
 
         if (index === 0) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: infoPos - 100,
                 animated: true,
             });
         } else if (index === 1) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: detailPos - 100,
                 animated: true,
             });
         } else if (index === 2) {
-            ScrollVewRef.current.scrollTo({
+            ScrollViewRef.current.scrollTo({
                 x: 0,
                 y: menuPos - 100,
                 animated: true,
@@ -235,7 +194,7 @@ glokool.page.link/jdF1`,
     ) : (
         <Layout style={styles.MainContainer}>
             <ScrollView
-                ref={ScrollVewRef}
+                ref={ScrollViewRef}
                 style={styles.MainContainer}
                 showsVerticalScrollIndicator={false}
                 onScroll={(e) => {
@@ -449,7 +408,7 @@ glokool.page.link/jdF1`,
                     <TouchableOpacity
                         style={styles.GoUpButton}
                         onPress={() =>
-                            ScrollVewRef.current.scrollTo({
+                            ScrollViewRef.current.scrollTo({
                                 x: 0,
                                 y: 0,
                                 animated: true,

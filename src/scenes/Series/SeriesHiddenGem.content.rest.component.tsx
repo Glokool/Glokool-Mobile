@@ -41,52 +41,10 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
+import { RestaurantData, ShareItem, FacebookShareItem } from '../../types';
 
 const WindowSize = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
-type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-};
-
-type SgntMenu = {
-    _id: string;
-    author: string;
-    img: string;
-    money: string;
-    title: string;
-};
-
-type RestaurantData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SgntMenu>;
-};
 
 export const SeriesHiddenGemContentRest = (
     props: SeriesHiddenGemContentRestProps,
@@ -167,7 +125,7 @@ export const SeriesHiddenGemContentRest = (
 
     const facebookShare = async () => {
         // facebook 에 공유하는 부분 (링크, quotion)
-        const sharingOptions = {
+        const sharingOptions: FacebookShareItem = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
             quote: data?.title + '\nClick to find out exclusive Korea travel tips!',
@@ -184,7 +142,7 @@ export const SeriesHiddenGemContentRest = (
     const shareItems = async () => {
 
         // // sns 공유
-        const shareOptions = Platform.OS === 'ios' ? (
+        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
             {
                 title: 'Share Contents',
                 // 여기 메세지 앞에 indent 추가하지 말아주세요!

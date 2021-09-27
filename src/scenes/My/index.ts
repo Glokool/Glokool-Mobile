@@ -14,28 +14,3 @@ export { PrivacyLogin } from './Privacy/privacy.login.component'
 
 //BookmarkList
 export { BookmarkList } from './Bookmark/Bookmark.List.component';
-
-
-export type ReservationInfo = {
-    uid: string, 
-    name: string, 
-    email: string, 
-    contact: string,     
-    refund: {
-      check: boolean, 
-      complete :  boolean | undefined,
-      createdAt: Date | undefined,
-      completedAt: Date | undefined, 
-    },
-    guide: {
-        uid: string, 
-        name: string,
-        score: number, 
-    },
-    day: Date,
-    lang: string,
-    money: string,
-    paymentID: string,
-    paymentDate: Date,
-    _id: string
-}

@@ -76,8 +76,6 @@ import { SERVER, CDN } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-// import { Alert } from '../../assets/icon/Auth';
-// 안쓰여서 일단 주석처리
 
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
 import { QuickSearchButton } from '../../assets/icon/Chat'

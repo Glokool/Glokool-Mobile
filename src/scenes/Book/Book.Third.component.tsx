@@ -21,13 +21,7 @@ import { number } from 'yup';
 import { AuthContext } from '../../context/AuthContext';
 import LinearGradient from 'react-native-linear-gradient';
 import { Paypal, KakaoPay } from '../../assets/icon/Booking';
-
-type PriceData = {
-    active: boolean;
-    discountedPrice: number;
-    price: number;
-    discount: number;
-};
+import { PriceData } from '../../types';
 
 interface State {
     paypalClicked: boolean;

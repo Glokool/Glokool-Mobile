@@ -45,38 +45,7 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
-
-type recommendation_Item = {
-    _id: string;
-    image: string;
-    title: string;
-};
-
-type Comments_Item = {
-    _id: string;
-    writer: {
-        uid: string;
-        name: string;
-        avatar: string;
-        grade: string;
-    };
-    comment: string;
-    createdAt: Date;
-    plus: Array<string>;
-};
-
-type Series_Item = {
-    images: Array<string>;
-    comments: Array<Comments_Item>;
-    _id: string;
-    count: string;
-    desc: string;
-    gloPick: string;
-    plus: Array<string>;
-    title: string;
-    createdAt: Date;
-    recommendation: Array<recommendation_Item>;
-};
+import { recommendation_Item, Comments_Item, Series_Item } from '../../types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -594,7 +563,7 @@ glokool.page.link/jdF1`,
                                                         style={
                                                             styles.CommentsAuthorInner02PlusContainerLayout
                                                         }>
-                                                        <Comments6_s />
+                                                        <Comments6_s/>
                                                         <Text
                                                             style={
                                                                 styles.CommentsAuthorInnerPlusNum02Layout
@@ -951,8 +920,6 @@ const styles = StyleSheet.create({
     },
     CommentsContainer: {
         marginBottom: 10,
-        // borderWidth: 1,
-        // borderColor: 'pink',
     },
     CommentsInnerContainer: {
         marginLeft: 20,
@@ -974,8 +941,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 2,
-        // borderWidth: 1,
-        // borderColor: 'red',
     },
     CommentsAuthorInner01Layout: {},
     CommentsAuthorInner02Layout: {
@@ -999,7 +964,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         alignItems: 'center',
     },
-    CommentsAuthorInner02PlusIconLayout: {},
     CommentsAuthorInnerPlusNum02Layout: {
         fontFamily: 'IBMPlexSansKR-Text',
         fontSize: 11,

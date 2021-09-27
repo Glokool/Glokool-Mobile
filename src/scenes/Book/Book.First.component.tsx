@@ -15,8 +15,6 @@ export const BookFirstScreen = (props: BookFirstScreenProps): LayoutElement => {
     const [date, setDate] = React.useState<Date>(new Date());
     const { currentUser } = React.useContext(AuthContext);
 
-
-
     return currentUser != null ? (
         <Layout style={styles.Container}>
 
