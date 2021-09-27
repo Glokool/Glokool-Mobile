@@ -51,6 +51,7 @@ import { GloChatButton } from '../../component/Series';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -219,7 +220,8 @@ glokool.page.link/jdF1`,
     const RenderCarousel = (item: { item: ContentImg_Item; index: number }) => {
         return (
             <Layout>
-                <Image
+                <ImageModal
+                    resizeMode="contain"
                     source={{ uri: CDN + item.item.img }}
                     style={styles.ImageContainer}
                 />
@@ -403,7 +405,11 @@ glokool.page.link/jdF1`,
                     ) : null}
 
                     <Layout>
-                        <Image source={{ uri: CDN + content?.cover }} style={styles.CoverImg} />
+                        <ImageModal
+                            resizeMode="contain"
+                            style={styles.CoverImg}
+                            source={{ uri: CDN + content?.cover }}
+                        />
                         <Layout style={styles.SeriesBottomLayout}>
                             <Layout style={styles.SeriesDateLayoutStyle}>
                                 <Text style={styles.SeriesDateTxtStyle}>{moment(content?.createdAt).format("YYYY-MM-DD")}</Text>

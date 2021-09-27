@@ -13,6 +13,7 @@ import {
 import { Instagram, Naver } from '../../assets/icon/SNS';
 import { CDN } from '../../server.component';
 import { IntroData } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 interface DetailFlatlistProps {
     data: Array<IntroData> | undefined
@@ -28,7 +29,7 @@ export const PhotoDetailFlatlist = (props: DetailFlatlistProps): LayoutElement =
 
         return (
             <Layout style={styles.MainContainer}>
-                <Image source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'stretch'} />
+                <ImageModal source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'contain'} />
 
                 {(item.item.author === 'undefined') ?
                     null

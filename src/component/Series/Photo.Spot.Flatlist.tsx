@@ -16,6 +16,7 @@ import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component'
 import { CDN } from '../../server.component';
 import { photoSpot, photoSpotImage } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 interface DetailFlatlistProps {
     data: Array<photoSpot> | undefined
@@ -34,9 +35,9 @@ export const PhotoSpotFlatlist = (props: DetailFlatlistProps): LayoutElement => 
     const renderInnerList = (item: any) => {
         return (
             <View>
-                <Image
+                <ImageModal
                     source={{ uri: CDN + item.item.img }}
-                    style={styles.InsideImage} resizeMode={'stretch'}
+                    style={styles.InsideImage} resizeMode={'contain'}
                 />
                 <View style={styles.authorContainer}>
                     {item.item.author === 'i' && <Instagram />}

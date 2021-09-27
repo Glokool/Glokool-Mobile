@@ -13,6 +13,7 @@ import {
 import { SelectableText } from '../Common/SelectableText.component';
 import { CDN } from '../../server.component';
 import { SignatureMenu } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 interface SignatureMenuFlatlistProps {
     data: Array<SignatureMenu> | undefined;
@@ -26,9 +27,9 @@ export const SignatureMenuFlatlist = (props: SignatureMenuFlatlistProps): Layout
         console.log(item.item.img)
         return (
             <Layout style={styles.ImageContainer}>
-                <Image source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'stretch'} />
+                <ImageModal source={{ uri: CDN + item.item.img }} style={styles.Image} resizeMode={'contain'} />
 
-                <SelectableText style={styles.MenuTitleText} item={item.item.title} />
+                <SelectableText style={styles.MenuTitleText}>{item.item.title}</SelectableText>
                 <Layout style={styles.PriceContainer}>
                     <Text style={styles.MenuPriceText}>{item.item.money}</Text>
                     <Text style={styles.KRWText}> KRW</Text>

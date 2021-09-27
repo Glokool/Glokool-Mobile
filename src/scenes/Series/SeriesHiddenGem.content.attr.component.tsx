@@ -39,6 +39,7 @@ import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
 import { AttractionData } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 const WindowSize = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -202,7 +203,7 @@ glokool.page.link/jdF1`,
                 />
                 <Layout style={{ height: 50 }} />
                 {/* 썸네일 이미지 */}
-                <Image
+                <ImageModal
                     source={{ uri: CDN + data?.cover }}
                     style={styles.Thumbnail}
                     resizeMode={'contain'}

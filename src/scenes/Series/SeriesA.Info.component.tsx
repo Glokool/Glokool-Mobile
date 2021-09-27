@@ -46,6 +46,7 @@ import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item } from '../../types';
+import ImageModal from 'react-native-image-modal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -201,7 +202,7 @@ glokool.page.link/jdF1`,
     const RenderCarousel = ({ item }) => {
         return (
             <Layout style={styles.ItemContainer}>
-                <Image source={{ uri: CDN + item }} style={styles.ImageContainer} />
+                <ImageModal resizeMode="contain" source={{ uri: CDN + item }} style={styles.ImageContainer} />
             </Layout>
         );
     };
