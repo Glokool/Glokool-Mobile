@@ -1255,7 +1255,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             </Text>
                         </Pressable>
                         <FastImage
-                            source={{ uri: CDN + imageURL }}
+                            source={{ uri: imageURL }}
                             resizeMode={FastImage.resizeMode.cover}
                             style={{
                                 width: WindowWidth,
