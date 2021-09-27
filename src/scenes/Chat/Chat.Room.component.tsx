@@ -456,7 +456,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Pressable onPress={() => imageZoom(imgUrl)}>
                 <FastImage
-                    source={{ uri: CDN + imgUrl }}
+                    source={{ uri: imgUrl }}
                     resizeMode={FastImage.resizeMode.cover}
                     style={{
                         width: 150,
