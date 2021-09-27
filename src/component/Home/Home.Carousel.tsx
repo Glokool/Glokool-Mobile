@@ -6,6 +6,7 @@ import { SERVER, CDN } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { Dimensions, Image, StyleSheet, Pressable } from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 type HomeCarousel_Item = {
     title: string;
@@ -67,8 +68,8 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                             {item.item.type === 'tour'
                                 ? `Hidden Gems in Korea`
                                 : item.item.type === 'blog'
-                                ? `Day Trip with Glokool`
-                                : 'Korea A-Z'}
+                                    ? `Day Trip with Glokool`
+                                    : 'Korea A-Z'}
                         </Text>
                     </Layout>
                     <Text style={styles.Title}>
@@ -81,7 +82,7 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
 
     return (
         <Layout style={styles.CarouselContainer}>
-            <Carousel
+            {/* <Carousel
                 data={content}
                 layout={'default'}
                 renderItem={RenderCarousel}
@@ -108,6 +109,27 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
                 inactiveDotColor={'black'}
                 inactiveDotOpacity={0.4}
                 inactiveDotScale={1}
+            /> */}
+            <SwiperFlatList
+                index={0}
+                autoplay={true}
+                autoplayDelay={2}
+                autoplayLoop={true}
+                autoplayLoopKeepAnimation={true}
+                data={content}
+                renderItem={RenderCarousel}
+                showPagination
+                paginationStyle={{ bottom: -10 }}
+                paginationDefaultColor={'#d2d2d2'}
+                paginationStyleItemActive={{
+                    width: 10,
+                    height: 5,
+                }}
+                paginationActiveColor={'#7777ff'}
+                paginationStyleItemInactive={{
+                    width: 10,
+                    height: 5,
+                }}
             />
         </Layout>
     );
@@ -117,10 +139,10 @@ const styles = StyleSheet.create({
     CarouselContainer: {
         marginLeft: 30,
         height: ImageSize,
-        width: '100%',
+        width: ImageSize,
         backgroundColor: '#00FF0000',
         marginTop: 15,
-        
+
     },
     Carousel: {
         height: ImageSize,

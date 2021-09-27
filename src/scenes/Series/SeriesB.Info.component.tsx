@@ -49,6 +49,7 @@ import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { GloChatButton } from '../../component/Series';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 type recommendation_Item = {
     _id: string;
@@ -469,8 +470,9 @@ glokool.page.link/jdF1`,
 
                     {/* content carousel */}
                     {contentInfo.map((item) => (
-                        <Layout style={styles.CarouselContainerLayout}>
-                            <Carousel
+                        <>
+                            <Layout style={styles.CarouselContainerLayout}>
+                                {/* <Carousel
                                 data={item.images}
                                 layout={'default'}
                                 renderItem={RenderCarousel}
@@ -496,18 +498,40 @@ glokool.page.link/jdF1`,
                                 inactiveDotColor={'#7777FF'}
                                 inactiveDotOpacity={0.4}
                                 inactiveDotScale={1}
-                            />
-                            <Layout style={styles.ContentTxtLayout}>
-                                <SelectableText style={styles.ContentTitleTxt} >{item.title}</SelectableText>
-                                <SelectableText style={styles.ContentDescTxt} >{item.desc}</SelectableText>
+                            /> */}
+                                <SwiperFlatList
+                                    data={item.images}
+                                    renderItem={RenderCarousel}
+                                    showPagination
+                                    style={{
+                                        marginBottom: 10,
+                                    }}
+                                    paginationStyle={{ bottom: -30 }}
+                                    paginationDefaultColor={'#7777ff77'}
+                                    paginationStyleItemActive={{
+                                        width: 10,
+                                        height: 5,
+                                    }}
+                                    paginationActiveColor={'#7777ff'}
+                                    paginationStyleItemInactive={{
+                                        width: 10,
+                                        height: 5,
+                                    }}
+                                />
                             </Layout>
+                            <Layout>
+                                <Layout style={styles.ContentTxtLayout}>
+                                    <SelectableText style={styles.ContentTitleTxt} >{item.title}</SelectableText>
+                                    <SelectableText style={styles.ContentDescTxt} >{item.desc}</SelectableText>
+                                </Layout>
 
-                            {/* 글로서비스 컨테이너 */}
-                            <TouchableOpacity onPress={() => pressService(item)}>
-                                <Service />
-                            </TouchableOpacity>
+                                {/* 글로서비스 컨테이너 */}
+                                <TouchableOpacity onPress={() => pressService(item)}>
+                                    <Service />
+                                </TouchableOpacity>
 
-                        </Layout>
+                            </Layout>
+                        </>
                     ))}
                     {/* 글로서비스 모달 */}
                     <ServiceModal isVisible={Glochat} data={modalItem} />

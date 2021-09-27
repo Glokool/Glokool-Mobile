@@ -44,6 +44,7 @@ import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
 type recommendation_Item = {
     _id: string;
@@ -391,7 +392,7 @@ glokool.page.link/jdF1`,
                     />
                     <Layout style={{ height: 55 }} />
                     <Layout style={styles.CarouselContainerLayout}>
-                        <Carousel
+                        {/* <Carousel
                             data={image}
                             layout={'default'}
                             renderItem={RenderCarousel}
@@ -419,6 +420,22 @@ glokool.page.link/jdF1`,
                             inactiveDotColor={'#ffffff'}
                             inactiveDotOpacity={0.4}
                             inactiveDotScale={1}
+                        /> */}
+                        <SwiperFlatList
+                            data={image}
+                            renderItem={RenderCarousel}
+                            showPagination
+                            paginationStyle={{ bottom: -10 }}
+                            paginationDefaultColor={'#ffffff77'}
+                            paginationStyleItemActive={{
+                                width: 10,
+                                height: 5,
+                            }}
+                            paginationActiveColor={'#ffffff'}
+                            paginationStyleItemInactive={{
+                                width: 10,
+                                height: 5,
+                            }}
                         />
                     </Layout>
                     <Layout style={styles.SeriesBottomLayout}>
