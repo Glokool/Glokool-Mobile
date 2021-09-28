@@ -36,7 +36,6 @@ import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
 import { FirebaseUserInfo } from '../../types';
 import { AuthContext } from '../../context/AuthContext';
-import { alertWindow } from '../../component/Common/LoginCheck.component';
 
 var toastRef: any;
 
@@ -65,24 +64,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     var timeout: any;
 
     const [loading, setLoading] = React.useState<boolean>(true);
-
-    const [response, setResponse] = React.useState({});
-
-    const seriesURL = "glokool://app/main/series";
-
-    const linkTo = useLinkTo();
-
-    const testOpenURL = async (route = props.route) => {
-        //linkTo('/main');
-
-        const flag = await Linking.openURL(seriesURL);
-        console.log(flag);
-
-        // const routeName = getFocusedRouteNameFromRoute(route);
-        // console.log(props.navigation.goBack());
-    }
-
-
 
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
@@ -165,19 +146,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         }, 1000);
     }
 
-    function PressComment() {
-        toastRef.show('Not Developed yet', 1000);
-    }
-
     return currentUser === null ? (
-        <Layout>
-            <Toast ref={(toast) => (toastRef = toast)} position={'bottom'} />
-            <LoginCheck
-                navigation={props.navigation}
-                route={props.route}
-                visible={currentUser === null ? true : false}
-            />
-        </Layout>
+        <Layout/>
     ) : (
         <Layout style={styles.SuperContainer}>
 
