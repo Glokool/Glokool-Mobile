@@ -1,27 +1,44 @@
 import React from 'react';
-import { LayoutElement, Layout, Modal, Card, Text, Button } from "@ui-kitten/components";
+import { LayoutElement, Layout, Modal, Card, Text, Button, } from "@ui-kitten/components";
 import { NavigatorRoute } from "../../navigation/app.route";
-import { StyleSheet, TouchableOpacity, Dimensions, } from 'react-native';
+import { StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { LoginCheckProps } from '../../navigation/Common.navigator';
 import { Delete } from '../../assets/icon/Common'
 
 
 const windowWidth = Dimensions.get('window').width;
-export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
+
+export const alertWindow = (navigation: any) => {
+    Alert.alert(
+        "Login Request",
+        "This service requires login.\n Click 'Continue' to log in.",
+        [{
+            text: "Cancel",
+            onPress: () => console.log("login canceled"),
+            style: "destructive"
+        }, {
+            text: "Continue",
+            onPress: () => navigation.navigate(NavigatorRoute.AUTH),
+            style: "default"
+        }]
+    );
+}
+
+export const LoginCheck = (props: LoginCheckProps): LayoutElement => {
 
     const [visible, setVisible] = React.useState(props.visible);
 
     React.useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
-            
-            setVisible(props.visible);
-    
-        });
-    
-        return unsubscribe;
-      }, [props.navigation]);
 
-    return(
+            setVisible(props.visible);
+
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
+
+    return (
         <Modal
             visible={visible}
             backdropStyle={styles.backdrop}
@@ -29,17 +46,17 @@ export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
             {/* <Card disabled={true} style={{backgroundColor: '#F8F8F8'}}> */}
             <Layout style={styles.ModalLayout}>
                 <Layout style={styles.ModalIconContainer}>
-                    <TouchableOpacity style={styles.CancelIcon} onPress={() => {setVisible(false); props.navigation.goBack()}}>
+                    <TouchableOpacity style={styles.CancelIcon} onPress={() => { setVisible(false); props.navigation.goBack() }}>
                         <Delete />
                     </TouchableOpacity>
                 </Layout>
-                
+
                 <Layout style={styles.ModalTxtContainer}>
                     <Text style={styles.modalTitle}>This service requires Login.</Text>
                 </Layout>
 
                 <Layout style={styles.ModalBtnContainer}>
-                    <TouchableOpacity style={styles.MoveButton} onPress={() => {setVisible(false); props.navigation.navigate(NavigatorRoute.AUTH)}}>
+                    <TouchableOpacity style={styles.MoveButton} onPress={() => { setVisible(false); props.navigation.navigate(NavigatorRoute.AUTH) }}>
                         <Text style={styles.MoveButtonText}>Click to Login</Text>
                     </TouchableOpacity>
                 </Layout>
@@ -50,24 +67,24 @@ export const LoginCheck = (props : LoginCheckProps) : LayoutElement => {
     )
 }
 const styles = StyleSheet.create({
-  
+
     container: {
-      flex: 1,
+        flex: 1,
     },
     // modal
     backdrop: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    ModalLayout:{
+    ModalLayout: {
         width: windowWidth * 0.85,
-        height: (windowWidth * 0.85) * 0.57, 
+        height: (windowWidth * 0.85) * 0.57,
         borderRadius: 10,
     },
     ModalIconContainer: {
         flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'center',
-        backgroundColor: '#00FF0000', 
+        backgroundColor: '#00FF0000',
     },
     CancelIcon: {
         marginRight: 20,
@@ -80,19 +97,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
     },
     modalTitle: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 22,
         color: '#8797FF'
     },
-    ModalBtnContainer:{
-        backgroundColor: '#00FF0000', 
+    ModalBtnContainer: {
+        backgroundColor: '#00FF0000',
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         // borderWidth: 1,
     },
     modalDesc: {
-        fontFamily : 'IBMPlexSansKR-Medium',
+        fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: '#AEAEAE',
         marginTop: 10,
@@ -108,8 +125,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     MoveButtonText: {
-        fontFamily : 'BrandonGrotesque-BoldItalic',
+        fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 22,
         color: '#FFFFFF'
     },
-  });
+});

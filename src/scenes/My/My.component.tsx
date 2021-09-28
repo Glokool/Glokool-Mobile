@@ -35,13 +35,12 @@ import { ReservationInfo } from '../../types';
 import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
 import { FirebaseUserInfo } from '../../types';
+import { AuthContext } from '../../context/AuthContext';
+import { alertWindow } from '../../component/Common/LoginCheck.component';
 
 var toastRef: any;
 
 const Screen = Dimensions.get('window').width;
-
-
-import { AuthContext } from '../../context/AuthContext';
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
     const { currentUser } = useContext(AuthContext);

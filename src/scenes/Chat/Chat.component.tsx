@@ -5,7 +5,8 @@ import {
     Text,
     TouchableOpacity,
     BackHandler,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 import { Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -19,6 +20,8 @@ import Toast from 'react-native-easy-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { PriceData } from '../../types';
 
+import { alertWindow } from '../../component/Common/LoginCheck.component';
+
 var ToastRef: any;
 const windowHeight = Dimensions.get('window').height;
 
@@ -26,8 +29,19 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     const [now, setNow] = useState<boolean>(true);
     const [price, setPrice] = useState<PriceData>();
 
+    const { currentUser } = useContext(AuthContext);
+
     var exitApp: any = undefined;
     var timeout: any;
+
+    const pressBookButton = () => {
+        if (!currentUser) {
+            alertWindow(props.navigation);
+        }
+        else { 
+            props.navigation.navigate(NavigatorRoute.BOOK); 
+        }
+    }
 
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
@@ -145,9 +159,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
                 <Layout style={styles.AdContainer3}>
                     <TouchableOpacity
-                        onPress={() => {
-                            props.navigation.navigate(NavigatorRoute.BOOK);
-                        }}>
+                        onPress={() => pressBookButton()}>
                         <Text style={styles.BookButtonText}>
                             BOOK
                         </Text>
