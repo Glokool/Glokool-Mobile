@@ -1,13 +1,12 @@
-import Chat from './Chat.svg';
-import Chat_S from './Chat_Select.svg';
-import Chat_Alert from './ChatAlert.svg';
-import Home from './Home.svg';
-import Home_S from './Home_Select.svg';
-import MyPage from './MyPage.svg';
-import MyPage_S from './MyPage_Select.svg';
-import Series from './Series.svg';
-import Series_S from './Series_Select.svg';
+import Chat from './chat_unselected_uncall.svg';
+import Chat_Alert from './chat_unselected_call.svg';
+import Chat_S from './chat_selected.svg';
+import Home from './home_unselected.svg';
+import Home_S from './home_selected.svg';
+import MyPage from './my_unselected.svg';
+import MyPage_S from './my_selected.svg';
+import Zone from './zone_unselected.svg';
+import Zone_S from './zone_selected.svg';
 
 
-
-export {Chat, Chat_S,Chat_Alert, Home, Home_S, MyPage, MyPage_S, Series, Series_S}
+export {Chat, Chat_S,Chat_Alert, Home, Home_S, MyPage, MyPage_S, Zone, Zone_S}

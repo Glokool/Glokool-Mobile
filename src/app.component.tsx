@@ -30,18 +30,19 @@ const saveTokenToDatabase = async (token: any) => {
 
     const userId = auth().currentUser?.uid;
 
-    // 토큰 정리 (firebase에 저장)
-    await firestore()
-        .collection('Users')
-        .doc(userId)
-        .update({
-            tokens: firestore.FieldValue.arrayUnion(token),
+    if (userId != undefined){
+        firestore()
+            .collection('Users')
+            .doc(userId)
+            .update({
+                tokens: firestore.FieldValue.arrayUnion(token),
         });
+    }
+
 };
 
-const store = createStore(rootReducer);
 
-export default (props: any): React.ReactFragment => {
+export default (props: any): React.ReactFragment => {                       
 
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
@@ -111,7 +112,6 @@ export default (props: any): React.ReactFragment => {
                 InitNowList();
             }
         });
-        console.log('app.component end');
     }, []);
 
     React.useEffect(() => {
@@ -145,26 +145,24 @@ export default (props: any): React.ReactFragment => {
     }, []);
 
     return (
-        <Provider store={store}>
-            <React.Fragment>
-                <IconRegistry icons={EvaIconsPack} />
-                <ApplicationProvider
-                    {...eva}
-                    theme={{ ...eva.light, ...theme }}
-                    customMapping={mapping}
-                >
-                    <SafeAreaProvider>
-                        <AuthContext.Provider value={userValue}>
-                            <ChatContext.Provider value={value}>
-                                <NavigationContainer linking={linking}>
-                                    <AppNavigator />
-                                </NavigationContainer>
-                            </ChatContext.Provider>
-                        </AuthContext.Provider>
-                    </SafeAreaProvider>
-                </ApplicationProvider>
-            </React.Fragment>
-        </Provider>
+        <React.Fragment>
+            <IconRegistry icons={EvaIconsPack} />
+            <ApplicationProvider
+                {...eva}
+                theme={{ ...eva.light, ...theme }}
+                customMapping={mapping}
+            >
+                <SafeAreaProvider>
+                    <AuthContext.Provider value={userValue}>
+                        <ChatContext.Provider value={value}>
+                            <NavigationContainer linking={linking}>
+                                <AppNavigator />
+                            </NavigationContainer>
+                        </ChatContext.Provider>
+                    </AuthContext.Provider>
+                </SafeAreaProvider>
+            </ApplicationProvider>
+        </React.Fragment>
     );
 };
 

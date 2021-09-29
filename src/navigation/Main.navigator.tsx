@@ -1,13 +1,22 @@
+/*
+    바텀 네비게이션 스타일 및 기능을 위한 네비게이터 파일
+
+    Tab navigator 사용 (스택 중첩 방식)
+    
+
+*/
+
+
 import React, { useContext } from 'react';
 import {
     BottomTabBarOptions,
     BottomTabBarProps,
     createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import {
     Keyboard,
     Platform,
-    SafeAreaView,
     Text,
     TouchableOpacity,
     View,
@@ -27,21 +36,19 @@ import {
     Home_S,
     MyPage,
     MyPage_S,
-    Series,
-    Series_S,
+    Zone,
+    Zone_S
 } from '../assets/icon/BottomNavigation';
 import { NavigatorRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
 
 const Tab = createBottomTabNavigator();
 
-function MyTabBar({
-    state,
-    descriptors,
-    navigation,
-}: BottomTabBarProps<BottomTabBarOptions>) {
+const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabBarOptions>) => {
+
     const { onChat } = useContext(ChatContext);
     const [visible, setVisible] = React.useState(true);
+    
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
     React.useEffect(() => {
@@ -57,7 +64,7 @@ function MyTabBar({
         return () => {
             if (Platform.OS === 'android') {
                 keyboardEventListeners &&
-                    keyboardEventListeners.forEach((eventListener) =>
+                    keyboardEventListeners.forEach((eventListener : any) =>
                         eventListener.remove(),
                     );
             }
@@ -68,35 +75,20 @@ function MyTabBar({
     if (!visible && Platform.OS === 'android') return null;
 
     return (
-        <View
-            style={{
-                position: 'absolute',
-                bottom: 0,
-                flexDirection: 'row',
-                borderTopLeftRadius: 15,
-                borderTopRightRadius: 15,
-                backgroundColor: 'white',
-                borderTopColor: '#fff',
-                borderTopWidth: 0.5,
-                shadowColor: 'rgba(0, 0, 0, 1)',
-                shadowOffset: {
-                    width: 0,
-                    height: 6,
-                },
-                shadowRadius: 5,
-                elevation: 5,
-                shadowOpacity: 1,
-            }}>
-            {state.routes.map((route, index) => {
+        <View style={styles.TabbarContainer} >
+            
+            {state.routes.map((route, id) => {                
+                
                 const { options } = descriptors[route.key];
-                const label =
-                    options.tabBarLabel !== undefined
-                        ? options.tabBarLabel
-                        : options.title !== undefined
-                            ? options.title
-                            : route.name;
+                const label = route.name;
+                // const label =
+                //     options.tabBarLabel !== undefined
+                //         ? options.tabBarLabel
+                //         : options.title !== undefined
+                //             ? options.title
+                //             : route.name;
 
-                const isFocused = state.index === index;
+                const isFocused = state.index === id;
 
                 const onPress = () => {
                     const event = navigation.emit({
@@ -119,6 +111,7 @@ function MyTabBar({
 
                 return (
                     <TouchableOpacity
+                        key={id}
                         accessibilityRole="button"
                         accessibilityState={
                             isFocused ? { selected: true } : {}
@@ -129,32 +122,26 @@ function MyTabBar({
                         testID={options.tabBarTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={index != 1 ? styles.ButtonContainer : styles.ChatButtonContainer}>
-                        <View
-                            style={{
-                                borderRadius: 25,
-                                width: 70,
-                                height: 35,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
+                        style={styles.ButtonContainer}>
+                        
+                        <View style={styles.TabbarIconContainer}>
                             {label === NavigatorRoute.HOME ? (
                                 isFocused ? (
                                     <Home_S />
                                 ) : (
                                     <Home />
                                 )
+                            ) : label === NavigatorRoute.SERIES ? (
+                                isFocused ? (
+                                    <Zone_S />
+                                ) : (
+                                    <Zone />
+                                )
                             ) : label === NavigatorRoute.CHAT ? (
                                 isFocused ? (
                                     <Chat_S />
                                 ) : (onChat ?
                                     <Chat_Alert /> : <Chat />
-                                )
-                            ) : label === NavigatorRoute.SERIES ? (
-                                isFocused ? (
-                                    <Series_S />
-                                ) : (
-                                    <Series />
                                 )
                             ) : label === NavigatorRoute.MY ? (
                                 isFocused ? (
@@ -164,16 +151,7 @@ function MyTabBar({
                                 )
                             ) : null}
                         </View>
-
-                        <Text
-                            style={{
-                                color: isFocused ? '#7777FF' : '#C6C6C6',
-                                textAlign: 'center',
-                                fontSize: 11,
-                                fontWeight: 'bold',
-                            }}>
-                            {label}
-                        </Text>
+                        
                     </TouchableOpacity>
                 );
             })}
@@ -181,10 +159,9 @@ function MyTabBar({
     );
 }
 
-const GuideVisiblity = (route) => {
-    const routeName = route.state
-        ? route.state.routes[route.state.index].name
-        : '';
+const GuideVisiblity = (route : any) => {
+
+    const routeName = getFocusedRouteNameFromRoute(route);
 
     if (
         routeName === 'Chatroom' ||
@@ -198,6 +175,7 @@ const GuideVisiblity = (route) => {
 };
 
 export const MainNavigator = (): React.ReactElement => (
+    
     <Tab.Navigator
         tabBar={(props) => <MyTabBar {...props} />}
         tabBarOptions={{
@@ -213,6 +191,15 @@ export const MainNavigator = (): React.ReactElement => (
 
             })}
         />
+        
+        <Tab.Screen
+            name={NavigatorRoute.SERIES}
+            component={SeriesNavigator}
+            options={({ route }) => ({
+                unmountOnBlur: true,
+            })}
+        />
+
         <Tab.Screen
             name={NavigatorRoute.CHAT}
             component={ChatNavigator}
@@ -221,13 +208,7 @@ export const MainNavigator = (): React.ReactElement => (
                 unmountOnBlur: true,
             })}
         />
-        <Tab.Screen
-            name={NavigatorRoute.SERIES}
-            component={SeriesNavigator}
-            options={({ route }) => ({
-                unmountOnBlur: true,
-            })}
-        />
+
         <Tab.Screen
             name={NavigatorRoute.MY}
             component={MyNavigator}
@@ -239,33 +220,40 @@ export const MainNavigator = (): React.ReactElement => (
 );
 
 const styles = StyleSheet.create({
+
     ButtonContainer: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         marginHorizontal: 10,
-        marginBottom: 20,
-        paddingBottom: 10,
-        paddingTop: 10,
+        marginTop: 15,
+        marginBottom: 15,
+
     },
-    ChatButtonContainer: {
-        flex: 1,
+
+    TabbarContainer: {
+        position: 'absolute',
+        bottom: 0,
+        flexDirection: 'row',
+        paddingHorizontal : 15,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+    },
+    
+    TabbarIconContainer: {
+        borderRadius: 25,
+        width: 70,
+        height: 35,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 10,
-        marginBottom: 20,
-        paddingBottom: 10,
-        paddingTop: 10,
-        // backgroundColor: 'white',
-        // borderBottomLeftRadius: 20,
-        // borderBottomRightRadius: 20,
-        // shadowColor: 'rgba(0, 0, 0, 1)',
-        // shadowOffset: {
-        //     width: 0,
-        //     height: 1,
-        // },
-        // shadowRadius: 5,
-        // elevation: 1,
-        // shadowOpacity: 0.11,
     }
 })
