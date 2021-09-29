@@ -36,10 +36,10 @@ import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
 import { FirebaseUserInfo } from '../../types';
 
-var toastRef: any;
+import { MyProfile } from '../../component/My/Main/My.Profile.component';
+import { BookmarkList } from '../../component/My/Main/My.Bookmark.component';
 
-const Screen = Dimensions.get('window').width;
-
+const windowWidth = Dimensions.get('window').width;
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -64,26 +64,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
     var exitApp: any = undefined;
     var timeout: any;
-
-    const [loading, setLoading] = React.useState<boolean>(true);
-
-    const [response, setResponse] = React.useState({});
-
-    const seriesURL = "glokool://app/main/series";
-
-    const linkTo = useLinkTo();
-
-    const testOpenURL = async (route = props.route) => {
-        //linkTo('/main');
-
-        const flag = await Linking.openURL(seriesURL);
-        console.log(flag);
-
-        // const routeName = getFocusedRouteNameFromRoute(route);
-        // console.log(props.navigation.goBack());
-    }
-
-
 
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
@@ -166,10 +146,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         }, 1000);
     }
 
-    function PressComment() {
-        toastRef.show('Not Developed yet', 1000);
-    }
-
     return currentUser === null ? (
         <Layout>
             <Toast ref={(toast) => (toastRef = toast)} position={'bottom'} />
@@ -191,41 +167,20 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                     style={styles.backgroundStyle} />
             )}
 
-            <PaidDetail
+            {/* 영수증 팝업 */}
+            {/* <PaidDetail
                 navigation={props.navigation}
                 visible={visible}
                 data={detailData}
-            />
+            /> */}
+
             <Layout style={styles.MainContainer}>
                 <Layout style={styles.Container}>
-                    <Layout style={styles.ProfileContainer}>
-                        {currentUser.photoURL === '' ||
-                            currentUser.photoURL === null ||
-                            currentUser.photoURL === undefined ? (
-                            <Image
-                                source={require('../../assets/profile/profile_01.png')}
-                                style={styles.profileImage}
-                            />
-                        ) : (
-                            <Image
-                                source={{ uri: currentUser.photoURL }}
-                                style={styles.profileImage}
-                            />
-                        )}
 
-                        <Text style={styles.profileTitle}>
-                            {currentUser.displayName}
-                        </Text>
+                    {/* 사용자 프로필 컴포넌트 분리 */}
+                    <MyProfile userInfo={userInfo} />
 
-                        {userInfo.type === 'Korean' ? (
-                            <Korean />
-                        ) : userInfo.type === 'Resident' ? (
-                            <Resident />
-                        ) : (
-                            <Traveler />
-                        )}
-                    </Layout>
-
+                    {/* Settings, Bookmark 버튼 */}
                     <Layout style={styles.ButtonContainer}>
                         <TouchableOpacity
                             style={styles.Button}
@@ -248,87 +203,25 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                             <Text style={styles.ButtonText}>Bookmark</Text>
                         </TouchableOpacity>
                     </Layout>
-                </Layout>
 
+                </Layout>
+                
+                {/* Bookmarklist 텍스트 */}
                 <Layout style={styles.SmallTitleContainer}>
                     <Layout style={styles.TextTitleContainer}>
-                        <Receipt style={styles.TextTitleIcon} />
-                        <Text style={styles.TextTitle}>Paid Chat List</Text>
+                        <Receipt />
+                        <Text style={styles.TextTitle}>MY BOOKMARK LIST</Text>
                     </Layout>
 
                     <Layout style={styles.DividerContainer}>
                         <Divider style={styles.Divider} />
                     </Layout>
                 </Layout>
-                {loading ? (
-                    <ActivityIndicator color={'grey'} />
-                ) : (
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        style={styles.scroll}>
-                        {reservationInfo?.length ? (
-                            reservationInfo.slice(0, 3).map((item, index) => (
-                                <TouchableOpacity
-                                    key={index.toString()}
-                                    onPress={() => PressDetail(item)}>
-                                    <Layout
-                                        style={
-                                            item.refund.complete === true
-                                                ? styles.PaidContainerC
-                                                : styles.PaidContainer
-                                        }>
-                                        <Layout style={styles.PaidInfoContainer}>
 
-                                            <Layout style={styles.PaidTitleContainer1}>
-                                                <Text style={styles.PaidTitle}>Payment</Text>
-                                                <Text style={styles.PaidTitle}>Trip Date</Text>
-                                            </Layout>
+                <BookmarkList/>
 
-                                            <Layout style={styles.PaidTitleContainer2}>
-                                                <Text style={item.refund.complete === true ? styles.PaidDescR : styles.PaidDesc}>
-                                                    {moment(item.paymentDate,).format('YY . MM . DD')}
-                                                </Text>
-                                                <Text style={item.refund.check === true ? styles.PaidDescR : styles.PaidDesc}>
-                                                    {moment(item.day).format('YY . MM . DD',)}
-                                                </Text>
-                                            </Layout>
-
-                                        </Layout>
-
-                                        <Layout style={styles.PaidInfoContainer}>
-                                            <Layout style={styles.PaidTitleContainer1}>
-                                                <Text style={styles.PaidTitle}>{` `}</Text>
-                                                <Text style={item.refund.complete === true ? styles.RefundCompleted : styles.RefundProgress}>
-                                                    {item.refund.check === false ? '' : item.refund.complete === true ? `Refund Completed` : `Refund in progress`}
-                                                </Text>
-                                            </Layout>
-                                        </Layout>
-                                    </Layout>
-                                </TouchableOpacity>
-                            ))
-                        ) : (
-                            <Layout style={styles.emptyContainer}>
-                                <Receipt_Large />
-                                <Text style={styles.emptyText}>
-                                    There is no 'Paid list' .
-                                </Text>
-                            </Layout>
-                        )}
-                    </ScrollView>
-                )}
-                <TouchableOpacity
-                    style={styles.ViewPaymentButton}
-                    onPress={() =>
-                        props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)
-                    }>
-                    <Text
-                        style={
-                            styles.ViewPaymentButtonText
-                        }>{`View previous payments >`}</Text>
-                </TouchableOpacity>
             </Layout>
 
-            <Toast ref={(toast) => (toastRef = toast)} position={'center'} />
         </Layout>
     );
 };
@@ -341,6 +234,7 @@ const styles = StyleSheet.create({
     },
     MainContainer: {
         backgroundColor: '#00000000',
+        alignItems: 'center',
     },
     Container: {
         marginHorizontal: 30,
@@ -385,8 +279,8 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     Button: {
-        width: Screen * 0.25,
-        height: Screen * 0.25,
+        width: windowWidth * 0.25,
+        height: windowWidth * 0.25,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
@@ -404,26 +298,24 @@ const styles = StyleSheet.create({
     SmallTitleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginHorizontal: 15,
     },
     TextTitleContainer: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
     },
-    TextTitleIcon: {
-        marginLeft: 30,
-        marginRight: 5,
-    },
     TextTitle: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        fontSize: 20,
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 16,
+        marginLeft: 5,
     },
     DividerContainer: {
         flex: 1,
     },
     Divider: {
-        marginRight: 30,
         backgroundColor: '#8797FF',
+        marginLeft: 10,
     },
     PaidContainer: {
         width: '100%',
