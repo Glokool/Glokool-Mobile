@@ -1,7 +1,4 @@
 import React, { useContext } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import { getFocusedRouteNameFromRoute, useFocusEffect, useLinkTo } from '@react-navigation/native';
 import {
     StyleSheet,
     Image,
@@ -9,15 +6,18 @@ import {
     TouchableOpacity,
     Dimensions,
     SafeAreaView,
-    ActivityIndicator,
-    Button,
-    Linking,
     Platform
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
-import { Korean, Resident, Traveler } from '../../assets/icon/UserType';
+
+import { useFocusEffect } from '@react-navigation/native';
+
+import { AuthContext } from '../../context/AuthContext';
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+
+import { MyProfile, BookmarkList } from '../../component/My/Main';
 import { LoginCheck } from '../../component/Common';
+
 import {
     Receipt,
     Receipt_Large,
@@ -26,41 +26,12 @@ import {
     Bookmark_Btn,
 } from '../../assets/icon/My';
 import { HomeBG, } from '../../assets/icon/Home';
-import axios from 'axios';
-import { SERVER } from '../../server.component';
-import moment from 'moment';
-import { ScrollView } from 'react-native-gesture-handler';
-import { PaidDetail } from '../../component/My/PaidDetail';
-import { ReservationInfo } from '../../types';
 import { SceneRoute } from '../../navigation/app.route';
-import Toast from 'react-native-easy-toast';
-import { FirebaseUserInfo } from '../../types';
-
-import { MyProfile } from '../../component/My/Main/My.Profile.component';
-import { BookmarkList } from '../../component/My/Main/My.Bookmark.component';
 
 const windowWidth = Dimensions.get('window').width;
 
-import { AuthContext } from '../../context/AuthContext';
-
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
     const { currentUser } = useContext(AuthContext);
-
-    const [visible, setVisible] = React.useState<boolean>(false);
-    const [detailData, setDetailData] = React.useState<ReservationInfo>();
-    const [reservationInfo, setReservationInfo] = React.useState<
-        Array<ReservationInfo>
-    >([]);
-    const [userInfo, setUserInfo] = React.useState<FirebaseUserInfo>({
-        type: '',
-        avatar: '',
-        birthDate: new Date(),
-        country: '',
-        email: '',
-        gender: '',
-        name: '',
-        signupDate: new Date(),
-    });
 
     var exitApp: any = undefined;
     var timeout: any;
@@ -79,48 +50,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         }, []),
     );
 
-    async function InitMyScreen() {
-        var UserInfo = await firestore()
-            .collection('Users')
-            .doc(currentUser?.uid)
-            .get();
-
-        if (UserInfo._data != undefined) {
-            setUserInfo(UserInfo._data);
-        }
-    }
-
-    React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            InitMyScreen();
-        });
-
-        return unsubscribe;
-    }, []);
-
-    /* 예약정보 가져오기 */
-    React.useEffect(() => {
-        auth()
-            .currentUser?.getIdToken(true)
-            .then(async (res) => {
-                const AxiosConfig = {
-                    method: 'get',
-                    url: SERVER + '/api/users/reservations',
-                    headers: {
-                        Authorization: 'Bearer ' + res,
-                    },
-                };
-                try {
-                    const RevData = await axios(AxiosConfig);
-                    setReservationInfo(RevData.data);
-                } catch (e) {
-                    /* receive 404 error */
-                    // console.log('e', e);
-                }
-                setLoading(false);
-            });
-    }, []);
-
     const handleBackButton = () => {
         if (exitApp == undefined || !exitApp) {
             // 한번만 더 누르면 종료
@@ -137,18 +66,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         return true;
     };
 
-    function PressDetail(item: ReservationInfo) {
-        setDetailData(item);
-        setVisible(true);
-
-        setTimeout(() => {
-            setVisible(false);
-        }, 1000);
-    }
-
     return currentUser === null ? (
         <Layout>
-            <Toast ref={(toast) => (toastRef = toast)} position={'bottom'} />
             <LoginCheck
                 navigation={props.navigation}
                 route={props.route}
@@ -159,26 +78,22 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         <Layout style={styles.SuperContainer}>
 
             <SafeAreaView />
+
+            {/* 배경 이미지, 안드로이드에서 svg 안보여서 png 로 대체 */}
             {Platform.OS === 'ios' ? (
                 <HomeBG style={styles.backgroundStyle} />
             ) : (
                 <Image
                     source={require('../../assets/icon/Home/HomeBGimg.png')}
-                    style={styles.backgroundStyle} />
+                    style={styles.backgroundStyle}
+                />
             )}
-
-            {/* 영수증 팝업 */}
-            {/* <PaidDetail
-                navigation={props.navigation}
-                visible={visible}
-                data={detailData}
-            /> */}
 
             <Layout style={styles.MainContainer}>
                 <Layout style={styles.Container}>
 
                     {/* 사용자 프로필 컴포넌트 분리 */}
-                    <MyProfile userInfo={userInfo} />
+                    <MyProfile />
 
                     {/* Settings, Bookmark 버튼 */}
                     <Layout style={styles.ButtonContainer}>
@@ -196,16 +111,16 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                             style={styles.Button}
                             onPress={() =>
                                 props.navigation.navigate(
-                                    SceneRoute.BOOKMARK_LIST,
+                                    SceneRoute.PAID_CHAT_LIST,
                                 )
                             }>
-                            <Bookmark_Btn style={styles.ButtonIcon} />
-                            <Text style={styles.ButtonText}>Bookmark</Text>
+                            <Receipt_Large style={styles.ButtonIcon} />
+                            <Text style={styles.ButtonText}>Receipts</Text>
                         </TouchableOpacity>
                     </Layout>
 
                 </Layout>
-                
+
                 {/* Bookmarklist 텍스트 */}
                 <Layout style={styles.SmallTitleContainer}>
                     <Layout style={styles.TextTitleContainer}>
@@ -218,7 +133,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
 
-                <BookmarkList/>
+                {/* Bookmarklist 컴포넌트 분리 */}
+                <BookmarkList />
 
             </Layout>
 
@@ -241,21 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#00000000'
-    },
-    ProfileContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30,
-    },
-    profileImage: {
-        width: 75,
-        height: 75,
-        borderRadius: 50,
-    },
-    profileTitle: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 23,
-        color: 'black',
     },
     VerticalLine: {
         backgroundColor: '#8797ff55',
@@ -316,107 +217,6 @@ const styles = StyleSheet.create({
     Divider: {
         backgroundColor: '#8797FF',
         marginLeft: 10,
-    },
-    PaidContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        marginVertical: 5,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
-    },
-    PaidContainerC: {
-        width: '100%',
-        flexDirection: 'row',
-        backgroundColor: '#F8F8F8',
-        marginVertical: 5,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
-    },
-    PaidInfoContainer: {
-        flexDirection: 'row',
-        backgroundColor: '#00ff0000',
-    },
-    PaidTitleContainer1: {
-        backgroundColor: '#00ff0000',
-        marginLeft: 30,
-        marginBottom: 10,
-        marginTop: 10,
-        flexDirection: 'column',
-    },
-    PaidTitleContainer2: {
-        backgroundColor: '#00ff0000',
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 15,
-        flexDirection: 'column',
-    },
-    PaidTitle: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#BCBCBC',
-    },
-    PaidTitleR: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#AEAEAE',
-    },
-    PaidDesc: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: 'black',
-    },
-    PaidDescR: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#AEAEAE',
-    },
-    RefundProgress: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#7777FF',
-    },
-    RefundCompleted: {
-        fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#AEAEAE',
-    },
-    ViewPaymentButton: {
-        alignSelf: 'flex-end',
-        marginRight: 32,
-        marginTop: 10,
-        marginBottom: 50,
-    },
-    ViewPaymentButtonText: {
-        fontSize: 17,
-        fontFamily: 'IBMPlexSansKR-Medium',
-        color: '#AEAEAE',
-    },
-    emptyContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50,
-    },
-    emptyText: {
-        marginTop: 10,
-        textAlign: 'center',
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 16,
-        color: '#AEAEAE',
-    },
-    scroll: {
-        maxHeight: 200,
     },
     backgroundStyle: {
         position: 'absolute',

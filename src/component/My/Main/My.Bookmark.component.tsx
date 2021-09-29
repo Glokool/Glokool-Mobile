@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
-    Image,
     FlatList,
     View,
-    Dimensions
+    Dimensions,
+    Text,
+    TouchableOpacity
 } from 'react-native';
-import { Text } from '@ui-kitten/components';
-import { AuthContext } from '../../../context/AuthContext';
-import { SERVER, CDN } from '../../../server.component';
+
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
+
+import { SERVER, CDN } from '../../../server.component';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -41,13 +41,19 @@ export const BookmarkList = () => {
 
     const renderItem = (item) => {
         return (
-            <TouchableOpacity onPress={()=>{}} style={styles.ItemContainer}>
+            <TouchableOpacity onPress={() => { }} style={styles.ItemContainer}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />
             </TouchableOpacity>
         )
     }
 
-    return (
+    return bookmarkList.length == 0 ? (
+        <View>
+            <Text>Whoops!</Text>
+            <Text>Your bookmark list is empty</Text>
+            <Text>Tap the bookmark icon to easily add to the list</Text>
+        </View>
+    ) : (
         <View style={styles.MainContainer}>
             <FlatList
                 data={bookmarkList}
@@ -55,6 +61,7 @@ export const BookmarkList = () => {
                 numColumns={3}
                 key={'_'}
                 keyExtractor={(item) => "_" + item._id}
+                style={styles.FlatListContainer}
             />
         </View>
     )
@@ -63,6 +70,8 @@ export const BookmarkList = () => {
 const styles = StyleSheet.create({
     MainContainer: {
         marginTop: 10,
+        width: windowWidth,
+        alignItems:'center'
     },
     BookmarkItem: {
         width: windowWidth * 0.31,
@@ -80,5 +89,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3.84,
         elevation: 2,
+    },
+    FlatListContainer:{
+        width: windowWidth * 0.31 * 3 + 6,
+        backgroundColor: '#ffff'
     }
 })

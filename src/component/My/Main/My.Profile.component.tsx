@@ -1,30 +1,51 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     StyleSheet,
     Image,
+    View,
+    Text
 } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
 import { AuthContext } from '../../../context/AuthContext';
-import { Korean, Traveler, Resident } from '../../../assets/icon/Common';
-import firestore from '@react-native-firebase/firestore';
 
-export const MyProfile = (props) => {
+import firestore from '@react-native-firebase/firestore';
+import { FirebaseUserInfo } from '../../../types';
+
+import { Korean, Traveler, Resident } from '../../../assets/icon/Common';
+
+export const MyProfile = () => {
 
     const { currentUser } = useContext(AuthContext);
 
-    const [userInfo, setUserInfo] = useState();
+    const [userInfo, setUserInfo] = useState<FirebaseUserInfo>({
+        type: '',
+        avatar: '',
+        birthDate: new Date(),
+        country: '',
+        email: '',
+        gender: '',
+        name: '',
+        signupDate: new Date(),
+    });
+
+    useEffect(() => {
+        InitUserInfo();
+    }, [])
 
     const InitUserInfo = async () => {
         const response = await firestore()
             .collection('Users')
             .doc(currentUser?.uid)
             .get();
-        
-        response._data && setUserInfo(response._data);
+
+        console.log(response._data);
+
+        if (response._data != undefined) {
+            setUserInfo(response._data);
+        }
     }
 
     return (
-        <Layout style={styles.ProfileContainer}>
+        <View style={styles.ProfileContainer}>
             {currentUser.photoURL === '' ||
                 currentUser.photoURL === null ||
                 currentUser.photoURL === undefined ? (
@@ -39,22 +60,22 @@ export const MyProfile = (props) => {
                 />
             )}
 
-            {/* <Layout style={{ marginTop: 10, }}>
-                {props.userInfo.type === 'Korean' ? (
+            {/* <View style={{ marginTop: 10, }}>
+                {userInfo.type === 'Korean' ? (
                     <Korean />
-                ) : props.userInfo.type === 'Resident' ? (
+                ) : userInfo.type === 'Resident' ? (
                     <Resident />
                 ) : (
                     <Traveler />
                 )}
-            </Layout> */}
+            </View> */}
 
             <Text style={styles.profileTitle}>
                 {currentUser.displayName}
             </Text>
 
 
-        </Layout>
+        </View>
     )
 }
 
