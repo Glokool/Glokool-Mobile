@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
-import { LogBox, Alert, Linking, } from 'react-native';
-import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { LogBox } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
 import {
     ApplicationProvider,
     IconRegistry,
-    Layout,
 } from '@ui-kitten/components';
 import { default as mapping } from '../mapping.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation/app.navigator';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
@@ -23,6 +22,9 @@ import { requestNotificationsPermission } from './component/permission.component
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
+import { createStore } from 'redux';
+import rootReducer from './root.reducer';
+import { Provider } from 'react-redux';
 
 const saveTokenToDatabase = async (token: any) => {
 
@@ -37,12 +39,17 @@ const saveTokenToDatabase = async (token: any) => {
         });
 };
 
+const store = createStore(rootReducer);
+
 export default (props: any): React.ReactFragment => {
+
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
 
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
+
+
 
 
     const InitNowList = async () => {
@@ -138,24 +145,26 @@ export default (props: any): React.ReactFragment => {
     }, []);
 
     return (
-        <React.Fragment>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider
-                {...eva}
-                theme={{ ...eva.light, ...theme }}
-                customMapping={mapping}
-            >
-                <SafeAreaProvider>
-                    <AuthContext.Provider value={userValue}>
-                        <ChatContext.Provider value={value}>
-                            <NavigationContainer linking={linking}>
-                                <AppNavigator />
-                            </NavigationContainer>
-                        </ChatContext.Provider>
-                    </AuthContext.Provider>
-                </SafeAreaProvider>
-            </ApplicationProvider>
-        </React.Fragment>
+        <Provider store={store}>
+            <React.Fragment>
+                <IconRegistry icons={EvaIconsPack} />
+                <ApplicationProvider
+                    {...eva}
+                    theme={{ ...eva.light, ...theme }}
+                    customMapping={mapping}
+                >
+                    <SafeAreaProvider>
+                        <AuthContext.Provider value={userValue}>
+                            <ChatContext.Provider value={value}>
+                                <NavigationContainer linking={linking}>
+                                    <AppNavigator />
+                                </NavigationContainer>
+                            </ChatContext.Provider>
+                        </AuthContext.Provider>
+                    </SafeAreaProvider>
+                </ApplicationProvider>
+            </React.Fragment>
+        </Provider>
     );
 };
 
