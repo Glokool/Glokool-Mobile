@@ -815,7 +815,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             // 버튼
             <Pressable
                 style={styles.ActionButton}
-                onPress={() => setVisible2(true)}>
+                onPress={() => {
+                    setVisible2(true);
+                    Keyboard.dismiss();
+                }}>
                 {/* visible2 state 에 따라서 바뀜 */}
                 {visible2 === true ? (
                     <FastImage

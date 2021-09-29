@@ -8,11 +8,13 @@ import { SceneRoute } from '../../navigation/app.route';
 import { AuthContext } from '../../context/AuthContext';
 import Toast from 'react-native-easy-toast';
 import { LoginCheck } from '../../component/Common';
+import moment from 'moment';
 
 
 export const BookFirstScreen = (props: BookFirstScreenProps): LayoutElement => {
 
     const [date, setDate] = React.useState<Date>(new Date());
+    const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
     const { currentUser } = React.useContext(AuthContext);
 
     return currentUser != null ? (
@@ -25,13 +27,18 @@ export const BookFirstScreen = (props: BookFirstScreenProps): LayoutElement => {
                 <Calendar
                     min={new Date()}
                     date={date}
-                    onSelect={nextDate => setDate(nextDate)}
+                    onSelect={nextDate => {
+                        const timeZoneOffset = nextDate.getTimezoneOffset() * 60 * 1000;
+                        const fixedTimestamp = moment(nextDate).valueOf() - timeZoneOffset;
+                        setSelectedDate(new Date(fixedTimestamp));
+                        setDate(nextDate);
+                    }}
                 />
 
             </Layout>
 
             <Layout style={styles.ButtonContainer}>
-                <TouchableOpacity style={styles.Button} onPress={() => { props.navigation.navigate(SceneRoute.BOOK_SECOND, { date: date }) }} >
+                <TouchableOpacity style={styles.Button} onPress={() => { props.navigation.navigate(SceneRoute.BOOK_SECOND, { date: selectedDate }) }} >
                     <Text style={styles.ButtonText}>NEXT</Text>
                 </TouchableOpacity>
 
