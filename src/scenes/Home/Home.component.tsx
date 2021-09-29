@@ -62,7 +62,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     }
 
     return (
-        <Layout style={{ alignItems: 'center', width: '100%', paddingBottom: windowHeight * 0.11 }}>
+        <Layout style={{ alignItems: 'center', width: '100%' }}>
 
             {/* 백그라운드 이미지, 안드로이드에서 해당 svg 가 안보여서 png 로 */}
             {Platform.OS === 'ios' ? (
@@ -129,6 +129,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         route={props.route}
                     />
                 </Layout>
+
+                <Layout style={{width: '100%', height : windowHeight * 0.1, backgroundColor: '#00FF0000'}} />
 
             </ScrollView>
 

@@ -177,7 +177,7 @@ const GuideVisiblity = (route : any) => {
 export const MainNavigator = (): React.ReactElement => (
     
     <Tab.Navigator
-        tabBar={(props) => <MyTabBar {...props} />}
+        tabBar={(props) => <MyTabBar {...props}/>}
         tabBarOptions={{
             keyboardHidesTabBar: true,
         }}
