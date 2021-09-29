@@ -17,7 +17,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     const userContext = useContext(AuthContext);
 
-    const Today = new Date();
     const [data, setData] = useState<Array<GloChatData>>([]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -64,7 +63,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     }
     // 여기서 날짜 등등 데이터를 navigate 할 때 같이 전달해줌
     function PressChatRoom(item: GloChatData) {
-        const DDay = moment(item.day).diff(Today, 'days');
 
         if (item.guide == undefined) {
             Alert.alert('Sorry', 'We are currently matching your travel assistant :)');
@@ -134,8 +132,15 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
     const RenderItem = (item: { item: GloChatData; index: number }) => {
         // 날짜 계산
-        const DDay = moment(item.item.day).diff(Today, 'days');
-        const ItemDay = (new Date(item.item.day)).getDate();
+        const propsDate = new Date(item.item.day);
+        const timeZoneOffset = propsDate.getTimezoneOffset() * 60 * 1000;
+        const fixedTimestamp = moment(propsDate).valueOf() + timeZoneOffset;
+
+        const Today = new Date().setHours(0,0,0,0);
+
+        const DDay = moment(propsDate).diff(Today, 'days');
+        console.log(DDay, propsDate, new Date(Today));
+        const ItemDay = (new Date(fixedTimestamp)).getDate();
 
         return (
             <Layout style={styles.ChatLayout}>
@@ -154,7 +159,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                                         />
                                     ) : (
                                         <Image
-                                            source={require('../../assets/profile/profile_01.png')}
+                                            source={require('../../assets/image/Chat/guideGray.png')}
                                             style={styles.GuideAvatar}
                                         />
                                     )}
@@ -183,14 +188,14 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                         {DDay > 0 ? (
                             <Text style={styles.DdayTxt}>D - {DDay}</Text>
                         ) : (
-                            ItemDay == Today.getDate() ? (
+                            ItemDay == new Date().getDate() ? (
                                 <Text style={styles.DdayTxt}>D - Day</Text>
                             ) : (
                                 <Text style={styles.DdayTxt}>D - 1</Text>
                             )
                         )}
                         <Text style={styles.dateTxt}>
-                            {moment(item.item.day).format('MM.DD')}
+                            {moment(new Date(fixedTimestamp)).format('MM.DD')}
                         </Text>
                     </Layout>
                 </TouchableOpacity>

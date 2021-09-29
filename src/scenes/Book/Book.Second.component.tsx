@@ -57,7 +57,7 @@ export const BookSecondScreen = (props: BookSecondScreenProps): LayoutElement =>
 
             <ScrollView style={styles.ScrollViewContainer} showsVerticalScrollIndicator={false}>
 
-                <Text style={styles.TitleText}>Fill in your Informaion</Text>
+                <Text style={styles.TitleText}>Fill in your Information</Text>
 
                 <Text style={styles.smallTitle}>NAME</Text>
                 <Input
