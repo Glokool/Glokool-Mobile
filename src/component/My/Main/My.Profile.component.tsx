@@ -32,12 +32,10 @@ export const MyProfile = () => {
     }, [])
 
     const InitUserInfo = async () => {
-        const response = await firestore()
+        const response = firestore()
             .collection('Users')
             .doc(currentUser?.uid)
             .get();
-
-        console.log(response._data);
 
         if (response._data != undefined) {
             setUserInfo(response._data);
@@ -60,7 +58,7 @@ export const MyProfile = () => {
                 />
             )}
 
-            {/* <View style={{ marginTop: 10, }}>
+            <View style={{ marginTop: 10, }}>
                 {userInfo.type === 'Korean' ? (
                     <Korean />
                 ) : userInfo.type === 'Resident' ? (
@@ -68,7 +66,7 @@ export const MyProfile = () => {
                 ) : (
                     <Traveler />
                 )}
-            </View> */}
+            </View>
 
             <Text style={styles.profileTitle}>
                 {currentUser.displayName}
