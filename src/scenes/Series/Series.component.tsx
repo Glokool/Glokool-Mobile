@@ -87,6 +87,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
             id: 'series_all',
             name: 'ALL',
         }].concat(result.data);
+
+        console.log(tmpContent);
+        
         setCategory(tmpContent);
     }
 

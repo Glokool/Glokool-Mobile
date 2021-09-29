@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
+import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import { HomeScreen } from '../../scenes/Home';
 import { SeriesAInfoScreen, SeriesBInfoScreen, SeriesHiddenGemContentAttr, SeriesHiddenGemContentCafe, SeriesHiddenGemContentRest } from '../../scenes/Series';
@@ -9,14 +9,13 @@ import { SeriesHiddenGemDetailScreen } from '../../scenes/Series/SeriesHiddenGem
 
 type HomeNavigatorParams = AppNavigatorParams & {
     [SceneRoute.HOME] : undefined;
-
+    [NavigatorRoute.CHAT] : undefined;
     [SceneRoute.SERIES_A_DETAIL]: {
       Id: string,
     };
     [SceneRoute.SERIES_B_DETAIL]: {
       Id: string,
-    };
-  
+    };  
     [SceneRoute.SERIES_HIDDEN_GEM_DETAIL] : {
       TourCode: string;
     }

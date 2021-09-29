@@ -18,13 +18,14 @@ import { HomeTopTabBar, HomeCarousel } from '../../component/Home';
 import 'firebase/auth';
 import { HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
-import { SelectableText } from '../../component/Common/SelectableText.component';
 
 var ToastRef: any;
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
+
     var exitApp: any = undefined;
     var timeout: any;
 

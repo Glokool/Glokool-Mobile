@@ -156,6 +156,8 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             </Layout>
 
             <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
+
+            
         </Layout>
     );
 };
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     AdContainer: {
         position: 'absolute',
         width: '100%',
-        bottom: windowHeight * 0.11,
+        bottom: windowHeight * 0.07,
         flexDirection: 'row',
     },
     AdContainer2: {
@@ -196,7 +198,8 @@ const styles = StyleSheet.create({
         borderTopColor: '#eee',
         flex: 2,
         justifyContent: 'center',
-        paddingVertical: 7,
+        paddingVertical: 10,
+        paddingBottom: 15,
     },
     AdContainer3: {
         backgroundColor: '#252525',
