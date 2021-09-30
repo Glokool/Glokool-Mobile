@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="30.572" height="42.163" viewBox="0 0 30.572 42.163">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="42.163" viewBox="0 0 32 42.163">
   <g id="그룹_2089" data-name="그룹 2089" transform="translate(-149 -245.918)">
     <g id="그룹_2055" data-name="그룹 2055" transform="translate(1 -131)">
-      <text id="ZONE" transform="translate(149 416.082)" fill="#77f" font-size="11" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">ZONE</tspan></text>
+      <text id="ZONE" transform="translate(149 416.082)" fill="#77f" font-size="11" font-family="Helvetica"><tspan x="0" y="0">ZONE</tspan></text>
       <g id="그룹_2056" data-name="그룹 2056" transform="translate(509.585 -139.142)">
         <path id="패스_2733" data-name="패스 2733" d="M-340.826,559.89c-.943,0-9.212-.091-9.212-3.256s8.269-3.256,9.212-3.256,9.212.091,9.212,3.256S-339.883,559.89-340.826,559.89Zm-7.1-3.256c.683.513,3.264,1.256,7.1,1.256s6.416-.743,7.1-1.256c-.683-.513-3.264-1.256-7.1-1.256S-347.241,556.121-347.924,556.634Z" transform="translate(-5.156 -16.663)" fill="#77f"/>
         <path id="패스_2734" data-name="패스 2734" d="M-341.585,539.924a48.591,48.591,0,0,1-4.663-4.153c-3.3-3.377-5.047-6.368-5.047-8.65a8.9,8.9,0,0,1,2.787-6.735,10.1,10.1,0,0,1,6.916-2.52,10.514,10.514,0,0,1,7.058,2.531,8.756,8.756,0,0,1,2.9,6.724c0,2.281-1.794,5.276-5.187,8.661A49.219,49.219,0,0,1-341.585,539.924Z" transform="translate(-4.595 -0.807)" fill="#77f"/>

@@ -41,14 +41,15 @@ import {
 } from '../assets/icon/BottomNavigation';
 import { NavigatorRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
-const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabBarOptions>) => {
+const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTabBarOptions>) => {
 
     const { onChat } = useContext(ChatContext);
     const [visible, setVisible] = React.useState(true);
-    
+
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
     React.useEffect(() => {
@@ -64,7 +65,7 @@ const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabB
         return () => {
             if (Platform.OS === 'android') {
                 keyboardEventListeners &&
-                    keyboardEventListeners.forEach((eventListener : any) =>
+                    keyboardEventListeners.forEach((eventListener: any) =>
                         eventListener.remove(),
                     );
             }
@@ -76,9 +77,9 @@ const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabB
 
     return (
         <View style={styles.TabbarContainer} >
-            
-            {state.routes.map((route, id) => {                
-                
+
+            {state.routes.map((route, id) => {
+
                 const { options } = descriptors[route.key];
                 const label = route.name;
                 // const label =
@@ -123,7 +124,7 @@ const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabB
                         onPress={onPress}
                         onLongPress={onLongPress}
                         style={styles.ButtonContainer}>
-                        
+
                         <View style={styles.TabbarIconContainer}>
                             {label === NavigatorRoute.HOME ? (
                                 isFocused ? (
@@ -151,7 +152,7 @@ const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabB
                                 )
                             ) : null}
                         </View>
-                        
+
                     </TouchableOpacity>
                 );
             })}
@@ -159,7 +160,7 @@ const MyTabBar = ({state, descriptors, navigation}: BottomTabBarProps<BottomTabB
     );
 }
 
-const GuideVisiblity = (route : any) => {
+const GuideVisiblity = (route: any) => {
 
     const routeName = getFocusedRouteNameFromRoute(route);
 
@@ -175,7 +176,7 @@ const GuideVisiblity = (route : any) => {
 };
 
 export const MainNavigator = (): React.ReactElement => (
-    
+
     <Tab.Navigator
         tabBar={(props) => <MyTabBar {...props}/>}
         tabBarOptions={{
@@ -191,7 +192,7 @@ export const MainNavigator = (): React.ReactElement => (
 
             })}
         />
-        
+
         <Tab.Screen
             name={NavigatorRoute.SERIES}
             component={SeriesNavigator}
@@ -235,7 +236,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         flexDirection: 'row',
-        paddingHorizontal : 15,
+        paddingHorizontal: 15,
+        paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+        paddingTop: Platform.OS === 'ios' ? 5 : 0,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         backgroundColor: 'white',
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 7,
     },
-    
+
     TabbarIconContainer: {
         borderRadius: 25,
         width: 70,
