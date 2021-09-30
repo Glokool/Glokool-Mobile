@@ -1,11 +1,11 @@
 export { MYScreen } from './My.component'
 export { PaidChatList } from './PaidChatList.component';
 export { MySetting } from './My.Setting.component';
-export { MyProfile} from './My.Profile.component';
+export { MyProfile } from './My.Profile.component';
 
 //Customer Service
 export { CustomerServiceComponent } from './CustomerService/CustomerService.component'
-export { FAQ } from './CustomerService/FAQ.component'; 
+export { FAQ } from './CustomerService/FAQ.component';
 
 //Privacy
 export { Privacy } from './Privacy/privacy.component';
@@ -14,3 +14,6 @@ export { PrivacyLogin } from './Privacy/privacy.login.component'
 
 //BookmarkList
 export { BookmarkList } from './Bookmark/Bookmark.List.component';
+
+//History
+export { HistoryScreen } from './My.History.Screen';

@@ -20,6 +20,7 @@ import {
     Receipt,
     Receipt_Large,
     Setting_Btn,
+    History_Btn,
 } from '../../assets/icon/My';
 import { HomeBG, } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
@@ -27,6 +28,7 @@ import { SceneRoute } from '../../navigation/app.route';
 const windowWidth = Dimensions.get('window').width;
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
+
     const { currentUser } = useContext(AuthContext);
 
     var exitApp: any = undefined;
@@ -85,7 +87,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                     {/* 사용자 프로필 컴포넌트 분리 */}
                     <MyProfile currentUser={currentUser} navigation={props.navigation} route={props.route} />
 
-                    {/* Settings, Bookmark 버튼 */}
+                    {/* Settings, Bookmark, History 버튼 */}
                     <Layout style={styles.ButtonContainer}>
                         <TouchableOpacity
                             style={styles.Button}
@@ -95,6 +97,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                             <Setting_Btn style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>Settings</Text>
                         </TouchableOpacity>
+
                         <Layout style={styles.VerticalLine} />
 
                         <TouchableOpacity
@@ -104,8 +107,21 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                     SceneRoute.PAID_CHAT_LIST,
                                 )
                             }>
-                            <Receipt_Large style={styles.ButtonIcon} />
+                            <Setting_Btn style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>Receipts</Text>
+                        </TouchableOpacity>
+
+                        <Layout style={styles.VerticalLine} />
+
+                        <TouchableOpacity
+                            style={styles.Button}
+                            onPress={() =>
+                                props.navigation.navigate(
+                                    SceneRoute.HISTORY,
+                                )
+                            }>
+                            <History_Btn style={styles.ButtonIcon} />
+                            <Text style={styles.ButtonText}>History</Text>
                         </TouchableOpacity>
                     </Layout>
 
@@ -136,14 +152,14 @@ const styles = StyleSheet.create({
     SuperContainer: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#00000000'
+        backgroundColor: '#00000000',
+        alignItems: 'center'
     },
     MainContainer: {
         backgroundColor: '#00000000',
         alignItems: 'center',
     },
     Container: {
-        marginHorizontal: 30,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#00000000'

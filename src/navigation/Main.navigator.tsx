@@ -198,7 +198,8 @@ const GuideVisiblity = (route) => {
         routeName === 'Chatroom' ||
         routeName === 'Chat Help' ||
         routeName === 'Chat Report' ||
-        routeName === SceneRoute.PAID_CHAT_LIST
+        routeName === SceneRoute.PAID_CHAT_LIST || 
+        routeName === SceneRoute.HISTORY
     ) {
         return false;
     }

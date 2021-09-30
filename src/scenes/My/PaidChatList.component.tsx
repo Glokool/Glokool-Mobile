@@ -125,12 +125,6 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 
       </Layout>
 
-
-
-
-
-
-
     </Layout>
   )
 

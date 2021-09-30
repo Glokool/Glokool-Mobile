@@ -49,9 +49,6 @@ export default (props: any): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
-
-
-
     const InitNowList = async () => {
         const user = auth().currentUser;
 
