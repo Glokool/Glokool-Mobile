@@ -32,6 +32,8 @@ import {
 } from '../assets/icon/BottomNavigation';
 import { NavigatorRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
+import { AuthContext } from '../context/AuthContext';
+import { alertWindow } from '../component/Common/LoginCheck.component';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +43,7 @@ function MyTabBar({
     navigation,
 }: BottomTabBarProps<BottomTabBarOptions>) {
     const { onChat } = useContext(ChatContext);
+    const { currentUser } = useContext(AuthContext);
     const [visible, setVisible] = React.useState(true);
     const focusedOptions = descriptors[state.routes[state.index].key].options;
 
@@ -99,14 +102,19 @@ function MyTabBar({
                 const isFocused = state.index === index;
 
                 const onPress = () => {
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
+                    if (route.name == 'My' && !currentUser) {
+                        alertWindow(navigation);
+                    }
+                    else {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
 
-                    if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name);
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name);
+                        }
                     }
                 };
 

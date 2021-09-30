@@ -16,8 +16,6 @@ import { AuthContext } from '../../context/AuthContext';
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 
 import { MyProfile, BookmarkList } from '../../component/My/Main';
-import { LoginCheck } from '../../component/Common';
-
 import {
     Receipt,
     Receipt_Large,
@@ -33,6 +31,8 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
     var exitApp: any = undefined;
     var timeout: any;
+
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
@@ -65,13 +65,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     };
 
     return currentUser === null ? (
-        <Layout>
-            <LoginCheck
-                navigation={props.navigation}
-                route={props.route}
-                visible={currentUser === null ? true : false}
-            />
-        </Layout>
+        <Layout/>
     ) : (
         <Layout style={styles.SuperContainer}>
 
