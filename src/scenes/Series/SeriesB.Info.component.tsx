@@ -109,14 +109,12 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id);
 
-        setContent(Content.data);
-        setContentInfo(Content.data.contents);
-        setRecommendation(Content.data.recommendation);
-        setComments(Content.data.comments);
+
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
             const authToken = await auth().currentUser?.getIdToken();
+            
             var config = {
                 method: 'get',
                 url: SERVER + '/api/users/bookmark',
@@ -124,6 +122,7 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
                     Authorization: 'Bearer ' + authToken,
                 },
             };
+
 
             axios(config)
                 .then(function (response) {
@@ -137,10 +136,16 @@ export const SeriesBInfoScreen = (props: SeriesBDetailInfoProps,): LayoutElement
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
                     setBookmarkList(dataTemp);
+
+                    setContent(Content.data);
+                    setContentInfo(Content.data.contents);
+                    setRecommendation(Content.data.recommendation);
+                    setComments(Content.data.comments);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+
         }
     }
 

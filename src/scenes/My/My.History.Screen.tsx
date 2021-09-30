@@ -31,7 +31,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
                     <View style={{ flex: 1 }} />
                 </View>
             </View>
-            
+
             {/* Previous Chatting List */}
             <View style={styles.ChatListContainer}>
                 <ChatListRecent navigation={props.navigation} route={props.route} />

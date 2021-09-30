@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
+import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import {
   CustomerServiceComponent,
@@ -18,6 +18,7 @@ import {
 import { ChatRoomScreen } from '../../scenes/Chat';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 import { authContextType, ReservationInfo } from '../../types';
+import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
 
 type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY]: undefined;
@@ -32,8 +33,9 @@ type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY_PROFILE]: undefined;
   [SceneRoute.BOOKMARK_LIST]: undefined;
   [SceneRoute.HISTORY]: undefined;
+  [SceneRoute.CHATROOM]: undefined;
 
-  [SceneRoute.CHATROOM]:undefined;
+  [NavigatorRoute.HOME]: undefined;
 };
 
 export interface MyScreenProps {
@@ -53,9 +55,9 @@ export interface MYSettingProps {
 }
 
 export interface PaidDetailProps {
-  data: ReservationInfo;
+  data: ReservationInfo | undefined;
   visible: boolean;
-  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
+  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.PAID_CHAT_LIST>;
 }
 
 export interface PaidChatListProps {
@@ -97,9 +99,12 @@ export interface BookmarkListProps {
   route: RouteProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
 }
 
+// 일단은 history -> chat 으로 가니까 이렇게 해둠
+// 나중에 chat 바뀔때 recent 를 chat navigator 에서 없애고
+// my navigator 로 이식
 export interface HistoryScreenProps {
-  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.HISTORY>;
-  route: RouteProp<MyNavigatorParams, SceneRoute.HISTORY>;
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
 }
 
 
@@ -123,7 +128,7 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm} />
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
 
-    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen}/>
+    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
 
   </Stack.Navigator>
 );

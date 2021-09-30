@@ -229,8 +229,7 @@ export type RestaurantData = {
     };
     title: string;
     visible: boolean;
-    sgntMenu: Array<SgntMenu>;
-};
+    sgntMenu: Array<SignatureMenu>;
 
 export type ShareItem = {
     title: string;

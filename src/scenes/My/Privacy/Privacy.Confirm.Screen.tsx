@@ -26,41 +26,41 @@ import {
   faAngleLeft
 } from '@fortawesome/free-solid-svg-icons';
 
-var toastRef : any;
+var toastRef: any;
 
 export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
-  
+
   //뒤로 돌아가지 못하게
   const PrivacyNavigator = CommonActions.reset({
     index: 0,
-    routes: [{name: SceneRoute.MY}],
+    routes: [{ name: SceneRoute.MY }],
   });
 
   const PressBack = () => {
     props.navigation.reset({
       index: 0,
-      routes: [{name: SceneRoute.MY}],
+      routes: [{ name: SceneRoute.MY }],
     });
   }
 
-   //비밀번호 보이기 안보이기
-   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
+  //비밀번호 보이기 안보이기
+  const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
-   const renderPasswordIcon = (props): React.ReactElement => {
-     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
-     
-     return (
-       <TouchableWithoutFeedback onPress={onPasswordIconPress}>
-         <IconComponent {...props}/>
-       </TouchableWithoutFeedback>
-     );
-   };
- 
-   const onPasswordIconPress = (): void => {
-     setPasswordVisible(!passwordVisible);
-   };
+  const renderPasswordIcon = (props: any): React.ReactElement => {
+    const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
 
-   const renderForm = (props: FormikProps<PrivacyConfirmData>): React.ReactFragment => (
+    return (
+      <TouchableWithoutFeedback onPress={onPasswordIconPress}>
+        <IconComponent {...props} />
+      </TouchableWithoutFeedback>
+    );
+  };
+
+  const onPasswordIconPress = (): void => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const renderForm = (props: FormikProps<PrivacyConfirmData>): React.ReactFragment => (
     <React.Fragment>
       <Layout style={styles.inputContainer}>
         <FormInput
@@ -82,18 +82,18 @@ export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
         >
           CONFIRM
         </Button>
-        
-        </Layout>
+
+      </Layout>
     </React.Fragment>
   );
 
   const onFormSubmit = (values: PrivacyConfirmData): void => {
-    if(values.password == "" || values.passwordConfirm == ""){
+    if (values.password == "" || values.passwordConfirm == "") {
 
-    }    
-    else{
+    }
+    else {
       const user = auth().currentUser;
-      
+
       user?.updatePassword(values.password)
         .then(response => {
           props.navigation.dispatch(PrivacyNavigator);
@@ -106,41 +106,41 @@ export const PrivacyConfirm = (props: PrivacyConfirmProps): LayoutElement => {
 
   return (
     <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
+      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
       <Layout style={styles.mainContainer}>
 
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
-          <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
+          <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+              <FontAwesomeIcon icon={faAngleLeft} size={24} />
             </TouchableOpacity>
           </Layout>
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
+          <Layout style={{ flex: 3, alignItems: 'center', justifyContent: 'center', marginHorizontal: 25 }}>
             <Text style={styles.TextStyle}>SETTINGS</Text>
           </Layout>
-          <Layout style={{flex:1}}/>         
+          <Layout style={{ flex: 1 }} />
         </Layout>
 
         {/* 세팅 내용물*/}
         <Layout style={styles.Container}>
           <Text style={styles.mainTitle}>Privacy</Text>
           <Formik
-              initialValues={PrivacyConfirmData.empty()}
-              validationSchema={PrivacyConfirmSchema}
-              onSubmit={onFormSubmit}>
-              {renderForm}
+            initialValues={PrivacyConfirmData.empty()}
+            validationSchema={PrivacyConfirmSchema}
+            onSubmit={onFormSubmit}>
+            {renderForm}
           </Formik>
-        </Layout>       
+        </Layout>
       </Layout>
 
-      <Toast ref={(toast) => toastRef = toast} style={{backgroundColor:'#C9C9C9'}} textStyle={{color:'black'}} position={'bottom'}/>
+      <Toast ref={(toast) => toastRef = toast} textStyle={{ color: 'white' }} position={'bottom'} />
     </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer:{
+  mainContainer: {
     flex: 1,
     backgroundColor: 'white',
   },
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  TextStyle: {    
+  TextStyle: {
     fontSize: 20,
     fontWeight: 'bold'
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20
   },
-  inputContainer: {    
+  inputContainer: {
     alignItems: 'center'
   },
   formContainer: {

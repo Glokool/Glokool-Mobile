@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import auth from '@react-native-firebase/auth'
 import {
   StyleSheet,
@@ -21,19 +21,22 @@ import { PrivacyLoginProps } from '../../../navigation/ScreenNavigator/My.naviga
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { SceneRoute } from '../../../navigation/app.route'
+import { AuthContext } from '../../../context/AuthContext';
 
-var toastRef : any;
+var toastRef: any;
 
 export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
+
+  const { currentUser } = useContext(AuthContext);
 
   //비밀번호 보이기 안보이기
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
-  const renderPasswordIcon = (props): React.ReactElement => {
+  const renderPasswordIcon = (props: any): React.ReactElement => {
     const IconComponent = passwordVisible ? EyeIcon : EyeOffIcon;
     return (
       <TouchableWithoutFeedback onPress={onPasswordIconPress}>
-        <IconComponent {...props}/>
+        <IconComponent {...props} />
       </TouchableWithoutFeedback>
     );
   };
@@ -42,7 +45,7 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
     setPasswordVisible(!passwordVisible);
   };
 
-  
+
   const PressBack = () => {
     props.navigation.goBack();
   }
@@ -64,8 +67,8 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
         >
           NEXT
         </Button>
-        
-        </Layout>
+
+      </Layout>
     </React.Fragment>
   );
 
@@ -73,18 +76,16 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
 
     toastRef.show('Login...', 3000);
 
-    if(values.password == ""){
+    if (values.password == "") {
 
-    }    
-    else{
-      const user = auth().currentUser
-      
-      auth().signInWithEmailAndPassword(user?.email, values.password)
+    }
+    else {
+      auth().signInWithEmailAndPassword(currentUser.email, values.password)
         .then(response => {
           toastRef.show('Login Success', 3000);
           props.navigation.reset({
             index: 0,
-            routes: [{ name: SceneRoute.PRIVACY_CONFIRM}]
+            routes: [{ name: SceneRoute.PRIVACY_CONFIRM }]
           });
         })
         .catch((error) => {
@@ -92,25 +93,25 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
           toastRef.show(error.code, 3000);
         })
     }
-    
+
   };
 
   return (
     <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}} />
+      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
       <Layout style={styles.mainContainer}>
 
         {/*탭바 표현*/}
         <Layout style={styles.Tabbar}>
-          <Layout style={{flex:1, alignItems:'center', justifyContent: 'center'}}>
+          <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity onPress={PressBack}>
-              <FontAwesomeIcon icon={faAngleLeft} size={24}/>
+              <FontAwesomeIcon icon={faAngleLeft} size={24} />
             </TouchableOpacity>
           </Layout>
-          <Layout style={{flex:3, alignItems:'center', justifyContent: 'center', marginHorizontal: 25}}>
+          <Layout style={{ flex: 3, alignItems: 'center', justifyContent: 'center', marginHorizontal: 25 }}>
             <Text style={styles.TextStyle}>SETTINGS</Text>
           </Layout>
-          <Layout style={{flex:1}}/>         
+          <Layout style={{ flex: 1 }} />
         </Layout>
 
         {/* 세팅 내용물*/}
@@ -119,22 +120,22 @@ export const PrivacyLogin = (props: PrivacyLoginProps): LayoutElement => {
           <Text style={styles.mainTitle}>Privacy</Text>
           <Text style={styles.mainDesc}>Please enter your current password before entering a new password.</Text>
           <Formik
-              initialValues={PrivacyData.empty()}
-              validationSchema={PrivacySchema}
-              onSubmit={onFormSubmit}>
-              {renderForm}
+            initialValues={PrivacyData.empty()}
+            validationSchema={PrivacySchema}
+            onSubmit={onFormSubmit}>
+            {renderForm}
           </Formik>
-          
-        </Layout>      
+
+        </Layout>
       </Layout>
 
-      <Toast ref={(toast) => toastRef = toast} style={{backgroundColor:'#C9C9C9'}} textStyle={{color:'black'}} position={'bottom'}/>
+      <Toast ref={(toast) => toastRef = toast} textStyle={{ color: 'white' }} position={'bottom'} />
     </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContainer:{
+  mainContainer: {
     flex: 1,
     backgroundColor: 'white',
   },
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  TextStyle: {    
+  TextStyle: {
     fontSize: 20,
     fontWeight: 'bold'
   },
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 15,
   },
-  inputContainer: {    
+  inputContainer: {
     alignItems: 'center'
   },
   formContainer: {
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     height: '20%',
   },
   toast: {
-    backgroundColor : '#C9C9C9',
+    backgroundColor: '#C9C9C9',
 
   }
 });

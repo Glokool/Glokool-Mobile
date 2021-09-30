@@ -61,7 +61,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
     return (
         <Layout style={styles.mainContainer}>
             <Layout style={{ height: 50 }} />
-             {/*탭바 표현*/}
+            {/*탭바 표현*/}
             <Layout
                 style={
                     Platform.OS === 'android'
@@ -75,7 +75,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
                         flex: 1,
                         alignItems: 'center',
                         justifyContent: 'center',
-                }}>
+                    }}>
                     <AngleLeft />
                 </TouchableOpacity>
 

@@ -19,7 +19,7 @@ import {
     LayoutElement,
 } from '@ui-kitten/components';
 import { MYProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
-import { launchImageLibrary } from 'react-native-image-picker/src';
+import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker/src';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
@@ -27,14 +27,14 @@ import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import { Loading } from '../../component/Common/Loading';
 import { AuthContext } from '../../context/AuthContext';
 import { ChangeProfile, ProfileBasic, ProfileBlue, ProfileGray, ProfileOrange, ProfileGreen, ProfilePurple } from '../../assets/icon/My';
-
-var toastRef: any;
+import { userInfoType } from '../../types';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const user = auth().currentUser;
 
-    const [name, setName] = React.useState('');
-    const [profile, setProfile] = React.useState<string>('');
+    const [name, setName] = React.useState<string>("");
+    const [profile, setProfile] = React.useState<string | any>("");
     const [checkProfileChange, setCheckProfileChange] = React.useState<boolean>(
         false,
     );
@@ -45,18 +45,29 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const { currentUser, setCurrentUser } = useContext(AuthContext);
 
     const [FBLoading, setFBLoading] = React.useState(true);
-    const [userData, setUserData] = React.useState({
-        name: '',
-        gender: '',
-        country: '',
-        signupDate: new Date(),
+    const [userData, setUserData] = React.useState<FirebaseFirestoreTypes.DocumentData | undefined>({
+        avatar: "",
+        birthDate: {
+            nanoseconds: 0,
+            seconds: 0,
+        },
+        country: "",
+        email: "",
+        gender: "",
+        name: "",
+        signupDate: {
+            nanoseconds: 0,
+            seconds: 0,
+        },
+        tokens: [],
+        type: "",
     });
     const [birthDate, setBirthDate] = React.useState({
-        year: '',
-        month: '',
-        day: '',
+        year: 0,
+        month: 0,
+        day: 0,
     });
-    const [selectedTypeIndex, setSelectedTypeIndex] = React.useState(
+    const [selectedTypeIndex, setSelectedTypeIndex] = React.useState<IndexPath | any>(
         new IndexPath(0),
     );
     const type = ['Traveler', 'Resident', 'Korean'];
@@ -95,7 +106,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
         if (checkProfileChange) {
             const pic = await uploadImg();
-            console.log('pic' + pic)
 
             Object.assign(firestoreUpdate, {
                 avatar: pic,
@@ -106,7 +116,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
             });
         }
 
-        if(checkDefaultProfileChange){
+        if (checkDefaultProfileChange) {
 
             Object.assign(firestoreUpdate, {
                 avatar: profile,
@@ -130,17 +140,17 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         props.navigation.goBack();
     };
 
-    const PressDefaultPic =  (idx) => { 
+    const PressDefaultPic = (idx: number) => {
         let defaultProfile;
-        if(idx == '1'){
+        if (idx == 1) {
             defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault5.png?alt=media&token=9590f8ce-f405-474f-936c-9d880e1b1b2e'
-        }else if(idx == '2'){
+        } else if (idx == 2) {
             defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault2.png?alt=media&token=77abf795-cd96-4f79-88af-0b170d6f9d7e'
-        }else if(idx == '3'){
+        } else if (idx == 3) {
             defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault3.png?alt=media&token=2a1bc2ed-9d1b-4b64-95fb-968691e8bf72'
-        }else if(idx == '4'){
+        } else if (idx == 4) {
             defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault4.png?alt=media&token=79d39c00-7a5e-405e-b4c7-c31d3fd41eb1'
-        }else{
+        } else {
             defaultProfile = 'https://firebasestorage.googleapis.com/v0/b/glokool-a7604.appspot.com/o/profile%2FprofileDefault1.png?alt=media&token=df83f1e1-5efc-40bf-a62f-f1191d3cef81'
         }
         setProfile(defaultProfile);
@@ -157,7 +167,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                 maxHeight: 200,
                 maxWidth: 200,
             },
-            (response) => {
+            (response: ImagePickerResponse) => {
                 if (response.didCancel == true) {
                     //중도 취소시
                 } else {
@@ -173,39 +183,41 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
         setProfile(currentUser?.photoURL);
     }, []);
 
-    React.useEffect(() => {
-        const updateData = async () => {
-            await firestore()
-                .collection('Users')
-                .doc(currentUser?.uid)
-                .get()
-                .then(function (doc) {
-                    setUserData(doc._data);
+    const updateData = async () => {
+        firestore()
+            .collection('Users')
+            .doc(currentUser?.uid)
+            .get()
+            .then(function (doc) {
+                setUserData(doc.data());
 
-                    var date = new Date(doc._data.birthDate.seconds * 1000);
+                var date = new Date(doc.data()?.birthDate.seconds * 1000);
 
-                    setBirthDate({
-                        year: date.getFullYear(),
-                        month: date.getMonth() + 1,
-                        day: date.getDate(),
-                    });
-
-                    const Type = doc._data.type;
-
-                    if (Type === 'Korean') {
-                        setSelectedTypeIndex(new IndexPath(2));
-                    } else if (Type === 'Resident') {
-                        setSelectedTypeIndex(new IndexPath(1));
-                    } else {
-                        setSelectedTypeIndex(new IndexPath(0));
-                    }
-
-                    setFBLoading(false);
-                })
-                .catch((err) => {
-                    console.log(err);
+                setBirthDate({
+                    year: date.getFullYear(),
+                    month: date.getMonth() + 1,
+                    day: date.getDate(),
                 });
-        };
+
+                const Type = doc.data()?.type;
+
+                if (Type === 'Korean') {
+                    setSelectedTypeIndex(new IndexPath(2));
+                } else if (Type === 'Resident') {
+                    setSelectedTypeIndex(new IndexPath(1));
+                } else {
+                    setSelectedTypeIndex(new IndexPath(0));
+                }
+
+                setFBLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    React.useEffect(() => {
+
 
         updateData();
     }, []);
@@ -245,12 +257,12 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                         <ScrollView style={{ marginHorizontal: 15 }}>
                             <Layout style={styles.photoContainer}>
                                 <Layout style={{ flex: 4 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>Photo</Text>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>Photo</Text>
 
                                     <Layout style={styles.miniProfileContainer}>
                                         <TouchableOpacity
                                             style={styles.smallProfileContainer}
-                                            onPress={()=>PressDefaultPic(1)}>
+                                            onPress={() => PressDefaultPic(1)}>
                                             <ProfileGray />
                                         </TouchableOpacity>
                                         <TouchableOpacity
@@ -287,13 +299,13 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                             </Layout>
                                         ) : (
                                             <Layout style={{ width: 75, height: 75, }}>
-                                            <Image
-                                                style={styles.profile}
-                                                source={{
-                                                    uri: profile,
-                                                }}
-                                            />
-                                            <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
+                                                <Image
+                                                    style={styles.profile}
+                                                    source={{
+                                                        uri: profile,
+                                                    }}
+                                                />
+                                                <ChangeProfile style={{ position: 'absolute', bottom: 0, right: 0 }} />
                                             </Layout>
                                         )}
                                     </TouchableOpacity>
@@ -302,11 +314,11 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>User Name</Text>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>User Name</Text>
                                 </Layout>
 
                                 <Layout
-                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8'}}>
+                                    style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8' }}>
                                     <TextInput
                                         style={[styles.title]}
                                         value={name}
@@ -319,7 +331,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 1 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>
                                         User Status
                                     </Text>
                                 </Layout>
@@ -330,7 +342,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
                                         selectedIndex={selectedTypeIndex}
                                         style={{
                                             minWidth:
-                                                Dimensions.get('window').width *0.5,
+                                                Dimensions.get('window').width * 0.5,
                                         }}
                                         onSelect={(index) =>
                                             setSelectedTypeIndex(index)
@@ -355,7 +367,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>Gender</Text>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>Gender</Text>
                                 </Layout>
                                 <Layout
                                     style={{ flex: 2, alignItems: 'flex-end', borderBottomWidth: 3, borderColor: '#F8F8F8' }}>
@@ -367,7 +379,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>
                                         Date of Birth
                                     </Text>
                                 </Layout>
@@ -383,7 +395,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
                             <Layout style={styles.infoContainer}>
                                 <Layout style={{ flex: 2 }}>
-                                    <Text style={[styles.title,{color:'#7777ff'}]}>
+                                    <Text style={[styles.title, { color: '#7777ff' }]}>
                                         Nationality
                                     </Text>
                                 </Layout>

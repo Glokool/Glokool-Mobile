@@ -9,7 +9,7 @@ import { Receipt, Receipt_Large } from '../../assets/icon/My';
 import { PaidDetail } from '../../component/My';
 import moment from 'moment'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from '../../server.component';
 
 
@@ -36,7 +36,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 
     console.log(Token);
 
-    const AxiosConfig = {
+    const AxiosConfig: AxiosRequestConfig = {
       method: 'get',
       url: SERVER + '/api/users/reservations',
       headers: {
@@ -49,7 +49,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
   }
 
 
-  function PressDetail(item: ReservationInfo) {
+  const PressDetail = (item: ReservationInfo) => {
 
     setRefundCode(item._id);
     setDetailData(item);
