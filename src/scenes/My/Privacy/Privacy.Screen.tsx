@@ -41,9 +41,6 @@ export const Privacy = (props: PrivacyProps): LayoutElement => {
         </Layout>
 
         {/* 세팅 내용물*/}
-
-
-
        
       </Layout>
     </React.Fragment>

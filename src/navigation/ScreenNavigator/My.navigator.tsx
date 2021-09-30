@@ -13,7 +13,6 @@ import {
   PrivacyConfirm,
   PrivacyLogin,
   MyProfile,
-  BookmarkList,
   HistoryScreen
 } from '../../scenes/My';
 import { ChatRoomScreen } from '../../scenes/Chat';
@@ -111,7 +110,6 @@ export const MyNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
 
     <Stack.Screen name={SceneRoute.MY} component={MYScreen} />
-    <Stack.Screen name={SceneRoute.BOOKMARK_LIST} component={BookmarkList} />
     <Stack.Screen name={SceneRoute.MY_SETTING} component={MySetting} />
     <Stack.Screen name={SceneRoute.MY_PROFILE} component={MyProfile} />
     <Stack.Screen name={SceneRoute.REFUND_POLICY} component={RefundPolicy} />

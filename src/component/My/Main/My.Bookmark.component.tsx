@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     },
     FlatListContainer: {
         width: windowWidth * 0.31 * 3 + 6,
-        backgroundColor: '#ffff'
+        backgroundColor: '#ffff',
+        paddingBottom: 30,
     }
 })
