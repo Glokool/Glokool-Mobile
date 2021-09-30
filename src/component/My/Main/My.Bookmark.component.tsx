@@ -9,16 +9,17 @@ import {
 } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import FastImage from 'react-native-fast-image';
 
 import { SERVER, CDN } from '../../../server.component';
+import { Detail_Item } from '../../../types';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const BookmarkList = () => {
 
-    const [bookmarkList, setBookmarkList] = useState<Array>([]);
+    const [bookmarkList, setBookmarkList] = useState<Array<Detail_Item>>([]);
 
     useEffect(() => {
         InitBookmark();
@@ -26,7 +27,7 @@ export const BookmarkList = () => {
 
     const InitBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
-        var config = {
+        var config: AxiosRequestConfig = {
             method: 'get',
             url: SERVER + '/api/users/bookmark',
             headers: {
@@ -39,7 +40,8 @@ export const BookmarkList = () => {
         })
     }
 
-    const renderItem = (item) => {
+    const renderItem = (item: {item: Detail_Item}) => {
+        console.log(item);
         return (
             <TouchableOpacity onPress={() => { }} style={styles.ItemContainer}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />

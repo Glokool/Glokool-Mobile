@@ -17,6 +17,7 @@ import {
   ReservationInfo
 } from '../../scenes/My';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
+import { authContextType } from '../../types';
 
 type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY]: undefined;
@@ -35,6 +36,7 @@ type MyNavigatorParams = AppNavigatorParams & {
 export interface MyScreenProps {
   navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
   route: RouteProp<MyNavigatorParams, SceneRoute.MY>;
+  currentUser: authContextType;
 }
 
 export interface MYProfileProps {

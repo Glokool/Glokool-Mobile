@@ -22,8 +22,6 @@ import {
     Receipt,
     Receipt_Large,
     Setting_Btn,
-    Comment_Btn,
-    Bookmark_Btn,
 } from '../../assets/icon/My';
 import { HomeBG, } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
@@ -93,7 +91,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 <Layout style={styles.Container}>
 
                     {/* 사용자 프로필 컴포넌트 분리 */}
-                    <MyProfile />
+                    <MyProfile currentUser={currentUser} navigation={props.navigation} route={props.route}/>
 
                     {/* Settings, Bookmark 버튼 */}
                     <Layout style={styles.ButtonContainer}>

@@ -1,67 +1,55 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     Image,
     View,
     Text
 } from 'react-native';
-import { AuthContext } from '../../../context/AuthContext';
 
 import firestore from '@react-native-firebase/firestore';
-import { FirebaseUserInfo } from '../../../types';
 
 import { Korean, Traveler, Resident } from '../../../assets/icon/Common';
+import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
 
-export const MyProfile = () => {
+export const MyProfile = (props: MyScreenProps) => {
 
-    const { currentUser } = useContext(AuthContext);
-
-    const [userInfo, setUserInfo] = useState<FirebaseUserInfo>({
-        type: '',
-        avatar: '',
-        birthDate: new Date(),
-        country: '',
-        email: '',
-        gender: '',
-        name: '',
-        signupDate: new Date(),
-    });
+    const [userType, setUserType] = useState();
 
     useEffect(() => {
         InitUserInfo();
     }, [])
 
     const InitUserInfo = async () => {
-        const response = firestore()
+        const response = await firestore()
             .collection('Users')
-            .doc(currentUser?.uid)
+            .doc(props.currentUser?.uid)
             .get();
 
-        if (response._data != undefined) {
-            setUserInfo(response._data);
+        if (response.data() != undefined) {
+            setUserType(response.data().type);
         }
     }
 
     return (
         <View style={styles.ProfileContainer}>
-            {currentUser.photoURL === '' ||
-                currentUser.photoURL === null ||
-                currentUser.photoURL === undefined ? (
+            {props.currentUser.photoURL === '' ||
+                props.currentUser.photoURL === null ||
+                props.currentUser.photoURL === undefined ? (
                 <Image
                     source={require('../../assets/profile/profile_01.png')}
                     style={styles.profileImage}
                 />
             ) : (
                 <Image
-                    source={{ uri: currentUser.photoURL }}
+                    source={{ uri: props.currentUser.photoURL }}
                     style={styles.profileImage}
                 />
             )}
 
             <View style={{ marginTop: 10, }}>
-                {userInfo.type === 'Korean' ? (
+                {userType === 'Korean' ? (
                     <Korean />
-                ) : userInfo.type === 'Resident' ? (
+                ) : userType === 'Resident' ? (
                     <Resident />
                 ) : (
                     <Traveler />
@@ -69,7 +57,7 @@ export const MyProfile = () => {
             </View>
 
             <Text style={styles.profileTitle}>
-                {currentUser.displayName}
+                {props.currentUser.displayName}
             </Text>
 
 
