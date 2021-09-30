@@ -34,7 +34,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const user = auth().currentUser;
 
     const [name, setName] = React.useState('');
-    const [profile, setProfile] = React.useState(null);
+    const [profile, setProfile] = React.useState<string>('');
     const [checkProfileChange, setCheckProfileChange] = React.useState<boolean>(
         false,
     );
@@ -45,14 +45,6 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
     const { currentUser, setCurrentUser } = useContext(AuthContext);
 
     const [FBLoading, setFBLoading] = React.useState(true);
-
-    //Date of Birth
-    const startDay = new Date(1900, 1, 1);
-    const [date, setDate] = React.useState(new Date());
-    //Sex
-    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-    const gender = ['Male', 'Female'];
-    const displayValue = gender[selectedIndex.row]; // 성별 정하기 (0 : male, 1: female)
     const [userData, setUserData] = React.useState({
         name: '',
         gender: '',
@@ -157,7 +149,7 @@ export const MyProfile = (props: MYProfileProps): LayoutElement => {
 
     /* 이미지 변경 */
     const PressPicture = async () => {
-        await launchImageLibrary(
+        launchImageLibrary(
             {
                 mediaType: 'photo',
                 includeBase64: false,

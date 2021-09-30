@@ -14,10 +14,9 @@ import {
   PrivacyLogin,
   MyProfile,
   BookmarkList,
-  ReservationInfo
 } from '../../scenes/My';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
-import { authContextType } from '../../types';
+import { authContextType, ReservationInfo } from '../../types';
 
 type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY]: undefined;

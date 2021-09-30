@@ -30,7 +30,7 @@ import {
     Series,
     Series_S,
 } from '../assets/icon/BottomNavigation';
-import { NavigatorRoute } from './app.route';
+import { NavigatorRoute, SceneRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
 import { AuthContext } from '../context/AuthContext';
 import { alertWindow } from '../component/Common/LoginCheck.component';
@@ -197,7 +197,8 @@ const GuideVisiblity = (route) => {
     if (
         routeName === 'Chatroom' ||
         routeName === 'Chat Help' ||
-        routeName === 'Chat Report'
+        routeName === 'Chat Report' ||
+        routeName === SceneRoute.PAID_CHAT_LIST
     ) {
         return false;
     }
@@ -240,6 +241,7 @@ export const MainNavigator = (): React.ReactElement => (
             name={NavigatorRoute.MY}
             component={MyNavigator}
             options={({ route }) => ({
+                tabBarVisible: GuideVisiblity(route),
                 unmountOnBlur: false,
             })}
         />

@@ -32,8 +32,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    const [loading, setLoading] = React.useState<boolean>(true);
-
     // 백핸들러 적용을 위한 함수
     const focusEvent = useFocusEffect(
         React.useCallback(() => {
@@ -65,7 +63,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     };
 
     return currentUser === null ? (
-        <Layout/>
+        <Layout />
     ) : (
         <Layout style={styles.SuperContainer}>
 
@@ -85,7 +83,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 <Layout style={styles.Container}>
 
                     {/* 사용자 프로필 컴포넌트 분리 */}
-                    <MyProfile currentUser={currentUser} navigation={props.navigation} route={props.route}/>
+                    <MyProfile currentUser={currentUser} navigation={props.navigation} route={props.route} />
 
                     {/* Settings, Bookmark 버튼 */}
                     <Layout style={styles.ButtonContainer}>

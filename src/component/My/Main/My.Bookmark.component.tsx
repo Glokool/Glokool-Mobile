@@ -25,6 +25,7 @@ export const BookmarkList = () => {
         InitBookmark();
     }, [])
 
+    // bookmarklist 초기화, api 완성 되면 바꿔야함
     const InitBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
@@ -40,7 +41,7 @@ export const BookmarkList = () => {
         })
     }
 
-    const renderItem = (item: {item: Detail_Item}) => {
+    const renderItem = (item: { item: Detail_Item }) => {
         console.log(item);
         return (
             <TouchableOpacity onPress={() => { }} style={styles.ItemContainer}>
@@ -50,12 +51,14 @@ export const BookmarkList = () => {
     }
 
     return bookmarkList.length == 0 ? (
+        // 리스트가 비었을때
         <View>
             <Text>Whoops!</Text>
             <Text>Your bookmark list is empty</Text>
             <Text>Tap the bookmark icon to easily add to the list</Text>
         </View>
     ) : (
+        // 리스트 존재할때
         <View style={styles.MainContainer}>
             <FlatList
                 data={bookmarkList}
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         marginTop: 10,
         width: windowWidth,
-        alignItems:'center'
+        alignItems: 'center'
     },
     BookmarkItem: {
         width: windowWidth * 0.31,
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 2,
     },
-    FlatListContainer:{
+    FlatListContainer: {
         width: windowWidth * 0.31 * 3 + 6,
         backgroundColor: '#ffff'
     }
