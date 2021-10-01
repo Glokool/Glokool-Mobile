@@ -391,7 +391,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         const voiceRef = reference.child(
             `chat/${roomName}/voice/${audioMessage}.aac`,
         ); //xxxxx는 대화방 이름으로 변경
-
+        
         voiceRef
             .putFile(audioPath)
             .then((response) => {
