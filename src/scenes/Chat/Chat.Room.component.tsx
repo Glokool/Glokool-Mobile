@@ -221,39 +221,33 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     /* 앱 상태 확인 useEffect */
     React.useEffect(() => {
-        AppState.addEventListener('change', handleAppStateChange);
-        return () => {
-            AppState.removeEventListener('change', handleAppStateChange);
-        };
+        
+
     }, []);
 
     /* check access token */
     React.useEffect(() => {
+
+        const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
+        getGuideToken(props.route.params.guide.uid);
+        initGuide();
+        
+        AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
+        props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
+            ChatDB.off('value');
+            resetUserUnreadMsgCount();
+        })
+
         if (!currentUser?.access_token) {
             getAccessToken();
         }
+        return () => {
+            AppState.removeEventListener('change', handleAppStateChange);
+            unsubscribe;
+        };
     }, []);
 
-    React.useEffect(() => {
-        getGuideToken(props.route.params.guide.uid);
-        initGuide();
-    }, []);
 
-    React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            ChatRoomInit(props.route.params.id);
-        });
-
-        return unsubscribe;
-    }, []);
-
-    /* navigation 삭제 전 메시지 읽음표시 */
-    React.useEffect(() =>
-        props.navigation.addListener('beforeRemove', () => {
-            ChatDB.off('value');
-            resetUserUnreadMsgCount();
-        }),
-    );
 
     // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
     React.useEffect(() => {
@@ -1010,7 +1004,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
 
-                await setGuide({
+                setGuide({
                     avatar: res.data.avatar,
                     name: res.data.name,
                     gender: res.data.gender,
@@ -1536,3 +1530,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+
+
