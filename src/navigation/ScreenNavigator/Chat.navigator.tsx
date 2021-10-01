@@ -14,7 +14,7 @@ import { SeriesAInfoScreen, SeriesBInfoScreen, SeriesHiddenGemDetailScreen } fro
 
 const Stack = createStackNavigator();
 
-type ChatNavigatorParams = AppNavigatorParams & {
+export type ChatNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CHAT]: undefined;
   [SceneRoute.CHATROOM] : {
     id : string;

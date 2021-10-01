@@ -244,8 +244,7 @@ export type RestaurantData = {
     };
     title: string;
     visible: boolean;
-    sgntMenu: Array<SgntMenu>;
-};
+    sgntMenu: Array<SignatureMenu>;
 
 export type ShareItem = {
     title: string;
@@ -340,3 +339,29 @@ export type FirebaseUserInfo = {
     name: string;
     signupDate: Date;
 };
+
+export type userInfoType = {
+    avatar: string;
+    birthDate: {
+        nanoseconds: number;
+        seconds: number;
+    },
+    country: string;
+    email: string;
+    gender: string;
+    name: string;
+    signupDate: {
+        nanoseconds: number;
+        seconds: number;
+    },
+    tokens: Array<string>;
+    type: string;
+}
+
+export type authContextType = {
+    access_token: string;
+    displayName: string;
+    email: string;
+    photoURL: string;
+    uid: string;
+}

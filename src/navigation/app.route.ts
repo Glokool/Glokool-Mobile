@@ -75,6 +75,7 @@ export enum SceneRoute {
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
     BOOKMARK_LIST = 'Bookmark List',
+    HISTORY = 'History',
 
     // Bookmark list
     BOOKMARK_SERIES = 'Bookmark Series',

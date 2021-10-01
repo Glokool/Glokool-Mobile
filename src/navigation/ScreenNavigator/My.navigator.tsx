@@ -1,9 +1,9 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
-import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
-import { 
+import {
   CustomerServiceComponent,
   FAQ,
   MYScreen,
@@ -13,28 +13,35 @@ import {
   PrivacyConfirm,
   PrivacyLogin,
   MyProfile,
-  BookmarkList,
-  ReservationInfo
+  HistoryScreen
 } from '../../scenes/My';
+import { ChatRoomScreen } from '../../scenes/Chat';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
+import { authContextType, ReservationInfo } from '../../types';
+import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
 
 type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY]: undefined;
-  [SceneRoute.REFUND_POLICY] : undefined;
-  [SceneRoute.PAID_CHAT_LIST] : undefined;
-  [SceneRoute.MY_SETTING] : undefined;
-  [SceneRoute.PRIVACY] : undefined;
-  [SceneRoute.PRIVACY_CONFIRM] : undefined;
-  [SceneRoute.PRIVACY_LOGIN] : undefined;
-  [SceneRoute.CUSTOMER_SERVICE] : undefined;
-  [SceneRoute.FAQ] : undefined;
-  [SceneRoute.MY_PROFILE] : undefined;
-  [SceneRoute.BOOKMARK_LIST] : undefined;
+  [SceneRoute.REFUND_POLICY]: undefined;
+  [SceneRoute.PAID_CHAT_LIST]: undefined;
+  [SceneRoute.MY_SETTING]: undefined;
+  [SceneRoute.PRIVACY]: undefined;
+  [SceneRoute.PRIVACY_CONFIRM]: undefined;
+  [SceneRoute.PRIVACY_LOGIN]: undefined;
+  [SceneRoute.CUSTOMER_SERVICE]: undefined;
+  [SceneRoute.FAQ]: undefined;
+  [SceneRoute.MY_PROFILE]: undefined;
+  [SceneRoute.BOOKMARK_LIST]: undefined;
+  [SceneRoute.HISTORY]: undefined;
+  [SceneRoute.CHATROOM]: undefined;
+
+  [NavigatorRoute.HOME]: undefined;
 };
 
 export interface MyScreenProps {
   navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
   route: RouteProp<MyNavigatorParams, SceneRoute.MY>;
+  currentUser: authContextType;
 }
 
 export interface MYProfileProps {
@@ -48,9 +55,9 @@ export interface MYSettingProps {
 }
 
 export interface PaidDetailProps {
-  data : ReservationInfo;
+  data: ReservationInfo | undefined;
   visible: boolean;
-  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.MY>;
+  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.PAID_CHAT_LIST>;
 }
 
 export interface PaidChatListProps {
@@ -92,27 +99,36 @@ export interface BookmarkListProps {
   route: RouteProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
 }
 
+// 일단은 history -> chat 으로 가니까 이렇게 해둠
+// 나중에 chat 바뀔때 recent 를 chat navigator 에서 없애고
+// my navigator 로 이식
+export interface HistoryScreenProps {
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
+}
+
 
 
 const Stack = createStackNavigator();
 
 export const MyNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    
-    <Stack.Screen name={SceneRoute.MY} component={MYScreen}/>
-    <Stack.Screen name={SceneRoute.BOOKMARK_LIST} component={BookmarkList}/>
-    <Stack.Screen name={SceneRoute.MY_SETTING} component={MySetting}/>
-    <Stack.Screen name={SceneRoute.MY_PROFILE} component={MyProfile}/>
-    <Stack.Screen name={SceneRoute.REFUND_POLICY} component={RefundPolicy}/>
-    <Stack.Screen name={SceneRoute.PAID_CHAT_LIST} component={PaidChatList}/>
 
-    <Stack.Screen name={SceneRoute.CUSTOMER_SERVICE} component={CustomerServiceComponent}/>
-    <Stack.Screen name={SceneRoute.FAQ} component={FAQ}/>
+    <Stack.Screen name={SceneRoute.MY} component={MYScreen} />
+    <Stack.Screen name={SceneRoute.MY_SETTING} component={MySetting} />
+    <Stack.Screen name={SceneRoute.MY_PROFILE} component={MyProfile} />
+    <Stack.Screen name={SceneRoute.REFUND_POLICY} component={RefundPolicy} />
+    <Stack.Screen name={SceneRoute.PAID_CHAT_LIST} component={PaidChatList} />
+    <Stack.Screen name={SceneRoute.HISTORY} component={HistoryScreen} />
 
-    <Stack.Screen name={SceneRoute.PRIVACY} component={Privacy}/>
-    <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm}/>
-    <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin}/>
+    <Stack.Screen name={SceneRoute.CUSTOMER_SERVICE} component={CustomerServiceComponent} />
+    <Stack.Screen name={SceneRoute.FAQ} component={FAQ} />
 
+    <Stack.Screen name={SceneRoute.PRIVACY} component={Privacy} />
+    <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm} />
+    <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
+
+    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
 
   </Stack.Navigator>
 );

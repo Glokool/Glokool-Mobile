@@ -21,6 +21,7 @@ import { SERVER, CDN } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
+import { useLinkTo } from '@react-navigation/native';
 
 
 export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
@@ -38,6 +39,8 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     const [CHN, setCHN] = useState(false);
 
     const [route, setRoute] = useState({});
+
+    const linkTo = useLinkTo();
 
     useEffect(() => {
         InitNowList();
@@ -87,6 +90,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
             day: item.day,
             finish: true,
         });
+        // linkTo("/main/chat/chatroom/" + item._id)
     }
 
     // 가이드 사진 클릭 시 가이드 프로필 출력

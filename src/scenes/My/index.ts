@@ -1,16 +1,16 @@
-export { MYScreen } from './My.component'
-export { PaidChatList } from './PaidChatList.component';
-export { MySetting } from './My.Setting.component';
-export { MyProfile} from './My.Profile.component';
+export { MYScreen } from './My.Screen'
+export { PaidChatList } from './My.PaidChatList.Screen';
+export { MySetting } from './My.Setting.Screen';
+export { MyProfile } from './My.Profile.Screen';
 
 //Customer Service
-export { CustomerServiceComponent } from './CustomerService/CustomerService.component'
-export { FAQ } from './CustomerService/FAQ.component'; 
+export { CustomerServiceComponent } from './CustomerService/CustomerService.Screen'
+export { FAQ } from './CustomerService/FAQ.Screen';
 
 //Privacy
-export { Privacy } from './Privacy/privacy.component';
-export { PrivacyConfirm } from './Privacy/privacy.confirm.component';
-export { PrivacyLogin } from './Privacy/privacy.login.component'
+export { Privacy } from './Privacy/Privacy.Screen';
+export { PrivacyConfirm } from './Privacy/Privacy.Confirm.Screen';
+export { PrivacyLogin } from './Privacy/Privacy.Login.Screen'
 
-//BookmarkList
-export { BookmarkList } from './Bookmark/Bookmark.List.component';
+//History
+export { HistoryScreen } from './My.History.Screen';
