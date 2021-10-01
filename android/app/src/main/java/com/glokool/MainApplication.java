@@ -9,7 +9,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.iamport.IamportPackage;
-import com.airbnb.android.react.lottie.LottiePackage;
+
 import com.iamport.IamportPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;

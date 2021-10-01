@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import LottieView from 'lottie-react-native';
 import { Layout, LayoutElement, Spinner } from '@ui-kitten/components';
 
 export const Loading = () : LayoutElement => {
