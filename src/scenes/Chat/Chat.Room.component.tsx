@@ -80,6 +80,8 @@ import { ChatContext } from '../../context/ChatContext';
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
 import { QuickSearchButton } from '../../assets/icon/Chat'
 
+import { AudioComponent } from '../../component/Chat';
+
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -137,41 +139,38 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [isPaused, setIsPaused] = React.useState(false)
     const increment = React.useRef(null);
 
-    const formatTime = () => {
-        const getSeconds = `0${(timer % 60)}`.slice(-2)
-        const minutes = `0${Math.floor(timer / 60)}`
-        const getMinutes = `${minutes % 60}`.slice(-2)
-        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
+    const renderAudio = (item) => {
+        return (
+            <TouchableOpacity
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: 20,
+                }}
+                onPress={async () => {
+                    const sound = new Sound(
+                        item.currentMessage.audio,
+                        '',
+                        (error) => {
+                            if (error) {
+                                console.log('보이스 파일 다운로드 실패');
+                            }
 
-        return `${getMinutes}:${getSeconds}`
-    }
-
-    const audioStopwatchStart = () => {
-        // setIsActive(true)
-        // console.log('stopwatchstart')
-        // increment.current = setInterval(() => {
-        // setTimer((timer) => timer + 1)
-        // }, 10)
-        // clearInterval(increment.current)
-        setIsActive(true)
-        setIsPaused(true)
-        increment.current = setInterval(() => {
-            setTimer((timer) => timer + 1)
-            // console.log(timer)
-        }, 1000)
-    }
-
-    const audioStopwatchStop = () => {
-        clearInterval(increment.current)
-        setIsPaused(false)
-    }
-
-    const audioStopwatchReset = () => {
-        clearInterval(increment.current)
-        setIsActive(false)
-        setIsPaused(false)
-        setTimer(0)
-    }
+                            sound.play((success) => {
+                                if (success) {
+                                    console.log('재생 성공');
+                                    // console.log(sound.getDuration())
+                                } else {
+                                    console.log('재생 실패');
+                                }
+                            });
+                        },
+                    );
+                }}>
+                <FontAwesomeIcon icon={faPlay} size={16} />
+            </TouchableOpacity>
+        );
+    };
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -274,6 +273,12 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     }, [guideVisible])
 
+    React.useEffect(() => {
+        if (audioVisible) {
+            setAudioVisible(false);
+        }
+    }, [audioVisible])
+
     /* 뒤로가기 버튼 */
     const backAction = () => {
         ChatDB.off('value');
@@ -340,114 +345,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     // param으로 받은 채팅 날짜
     const [day, setDay] = React.useState(props.route.params.day);
 
-    //오디오 녹음 창
-    const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => { });
-
-        if (startAudio == false) {
-            //오디오 버튼 시작
-
-            setStartAudio(true);
-            setAudioMessage(messageIdGenerator);
-
-            await AudioRecorder.prepareRecordingAtPath(
-                `${AudioUtils.DocumentDirectoryPath}/${audioMessage}test.aac`,
-                {
-                    SampleRate: 22050,
-                    Channels: 1,
-                    AudioQuality: 'Low',
-                    AudioEncoding: 'aac',
-                    MeteringEnabled: true,
-                    IncludeBase64: true,
-                    AudioEncodingBitRate: 32000,
-                },
-            );
-            await AudioRecorder.startRecording();
-            audioStopwatchReset();
-            audioStopwatchStart();
-            console.log('start?');
-        } else {
-            // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
-            setStartAudio(false);
-            audioStopwatchStop();
-            console.log('stop?');
-
-            const recorder = await AudioRecorder.stopRecording();
-            AudioRecorder.onFinished = (data) => {
-
-                if (Platform.OS === 'ios') {
-                    var path = data.audioFileURL;
-                    setAudioPath(path);
-                } else {
-                    var path = `file://${data.audioFileURL}`;
-                    setAudioPath(path);
-                }
-            };
-        }
-    };
-
-    const sendAudio = () => {
-        const reference = storage().ref();
-        const voiceRef = reference.child(
-            `chat/${roomName}/voice/${audioMessage}.aac`,
-        ); //xxxxx는 대화방 이름으로 변경
-
-        voiceRef
-            .putFile(audioPath)
-            .then((response) => {
-                voiceRef.getDownloadURL().then((result) => {
-                    const message = {
-                        _id: audioMessage,
-                        createdAt: new Date().getTime(),
-                        user: {
-                            _id: currentUser?.uid,
-                            name: currentUser?.displayName,
-                            avatar: currentUser?.photoURL,
-                        },
-                        audio: result, //파일 경로만 전달
-                        messageType: 'audio',
-                    };
-                    const push = createPushNoti('음성메시지를 보냈습니다.');
-
-                    Promise.all([
-                        ChatDB.update({
-                            messages: [message, ...chatMessages],
-                            guideUnreadCount: database.ServerValue.increment(1),
-                        }),
-                        sendMessage(push),
-                    ]);
-
-                    setAudioPath('');
-                    setAudioVisible(false);
-                });
-            })
-            .catch((err) => {
-                setAudioPath('');
-                setAudioVisible(false);
-            });
-        audioStopwatchReset();
-
-    };
-    //녹음 버튼을 클릭하고 다시 녹음 버튼을 누르지 않고 종료 버튼을 클릭했을 때
-    const audioExit = async () => {
-        audioStopwatchReset();
-        setAudioPath('');
-        setAudioVisible(false);
-
-        if (startAudio == true) {
-            setStartAudio(false);
-            await AudioRecorder.stopRecording();
-        }
-    };
-
-    const PressReset = async () => {
-        setAudioPath('');
-
-        if (startAudio == true) {
-            setStartAudio(false);
-            await AudioRecorder.stopRecording();
-        }
-    };
 
     /* 채팅창 이미지 컴포넌트 */
     const ChatImg = ({ imgUrl }) => {
@@ -483,38 +380,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const renderAudio = (props) => {
-        return (
-            <TouchableOpacity
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 20,
-                }}
-                onPress={async () => {
-                    const sound = new Sound(
-                        props.currentMessage.audio,
-                        '',
-                        (error) => {
-                            if (error) {
-                                console.log('보이스 파일 다운로드 실패');
-                            }
-
-                            sound.play((success) => {
-                                if (success) {
-                                    console.log('재생 성공');
-                                    // console.log(sound.getDuration())
-                                } else {
-                                    console.log('재생 실패');
-                                }
-                            });
-                        },
-                    );
-                }}>
-                <FontAwesomeIcon icon={faPlay} size={16} />
-            </TouchableOpacity>
-        );
-    };
 
     const createPushNoti = (message: string): object => {
         return {
@@ -1156,7 +1021,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                console.log(res.data);
 
                 await setGuide({
                     avatar: res.data.avatar,
@@ -1378,62 +1242,16 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 ) : null}
             </KeyboardAvoidingView>
 
-            {audioVisible === true ? (
-                <Layout style={styles.SideContainerBack}>
-                    <Layout
-                        style={styles.BackDropContainer}
-                        onTouchStart={() => audioExit()}
-                    />
-                    <Layout style={styles.AudioContainer}>
-                        <Pressable
-                            style={styles.VoiceContainerExitButton}
-                            onPress={() => audioExit()}>
-                            <Exit_C />
-                        </Pressable>
+            <AudioComponent
+                roomName={roomName}
+                currentUser={currentUser}
+                ChatDB={ChatDB}
+                chatMessages={chatMessages}
+                visible={audioVisible}
+                messageIdGenerator={messageIdGenerator}
+                createPushNoti={createPushNoti}
+            />
 
-                        <Layout style={styles.VoiceRecorder}>
-                            <Text
-                                style={
-                                    startAudio
-                                        ? styles.RecordingStatusTxt_ing
-                                        : styles.RecordingStatusTxt
-                                }>{`Re-${'\n'}recording`}</Text>
-                            <Layout style={styles.AudioCenterContainer}>
-                                <Text style={styles.AudioCenterStopwatch}>
-                                    {formatTime()}
-                                </Text>
-                                <Pressable
-                                    style={styles.RecordingButton}
-                                    onPress={handleAudio}>
-                                    {audioPath == '' ? (
-                                        startAudio === true ? (
-                                            <Chat_Voice_Stop />
-                                        ) : (
-                                            <Chat_Voice_Start />
-                                        )
-                                    ) : (
-                                        <Chat_Voice_End />
-                                    )}
-                                </Pressable>
-                            </Layout>
-
-                            <Pressable
-                                style={
-                                    audioPath === ''
-                                        ? styles.SendButton_D
-                                        : styles.SendButton
-                                }
-                                onPress={() => {
-                                    if (audioPath != '') {
-                                        sendAudio();
-                                    }
-                                }}>
-                                <Text style={styles.SendButtonTxt}>Send</Text>
-                            </Pressable>
-                        </Layout>
-                    </Layout>
-                </Layout>
-            ) : null}
 
             {/* 녹음기 화면
             <Modal
