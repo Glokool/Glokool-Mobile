@@ -24,30 +24,25 @@ import { Exit_C } from '../../../assets/icon/Common';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../model';
 import { countAudioDuration, resetAudioDuration } from '../../../model/Chat/Chat.Audio.model';
+import { setAudioVisiblityFalse, setAudioVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
 
 
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export const AudioComponent = (props) => {
+export const AudioComponent = (props : any) => {
+    
+    const audioViblity = useSelector((state : RootState) => state.ChatUIModel.audioVisiblity);
+    const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
+    const dispatch = useDispatch();
+
     const [startAudio, setStartAudio] = useState(false);
     const [audioMessage, setAudioMessage] = useState('');
     const [audioPath, setAudioPath] = useState('');
     const increment = useRef<NodeJS.Timeout | any>();
 
-    const [visible, setVisible] = useState<boolean>(false);
-
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isPaused, setIsPaused] = useState<boolean>(false);
-
-    const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (props.visible) {
-            setVisible(true);
-        }
-    })
 
     const formatTime = () => {
         const getSeconds = `0${(duration % 60)}`.slice(-2)
@@ -154,12 +149,12 @@ export const AudioComponent = (props) => {
                     ]);
 
                     setAudioPath('');
-                    setVisible(false);
+                    dispatch(setAudioVisiblityFalse());
                 });
             })
             .catch((err) => {
                 setAudioPath('');
-                setVisible(false);
+                dispatch(setAudioVisiblityFalse());
             });
         audioStopwatchReset();
 
@@ -168,7 +163,7 @@ export const AudioComponent = (props) => {
     const audioExit = async () => {
         audioStopwatchReset();
         setAudioPath('');
-        setVisible(false);
+        dispatch(setAudioVisiblityFalse());
 
         if (startAudio == true) {
             setStartAudio(false);
@@ -177,7 +172,7 @@ export const AudioComponent = (props) => {
     };
 
     return (
-        <Modal style={styles.SideContainerBack} visible={visible}>
+        <Modal style={styles.SideContainerBack} visible={audioViblity}>
             <Layout
                 style={styles.BackDropContainer}
                 onTouchStart={() => audioExit()}

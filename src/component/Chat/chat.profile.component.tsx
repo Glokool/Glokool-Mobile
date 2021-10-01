@@ -4,16 +4,14 @@ import { Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
 import { CDN } from '../../server.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../model';
+import { setGuideVisiblityFalse } from '../../model/Chat/Chat.UI.model';
 
 export const ProfileModal = (props: any) => {
-    // props => guide. ENG CHN isVisible
-    const [guideVisible, setGuideVisible] = useState(false);
 
-    useEffect(() => {
-        if (props.isVisible) {
-            setGuideVisible(true);
-        }
-    })
+    const guideVisible = useSelector((state : RootState) => state.ChatUIModel.guideVisiblity);
+    const dispatch = useDispatch();
 
     const helpButton = () => {
         props.navigation.navigate(SceneRoute.CHAT_HELP, {
@@ -23,7 +21,8 @@ export const ProfileModal = (props: any) => {
                 name: props.route.params.guide.name,
             },
         });
-        setGuideVisible(false);
+        
+        dispatch(setGuideVisiblityFalse());
     }
 
     const renderItem = (item: any) => {
@@ -42,7 +41,7 @@ export const ProfileModal = (props: any) => {
                 style={{ padding: 20, width: '100%', }}
                 visible={guideVisible}
                 backdropStyle={styles.backdrop}
-                onBackdropPress={() => setGuideVisible(false)}
+                onBackdropPress={() => dispatch(setGuideVisiblityFalse())}
             >
 
                 <View style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
@@ -53,7 +52,7 @@ export const ProfileModal = (props: any) => {
                                 <Text style={{ fontSize: 14, color: '#9b9b9b' }}>HELP</Text>
                             </View>
                         </Pressable>
-                        <Pressable onPress={() => setGuideVisible(false)}>
+                        <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
                             <CloseButton />
                         </Pressable>
                     </View>

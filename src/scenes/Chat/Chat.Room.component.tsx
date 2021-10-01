@@ -82,8 +82,11 @@ import { QuickSearchButton } from '../../assets/icon/Chat'
 import { AudioComponent } from '../../component/Chat';
 import { messageType } from '../../types';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
+import { ChatTopTabBarComponent } from '../../component/Chat/Chatroom/Chat.TopTabBar.component';
+import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
+import { setAudioVisiblityTrue } from '../../model/Chat/Chat.UI.model';
 
 
 var ToastRef: any;
@@ -95,19 +98,18 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
+    const dispatch = useDispatch();
     
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
     const [roomName, setRoomName] = React.useState<string>();
-    const [chatMessages, setChatMessages] = React.useState<Array<messageType>>([]);
+    const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
     const [location, setLocation] = React.useState({ lon: '', lat: '' });    
-    const [guideVisible, setGuideVisible] = React.useState(false);  //가이드 정보 모달
     const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
-    const [audioVisible, setAudioVisible] = React.useState(false);
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
     const [guideToken, setGuideToken] = React.useState('');
     const [imageURL, setImageURL] = React.useState('');
@@ -215,8 +217,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         initGuide();
         
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
+        
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
-            ChatDB.off('value');
+            
             resetUserUnreadMsgCount();
         })
 
@@ -227,33 +230,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return () => {
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
+            ChatDB.off('value');
         };
 
     }, []);
 
-
-
-    // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    React.useEffect(() => {
-        if (guideVisible) {
-            setGuideVisible(false);
-        }
-    }, [guideVisible])
-
-    React.useEffect(() => {
-        if (audioVisible) {
-            setAudioVisible(false);
-        }
-    }, [audioVisible])
-
-    /* 뒤로가기 버튼 */
-    const backAction = () => {
-        ChatDB.off('value');
-        resetUserUnreadMsgCount();
-        props.navigation.goBack();
-
-        return true;
-    };
 
     // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
     // 채팅 데이터들은 Firebase RTDB 에서 받아온다
@@ -300,13 +281,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     }
 
-    const messageIdGenerator = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            let r = (Math.random() * 16) | 0,
-                v = c == 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    };
 
     // param으로 받은 채팅 날짜
     const [day, setDay] = React.useState(props.route.params.day);
@@ -1021,7 +995,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
-                        renderAvatar={null}
+                        renderAvatar={() => {return null}}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}
@@ -1039,7 +1013,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
-                <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={props.route} />
+                <ProfileModal guide={guide} ENG={ENG} CHN={CHN} navigation={props.navigation} route={props.route} />
 
                 <Modal
                     visible={imageZoomVisible}
@@ -1103,46 +1077,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Modal>
 
                 {/*탭바 디자인*/}
-                <Layout style={styles.TabBar} onTouchStart={Keyboard.dismiss}>
-                    <Pressable
-                        style={styles.IconContainer}
-                        onPress={() => backAction()}>
-                        <AngleLeft />
-                    </Pressable>
-
-                    <Layout style={styles.profileContainer}>
-                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
-                            {guide.avatar != " " &&
-                                guide.avatar != undefined &&
-                                guide.avatar != null ? (
-                                <Image
-                                    source={{ uri: CDN + guide.avatar }}
-                                    style={styles.Profile}
-                                />
-                            ) : (
-                                <Image
-                                    source={require('../../assets/profile/profile_01.png')}
-                                    style={styles.Profile}
-                                />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
-                            <Text style={styles.title}>
-                                {props.route.params.guide.name === undefined
-                                    ? `매칭중..`
-                                    : `${props.route.params.guide.name}`}
-                            </Text>
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Pressable
-                        style={styles.IconContainer}
-                        onPress={() => {
-                            props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
-                        }}>
-                        <QuickSearchButton />
-                    </Pressable>
-                </Layout>
+                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+                
 
                 {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
                 {visible2 == true ? (
@@ -1152,7 +1088,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Layout style={styles.SideContainer}>
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={() => setAudioVisible(true)}>
+                                onPress={() => dispatch(setAudioVisiblityTrue())}>
                                 <Record />
                                 <Text style={styles.SideButtonTxt}>Voices</Text>
                             </Pressable>
@@ -1189,44 +1125,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 currentUser={currentUser}
                 ChatDB={ChatDB}
                 chatMessages={chatMessages}
-                visible={audioVisible}
                 messageIdGenerator={messageIdGenerator}
                 createPushNoti={createPushNoti}
             />
-
-
-            {/* 녹음기 화면
-            <Modal
-                style={{position: 'absolute', bottom: 0, width: '100%', height: 182 }}
-                visible={audioVisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => audioExit()}
-            >
-                <Layout style={{backgroundColor: 'white', width: '100%', height: 56, flexDirection: 'row'}}>
-
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={PressReset}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
-                        <TouchableOpacity onPress={handleAudio}>
-                            {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={() => {
-                            if(audioPath != ''){
-                                sendAudio();
-                            }
-                        }}>
-                            {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
-                        </TouchableOpacity>
-                    </Layout>
-                </Layout>
-            </Modal> */}
 
         </Layout>
     );
