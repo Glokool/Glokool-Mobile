@@ -21,6 +21,10 @@ import {
 } from '../../../assets/icon/Chat';
 import { Exit_C } from '../../../assets/icon/Common';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../model';
+import { countAudioDuration, resetAudioDuration } from '../../../model/Chat/Chat.Audio.model';
+
 
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -33,9 +37,11 @@ export const AudioComponent = (props) => {
 
     const [visible, setVisible] = useState<boolean>(false);
 
-    const [timer, setTimer] = useState<number>(0);
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isPaused, setIsPaused] = useState<boolean>(false);
+
+    const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (props.visible) {
@@ -44,8 +50,8 @@ export const AudioComponent = (props) => {
     })
 
     const formatTime = () => {
-        const getSeconds = `0${(timer % 60)}`.slice(-2)
-        const minutes = `0${Math.floor(timer / 60)}`
+        const getSeconds = `0${(duration % 60)}`.slice(-2)
+        const minutes = `0${Math.floor(duration / 60)}`
         const getMinutes = `${Number(minutes) % 60}`.slice(-2)
 
         return `${getMinutes}:${getSeconds}`
@@ -55,7 +61,7 @@ export const AudioComponent = (props) => {
         setIsActive(true)
         setIsPaused(true)
         increment.current = setInterval(() => {
-            setTimer((timer) => timer + 1)
+            dispatch(countAudioDuration());
         }, 1000)
     }
 
@@ -68,7 +74,7 @@ export const AudioComponent = (props) => {
         clearInterval(increment.current)
         setIsActive(false)
         setIsPaused(false)
-        setTimer(0)
+        dispatch(resetAudioDuration());
     }
 
     const handleAudio = async () => {

@@ -14,6 +14,8 @@ export type GloChatData = {
         name: string;
         score: number;
         uid: string;
+        token?: string;
+        avatar?: string;
     };
     paymentID: string;
 }

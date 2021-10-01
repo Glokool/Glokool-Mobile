@@ -22,33 +22,36 @@ import { requestNotificationsPermission } from './component/permission.component
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
+
 import { createStore } from 'redux';
-import rootReducer from './root.reducer';
+import rootReducer from './model';
 import { Provider } from 'react-redux';
 
 const saveTokenToDatabase = async (token: any) => {
 
     const userId = auth().currentUser?.uid;
 
-    if (userId != undefined){
+    if (userId != undefined) {
         firestore()
             .collection('Users')
             .doc(userId)
             .update({
                 tokens: firestore.FieldValue.arrayUnion(token),
-        });
+            });
     }
 
 };
 
 
-export default (props: any): React.ReactFragment => {                       
+export default (props: any): React.ReactFragment => {
 
     const [currentUser, setCurrentUser] = React.useState(null);
     const userValue = { currentUser, setCurrentUser };
 
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
+
+    const store = createStore(rootReducer);
 
     const InitNowList = async () => {
         const user = auth().currentUser;
@@ -142,24 +145,26 @@ export default (props: any): React.ReactFragment => {
     }, []);
 
     return (
-        <React.Fragment>
-            <IconRegistry icons={EvaIconsPack} />
-            <ApplicationProvider
-                {...eva}
-                theme={{ ...eva.light, ...theme }}
-                customMapping={mapping}
-            >
-                <SafeAreaProvider>
-                    <AuthContext.Provider value={userValue}>
-                        <ChatContext.Provider value={value}>
-                            <NavigationContainer linking={linking}>
-                                <AppNavigator />
-                            </NavigationContainer>
-                        </ChatContext.Provider>
-                    </AuthContext.Provider>
-                </SafeAreaProvider>
-            </ApplicationProvider>
-        </React.Fragment>
+        <Provider store={store}>
+            <React.Fragment>
+                <IconRegistry icons={EvaIconsPack} />
+                <ApplicationProvider
+                    {...eva}
+                    theme={{ ...eva.light, ...theme }}
+                    customMapping={mapping}
+                >
+                    <SafeAreaProvider>
+                        <AuthContext.Provider value={userValue}>
+                            <ChatContext.Provider value={value}>
+                                <NavigationContainer linking={linking}>
+                                    <AppNavigator />
+                                </NavigationContainer>
+                            </ChatContext.Provider>
+                        </AuthContext.Provider>
+                    </SafeAreaProvider>
+                </ApplicationProvider>
+            </React.Fragment>
+        </Provider>
     );
 };
 

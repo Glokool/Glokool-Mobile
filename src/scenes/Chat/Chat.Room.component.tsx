@@ -78,6 +78,9 @@ import { QuickSearchButton } from '../../assets/icon/Chat'
 import { AudioComponent } from '../../component/Chat';
 import { messageType } from '../../types';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../model';
+
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -88,6 +91,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     setChatIcon(false);
+
+    const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
 
     //채팅 메시지 저장을 위한 정보
     const [
@@ -1150,6 +1155,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         onPress={() => backAction()}>
                         <AngleLeft />
                     </Pressable>
+
+                    <Text>{duration}</Text>
 
                     <Layout style={styles.profileContainer}>
                         <TouchableOpacity onPress={() => setGuideVisible(true)}>

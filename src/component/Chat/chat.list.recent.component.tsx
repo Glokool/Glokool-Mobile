@@ -16,7 +16,7 @@ import {
 import { ChatListRecentProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import moment from 'moment';
 import { GloChatData } from '../../types';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
 import { ProfileModal } from './chat.profile.component';
@@ -54,7 +54,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
-            const AxiosConfig = {
+            const AxiosConfig: AxiosRequestConfig = {
                 method: 'get',
                 url: SERVER + '/api/users/reservations/past',
                 headers: {
@@ -80,7 +80,10 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
         }
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
-            guide: { name: item.guide.name, uid: item.guide.uid },
+            guide: { 
+                name: item.guide.name, 
+                uid: item.guide.uid 
+            },
             day: item.day,
             finish: true,
         });

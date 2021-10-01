@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { StyleSheet, FlatList, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { Layout, Text, LayoutElement, } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import { GloChatData } from '../../types';
 import moment from 'moment';
@@ -43,7 +43,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
-            const AxiosConfig = {
+            const AxiosConfig: AxiosRequestConfig = {
                 method: 'get',
                 url: SERVER + '/api/users/reservations/future',
                 headers: {
@@ -139,7 +139,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         const Today = new Date().setHours(0,0,0,0);
 
         const DDay = moment(propsDate).diff(Today, 'days');
-        console.log(DDay, propsDate, new Date(Today));
         const ItemDay = (new Date(fixedTimestamp)).getDate();
 
         return (
