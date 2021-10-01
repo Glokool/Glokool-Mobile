@@ -55,10 +55,6 @@ import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import {
-    Chat_Voice_End,
-    Chat_Voice_Start,
-    Chat_Voice_Stop,
-    Help,
     Images,
     Camera,
     MyLocation,
@@ -66,7 +62,6 @@ import {
     Record,
 } from '../../assets/icon/Chat';
 import { AngleLeft, Exit_C } from '../../assets/icon/Common';
-import messaging from '@react-native-firebase/messaging';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
     requestCameraPermission,
@@ -115,29 +110,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [guideVisible, setGuideVisible] = React.useState(false);
 
     //하단 오버플로우 메뉴 (이미지, 보이스)
-    const [selectedIndex2, setSelectedIndex2] = React.useState(null);
     const [visible2, setVisible2] = React.useState(false);
-    const onItemSelect2 = (index) => {
-        setSelectedIndex2(null);
-        setVisible2(false);
-    };
 
     //오디오 녹음 관련 함수 및 변수
     //오디오 녹음 창
     const [audioVisible, setAudioVisible] = React.useState(false);
-    const [startAudio, setStartAudio] = React.useState(false);
-    const [audioMessage, setAudioMessage] = React.useState('');
-    const [audioPath, setAudioPath] = React.useState('');
 
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
 
     const [guideToken, setGuideToken] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-    const [timer, setTimer] = React.useState(0);
-    const [isActive, setIsActive] = React.useState(false);
-    const [isPaused, setIsPaused] = React.useState(false)
-    const increment = React.useRef(null);
 
     const renderAudio = (item) => {
         return (

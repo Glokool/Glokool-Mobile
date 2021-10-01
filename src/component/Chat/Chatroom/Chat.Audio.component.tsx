@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -26,7 +26,6 @@ const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export const AudioComponent = (props) => {
-    const [audioVisible, setAudioVisible] = useState(false);
     const [startAudio, setStartAudio] = useState(false);
     const [audioMessage, setAudioMessage] = useState('');
     const [audioPath, setAudioPath] = useState('');
@@ -47,8 +46,7 @@ export const AudioComponent = (props) => {
     const formatTime = () => {
         const getSeconds = `0${(timer % 60)}`.slice(-2)
         const minutes = `0${Math.floor(timer / 60)}`
-        const getMinutes = `${minutes % 60}`.slice(-2)
-        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
+        const getMinutes = `${Number(minutes) % 60}`.slice(-2)
 
         return `${getMinutes}:${getSeconds}`
     }
@@ -165,15 +163,6 @@ export const AudioComponent = (props) => {
         audioStopwatchReset();
         setAudioPath('');
         setVisible(false);
-
-        if (startAudio == true) {
-            setStartAudio(false);
-            await AudioRecorder.stopRecording();
-        }
-    };
-
-    const PressReset = async () => {
-        setAudioPath('');
 
         if (startAudio == true) {
             setStartAudio(false);
