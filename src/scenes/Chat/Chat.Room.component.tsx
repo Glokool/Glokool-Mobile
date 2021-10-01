@@ -33,6 +33,10 @@ import {
     Send,
     SystemMessage,
     Time,
+    InputToolbarProps,
+    ComposerProps,
+    BubbleProps,
+    IMessage,
 } from 'react-native-gifted-chat';
 import Sound from 'react-native-sound';
 import { AudioRecorder, AudioUtils } from 'react-native-audio';
@@ -90,41 +94,23 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
-    setChatIcon(false);
-
     const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
-
-    //채팅 메시지 저장을 위한 정보
-    const [
-        ChatDB,
-        setChatDB,
-    ] = React.useState<FirebaseDatabaseTypes.Reference>();
-
+    
+    const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
-
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState<Array<messageType>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
-    const [location, setLocation] = React.useState({
-        lon: '',
-        lat: '',
-    });
-    //가이드 정보 모달
-    const [guideVisible, setGuideVisible] = React.useState(false);
-
-    //하단 오버플로우 메뉴 (이미지, 보이스)
-    const [visible2, setVisible2] = React.useState(false);
-
-    //오디오 녹음 관련 함수 및 변수
-    //오디오 녹음 창
+    const [location, setLocation] = React.useState({ lon: '', lat: '' });    
+    const [guideVisible, setGuideVisible] = React.useState(false);  //가이드 정보 모달
+    const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
     const [audioVisible, setAudioVisible] = React.useState(false);
-
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
-
     const [guideToken, setGuideToken] = React.useState('');
+    const [imageURL, setImageURL] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
@@ -183,7 +169,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const [imageURL, setImageURL] = React.useState('');
+
 
     /* 이미지 클릭시 modal Activation */
     const imageZoom = (imageUrl: string): void => {
@@ -219,14 +205,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         appState.current = nextAppState;
     };
 
-    /* 앱 상태 확인 useEffect */
-    React.useEffect(() => {
-        
 
-    }, []);
-
-    /* check access token */
     React.useEffect(() => {
+
+        setChatIcon(false);
 
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
@@ -239,12 +221,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         })
 
         if (!currentUser?.access_token) {
-            getAccessToken();
+            getAccessToken();   /* check access token */
         }
+
         return () => {
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
         };
+
     }, []);
 
 
@@ -867,7 +851,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
     // MapView 가 들어가는 말풍선인듯 싶음
-    const renderCustomBubble = (props) => {
+    const renderCustomBubble = (props : BubbleProps<IMessage>) : React.ReactElement => {
+        
         if (props.currentMessage.messageType === 'location') {
             return (
                 <Pressable>
@@ -911,55 +896,35 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const displayMap = (props) => {
-        setLocation({
-            lon: props.location.lon,
-            lat: props.location.lat,
-        });
-        setMapvisible(true);
-    };
-
     //입력 창 확인
-    const renderInputToolbar = (props) => {
-        return (
-            <>
-                {new Date(day).getFullYear() == new Date().getFullYear() &&
-                    new Date(day).getMonth() == new Date().getMonth() &&
-                    new Date(day).getDate() == new Date().getDate() ? (
+    const renderInputToolbar = (props : InputToolbarProps) : React.ReactElement => (
+        <>
+            {
+                new Date(day).getFullYear() == new Date().getFullYear() &&
+                new Date(day).getMonth() == new Date().getMonth() &&
+                new Date(day).getDate() == new Date().getDate() ? 
+                (
                     <InputToolbar
                         {...props}
-                        containerStyle={{
-                            borderWidth: 1.5,
-                            borderColor: '#D1D1D1',
-                            borderRadius: 30,
-                            margin: 10,
-                            alignItems: 'center',
-                        }}
+                        containerStyle={styles.ChatInputToolBar}
                     />
-                ) : null}
-            </>
-        );
-    };
+                ) 
+                : 
+                    null
+            }
+        </>
+        
+    );
 
-    //입력창 정렬을 위한 코드
-    const renderComposer = (props) => {
-        return (
-            <Composer
-                {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
-                placeholder="Chat Message"
-                textInputStyle={{
-                    alignSelf: 'center',
-                    marginBottom: -2,
-                    textDecorationLine: 'none',
-                    borderBottomWidth: 0,
-                    textAlignVertical: 'center',
-                    maxHeight: 90,
-                }}
-                style={{ borderRadius: 35 }}
-            />
-        );
-    };
+    //
+    const renderComposer = (props : ComposerProps) : React.ReactElement => (
+        <Composer
+            {...props}
+            textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
+            placeholder="Chat Message"
+            textInputStyle={styles.ChatComposer}
+        />
+    );
 
     //대화 내용을 로딩하기 전 스피너 작동
     const renderLoading = () => {
@@ -970,11 +935,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Layout>
             );
         }
-    };
-
-    //가이드 정보를 띄우는 모달
-    const PressGuide = () => {
-        setGuideVisible(true);
     };
 
     // 맵 뷰 헤더
@@ -1149,8 +1109,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         onPress={() => backAction()}>
                         <AngleLeft />
                     </Pressable>
-
-                    <Text>{duration}</Text>
 
                     <Layout style={styles.profileContainer}>
                         <TouchableOpacity onPress={() => setGuideVisible(true)}>
@@ -1529,6 +1487,21 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    ChatComposer : {
+        alignSelf: 'center',
+        marginBottom: -2,
+        textDecorationLine: 'none',
+        borderBottomWidth: 0,
+        textAlignVertical: 'center',
+        maxHeight: 90,
+    },
+    ChatInputToolBar : {
+        borderWidth: 1.5,
+        borderColor: '#D1D1D1',
+        borderRadius: 30,
+        margin: 10,
+        alignItems: 'center',
+    }
 });
 
 
