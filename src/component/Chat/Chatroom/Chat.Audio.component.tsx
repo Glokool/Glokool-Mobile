@@ -29,13 +29,13 @@ export const AudioComponent = (props) => {
     const [startAudio, setStartAudio] = useState(false);
     const [audioMessage, setAudioMessage] = useState('');
     const [audioPath, setAudioPath] = useState('');
-    const increment = useRef();
+    const increment = useRef<NodeJS.Timeout | any>();
 
     const [visible, setVisible] = useState<boolean>(false);
 
-    const [timer, setTimer] = React.useState(0);
-    const [isActive, setIsActive] = React.useState(false);
-    const [isPaused, setIsPaused] = React.useState(false);
+    const [timer, setTimer] = useState<number>(0);
+    const [isActive, setIsActive] = useState<boolean>(false);
+    const [isPaused, setIsPaused] = useState<boolean>(false);
 
     useEffect(() => {
         if (props.visible) {

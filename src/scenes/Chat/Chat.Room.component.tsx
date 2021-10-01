@@ -76,6 +76,7 @@ import { ProfileModal } from '../../component/Chat/chat.profile.component';
 import { QuickSearchButton } from '../../assets/icon/Chat'
 
 import { AudioComponent } from '../../component/Chat';
+import { messageType } from '../../types';
 
 
 var ToastRef: any;
@@ -99,7 +100,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [CHN, setCHN] = useState(false);
 
     const [roomName, setRoomName] = React.useState<string>();
-    const [chatMessages, setChatMessages] = React.useState([]);
+    const [chatMessages, setChatMessages] = React.useState<Array<messageType>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
     const [fechChat, setFetchChat] = React.useState(false);
     const [location, setLocation] = React.useState({
@@ -273,7 +274,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
     // 채팅 데이터들은 Firebase RTDB 에서 받아온다
-    // [...messages] 에 type 처럼 저장됨
     async function ChatRoomInit(id: string) {
         const chat = database().ref('/chats/' + id);
 
@@ -295,19 +295,19 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
 
-            messages = messages.map((node) => {
-                const message = {};
-                message._id = node._id;
-                message.text = node.messageType === 'message' ? node.text : '';
-                message.location =
-                    node.messageType === 'location' ? node.location : {};
-                message.createdAt = node.createdAt;
-                message.user = {
-                    _id: node.user._id,
-                };
-                message.image = node.messageType === 'image' ? node.image : '';
-                message.audio = node.messageType === 'audio' ? node.audio : '';
-                message.messageType = node.messageType;
+            messages = messages.map((node: messageType) => {
+                const message: messageType = {
+                    _id: node._id,
+                    text: node.messageType === 'message' ? node.text : '',
+                    location: node.messageType === 'location' ? node.location : '',
+                    createdAt: node.createdAt,
+                    user: {
+                        _id: node.user._id,
+                    },
+                    image: node.messageType === 'image' ? node.image : '',
+                    audio: node.messageType === 'audio' ? node.audio : '',
+                    messageType: node.messageType,
+                }
                 return message;
             });
 

@@ -8,21 +8,21 @@ export type HomeCarousel_Item = {
 
 // Chat
 export type GloChatData = {
-    _id : string;
+    _id: string;
     day: Date;
-    guide : {
-        name : string;
+    guide: {
+        name: string;
         score: number;
-        uid : string;
+        uid: string;
     };
-    paymentID : string;
+    paymentID: string;
 }
 
 export type WeatherInfo = {
-    main: string,
-    temp: string,
-    temp_min: string,
-    temp_max: string
+    main: string;
+    temp: string;
+    temp_min: string;
+    temp_max: string;
 }
 
 export type PriceData = {
@@ -30,6 +30,19 @@ export type PriceData = {
     discountedPrice: number;
     price: number;
     discount: number;
+}
+
+export type messageType = {
+    _id: string;
+    text?: string;
+    location?: string;
+    createdAt: number;
+    user: {
+        _id: string;
+    };
+    image?: string;
+    audio?: string;
+    messageType: string;
 }
 
 // Series
@@ -292,20 +305,20 @@ export type Bookmark_Item = {
 };
 
 export type ReservationInfo = {
-    uid: string, 
-    name: string, 
-    email: string, 
-    contact: string,     
+    uid: string,
+    name: string,
+    email: string,
+    contact: string,
     refund: {
-      check: boolean, 
-      complete :  boolean | undefined,
-      createdAt: Date | undefined,
-      completedAt: Date | undefined, 
+        check: boolean,
+        complete: boolean | undefined,
+        createdAt: Date | undefined,
+        completedAt: Date | undefined,
     },
     guide: {
-        uid: string, 
+        uid: string,
         name: string,
-        score: number, 
+        score: number,
     },
     day: Date,
     lang: string,
