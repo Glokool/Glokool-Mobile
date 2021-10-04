@@ -17,10 +17,10 @@ import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 
 import { MyProfile, BookmarkList } from '../../component/My/Main';
 import {
-    Receipt,
-    Receipt_Large,
-    Setting_Btn,
-    History_Btn,
+    SettingsButton,
+    ReceiptsButton,
+    HistoryButton,
+    BookmarkListIcon,
 } from '../../assets/icon/My';
 import { HomeBG, } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
@@ -94,7 +94,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                             onPress={() =>
                                 props.navigation.navigate(SceneRoute.MY_SETTING)
                             }>
-                            <Setting_Btn style={styles.ButtonIcon} />
+                            <SettingsButton style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>Settings</Text>
                         </TouchableOpacity>
 
@@ -107,7 +107,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                     SceneRoute.PAID_CHAT_LIST,
                                 )
                             }>
-                            <Setting_Btn style={styles.ButtonIcon} />
+                            <ReceiptsButton style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>Receipts</Text>
                         </TouchableOpacity>
 
@@ -120,7 +120,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                                     SceneRoute.HISTORY,
                                 )
                             }>
-                            <History_Btn style={styles.ButtonIcon} />
+                            <HistoryButton style={styles.ButtonIcon} />
                             <Text style={styles.ButtonText}>History</Text>
                         </TouchableOpacity>
                     </Layout>
@@ -130,7 +130,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 {/* Bookmarklist 텍스트 */}
                 <Layout style={styles.SmallTitleContainer}>
                     <Layout style={styles.TextTitleContainer}>
-                        <Receipt />
+                        <BookmarkListIcon/>
                         <Text style={styles.TextTitle}>MY BOOKMARK LIST</Text>
                     </Layout>
 
@@ -198,9 +198,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     ButtonText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 16,
-        color: '#8797FF',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 14,
+        color: '#4e4e4e',
+        marginTop: 5,
     },
     SmallTitleContainer: {
         flexDirection: 'row',

@@ -3,64 +3,159 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
-    View,
-    Text,
+    FlatList
 } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 import { HistoryScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
-import { AngleLeft } from '../../assets/icon/Common';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ChatListRecent } from '../../component/Chat/chat.list.recent.component';
+import { Location, ArrowLeft } from '../../assets/icon/Common';
+
 const windowWidth = Dimensions.get('window').width;
 
 export const HistoryScreen = (props: HistoryScreenProps) => {
 
+    const sampleData = [
+        {
+            location: 'HONGDAE',
+            assistant: 'JAEHOON',
+            date: '2021.07.04',
+        },
+        {
+            location: 'HONGDAE',
+            assistant: 'GLOKOOL OFFICIAL',
+            date: '2021.07.04',
+        },
+        {
+            location: 'HONGDAE',
+            assistant: 'JAEHOON',
+            date: '2021.07.04',
+        },
+    ]
+
+    const renderItem = (item) => {
+        console.log(item);
+        return (
+            <Layout style={styles.ItemContainer}>
+                <Layout style={styles.ImageItem} />
+                <Layout style={styles.InfoContainer}>
+                    <Layout style={styles.LocationContainer}>
+                        <Location />
+                        <Text style={styles.LocationText}>{item.item.location}</Text>
+                    </Layout>
+                    <Layout style={styles.InfoItem}>
+                        <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Travel Assistant</Text>
+                        <Text style={[styles.InfoText, { flex: 1.22 }]}>{item.item.assistant}</Text>
+                    </Layout>
+                    <Layout style={styles.InfoItem}>
+                        <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Booking Date</Text>
+                        <Text style={[styles.InfoText, { flex: 1.22 }]}>{item.item.date}</Text>
+                    </Layout>
+                </Layout>
+            </Layout>
+        )
+    }
+
     return (
-        <View style={styles.MainContainer}>
+        <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <View style={styles.TopTabContainer}>
+            <Layout style={styles.TopTabContainer}>
                 <SafeAreaView />
-                <View style={styles.TopTabItems}>
+                <Layout style={styles.TopTabItems}>
 
                     <TouchableOpacity style={styles.BackButton}>
-                        <AngleLeft />
+                        <ArrowLeft />
                     </TouchableOpacity>
 
-                    <Text style={styles.TopTabText}>History</Text>
+                    <Text style={styles.TopTabText}>HISTORY</Text>
 
-                    <View style={{ flex: 1 }} />
-                </View>
-            </View>
+                    <Layout style={{ flex: 1 }} />
+                </Layout>
+            </Layout>
 
             {/* Previous Chatting List */}
-            <View style={styles.ChatListContainer}>
-                <ChatListRecent navigation={props.navigation} route={props.route} />
-            </View>
-        </View>
+            <FlatList
+                data={sampleData}
+                renderItem={renderItem}
+                style={styles.FlatListContainer}
+            />
+
+        </Layout>
     )
 };
 
 const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
     TopTabContainer: {
         width: windowWidth,
+        paddingBottom: 10,
+        backgroundColor: 'white'
     },
     TopTabItems: {
         flexDirection: 'row',
+        alignItems: 'center'
     },
     TopTabText: {
         flex: 5,
-        textAlign: 'center'
+        fontFamily: 'BrandonGrotesque-Bold',
+        textAlign: 'center',
+        fontSize: 20,
     },
     BackButton: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    ChatListContainer: {
-        width: windowWidth
+    ItemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+        marginHorizontal:10,
+        paddingVertical: 20,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3.84,
+        elevation: 2,
+    },
+    ImageItem: {
+        width: 70,
+        height: 70,
+        backgroundColor: 'gray',
+        borderRadius: 100,
+    },
+    InfoItem: {
+        flexDirection: 'row',
+        width: windowWidth * 0.7,
+        alignItems: 'center',
+    },
+    InfoText: {
+        fontFamily: 'Pretendard-SemiBold',
+        fontSize: 15,
+        backgroundColor: 'white'
+    },
+    LocationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    LocationText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+    },
+    InfoContainer: {
+        marginLeft: 15
+    },
+    FlatListContainer:{
+        width: windowWidth,
+        paddingTop: 10,
     }
 });

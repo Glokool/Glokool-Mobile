@@ -25,10 +25,12 @@ import PurpleArrow from './PurpleArrow.svg';
 import AngleUp from './AngleUp.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
 import AngleLeft_Color from './AngleLeft_Color.svg';
+import ArrowLeft from './ArrowLeft.svg';
 import GoUp from './GoUp.svg';
 import GrayArrow from './GrayArrow.svg';
 import Exit_C from './Exit_Color.svg';
 import Comments from './Comments.svg';
+import Location from './Location.svg';
 
 export {
     Korean, 
@@ -43,6 +45,7 @@ export {
     AngleDown, 
     AngleUp_W, 
     AngleLeft_W, 
+    ArrowLeft,
     Bookmark, 
     Bookmark_W,
     Bookmark_P,
@@ -61,6 +64,7 @@ export {
     GoUp,
     AngleLeft_Color,
     Exit_C,
-    Comments
+    Comments,
+    Location,
 }
 

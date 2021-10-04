@@ -14,6 +14,7 @@ import FastImage from 'react-native-fast-image';
 
 import { SERVER, CDN } from '../../../server.component';
 import { Detail_Item } from '../../../types';
+import { EmptyBookmark } from '../../../assets/icon/My';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -50,12 +51,13 @@ export const BookmarkList = () => {
         )
     }
 
-    return bookmarkList.length == 0 ? (
+    return bookmarkList.length === 0 ? (
         // 리스트가 비었을때
-        <View>
-            <Text>Whoops!</Text>
-            <Text>Your bookmark list is empty</Text>
-            <Text>Tap the bookmark icon to easily add to the list</Text>
+        <View style={styles.EmptyContainer}>
+            <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
+            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
+            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
+            <EmptyBookmark />
         </View>
     ) : (
         // 리스트 존재할때
@@ -67,6 +69,7 @@ export const BookmarkList = () => {
                 key={'_'}
                 keyExtractor={(item) => "_" + item._id}
                 style={styles.FlatListContainer}
+                contentContainerStyle={styles.ContentContainer}
             />
         </View>
     )
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     ItemContainer: {
+        borderWidth: 1,
         borderRadius: 10,
         margin: 1,
         shadowColor: '#000',
@@ -96,8 +100,22 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     FlatListContainer: {
-        width: windowWidth * 0.31 * 3 + 6,
-        backgroundColor: '#ffff',
+        width: windowWidth,
+        backgroundColor: 'red',
         paddingBottom: 30,
+    },
+    ContentContainer: {
+        alignSelf: 'center'
+    },
+    EmptyContainer: {
+        backgroundColor: '#f9f9f9',
+        width: windowWidth,
+        height: windowWidth,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    EmptyText: {
+        fontFamily: 'Pretendard-Medium',
+        color: '#999',
     }
 })

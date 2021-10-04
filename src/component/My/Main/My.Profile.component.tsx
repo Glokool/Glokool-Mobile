@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     profileTitle: {
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 23,
         color: 'black',
         marginTop: 10,

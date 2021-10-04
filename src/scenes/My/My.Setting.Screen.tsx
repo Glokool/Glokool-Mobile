@@ -16,7 +16,7 @@ import {
     CustomerService,
     Privacy,
 } from '../../assets/icon/My';
-import { AngleLeft } from '../../assets/icon/Common';
+import { ArrowLeft } from '../../assets/icon/Common';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
 const windowWidth = Dimensions.get('window').width;
@@ -76,7 +76,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                    <AngleLeft />
+                    <ArrowLeft />
                 </TouchableOpacity>
 
                 <Layout
@@ -190,17 +190,18 @@ const styles = StyleSheet.create({
         flex: 10,
         backgroundColor: 'white',
         flexDirection: 'column',
-        marginHorizontal: 30,
     },
     TextStyle: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 20,
     },
     TouchLayout: {
         flex: 1,
         flexDirection: 'column',
-        marginHorizontal: 5,
-        marginVertical: 15,
+        paddingHorizontal: 35,
+        paddingVertical: 15,
+        borderBottomWidth: 2,
+        borderBottomColor: '#f3f3f3',
     },
     TouchableComponent: {
         flex: 1,
