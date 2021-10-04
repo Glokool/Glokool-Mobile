@@ -230,7 +230,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    compile project(':react-native-audio')
+    implementation project(':react-native-audio')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
@@ -254,6 +254,7 @@ dependencies {
     }
 
     implementation project(':react-native-restart')
+    
     implementation "com.braintreepayments.api:braintree:3.14.1"
 }
 

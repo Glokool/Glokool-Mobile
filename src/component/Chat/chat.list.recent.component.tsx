@@ -209,6 +209,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                 <Layout style={styles.Container}>
 
                     <FlatList
+                        keyExtractor={(item : GloChatData) => item._id}
                         data={data}
                         renderItem={RenderItem}
                         showsVerticalScrollIndicator={false}

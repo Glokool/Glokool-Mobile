@@ -5,7 +5,7 @@
 const SET_GUIDE_VISIBLITY_TRUE = 'model/chat/set_guide_visiblity/true' as const;
 const SET_GUIDE_VISIBLITY_FALSE = 'model/chat/set_guide_visiblity/false' as const;
 const SET_AUDIO_VISIBLITY_TRUE = 'model/chat/set_audio_visiblity/true' as const;
-const SET_AUDIO_VISIBLITY_FALSE = 'model/chat/set_audio_visiblity/false' as const;
+const SET_AUDIO_VISIBLITY_FALSE = 'model/chat/set_audio_visiblity/false' as const;  
 
 export const setGuideVisiblityTrue = () => ({
     type : SET_GUIDE_VISIBLITY_TRUE

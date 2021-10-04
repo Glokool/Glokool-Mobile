@@ -103,6 +103,8 @@ export const CategoryDetail = (props: any) => {
         const textColor = item.item.name === 'GUIDE BOOK' ? '#7777ff' : 'black';
         const itemList = item.item.items;
 
+        console.log(itemList);
+
         return (
             <View>
 
@@ -117,6 +119,7 @@ export const CategoryDetail = (props: any) => {
                 {item.item.name.toUpperCase() === 'GUIDE BOOK' ? (
                     <View style={{ height: 315, marginBottom: 15 }}>
                         <FlatGrid
+                            keyExtractor={(item : any) => item._id}
                             itemDimension={windowWidth * 0.3}
                             data={itemList}
                             renderItem={renderGridItem}
@@ -128,6 +131,7 @@ export const CategoryDetail = (props: any) => {
                     </View>
                 ) : (
                     <FlatList
+                        keyExtractor={(item : any) => item._id}
                         data={itemList}
                         renderItem={renderItem}
                         ListHeaderComponent={renderSpace}
@@ -143,6 +147,9 @@ export const CategoryDetail = (props: any) => {
 
     // trendingNow 아이템 렌더링
     const renderTrendingNow = (item: any) => {
+
+
+        console.log('트렌딩 나우 : ' , item._id);
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -175,6 +182,7 @@ export const CategoryDetail = (props: any) => {
                     TRENDING NOW
                 </Text>
                 <FlatList
+                    keyExtractor={(item : any ) => item._id + 'TREND'}
                     data={props.trendingNow}
                     renderItem={renderTrendingNow}
                     ListHeaderComponent={renderSpace}
@@ -187,6 +195,7 @@ export const CategoryDetail = (props: any) => {
             {/* 소분류 부분 */}
             <View style={{ backgroundColor: '#f8f8f8', marginTop: 20, }}>
                 <FlatList
+                    keyExtractor={(item : any ) => item._id + 'minorCategory'}
                     data={props.data}
                     renderItem={renderCategory}
                 />

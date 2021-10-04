@@ -1,10 +1,8 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
-
+import React, { useContext } from 'react';
 import {
     StyleSheet,
     SafeAreaView,
     Text,
-    Image,
     Platform,
     PermissionsAndroid,
     Dimensions,
@@ -39,21 +37,16 @@ import {
     IMessage,
 } from 'react-native-gifted-chat';
 import Sound from 'react-native-sound';
-import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import storage from '@react-native-firebase/storage';
 import FastImage from 'react-native-fast-image';
 import {
     launchCamera,
-    launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faTimes,
     faPlay,
-    faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../navigation/app.route';
-import moment from 'moment';
 import { filterText } from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
@@ -65,28 +58,26 @@ import {
     SendIcon,
     Record,
 } from '../../assets/icon/Chat';
-import { AngleLeft, Exit_C } from '../../assets/icon/Common';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
     requestCameraPermission,
     requestStoragePermission,
 } from '../../component/permission.component';
-import { SERVER, CDN } from '../../server.component';
+import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
-import { QuickSearchButton } from '../../assets/icon/Chat'
-
 import { AudioComponent } from '../../component/Chat';
 import { messageType } from '../../types';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../model';
 import { ChatTopTabBarComponent } from '../../component/Chat/Chatroom/Chat.TopTabBar.component';
 import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
 import { setAudioVisiblityTrue } from '../../model/Chat/Chat.UI.model';
+import { renderBubble, renderComposer, renderCustomBubble, renderTime } from '../../component/Chat/Chatroom';
+import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
+import { RootState } from '../../model';
+import { renderLoading } from '../../component/Chat/Chatroom/Chat.Custom.component';
 
 
 var ToastRef: any;
@@ -97,17 +88,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
-    const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
     const dispatch = useDispatch();
     
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
-    const [ENG, setENG] = useState(false);
-    const [CHN, setCHN] = useState(false);
+    const [ENG, setENG] = React.useState(false);
+    const [CHN, setCHN] = React.useState(false);
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
-    const [fechChat, setFetchChat] = React.useState(false);
     const [location, setLocation] = React.useState({ lon: '', lat: '' });    
     const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
@@ -125,7 +114,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     padding: 20,
                 }}
                 onPress={async () => {
-                    const sound = new Sound(
+                    const sound = new Sound(  
                         item.currentMessage.audio,
                         '',
                         (error) => {
@@ -136,7 +125,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             sound.play((success) => {
                                 if (success) {
                                     console.log('재생 성공');
-                                    // console.log(sound.getDuration())
                                 } else {
                                     console.log('재생 실패');
                                 }
@@ -228,9 +216,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
 
         return () => {
+
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
-            ChatDB.off('value');
+
+            if (ChatDB != undefined) ChatDB.off('value');
         };
 
     }, []);
@@ -241,6 +231,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     async function ChatRoomInit(id: string) {
         const chat = database().ref('/chats/' + id);
 
+        dispatch(setChatLoadingTrue()) // 로딩 시작
         setChatMessages([]); //로컬 메시지 저장소 초기화
         setChatDB(chat);
         setRoomName(id);
@@ -249,7 +240,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             if (!snapshot.val()) {
                 setChatMessages([]);
-                setFetchChat(true);
+                dispatch(setChatLoadingFalse());
                 return;
             }
 
@@ -276,7 +267,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             });
 
             setChatMessages([...messages]);
-            setFetchChat(true);
+            dispatch(setChatLoadingFalse());
         });
 
     }
@@ -572,7 +563,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* 채팅 창 디자인을 위한 컴포넌트 */
-    const onSend = async (messages = []) => {
+    const onSend = async (messages : IMessage[]) => {
+        
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
         messages[0].user.name = currentUser?.displayName;
@@ -613,6 +605,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }}
         />
     );
+    
     // 컨텐츠 전송 시 나타나는 창
     // 채팅 창 좌측 버튼
     const renderActions = (props) => {
@@ -640,234 +633,89 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         );
     };
 
-    // 현재 나의 위치 전송
-    const LocationMessage = async () => {
-        if (Platform.OS === 'android') {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            );
+    // Android용 위치 (Location 전송)
+    const LocationMessageAndroid = async() => {
 
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                Geolocation.getCurrentPosition(
-                    (position) => {
-                        const MessageID = messageIdGenerator();
-                        const message = {
-                            _id: MessageID,
-                            createdAt: new Date().getTime(),
-                            user: {
-                                _id: currentUser?.uid,
-                            },
-                            location: {
-                                lat: position.coords.latitude,
-                                lon: position.coords.longitude,
-                            },
-                            messageType: 'location',
-                        };
+        if(!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
 
-                        // 지도 주소 전송하는 방식으로 변경
-                        const push = createPushNoti('지도위치를 보냈습니다.');
-
-                        Promise.all([
-                            ChatDB.update({
-                                messages: [message, ...chatMessages],
-                                guideUnreadCount: database.ServerValue.increment(
-                                    1,
-                                ),
-                            }),
-                            sendMessage(push),
-                        ]);
-                    },
-                    (error) => {
-                        console.log(
-                            'The location could not be loaded because ',
-                            error.message,
-                        ),
-                        {
-                            enableHighAccuracy: false,
-                            timeout: 20000,
-                            maximumAge: 1000,
-                        };
-                    },
-                );
-            } else {
-                ToastRef.show('GPS Permission Denied...', 2000);
-            }
-        } else {
-            Geolocation.getCurrentPosition(
-                (position) => {
-                    const MessageID = messageIdGenerator();
-                    const message = {
-                        _id: MessageID,
-                        createdAt: new Date().getTime(),
-                        user: {
-                            _id: currentUser?.uid,
-                        },
-                        location: {
-                            lat: position.coords.latitude,
-                            lon: position.coords.longitude,
-                        },
-                        messageType: 'location',
-                    };
-
-                    ChatDB.update({
-                        messages: [message, ...chatMessages],
-                        guideUnreadCount: database.ServerValue.increment(1),
-                    });
+        Geolocation.getCurrentPosition((position) => {
+            const MessageID = messageIdGenerator();
+            const Message = {
+                _id: MessageID,
+                createdAt: new Date().getTime(),
+                user: {
+                    _id: currentUser?.uid,
                 },
-                (error) => {
-                    console.log(
-                        'The location could not be loaded because ',
-                        error.message,
+                location: {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                },
+                messageType: 'location',
+            };
+
+            const push = createPushNoti('지도위치를 보냈습니다.');
+
+            Promise.all([
+                ChatDB.update({
+                    messages: [Message, ...chatMessages],
+                    guideUnreadCount: database.ServerValue.increment(
+                        1,
                     ),
-                    {
-                        enableHighAccuracy: false,
-                        timeout: 20000,
-                        maximumAge: 1000,
-                    };
-                },
-            );
-        }
-    };
-
-    // 대화창 말풍선 
-    const renderBubble = (props) => {
-
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    left: {
-                        backgroundColor: '#7777FF',
-                        borderRadius: 10,
-                        marginBottom: 3,
-                    },
-                    right: {
-                        backgroundColor: 'white',
-                        borderRadius: 10,
-                        marginBottom: 3,
-                        shadowColor: '#222',
-                        shadowOffset: {
-                            width: 0,
-                            height: 1,
-                        },
-                        shadowOpacity: 0.15,
-                        shadowRadius: 1.41,
-                        elevation: 2,
-                    },
-                }}
-                textStyle={{
-                    left: {
-                        color: 'white',
-                        fontFamily: 'Pretendard-Medium',
-                    },
-                    right: {
-                        color: '#4E4ED8',
-                        fontSize: 15,
-                        fontFamily: 'Pretendard-Medium',
-                    },
-                }}
-                tickStyle={{ color: 'black' }}
-            />
-        );
-    };
-    // 채팅 메세지에 달려있는 시간 표시
-    const renderTime = (props: any) => {
-        if (props.position === 'right') {
-            return (
-                <Layout
-                    style={{
-                        position: 'absolute',
-                        backgroundColor: '#00FF0000',
-                        left: -60,
-                        top: -10,
-                    }}>
-                    <Time
-                        {...props}
-                        containerStyle={{ backgroundColor: 'red' }}
-                        timeTextStyle={{
-                            left: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                            right: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                        }}
-                    />
-                </Layout>
-            );
-        } else {
-            return (
-                <Layout
-                    style={{
-                        position: 'absolute',
-                        backgroundColor: '#00FF0000',
-                        right: -55,
-                        top: -15,
-                    }}>
-                    <Time
-                        {...props}
-                        containerStyle={{ backgroundColor: 'red' }}
-                        timeTextStyle={{
-                            left: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                            right: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                        }}
-                    />
-                </Layout>
-            );
-        }
-    };
-    // MapView 가 들어가는 말풍선인듯 싶음
-    const renderCustomBubble = (props : BubbleProps<IMessage>) : React.ReactElement => {
+                }),
+                sendMessage(push),
+            ]);            
         
-        if (props.currentMessage.messageType === 'location') {
-            return (
-                <Pressable>
-                    <Text
-                        style={{
-                            textAlign: 'right',
-                            marginTop: 5,
-                            marginRight: 10,
-                            color: '#8C8C8C',
-                            fontFamily: 'BrandonGrotesque-Medium',
-                        }}>
-                        My Location
-                    </Text>
-                    <MapView
-                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                        style={{ width: 250, height: 125, margin: 10 }}
-                        region={{
-                            latitude: parseFloat(
-                                props.currentMessage.location.lat,
-                            ),
-                            longitude: parseFloat(
-                                props.currentMessage.location.lon,
-                            ),
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
-                        }}>
-                        <Marker
-                            coordinate={{
-                                latitude: parseFloat(
-                                    props.currentMessage.location.lat,
-                                ),
-                                longitude: parseFloat(
-                                    props.currentMessage.location.lon,
-                                ),
-                            }}
-                            title={'My Location'}
-                        />
-                    </MapView>
-                </Pressable>
-            );
+        },(error) => {       
+            console.log(error);
+        })
+    }
+
+    // iOS용 위치 (Location 전송)
+    const LocationMessageIos = () => {
+        
+        Geolocation.getCurrentPosition(
+            (position) => {
+                const MessageID = messageIdGenerator();
+                const message = {
+                    _id: MessageID,
+                    createdAt: new Date().getTime(),
+                    user: {
+                        _id: currentUser?.uid,
+                    },
+                    location: {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                    },
+                    messageType: 'location',
+                };
+
+                ChatDB.update({
+                    messages: [message, ...chatMessages],
+                    guideUnreadCount: database.ServerValue.increment(1),
+                });
+            },
+            (error) => {
+                console.log(
+                    'The location could not be loaded because ',
+                    error.message,
+                ),
+                {
+                    enableHighAccuracy: false,
+                    timeout: 20000,
+                    maximumAge: 1000,
+                };
+        });
+
+    }   
+
+    const LocationMessage = () => {
+
+        if (Platform.OS === 'android') {
+           LocationMessageAndroid();
+        } else {
+            LocationMessageIos();
         }
+
     };
 
     //입력 창 확인
@@ -890,26 +738,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         
     );
 
-    //
-    const renderComposer = (props : ComposerProps) : React.ReactElement => (
-        <Composer
-            {...props}
-            textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
-            placeholder="Chat Message"
-            textInputStyle={styles.ChatComposer}
-        />
-    );
 
-    //대화 내용을 로딩하기 전 스피너 작동
-    const renderLoading = () => {
-        if (!chatMessages.length && !fechChat) {
-            return (
-                <Layout style={styles.loading}>
-                    <Spinner size="giant" />
-                </Layout>
-            );
-        }
-    };
 
     // 맵 뷰 헤더
     const Header = (props) => (
@@ -1241,12 +1070,7 @@ const styles = StyleSheet.create({
         marginBottom: 17,
 
     },
-    loading: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     menuContainer: {
         minHeight: 144,
     },

@@ -228,6 +228,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 ) : (
                     <Layout style={styles.Container}>
                         <FlatList
+                            keyExtractor={(item : GloChatData) => item._id}
                             data={data}
                             renderItem={RenderItem}
                             refreshing={refresh}
