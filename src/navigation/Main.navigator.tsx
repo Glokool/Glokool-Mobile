@@ -44,6 +44,7 @@ import { ChatContext } from '../context/ChatContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
 import { alertWindow } from '../component/Common/LoginCheck.component';
+import { ZoneNavigator } from './ScreenNavigator/Zone.navigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -205,7 +206,7 @@ export const MainNavigator = (): React.ReactElement => (
 
         <Tab.Screen
             name={NavigatorRoute.SERIES}
-            component={SeriesNavigator}
+            component={ZoneNavigator}
             options={({ route }) => ({
                 unmountOnBlur: true,
             })}
