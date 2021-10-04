@@ -78,6 +78,8 @@ import { renderBubble, renderComposer, renderCustomBubble, renderTime } from '..
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
 import { renderLoading } from '../../component/Chat/Chatroom/Chat.Custom.component';
+import { renderSound } from '../../component/Chat/Chatroom/Chat.Sound.component';
+import { setGuideUID } from '../../model/Chat/Chat.Data.model';
 
 
 var ToastRef: any;
@@ -89,6 +91,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
+
+    const guideToken = useSelector((state : RootState) => state.ChatDataModel.guideUID);
     
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
@@ -100,42 +104,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [location, setLocation] = React.useState({ lon: '', lat: '' });    
     const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
-    const [guideToken, setGuideToken] = React.useState('');
     const [imageURL, setImageURL] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-
-    const renderAudio = (item) => {
-        return (
-            <TouchableOpacity
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 20,
-                }}
-                onPress={async () => {
-                    const sound = new Sound(  
-                        item.currentMessage.audio,
-                        '',
-                        (error) => {
-                            if (error) {
-                                console.log('보이스 파일 다운로드 실패');
-                            }
-
-                            sound.play((success) => {
-                                if (success) {
-                                    console.log('재생 성공');
-                                } else {
-                                    console.log('재생 실패');
-                                }
-                            });
-                        },
-                    );
-                }}>
-                <FontAwesomeIcon icon={faPlay} size={16} />
-            </TouchableOpacity>
-        );
-    };
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -146,7 +117,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
             const guideToken = snapshot.val();
-            setGuideToken(guideToken);
+            
+            dispatch(setGuideUID(guideToken));
         });
     };
 
@@ -513,7 +485,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* FCM 백엔드 메시지 전송*/
-    const sendMessage = async (message) => {
+    const sendMessage = async(message : IMessage) => {
         try {
             const chatRoomID = props.route.params.id;
             const currentDate = new Date().getTime();
@@ -836,7 +808,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderComposer={renderComposer}
                         renderSystemMessage={onRenderSystemMessage}
                         renderMessageImage={renderImage}
-                        renderMessageAudio={renderAudio}
+                        renderMessageAudio={renderSound}
                         renderCustomView={renderCustomBubble}
                     />
                 </Layout>

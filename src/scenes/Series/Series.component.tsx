@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { LayoutElement, } from '@ui-kitten/components'
+import { Layout, LayoutElement, } from '@ui-kitten/components'
 import {
     StyleSheet,
     Text,
@@ -276,13 +276,12 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         refreshing={refreshEnd}
                         itemCount={itemCount}
                         endReached={endReached}
-                        nestedScrollEnabled
                     />
                 </ScrollView>
             ) : (
                 // 대분류 출력 화면
                 <ScrollView
-                    style={{ backgroundColor: 'white', marginTop: 135, }}
+                    style={{ backgroundColor: 'white', marginTop: 135 }}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

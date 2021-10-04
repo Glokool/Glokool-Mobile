@@ -43,7 +43,6 @@ export const SeriesGrid = (props: any) => {
         const textSize = item.item.type == 'tour' ? 16 : 13;
         const textAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
         const lineHeight = item.item.type == 'tour' ? 18 : 15;
-
         
 
         return (
@@ -74,18 +73,17 @@ export const SeriesGrid = (props: any) => {
     }
 
     return (
-        <View style={{ flex: 1, }}>
+        <View style={{ flex: 1 }}>
             <FlatGrid
                 keyExtractor={(item : any) => item.id}
                 itemDimension={windowWidth * 0.3}
-                nestedScrollEnabled={false}
                 data={props.data.slice(0, props.itemCount)}
                 renderItem={renderItem}
                 spacing={1.5}
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'15%'} />
+                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10 }} width={'15%'} />
                 {props.endReached == true &&
                     props.data.length > props.itemCount ? <ActivityIndicator /> : null}
 
