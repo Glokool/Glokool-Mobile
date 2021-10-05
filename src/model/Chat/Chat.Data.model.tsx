@@ -2,8 +2,10 @@ import { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 
 const SET_CHATDB = 'model/chat/set_CHATDB' as const;
 const CLEAN_CHATDB = 'model/chat/clean_CHATDB' as const;
+
 const SET_GUIDEUID = 'model/chat/set_guideuid' as const;
 const CLEAN_GUIDEUID = 'model/chat/clean_guideuid' as const;
+
 const SET_CHAT_TIME = 'model/chat/set_chat_time' as const;
 const CLEAN_CHAT_TIME = 'model/chat/clean_chat_time' as const;
 

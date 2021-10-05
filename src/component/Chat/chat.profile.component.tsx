@@ -3,14 +3,15 @@ import { StyleSheet, Image, Pressable, View, Text, Platform, FlatList } from 're
 import { Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../assets/icon/Series';
 import { SceneRoute } from '../../navigation/app.route';
-import { CDN } from '../../server.component';
+import { CDN, SERVER } from '../../server.component';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setGuideVisiblityFalse } from '../../model/Chat/Chat.UI.model';
 
 export const ProfileModal = (props: any) => {
 
-    const guideVisible = useSelector((state : RootState) => state.ChatUIModel.guideVisiblity);
+    const guideVisible = useSelector((state: RootState) => state.ChatUIModel.guideVisiblity);
     const dispatch = useDispatch();
 
     const helpButton = () => {
@@ -21,8 +22,28 @@ export const ProfileModal = (props: any) => {
                 name: props.route.params.guide.name,
             },
         });
-        
+
         dispatch(setGuideVisiblityFalse());
+    }
+
+    // 주기적으로 서버에 요청하는 테스트 코드
+    useEffect(() => {
+        let interval: any;
+        if (guideVisible) {
+            interval = setInterval(() => {
+                GetNumber();
+            }, 3000)
+        }
+        return () => {
+            clearInterval(interval);
+        }
+    }, [guideVisible])
+
+    const GetNumber = () => {
+        console.log('Called');
+        axios.get('https://glokool-guide.com/api/chat-rooms/615c02a248cce35ccaaad4be/check')
+            .then((response) => console.log(response.data))
+            .catch((e) => console.log(e));
     }
 
     const renderItem = (item: any) => {
@@ -81,7 +102,7 @@ export const ProfileModal = (props: any) => {
 
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
-                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN || props.CHN != '' ? '中文' : null} {props.CHN}</Text>
+                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN ? '中文' : null} {props.CHN}</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', marginTop: 3, }}>
@@ -99,7 +120,7 @@ export const ProfileModal = (props: any) => {
                             </Text>
                         </View>
 
-                        <View style={{marginTop: 20,}}>
+                        <View style={{ marginTop: 20, }}>
                             <FlatList
                                 data={props.guide.keyword}
                                 renderItem={renderItem}

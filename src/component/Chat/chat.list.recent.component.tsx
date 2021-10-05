@@ -15,43 +15,35 @@ import {
 } from '@ui-kitten/components';
 import { ChatListRecentProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import moment from 'moment';
-import { GloChatData } from '../../types';
+import { GloChatData, GuideInfoType } from '../../types';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import { SceneRoute } from '../../navigation/app.route';
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
-import { useLinkTo } from '@react-navigation/native';
+import { setGuideVisiblityTrue } from '../../model/Chat/Chat.UI.model';
 
+import { useDispatch } from 'react-redux';
 
 export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     // RECENT 에서는 지난 예약들을 볼 수 있습니당
     const user = auth().currentUser;
-
     const userContext = useContext(AuthContext);
+    const dispatch = useDispatch();
 
     const [data, setData] = useState<Array<GloChatData>>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [guide, setGuide] = useState({});
-    const [guideVisible, setGuideVisible] = useState(false);
+    const [guide, setGuide] = useState<GuideInfoType>({});
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
 
     const [route, setRoute] = useState({});
 
-    const linkTo = useLinkTo();
-
     useEffect(() => {
         InitNowList();
     }, []);
 
-    // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    useEffect(() => {
-        if (guideVisible) {
-            setGuideVisible(false);
-        }
-    }, [guideVisible])
 
     const InitNowList = async () => {
 
@@ -83,9 +75,9 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
         }
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
-            guide: { 
-                name: item.guide.name, 
-                uid: item.guide.uid 
+            guide: {
+                name: item.guide.name,
+                uid: item.guide.uid
             },
             day: item.day,
             finish: true,
@@ -110,26 +102,16 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
 
-                setGuide({
-                    avatar: res.data.avatar,
-                    name: res.data.name,
-                    gender: res.data.gender,
-                    birthDate: res.data.birthDate,
-                    lang: res.data.lang,
-                    country: res.data.country,
-                    intro: res.data.intro,
-                    oneLineIntro: res.data.oneLineIntro,
-                    keyword: res.data.keyword,
-                })
+                setGuide(res.data);
+                console.log(res.data.lang)
                 if (res.data.lang.length == 1) {
-                    setENG(true);
+                    dispatch(setGuideVisiblityTrue());
                 }
                 else {
                     if (res.data.lang[0]) { setENG(true); }
                     if (res.data.lang[1]) { setCHN(true); }
                 }
-
-                setGuideVisible(true);
+                dispatch(setGuideVisiblityTrue());
             } catch (e) {
                 console.log('e', e);
             }
@@ -156,7 +138,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                                 />
                             ) : (
                                 <Image
-                                    source={require('../../assets/profile/profile_01.png')}
+                                    source={require('../../assets/image/Chat/guideGray.png')}
                                     style={styles.GuideAvatar}
                                 />
                             )}
@@ -209,14 +191,14 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                 <Layout style={styles.Container}>
 
                     <FlatList
-                        keyExtractor={(item : GloChatData) => item._id}
+                        keyExtractor={(item: GloChatData) => item._id}
                         data={data}
                         renderItem={RenderItem}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 500 }}
                     />
                     {/* 가이드 프로필 모달 */}
-                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route} />
+                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} navigation={props.navigation} route={route} />
 
                 </Layout>
             }

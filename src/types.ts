@@ -47,6 +47,28 @@ export type messageType = {
     messageType: string;
 }
 
+export type GuideInfoType = {
+    __v?: any;
+    _id?: string;
+    avatar?: string;
+    birthDate?: string;
+    contact?: string;
+    country?: string;
+    email?: string;
+    gender?: string;
+    intro?: string;
+    keyword?: Array<string>;
+    lang?: Array<boolean>;
+    name?: string;
+    oneLineIntro?: string;
+    rate?: Array<any>;
+    report?: Array<any>;
+    signupDate?: string;
+    token?: string;
+    uid?: string;
+    withdrawal?: boolean;
+};
+
 // Series
 export type image = {
     width: number,
@@ -245,6 +267,7 @@ export type RestaurantData = {
     title: string;
     visible: boolean;
     sgntMenu: Array<SignatureMenu>;
+}
 
 export type ShareItem = {
     title: string;
