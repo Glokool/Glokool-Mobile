@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
-import { LayoutElement, Layout, Modal, Card, Text, Button, Divider } from "@ui-kitten/components";
+import { LayoutElement, Layout, Modal, Card, Button, Divider } from "@ui-kitten/components";
 import { SceneRoute } from "../../navigation/app.route";
-import { StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
 import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
 import moment from 'moment';
 import { ReservationInfo } from '../../types';
 import { SERVER } from '../../server.component';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { MY_Refund_Policy } from '../../assets/icon/My';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../model';
+import { setReceiptVisibleFalse } from '../../model/My/My.UI.model';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
-    const [visible, setVisible] = useState<boolean>(false);
+    const receiptVisible = useSelector((state: RootState) => state.MyUIModel.receiptVisible);
+    const dispatch = useDispatch();
+
     const [refundCheck, setRefundCheck] = useState<boolean>(true);
-    const [data, setData] = useState<ReservationInfo>({
+    const [data, setData] = useState<ReservationInfo | undefined>({
         uid: '',
         name: 'hello',
         email: 'glokoolofficial@naver.com',
@@ -43,12 +48,11 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     useEffect(() => {
 
-        if (props.visible === true) {
+        if (receiptVisible === true) {
             setData(props.data);
-            setVisible(props.visible);
 
             const today = moment(new Date());
-            const subDate = moment(props.data.day).subtract(1, 'days');
+            const subDate = moment(props.data?.day).subtract(1, 'days');
             setRefundCheck(subDate < today);
         }
 
@@ -56,20 +60,20 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     async function PressRefund() {
         const Token = await auth().currentUser?.getIdToken();
-        const config = {
+        const config: AxiosRequestConfig = {
             method: 'patch',
-            url: SERVER + '/api/reservations/' + data._id + '/refund',
+            url: SERVER + '/api/reservations/' + data?._id + '/refund',
             headers: {
                 'Authorization': 'Bearer ' + Token
             }
         }
 
-        const result = await axios(config);
-        setVisible(false);
+        axios(config);
+        dispatch(setReceiptVisibleFalse())
     }
 
     function PressButton() {
-        if (data.refund.check === true) {
+        if (data?.refund.check === true) {
             return;
         } else {
             Alert.alert(
@@ -80,7 +84,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                         text: "Cancel",
                         onPress: () => console.log('canceled'),
                         style: "destructive",
-                    },{
+                    }, {
                         text: "Refund",
                         onPress: () => PressRefund(),
                         style: "default",
@@ -97,116 +101,107 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
         }
     }
 
-    if (visible == true) {
-        return (
-            <Layout style={{ backgroundColor: '#00FF0000', width: '100%', height: '100%' }}>
+    return (
+        <Modal
+            visible={receiptVisible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={()=>dispatch(setReceiptVisibleFalse())}
+            style={styles.ModalContainer}
+        >
+            <Layout style={styles.TitleContainer}>
+                <Layout style={styles.TitleButton} />
 
-                <Modal
-                    visible={visible}
-                    backdropStyle={styles.backdrop}
-                    style={styles.ModalContainer}
-                >
-                    <Layout style={styles.TitleContainer}>
-                        <Layout style={styles.TitleButton} />
+                <Text style={styles.TitleText}>
+                    PAYMENT DETAIL
+                </Text>
 
-                        <Text style={styles.TitleText}>
-                            PAYMENT DETAIL
-                        </Text>
+                <TouchableOpacity style={styles.TitleButton} onPress={() => dispatch(setReceiptVisibleFalse())}>
+                    <Delete />
+                </TouchableOpacity>
+            </Layout>
 
-                        <TouchableOpacity style={styles.TitleButton} onPress={() => setVisible(false)}>
-                            <Delete />
-                        </TouchableOpacity>
+            {(data?.refund.complete !== true) && (
+                <Layout style={styles.RefundTextContainer}>
+                    <Text style={styles.RefundText}>Refund Completed</Text>
+                </Layout>
+            )}
+
+            <Layout style={styles.BodyContainer}>
+
+                <Layout style={styles.InfoContainer}>
+
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Full Name</Text>
+                        <Text style={styles.ValueText}>{data?.name}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>E-mail</Text>
+                        <Text style={styles.ValueText}>{data?.email}</Text>
                     </Layout>
 
-                    {(data.refund.complete !== true) && (
-                        <Layout style={styles.RefundTextContainer}>
-                            <Text style={styles.RefundText}>Refund Completed</Text>
-                        </Layout>
-                    )}
+                </Layout>
 
-                    <Layout style={styles.BodyContainer}>
+                <Divider style={styles.Divider} />
 
-                        <Layout style={styles.InfoContainer}>
+                <Layout style={styles.InfoContainer}>
 
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Full Name</Text>
-                                <Text style={styles.ValueText}>{data.name}</Text>
-                            </Layout>
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>E-mail</Text>
-                                <Text style={styles.ValueText}>{data.email}</Text>
-                            </Layout>
-
-                        </Layout>
-
-                        <Divider style={styles.Divider} />
-
-                        <Layout style={styles.InfoContainer}>
-
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Travel Destinaton</Text>
-                                <Text style={styles.ValueText}>Gwanghwamun</Text>
-                            </Layout>
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Travel Date</Text>
-                                <Text style={styles.ValueText}>{moment(data.day).format('YYYY. MM. DD')}</Text>
-                            </Layout>
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Assistant Name</Text>
-                                <Text style={styles.ValueText}>{(data.guide?.name === '' || data.guide?.name === undefined || data.guide?.name === null) ? `` : `${data.guide.name}`}</Text>
-                            </Layout>
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Assistant Language</Text>
-                                <Text style={styles.ValueText}>{(data.lang === 'eng') ? `English` : `Chinese`}</Text>
-                            </Layout>
-
-                        </Layout>
-
-                        <Divider style={styles.Divider} />
-
-                        <Layout style={styles.InfoContainer}>
-
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Booking Date</Text>
-                                <Text style={styles.ValueText}>{moment(data.day).format('YYYY. MM. DD')}</Text>
-                            </Layout>
-                            <Layout style={styles.ItemContainer}>
-                                <Text style={styles.InfoText}>Total</Text>
-                                <Text style={styles.ValueText}>{data.money} USD</Text>
-                            </Layout>
-
-                        </Layout>
-
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Travel Destinaton</Text>
+                        <Text style={styles.ValueText}>Gwanghwamun</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Travel Date</Text>
+                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Assistant Name</Text>
+                        <Text style={styles.ValueText}>{(data?.guide?.name === '' || data?.guide?.name === undefined || data?.guide?.name === null) ? `` : `${data?.guide.name}`}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Assistant Language</Text>
+                        <Text style={styles.ValueText}>{(data?.lang === 'eng') ? `English` : `Chinese`}</Text>
                     </Layout>
 
-                    <Layout style={styles.AdditionalInfo}>
-                        <Text style={[styles.AdditionalText, { color: 'black' }]}>glokoolofficial@gmail.com</Text>
-                        <Text style={[styles.AdditionalText, { color: '#bcbcbc' }]}>Please contact us if you have any questions.</Text>
+                </Layout>
 
-                        <TouchableOpacity style={styles.PolicyContainer} onPress={() => {
-                            props.navigation.navigate(SceneRoute.REFUND_POLICY);
-                            setVisible(false);
-                        }}>
-                            <Text style={styles.PolicyText}>Refund Policy</Text>
-                            <MY_Refund_Policy />
-                        </TouchableOpacity>
+                <Divider style={styles.Divider} />
 
+                <Layout style={styles.InfoContainer}>
+
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Booking Date</Text>
+                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Total</Text>
+                        <Text style={styles.ValueText}>{data?.money} USD</Text>
                     </Layout>
 
-                    <TouchableOpacity style={(refundCheck || data.refund.check) ? styles.DisabledButton : styles.Button} onPress={() => PressButton()} disabled={refundCheck}>
-                        <Text style={(refundCheck || data.refund.check) ? styles.DisabledText : styles.ButtonText}>Refund</Text>
-                    </TouchableOpacity>
-
-                </Modal>
+                </Layout>
 
             </Layout>
-        )
-    }
 
-    else {
-        return (<Layout></Layout>);
-    }
+            <Layout style={styles.AdditionalInfo}>
+                <Text style={[styles.AdditionalText, { color: 'black' }]}>glokoolofficial@gmail.com</Text>
+                <Text style={[styles.AdditionalText, { color: '#bcbcbc' }]}>Please contact us if you have any questions.</Text>
 
+                <TouchableOpacity style={styles.PolicyContainer} onPress={() => {
+                    props.navigation.navigate(SceneRoute.REFUND_POLICY);
+                    dispatch(setReceiptVisibleFalse())
+                }}>
+                    <Text style={styles.PolicyText}>Refund Policy</Text>
+                    <MY_Refund_Policy />
+                </TouchableOpacity>
+
+            </Layout>
+
+            <TouchableOpacity style={(refundCheck || data?.refund.check) ? styles.DisabledButton : styles.Button} onPress={() => PressButton()} disabled={refundCheck}>
+                <Text style={(refundCheck || data?.refund.check) ? styles.DisabledText : styles.ButtonText}>Refund</Text>
+            </TouchableOpacity>
+
+        </Modal>
+
+    )
 
 }
 const styles = StyleSheet.create({
@@ -232,7 +227,7 @@ const styles = StyleSheet.create({
     },
     TitleButton: {
         width: 20,
-        height: 20,
+        height: 30,
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,

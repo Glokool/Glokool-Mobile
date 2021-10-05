@@ -33,7 +33,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
     ]
 
     const renderItem = (item) => {
-        console.log(item);
+        
         return (
             <Layout style={styles.ItemContainer}>
                 <Layout style={styles.ImageItem} />

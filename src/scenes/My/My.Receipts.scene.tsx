@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
 import { Layout, LayoutElement, Spinner, State, Text } from '@ui-kitten/components';
@@ -14,24 +14,24 @@ import { SERVER } from '../../server.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setMyLoadingTrue, setMyLoadingFalse } from '../../model/My/My.Loading.model';
+import { setReceiptVisibleTrue } from '../../model/My/My.UI.model';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
-    const [data, setData] = React.useState<Array<ReservationInfo>>([]);
-    const [detailData, setDetailData] = React.useState<ReservationInfo>();
-    const [visible, setVisible] = React.useState<boolean>(false);
-    const [refundCode, setRefundCode] = React.useState<string>('');
+    const [data, setData] = useState<Array<ReservationInfo>>([]);
+    const [detailData, setDetailData] = useState<ReservationInfo>();
+    const [refundCode, setRefundCode] = useState<string>('');
 
     const loading = useSelector((state: RootState) => state.MyLoadingModel.loading);
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(setMyLoadingTrue())
         InitPaidChatList();
     }, [])
 
-    async function InitPaidChatList() {
+    const InitPaidChatList = async () => {
 
         const Token = await auth().currentUser?.getIdToken(true);
 
@@ -49,16 +49,9 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 
 
     const PressDetail = (item: ReservationInfo) => {
-
         setRefundCode(item._id);
         setDetailData(item);
-        setVisible(true);
-
-        setTimeout(() => {
-
-            setVisible(false);
-
-        }, 1000)
+        dispatch(setReceiptVisibleTrue());
     }
 
     const renderItem = (item) => {
@@ -119,7 +112,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                 />
             }
 
-            <PaidDetail navigation={props.navigation} visible={visible} data={detailData} />
+            <PaidDetail navigation={props.navigation} data={detailData} />
 
         </Layout>
     )
@@ -127,11 +120,11 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 }
 
 const styles = StyleSheet.create({
-    LoadingContainer:{
+    LoadingContainer: {
         width: '100%',
         height: '100%',
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     MainContainer: {
         width: '100%',

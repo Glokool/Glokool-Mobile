@@ -1,5 +1,5 @@
 export { MYScreen } from './My.scene'
-export { PaidChatList } from './My.PaidChatList.scene';
+export { PaidChatList } from './My.Receipts.scene';
 export { MySetting } from './My.Setting.scene';
 export { MyProfile } from './My.Profile.scene';
 

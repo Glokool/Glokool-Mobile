@@ -8,6 +8,7 @@ import ChatUIModel from "./Chat/Chat.UI.model";
 
 // My
 import MyLoadingModel from "./My/My.Loading.model";
+import MyUIModel from "./My/My.UI.model";
 
 const rootReducer = combineReducers({
     //Chat
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     ChatDataModel,
     //My
     MyLoadingModel,
+    MyUIModel,
 });
 
 export default rootReducer;

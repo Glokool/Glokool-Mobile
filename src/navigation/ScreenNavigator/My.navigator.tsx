@@ -56,7 +56,6 @@ export interface MYSettingProps {
 
 export interface PaidDetailProps {
   data: ReservationInfo | undefined;
-  visible: boolean;
   navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.PAID_CHAT_LIST>;
 }
 
