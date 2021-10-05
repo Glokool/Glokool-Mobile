@@ -5,6 +5,7 @@ import AudioDurationModel from "./Chat/Chat.Audio.model";
 import ChatDataModel from "./Chat/Chat.Data.model";
 import ChatLoadingModel from "./Chat/Chat.Loading.model";
 import ChatUIModel from "./Chat/Chat.UI.model";
+import ZoneUIModel from "./Zone/Zone.UI.model";
 
 // My
 import MyLoadingModel from "./My/My.Loading.model";
@@ -19,6 +20,8 @@ const rootReducer = combineReducers({
     //My
     MyLoadingModel,
     MyUIModel,
+    //Zone
+    ZoneUIModel
 });
 
 export default rootReducer;
