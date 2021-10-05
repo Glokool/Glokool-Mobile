@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Layout, LayoutElement, Spinner, State, Text } from '@ui-kitten/components';
 import { ReservationInfo } from '../../types';
 import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { ArrowLeft, Location } from '../../assets/icon/Common';
@@ -11,6 +11,9 @@ import moment from 'moment'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from '../../server.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../model';
+import { setMyLoadingTrue, setMyLoadingFalse } from '../../model/My/My.Loading.model';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,11 +23,13 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
     const [visible, setVisible] = React.useState<boolean>(false);
     const [refundCode, setRefundCode] = React.useState<string>('');
 
+    const loading = useSelector((state: RootState) => state.MyLoadingModel.loading);
+    const dispatch = useDispatch();
+
     React.useEffect(() => {
+        dispatch(setMyLoadingTrue())
         InitPaidChatList();
     }, [])
-
-
 
     async function InitPaidChatList() {
 
@@ -39,7 +44,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
         }
         const RevData = await axios(AxiosConfig);
         setData(RevData.data);
-
+        dispatch(setMyLoadingFalse());
     }
 
 
@@ -80,7 +85,11 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
         )
     }
 
-    return (
+    return loading ? (
+        <Layout style={styles.LoadingContainer}>
+            <Spinner size='giant' />
+        </Layout>
+    ) : (
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
@@ -118,6 +127,12 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 }
 
 const styles = StyleSheet.create({
+    LoadingContainer:{
+        width: '100%',
+        height: '100%',
+        alignItems:'center',
+        justifyContent:'center'
+    },
     MainContainer: {
         width: '100%',
         height: '100%'

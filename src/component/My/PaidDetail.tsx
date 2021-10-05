@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
 import { LayoutElement, Layout, Modal, Card, Text, Button, Divider } from "@ui-kitten/components";
 import { SceneRoute } from "../../navigation/app.route";
-import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
 import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
 import moment from 'moment';
@@ -16,7 +16,6 @@ const windowWidth = Dimensions.get('window').width;
 export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     const [visible, setVisible] = useState<boolean>(false);
-    const [visible2, setVisible2] = useState<boolean>(false);
     const [refundCheck, setRefundCheck] = useState<boolean>(true);
     const [data, setData] = useState<ReservationInfo>({
         uid: '',
@@ -51,7 +50,6 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
             const today = moment(new Date());
             const subDate = moment(props.data.day).subtract(1, 'days');
             setRefundCheck(subDate < today);
-            console.log(subDate < today)
         }
 
     }, [props]);
@@ -72,11 +70,31 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     function PressButton() {
         if (data.refund.check === true) {
-            return null
+            return;
         } else {
-            setVisible2(true)
+            Alert.alert(
+                "Are you Sure?",
+                "Do you really want to Refund GloChat Service?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log('canceled'),
+                        style: "destructive",
+                    },{
+                        text: "Refund",
+                        onPress: () => PressRefund(),
+                        style: "default",
+                    },
+                ],
+                {
+                    cancelable: true,
+                    onDismiss: () =>
+                        Alert.alert(
+                            "This alert was dismissed by tapping outside of the alert dialog."
+                        ),
+                }
+            );
         }
-
     }
 
     if (visible == true) {
@@ -179,31 +197,6 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                         <Text style={(refundCheck || data.refund.check) ? styles.DisabledText : styles.ButtonText}>Refund</Text>
                     </TouchableOpacity>
 
-                </Modal>
-
-                <Modal
-                    visible={visible2}
-                    backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                >
-                    <Card disabled={true} style={{ backgroundColor: '#F8F8F8' }}>
-
-                        <Text style={styles.modalTitle}>Are you Sure?</Text>
-
-                        <Text style={styles.modalDesc}>{`Do you really want to Refund GloChat Service?`}</Text>
-
-                        <Layout style={{ flexDirection: 'row' }}>
-
-                            <TouchableOpacity style={styles.StayButon} onPress={() => setVisible2(false)}>
-                                <Text style={styles.StayButonText}>Cancel</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={styles.WithdrawalButton} onPress={() => { PressRefund() }}>
-                                <Text style={styles.WithdrawalButtonText}>Refund</Text>
-                            </TouchableOpacity>
-
-                        </Layout>
-
-                    </Card>
                 </Modal>
 
             </Layout>
@@ -341,48 +334,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: 20,
         color: '#aeaeae'
-    },
-    modalTitle: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF',
-        textAlign: 'center'
-    },
-    modalDesc: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#AEAEAE',
-        marginTop: 10,
-        marginBottom: 10,
-    },
-    StayButon: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1.5,
-        borderColor: '#8797FF',
-        borderRadius: 10,
-        height: 50,
-        marginRight: 5,
-        flex: 1
-    },
-    StayButonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
-    },
-    WithdrawalButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#292434',
-        borderRadius: 10,
-        height: 50,
-        marginLeft: 5,
-        flex: 1
-    },
-    WithdrawalButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
     },
 });

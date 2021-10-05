@@ -1,14 +1,22 @@
 import { combineReducers } from "redux";
+
+// Chat
 import AudioDurationModel from "./Chat/Chat.Audio.model";
 import ChatDataModel from "./Chat/Chat.Data.model";
 import ChatLoadingModel from "./Chat/Chat.Loading.model";
 import ChatUIModel from "./Chat/Chat.UI.model";
 
+// My
+import MyLoadingModel from "./My/My.Loading.model";
+
 const rootReducer = combineReducers({
+    //Chat
     AudioDurationModel,
     ChatUIModel,
     ChatLoadingModel,
-    ChatDataModel
+    ChatDataModel,
+    //My
+    MyLoadingModel,
 });
 
 export default rootReducer;
