@@ -17,17 +17,17 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
     const sampleData = [
         {
             location: 'HONGDAE',
-            assistant: 'JAEHOON',
+            assistant: 'Jaehoon Jang',
             date: '2021.07.04',
         },
         {
             location: 'HONGDAE',
-            assistant: 'GLOKOOL OFFICIAL',
+            assistant: 'Glokool Official',
             date: '2021.07.04',
         },
         {
             location: 'HONGDAE',
-            assistant: 'JAEHOON',
+            assistant: 'Sungsoo Park',
             date: '2021.07.04',
         },
     ]
@@ -44,11 +44,11 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
                     </Layout>
                     <Layout style={styles.InfoItem}>
                         <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Travel Assistant</Text>
-                        <Text style={[styles.InfoText, { flex: 1.22 }]}>{item.item.assistant}</Text>
+                        <Text style={[styles.InfoText, { flex: 1 }]}>{item.item.assistant}</Text>
                     </Layout>
                     <Layout style={styles.InfoItem}>
                         <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Booking Date</Text>
-                        <Text style={[styles.InfoText, { flex: 1.22 }]}>{item.item.date}</Text>
+                        <Text style={[styles.InfoText, { flex: 1 }]}>{item.item.date}</Text>
                     </Layout>
                 </Layout>
             </Layout>
@@ -63,7 +63,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
                 <SafeAreaView />
                 <Layout style={styles.TopTabItems}>
 
-                    <TouchableOpacity style={styles.BackButton}>
+                    <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.pop()}>
                         <ArrowLeft />
                     </TouchableOpacity>
 
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,
-        marginHorizontal:10,
+        marginHorizontal: 10,
         paddingVertical: 20,
         paddingHorizontal: 10,
         borderRadius: 10,
@@ -129,20 +129,19 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     ImageItem: {
-        width: 70,
-        height: 70,
-        backgroundColor: 'gray',
+        width: 60,
+        height: 60,
+        borderWidth: 0.3,
         borderRadius: 100,
     },
     InfoItem: {
         flexDirection: 'row',
-        width: windowWidth * 0.7,
+        width: windowWidth * 0.65,
         alignItems: 'center',
     },
     InfoText: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
-        backgroundColor: 'white'
     },
     LocationContainer: {
         flexDirection: 'row',
@@ -150,11 +149,13 @@ const styles = StyleSheet.create({
     },
     LocationText: {
         fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 16,
+        marginLeft: 5,
     },
     InfoContainer: {
-        marginLeft: 15
+        marginLeft: 10
     },
-    FlatListContainer:{
+    FlatListContainer: {
         width: windowWidth,
         paddingTop: 10,
     }
