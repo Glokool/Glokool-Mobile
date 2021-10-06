@@ -79,7 +79,7 @@ import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.L
 import { RootState } from '../../model';
 import { renderLoading } from '../../component/Chat/Chatroom/Chat.Custom.component';
 import { renderSound } from '../../component/Chat/Chatroom/Chat.Sound.component';
-import { setGuideUID } from '../../model/Chat/Chat.Data.model';
+import { cleanChatDB, cleanRoomName, setChatDB, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 
 
 var ToastRef: any;
@@ -93,10 +93,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const dispatch = useDispatch();
 
     const guideToken = useSelector((state : RootState) => state.ChatDataModel.guideUID);
+    const ChatDB = useSelector((state : RootState) => state.ChatDataModel.DB);
+    const roomName = useSelector((state : RootState) => state.ChatDataModel.roomName);
     
-    const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
+
     const [guide, setGuide] = React.useState({});
-    const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
     const [location, setLocation] = React.useState({ lon: '', lat: '' });    
@@ -191,6 +192,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             unsubscribe;
 
             if (ChatDB != undefined) ChatDB.off('value');
+
+            dispatch(cleanChatDB());
+            dispatch(cleanRoomName())
         };
 
     }, []);
@@ -199,12 +203,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
     // 채팅 데이터들은 Firebase RTDB 에서 받아온다
     async function ChatRoomInit(id: string) {
+        
         const chat = database().ref('/chats/' + id);
 
         dispatch(setChatLoadingTrue()) // 로딩 시작
         setChatMessages([]); //로컬 메시지 저장소 초기화
-        setChatDB(chat);
-        setRoomName(id);
+
+        dispatch(setChatDB(chat)); // 전체 데이터 초기화용
+        dispatch(setRoomName(id));
+
 
         chat.on('value', (snapshot) => {
 
@@ -410,6 +417,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     /* FB storage에 이미지 배열 업로드 */
     const uploadImgArr = async (images, info) => {
+
         const reference = storage().ref();
 
         const promises = images.map((image: string, idx: number) => {
