@@ -59,7 +59,6 @@ export const ZoneMainBottomTabBarComponent = (props : ZoneMainSceneProps) => {
 
     const renderButton = (item : any) : React.ReactElement => {
 
-
         return (
             <FastImage
                 source={require('../../../assets/image/Zone/Button001.png')}

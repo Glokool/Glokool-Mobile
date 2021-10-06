@@ -35,8 +35,6 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const [guide, setGuide] = useState<GuideInfoType>({});
-    const [ENG, setENG] = useState(false);
-    const [CHN, setCHN] = useState(false);
 
     const [route, setRoute] = useState({});
 
@@ -101,16 +99,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
-
                 setGuide(res.data);
-                console.log(res.data.lang)
-                if (res.data.lang.length == 1) {
-                    dispatch(setGuideVisiblityTrue());
-                }
-                else {
-                    if (res.data.lang[0]) { setENG(true); }
-                    if (res.data.lang[1]) { setCHN(true); }
-                }
                 dispatch(setGuideVisiblityTrue());
             } catch (e) {
                 console.log('e', e);

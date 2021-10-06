@@ -96,8 +96,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
-    const [ENG, setENG] = React.useState(false);
-    const [CHN, setCHN] = React.useState(false);
     const [roomName, setRoomName] = React.useState<string>();
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
@@ -738,26 +736,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-
-                setGuide({
-                    avatar: res.data.avatar,
-                    name: res.data.name,
-                    gender: res.data.gender,
-                    birthDate: res.data.birthDate,
-                    lang: res.data.lang,
-                    country: res.data.country,
-                    intro: res.data.intro,
-                    oneLineIntro: res.data.oneLineIntro,
-                    keyword: res.data.keyword,
-                })
-
-                if (res.data.lang.length == 1) {
-                    setENG(true);
-                }
-                else {
-                    if (res.data.lang[0]) { setENG(true); }
-                    if (res.data.lang[1]) { setCHN(true); }
-                }
+                setGuide(res.data)
 
             } catch (e) {
                 console.log('e', e);
