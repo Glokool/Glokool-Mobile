@@ -6,56 +6,39 @@ import {
     Platform,
     PermissionsAndroid,
     Dimensions,
-    Keyboard,
     KeyboardAvoidingView,
     Pressable,
-    TouchableOpacity,
     AppState,
     Alert,
+    AppStateStatus,
+    Keyboard,
 } from 'react-native';
 import {
     Layout,
-    Spinner,
-    Modal,
-    Card,
     LayoutElement,
 } from '@ui-kitten/components';
 import database, {
     FirebaseDatabaseTypes,
 } from '@react-native-firebase/database';
 import {
-    Bubble,
-    InputToolbar,
     GiftedChat,
-    Composer,
-    Send,
-    SystemMessage,
-    Time,
     InputToolbarProps,
-    ComposerProps,
-    BubbleProps,
     IMessage,
+    BubbleProps,
+    ActionsProps,
 } from 'react-native-gifted-chat';
-import Sound from 'react-native-sound';
 import storage from '@react-native-firebase/storage';
-import FastImage from 'react-native-fast-image';
 import {
     launchCamera,
 } from 'react-native-image-picker/src';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {
-    faTimes,
-    faPlay,
-} from '@fortawesome/free-solid-svg-icons';
 import { filterText } from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import {
     Images,
     Camera,
     MyLocation,
-    SendIcon,
     Record,
 } from '../../assets/icon/Chat';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -68,18 +51,18 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
-import { AudioComponent } from '../../component/Chat';
-import { messageType } from '../../types';
+import { LocationBubbleMessage, messageType } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChatTopTabBarComponent } from '../../component/Chat/Chatroom/Chat.TopTabBar.component';
 import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
-import { setAudioVisiblityTrue } from '../../model/Chat/Chat.UI.model';
-import { renderBubble, renderComposer, renderCustomBubble, renderTime } from '../../component/Chat/Chatroom';
+import { setAudioVisiblityTrue, setLocationVisiblityTrue, setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../model/Chat/Chat.UI.model';
+import { ImageModal, LocationModal, renderBubble, renderComposer, renderImage, renderTime, renderInputToolbar, renderLoading, renderSend, renderSystemMessage, renderSound, ChatTopTabBarComponent, AudioComponent } from '../../component/Chat/Chatroom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
-import { renderLoading } from '../../component/Chat/Chatroom/Chat.Custom.component';
-import { renderSound } from '../../component/Chat/Chatroom/Chat.Sound.component';
-import { cleanChatDB, cleanRoomName, setChatDB, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
+import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { setLocation } from '../../model/Chat/Chat.Location.model';
+import FastImage from 'react-native-fast-image';
+
 
 
 var ToastRef: any;
@@ -88,22 +71,19 @@ const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
+
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
 
     const guideToken = useSelector((state : RootState) => state.ChatDataModel.guideUID);
-    const ChatDB = useSelector((state : RootState) => state.ChatDataModel.DB);
     const roomName = useSelector((state : RootState) => state.ChatDataModel.roomName);
-    
+    const day = props.route.params.day
+    const menuVisiblity = useSelector((state : RootState) => state.ChatUIModel.menuVisiblity);
 
+    const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
-    const [mapvisible, setMapvisible] = React.useState(false);
-    const [location, setLocation] = React.useState({ lon: '', lat: '' });    
-    const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
-    const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
-    const [imageURL, setImageURL] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
@@ -130,14 +110,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-
-
-    /* 이미지 클릭시 modal Activation */
-    const imageZoom = (imageUrl: string): void => {
-        setImageZoomVisible(true);
-        setImageURL(imageUrl);
-    };
-
     /* 앱 상태 파악 Background foreground */
     const appState = React.useRef(AppState.currentState);
 
@@ -150,7 +122,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         });
     };
 
-    const handleAppStateChange = (nextAppState) => {
+    const handleAppStateChange = (nextAppState : AppStateStatus) => {
         if (
             appState.current.match(/inactive|background/) &&
             nextAppState === 'active'
@@ -165,6 +137,26 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
         appState.current = nextAppState;
     };
+
+    const initGuide = async (guideInfo = props.route.params.guide) => {
+        if (guideInfo.uid != '') {
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
+                setGuide(res.data)
+
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,', 'Guide Not Matched!');
+        }
+    }
+
+    const OfftheDB = (snapshot: FirebaseDatabaseTypes.DataSnapshot, response?: string | null | undefined) : void => {
+        setChatDB(undefined);
+        dispatch(cleanRoomName())
+    }
 
 
     React.useEffect(() => {
@@ -191,25 +183,23 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
 
-            if (ChatDB != undefined) ChatDB.off('value');
+            if (ChatDB != undefined) {
+                ChatDB.off('value', OfftheDB)
+            };
 
-            dispatch(cleanChatDB());
-            dispatch(cleanRoomName())
         };
 
     }, []);
 
 
-    // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
-    // 채팅 데이터들은 Firebase RTDB 에서 받아온다
-    async function ChatRoomInit(id: string) {
+    const ChatRoomInit = (id: string) : void => {
         
         const chat = database().ref('/chats/' + id);
 
         dispatch(setChatLoadingTrue()) // 로딩 시작
         setChatMessages([]); //로컬 메시지 저장소 초기화
+        setChatDB(chat);
 
-        dispatch(setChatDB(chat)); // 전체 데이터 초기화용
         dispatch(setRoomName(id));
 
 
@@ -250,44 +240,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     }
 
 
-    // param으로 받은 채팅 날짜
-    const [day, setDay] = React.useState(props.route.params.day);
-
-
-    /* 채팅창 이미지 컴포넌트 */
-    const ChatImg = ({ imgUrl }) => {
-        return (
-            <Pressable onPress={() => imageZoom(imgUrl)}>
-                <FastImage
-                    source={{ uri: imgUrl }}
-                    resizeMode={FastImage.resizeMode.cover}
-                    style={{
-                        width: 150,
-                        height: 100,
-                        borderRadius: 10,
-                        margin: 3,
-                    }}
-                />
-            </Pressable>
-        );
-    };
-
-    /* gifted chat 이미지 렌더링 */
-    const renderImage = (props) => {
-        const imageURL = props.currentMessage.image;
-        if (typeof imageURL === 'string') {
-            return <ChatImg key={0} imgUrl={imageURL} />;
-        } else {
-            return (
-                <>
-                    {imageURL.map((url: string, index: number) => (
-                        <ChatImg key={index} imgUrl={url} />
-                    ))}
-                </>
-            );
-        }
-    };
-
 
     const createPushNoti = (message: string): object => {
         return {
@@ -300,6 +252,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     /*이미지 촬영 */
     const takePhoto = async () => {
+        
+        dispatch(setMenuVisiblityFalse());
+
         try {
             const { granted } = await requestCameraPermission();
             if (!granted) {
@@ -313,7 +268,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     quality: 0.5,
                 },
                 (response) => {
-                    if (response) {
+                    if (response != undefined) {
                         if (response.didCancel == true) {
                             //중도 취소시
                         } else {
@@ -325,11 +280,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             const imageType = type.split('/');
                             const reference = storage().ref();
 
-                            const picRef = reference
-                                .child(
-                                    `chats/${roomName}/picture/${MessageID}.${imageType[1]}`,
-                                )
-                                .putFile(response.uri); //xxxxx는 대화방 이름으로 변경
+                            const picRef = reference.child(`chats/${roomName}/picture/${MessageID}.${imageType[1]}`,).putFile(response.uri);
+
                             picRef.on(
                                 storage.TaskEvent.STATE_CHANGED,
                                 function (snapshot) {
@@ -359,7 +311,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                     }
                                 },
                                 function () {
-                                    picRef.snapshot.ref
+                                    picRef.snapshot?.ref
                                         .getDownloadURL()
                                         .then(function (downloadURL) {
                                             //업로드 완료
@@ -378,7 +330,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                                             );
 
                                             Promise.all([
-                                                ChatDB.update({
+                                                ChatDB?.update({
                                                     messages: [
                                                         message,
                                                         ...chatMessages,
@@ -440,6 +392,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
+
+        dispatch(setMenuVisiblityFalse());
+
         try {
             const { granted } = await requestStoragePermission();
             if (!granted) {
@@ -465,7 +420,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     throw Error('Upload denied');
                 }
 
-                const push = createPushNoti('이미지를 보냈습니다');
+                const push = createPushNoti('이미지를 보냈습니다', );
 
                 const message = {
                     _id: additionalInfo[0]?.MessageID,
@@ -478,7 +433,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 };
 
                 Promise.all([
-                    ChatDB.update({
+                    ChatDB?.update({
                         messages: [message, ...chatMessages],
                         guideUnreadCount: database.ServerValue.increment(1),
                     }),
@@ -549,7 +504,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
         if (filterText(messages[0].text)) {
             await Promise.all([
-                ChatDB.update({
+                ChatDB?.update({
                     messages: [messages[0], ...chatMessages],
                     guideUnreadCount: database.ServerValue.increment(1),
                 }),
@@ -563,56 +518,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const renderSend = (props) => {
-        return (
-            <Send {...props} containerStyle={styles.sendButton}>
-                <SendIcon />
-            </Send>
-        );
-    };
-
-    const onRenderSystemMessage = (props) => (
-        <SystemMessage
-            {...props}
-            containerStyle={{ backgroundColor: 'white' }}
-            textStyle={{
-                color: '#c9c9c9',
-                fontSize: 14,
-                textAlign: 'center',
-                padding: 5,
-            }}
-        />
-    );
-    
-    // 컨텐츠 전송 시 나타나는 창
-    // 채팅 창 좌측 버튼
-    const renderActions = (props) => {
-        return (
-            // 버튼
-            <Pressable
-                style={styles.ActionButton}
-                onPress={() => {
-                    setVisible2(true);
-                    Keyboard.dismiss();
-                }}>
-                {/* visible2 state 에 따라서 바뀜 */}
-                {visible2 === true ? (
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../assets/icon/Chat/Menu_S.png')}
-                    />
-                ) : (
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../assets/icon/Chat/Menu_S.png')}
-                    />
-                )}
-            </Pressable>
-        );
-    };
 
     // Android용 위치 (Location 전송)
     const LocationMessageAndroid = async() => {
+
 
         if(!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
 
@@ -634,7 +543,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             const push = createPushNoti('지도위치를 보냈습니다.');
 
             Promise.all([
-                ChatDB.update({
+                ChatDB?.update({
                     messages: [Message, ...chatMessages],
                     guideUnreadCount: database.ServerValue.increment(
                         1,
@@ -667,7 +576,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     messageType: 'location',
                 };
 
-                ChatDB.update({
+                ChatDB?.update({
                     messages: [message, ...chatMessages],
                     guideUnreadCount: database.ServerValue.increment(1),
                 });
@@ -687,6 +596,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     }   
 
     const LocationMessage = () => {
+        
+        dispatch(setMenuVisiblityFalse());
 
         if (Platform.OS === 'android') {
            LocationMessageAndroid();
@@ -696,64 +607,80 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     };
 
-    //입력 창 확인
-    const renderInputToolbar = (props : InputToolbarProps) : React.ReactElement => (
-        <>
-            {
-                new Date(day).getFullYear() == new Date().getFullYear() &&
-                new Date(day).getMonth() == new Date().getMonth() &&
-                new Date(day).getDate() == new Date().getDate() ? 
-                (
-                    <InputToolbar
-                        {...props}
-                        containerStyle={styles.ChatInputToolBar}
-                    />
-                ) 
-                : 
-                    null
-            }
-        </>
-        
-    );
+    
+// 위치 정보 말풍선 메시지 타입
 
 
+    const PressLocationMessage = (props : BubbleProps<IMessage> & LocationBubbleMessage) : void => {    
 
-    // 맵 뷰 헤더
-    const Header = (props) => (
-        <Layout style={{ flexDirection: 'row', padding: 20 }}>
-            <Layout style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                        alignItems: 'center',
-                    }}>
-                    My Location
-                </Text>
-            </Layout>
+        dispatch(setLocationVisiblityTrue());
+        dispatch(setLocation({ lat : props.currentMessage.location.lat, lon : props.currentMessage.location.lon }))
 
-            <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Pressable onPress={() => setMapvisible(false)}>
-                    <FontAwesomeIcon icon={faTimes} size={28} />
-                </Pressable>
-            </Layout>
-        </Layout>
-    );
-
-    const initGuide = async (guideInfo = props.route.params.guide) => {
-        if (guideInfo.uid != '') {
-            try {
-                const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                setGuide(res.data)
-
-            } catch (e) {
-                console.log('e', e);
-            }
-        }
-        else {
-            Alert.alert('Sorry,', 'Guide Not Matched!');
-        }
     }
+
+    const renderCustomBubble = (props : BubbleProps<IMessage> & LocationBubbleMessage) => {   
+
+        // Mapview (My Location) 출력을 위한 코드
+        if (props.currentMessage.messageType === 'location') {
+            return (
+                <Pressable onPress={() => PressLocationMessage(props)}>
+                    <Text
+                        style={styles.MyLocationHeaderText}>
+                        My Location
+                    </Text>
+                    <MapView
+                        provider={PROVIDER_GOOGLE}
+                        style={{ width: 250, height: 125, margin: 10 }}
+                        region={{
+                            latitude: parseFloat(
+                                props.currentMessage.location.lat,
+                            ),
+                            longitude: parseFloat(
+                                props.currentMessage.location.lon,
+                            ),
+                            latitudeDelta: 0.015,
+                            longitudeDelta: 0.0121,
+                        }}>
+                        <Marker
+                            coordinate={{
+                                latitude: parseFloat(
+                                    props.currentMessage.location.lat,
+                                ),
+                                longitude: parseFloat(
+                                    props.currentMessage.location.lon,
+                                ),
+                            }}
+                            title={'My Location'}
+                        />
+                    </MapView>
+                </Pressable>
+            );
+        }
+    };
+
+    
+    const PressActionButton = () : void => {        
+        dispatch(setMenuVisiblityTrue());
+        Keyboard.dismiss();
+    }
+
+
+    const renderActions = (props : ActionsProps) : React.ReactElement => {
+      
+        return (
+            <Pressable
+                style={styles.ActionButton}
+                onPress={() => PressActionButton()}
+            >
+                <FastImage
+                    style={styles.MenuImage}
+                    source={require('../../assets/icon/Chat/Menu_S.png')}
+                />
+            </Pressable>
+        );
+    };
+
+
 
     //실제 렌더링
     return (
@@ -766,9 +693,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <KeyboardAvoidingView
                 style={styles.Container}
                 behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 30 : -230}
+                keyboardVerticalOffset={Platform.OS === 'android' ? 60 : -230}
             >
                 <Layout style={styles.mainContainer}>
+
                     <GiftedChat
                         messages={chatMessages}
                         textInputProps={{ autoFocus: true }}
@@ -786,93 +714,38 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderAvatar={() => {return null}}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
-                        renderTime={renderTime}
-                        renderInputToolbar={renderInputToolbar}
+                        renderTime={renderTime}                        
                         renderSend={renderSend}
-                        renderActions={renderActions}
+                        renderInputToolbar={(props) => renderInputToolbar(props, day)}
                         renderBubble={renderBubble}
                         renderLoading={renderLoading}
                         renderComposer={renderComposer}
-                        renderSystemMessage={onRenderSystemMessage}
+                        renderSystemMessage={renderSystemMessage}
                         renderMessageImage={renderImage}
                         renderMessageAudio={renderSound}
                         renderCustomView={renderCustomBubble}
+                        renderActions={renderActions}
                     />
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
                 <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
 
-                <Modal
-                    visible={imageZoomVisible}
-                    backdropStyle={styles.imageZoomBackGround}>
-                    <Layout style={styles.ModalLayout}>
-                        <Pressable
-                            style={{
-                                position: 'absolute',
-                                top: 50,
-                                left: 20,
-                            }}
-                            onPress={() =>
-                                setImageZoomVisible(!imageZoomVisible)
-                            }>
-                            <Text
-                                style={{
-                                    color: '#f1f1f1',
-                                    fontSize: 30,
-                                    fontWeight: 'bold',
-                                }}>
-                                X
-                            </Text>
-                        </Pressable>
-                        <FastImage
-                            source={{ uri: imageURL }}
-                            resizeMode={FastImage.resizeMode.cover}
-                            style={{
-                                width: WindowWidth,
-                                height: Math.round((windowHeight * 9) / 16),
-                            }}
-                        />
-                    </Layout>
-                </Modal>
+                {/* 이미지 클릭시 확대 이미지 창 출력 */}
+                <ImageModal /> 
 
-                <Modal
-                    visible={mapvisible}
-                    backdropStyle={styles.backdrop}
-                    onBackdropPress={() => setMapvisible(false)}>
-                    <Card disabled={true} header={Header}>
-                        <MapView
-                            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                            style={{
-                                width: Dimensions.get('window').width * 0.9,
-                                height: Dimensions.get('window').height * 0.8,
-                            }}
-                            region={{
-                                latitude: parseFloat(location.lat),
-                                longitude: parseFloat(location.lon),
-                                latitudeDelta: 0.015,
-                                longitudeDelta: 0.0121,
-                            }}>
-                            <Marker
-                                coordinate={{
-                                    latitude: parseFloat(location.lat),
-                                    longitude: parseFloat(location.lon),
-                                }}
-                                title={'My Location'}
-                            />
-                        </MapView>
-                    </Card>
-                </Modal>
-
-                {/*탭바 디자인*/}
+                {/* 지도 메시지 클릭시 확대 창 출력 */}
+                <LocationModal />
+                
+                {/*채팅방 탑 탭바*/}
                 <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
                 
 
                 {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
-                {visible2 == true ? (
+                {menuVisiblity == true ? (
                     <Layout
                         style={styles.SideContainerBack}
-                        onTouchEnd={() => setVisible2(false)}>
+                        onTouchEnd={() => dispatch(setMenuVisiblityFalse())}>
                         <Layout style={styles.SideContainer}>
                             <Pressable
                                 style={styles.SideButton}
@@ -906,6 +779,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         </Layout>
                     </Layout>
                 ) : null}
+
             </KeyboardAvoidingView>
 
             <AudioComponent
@@ -922,17 +796,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 };
 
 const styles = StyleSheet.create({
-    // modal
-    imageZoomBackGround: {
-        backgroundColor: 'rgba(0, 0, 0, 10)',
-    },
-    ModalLayout: {
-        width: WindowWidth,
-        height: windowHeight,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 10)',
-    },
+
     // modal
     Container: {
         flex: 1,
@@ -1027,7 +891,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 17,
         marginBottom: 17,
-
     },
 
     menuContainer: {
@@ -1185,7 +1048,14 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         margin: 10,
         alignItems: 'center',
-    }
+    },
+    MyLocationHeaderText: {
+        textAlign: 'right',
+        marginTop: 5,
+        marginRight: 10,
+        color: '#8C8C8C',
+        fontFamily: 'BrandonGrotesque-Medium',
+    },
 });
 
 

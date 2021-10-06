@@ -388,3 +388,13 @@ export type authContextType = {
     photoURL: string;
     uid: string;
 }
+
+export type LocationBubbleMessage = {
+    currentMessage : {
+        location : {
+            lat : string,
+            lon : string
+        },
+        messageType : string
+    }
+}
