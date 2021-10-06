@@ -32,16 +32,18 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
                 data={sampleData}
                 renderItem={renderItem}
                 showPagination
-                paginationStyle={{ bottom: -10 }}
-                paginationDefaultColor={'#d2d2d2'}
+                paginationStyle={{ alignSelf: 'flex-start', bottom: -10 }}
+                paginationDefaultColor={'rgba(0,0,0,0.4)'}
                 paginationStyleItemActive={{
-                    width: 10,
+                    width: 17,
                     height: 5,
+                    marginRight:-4,
                 }}
-                paginationActiveColor={'#7777ff'}
+                paginationActiveColor={'#fff'}
                 paginationStyleItemInactive={{
-                    width: 10,
+                    width: 17,
                     height: 5,
+                    marginRight:-4,
                 }}
                 style={styles.BannerContainer}
             />
@@ -57,7 +59,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#0000',
     },
     BannerContainer: {
-
         backgroundColor: '#0000',
     },
     ItemContainer: {

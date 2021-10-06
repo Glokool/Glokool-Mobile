@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { SERVER, CDN } from '../../../server.component';
 import axios from 'axios';
 import { ExploreIcon } from '../../../assets/icon/Zone';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
 import FastImage from 'react-native-fast-image';
+import { useDispatch } from 'react-redux';
+import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
+import { ZoneChatModal } from '.';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
+    const dispatch = useDispatch();
+
     const [guideList, setGuideList] = useState();
+    const [guideInfo, setGuideInfo] = useState();
+    const [route, setRoute] = useState({});
 
     useEffect(() => {
         InitialGuideList();
-    });
+    }, []);
 
     const InitialGuideList = () => {
         axios.get(SERVER + '/api/guides')
@@ -23,9 +30,35 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
             .catch((e) => console.log(e));
     }
 
+    const InitialGuideInfo = async (item) => {
+       
+        if (item.uid != '') {
+            setRoute({
+                params: {
+                    id: item._id,
+                    guide: {
+                        uid: item.uid,
+                        name: item.name,
+                    }
+                }
+            });
+
+            try {
+                const res = await axios.get(`${SERVER}/api/guides/` + item.uid);
+                setGuideInfo(res.data)
+                dispatch(setGuideVisiblityTrue());
+            } catch (e) {
+                console.log('e', e);
+            }
+        }
+        else {
+            Alert.alert('Sorry,', 'Guide Not Matched!');
+        }
+    }
+
     const renderItem = (item: { item, index }) => {
         return (
-            <Layout style={styles.GuideContainer}>
+            <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: item.index === 0 ? '#7777ff' : '#0000' }]}>
@@ -52,7 +85,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                     </Layout>
                 )}
 
-            </Layout>
+            </TouchableOpacity>
         )
     }
 
@@ -70,6 +103,9 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 <Text style={[styles.ButtonText, { color: '#8596FF', marginRight: 10, }]}>Travel Assistants</Text>
                 <ExploreIcon />
             </TouchableOpacity>
+
+            {guideInfo && <ZoneChatModal guide={guideInfo}/>}
+
         </Layout>
     )
 }

@@ -18,7 +18,6 @@ export const ZoneMainTopTabBarComponent = (props: ZoneMainSceneProps): React.Rea
                 <Text style={styles.ZoneButtonText}>HONGDAE</Text>
                 <TopTabButton style={styles.ZoneButtonIcon} />
             </Pressable>
-
         </Layout>
     )
 

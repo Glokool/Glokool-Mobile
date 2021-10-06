@@ -87,7 +87,7 @@ export const ProfileModal = (props: any) => {
                             />
                         ) : (
                             <Image
-                                source={require('../../assets/profile/profile_01.png')}
+                                source={require('../../assets/image/Chat/guideGray.png')}
                                 style={styles.profileImage}
                             />
                         )}
@@ -212,5 +212,5 @@ const styles = StyleSheet.create({
     keywordText: {
         fontFamily: 'Pretendard-Regular',
         fontSize: Platform.OS === 'ios' ? 12 : 10,
-    }
+    },
 });

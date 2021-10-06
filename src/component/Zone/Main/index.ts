@@ -4,3 +4,4 @@ export { ZoneMainTopTabBarComponent } from './TopTabBar.component'
 export { ZoneBannerComponent } from './Banner.component';
 export { ZoneGuideListComponent } from './GuideList.component';
 export { ZoneCategoryListComponent } from './CategoryList.component';
+export { ZoneChatModal } from './ChatModal.component';
