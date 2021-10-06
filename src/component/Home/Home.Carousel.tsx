@@ -76,34 +76,6 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
 
     return (
         <Layout style={styles.CarouselContainer}>
-            {/* <Carousel
-                data={content}
-                layout={'default'}
-                renderItem={RenderCarousel}
-                style={styles.Carousel}
-                sliderWidth={Dimensions.get('window').width - 30}
-                itemWidth={ImageSize}
-                hasParallaxImages={false}
-                firstItem={2}
-                inactiveSlideScale={0.8}
-                inactiveSlideOpacity={0.7}
-                containerCustomStyle={styles.CarouselInsideContainer}
-                loop={true}
-                autoplay={true}
-                autoplayDelay={1500}
-                autoplayInterval={4000}
-                onSnapToItem={(index: number) => setCarouselIndex(index)}
-            />
-            <Pagination
-                dotsLength={content.length}
-                containerStyle={styles.CarouselDotContainer}
-                activeDotIndex={carouselIndex}
-                dotColor={'#FFFFFF'}
-                dotStyle={styles.CarouselDot}
-                inactiveDotColor={'black'}
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={1}
-            /> */}
             <SwiperFlatList
                 index={0}
                 autoplay={true}

@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     BackdropContainer: {
         width: windowWidth,
         height: windowHeight,
-        backgroundColor : 'rgba(0,0,0,0.5)'
+        backgroundColor : 'rgba(0,0,0,0.5)',
+        position: 'absolute',
     },
 
     BottomButtonContainer: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, Platform } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
@@ -14,7 +14,6 @@ export const ZoneMainTopTabBarComponent = (props: ZoneMainSceneProps): React.Rea
 
     return (
         <Layout style={styles.TopTabBarContainer}>
-            <SafeAreaView />
             <Pressable style={styles.ZoneButtonContainer} onPress={() => dispatch(setLocationVisiblityTrue())}>
                 <Text style={styles.ZoneButtonText}>HONGDAE</Text>
                 <TopTabButton style={styles.ZoneButtonIcon} />
@@ -28,11 +27,9 @@ export const ZoneMainTopTabBarComponent = (props: ZoneMainSceneProps): React.Rea
 const styles = StyleSheet.create({
 
     TopTabBarContainer: {
-        height: windowHeight * 0.07,
-        minHeight: 53,
+        width: '100%',
         backgroundColor: 'white',
-        position: 'absolute',
-        top: 0,
+        paddingTop: Platform.OS === 'ios' ? 50 : 20,
         padding: 10
     },
     ZoneButtonContainer: {
