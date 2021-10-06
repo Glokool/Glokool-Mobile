@@ -40,7 +40,6 @@ export const ProfileModal = (props: any) => {
     }, [guideVisible])
 
     const GetNumber = () => {
-        console.log('Called');
         axios.get('https://glokool-guide.com/api/chat-rooms/615c02a248cce35ccaaad4be/check')
             .then((response) => console.log(response.data))
             .catch((e) => console.log(e));
@@ -102,7 +101,10 @@ export const ProfileModal = (props: any) => {
 
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
-                            <Text style={styles.valTextStyle}>{props.ENG ? 'English' : null} {props.CHN ? '中文' : null} {props.CHN}</Text>
+                            <Text style={styles.valTextStyle}>
+                                {props.guide.lang && (props.guide.lang[0] && 'English ')}
+                                {props.guide.lang && (props.guide.lang[1] && '中文')}
+                            </Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', marginTop: 3, }}>

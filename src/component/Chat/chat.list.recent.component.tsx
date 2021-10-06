@@ -198,7 +198,7 @@ export const ChatListRecent = (props: ChatListRecentProps): LayoutElement => {
                         contentContainerStyle={{ paddingBottom: 500 }}
                     />
                     {/* 가이드 프로필 모달 */}
-                    <ProfileModal guide={guide} ENG={ENG} CHN={CHN} navigation={props.navigation} route={route} />
+                    <ProfileModal guide={guide} navigation={props.navigation} route={route} />
 
                 </Layout>
             }

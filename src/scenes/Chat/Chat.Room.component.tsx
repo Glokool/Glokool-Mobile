@@ -814,7 +814,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
-                <ProfileModal guide={guide} ENG={ENG} CHN={CHN} navigation={props.navigation} route={props.route} />
+                <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
 
                 <Modal
                     visible={imageZoomVisible}
