@@ -39,15 +39,19 @@ import {
     Zone,
     Zone_S
 } from '../assets/icon/BottomNavigation';
-import { NavigatorRoute } from './app.route';
+import { NavigatorRoute, SceneRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../context/AuthContext';
+import { alertWindow } from '../component/Common/LoginCheck.component';
+import { ZoneNavigator } from './ScreenNavigator/Zone.navigator';
 
 const Tab = createBottomTabNavigator();
 
 const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTabBarOptions>) => {
 
     const { onChat } = useContext(ChatContext);
+    const { currentUser } = useContext(AuthContext);
     const [visible, setVisible] = React.useState(true);
 
     const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -92,14 +96,19 @@ const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTa
                 const isFocused = state.index === id;
 
                 const onPress = () => {
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
+                    if (route.name == 'My' && !currentUser) {
+                        alertWindow(navigation);
+                    }
+                    else {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
 
-                    if (!isFocused && !event.defaultPrevented) {
-                        navigation.navigate(route.name);
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name);
+                        }
                     }
                 };
 
@@ -167,7 +176,9 @@ const GuideVisiblity = (route: any) => {
     if (
         routeName === 'Chatroom' ||
         routeName === 'Chat Help' ||
-        routeName === 'Chat Report'
+        routeName === 'Chat Report' ||
+        routeName === SceneRoute.PAID_CHAT_LIST || 
+        routeName === SceneRoute.HISTORY
     ) {
         return false;
     }
@@ -195,7 +206,7 @@ export const MainNavigator = (): React.ReactElement => (
 
         <Tab.Screen
             name={NavigatorRoute.SERIES}
-            component={SeriesNavigator}
+            component={ZoneNavigator}
             options={({ route }) => ({
                 unmountOnBlur: true,
             })}
@@ -214,6 +225,7 @@ export const MainNavigator = (): React.ReactElement => (
             name={NavigatorRoute.MY}
             component={MyNavigator}
             options={({ route }) => ({
+                tabBarVisible: GuideVisiblity(route),
                 unmountOnBlur: false,
             })}
         />

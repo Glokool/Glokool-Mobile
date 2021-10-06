@@ -1,10 +1,8 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
-
+import React, { useContext } from 'react';
 import {
     StyleSheet,
     SafeAreaView,
     Text,
-    Image,
     Platform,
     PermissionsAndroid,
     Dimensions,
@@ -33,52 +31,55 @@ import {
     Send,
     SystemMessage,
     Time,
+    InputToolbarProps,
+    ComposerProps,
+    BubbleProps,
+    IMessage,
 } from 'react-native-gifted-chat';
 import Sound from 'react-native-sound';
-import { AudioRecorder, AudioUtils } from 'react-native-audio';
 import storage from '@react-native-firebase/storage';
 import FastImage from 'react-native-fast-image';
 import {
     launchCamera,
-    launchImageLibrary,
 } from 'react-native-image-picker/src';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
     faTimes,
     faPlay,
-    faPlayCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { SceneRoute } from '../../navigation/app.route';
-import moment from 'moment';
 import { filterText } from '../../data/filterChat';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import {
-    Chat_Voice_End,
-    Chat_Voice_Start,
-    Chat_Voice_Stop,
-    Help,
     Images,
     Camera,
     MyLocation,
     SendIcon,
     Record,
 } from '../../assets/icon/Chat';
-import { AngleLeft, Exit_C } from '../../assets/icon/Common';
-import messaging from '@react-native-firebase/messaging';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
     requestCameraPermission,
     requestStoragePermission,
 } from '../../component/permission.component';
-import { SERVER, CDN } from '../../server.component';
+import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
-import { QuickSearchButton } from '../../assets/icon/Chat'
+import { AudioComponent } from '../../component/Chat';
+import { messageType } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChatTopTabBarComponent } from '../../component/Chat/Chatroom/Chat.TopTabBar.component';
+import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
+import { setAudioVisiblityTrue } from '../../model/Chat/Chat.UI.model';
+import { renderBubble, renderComposer, renderCustomBubble, renderTime } from '../../component/Chat/Chatroom';
+import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
+import { RootState } from '../../model';
+import { renderLoading } from '../../component/Chat/Chatroom/Chat.Custom.component';
+import { renderSound } from '../../component/Chat/Chatroom/Chat.Sound.component';
+import { setGuideUID } from '../../model/Chat/Chat.Data.model';
 
 
 var ToastRef: any;
@@ -89,89 +90,23 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
-    setChatIcon(false);
+    const dispatch = useDispatch();
 
-    //채팅 메시지 저장을 위한 정보
-    const [
-        ChatDB,
-        setChatDB,
-    ] = React.useState<FirebaseDatabaseTypes.Reference>();
-
+    const guideToken = useSelector((state : RootState) => state.ChatDataModel.guideUID);
+    
+    const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined); // Realtime Database 연결을 위한 React Hook
     const [guide, setGuide] = React.useState({});
-    const [ENG, setENG] = useState(false);
-    const [CHN, setCHN] = useState(false);
-
+    const [ENG, setENG] = React.useState(false);
+    const [CHN, setCHN] = React.useState(false);
     const [roomName, setRoomName] = React.useState<string>();
-    const [chatMessages, setChatMessages] = React.useState([]);
+    const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [mapvisible, setMapvisible] = React.useState(false);
-    const [fechChat, setFetchChat] = React.useState(false);
-    const [location, setLocation] = React.useState({
-        lon: '',
-        lat: '',
-    });
-    //가이드 정보 모달
-    const [guideVisible, setGuideVisible] = React.useState(false);
-
-    //하단 오버플로우 메뉴 (이미지, 보이스)
-    const [selectedIndex2, setSelectedIndex2] = React.useState(null);
-    const [visible2, setVisible2] = React.useState(false);
-    const onItemSelect2 = (index) => {
-        setSelectedIndex2(null);
-        setVisible2(false);
-    };
-
-    //오디오 녹음 관련 함수 및 변수
-    //오디오 녹음 창
-    const [audioVisible, setAudioVisible] = React.useState(false);
-    const [startAudio, setStartAudio] = React.useState(false);
-    const [audioMessage, setAudioMessage] = React.useState('');
-    const [audioPath, setAudioPath] = React.useState('');
-
+    const [location, setLocation] = React.useState({ lon: '', lat: '' });    
+    const [visible2, setVisible2] = React.useState(false);  //하단 오버플로우 메뉴 (이미지, 보이스)
     const [imageZoomVisible, setImageZoomVisible] = React.useState(false);
-
-    const [guideToken, setGuideToken] = React.useState('');
+    const [imageURL, setImageURL] = React.useState('');
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-    const [timer, setTimer] = React.useState(0);
-    const [isActive, setIsActive] = React.useState(false);
-    const [isPaused, setIsPaused] = React.useState(false)
-    const increment = React.useRef(null);
-
-    const formatTime = () => {
-        const getSeconds = `0${(timer % 60)}`.slice(-2)
-        const minutes = `0${Math.floor(timer / 60)}`
-        const getMinutes = `${minutes % 60}`.slice(-2)
-        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
-
-        return `${getMinutes}:${getSeconds}`
-    }
-
-    const audioStopwatchStart = () => {
-        // setIsActive(true)
-        // console.log('stopwatchstart')
-        // increment.current = setInterval(() => {
-        // setTimer((timer) => timer + 1)
-        // }, 10)
-        // clearInterval(increment.current)
-        setIsActive(true)
-        setIsPaused(true)
-        increment.current = setInterval(() => {
-            setTimer((timer) => timer + 1)
-            // console.log(timer)
-        }, 1000)
-    }
-
-    const audioStopwatchStop = () => {
-        clearInterval(increment.current)
-        setIsPaused(false)
-    }
-
-    const audioStopwatchReset = () => {
-        clearInterval(increment.current)
-        setIsActive(false)
-        setIsPaused(false)
-        setTimer(0)
-    }
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -182,7 +117,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
             const guideToken = snapshot.val();
-            setGuideToken(guideToken);
+            
+            dispatch(setGuideUID(guideToken));
         });
     };
 
@@ -195,7 +131,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const [imageURL, setImageURL] = React.useState('');
+
 
     /* 이미지 클릭시 modal Activation */
     const imageZoom = (imageUrl: string): void => {
@@ -231,64 +167,43 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         appState.current = nextAppState;
     };
 
-    /* 앱 상태 확인 useEffect */
-    React.useEffect(() => {
-        AppState.addEventListener('change', handleAppStateChange);
-        return () => {
-            AppState.removeEventListener('change', handleAppStateChange);
-        };
-    }, []);
-
-    /* check access token */
-    React.useEffect(() => {
-        if (!currentUser?.access_token) {
-            getAccessToken();
-        }
-    }, []);
 
     React.useEffect(() => {
+
+        setChatIcon(false);
+
+        const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
         initGuide();
-    }, []);
-
-    React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            ChatRoomInit(props.route.params.id);
-        });
-
-        return unsubscribe;
-    }, []);
-
-    /* navigation 삭제 전 메시지 읽음표시 */
-    React.useEffect(() =>
-        props.navigation.addListener('beforeRemove', () => {
-            ChatDB.off('value');
+        
+        AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
+        
+        props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
+            
             resetUserUnreadMsgCount();
-        }),
-    );
+        })
 
-    // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    React.useEffect(() => {
-        if (guideVisible) {
-            setGuideVisible(false);
+        if (!currentUser?.access_token) {
+            getAccessToken();   /* check access token */
         }
-    }, [guideVisible])
 
-    /* 뒤로가기 버튼 */
-    const backAction = () => {
-        ChatDB.off('value');
-        resetUserUnreadMsgCount();
-        props.navigation.goBack();
+        return () => {
 
-        return true;
-    };
+            AppState.removeEventListener('change', handleAppStateChange);
+            unsubscribe;
+
+            if (ChatDB != undefined) ChatDB.off('value');
+        };
+
+    }, []);
+
 
     // 채팅방으로 넘어갈 때 기존 채팅 기록들 받아와서 init
     // 채팅 데이터들은 Firebase RTDB 에서 받아온다
-    // [...messages] 에 type 처럼 저장됨
     async function ChatRoomInit(id: string) {
         const chat = database().ref('/chats/' + id);
 
+        dispatch(setChatLoadingTrue()) // 로딩 시작
         setChatMessages([]); //로컬 메시지 저장소 초기화
         setChatDB(chat);
         setRoomName(id);
@@ -297,7 +212,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             if (!snapshot.val()) {
                 setChatMessages([]);
-                setFetchChat(true);
+                dispatch(setChatLoadingFalse());
                 return;
             }
 
@@ -307,147 +222,32 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
 
-            messages = messages.map((node) => {
-                const message = {};
-                message._id = node._id;
-                message.text = node.messageType === 'message' ? node.text : '';
-                message.location =
-                    node.messageType === 'location' ? node.location : {};
-                message.createdAt = node.createdAt;
-                message.user = {
-                    _id: node.user._id,
-                };
-                message.image = node.messageType === 'image' ? node.image : '';
-                message.audio = node.messageType === 'audio' ? node.audio : '';
-                message.messageType = node.messageType;
+            messages = messages.map((node: messageType) => {
+                const message: messageType = {
+                    _id: node._id,
+                    text: node.messageType === 'message' ? node.text : '',
+                    location: node.messageType === 'location' ? node.location : '',
+                    createdAt: node.createdAt,
+                    user: {
+                        _id: node.user._id,
+                    },
+                    image: node.messageType === 'image' ? node.image : '',
+                    audio: node.messageType === 'audio' ? node.audio : '',
+                    messageType: node.messageType,
+                }
                 return message;
             });
 
             setChatMessages([...messages]);
-            setFetchChat(true);
+            dispatch(setChatLoadingFalse());
         });
 
     }
 
-    const messageIdGenerator = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            let r = (Math.random() * 16) | 0,
-                v = c == 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    };
 
     // param으로 받은 채팅 날짜
     const [day, setDay] = React.useState(props.route.params.day);
 
-    //오디오 녹음 창
-    const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => { });
-
-        if (startAudio == false) {
-            //오디오 버튼 시작
-
-            setStartAudio(true);
-            setAudioMessage(messageIdGenerator);
-
-            await AudioRecorder.prepareRecordingAtPath(
-                `${AudioUtils.DocumentDirectoryPath}/${audioMessage}test.aac`,
-                {
-                    SampleRate: 22050,
-                    Channels: 1,
-                    AudioQuality: 'Low',
-                    AudioEncoding: 'aac',
-                    MeteringEnabled: true,
-                    IncludeBase64: true,
-                    AudioEncodingBitRate: 32000,
-                },
-            );
-            await AudioRecorder.startRecording();
-            audioStopwatchReset();
-            audioStopwatchStart();
-            console.log('start?');
-        } else {
-            // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
-            setStartAudio(false);
-            audioStopwatchStop();
-            console.log('stop?');
-
-            const recorder = await AudioRecorder.stopRecording();
-            AudioRecorder.onFinished = (data) => {
-
-                if (Platform.OS === 'ios') {
-                    var path = data.audioFileURL;
-                    setAudioPath(path);
-                } else {
-                    var path = `file://${data.audioFileURL}`;
-                    setAudioPath(path);
-                }
-            };
-        }
-    };
-
-    const sendAudio = () => {
-        const reference = storage().ref();
-        const voiceRef = reference.child(
-            `chat/${roomName}/voice/${audioMessage}.aac`,
-        ); //xxxxx는 대화방 이름으로 변경
-        
-        voiceRef
-            .putFile(audioPath)
-            .then((response) => {
-                voiceRef.getDownloadURL().then((result) => {
-                    const message = {
-                        _id: audioMessage,
-                        createdAt: new Date().getTime(),
-                        user: {
-                            _id: currentUser?.uid,
-                            name: currentUser?.displayName,
-                            avatar: currentUser?.photoURL,
-                        },
-                        audio: result, //파일 경로만 전달
-                        messageType: 'audio',
-                    };
-                    const push = createPushNoti('음성메시지를 보냈습니다.');
-
-                    Promise.all([
-                        ChatDB.update({
-                            messages: [message, ...chatMessages],
-                            guideUnreadCount: database.ServerValue.increment(1),
-                        }),
-                        sendMessage(push),
-                    ]);
-
-                    setAudioPath('');
-                    setAudioVisible(false);
-                });
-            })
-            .catch((err) => {
-                setAudioPath('');
-                setAudioVisible(false);
-            });
-        audioStopwatchReset();
-
-    };
-    //녹음 버튼을 클릭하고 다시 녹음 버튼을 누르지 않고 종료 버튼을 클릭했을 때
-    const audioExit = async () => {
-        audioStopwatchReset();
-        setAudioPath('');
-        setAudioVisible(false);
-
-        if (startAudio == true) {
-            setStartAudio(false);
-            await AudioRecorder.stopRecording();
-        }
-    };
-
-    const PressReset = async () => {
-        setAudioPath('');
-
-        if (startAudio == true) {
-            setStartAudio(false);
-            await AudioRecorder.stopRecording();
-        }
-    };
 
     /* 채팅창 이미지 컴포넌트 */
     const ChatImg = ({ imgUrl }) => {
@@ -483,38 +283,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const renderAudio = (props) => {
-        return (
-            <TouchableOpacity
-                style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 20,
-                }}
-                onPress={async () => {
-                    const sound = new Sound(
-                        props.currentMessage.audio,
-                        '',
-                        (error) => {
-                            if (error) {
-                                console.log('보이스 파일 다운로드 실패');
-                            }
-
-                            sound.play((success) => {
-                                if (success) {
-                                    console.log('재생 성공');
-                                    // console.log(sound.getDuration())
-                                } else {
-                                    console.log('재생 실패');
-                                }
-                            });
-                        },
-                    );
-                }}>
-                <FontAwesomeIcon icon={faPlay} size={16} />
-            </TouchableOpacity>
-        );
-    };
 
     const createPushNoti = (message: string): object => {
         return {
@@ -717,7 +485,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* FCM 백엔드 메시지 전송*/
-    const sendMessage = async (message) => {
+    const sendMessage = async(message : IMessage) => {
         try {
             const chatRoomID = props.route.params.id;
             const currentDate = new Date().getTime();
@@ -767,7 +535,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* 채팅 창 디자인을 위한 컴포넌트 */
-    const onSend = async (messages = []) => {
+    const onSend = async (messages : IMessage[]) => {
+        
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
         messages[0].user.name = currentUser?.displayName;
@@ -808,6 +577,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }}
         />
     );
+    
     // 컨텐츠 전송 시 나타나는 창
     // 채팅 창 좌측 버튼
     const renderActions = (props) => {
@@ -835,300 +605,112 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         );
     };
 
-    // 현재 나의 위치 전송
-    const LocationMessage = async () => {
-        if (Platform.OS === 'android') {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            );
+    // Android용 위치 (Location 전송)
+    const LocationMessageAndroid = async() => {
 
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                Geolocation.getCurrentPosition(
-                    (position) => {
-                        const MessageID = messageIdGenerator();
-                        const message = {
-                            _id: MessageID,
-                            createdAt: new Date().getTime(),
-                            user: {
-                                _id: currentUser?.uid,
-                            },
-                            location: {
-                                lat: position.coords.latitude,
-                                lon: position.coords.longitude,
-                            },
-                            messageType: 'location',
-                        };
+        if(!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
 
-                        // 지도 주소 전송하는 방식으로 변경
-                        const push = createPushNoti('지도위치를 보냈습니다.');
-
-                        Promise.all([
-                            ChatDB.update({
-                                messages: [message, ...chatMessages],
-                                guideUnreadCount: database.ServerValue.increment(
-                                    1,
-                                ),
-                            }),
-                            sendMessage(push),
-                        ]);
-                    },
-                    (error) => {
-                        console.log(
-                            'The location could not be loaded because ',
-                            error.message,
-                        ),
-                        {
-                            enableHighAccuracy: false,
-                            timeout: 20000,
-                            maximumAge: 1000,
-                        };
-                    },
-                );
-            } else {
-                ToastRef.show('GPS Permission Denied...', 2000);
-            }
-        } else {
-            Geolocation.getCurrentPosition(
-                (position) => {
-                    const MessageID = messageIdGenerator();
-                    const message = {
-                        _id: MessageID,
-                        createdAt: new Date().getTime(),
-                        user: {
-                            _id: currentUser?.uid,
-                        },
-                        location: {
-                            lat: position.coords.latitude,
-                            lon: position.coords.longitude,
-                        },
-                        messageType: 'location',
-                    };
-
-                    ChatDB.update({
-                        messages: [message, ...chatMessages],
-                        guideUnreadCount: database.ServerValue.increment(1),
-                    });
+        Geolocation.getCurrentPosition((position) => {
+            const MessageID = messageIdGenerator();
+            const Message = {
+                _id: MessageID,
+                createdAt: new Date().getTime(),
+                user: {
+                    _id: currentUser?.uid,
                 },
-                (error) => {
-                    console.log(
-                        'The location could not be loaded because ',
-                        error.message,
+                location: {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                },
+                messageType: 'location',
+            };
+
+            const push = createPushNoti('지도위치를 보냈습니다.');
+
+            Promise.all([
+                ChatDB.update({
+                    messages: [Message, ...chatMessages],
+                    guideUnreadCount: database.ServerValue.increment(
+                        1,
                     ),
-                    {
-                        enableHighAccuracy: false,
-                        timeout: 20000,
-                        maximumAge: 1000,
-                    };
-                },
-            );
-        }
-    };
+                }),
+                sendMessage(push),
+            ]);            
+        
+        },(error) => {       
+            console.log(error);
+        })
+    }
 
-    // 대화창 말풍선 
-    const renderBubble = (props) => {
+    // iOS용 위치 (Location 전송)
+    const LocationMessageIos = () => {
+        
+        Geolocation.getCurrentPosition(
+            (position) => {
+                const MessageID = messageIdGenerator();
+                const message = {
+                    _id: MessageID,
+                    createdAt: new Date().getTime(),
+                    user: {
+                        _id: currentUser?.uid,
+                    },
+                    location: {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                    },
+                    messageType: 'location',
+                };
 
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    left: {
-                        backgroundColor: '#7777FF',
-                        borderRadius: 10,
-                        marginBottom: 3,
-                    },
-                    right: {
-                        backgroundColor: 'white',
-                        borderRadius: 10,
-                        marginBottom: 3,
-                        shadowColor: '#222',
-                        shadowOffset: {
-                            width: 0,
-                            height: 1,
-                        },
-                        shadowOpacity: 0.15,
-                        shadowRadius: 1.41,
-                        elevation: 2,
-                    },
-                }}
-                textStyle={{
-                    left: {
-                        color: 'white',
-                        fontFamily: 'Pretendard-Medium',
-                    },
-                    right: {
-                        color: '#4E4ED8',
-                        fontSize: 15,
-                        fontFamily: 'Pretendard-Medium',
-                    },
-                }}
-                tickStyle={{ color: 'black' }}
-            />
-        );
-    };
-    // 채팅 메세지에 달려있는 시간 표시
-    const renderTime = (props: any) => {
-        if (props.position === 'right') {
-            return (
-                <Layout
-                    style={{
-                        position: 'absolute',
-                        backgroundColor: '#00FF0000',
-                        left: -60,
-                        top: -10,
-                    }}>
-                    <Time
-                        {...props}
-                        containerStyle={{ backgroundColor: 'red' }}
-                        timeTextStyle={{
-                            left: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                            right: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                        }}
-                    />
-                </Layout>
-            );
-        } else {
-            return (
-                <Layout
-                    style={{
-                        position: 'absolute',
-                        backgroundColor: '#00FF0000',
-                        right: -55,
-                        top: -15,
-                    }}>
-                    <Time
-                        {...props}
-                        containerStyle={{ backgroundColor: 'red' }}
-                        timeTextStyle={{
-                            left: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                            right: {
-                                color: '#AEAEAE',
-                                fontFamily: 'BrandonGrotesque-Medium',
-                            },
-                        }}
-                    />
-                </Layout>
-            );
-        }
-    };
-    // MapView 가 들어가는 말풍선인듯 싶음
-    const renderCustomBubble = (props) => {
-        if (props.currentMessage.messageType === 'location') {
-            return (
-                <Pressable>
-                    <Text
-                        style={{
-                            textAlign: 'right',
-                            marginTop: 5,
-                            marginRight: 10,
-                            color: '#8C8C8C',
-                            fontFamily: 'BrandonGrotesque-Medium',
-                        }}>
-                        My Location
-                    </Text>
-                    <MapView
-                        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                        style={{ width: 250, height: 125, margin: 10 }}
-                        region={{
-                            latitude: parseFloat(
-                                props.currentMessage.location.lat,
-                            ),
-                            longitude: parseFloat(
-                                props.currentMessage.location.lon,
-                            ),
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
-                        }}>
-                        <Marker
-                            coordinate={{
-                                latitude: parseFloat(
-                                    props.currentMessage.location.lat,
-                                ),
-                                longitude: parseFloat(
-                                    props.currentMessage.location.lon,
-                                ),
-                            }}
-                            title={'My Location'}
-                        />
-                    </MapView>
-                </Pressable>
-            );
-        }
-    };
-
-    const displayMap = (props) => {
-        setLocation({
-            lon: props.location.lon,
-            lat: props.location.lat,
+                ChatDB.update({
+                    messages: [message, ...chatMessages],
+                    guideUnreadCount: database.ServerValue.increment(1),
+                });
+            },
+            (error) => {
+                console.log(
+                    'The location could not be loaded because ',
+                    error.message,
+                ),
+                {
+                    enableHighAccuracy: false,
+                    timeout: 20000,
+                    maximumAge: 1000,
+                };
         });
-        setMapvisible(true);
+
+    }   
+
+    const LocationMessage = () => {
+
+        if (Platform.OS === 'android') {
+           LocationMessageAndroid();
+        } else {
+            LocationMessageIos();
+        }
+
     };
 
     //입력 창 확인
-    const renderInputToolbar = (props) => {
-        return (
-            <>
-                {new Date(day).getFullYear() == new Date().getFullYear() &&
-                    new Date(day).getMonth() == new Date().getMonth() &&
-                    new Date(day).getDate() == new Date().getDate() ? (
+    const renderInputToolbar = (props : InputToolbarProps) : React.ReactElement => (
+        <>
+            {
+                new Date(day).getFullYear() == new Date().getFullYear() &&
+                new Date(day).getMonth() == new Date().getMonth() &&
+                new Date(day).getDate() == new Date().getDate() ? 
+                (
                     <InputToolbar
                         {...props}
-                        containerStyle={{
-                            borderWidth: 1.5,
-                            borderColor: '#D1D1D1',
-                            borderRadius: 30,
-                            margin: 10,
-                            alignItems: 'center',
-                        }}
+                        containerStyle={styles.ChatInputToolBar}
                     />
-                ) : null}
-            </>
-        );
-    };
+                ) 
+                : 
+                    null
+            }
+        </>
+        
+    );
 
-    //입력창 정렬을 위한 코드
-    const renderComposer = (props) => {
-        return (
-            <Composer
-                {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
-                placeholder="Chat Message"
-                textInputStyle={{
-                    alignSelf: 'center',
-                    marginBottom: -2,
-                    textDecorationLine: 'none',
-                    borderBottomWidth: 0,
-                    textAlignVertical: 'center',
-                    maxHeight: 90,
-                }}
-                style={{ borderRadius: 35 }}
-            />
-        );
-    };
 
-    //대화 내용을 로딩하기 전 스피너 작동
-    const renderLoading = () => {
-        if (!chatMessages.length && !fechChat) {
-            return (
-                <Layout style={styles.loading}>
-                    <Spinner size="giant" />
-                </Layout>
-            );
-        }
-    };
-
-    //가이드 정보를 띄우는 모달
-    const PressGuide = () => {
-        setGuideVisible(true);
-    };
 
     // 맵 뷰 헤더
     const Header = (props) => (
@@ -1156,9 +738,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         if (guideInfo.uid != '') {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + guideInfo.uid);
-                console.log(res.data);
 
-                await setGuide({
+                setGuide({
                     avatar: res.data.avatar,
                     name: res.data.name,
                     gender: res.data.gender,
@@ -1215,7 +796,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
-                        renderAvatar={null}
+                        renderAvatar={() => {return null}}
                         alwaysShowSend={true}
                         renderUsernameOnMessage={false}
                         renderTime={renderTime}
@@ -1227,13 +808,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderComposer={renderComposer}
                         renderSystemMessage={onRenderSystemMessage}
                         renderMessageImage={renderImage}
-                        renderMessageAudio={renderAudio}
+                        renderMessageAudio={renderSound}
                         renderCustomView={renderCustomBubble}
                     />
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
-                <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={props.route} />
+                <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
 
                 <Modal
                     visible={imageZoomVisible}
@@ -1297,46 +878,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 </Modal>
 
                 {/*탭바 디자인*/}
-                <Layout style={styles.TabBar} onTouchStart={Keyboard.dismiss}>
-                    <Pressable
-                        style={styles.IconContainer}
-                        onPress={() => backAction()}>
-                        <AngleLeft />
-                    </Pressable>
-
-                    <Layout style={styles.profileContainer}>
-                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
-                            {guide.avatar != " " &&
-                                guide.avatar != undefined &&
-                                guide.avatar != null ? (
-                                <Image
-                                    source={{ uri: CDN + guide.avatar }}
-                                    style={styles.Profile}
-                                />
-                            ) : (
-                                <Image
-                                    source={require('../../assets/profile/profile_01.png')}
-                                    style={styles.Profile}
-                                />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setGuideVisible(true)}>
-                            <Text style={styles.title}>
-                                {props.route.params.guide.name === undefined
-                                    ? `매칭중..`
-                                    : `${props.route.params.guide.name}`}
-                            </Text>
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Pressable
-                        style={styles.IconContainer}
-                        onPress={() => {
-                            props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
-                        }}>
-                        <QuickSearchButton />
-                    </Pressable>
-                </Layout>
+                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+                
 
                 {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
                 {visible2 == true ? (
@@ -1346,7 +889,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         <Layout style={styles.SideContainer}>
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={() => setAudioVisible(true)}>
+                                onPress={() => dispatch(setAudioVisiblityTrue())}>
                                 <Record />
                                 <Text style={styles.SideButtonTxt}>Voices</Text>
                             </Pressable>
@@ -1378,95 +921,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 ) : null}
             </KeyboardAvoidingView>
 
-            {audioVisible === true ? (
-                <Layout style={styles.SideContainerBack}>
-                    <Layout
-                        style={styles.BackDropContainer}
-                        onTouchStart={() => audioExit()}
-                    />
-                    <Layout style={styles.AudioContainer}>
-                        <Pressable
-                            style={styles.VoiceContainerExitButton}
-                            onPress={() => audioExit()}>
-                            <Exit_C />
-                        </Pressable>
-
-                        <Layout style={styles.VoiceRecorder}>
-                            <Text
-                                style={
-                                    startAudio
-                                        ? styles.RecordingStatusTxt_ing
-                                        : styles.RecordingStatusTxt
-                                }>{`Re-${'\n'}recording`}</Text>
-                            <Layout style={styles.AudioCenterContainer}>
-                                <Text style={styles.AudioCenterStopwatch}>
-                                    {formatTime()}
-                                </Text>
-                                <Pressable
-                                    style={styles.RecordingButton}
-                                    onPress={handleAudio}>
-                                    {audioPath == '' ? (
-                                        startAudio === true ? (
-                                            <Chat_Voice_Stop />
-                                        ) : (
-                                            <Chat_Voice_Start />
-                                        )
-                                    ) : (
-                                        <Chat_Voice_End />
-                                    )}
-                                </Pressable>
-                            </Layout>
-
-                            <Pressable
-                                style={
-                                    audioPath === ''
-                                        ? styles.SendButton_D
-                                        : styles.SendButton
-                                }
-                                onPress={() => {
-                                    if (audioPath != '') {
-                                        sendAudio();
-                                    }
-                                }}>
-                                <Text style={styles.SendButtonTxt}>Send</Text>
-                            </Pressable>
-                        </Layout>
-                    </Layout>
-                </Layout>
-            ) : null}
-
-            {/* 녹음기 화면
-            <Modal
-                style={{position: 'absolute', bottom: 0, width: '100%', height: 182 }}
-                visible={audioVisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => audioExit()}
-            >
-                <Layout style={{backgroundColor: 'white', width: '100%', height: 56, flexDirection: 'row'}}>
-
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={PressReset}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>RESET</Text>
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Layout style={{flex: 1, borderRadius: 120, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, margin: 10}}>
-                        <TouchableOpacity onPress={handleAudio}>
-                            {startAudio? <FontAwesomeIcon icon={faStop} size={16}/> : <FontAwesomeIcon icon={faPlay} size={16}/> }
-                        </TouchableOpacity>
-                    </Layout>
-
-                    <Layout style={{flex: 1, borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 10}}>
-                        <TouchableOpacity onPress={() => {
-                            if(audioPath != ''){
-                                sendAudio();
-                            }
-                        }}>
-                            {(audioPath != '')? <Text style={{fontSize: 12, fontWeight: 'bold', color: '#FCCA67'}}>SEND</Text> : <Text style={{fontSize: 12, fontWeight: 'bold', color: '#C9C9C9'}}>SEND</Text> }
-                        </TouchableOpacity>
-                    </Layout>
-                </Layout>
-            </Modal> */}
+            <AudioComponent
+                roomName={roomName}
+                currentUser={currentUser}
+                ChatDB={ChatDB}
+                chatMessages={chatMessages}
+                messageIdGenerator={messageIdGenerator}
+                createPushNoti={createPushNoti}
+            />
 
         </Layout>
     );
@@ -1580,12 +1042,7 @@ const styles = StyleSheet.create({
         marginBottom: 17,
 
     },
-    loading: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     menuContainer: {
         minHeight: 144,
     },
@@ -1727,4 +1184,21 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+    ChatComposer : {
+        alignSelf: 'center',
+        marginBottom: -2,
+        textDecorationLine: 'none',
+        borderBottomWidth: 0,
+        textAlignVertical: 'center',
+        maxHeight: 90,
+    },
+    ChatInputToolBar : {
+        borderWidth: 1.5,
+        borderColor: '#D1D1D1',
+        borderRadius: 30,
+        margin: 10,
+        alignItems: 'center',
+    }
 });
+
+

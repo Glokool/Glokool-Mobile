@@ -4,6 +4,13 @@ import Receipt_Large from './Receipt_Large.svg';
 import Comment_Btn from './Comment_button.svg';
 import Bookmark_Btn from './Bookmark_button.svg';
 import Setting_Btn from './Setting_button.svg';
+import History_Btn from './History_button.svg';
+
+import SettingsButton from './SettingsButton.svg';
+import ReceiptsButton from './ReceiptsButton.svg';
+import HistoryButton from './HistoryButton.svg';
+import BookmarkList from './BookmarkList.svg';
+import EmptyBookmark from './EmptyBookmark.svg';
 
 import Logout from './Setting_Logout.svg';
 import Privacy from './Setting_Privacy.svg';
@@ -25,6 +32,7 @@ export {
     Comment_Btn,
     Bookmark_Btn,
     Setting_Btn,
+    History_Btn,
     Logout,
     Privacy,
     CustomerService,
@@ -38,4 +46,10 @@ export {
     ProfileOrange,
     ProfilePurple,
     ProfileBasic,
+
+    SettingsButton,
+    ReceiptsButton,
+    HistoryButton,
+    BookmarkList as BookmarkListIcon,
+    EmptyBookmark,
 }

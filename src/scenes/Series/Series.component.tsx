@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { LayoutElement, } from '@ui-kitten/components'
+import { Layout, LayoutElement, } from '@ui-kitten/components'
 import {
     StyleSheet,
     Text,
@@ -193,7 +193,7 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     'white' : 'black';
 
         return (
-            <TouchableOpacity onPress={() => checkFocused(item.item)}>
+            <TouchableOpacity key={item.item._id} onPress={() => checkFocused(item.item)}>
                 <View style={[styles.categoryButton, { borderColor: buttonBorder, backgroundColor: buttonBG }]}>
                     <Text style={[styles.categoryText, { color: textColor }]}>{item.item.name.toUpperCase()}</Text>
                 </View>
@@ -246,7 +246,9 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                     resizeMode='contain' />
                 <View style={{ backgroundColor: 'white', alignItems: 'center' }}>
                     <FlatList
+                        keyExtractor={(item : any) => item.name}
                         data={category}
+                        nestedScrollEnabled
                         renderItem={renderButtonItem}
                         contentContainerStyle={{ paddingRight: 20 }}
                         showsHorizontalScrollIndicator={false}
@@ -273,13 +275,13 @@ export const SeriesScreen = (props: SeriesScreenProps): LayoutElement => {
                         navigation={props.navigation}
                         refreshing={refreshEnd}
                         itemCount={itemCount}
-                        endReached={endReached} />
-
+                        endReached={endReached}
+                    />
                 </ScrollView>
             ) : (
                 // 대분류 출력 화면
                 <ScrollView
-                    style={{ backgroundColor: 'white', marginTop: 135, }}
+                    style={{ backgroundColor: 'white', marginTop: 135 }}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}

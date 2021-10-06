@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native'
+import { StyleSheet, Platform, Text } from 'react-native'
 import {
     Layout,
-    Text,
     LayoutElement
 } from '@ui-kitten/components';
 import { WeatherInfo } from '../../types';

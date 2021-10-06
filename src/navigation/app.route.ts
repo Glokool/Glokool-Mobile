@@ -20,6 +20,7 @@ export enum NavigatorRoute {
     SERIES = 'Series',
     MY = 'My',
     BOOKMARK = 'Bookmark',
+    ZONE = 'Zone'
 }
 
 export enum SceneRoute {
@@ -75,6 +76,7 @@ export enum SceneRoute {
     REFUND_POLICY = 'Refund Policy',
     PAID_CHAT_LIST = 'Paid Chat List',
     BOOKMARK_LIST = 'Bookmark List',
+    HISTORY = 'History',
 
     // Bookmark list
     BOOKMARK_SERIES = 'Bookmark Series',
@@ -108,4 +110,7 @@ export enum SceneRoute {
     BOOK_DATE = 'Book Date',
     BOOK_PAY = 'Book Pay',
     BOOK_PROFILE = 'Book Profile',
+
+    //Zone Navigator용 route
+    ZONE_MAIN = 'Zone Main',
 }

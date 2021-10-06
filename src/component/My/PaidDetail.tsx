@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
-import { LayoutElement, Layout, Modal, Card, Text, Button, Divider } from "@ui-kitten/components";
-import { NavigatorRoute, SceneRoute } from "../../navigation/app.route";
-import { StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { LayoutElement, Layout, Modal, Card, Button, Divider } from "@ui-kitten/components";
+import { SceneRoute } from "../../navigation/app.route";
+import { StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
 import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
 import moment from 'moment';
-import { ReservationInfo } from '../../scenes/My';
+import { ReservationInfo } from '../../types';
 import { SERVER } from '../../server.component';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { MY_Refund_Policy } from '../../assets/icon/My';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../model';
+import { setReceiptVisibleFalse } from '../../model/My/My.UI.model';
 
-const WindowSize = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width;
 
 export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
+    const receiptVisible = useSelector((state: RootState) => state.MyUIModel.receiptVisible);
+    const dispatch = useDispatch();
 
-    const [visible, setVisible] = React.useState<boolean>(false);
-    const [visible2, setVisible2] = React.useState<boolean>(false);
-    const [refundCheck, setRefundCheck] = React.useState<boolean>(true);
-    const [data, setData] = React.useState<ReservationInfo>({
+    const [refundCheck, setRefundCheck] = useState<boolean>(true);
+    const [data, setData] = useState<ReservationInfo | undefined>({
         uid: '',
         name: 'hello',
         email: 'glokoolofficial@naver.com',
@@ -43,385 +46,288 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
         _id: ''
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
 
-        if (props.visible === true) {
+        if (receiptVisible === true) {
             setData(props.data);
-            setVisible(props.visible);
 
             const today = moment(new Date());
-            const subDate = moment(props.data.day).subtract(1, 'days');
+            const subDate = moment(props.data?.day).subtract(1, 'days');
             setRefundCheck(subDate < today);
-            console.log(subDate < today)
         }
 
     }, [props]);
 
     async function PressRefund() {
         const Token = await auth().currentUser?.getIdToken();
-        const config = {
+        const config: AxiosRequestConfig = {
             method: 'patch',
-            url: SERVER + '/api/reservations/' + data._id + '/refund',
+            url: SERVER + '/api/reservations/' + data?._id + '/refund',
             headers: {
                 'Authorization': 'Bearer ' + Token
             }
         }
 
-        const result = await axios(config);
-        setVisible(false);
+        axios(config);
+        dispatch(setReceiptVisibleFalse())
     }
 
-    function PressRefundButton() {
-        if (data.refund.check === true) {
-            return null
+    function PressButton() {
+        if (data?.refund.check === true) {
+            return;
         } else {
-            setVisible2(true)
+            Alert.alert(
+                "Are you Sure?",
+                "Do you really want to Refund GloChat Service?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log('canceled'),
+                        style: "destructive",
+                    }, {
+                        text: "Refund",
+                        onPress: () => PressRefund(),
+                        style: "default",
+                    },
+                ],
+                {
+                    cancelable: true,
+                    onDismiss: () =>
+                        Alert.alert(
+                            "This alert was dismissed by tapping outside of the alert dialog."
+                        ),
+                }
+            );
         }
-
     }
 
-    if (visible == true) {
-        return (
-            <Layout style={{ backgroundColor: '#00FF0000', width: '100%', height: '100%' }}>
+    return (
+        <Modal
+            visible={receiptVisible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={()=>dispatch(setReceiptVisibleFalse())}
+            style={styles.ModalContainer}
+        >
+            <Layout style={styles.TitleContainer}>
+                <Layout style={styles.TitleButton} />
 
-                <Modal
-                    visible={visible}
-                    backdropStyle={styles.backdrop}
-                    style={styles.DetailContainer}
-                >
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#00FF0000" }}>
+                <Text style={styles.TitleText}>
+                    PAYMENT DETAIL
+                </Text>
 
-                        <Layout style={styles.titleContainer}>
+                <TouchableOpacity style={styles.TitleButton} onPress={() => dispatch(setReceiptVisibleFalse())}>
+                    <Delete />
+                </TouchableOpacity>
+            </Layout>
 
-                            <Layout style={styles.emptyContainer} />
+            {(data?.refund.complete !== true) && (
+                <Layout style={styles.RefundTextContainer}>
+                    <Text style={styles.RefundText}>Refund Completed</Text>
+                </Layout>
+            )}
 
-                            <Layout style={styles.TitleContainer}>
-                                <Text style={styles.DetailTitle}>Details</Text>
-                            </Layout>
+            <Layout style={styles.BodyContainer}>
 
-                            <Layout style={styles.emptyContainer} onTouchStart={() => setVisible(false)}>
-                                <Delete style={styles.DeleteIcon} />
-                            </Layout>
+                <Layout style={styles.InfoContainer}>
 
-                        </Layout>
-
-                        <Layout>
-                            {(data.refund.complete != false) ? <Text style={styles.policyText}>Refund Completed</Text> : <Text></Text>}
-                        </Layout>
-
-                        <Layout style={styles.InfoContainer}>
-
-                            <Layout>
-                                <Text style={styles.infoTitle}>Trip Date</Text>
-                                <Text style={styles.infoTitle}>Assistant Name</Text>
-                                <Text style={styles.infoTitle}>Assistant Language</Text>
-                            </Layout>
-
-                            <Layout style={styles.InfoContainer2}>
-                                <Text style={styles.info}>{moment(data.day).format('YYYY . MM . DD')}</Text>
-                                <Text style={styles.info}>{(data.guide?.name === '' || data.guide?.name === undefined || data.guide?.name === null) ? ` ` : `${data.guide.name}`}</Text>
-                                <Text style={styles.info}>{(data.lang === 'eng') ? `English` : `Chinese`}</Text>
-                            </Layout>
-
-                        </Layout>
-
-                        <Divider style={styles.Divider} />
-
-                        <Layout style={styles.InfoContainer}>
-
-                            <Layout>
-                                <Text style={styles.infoTitle}>Name</Text>
-                                <Text style={styles.infoTitle}>E-Mail</Text>
-                                <Text style={styles.infoTitle}>Contact</Text>
-                            </Layout>
-
-                            <Layout style={styles.InfoContainer2}>
-                                <Text style={styles.info}>{data.name}</Text>
-                                <Text style={styles.info} numberOfLines={1}>{data.email}</Text>
-                                <Text style={styles.info}>{data.contact}</Text>
-                            </Layout>
-
-                        </Layout>
-
-                        <Divider style={styles.Divider} />
-
-                        <Layout style={styles.InfoContainer}>
-
-                            <Layout>
-                                <Text style={styles.infoTitle}>Amount Cost</Text>
-                                <Text style={styles.infoTitle}>Payment Day</Text>
-
-                            </Layout>
-
-                            <Layout style={styles.InfoContainer2}>
-                                <Text style={styles.info}>{data.money}</Text>
-                                <Text style={styles.info}>{moment(data.paymentDate).format('YYYY . MM . DD')}</Text>
-                            </Layout>
-
-                        </Layout>
-
-                        <Layout style={styles.emailContainer}>
-                            <Text style={styles.email}>glokooloffical@gmail.com</Text>
-                            <Text style={styles.emailInfo}>Please Contact us if you have any questions</Text>
-                        </Layout>
-
-                        <TouchableOpacity style={styles.policyContainer} onPress={() => {
-                            props.navigation.navigate(SceneRoute.REFUND_POLICY);
-                            setVisible(false);
-                        }}>
-                            <Text style={styles.policyText}>Refund Policy</Text>
-                            <MY_Refund_Policy />
-                        </TouchableOpacity>
-
-                    </ScrollView>
-
-                    <Layout style={styles.RefundButtonContainer}>
-                        <TouchableOpacity style={(refundCheck || data.refund.check) ? styles.RefundButtonC : styles.RefundButton} onPress={() => PressRefundButton()} disabled={refundCheck}>
-                            <Text style={(refundCheck || data.refund.check) ? styles.RefundButtonTextC : styles.RefundButtonText}>Refund</Text>
-                        </TouchableOpacity>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Full Name</Text>
+                        <Text style={styles.ValueText}>{data?.name}</Text>
                     </Layout>
-                </Modal>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>E-mail</Text>
+                        <Text style={styles.ValueText}>{data?.email}</Text>
+                    </Layout>
 
-                <Modal
-                    visible={visible2}
-                    backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                >
-                    <Card disabled={true} style={{ backgroundColor: '#F8F8F8' }}>
+                </Layout>
 
-                        <Text style={styles.modalTitle}>Are you Sure?</Text>
+                <Divider style={styles.Divider} />
 
-                        <Text style={styles.modalDesc}>{`Do you really want to Refund GloChat Service?`}</Text>
+                <Layout style={styles.InfoContainer}>
 
-                        <Layout style={{ flexDirection: 'row' }}>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Travel Destinaton</Text>
+                        <Text style={styles.ValueText}>Gwanghwamun</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Travel Date</Text>
+                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Assistant Name</Text>
+                        <Text style={styles.ValueText}>{(data?.guide?.name === '' || data?.guide?.name === undefined || data?.guide?.name === null) ? `` : `${data?.guide.name}`}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Assistant Language</Text>
+                        <Text style={styles.ValueText}>{(data?.lang === 'eng') ? `English` : `Chinese`}</Text>
+                    </Layout>
 
-                            <TouchableOpacity style={styles.StayButon} onPress={() => setVisible2(false)}>
-                                <Text style={styles.StayButonText}>Cancel</Text>
-                            </TouchableOpacity>
+                </Layout>
 
-                            <TouchableOpacity style={styles.WithdrawalButton} onPress={() => { PressRefund() }}>
-                                <Text style={styles.WithdrawalButtonText}>Refund</Text>
-                            </TouchableOpacity>
+                <Divider style={styles.Divider} />
 
-                        </Layout>
+                <Layout style={styles.InfoContainer}>
 
-                    </Card>
-                </Modal>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Booking Date</Text>
+                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                    </Layout>
+                    <Layout style={styles.ItemContainer}>
+                        <Text style={styles.InfoText}>Total</Text>
+                        <Text style={styles.ValueText}>{data?.money} USD</Text>
+                    </Layout>
+
+                </Layout>
 
             </Layout>
-        )
-    }
 
-    else {
-        return (<Layout></Layout>);
-    }
+            <Layout style={styles.AdditionalInfo}>
+                <Text style={[styles.AdditionalText, { color: 'black' }]}>glokoolofficial@gmail.com</Text>
+                <Text style={[styles.AdditionalText, { color: '#bcbcbc' }]}>Please contact us if you have any questions.</Text>
 
+                <TouchableOpacity style={styles.PolicyContainer} onPress={() => {
+                    props.navigation.navigate(SceneRoute.REFUND_POLICY);
+                    dispatch(setReceiptVisibleFalse())
+                }}>
+                    <Text style={styles.PolicyText}>Refund Policy</Text>
+                    <MY_Refund_Policy />
+                </TouchableOpacity>
+
+            </Layout>
+
+            <TouchableOpacity style={(refundCheck || data?.refund.check) ? styles.DisabledButton : styles.Button} onPress={() => PressButton()} disabled={refundCheck}>
+                <Text style={(refundCheck || data?.refund.check) ? styles.DisabledText : styles.ButtonText}>Refund</Text>
+            </TouchableOpacity>
+
+        </Modal>
+
+    )
 
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    cancelButton: {
-        borderColor: '#FFC043',
+    ModalContainer: {
+        width: windowWidth * 0.9,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
         backgroundColor: 'white',
-    },
-    DetailContainer: {
-        borderRadius: 10,
-        backgroundColor: 'white',
-        width: WindowSize - 60,
-        height: Dimensions.get('window').height * 0.9
-    },
-    titleContainer: {
-        flexDirection: 'row',
-        backgroundColor: '#00FF0000',
-        marginTop: 10,
-        marginBottom: 20
-    },
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        backgroundColor: '#00FF0000',
-    },
-    DeleteIcon: {
-        marginRight: 15
+        borderRadius: 20,
     },
     TitleContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignSelf: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#00FF0000',
-
     },
-    DetailTitle: {
+    TitleText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 23,
+        fontSize: 20,
+        flex: 5,
         textAlign: 'center',
     },
-    InfoContainer: {
-        marginHorizontal: 25,
-        flexDirection: 'row',
-        backgroundColor: '#00FF0000'
-    },
-    InfoContainer2: {
+    TitleButton: {
+        width: 20,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
         flex: 1,
-        alignItems: 'flex-end',
     },
-    infoTitle: {
-        fontFamily: 'IBMPlexSansKR-Text',
+    RefundTextContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    },
+    RefundText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 17,
+        color: '#7777ff',
+    },
+    InfoContainer: {
+        marginVertical: 5,
+    },
+    BodyContainer: {
+        marginTop: 20,
+    },
+    ItemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 2,
+    },
+    InfoText: {
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
-        color: '#BCBCBC',
-        textAlign: 'left'
+        color: '#bcbcbc',
     },
-    info: {
-        fontFamily: 'IBMPlexSansKR-Text',
+    ValueText: {
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: 'black',
-        textAlign: 'right'
     },
     Divider: {
-        width: '90%',
-        height: 2,
+        width: '95%',
+        height: 1.5,
         backgroundColor: '#D5DBFF',
         alignSelf: 'center',
         marginVertical: 15
     },
-    emailContainer: {
-        marginTop: 30,
+    AdditionalInfo: {
+        width: '100%',
         alignItems: 'flex-end',
-        marginRight: 20,
-        backgroundColor: '#00FF0000'
+        paddingHorizontal: 10,
+        marginTop: 60,
     },
-    email: {
-        fontFamily: 'IBMPlexSansKR-Text',
-        fontSize: 15,
-        color: 'black',
-        textAlign: 'right',
-        marginBottom: 10,
+    AdditionalText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 14,
+        marginTop: 5,
     },
-    emailInfo: {
-        fontFamily: 'IBMPlexSansKR-Text',
-        fontSize: 15,
-        color: '#BCBCBC',
-        textAlign: 'right',
-        marginTop: -10,
-    },
-    policyContainer: {
-        marginTop: 30,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        backgroundColor: '#00FF0000',
+    PolicyContainer: {
         flexDirection: 'row',
-        marginRight: 20
-    },
-    policyText: {
-        fontFamily: 'IBMPlexSansKR-Text',
-        fontSize: 15,
-        color: '#8797FF',
-        textAlign: 'right',
-        marginRight: 10,
-    },
-    RefundButtonContainer: {
-        position: 'absolute',
-        bottom: 0,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3.84,
-        elevation: 1,
-        width: 280,
-        height: 54,
-        borderRadius: 15,
-        marginHorizontal: 30,
-        alignSelf: 'center',
-        justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 50
-    },
-    RefundButton: {
-        width: 280,
-        height: 54,
-        borderRadius: 10,
-        marginVertical: 50,
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#00FF0000',
-        borderColor: '#00FF0000',
-    },
-    RefundButtonC: {
-        width: 280,
-        height: 54,
-        borderRadius: 10,
-        marginVertical: 50,
-        alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#D2D2D2',
-        borderColor: '#00FF0000',
-    },
-    RefundButtonText: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginVertical: 10,
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
-    },
-    RefundButtonTextC: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        marginVertical: 10,
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#eee'
-    },
-    modalTitle: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF',
-        textAlign: 'center'
-    },
-    modalDesc: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#AEAEAE',
         marginTop: 10,
-        marginBottom: 10,
     },
-    StayButon: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1.5,
-        borderColor: '#8797FF',
-        borderRadius: 10,
-        height: 50,
+    PolicyText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 15,
+        color: '#7777ff',
         marginRight: 5,
-        flex: 1
     },
-    StayButonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
-    },
-    WithdrawalButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#292434',
+    Button: {
+        width: '95%',
         borderRadius: 10,
-        height: 50,
-        marginLeft: 5,
-        flex: 1
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        paddingVertical: 13,
+        marginTop: 20,
+        borderWidth: 2,
+        borderColor: '#8797FF',
     },
-    WithdrawalButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF'
+    DisabledButton: {
+        width: '95%',
+        borderRadius: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#d2d2d2',
+        paddingVertical: 13,
+        marginTop: 20,
+    },
+    ButtonText: {
+        textAlign: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 20,
+        color: '#8797ff'
+    },
+    DisabledText: {
+        textAlign: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 20,
+        color: '#aeaeae'
     },
 });

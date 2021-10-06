@@ -25,7 +25,17 @@ const config = {
                         }
                     }
                 },
-                [NavigatorRoute.CHAT]: "chat",
+                [NavigatorRoute.CHAT]: {
+                    path: "chat",
+                    screens: {
+                        [SceneRoute.CHATROOM]:{
+                            path: "chatroom/:id",
+                            parse: {
+                                id: (id) => `${id}`,
+                            }
+                        }
+                    },
+                },
                 [NavigatorRoute.MY]: {
                     path: "my",
                     screens: {
@@ -41,7 +51,7 @@ const config = {
 };
 
 const linking = {
-    prefixes: ["glokool://app"],
+    prefixes: ["Glokool://app"],
     config,
 };
 

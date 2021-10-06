@@ -28,10 +28,6 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
         }
     }
 
-    function PressUserPhoto() {
-        props.navigation.navigate(NavigatorRoute.MY);
-    }
-
     return (
         <Layout style={styles.TopTabBarContainer}>
 
@@ -50,7 +46,7 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                 </Layout>
 
                 <TouchableOpacity
-                    onPress={() => PressUserPhoto()}
+                    onPress={() => PressLoginButton()}
                     style={{ backgroundColor: '#00FF0000' }}>
                     {currentUser != null ? (
                         currentUser?.photoURL === '' ||

@@ -24,9 +24,6 @@ const windowHeight = Dimensions.get('window').height;
 
 export const SeriesGrid = (props: any) => {
 
-    const [content, setContent] = useState(props.data);
-    const [first, setFirst] = useState(true);
-
     // item 클릭 시 화면 전환
     // 이후 어느정도 수정 필요할듯...
     const onPressItem = (item: GridItem) => {
@@ -46,6 +43,7 @@ export const SeriesGrid = (props: any) => {
         const textSize = item.item.type == 'tour' ? 16 : 13;
         const textAlign = item.item.type == 'tour' ? 'center' : 'flex-start';
         const lineHeight = item.item.type == 'tour' ? 18 : 15;
+        
 
         return (
             <TouchableOpacity onPress={() => onPressItem(item.item)}>
@@ -75,8 +73,9 @@ export const SeriesGrid = (props: any) => {
     }
 
     return (
-        <View style={{ flex: 1, }}>
+        <View style={{ flex: 1 }}>
             <FlatGrid
+                keyExtractor={(item : any) => item.id}
                 itemDimension={windowWidth * 0.3}
                 data={props.data.slice(0, props.itemCount)}
                 renderItem={renderItem}
@@ -84,7 +83,7 @@ export const SeriesGrid = (props: any) => {
                 style={styles.GridStyle}
             />
             <View style={styles.bottomContainer}>
-                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10, }} width={'15%'} />
+                <SeriesBottomLogo style={{ marginBottom: 10, marginTop: 10 }} width={'15%'} />
                 {props.endReached == true &&
                     props.data.length > props.itemCount ? <ActivityIndicator /> : null}
 

@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { StyleSheet, FlatList, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { Layout, Text, LayoutElement, } from '@ui-kitten/components';
 import { ChatListNowProps } from '../../navigation/ScreenNavigator/Chat.navigator';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import { GloChatData } from '../../types';
 import moment from 'moment';
@@ -11,18 +11,21 @@ import { SceneRoute } from '../../navigation/app.route';
 
 import { ProfileModal } from './chat.profile.component';
 import { AuthContext } from '../../context/AuthContext';
+import { setGuideVisiblityTrue } from '../../model/Chat/Chat.UI.model';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../model';
 
 export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
-    const user = auth().currentUser;
 
+    const user = auth().currentUser;
     const userContext = useContext(AuthContext);
+    const dispatch = useDispatch();
 
     const [data, setData] = useState<Array<GloChatData>>([]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     const [guide, setGuide] = useState({});
-    const [guideVisible, setGuideVisible] = useState(false);
     const [ENG, setENG] = useState(false);
     const [CHN, setCHN] = useState(false);
 
@@ -32,18 +35,11 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         InitNowList();
     }, []);
 
-    // 가이드 프로필 모달 컴포넌트에 true 전달 후 바로 false
-    useEffect(() => {
-        if (guideVisible) {
-            setGuideVisible(false);
-        }
-    }, [guideVisible])
-
     const InitNowList = async () => {
 
         if (userContext.currentUser) {
             const Token = await user?.getIdToken(true);
-            const AxiosConfig = {
+            const AxiosConfig: AxiosRequestConfig = {
                 method: 'get',
                 url: SERVER + '/api/users/reservations/future',
                 headers: {
@@ -99,17 +95,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
             try {
                 const res = await axios.get(`${SERVER}/api/guides/` + item.guide.uid);
 
-                setGuide({
-                    avatar: res.data.avatar,
-                    name: res.data.name,
-                    gender: res.data.gender,
-                    birthDate: res.data.birthDate,
-                    lang: res.data.lang,
-                    country: res.data.country,
-                    intro: res.data.intro,
-                    oneLineIntro: res.data.oneLineIntro,
-                    keyword: res.data.keyword,
-                })
+                setGuide(res.data)
                 if (res.data.lang.length == 1) {
                     setENG(true);
                     setCHN(false);
@@ -119,7 +105,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                     if (res.data.lang[1]) { setCHN(true); }
                 }
 
-                setGuideVisible(true);
+                dispatch(setGuideVisiblityTrue());
             } catch (e) {
                 console.log('e', e);
             }
@@ -139,7 +125,6 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
         const Today = new Date().setHours(0,0,0,0);
 
         const DDay = moment(propsDate).diff(Today, 'days');
-        console.log(DDay, propsDate, new Date(Today));
         const ItemDay = (new Date(fixedTimestamp)).getDate();
 
         return (
@@ -229,6 +214,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                 ) : (
                     <Layout style={styles.Container}>
                         <FlatList
+                            keyExtractor={(item : GloChatData) => item._id}
                             data={data}
                             renderItem={RenderItem}
                             refreshing={refresh}
@@ -236,7 +222,7 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
                             contentContainerStyle={{ paddingBottom: 500 }}
                         />
                         {/* 가이드 프로필 모달 */}
-                        <ProfileModal guide={guide} ENG={ENG} CHN={CHN} isVisible={guideVisible} navigation={props.navigation} route={route} />
+                        <ProfileModal guide={guide} navigation={props.navigation} route={route} />
 
                     </Layout>
                 )}
