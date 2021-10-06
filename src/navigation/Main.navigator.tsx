@@ -178,7 +178,8 @@ const GuideVisiblity = (route: any) => {
         routeName === 'Chat Help' ||
         routeName === 'Chat Report' ||
         routeName === SceneRoute.PAID_CHAT_LIST || 
-        routeName === SceneRoute.HISTORY
+        routeName === SceneRoute.HISTORY || 
+        routeName === SceneRoute.ZONE_CONTENTS
     ) {
         return false;
     }
@@ -209,6 +210,7 @@ export const MainNavigator = (): React.ReactElement => (
             component={ZoneNavigator}
             options={({ route }) => ({
                 unmountOnBlur: true,
+                tabBarVisible: GuideVisiblity(route),
             })}
         />
 

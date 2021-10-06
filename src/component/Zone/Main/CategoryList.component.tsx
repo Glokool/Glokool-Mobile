@@ -6,6 +6,7 @@ import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.nav
 import { PropsService } from '@ui-kitten/components/devsupport';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon } from '../../../assets/icon/Zone';
+import { SceneRoute } from '../../../navigation/app.route';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
@@ -47,7 +48,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 scrollEnabled={false}
                 showsVerticalScrollIndicator={false}
             />
-            <TouchableOpacity style={styles.BottomButton}>
+            <TouchableOpacity style={styles.BottomButton} onPress={()=>props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}>
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>
                 <Layout style={styles.SideSpace}>

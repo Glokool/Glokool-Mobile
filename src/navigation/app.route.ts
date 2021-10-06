@@ -113,4 +113,5 @@ export enum SceneRoute {
 
     //Zone Navigator용 route
     ZONE_MAIN = 'Zone Main',
+    ZONE_CONTENTS = 'Zone Contents',
 }
