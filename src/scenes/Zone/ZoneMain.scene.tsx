@@ -41,10 +41,6 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
 
             </ScrollView>
 
-            
-
-            
-
         </Layout>
     )
 }

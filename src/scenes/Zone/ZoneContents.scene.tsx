@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, ScrollView, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { ArrowLeft } from '../../assets/icon/Common';
 import { windowHeight, windowWidth } from '../../Design.component';
+import { SeriesBottomLogo } from '../../assets/icon/Series'
+import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
 
-export const ZoneContentsScene = () => {
+export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     const sampleData = ["ALL", "THINGS TO DO", "FOOD", "PUB.CAFE", "DAY TRIP", "TRAVEL TIPS"]
     const [pageIndex, setPageIndex] = React.useState(0);
@@ -15,14 +17,7 @@ export const ZoneContentsScene = () => {
     const renderContents = (item) => {
         return (
             <TouchableOpacity
-                style={{
-                    width: windowWidth * 0.48,
-                    height: windowWidth * 0.48,
-                    borderRadius: 10,
-                    backgroundColor: 'gray',
-                    margin: 2,
-    
-                }}
+                style={styles.ContentsItemStyle}
             />
         )
     }
@@ -30,10 +25,10 @@ export const ZoneContentsScene = () => {
     const renderCategory = (item) => {
         return (
             <TouchableOpacity
-                style={{ borderBottomWidth: 2, paddingHorizontal: 5, borderBottomColor: item.index == pageIndex ? "black" : "#ccc" }}
+                style={[styles.CategoryItemStyle, { borderBottomColor: item.index == pageIndex ? "black" : "#ccc", }]}
                 onPress={() => scrollRef.current?.scrollToIndex({ index: item.index })}
             >
-                <Text style={{ marginLeft: 5, color: item.index == pageIndex ? "black" : "#ccc", fontFamily: 'BrandonGrotesque-Bold', fontSize: 17 }}>{item.item}</Text>
+                <Text style={[styles.CategoryTextStyle, { color: item.index == pageIndex ? "black" : "#ccc", }]}>{item.item}</Text>
             </TouchableOpacity>
         )
     }
@@ -41,23 +36,27 @@ export const ZoneContentsScene = () => {
     const renderPage = (item) => {
 
         return (
-            <Layout style={[styles.page, { backgroundColor: item.item }]} >
+            <Layout style={styles.PageContainer} >
                 <FlatList
                     data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                     renderItem={renderContents}
                     key={"_"}
                     keyExtractor={item => "_" + item}
                     numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    style={styles.PageListContainer}
+                    ListFooterComponent={<SeriesBottomLogo />}
+                    ListFooterComponentStyle={styles.PageFooterContainer}
                 />
             </Layout>
         )
     }
 
     return (
-        <Layout>
+        <Layout style={styles.MainContainer}>
 
+            {/* Top Tab Bar */}
             <Layout style={styles.TopTabContainer}>
-                <SafeAreaView />
                 <Layout style={styles.TopTabItems}>
 
                     <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.pop()}>
@@ -68,12 +67,13 @@ export const ZoneContentsScene = () => {
 
                     <Layout style={{ flex: 1 }} />
                 </Layout>
+                {/* Category Flatlist */}
                 <FlatList
                     data={sampleData}
                     renderItem={renderCategory}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    style={{ marginTop: 10, }}
+                    style={styles.CategoryListContainer}
                 />
             </Layout>
 
@@ -92,14 +92,18 @@ export const ZoneContentsScene = () => {
 }
 
 const styles = StyleSheet.create({
-    page: {
+    MainContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    PageContainer: {
         width: windowWidth,
-        height: windowHeight * 0.6,
+        alignItems: 'center',
     },
     TopTabContainer: {
         width: windowWidth,
-        paddingBottom: 10,
-        backgroundColor: 'white'
+        paddingTop: Platform.OS === 'ios' ? 50 : 20,
+        backgroundColor: 'white',
     },
     TopTabItems: {
         flexDirection: 'row',
@@ -109,12 +113,36 @@ const styles = StyleSheet.create({
         flex: 5,
         fontFamily: 'BrandonGrotesque-Bold',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 17,
     },
     BackButton: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
-
+    CategoryItemStyle: {
+        borderBottomWidth: 2,
+        paddingHorizontal: 5,
+    },
+    CategoryTextStyle: {
+        marginLeft: 5,
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 14
+    },
+    ContentsItemStyle: {
+        width: windowWidth * 0.48,
+        height: windowWidth * 0.48,
+        borderRadius: 10,
+        backgroundColor: '#ccc',
+        margin: 2,
+    },
+    PageListContainer: {
+        paddingTop: 10,
+    },
+    PageFooterContainer: {
+        alignItems: 'center'
+    },
+    CategoryListContainer:{
+        marginTop: 10, 
+    }
 })

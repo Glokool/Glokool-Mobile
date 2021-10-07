@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Pressable, View, Text, Platform, FlatList } from 'react-native';
-import { Modal } from '@ui-kitten/components';
+import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-native';
+import { Layout, Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../../assets/icon/Series';
 import { SceneRoute } from '../../../navigation/app.route';
 import { CDN, SERVER } from '../../../server.component';
@@ -13,13 +13,15 @@ import { PersonIcon } from '../../../assets/icon/Zone';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EnterIcon } from '../../../assets/icon/Zone';
 
+import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '.';
+
 export const ZoneChatModal = (props: any) => {
 
     const guideVisible = useSelector((state: RootState) => state.ZoneUIModel.guideVisiblity);
     const dispatch = useDispatch();
 
-    const chatState = 'free';
-    const chatLimit = 0;
+    const isFree = true;
+    const isFull = false;
 
     // 주기적으로 서버에 요청하는 테스트 코드
     useEffect(() => {
@@ -42,11 +44,11 @@ export const ZoneChatModal = (props: any) => {
 
     const renderItem = (item: any) => {
         return (
-            <View style={styles.keywordBox}>
+            <Layout style={styles.keywordBox}>
                 <Text style={styles.keywordText}>
                     {item.item}
                 </Text>
-            </View>
+            </Layout>
         )
     }
 
@@ -59,16 +61,16 @@ export const ZoneChatModal = (props: any) => {
                 onBackdropPress={() => dispatch(setGuideVisiblityFalse())}
             >
 
-                <View style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
+                <Layout style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
 
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
 
                         <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
                             <CloseButton />
                         </Pressable>
-                    </View>
+                    </Layout>
 
-                    <View style={styles.innerContainer}>
+                    <Layout style={styles.innerContainer}>
                         {props.guide.avatar != " " &&
                             props.guide.avatar != undefined &&
                             props.guide.avatar != null ? (
@@ -82,42 +84,42 @@ export const ZoneChatModal = (props: any) => {
                                 style={styles.profileImage}
                             />
                         )}
-                        <View style={styles.nameContainer}>
-                            <View style={styles.locationContainer}>
+                        <Layout style={styles.nameContainer}>
+                            <Layout style={styles.locationContainer}>
                                 <Location />
                                 <Text style={styles.locationText}>HONGDAE</Text>
-                            </View>
+                            </Layout>
                             <Text
                                 style={styles.guideNameText}>
                                 {props.guide.name}
                             </Text>
-                        </View>
-                    </View>
+                        </Layout>
+                    </Layout>
 
 
-                    <View style={styles.infoContainer}>
+                    <Layout style={styles.infoContainer}>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                        <Layout style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                             <Text style={styles.keyTextStyle}>Language</Text>
                             <Text style={styles.valTextStyle}>
                                 {props.guide.lang && (props.guide.lang[0] && 'English ')}
                                 {props.guide.lang && (props.guide.lang[1] && '中文')}
                             </Text>
-                        </View>
+                        </Layout>
 
-                        <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
                             <Text style={styles.keyTextStyle}>Nationality</Text>
                             <Text style={styles.valTextStyle}>{props.guide.country}</Text>
-                        </View>
+                        </Layout>
 
-                        <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
                             <Text style={styles.keyTextStyle}>Group Chat Limit</Text>
                             <Text style={styles.valTextStyle}>
                                 10
                             </Text>
-                        </View>
+                        </Layout>
 
-                        <View style={styles.introContainer}>
+                        <Layout style={styles.introContainer}>
                             <Text style={styles.oneLineIntro}>
                                 {props.guide.oneLineIntro}
                             </Text>
@@ -125,68 +127,32 @@ export const ZoneChatModal = (props: any) => {
                             <Text style={styles.intro}>
                                 {props.guide.intro}
                             </Text>
-                        </View>
+                        </Layout>
 
-                        <View style={{ marginTop: 20, alignItems: 'center' }}>
+                        <Layout style={{ marginTop: 20, alignItems: 'center' }}>
                             <FlatList
                                 data={props.guide.keyword}
                                 renderItem={renderItem}
                                 horizontal
                                 scrollEnabled={false}
                             />
-                        </View>
+                        </Layout>
 
-                        <View style={styles.limitContainer}>
+                        <Layout style={styles.limitContainer}>
                             <PersonIcon />
                             <Text style={styles.limitNumber}>5 </Text>
                             <Text style={styles.limitText}>more people can join this chat</Text>
-                        </View>
+                        </Layout>
 
-                        {chatLimit > 0 && (
-                            <TouchableOpacity style={[styles.buttonContainer, { backgroundColor: '#7777ff', }]}>
-                                {chatState == 'free' ? (
-                                    <>
-                                        <View style={styles.sideSpace} />
-                                        <Text style={styles.buttonText}>Experience FREE Trial Now</Text>
-                                        <View style={styles.sideSpace}>
-                                            <EnterIcon />
-                                        </View>
-                                    </>
-                                ) : (
-                                    <>
-                                        <View style={styles.costInfo}>
-                                            <Text>$5 / day</Text>
-                                        </View>
-                                        <Text style={styles.buttonText}>Join a Chat Room</Text>
-                                        <View style={styles.sideSpace}>
-                                            <EnterIcon />
-                                        </View>
-                                    </>
-                                )}
-                            </TouchableOpacity>
-                        )}
-
-                        {chatLimit == 0 && (
-                            <TouchableOpacity style={[styles.buttonContainer, { backgroundColor: '#a2a2a2', }]}>
-                                {chatState == 'free' ? (
-                                    <>
-                                        <Text style={styles.buttonText}>The group chat is full. Please try it later.</Text>
-                                    </>
-                                ) : (
-                                    <>
-                                        <View style={styles.costInfo}>
-                                            <Text>$8 / day</Text>
-                                        </View>
-                                        <Text style={styles.buttonText}>The Group Chat is Full</Text>
-                                    </>
-                                )}
-                            </TouchableOpacity>
-                        )}
+                        <FreeAvailableButton/>
+                        <FreeDisabledButton/>
+                        <PayAvailableButton/>
+                        <PayDisabledButton/>
 
 
-                    </View>
+                    </Layout>
 
-                </View>
+                </Layout>
             </Modal >
         </>
     )
@@ -291,14 +257,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 10,
+        paddingHorizontal: 10,
         marginTop: 10,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-between'
     },
     sideSpace: {
         width: 30,
         height: 30,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#0000'
     },
     costInfo: {
         backgroundColor: 'white',
