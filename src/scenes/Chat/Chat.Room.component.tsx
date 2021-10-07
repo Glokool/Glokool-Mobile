@@ -118,9 +118,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         component: undefined,
         initialProps: undefined,
     });
-    const [receivedKeyboardData, setReceivedKeyboardData] = useState(undefined);
-    const [useSafeArea, setUseSafeArea] = useState(true);
-    const [keyboardOpenState, setKeyboardOpenState] = useState(false);
+    const [keyboardOpenState, setKeyboardOpenState] = useState(false);                                                                                                                                                                            
     const [textInputRef, setTextInputRef] = useState();
 
     const ImagesKeyboard = () => {
@@ -139,7 +137,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     <TouchableOpacity
                         style={styles.SideButton}
-                        onPress={async () => await ImageSend()}>
+                        onPress={() =>ImageSend()}>
                         <Images />
                         <Text style={styles.SideButtonTxt}>Images</Text>
                     </TouchableOpacity>
@@ -153,7 +151,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     <TouchableOpacity
                         style={styles.SideButton}
-                        onPress={async () => await LocationMessage()}>
+                        onPress={() => LocationMessage()}>
                         <MyLocation />
                         <Text style={styles.SideButtonTxt}>
                             My Location
@@ -184,11 +182,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         () => CustomKeyboard
     );
 
-    const onKeyboardItemSelected = (keyboardId, params) => {
-        console.log(params);
-        setReceivedKeyboardData(`onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`);
-    };
-
     const onKeyboardResigned = () => {
         resetKeyboardView();
     };
@@ -205,12 +198,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         });
 
     }
-
-    const onHeightChanged = (keyboardAccessoryViewHeight) => {
-        if (Constants.isIOS) {
-            // setState({ keyboardAccessoryViewHeight });
-        }
-    };
 
     const renderKeyboardAccessoryViewContent = () => {
         return (
@@ -902,16 +889,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     <KeyboardAccessoryView
                         renderContent={renderKeyboardLine}
-                        onHeightChanged={onHeightChanged}
                         trackInteractive={TrackInteractive}
                         kbInputRef={textInputRef}
                         kbComponent={customKeyboard.component}
                         kbInitialProps={customKeyboard.initialProps}
-                        onItemSelected={onKeyboardItemSelected}
                         onKeyboardResigned={onKeyboardResigned}
                         revealKeyboardInteractive
                         onRequestShowKeyboard={onRequestShowKeyboard}
-                        useSafeArea={useSafeArea}
+                        useSafeArea={true}
                     />
                 </Layout>
 
