@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 100,
         borderRadius: 10,
-        margin: 3,
+        margin: 5,
     },
 
     ImageModalButtonContainer: {

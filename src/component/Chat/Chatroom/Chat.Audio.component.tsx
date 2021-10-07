@@ -32,7 +32,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export const AudioComponent = (props : any) => {
     
-    const audioViblity = useSelector((state : RootState) => state.ChatUIModel.audioVisiblity);
+    const audioVisiblity = useSelector((state : RootState) => state.ChatUIModel.audioVisiblity);
     const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
     const dispatch = useDispatch();
 
@@ -172,7 +172,7 @@ export const AudioComponent = (props : any) => {
     };
 
     return (
-        <Modal style={styles.SideContainerBack} visible={audioViblity}>
+        <Modal style={styles.SideContainerBack} visible={audioVisiblity}>
             <Layout
                 style={styles.BackDropContainer}
                 onTouchStart={() => audioExit()}

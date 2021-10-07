@@ -25,6 +25,8 @@ import {
     IMessage,
     BubbleProps,
     ActionsProps,
+    AvatarProps,
+    Avatar,
 } from 'react-native-gifted-chat';
 import storage from '@react-native-firebase/storage';
 import {
@@ -61,6 +63,7 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { setLocation } from '../../model/Chat/Chat.Location.model';
 import FastImage from 'react-native-fast-image';
+import { windowWidth } from '../../Design.component';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -662,6 +665,26 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
 
+    // 아바타 렌더링
+    const renderAvatar = (props : AvatarProps<IMessage>) : React.ReactElement => {
+
+        if (props.currentMessage?.user.avatar == undefined){
+
+            return (
+                <Layout style={{width : windowWidth* 0.08, height : windowWidth * 0.08, marginRight : 5}}>
+                    <FastImage source={require('../../assets/image/Chat/guideGray.png')} style={{width : windowWidth* 0.08, height : windowWidth * 0.08}} resizeMode={'stretch'}/>
+                </Layout>
+            )
+        }
+
+        return (
+            <Avatar
+                {...props}
+            />
+        )
+    }
+
+
 
     //실제 렌더링
     return (
@@ -692,9 +715,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
-                        renderAvatar={() => {return null}}
+                        renderUsernameOnMessage={false}
                         alwaysShowSend={true}
-                        renderUsernameOnMessage={true}
+                        showUserAvatar={false}
+                        renderAvatarOnTop={true}
+                        renderAvatar={renderAvatar}
                         renderTime={renderTime}                        
                         renderSend={renderSend}
                         renderInputToolbar={(props) => renderInputToolbar(props, day)}

@@ -20,9 +20,12 @@ export const renderSound = (message : IMessage & ChatAudioMessage ) : React.Reac
                     console.log('보이스 파일 다운로드 실패');
                 }
 
+               
+  
                 sound.play((success) => {
                     if (success) {
                         console.log('재생 성공');
+                        setInterval(sound.getCurrentTime((seconds) => console.log('at ' + seconds)), 1000);
                     } else {
                         console.log('재생 실패');
                     }
@@ -33,9 +36,12 @@ export const renderSound = (message : IMessage & ChatAudioMessage ) : React.Reac
 
     return (
         <TouchableOpacity
+        
             style={styles.AudioMessageContainer}
             onPress={() => PlaySoundMessage()}>
+
             <FontAwesomeIcon icon={faPlay} size={16} />
+
         </TouchableOpacity>
     );
 };
