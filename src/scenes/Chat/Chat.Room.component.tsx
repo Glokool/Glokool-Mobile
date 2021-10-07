@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     StyleSheet,
     SafeAreaView,
@@ -12,6 +12,8 @@ import {
     Alert,
     AppStateStatus,
     Keyboard,
+    View,
+    TouchableOpacity
 } from 'react-native';
 import {
     Layout,
@@ -66,6 +68,30 @@ import { setLocation } from '../../model/Chat/Chat.Location.model';
 import FastImage from 'react-native-fast-image';
 import { windowWidth } from '../../Design.component';
 
+// keyboard
+
+import {
+    Keyboard as UIKeyboard,
+    Constants,
+} from 'react-native-ui-lib';
+import _ from 'lodash';
+
+const KeyboardAccessoryView = UIKeyboard.KeyboardAccessoryView;
+const KeyboardUtils = UIKeyboard.KeyboardUtils;
+const KeyboardRegistry = UIKeyboard.KeyboardRegistry;
+const TrackInteractive = true;
+
+const keyboards = [
+    {
+        id: 'unicorn.ImagesKeyboard',
+        name: 'Action',
+    },
+    {
+        id: 'unicorn.CustomKeyboard',
+        name: 'Emoji',
+    }
+];
+
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -77,16 +103,155 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
 
-    const guideToken = useSelector((state : RootState) => state.ChatDataModel.guideUID);
-    const roomName = useSelector((state : RootState) => state.ChatDataModel.roomName);
+    const guideToken = useSelector((state: RootState) => state.ChatDataModel.guideUID);
+    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
-    const menuVisiblity = useSelector((state : RootState) => state.ChatUIModel.menuVisiblity);
+    const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
 
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
+    // ADDED KEYBOARD VIEW 키보드 부분 
+    const [customKeyboard, setCustomKeyboard] = useState({
+        component: undefined,
+        initialProps: undefined,
+    });
+    const [receivedKeyboardData, setReceivedKeyboardData] = useState(undefined);
+    const [useSafeArea, setUseSafeArea] = useState(true);
+    const [keyboardOpenState, setKeyboardOpenState] = useState(false);
+    const [textInputRef, setTextInputRef] = useState();
+
+    const ImagesKeyboard = () => {
+        return (
+            <View style={styles.SideContainerBack}>
+                <View style={styles.SideContainer}>
+                    <TouchableOpacity
+                        style={styles.SideButton}
+                        onPress={() => {
+                            dispatch(setAudioVisiblityTrue());
+                            KeyboardUtils.dismiss()
+                        }}>
+                        <Record />
+                        <Text style={styles.SideButtonTxt}>Voices</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.SideButton}
+                        onPress={() => ImageSend()}>
+                        <Images />
+                        <Text style={styles.SideButtonTxt}>Images</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.SideButton}
+                        onPress={() => takePhoto()}>
+                        <Camera />
+                        <Text style={styles.SideButtonTxt}>Camera</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.SideButton}
+                        onPress={() => LocationMessage()}>
+                        <MyLocation />
+                        <Text style={styles.SideButtonTxt}>
+                            My Location
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+        );
+    }
+
+    const CustomKeyboard = () => {
+        return (
+            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: 'cornflowerblue' }}>
+                <TouchableOpacity>
+                    <Text style={{ padding: 10, }}>Click Me!</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+    KeyboardRegistry.registerKeyboard(
+        'unicorn.ImagesKeyboard',
+        () => ImagesKeyboard
+    );
+    KeyboardRegistry.registerKeyboard(
+        'unicorn.CustomKeyboard',
+        () => CustomKeyboard
+    );
+
+    const onKeyboardItemSelected = (keyboardId, params) => {
+        console.log(params);
+        setReceivedKeyboardData(`onItemSelected from "${keyboardId}"\nreceived params: ${JSON.stringify(params)}`);
+    };
+
+    const onKeyboardResigned = () => {
+        resetKeyboardView();
+    };
+
+    const resetKeyboardView = () => {
+        setCustomKeyboard({});
+    };
+
+    const showKeyboardView = (component, title) => {
+        setKeyboardOpenState(true);
+        setCustomKeyboard({
+            component,
+            initialProps: { title }
+        });
+
+    }
+
+    const onHeightChanged = (keyboardAccessoryViewHeight) => {
+        if (Constants.isIOS) {
+            // setState({ keyboardAccessoryViewHeight });
+        }
+    };
+
+    const renderKeyboardAccessoryViewContent = () => {
+        return (
+            <View style={styles.keyboardContainer}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        {keyboards.map(keyboard => (
+                            <TouchableOpacity onPress={() => showKeyboardView(keyboard.id, keyboard.id)} key={keyboard.id} style={{ marginRight: 10 }}>
+                                <Text>{keyboard.name}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={resetKeyboardView}>
+                            <Text>[Reset]</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={KeyboardUtils.dismiss} style={{ paddingLeft: 10 }}>
+                            <Text>[Close]</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+                <SafeAreaView />
+            </View>
+        );
+    };
+
+    const renderKeyboardLine = () => {
+        return (
+            <View style={{ height: 5, backgroundColor: '#eee' }} />
+        )
+    }
+
+    const onRequestShowKeyboard = componentID => {
+        setCustomKeyboard({
+            component: componentID,
+            initialProps: { title: 'Keyboard 1 opened by button' }
+        });
+    };
+    // 키보드 끝 //
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -97,7 +262,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
             const guideToken = snapshot.val();
-            
+
             dispatch(setGuideUID(guideToken));
         });
     };
@@ -123,7 +288,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         });
     };
 
-    const handleAppStateChange = (nextAppState : AppStateStatus) => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
         if (
             appState.current.match(/inactive|background/) &&
             nextAppState === 'active'
@@ -154,7 +319,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     }
 
-    const OfftheDB = (snapshot: FirebaseDatabaseTypes.DataSnapshot, response?: string | null | undefined) : void => {
+    const OfftheDB = (snapshot: FirebaseDatabaseTypes.DataSnapshot, response?: string | null | undefined): void => {
         setChatDB(undefined);
         dispatch(cleanRoomName())
     }
@@ -167,11 +332,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
         initGuide();
-        
+
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
-        
+
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
-            
+
             resetUserUnreadMsgCount();
         })
 
@@ -193,8 +358,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     }, []);
 
 
-    const ChatRoomInit = (id: string) : void => {
-        
+    const ChatRoomInit = (id: string): void => {
+
         const chat = database().ref('/chats/' + id);
 
         dispatch(setChatLoadingTrue()) // 로딩 시작
@@ -255,7 +420,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     /*이미지 촬영 */
     const takePhoto = async () => {
-        
+
         dispatch(setMenuVisiblityFalse());
 
         try {
@@ -394,7 +559,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     //이미지 전송을 위한 버튼
-    const ImageSend = async() : void => {
+    const ImageSend = async (): void => {
 
         dispatch(setMenuVisiblityFalse());
 
@@ -423,7 +588,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     throw Error('Upload denied');
                 }
 
-                const push = createPushNoti('이미지를 보냈습니다', );
+                const push = createPushNoti('이미지를 보냈습니다',);
 
                 const message = {
                     _id: additionalInfo[0]?.MessageID,
@@ -449,7 +614,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* FCM 백엔드 메시지 전송*/
-    const sendMessage = async(message : IMessage) => {
+    const sendMessage = async (message: IMessage) => {
 
         try {
             const chatRoomID = props.route.params.id;
@@ -500,8 +665,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     /* 채팅 창 디자인을 위한 컴포넌트 */
-    const onSend = async (messages : IMessage[]) => {
-        
+    const onSend = async (messages: IMessage[]) => {
+
         messages[0].messageType = 'message';
         messages[0].createdAt = new Date().getTime();
         messages[0].user.name = currentUser?.displayName;
@@ -523,13 +688,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     const LocationMessage = () => {
-        
+
         dispatch(setMenuVisiblityFalse());
 
         if (Platform.OS === 'android') {
 
-           
-        if(!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
+
+            if (!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
 
             Geolocation.getCurrentPosition((position) => {
                 const MessageID = messageIdGenerator();
@@ -556,9 +721,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         ),
                     }),
                     sendMessage(push),
-                ]);            
-            
-            },(error) => {       
+                ]);
+
+            }, (error) => {
                 console.log(error);
             })
 
@@ -579,7 +744,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         },
                         messageType: 'location',
                     };
-    
+
                     ChatDB?.update({
                         messages: [message, ...chatMessages],
                         guideUnreadCount: database.ServerValue.increment(1),
@@ -595,16 +760,16 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         timeout: 20000,
                         maximumAge: 1000,
                     };
-            });
+                });
 
 
         }
 
     };
 
-    
 
-    const renderCustomBubble = (props : BubbleProps<IMessage> & LocationBubbleMessage) => {   
+
+    const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubbleMessage) => {
 
         // Mapview (My Location) 출력을 위한 코드
         if (props.currentMessage.messageType === 'location') {
@@ -651,7 +816,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
 
-    const renderActions = (props : ActionsProps) : React.ReactElement => {      
+    const renderActions = (props: ActionsProps): React.ReactElement => {
         return (
             <Pressable
                 style={styles.ActionButton}
@@ -670,13 +835,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
 
     // 아바타 렌더링
-    const renderAvatar = (props : AvatarProps<IMessage>) : React.ReactElement => {
+    const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement => {
 
-        if (props.currentMessage?.user.avatar == undefined){
+        if (props.currentMessage?.user.avatar == undefined) {
 
             return (
-                <Layout style={{width : windowWidth* 0.08, height : windowWidth * 0.08, marginRight : 5}}>
-                    <FastImage source={require('../../assets/image/Chat/guideGray.png')} style={{width : windowWidth* 0.08, height : windowWidth * 0.08}} resizeMode={'stretch'}/>
+                <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 }}>
+                    <FastImage source={require('../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
                 </Layout>
             )
         }
@@ -724,7 +889,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         showUserAvatar={false}
                         renderAvatarOnTop={true}
                         renderAvatar={renderAvatar}
-                        renderTime={renderTime}                        
+                        renderTime={renderTime}
                         renderSend={renderSend}
                         renderInputToolbar={(props) => renderInputToolbar(props, day)}
                         renderBubble={renderBubble}
@@ -735,6 +900,22 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderMessageAudio={renderSound}
                         renderCustomView={renderCustomBubble}
                         renderActions={renderActions}
+                        // 키보드 accessory view
+                        renderAccessory={renderKeyboardAccessoryViewContent}
+                    />
+
+                    <KeyboardAccessoryView
+                        renderContent={renderKeyboardLine}
+                        onHeightChanged={onHeightChanged}
+                        trackInteractive={TrackInteractive}
+                        kbInputRef={textInputRef}
+                        kbComponent={customKeyboard.component}
+                        kbInitialProps={customKeyboard.initialProps}
+                        onItemSelected={onKeyboardItemSelected}
+                        onKeyboardResigned={onKeyboardResigned}
+                        revealKeyboardInteractive
+                        onRequestShowKeyboard={onRequestShowKeyboard}
+                        useSafeArea={useSafeArea}
                     />
                 </Layout>
 
@@ -742,14 +923,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
 
                 {/* 이미지 클릭시 확대 이미지 창 출력 */}
-                <ImageModal /> 
+                <ImageModal />
 
                 {/* 지도 메시지 클릭시 확대 창 출력 */}
                 <LocationModal />
-                
+
                 {/*채팅방 탑 탭바*/}
                 <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-                
+
 
                 {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
                 {menuVisiblity == true ? (
@@ -1044,7 +1225,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-    ChatComposer : {
+    ChatComposer: {
         alignSelf: 'center',
         marginBottom: -2,
         textDecorationLine: 'none',
@@ -1052,7 +1233,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         maxHeight: 90,
     },
-    ChatInputToolBar : {
+    ChatInputToolBar: {
         borderWidth: 1.5,
         borderColor: '#D1D1D1',
         borderRadius: 30,
@@ -1072,6 +1253,11 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Medium',
         fontSize: 17,
         marginLeft: 5
+    },
+    keyboardContainer: {
+        backgroundColor: 'white',
+        paddingVertical: 5,
+        width: WindowWidth
     },
 });
 
