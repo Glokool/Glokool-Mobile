@@ -22,7 +22,6 @@ import database, {
 } from '@react-native-firebase/database';
 import {
     GiftedChat,
-    InputToolbarProps,
     IMessage,
     BubbleProps,
     ActionsProps,
@@ -62,8 +61,6 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { setLocation } from '../../model/Chat/Chat.Location.model';
 import FastImage from 'react-native-fast-image';
-
-
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -241,13 +238,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
 
 
-    const createPushNoti = (message: string): object => {
+    const createPushNoti = (message: string): IMessage => {
+
         return {
             user: {
                 name: currentUser?.displayName,
             },
             text: message,
         };
+
     };
 
     /*이미지 촬영 */
@@ -391,7 +390,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     //이미지 전송을 위한 버튼
-    const ImageSend = async () => {
+    const ImageSend = async() : void => {
 
         dispatch(setMenuVisiblityFalse());
 
@@ -447,6 +446,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     /* FCM 백엔드 메시지 전송*/
     const sendMessage = async(message : IMessage) => {
+
         try {
             const chatRoomID = props.route.params.id;
             const currentDate = new Date().getTime();
@@ -518,52 +518,18 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
+    const LocationMessage = () => {
+        
+        dispatch(setMenuVisiblityFalse());
 
-    // Android용 위치 (Location 전송)
-    const LocationMessageAndroid = async() => {
+        if (Platform.OS === 'android') {
 
-
+           
         if(!PermissionsAndroid.RESULTS.GRANTED) return console.log('위치정보 받아오기 실패');
 
-        Geolocation.getCurrentPosition((position) => {
-            const MessageID = messageIdGenerator();
-            const Message = {
-                _id: MessageID,
-                createdAt: new Date().getTime(),
-                user: {
-                    _id: currentUser?.uid,
-                },
-                location: {
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                },
-                messageType: 'location',
-            };
-
-            const push = createPushNoti('지도위치를 보냈습니다.');
-
-            Promise.all([
-                ChatDB?.update({
-                    messages: [Message, ...chatMessages],
-                    guideUnreadCount: database.ServerValue.increment(
-                        1,
-                    ),
-                }),
-                sendMessage(push),
-            ]);            
-        
-        },(error) => {       
-            console.log(error);
-        })
-    }
-
-    // iOS용 위치 (Location 전송)
-    const LocationMessageIos = () => {
-        
-        Geolocation.getCurrentPosition(
-            (position) => {
+            Geolocation.getCurrentPosition((position) => {
                 const MessageID = messageIdGenerator();
-                const message = {
+                const Message = {
                     _id: MessageID,
                     createdAt: new Date().getTime(),
                     user: {
@@ -576,54 +542,73 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     messageType: 'location',
                 };
 
-                ChatDB?.update({
-                    messages: [message, ...chatMessages],
-                    guideUnreadCount: database.ServerValue.increment(1),
-                });
-            },
-            (error) => {
-                console.log(
-                    'The location could not be loaded because ',
-                    error.message,
-                ),
-                {
-                    enableHighAccuracy: false,
-                    timeout: 20000,
-                    maximumAge: 1000,
-                };
-        });
+                const push = createPushNoti('지도위치를 보냈습니다.');
 
-    }   
+                Promise.all([
+                    ChatDB?.update({
+                        messages: [Message, ...chatMessages],
+                        guideUnreadCount: database.ServerValue.increment(
+                            1,
+                        ),
+                    }),
+                    sendMessage(push),
+                ]);            
+            
+            },(error) => {       
+                console.log(error);
+            })
 
-    const LocationMessage = () => {
-        
-        dispatch(setMenuVisiblityFalse());
-
-        if (Platform.OS === 'android') {
-           LocationMessageAndroid();
         } else {
-            LocationMessageIos();
+            // iOS용 위치 서비스
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    const MessageID = messageIdGenerator();
+                    const message = {
+                        _id: MessageID,
+                        createdAt: new Date().getTime(),
+                        user: {
+                            _id: currentUser?.uid,
+                        },
+                        location: {
+                            lat: position.coords.latitude,
+                            lon: position.coords.longitude,
+                        },
+                        messageType: 'location',
+                    };
+    
+                    ChatDB?.update({
+                        messages: [message, ...chatMessages],
+                        guideUnreadCount: database.ServerValue.increment(1),
+                    });
+                },
+                (error) => {
+                    console.log(
+                        'The location could not be loaded because ',
+                        error.message,
+                    ),
+                    {
+                        enableHighAccuracy: false,
+                        timeout: 20000,
+                        maximumAge: 1000,
+                    };
+            });
+
+
         }
 
     };
 
     
-// 위치 정보 말풍선 메시지 타입
-
-
-    const PressLocationMessage = (props : BubbleProps<IMessage> & LocationBubbleMessage) : void => {    
-
-        dispatch(setLocationVisiblityTrue());
-        dispatch(setLocation({ lat : props.currentMessage.location.lat, lon : props.currentMessage.location.lon }))
-
-    }
 
     const renderCustomBubble = (props : BubbleProps<IMessage> & LocationBubbleMessage) => {   
 
         // Mapview (My Location) 출력을 위한 코드
         if (props.currentMessage.messageType === 'location') {
             return (
-                <Pressable onPress={() => PressLocationMessage(props)}>
+                <Pressable onPress={() => {
+                    dispatch(setLocationVisiblityTrue());
+                    dispatch(setLocation({ lat : props.currentMessage.location.lat, lon : props.currentMessage.location.lon }))
+                }}>
                     <Text
                         style={styles.MyLocationHeaderText}>
                         My Location
@@ -658,19 +643,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    
-    const PressActionButton = () : void => {        
-        dispatch(setMenuVisiblityTrue());
-        Keyboard.dismiss();
-    }
 
-
-    const renderActions = (props : ActionsProps) : React.ReactElement => {
-      
+    const renderActions = (props : ActionsProps) : React.ReactElement => {      
         return (
             <Pressable
                 style={styles.ActionButton}
-                onPress={() => PressActionButton()}
+                onPress={() => {
+                    dispatch(setMenuVisiblityTrue());
+                    Keyboard.dismiss();
+                }}
             >
                 <FastImage
                     style={styles.MenuImage}
@@ -713,7 +694,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         }}
                         renderAvatar={() => {return null}}
                         alwaysShowSend={true}
-                        renderUsernameOnMessage={false}
+                        renderUsernameOnMessage={true}
                         renderTime={renderTime}                        
                         renderSend={renderSend}
                         renderInputToolbar={(props) => renderInputToolbar(props, day)}
@@ -756,21 +737,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={async () => await ImageSend()}>
+                                onPress={() => ImageSend()}>
                                 <Images />
                                 <Text style={styles.SideButtonTxt}>Images</Text>
                             </Pressable>
 
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={async () => takePhoto()}>
+                                onPress={() => takePhoto()}>
                                 <Camera />
                                 <Text style={styles.SideButtonTxt}>Camera</Text>
                             </Pressable>
 
                             <Pressable
                                 style={styles.SideButton}
-                                onPress={async () => await LocationMessage()}>
+                                onPress={() => LocationMessage()}>
                                 <MyLocation />
                                 <Text style={styles.SideButtonTxt}>
                                     My Location

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../model';
-import { setLocationVisiblityFalse } from '../../../../model/Chat/Chat.UI.model';
+import { setLocationVisiblityFalse, } from '../../../../model/Chat/Chat.UI.model';
 
 export const LocationModal = () : React.ReactElement => {
 
@@ -15,7 +15,6 @@ export const LocationModal = () : React.ReactElement => {
     const lat = useSelector((state : RootState) => state.ChatLocationModel.lat);
     const lon = useSelector((state : RootState) => state.ChatLocationModel.lon);
     const dispatch = useDispatch();
-
     
     // 맵 뷰 헤더
     const LocationModalHeader = () : React.ReactElement => (
@@ -38,7 +37,6 @@ export const LocationModal = () : React.ReactElement => {
             </Layout>
         </Layout>
     );
-
 
     return (
         <Modal
@@ -71,14 +69,13 @@ export const LocationModal = () : React.ReactElement => {
         </Modal>
 
     )
-}
+};
 
 const styles = StyleSheet.create({
     
     BackDrop : {
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
     }
-
-
+    
 })
 
