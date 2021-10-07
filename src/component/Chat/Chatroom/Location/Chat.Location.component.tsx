@@ -20,12 +20,7 @@ export const LocationModal = () : React.ReactElement => {
     const LocationModalHeader = () : React.ReactElement => (
         <Layout style={{ flexDirection: 'row', padding: 20 }}>
             <Layout style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                        alignItems: 'center',
-                    }}>
+                <Text style={styles.MyLocaionTitleText}>
                     My Location
                 </Text>
             </Layout>
@@ -75,6 +70,14 @@ const styles = StyleSheet.create({
     
     BackDrop : {
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+
+    MyLocaionTitleText: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        alignItems: 'center',
+        fontFamily : 'BrandonGrotesque-Medium',
+        color: '#8C8C8C'
     }
     
 })

@@ -43,6 +43,7 @@ import {
     Camera,
     MyLocation,
     Record,
+    LocationTitle,
 } from '../../assets/icon/Chat';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
@@ -118,7 +119,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         component: undefined,
         initialProps: undefined,
     });
-    const [keyboardOpenState, setKeyboardOpenState] = useState(false);                                                                                                                                                                            
+    const [keyboardOpenState, setKeyboardOpenState] = useState(false);
     const [textInputRef, setTextInputRef] = useState();
 
     const ImagesKeyboard = () => {
@@ -137,14 +138,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     <TouchableOpacity
                         style={styles.SideButton}
-                        onPress={() =>ImageSend()}>
+                        onPress={() => ImageSend()}>
                         <Images />
                         <Text style={styles.SideButtonTxt}>Images</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.SideButton}
-                        onPress={async () => takePhoto()}>
+                        onPress={() => takePhoto()}>
                         <Camera />
                         <Text style={styles.SideButtonTxt}>Camera</Text>
                     </TouchableOpacity>
@@ -760,14 +761,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         // Mapview (My Location) 출력을 위한 코드
         if (props.currentMessage.messageType === 'location') {
             return (
-                <Pressable onPress={() => {
-                    dispatch(setLocationVisiblityTrue());
-                    dispatch(setLocation({ lat: props.currentMessage.location.lat, lon: props.currentMessage.location.lon }))
-                }}>
-                    <Text
-                        style={styles.MyLocationHeaderText}>
-                        My Location
-                    </Text>
+                <Pressable
+                    onPress={() => {
+                        dispatch(setLocationVisiblityTrue());
+                        dispatch(setLocation({ lat: props.currentMessage.location.lat, lon: props.currentMessage.location.lon }))
+                    }}
+                >
+                    <Layout style={styles.MyLocationHeaderContainer}>
+                        <LocationTitle />
+                        <Text style={styles.MyLocationHeaderText}>My Location</Text>
+                    </Layout>
+
                     <MapView
                         provider={PROVIDER_GOOGLE}
                         style={{ width: 250, height: 125, margin: 10 }}
@@ -1221,12 +1225,19 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
     },
+    MyLocationHeaderContainer: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        flexDirection: 'row'
+    },
     MyLocationHeaderText: {
         textAlign: 'right',
         marginTop: 5,
         marginRight: 10,
         color: '#8C8C8C',
         fontFamily: 'BrandonGrotesque-Medium',
+        fontSize: 17,
+        marginLeft: 5
     },
     keyboardContainer: {
         backgroundColor: 'white',

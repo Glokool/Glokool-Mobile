@@ -18,6 +18,8 @@ import QuickSearchButtonPressed from './QuickSearchButtonPressed.svg';
 import QuickSearchBanner from './QuickSearchBanner.svg';
 import QuickSearchGlo from './QuickSearchGlo.svg';
 
+import LocationTitle from './LocationTitle.svg';
+
 export {
     Help,
     Menu,
@@ -37,4 +39,6 @@ export {
     QuickSearchButtonPressed,
     QuickSearchBanner,
     QuickSearchGlo,
+
+    LocationTitle
 }
