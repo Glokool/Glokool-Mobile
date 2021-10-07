@@ -388,3 +388,10 @@ export type authContextType = {
     photoURL: string;
     uid: string;
 }
+
+// ETC.
+export type CommonTopTabBarType = {
+    navigation: any;
+    title: string;
+    child?: any;
+}

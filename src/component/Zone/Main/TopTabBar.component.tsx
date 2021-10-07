@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'white',
         paddingTop: Platform.OS === 'ios' ? 50 : 20,
+        flexDirection: 'row',
         padding: 10
     },
     ZoneButtonContainer: {

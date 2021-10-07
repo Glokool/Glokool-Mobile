@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
-    Platform,
     StyleSheet,
     TouchableOpacity,
     Dimensions,
@@ -16,19 +15,15 @@ import {
     CustomerService,
     Privacy,
 } from '../../assets/icon/My';
-import { ArrowLeft } from '../../assets/icon/Common';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../../context/AuthContext';
+import { CommonTopTabBar } from '../../component/Common';
+
 const windowWidth = Dimensions.get('window').width;
 
 export const MySetting = (props: MYSettingProps): LayoutElement => {
     const { setCurrentUser } = useContext(AuthContext);
 
     const [logoutvisible, setLogoutvisible] = React.useState(false);
-
-    const PressBack = () => {
-        props.navigation.goBack();
-    };
 
     const PressProfile = () => {
         props.navigation.navigate(SceneRoute.MY_PROFILE);
@@ -60,37 +55,8 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
 
     return (
         <Layout style={styles.mainContainer}>
-            <Layout style={{ height: 50 }} />
             {/*탭바 표현*/}
-            <Layout
-                style={
-                    Platform.OS === 'android'
-                        ? styles.TabbarAndroid
-                        : styles.Tabbar
-                }>
-                <TouchableOpacity
-                    onPress={() => PressBack()}
-                    style={{
-                        padding: 20,
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                    <ArrowLeft />
-                </TouchableOpacity>
-
-                <Layout
-                    style={{
-                        flex: 2,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginHorizontal: 25,
-                    }}>
-                    <Text style={styles.TextStyle}>SETTINGS</Text>
-                </Layout>
-
-                <Layout style={{ flex: 1.5 }} />
-            </Layout>
+            <CommonTopTabBar title={'SETTINGS'} navigation={props.navigation} />
 
             {/* 세팅 내용물*/}
             <Layout style={styles.Container}>

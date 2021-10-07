@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
-import { StyleSheet, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
-import { Layout, LayoutElement, Spinner, State, Text } from '@ui-kitten/components';
+import { StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { Layout, LayoutElement, Spinner, Text } from '@ui-kitten/components';
 import { ReservationInfo } from '../../types';
 import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
-import { ArrowLeft, Location } from '../../assets/icon/Common';
-import { Receipt, Receipt_Large } from '../../assets/icon/My';
+import { Location } from '../../assets/icon/Common';
+import { Receipt_Large } from '../../assets/icon/My';
 import { PaidDetail } from '../../component/My';
 import moment from 'moment'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from '../../server.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setMyLoadingTrue, setMyLoadingFalse } from '../../model/My/My.Loading.model';
 import { setReceiptVisibleTrue } from '../../model/My/My.UI.model';
+import { CommonTopTabBar } from '../../component/Common';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -86,19 +86,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <Layout style={styles.TopTabContainer}>
-                <SafeAreaView />
-                <Layout style={styles.TopTabItems}>
-
-                    <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.pop()}>
-                        <ArrowLeft />
-                    </TouchableOpacity>
-
-                    <Text style={styles.TopTabText}>RECEIPTS</Text>
-
-                    <Layout style={{ flex: 1 }} />
-                </Layout>
-            </Layout>
+            <CommonTopTabBar title={'RECEIPTS'} navigation={props.navigation} />
 
             {(data.length === 0) ?
                 <Layout style={styles.emptyContainer}>

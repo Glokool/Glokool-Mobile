@@ -1,1 +1,1 @@
-export {LoginCheck} from './LoginCheck.component';
+export { CommonTopTabBar } from "./TopTabBar.component";

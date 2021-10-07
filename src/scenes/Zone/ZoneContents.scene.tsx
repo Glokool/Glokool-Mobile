@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, ScrollView, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,6 +10,7 @@ import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.na
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setCategoryIndex } from '../../model/Zone/Zone.UI.model';
+import { CommonTopTabBar } from '../../component/Common';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
@@ -17,8 +18,12 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     const dispatch = useDispatch();
 
     const sampleData = ["ALL", "THINGS TO DO", "FOOD", "PUB.CAFE", "DAY TRIP", "TRAVEL TIPS"]
-    // const [pageIndex, setPageIndex] = React.useState(0);
     const scrollRef = React.useRef<SwiperFlatList>(null);
+
+    useEffect(() => {
+        // unmount 시 index 0 으로 초기화
+        return () => { dispatch(setCategoryIndex(0)) }
+    }, [])
 
     const renderContents = (item) => {
         return (
@@ -28,6 +33,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         )
     }
 
+    // 상단 바 카테고리 버튼 리스트
     const renderCategory = (item) => {
         return (
             <TouchableOpacity
@@ -62,26 +68,18 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <Layout style={styles.TopTabContainer}>
-                <Layout style={styles.TopTabItems}>
-
-                    <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.pop()}>
-                        <ArrowLeft />
-                    </TouchableOpacity>
-
-                    <Text style={styles.TopTabText}>HONGDAE</Text>
-
-                    <Layout style={{ flex: 1 }} />
-                </Layout>
-                {/* Category Flatlist */}
-                <FlatList
-                    data={sampleData}
-                    renderItem={renderCategory}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.CategoryListContainer}
-                />
-            </Layout>
+            <CommonTopTabBar
+                title={'HONGDAE'}
+                navigation={props.navigation}
+                child={
+                    <FlatList
+                        data={sampleData}
+                        renderItem={renderCategory}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.CategoryListContainer}
+                    />}
+            />
 
             <SwiperFlatList
                 index={categoryIndex}
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     PageFooterContainer: {
         alignItems: 'center'
     },
-    CategoryListContainer:{
-        marginTop: 10, 
+    CategoryListContainer: {
+        marginTop: 10,
     }
 })

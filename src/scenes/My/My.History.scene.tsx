@@ -1,14 +1,14 @@
 import React from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
     Dimensions,
-    FlatList
+    FlatList,
+    Platform
 } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { HistoryScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Location, ArrowLeft } from '../../assets/icon/Common';
+import { Location } from '../../assets/icon/Common';
+import { CommonTopTabBar } from '../../component/Common';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -33,7 +33,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
     ]
 
     const renderItem = (item) => {
-        
+
         return (
             <Layout style={styles.ItemContainer}>
                 <Layout style={styles.ImageItem} />
@@ -59,19 +59,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <Layout style={styles.TopTabContainer}>
-                <SafeAreaView />
-                <Layout style={styles.TopTabItems}>
-
-                    <TouchableOpacity style={styles.BackButton} onPress={() => props.navigation.pop()}>
-                        <ArrowLeft />
-                    </TouchableOpacity>
-
-                    <Text style={styles.TopTabText}>HISTORY</Text>
-
-                    <Layout style={{ flex: 1 }} />
-                </Layout>
-            </Layout>
+            <CommonTopTabBar title={'HISTORY'} navigation={props.navigation} />
 
             {/* Previous Chatting List */}
             <FlatList
@@ -93,7 +81,8 @@ const styles = StyleSheet.create({
     TopTabContainer: {
         width: windowWidth,
         paddingBottom: 10,
-        backgroundColor: 'white'
+        paddingTop: Platform.OS === 'ios' ? 50 : 20,
+        backgroundColor: 'white',
     },
     TopTabItems: {
         flexDirection: 'row',

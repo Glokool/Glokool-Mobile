@@ -37,7 +37,6 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 </Layout>
 
             </ScrollView>
-
             {/* 지역 바꿀 수 있는 Bottom Sheet */}
             <ZoneMainBottomTabBarComponent {...props} />
 
