@@ -4,10 +4,10 @@
       <rect width="84" height="20" rx="10" stroke="none"/>
       <rect x="0.516" y="0.516" width="82.969" height="18.969" rx="9.484" fill="none"/>
     </g>
-    <g id="사각형_3292" data-name="사각형 3292" transform="translate(1160.563 182.162)" fill="none" stroke="#fec286" stroke-miterlimit="10" stroke-width="1.031">
+    <g id="사각형_3292" data-name="사각형 3292" transform="translate(1160.563 182.162)" fill="none" stroke="#86e4b5" stroke-miterlimit="10" stroke-width="1.031">
       <rect width="84" height="20" rx="10" stroke="none"/>
       <rect x="0.516" y="0.516" width="82.969" height="18.969" rx="9.484" fill="none"/>
     </g>
-    <text id="KOREAN" transform="translate(1202.563 197.163)" fill="#fec286" font-size="14" font-family="Helvetica"><tspan x="-29.562" y="0">KOREAN</tspan></text>
+    <text id="TRAVELER" transform="translate(1202.563 197.163)" fill="#86e4b5" font-size="14" font-family="Helvetica"><tspan x="-36.439" y="0">TRAVELER</tspan></text>
   </g>
 </svg>

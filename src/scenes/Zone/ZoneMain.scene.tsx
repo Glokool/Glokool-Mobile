@@ -23,9 +23,6 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
             {/* 최상단 지역 버튼 */}
             <ZoneMainTopTabBarComponent {...props} />
             
-            {/* 지역 바꿀 수 있는 Bottom Sheet */}
-            <ZoneMainBottomTabBarComponent {...props} />
-            
             <ScrollView>
                 <Layout style={styles.InnerContainer}>
                     {/* 지역 이미지 배너 */}
@@ -40,6 +37,9 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 </Layout>
 
             </ScrollView>
+
+            {/* 지역 바꿀 수 있는 Bottom Sheet */}
+            <ZoneMainBottomTabBarComponent {...props} />
 
         </Layout>
     )

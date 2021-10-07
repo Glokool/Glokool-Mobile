@@ -5,7 +5,7 @@ import { SERVER, CDN } from '../../../server.component';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
 import { PropsService } from '@ui-kitten/components/devsupport';
 import { windowHeight, windowWidth } from '../../../Design.component';
-import { ExploreIcon } from '../../../assets/icon/Zone';
+import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
@@ -29,6 +29,12 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                     renderItem={renderContents}
                     horizontal
                     showsHorizontalScrollIndicator={false}
+                    ListFooterComponent={
+                        <TouchableOpacity style={styles.ListFooterIcon}>
+                            <ViewMoreIcon />
+                        </TouchableOpacity>
+                    }
+                    style={styles.ContentsListContainer}
                 />
             </Layout>
         )
@@ -48,7 +54,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 scrollEnabled={false}
                 showsVerticalScrollIndicator={false}
             />
-            <TouchableOpacity style={styles.BottomButton} onPress={()=>props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}>
+            <TouchableOpacity style={styles.BottomButton} onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}>
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>
                 <Layout style={styles.SideSpace}>
@@ -69,14 +75,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Bold',
         fontSize: 15,
         marginBottom: 5,
-        marginLeft: 10,
+        marginLeft: 15,
     },
     TitleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width:windowWidth,
-        paddingHorizontal: 10,
+        width: windowWidth,
+        paddingHorizontal: 15,
     },
     TitleText: {
         fontFamily: 'Pretendard-Bold',
@@ -125,5 +131,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#0000'
+    },
+    ListFooterIcon: {
+        width: windowWidth * 0.25,
+        height: windowWidth * 0.4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: 20,
+    },
+    ContentsListContainer: {
+        paddingLeft: 10,
     }
 })

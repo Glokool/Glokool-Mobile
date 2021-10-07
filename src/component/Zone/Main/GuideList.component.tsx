@@ -31,7 +31,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     }
 
     const InitialGuideInfo = async (item) => {
-       
+
         if (item.uid != '') {
             setRoute({
                 params: {
@@ -97,6 +97,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 style={styles.FlatListContainer}
+                ListFooterComponent={<Layout style={{ width: 15                                          }} />}
             />
             <TouchableOpacity style={styles.ButtonContainer}>
                 <Text style={[styles.ButtonText, { color: 'white' }]}>Click to Explore More </Text>
@@ -104,7 +105,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 <ExploreIcon />
             </TouchableOpacity>
 
-            {guideInfo && <ZoneChatModal guide={guideInfo}/>}
+            {guideInfo && <ZoneChatModal guide={guideInfo} />}
 
         </Layout>
     )
@@ -179,6 +180,7 @@ const styles = StyleSheet.create({
     },
     FlatListContainer: {
         paddingBottom: 20,
+        paddingLeft: 10,
     },
     ButtonContainer: {
         backgroundColor: '#292434',

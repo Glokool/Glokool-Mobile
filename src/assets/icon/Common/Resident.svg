@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="72" height="20" viewBox="0 0 72 20">
-  <g id="Resident" transform="translate(-219 -741)">
-    <g id="사각형_2031" data-name="사각형 2031" transform="translate(219 741)" fill="none" stroke="#9df37e" stroke-width="1">
-      <rect width="72" height="20" rx="10" stroke="none"/>
-      <rect x="0.5" y="0.5" width="71" height="19" rx="9.5" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="84" height="20" viewBox="0 0 84 20">
+  <g id="Profile__Resident" data-name="Profile_ Resident" transform="translate(-1160.562 -182.162)">
+    <g id="사각형_2447" data-name="사각형 2447" transform="translate(1160.562 182.162)" fill="none" stroke="#beb0ff" stroke-miterlimit="10" stroke-width="1.031">
+      <rect width="84" height="20" rx="10" stroke="none"/>
+      <rect x="0.516" y="0.516" width="82.969" height="18.969" rx="9.484" fill="none"/>
     </g>
-    <text id="Resident-2" data-name="Resident" transform="translate(254.5 756)" fill="#9df37e" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-28.184" y="0">Resident</tspan></text>
+    <text id="RESIDENT" transform="translate(1202.563 197.163)" fill="#beb0ff" font-size="14" font-family="Helvetica"><tspan x="-35.393" y="0">RESIDENT</tspan></text>
   </g>
 </svg>

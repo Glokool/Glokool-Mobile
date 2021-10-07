@@ -144,10 +144,20 @@ export const ZoneChatModal = (props: any) => {
                             <Text style={styles.limitText}>more people can join this chat</Text>
                         </Layout>
 
-                        <FreeAvailableButton/>
-                        <FreeDisabledButton/>
-                        <PayAvailableButton/>
-                        <PayDisabledButton/>
+                        <TouchableOpacity disabled={isFull} style={styles.buttonContainer}>
+                            {isFree ? (
+                                isFull ?
+                                // 무료방 꽉찼을때
+                                    <FreeDisabledButton />
+                                    :
+                                    <FreeAvailableButton />
+                            ) : (
+                                isFull ?
+                                    <PayDisabledButton />
+                                    :
+                                    <PayAvailableButton />
+                            )}
+                        </TouchableOpacity>
 
 
                     </Layout>
@@ -236,7 +246,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop: 20,
+        marginTop: 30,
     },
     limitText: {
         fontFamily: 'Pretendard-Medium',
@@ -253,13 +263,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     buttonContainer: {
-        borderRadius: 50,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
         marginTop: 10,
-        justifyContent: 'space-between'
     },
     sideSpace: {
         width: 30,
