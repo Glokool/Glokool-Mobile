@@ -97,7 +97,8 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 style={styles.FlatListContainer}
-                ListFooterComponent={<Layout style={{ width: 15                                          }} />}
+                ListFooterComponent={<Layout style={{ width: 15 }} />}
+                keyExtractor={(item, index) => index.toString()}
             />
             <TouchableOpacity style={styles.ButtonContainer}>
                 <Text style={[styles.ButtonText, { color: 'white' }]}>Click to Explore More </Text>

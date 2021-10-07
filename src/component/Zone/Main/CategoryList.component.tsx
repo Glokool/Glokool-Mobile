@@ -35,6 +35,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                         </TouchableOpacity>
                     }
                     style={styles.ContentsListContainer}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </Layout>
         )
@@ -53,6 +54,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 renderItem={renderCategory}
                 scrollEnabled={false}
                 showsVerticalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
             />
             <TouchableOpacity style={styles.BottomButton} onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}>
                 <Layout style={styles.SideSpace} />

@@ -22,7 +22,6 @@ export interface ZoneContentsSceneProps {
     route: RouteProp<ZoneNavigatorParams, SceneRoute.ZONE_CONTENTS>;
 }
 
-
 export const ZoneNavigator = (): React.ReactElement => (
     <Stack.Navigator headerMode='none'>
         <Stack.Screen name={SceneRoute.ZONE_MAIN} component={ZoneMainScene} />

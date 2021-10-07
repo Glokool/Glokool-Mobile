@@ -7,11 +7,17 @@ import { ArrowLeft } from '../../assets/icon/Common';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { SeriesBottomLogo } from '../../assets/icon/Series'
 import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../model';
+import { setCategoryIndex } from '../../model/Zone/Zone.UI.model';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
+    const categoryIndex = useSelector((state: RootState) => state.ZoneUIModel.categoryIndex);
+    const dispatch = useDispatch();
+
     const sampleData = ["ALL", "THINGS TO DO", "FOOD", "PUB.CAFE", "DAY TRIP", "TRAVEL TIPS"]
-    const [pageIndex, setPageIndex] = React.useState(0);
+    // const [pageIndex, setPageIndex] = React.useState(0);
     const scrollRef = React.useRef<SwiperFlatList>(null);
 
     const renderContents = (item) => {
@@ -25,10 +31,10 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     const renderCategory = (item) => {
         return (
             <TouchableOpacity
-                style={[styles.CategoryItemStyle, { borderBottomColor: item.index == pageIndex ? "black" : "#ccc", }]}
+                style={[styles.CategoryItemStyle, { borderBottomColor: item.index == categoryIndex ? "black" : "#ccc", }]}
                 onPress={() => scrollRef.current?.scrollToIndex({ index: item.index })}
             >
-                <Text style={[styles.CategoryTextStyle, { color: item.index == pageIndex ? "black" : "#ccc", }]}>{item.item}</Text>
+                <Text style={[styles.CategoryTextStyle, { color: item.index == categoryIndex ? "black" : "#ccc", }]}>{item.item}</Text>
             </TouchableOpacity>
         )
     }
@@ -78,12 +84,12 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
             </Layout>
 
             <SwiperFlatList
-                index={pageIndex}
+                index={categoryIndex}
                 data={sampleData}
                 ref={scrollRef}
                 renderItem={renderPage}
                 onChangeIndex={({ index, prevIndex }) => {
-                    setPageIndex(index);
+                    dispatch(setCategoryIndex(index));
                 }}
             />
 
