@@ -7,7 +7,6 @@ export { LocationModal } from './Location/Chat.Location.component';
 
 // common
 export { renderBubble } from './Common/Bubble.component';
-export { renderComposer } from './Common/Composer.component';
 export { renderInputToolbar } from './Common/InputToolBar.component';
 export { renderLoading } from './Common/Loading.component';
 export { renderSend  } from './Common/SendButton.component';

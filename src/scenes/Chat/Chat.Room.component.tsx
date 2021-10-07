@@ -29,6 +29,7 @@ import {
     ActionsProps,
     AvatarProps,
     Avatar,
+    Composer, ComposerProps
 } from 'react-native-gifted-chat';
 import storage from '@react-native-firebase/storage';
 import {
@@ -59,7 +60,20 @@ import { LocationBubbleMessage, messageType } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
 import { setAudioVisiblityTrue, setLocationVisiblityTrue, setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../model/Chat/Chat.UI.model';
-import { ImageModal, LocationModal, renderBubble, renderComposer, renderImage, renderTime, renderInputToolbar, renderLoading, renderSend, renderSystemMessage, renderSound, ChatTopTabBarComponent, AudioComponent } from '../../component/Chat/Chatroom';
+import {
+    ImageModal,
+    LocationModal,
+    renderBubble,
+    renderImage,
+    renderTime,
+    renderInputToolbar,
+    renderLoading,
+    renderSend,
+    renderSystemMessage,
+    renderSound,
+    ChatTopTabBarComponent,
+    AudioComponent
+} from '../../component/Chat/Chatroom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
@@ -72,14 +86,12 @@ import { windowWidth } from '../../Design.component';
 
 import {
     Keyboard as UIKeyboard,
-    Constants,
 } from 'react-native-ui-lib';
 import _ from 'lodash';
 
 const KeyboardAccessoryView = UIKeyboard.KeyboardAccessoryView;
 const KeyboardUtils = UIKeyboard.KeyboardUtils;
 const KeyboardRegistry = UIKeyboard.KeyboardRegistry;
-const TrackInteractive = true;
 
 const keyboards = [
     {
@@ -119,7 +131,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         component: undefined,
         initialProps: undefined,
     });
-    const [keyboardOpenState, setKeyboardOpenState] = useState(false);
     const [textInputRef, setTextInputRef] = useState();
 
     const ImagesKeyboard = () => {
@@ -183,16 +194,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         () => CustomKeyboard
     );
 
-    const onKeyboardResigned = () => {
-        resetKeyboardView();
-    };
-
-    const resetKeyboardView = () => {
-        setCustomKeyboard({});
-    };
-
     const showKeyboardView = (component, title) => {
-        setKeyboardOpenState(true);
         setCustomKeyboard({
             component,
             initialProps: { title }
@@ -212,7 +214,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         ))}
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={resetKeyboardView}>
+                        <TouchableOpacity onPress={() => setCustomKeyboard({})}>
                             <Text>[Reset]</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={KeyboardUtils.dismiss} style={{ paddingLeft: 10 }}>
@@ -754,7 +756,18 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     };
 
+    const renderComposer = (props: ComposerProps): React.ReactElement => {
 
+        return (
+            <Composer
+                {...props}
+                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
+                placeholder="Chat Message"
+                textInputStyle={styles.ChatComposer}
+                ref={r => { setTextInputRef(r) }}
+            />
+        )
+    };
 
     const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubbleMessage) => {
 
@@ -893,11 +906,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     <KeyboardAccessoryView
                         renderContent={renderKeyboardLine}
-                        trackInteractive={TrackInteractive}
+                        trackInteractive={true}
                         kbInputRef={textInputRef}
                         kbComponent={customKeyboard.component}
                         kbInitialProps={customKeyboard.initialProps}
-                        onKeyboardResigned={onKeyboardResigned}
+                        onKeyboardResigned={() => setCustomKeyboard({})}
                         revealKeyboardInteractive
                         onRequestShowKeyboard={onRequestShowKeyboard}
                         useSafeArea={true}
@@ -1243,6 +1256,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         paddingVertical: 5,
         width: WindowWidth
+    },
+    ChatComposer: {
+        alignSelf: 'center',
+        marginBottom: -2,
+        textDecorationLine: 'none',
+        borderBottomWidth: 0,
+        textAlignVertical: 'center',
+        maxHeight: 90,
     },
 });
 
