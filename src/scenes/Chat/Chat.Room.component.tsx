@@ -106,20 +106,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [bottomHeight, setBottomHeight] = React.useState<number>(0);
+    const [statusBarHeight, setStatusBarHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
+    
 
     const AndriodKeyboardOpen = windowHeight - bottomHeight - keyboardHeight - 60;
     const IOSKeyboardOpen = windowHeight - bottomHeight - 70;
     const AndroidKeyboardDown = windowHeight - bottomHeight;
-    const IOSKeyboardDown = windowHeight - bottomHeight - getStatusBarHeight();
-    const IOSCustomKeyboardOpenHeight = windowHeight - bottomHeight - keyboardHeight - 70;
+    const IOSKeyboardDown = windowHeight - bottomHeight - statusBarHeight;
+    const IOSCustomKeyboardOpenHeight = windowHeight - keyboardHeight - statusBarHeight + 2;
 
     const KeyboardOpenHeight = (Platform.OS === 'android')? AndriodKeyboardOpen : IOSKeyboardOpen ;
     const KeyboardDownHeight = (Platform.OS === 'android')? AndroidKeyboardDown : IOSKeyboardDown ;
     const CustomKeyboardOpenHeight = (Platform.OS === 'android')? AndriodKeyboardOpen : IOSCustomKeyboardOpenHeight;
-
-
-
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -209,6 +209,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     React.useEffect(() => {
 
+
+        setStatusBarHeight(getStatusBarHeight());
         setChatIcon(false);
         setBottomHeight(getBottomSpace());
 
@@ -666,7 +668,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart: () => dispatch(setKeyboardFalse()) }}
+                textInputProps={{ autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart: () => dispatch(setMenuVisiblityFalse())}}
                 placeholder="Chat Message"
                 textInputStyle={styles.ChatComposer}
             />
@@ -781,7 +783,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     return (
         <SafeAreaView>
 
-            <Layout style={{ width: '100%', height: (menuVisiblity || keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
+            <Layout style={{ width: '100%', height: (menuVisiblity)? CustomKeyboardOpenHeight : (keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -820,7 +822,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             {(menuVisiblity && !keyboardOpen) ?
 
-                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight + 70, backgroundColor: '#F8F8F8' }}>
+                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight, backgroundColor: '#F8F8F8' }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}
