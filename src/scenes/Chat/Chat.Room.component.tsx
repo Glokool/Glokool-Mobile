@@ -185,7 +185,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             dispatch(setMenuVisiblityFalse());
             dispatch(setKeyboardHeight(e.endCoordinates.height));
             dispatch(setKeyboardTrue());
-            
         }
 
         const KeyboardHide = (e : KeyboardEvent) => {            
@@ -224,6 +223,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             if (ChatDB != undefined) {
                 ChatDB.off('value', OfftheDB)
             };
+
+            dispatch(setKeyboardFalse());
+            dispatch(setMenuVisiblityFalse());
 
         };
 
@@ -651,8 +653,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 {...props}
                 textInputProps={{autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart : () => dispatch(setKeyboardFalse()) }}
                 placeholder="Chat Message"
-                textInputStyle={styles.ChatComposer}
-                
+                textInputStyle={styles.ChatComposer}                
             />
         )
     };
@@ -760,111 +761,101 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         )
     }
 
-
-    console.log(keyboardHeight);
+    console.log(keyboardHeight)
 
     //실제 렌더링
     return (
-        <Layout
-            style={{ width: '100%', height: '100%' }}
-        >
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
-
-            <KeyboardAvoidingView
-                style={styles.Container}
-                behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 60 : -230}
-            >
-                <Layout style={styles.mainContainer}>
-
-                    <GiftedChat
-                        messages={chatMessages}
-                        textInputProps={{ autoFocus: true }}
-                        onSend={(messages) => onSend(messages)}
-                        infiniteScroll={true}
-                        createdAt={new Date().getTime()}
-                        user={{
-                            _id: currentUser?.uid,
-                        }}
-                        isAnimated
-                        messagesContainerStyle={{
-                            paddingBottom: 30,
-                            paddingTop: 80,
-                        }}
-                        isKeyboardInternallyHandled={false}
-                        renderUsernameOnMessage={false}
-                        alwaysShowSend={true}
-                        showUserAvatar={false}
-                        renderAvatarOnTop={true}
-                        renderAvatar={renderAvatar}
-                        renderTime={renderTime}
-                        renderSend={renderSend}
-                        renderInputToolbar={(props) => renderInputToolbar(props, day)}
-                        renderBubble={renderBubble}
-                        renderLoading={renderLoading}
-                        renderComposer={renderComposer}
-                        renderSystemMessage={renderSystemMessage}
-                        renderMessageImage={renderImage}
-                        renderMessageAudio={renderSound}
-                        renderCustomView={renderCustomBubble}
-                        renderActions={renderActions}
-                    />
-
-                    {(menuVisiblity && !keyboardOpen)? 
-                        <Layout style={{ justifyContent : 'flex-end', height : keyboardHeight }}>
-                            <Layout style={styles.SideContainer}>
-                                <Pressable
-                                    style={styles.SideButton}
-                                    onPress={() => dispatch(setAudioVisiblityTrue())}>
-                                    <Record />
-                                    <Text style={styles.SideButtonTxt}>Voices</Text>
-                                </Pressable>
+        <SafeAreaView style={{ width: '100%', height: windowHeight }}>
             
-                                <Pressable
-                                    style={styles.SideButton}
-                                    onPress={() => ImageSend()}>
-                                    <Images />
-                                    <Text style={styles.SideButtonTxt}>Images</Text>
-                                </Pressable>
-            
-                                <Pressable
-                                    style={styles.SideButton}
-                                    onPress={() => takePhoto()}>
-                                    <Camera />
-                                    <Text style={styles.SideButtonTxt}>Camera</Text>
-                                </Pressable>
-            
-                                <Pressable
-                                    style={styles.SideButton}
-                                    onPress={() => LocationMessage()}>
-                                    <MyLocation />
-                                    <Text style={styles.SideButtonTxt}>
-                                        My Location
-                                    </Text>
-                                </Pressable>
-                            </Layout>
-                        </Layout>
-                    :
-                        null
-                    }
+            <Layout style={{ width: '100%', height: (keyboardOpen || menuVisiblity)? windowHeight - keyboardHeight - 60 : windowHeight}}>
+
+                <GiftedChat
+                    messages={chatMessages}
+                    textInputProps={{ autoFocus: true }}
+                    onSend={(messages) => onSend(messages)}
+                    infiniteScroll={true}
+                    createdAt={new Date().getTime()}
+                    user={{
+                        _id: currentUser?.uid,
+                    }}
+                    isAnimated
+                    messagesContainerStyle={{
+                        paddingBottom: 30,
+                        paddingTop: 80,
+                    }}
+                    renderUsernameOnMessage={false}
+                    alwaysShowSend={true}
+                    showUserAvatar={false}
+                    renderAvatarOnTop={true}
+                    renderAvatar={renderAvatar}
+                    renderTime={renderTime}
+                    renderSend={renderSend}
+                    renderInputToolbar={(props) => renderInputToolbar(props, day)}
+                    renderBubble={renderBubble}
+                    renderLoading={renderLoading}
+                    renderComposer={renderComposer}
+                    renderSystemMessage={renderSystemMessage}
+                    renderMessageImage={renderImage}
+                    renderMessageAudio={renderSound}
+                    renderCustomView={renderCustomBubble}
+                    renderActions={renderActions}
+                />
+
+            </Layout>
+
+
+            {(menuVisiblity && !keyboardOpen)?
+
+                <Layout style={{ justifyContent : 'flex-end', height : keyboardHeight + 60, backgroundColor : '#F8F8F8' }}>
+                    <Layout style={styles.SideContainer}>
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => dispatch(setAudioVisiblityTrue())}>
+                            <Record />
+                            <Text style={styles.SideButtonTxt}>Voices</Text>
+                        </Pressable>
+    
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => ImageSend()}>
+                            <Images />
+                            <Text style={styles.SideButtonTxt}>Images</Text>
+                        </Pressable>
+    
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => takePhoto()}>
+                            <Camera />
+                            <Text style={styles.SideButtonTxt}>Camera</Text>
+                        </Pressable>
+    
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => LocationMessage()}>
+                            <MyLocation />
+                            <Text style={styles.SideButtonTxt}>
+                                My Location
+                            </Text>
+                        </Pressable>
+                    </Layout>
 
                 </Layout>
+            :
+                null
+            }
 
-                {/* 가이드 정보를 출력하는 모달 */}
-                <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
+            {/* 가이드 정보를 출력하는 모달 */}
+            <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
 
-                {/* 이미지 클릭시 확대 이미지 창 출력 */}
-                <ImageModal />
+            {/* 이미지 클릭시 확대 이미지 창 출력 */}
+            <ImageModal />
 
-                {/* 지도 메시지 클릭시 확대 창 출력 */}
-                <LocationModal />
+            {/* 지도 메시지 클릭시 확대 창 출력 */}
+            <LocationModal />
 
-                {/*채팅방 탑 탭바*/}
-                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-
-               
-            </KeyboardAvoidingView>
-
+            {/*채팅방 탑 탭바*/}
+            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+            
             <AudioComponent
                 roomName={roomName}
                 currentUser={currentUser}
@@ -874,7 +865,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 createPushNoti={createPushNoti}
             />
 
-        </Layout>
+        </SafeAreaView>
     );
 };
 
@@ -959,8 +950,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     mainContainer: {
-        width: '100%',
-        height: '100%',
+
     },
     inputToolbar: {
         margin: 10,
@@ -1125,11 +1115,10 @@ const styles = StyleSheet.create({
     },
     ChatComposer: {
         alignSelf: 'center',
-        marginBottom: -2,
         textDecorationLine: 'none',
         borderBottomWidth: 0,
         textAlignVertical: 'center',
-        maxHeight: 90,
+        height: 90,
         backgroundColor: 'white',
         borderRadius : 32,
         paddingLeft: 25,
@@ -1141,6 +1130,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         margin: 10,
         alignItems: 'center',
+        height: 90
     },
     MyLocationHeaderContainer: {
         alignItems: 'flex-end',

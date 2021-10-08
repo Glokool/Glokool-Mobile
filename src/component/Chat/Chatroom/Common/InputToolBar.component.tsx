@@ -17,7 +17,6 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date) : Reac
                         {...props}
                         primaryStyle={styles.ToolBarContainer}
                         containerStyle={styles.ChatInputToolBar}
-                        
                     />
                 ) 
                 : 
@@ -30,8 +29,9 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date) : Reac
 const styles = StyleSheet.create({
 
     ToolBarContainer: {
+        height: 60,
         backgroundColor : '#F8F8F8',
-        borderTopWidth: 0
+        justifyContent: 'center'
     },
 
 
