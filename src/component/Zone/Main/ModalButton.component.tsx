@@ -48,9 +48,12 @@ export const PayAvailableButton = () => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#7777ff', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
-                <Text>$5 / day</Text>
+                <Text style={[styles.PriceText, { color: '#7777ff' }]}>$ </Text>
+                <Text style={styles.OriginalPriceText}>14 </Text>
+                <Text style={styles.PriceText}>6.99</Text>
+                <Text style={[styles.PriceText, { color: '#7777ff' }]}> / day</Text>
             </Layout>
-            <Text style={styles.ButtonText}>Join a Chat Room</Text>
+            <Text style={[styles.ButtonText, { fontSize: 12 }]}>Join a Chat Room</Text>
             <Layout style={styles.SideContainer}>
                 <EnterIcon />
             </Layout>
@@ -62,9 +65,12 @@ export const PayDisabledButton = () => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#a2a2a2', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
-                <Text>$8 / day</Text>
+                <Text style={[styles.PriceText, { color: '#a2a2a2' }]}>$ </Text>
+                <Text style={styles.OriginalPriceText}>14 </Text>
+                <Text style={styles.PriceText}>6.99</Text>
+                <Text style={[styles.PriceText, { color: '#a2a2a2' }]}> / day</Text>
             </Layout>
-            <Text style={styles.ButtonText}>The Group Chat is Full</Text>
+            <Text style={[styles.ButtonText, { fontSize: 12 }]}>The Group Chat is Full</Text>
             <Layout style={[styles.SideContainer, { width: windowWidth * 0.02 }]} />
         </Layout>
     )
@@ -95,6 +101,17 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         paddingHorizontal: 10,
         height: windowHeight * 0.04,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    OriginalPriceText: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 12,
+        color: '#d4d4d4',
+        textDecorationLine: 'line-through',
+    },
+    PriceText: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 13,
     }
 })

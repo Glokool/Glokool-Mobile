@@ -15,7 +15,7 @@ import { EnterIcon } from '../../../assets/icon/Zone';
 
 import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '.';
 
-export const ZoneChatModal = (props: any) => {
+export const  ZoneChatModal = (props: any) => {
 
     const guideVisible = useSelector((state: RootState) => state.ZoneUIModel.guideVisiblity);
     const dispatch = useDispatch();
@@ -135,7 +135,7 @@ export const ZoneChatModal = (props: any) => {
 
                         <Layout style={{ marginTop: 20, alignItems: 'center' }}>
                             <FlatList
-                                data={props.guide.keyword}
+                                data={props.guide.keyword.slice(0,2)}
                                 renderItem={renderItem}
                                 horizontal
                                 scrollEnabled={false}
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 17,
         paddingVertical: 8,
         marginRight: 5,
-        backgroundColor: '#efefef'
+        backgroundColor: '#efefef',
     },
     keywordText: {
         fontFamily: 'Pretendard-Regular',
