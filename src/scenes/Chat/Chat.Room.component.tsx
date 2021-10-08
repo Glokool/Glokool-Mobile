@@ -108,6 +108,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [bottomHeight, setBottomHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
+    const AndriodKeyboardOpen = windowHeight - bottomHeight - keyboardHeight - 60;
+    const IOSKeyboardOpen = windowHeight - bottomHeight - 60;
+    const AndroidKeyboardDown = windowHeight - bottomHeight;
+    const IOSKeyboardDown = windowHeight - bottomHeight - getStatusBarHeight();
+
+    const KeyboardOpenHeight = (Platform.OS === 'android')? AndriodKeyboardOpen : IOSKeyboardOpen ;
+    const KeyboardDownHeight = (Platform.OS === 'android')? AndroidKeyboardDown : IOSKeyboardDown ;
+
+
 
 
     const getGuideToken = async (uid: string) => {
@@ -770,7 +779,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     return (
         <SafeAreaView>
 
-            <Layout style={{ width: '100%', height: (menuVisiblity) ? windowHeight - bottomHeight - keyboardHeight - getStatusBarHeight() : windowHeight - bottomHeight - getStatusBarHeight() }}>
+            <Layout style={{ width: '100%', height: (menuVisiblity || keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -809,7 +818,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             {(menuVisiblity && !keyboardOpen) ?
 
-                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight + 60, backgroundColor: '#F8F8F8' }}>
+                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight + 70, backgroundColor: '#F8F8F8' }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}
@@ -857,7 +866,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <LocationModal />
 
             {/*채팅방 탑 탭바*/}
-            {/* <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} /> */}
+            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+
             <AudioComponent
                 roomName={roomName}
                 currentUser={currentUser}
@@ -965,7 +975,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
-        marginBottom: 20,
     },
 
     menuContainer: {
@@ -1120,7 +1129,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         borderBottomWidth: 0,
         textAlignVertical: 'center',
-        height: 90,
+        height: 70,
         backgroundColor: 'white',
         borderRadius: 32,
         paddingLeft: 25,

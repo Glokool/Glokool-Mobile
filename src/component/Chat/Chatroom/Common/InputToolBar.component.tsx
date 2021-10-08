@@ -29,13 +29,15 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date) : Reac
 const styles = StyleSheet.create({
 
     ToolBarContainer: {
-        height: 60,
+        height: 70,
         backgroundColor : '#F8F8F8',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
 
     ChatInputToolBar : {
+        height: 70,
         alignItems: 'center',
     },
 
