@@ -3,20 +3,25 @@ import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-na
 import { Layout, Modal } from '@ui-kitten/components';
 import { EnterIcon } from '../../../assets/icon/Zone';
 import { windowHeight, windowWidth } from '../../../Design.component';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const FreeAvailableButton = () => {
     return (
-        <Layout
+        <LinearGradient
             style={[
                 styles.ButtonContainer,
-                { backgroundColor: '#7777ff', justifyContent: 'space-evenly' }]}
+                { backgroundColor: '#7777ff', justifyContent: 'space-evenly' }
+            ]}
+            colors={['#9668ef', '#7777ff']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
         >
             <Layout style={styles.SideContainer} />
             <Text style={styles.ButtonText}>Experience FREE Trial Now</Text>
             <Layout style={styles.SideContainer}>
                 <EnterIcon />
             </Layout>
-        </Layout>
+        </LinearGradient>
     )
 }
 

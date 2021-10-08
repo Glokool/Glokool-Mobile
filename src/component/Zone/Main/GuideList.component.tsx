@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
 import { ZoneChatModal } from '.';
+import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -78,13 +79,28 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 </Layout>
 
                 {(item.index === 0) && (
-                    <Layout style={styles.FreeIcon}>
+                    <LinearGradient
+                        style={styles.FreeIcon}
+                        colors={['#9668ef', '#7777ff']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                    >
                         <Text style={styles.FreeText}>FREE</Text>
-                    </Layout>
+                    </LinearGradient>
                 )}
                 {(item.index === 1) && (
                     <Layout style={styles.FreeIconDisabled}>
                         <Text style={styles.FreeTextDisabled}>FREE</Text>
+                    </Layout>
+                )}
+                {(item.index === 2) && (
+                    <Layout style={[styles.FreeIcon, { backgroundColor: '#7777ff' }]} >
+                        <Text style={styles.FreeText}>GROUP</Text>
+                    </Layout>
+                )}
+                {(item.index === 3) && (
+                    <Layout style={[styles.FreeIcon, { backgroundColor: '#7777ff' }]} >
+                        <Text style={styles.FreeText}>PRIVATE</Text>
                     </Layout>
                 )}
 
@@ -150,7 +166,6 @@ const styles = StyleSheet.create({
     },
     FreeIcon: {
         position: 'absolute',
-        backgroundColor: '#7777ff',
         borderRadius: 15,
         paddingVertical: 5,
         paddingHorizontal: 15,

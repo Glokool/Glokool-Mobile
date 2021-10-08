@@ -113,10 +113,14 @@ export const ZoneChatModal = (props: any) => {
                         </Layout>
 
                         <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
-                            <Text style={styles.keyTextStyle}>Group Chat Limit</Text>
-                            <Text style={styles.valTextStyle}>
-                                10
+                            <Text style={styles.keyTextStyle}>Chat Type</Text>
+                            <Text style={[styles.valTextStyle, { flex: 1 }]}>
+                                Group Chat
                             </Text>
+                            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+                                <Text style={styles.keyTextStyle}>Max</Text>
+                                <Text style={styles.valTextStyle}>10</Text>
+                            </Layout>
                         </Layout>
 
                         <Layout style={styles.introContainer}>
@@ -147,7 +151,7 @@ export const ZoneChatModal = (props: any) => {
                         <TouchableOpacity disabled={isFull} style={styles.buttonContainer}>
                             {isFree ? (
                                 isFull ?
-                                // 무료방 꽉찼을때
+                                    // 무료방 꽉찼을때
                                     <FreeDisabledButton />
                                     :
                                     <FreeAvailableButton />
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
     valTextStyle: {
         fontFamily: 'Pretendard-Regular',
         fontSize: Platform.OS === 'ios' ? 15 : 13,
-        flex: 1,
+        flex: 2,
     },
     oneLineIntro: {
         fontFamily: 'Pretendard-Bold',
