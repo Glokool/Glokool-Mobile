@@ -80,12 +80,12 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { setLocation } from '../../model/Chat/Chat.Location.model';
 import FastImage from 'react-native-fast-image';
-import { windowWidth } from '../../Design.component';
+import { windowHeight, windowWidth } from '../../Design.component';
 import { setKeyboardFalse, setKeyboardHeight, setKeyboardTrue } from '../../model/Chat/Chat.Keyboard.model';
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
 
-var ToastRef: any;
-const WindowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+var ToastRef : any;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
@@ -93,18 +93,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
 
-    const keyboardOpen = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardOpen);
     const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
+    const keyboardOpen = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardOpen);
     const guideToken = useSelector((state: RootState) => state.ChatDataModel.guideUID);
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
 
+  
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
-
+    const [bottomHeight, setBottomHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
+    
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -177,25 +180,24 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         dispatch(cleanRoomName())
     }
 
+    // 키보드 높이 추적을 위한 이벤트 리스너
+    const KeyboardOpen = (e) => {
+        dispatch(setMenuVisiblityFalse());
+        dispatch(setKeyboardHeight(e.endCoordinates.height));
+        dispatch(setKeyboardTrue());
+    }
+
+    const KeyboardHide = (e : KeyboardEvent) => {            
+        dispatch(setKeyboardFalse());
+    }
+
+    const keyboardShow = Keyboard.addListener('keyboardDidShow', KeyboardOpen);
+    const keyboardHide = Keyboard.addListener('keyboardDidHide', KeyboardHide);
 
     React.useEffect(() => {
 
-        // 키보드 높이 추적을 위한 이벤트 리스너
-        const KeyboardOpen = (e) => {
-            dispatch(setMenuVisiblityFalse());
-            dispatch(setKeyboardHeight(e.endCoordinates.height));
-            dispatch(setKeyboardTrue());
-        }
-
-        const KeyboardHide = (e : KeyboardEvent) => {            
-            dispatch(setKeyboardFalse());
-        }
-
-        Keyboard.addListener('keyboardDidShow', KeyboardOpen);
-        Keyboard.addListener('keyboardDidHide', KeyboardHide);
-
-
         setChatIcon(false);
+        setBottomHeight(getBottomSpace());
 
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
@@ -214,8 +216,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
         return () => {
 
-            Keyboard.removeAllListeners('keyboardWillShow');
-            Keyboard.removeAllListeners('keyboardWillHide');
+            keyboardShow.remove();
+            keyboardHide.remove();
 
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
@@ -717,6 +719,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                     else {
                         dispatch(setMenuVisiblityTrue());
+                        dispatch(setKeyboardFalse());
                         Keyboard.dismiss();
                     }
                                         
@@ -761,13 +764,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         )
     }
 
-    console.log(keyboardHeight)
-
     //실제 렌더링
     return (
         <SafeAreaView style={{ width: '100%', height: windowHeight }}>
             
-            <Layout style={{ width: '100%', height: (keyboardOpen || menuVisiblity)? windowHeight - keyboardHeight - 60 : windowHeight}}>
+            <Layout style={{ width: '100%', height: (keyboardOpen || menuVisiblity)? windowHeight - keyboardHeight - 60 - bottomHeight : windowHeight}}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -855,8 +856,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             {/*채팅방 탑 탭바*/}
             <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-            
-            <AudioComponent
+                        <AudioComponent
                 roomName={roomName}
                 currentUser={currentUser}
                 ChatDB={ChatDB}
@@ -1038,12 +1038,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     BackDropContainer: {
-        width: WindowWidth,
+        width: windowWidth,
         height: windowHeight * 0.7,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     AudioContainer: {
-        width: WindowWidth,
+        width: windowWidth,
         height: windowHeight * 0.3,
         borderTopWidth: 5,
         borderColor: '#7676FE',
@@ -1149,7 +1149,7 @@ const styles = StyleSheet.create({
     keyboardContainer: {
         backgroundColor: 'white',
         paddingVertical: 5,
-        width: WindowWidth
+        width: windowWidth
     },
 
 
