@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
     sendButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 5,
+        width : 40,
+        height : 40,
+        margin : 10,
     }
 })

@@ -12,8 +12,7 @@ import {
     Alert,
     AppStateStatus,
     Keyboard,
-    View,
-    TouchableOpacity
+    LayoutAnimation,
 } from 'react-native';
 import {
     Layout,
@@ -29,7 +28,7 @@ import {
     ActionsProps,
     AvatarProps,
     Avatar,
-    Composer, ComposerProps
+    Composer, ComposerProps, InputToolbarProps
 } from 'react-native-gifted-chat';
 import storage from '@react-native-firebase/storage';
 import {
@@ -45,6 +44,7 @@ import {
     MyLocation,
     Record,
     LocationTitle,
+    Exit,
 } from '../../assets/icon/Chat';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
@@ -81,28 +81,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { setLocation } from '../../model/Chat/Chat.Location.model';
 import FastImage from 'react-native-fast-image';
 import { windowWidth } from '../../Design.component';
-
-// keyboard
-
-import {
-    Keyboard as UIKeyboard,
-} from 'react-native-ui-lib';
-import _ from 'lodash';
-
-const KeyboardAccessoryView = UIKeyboard.KeyboardAccessoryView;
-const KeyboardUtils = UIKeyboard.KeyboardUtils;
-const KeyboardRegistry = UIKeyboard.KeyboardRegistry;
-
-const keyboards = [
-    {
-        id: 'unicorn.ImagesKeyboard',
-        name: 'Action',
-    },
-    {
-        id: 'unicorn.CustomKeyboard',
-        name: 'Emoji',
-    }
-];
+import { setKeyboardFalse, setKeyboardHeight, setKeyboardTrue } from '../../model/Chat/Chat.Keyboard.model';
 
 var ToastRef: any;
 const WindowWidth = Dimensions.get('window').width;
@@ -110,11 +89,12 @@ const windowHeight = Dimensions.get('window').height;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
-
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
 
+    const keyboardOpen = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardOpen);
+    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
     const guideToken = useSelector((state: RootState) => state.ChatDataModel.guideUID);
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
@@ -125,122 +105,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
 
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-
-    // ADDED KEYBOARD VIEW 키보드 부분 
-    const [customKeyboard, setCustomKeyboard] = useState({
-        component: undefined,
-        initialProps: undefined,
-    });
-    const [textInputRef, setTextInputRef] = useState();
-
-    const ImagesKeyboard = () => {
-        return (
-            <View style={styles.SideContainerBack}>
-                <View style={styles.SideContainer}>
-                    <TouchableOpacity
-                        style={styles.SideButton}
-                        onPress={() => {
-                            dispatch(setAudioVisiblityTrue());
-                            KeyboardUtils.dismiss()
-                        }}>
-                        <Record />
-                        <Text style={styles.SideButtonTxt}>Voices</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.SideButton}
-                        onPress={() => ImageSend()}>
-                        <Images />
-                        <Text style={styles.SideButtonTxt}>Images</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.SideButton}
-                        onPress={() => takePhoto()}>
-                        <Camera />
-                        <Text style={styles.SideButtonTxt}>Camera</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.SideButton}
-                        onPress={() => LocationMessage()}>
-                        <MyLocation />
-                        <Text style={styles.SideButtonTxt}>
-                            My Location
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-        );
-    }
-
-    const CustomKeyboard = () => {
-        return (
-            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: 'cornflowerblue' }}>
-                <TouchableOpacity>
-                    <Text style={{ padding: 10, }}>Click Me!</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-
-    KeyboardRegistry.registerKeyboard(
-        'unicorn.ImagesKeyboard',
-        () => ImagesKeyboard
-    );
-    KeyboardRegistry.registerKeyboard(
-        'unicorn.CustomKeyboard',
-        () => CustomKeyboard
-    );
-
-    const showKeyboardView = (component, title) => {
-        setCustomKeyboard({
-            component,
-            initialProps: { title }
-        });
-
-    }
-
-    const renderKeyboardAccessoryViewContent = () => {
-        return (
-            <View style={styles.keyboardContainer}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        {keyboards.map(keyboard => (
-                            <TouchableOpacity onPress={() => showKeyboardView(keyboard.id, keyboard.id)} key={keyboard.id} style={{ marginRight: 10 }}>
-                                <Text>{keyboard.name}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => setCustomKeyboard({})}>
-                            <Text>[Reset]</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={KeyboardUtils.dismiss} style={{ paddingLeft: 10 }}>
-                            <Text>[Close]</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-                <SafeAreaView />
-            </View>
-        );
-    };
-
-    const renderKeyboardLine = () => {
-        return (
-            <View style={{ height: 5, backgroundColor: '#eee' }} />
-        )
-    }
-
-    const onRequestShowKeyboard = componentID => {
-        setCustomKeyboard({
-            component: componentID,
-            initialProps: { title: 'Keyboard 1 opened by button' }
-        });
-    };
-    // 키보드 끝 //
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -316,6 +180,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     React.useEffect(() => {
 
+        // 키보드 높이 추적을 위한 이벤트 리스너
+        const KeyboardOpen = (e) => {
+            dispatch(setMenuVisiblityFalse());
+            dispatch(setKeyboardHeight(e.endCoordinates.height));
+            dispatch(setKeyboardTrue());            
+        }
+
+        const KeyboardHide = (e : KeyboardEvent) => {            
+            dispatch(setKeyboardFalse());
+        }
+
+        Keyboard.addListener('keyboardDidShow', KeyboardOpen);
+        Keyboard.addListener('keyboardDidHide', KeyboardHide);
+
+
         setChatIcon(false);
 
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
@@ -334,6 +213,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
 
         return () => {
+
+            Keyboard.removeAllListeners('keyboardWillShow');
+            Keyboard.removeAllListeners('keyboardWillHide');
 
             AppState.removeEventListener('change', handleAppStateChange);
             unsubscribe;
@@ -372,7 +254,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
 
+            
+
             messages = messages.map((node: messageType) => {
+
                 const message: messageType = {
                     _id: node._id,
                     text: node.messageType === 'message' ? node.text : '',
@@ -548,7 +433,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     //이미지 전송을 위한 버튼
-    const ImageSend = async (): void => {
+    const ImageSend = async () => {
 
         dispatch(setMenuVisiblityFalse());
 
@@ -653,7 +538,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    /* 채팅 창 디자인을 위한 컴포넌트 */
     const onSend = async (messages: IMessage[]) => {
 
         messages[0].messageType = 'message';
@@ -756,15 +640,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     };
 
+
+    /* 채팅창 내부 컴포넌트 시작용 ---------------------------------------------------------------------------------------------------------------*/
+
     const renderComposer = (props: ComposerProps): React.ReactElement => {
 
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5 }}
+                textInputProps={{autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart : () => dispatch(setMenuVisiblityFalse()) }}
                 placeholder="Chat Message"
                 textInputStyle={styles.ChatComposer}
-                ref={r => { setTextInputRef(r) }}
             />
         )
     };
@@ -815,24 +701,39 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-
+    // Action 버튼 렌더링 및 함수 설정
     const renderActions = (props: ActionsProps): React.ReactElement => {
         return (
             <Pressable
                 style={styles.ActionButton}
                 onPress={() => {
-                    dispatch(setMenuVisiblityTrue());
-                    Keyboard.dismiss();
+
+                    if (menuVisiblity) {
+                        dispatch(setMenuVisiblityFalse());
+                    }
+
+                    else {
+                        dispatch(setMenuVisiblityTrue());
+                        Keyboard.dismiss();
+                    }
+                                        
                 }}
             >
-                <FastImage
-                    style={styles.MenuImage}
-                    source={require('../../assets/icon/Chat/Menu_S.png')}
-                />
+                {menuVisiblity?
+                    <FastImage
+                        style={styles.MenuImage}
+                        source={require('../../assets/image/Chat/Exit.png')}
+                    />
+                :
+                    <FastImage
+                        style={styles.MenuImage}
+                        source={require('../../assets/icon/Chat/Menu_S.png')}
+                    />
+                }
+
             </Pressable>
         );
     };
-
 
     // 아바타 렌더링
     const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement => {
@@ -849,25 +750,24 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Avatar
                 {...props}
+                imageStyle={{ 
+                    left : { width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 },
+                    right : {}
+                }}
             />
         )
     }
 
 
+    console.log(keyboardHeight);
 
     //실제 렌더링
     return (
         <Layout
             style={{ width: '100%', height: '100%' }}
-
         >
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
-            <KeyboardAvoidingView
-                style={styles.Container}
-                behavior={Platform.OS === 'android' ? 'height' : 'padding'}
-                keyboardVerticalOffset={Platform.OS === 'android' ? 60 : -230}
-            >
                 <Layout style={styles.mainContainer}>
 
                     <GiftedChat
@@ -884,6 +784,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             paddingBottom: 30,
                             paddingTop: 80,
                         }}
+                        isKeyboardInternallyHandled={false}
                         renderUsernameOnMessage={false}
                         alwaysShowSend={true}
                         showUserAvatar={false}
@@ -900,21 +801,46 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         renderMessageAudio={renderSound}
                         renderCustomView={renderCustomBubble}
                         renderActions={renderActions}
-                        // 키보드 accessory view
-                        renderAccessory={renderKeyboardAccessoryViewContent}
                     />
 
-                    <KeyboardAccessoryView
-                        renderContent={renderKeyboardLine}
-                        trackInteractive={true}
-                        kbInputRef={textInputRef}
-                        kbComponent={customKeyboard.component}
-                        kbInitialProps={customKeyboard.initialProps}
-                        onKeyboardResigned={() => setCustomKeyboard({})}
-                        revealKeyboardInteractive
-                        onRequestShowKeyboard={onRequestShowKeyboard}
-                        useSafeArea={true}
-                    />
+                    {(menuVisiblity && !keyboardOpen)? 
+                        <Layout style={{ justifyContent : 'flex-end', height : keyboardHeight }}>
+                            <Layout style={styles.SideContainer}>
+                                <Pressable
+                                    style={styles.SideButton}
+                                    onPress={() => dispatch(setAudioVisiblityTrue())}>
+                                    <Record />
+                                    <Text style={styles.SideButtonTxt}>Voices</Text>
+                                </Pressable>
+            
+                                <Pressable
+                                    style={styles.SideButton}
+                                    onPress={() => ImageSend()}>
+                                    <Images />
+                                    <Text style={styles.SideButtonTxt}>Images</Text>
+                                </Pressable>
+            
+                                <Pressable
+                                    style={styles.SideButton}
+                                    onPress={() => takePhoto()}>
+                                    <Camera />
+                                    <Text style={styles.SideButtonTxt}>Camera</Text>
+                                </Pressable>
+            
+                                <Pressable
+                                    style={styles.SideButton}
+                                    onPress={() => LocationMessage()}>
+                                    <MyLocation />
+                                    <Text style={styles.SideButtonTxt}>
+                                        My Location
+                                    </Text>
+                                </Pressable>
+                            </Layout>
+                        </Layout>
+                    :
+                        null
+                    }
+
                 </Layout>
 
                 {/* 가이드 정보를 출력하는 모달 */}
@@ -928,48 +854,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                 {/*채팅방 탑 탭바*/}
                 <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-
-
-                {/* 사이드 컨테이너 - 이미지, 음성, 위치 */}
-                {menuVisiblity == true ? (
-                    <Layout
-                        style={styles.SideContainerBack}
-                        onTouchEnd={() => dispatch(setMenuVisiblityFalse())}>
-                        <Layout style={styles.SideContainer}>
-                            <Pressable
-                                style={styles.SideButton}
-                                onPress={() => dispatch(setAudioVisiblityTrue())}>
-                                <Record />
-                                <Text style={styles.SideButtonTxt}>Voices</Text>
-                            </Pressable>
-
-                            <Pressable
-                                style={styles.SideButton}
-                                onPress={() => ImageSend()}>
-                                <Images />
-                                <Text style={styles.SideButtonTxt}>Images</Text>
-                            </Pressable>
-
-                            <Pressable
-                                style={styles.SideButton}
-                                onPress={() => takePhoto()}>
-                                <Camera />
-                                <Text style={styles.SideButtonTxt}>Camera</Text>
-                            </Pressable>
-
-                            <Pressable
-                                style={styles.SideButton}
-                                onPress={() => LocationMessage()}>
-                                <MyLocation />
-                                <Text style={styles.SideButtonTxt}>
-                                    My Location
-                                </Text>
-                            </Pressable>
-                        </Layout>
-                    </Layout>
-                ) : null}
-
-            </KeyboardAvoidingView>
 
             <AudioComponent
                 roomName={roomName}
@@ -1078,8 +962,8 @@ const styles = StyleSheet.create({
     ActionButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 17,
-        marginBottom: 17,
+        marginLeft: 15,
+        marginBottom: 20,
     },
 
     menuContainer: {
@@ -1117,6 +1001,11 @@ const styles = StyleSheet.create({
         height: 20,
         resizeMode: 'stretch',
     },
+
+    AccessoryKeyboardContainer: {
+        justifyContent: 'flex-end',
+    },
+
     SideContainerBack: {
         width: '100%',
         height: '100%',
@@ -1126,14 +1015,15 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
     },
+
     SideContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         width: '100%',
-        height: 100,
+        height: '100%',
         backgroundColor: '#F8F8F8',
-        marginBottom: 100,
+
     },
     SideButton: {
         justifyContent: 'center',
@@ -1230,6 +1120,10 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0,
         textAlignVertical: 'center',
         maxHeight: 90,
+        backgroundColor: 'white',
+        borderRadius : 32,
+        paddingLeft: 25,
+        paddingBottom : 5
     },
     ChatInputToolBar: {
         borderWidth: 1.5,
@@ -1257,14 +1151,9 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         width: WindowWidth
     },
-    ChatComposer: {
-        alignSelf: 'center',
-        marginBottom: -2,
-        textDecorationLine: 'none',
-        borderBottomWidth: 0,
-        textAlignVertical: 'center',
-        maxHeight: 90,
-    },
+
+
+
 });
 
 

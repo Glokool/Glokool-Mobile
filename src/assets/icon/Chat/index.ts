@@ -20,6 +20,8 @@ import QuickSearchGlo from './QuickSearchGlo.svg';
 
 import LocationTitle from './LocationTitle.svg';
 
+import Exit from './Exit.svg';
+
 export {
     Help,
     Menu,
@@ -40,5 +42,7 @@ export {
     QuickSearchBanner,
     QuickSearchGlo,
 
-    LocationTitle
+    LocationTitle,
+
+    Exit
 }
