@@ -109,12 +109,14 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
     const AndriodKeyboardOpen = windowHeight - bottomHeight - keyboardHeight - 60;
-    const IOSKeyboardOpen = windowHeight - bottomHeight - 60;
+    const IOSKeyboardOpen = windowHeight - bottomHeight - 70;
     const AndroidKeyboardDown = windowHeight - bottomHeight;
     const IOSKeyboardDown = windowHeight - bottomHeight - getStatusBarHeight();
+    const IOSCustomKeyboardOpenHeight = windowHeight - bottomHeight - keyboardHeight - 70;
 
     const KeyboardOpenHeight = (Platform.OS === 'android')? AndriodKeyboardOpen : IOSKeyboardOpen ;
     const KeyboardDownHeight = (Platform.OS === 'android')? AndroidKeyboardDown : IOSKeyboardDown ;
+    const CustomKeyboardOpenHeight = (Platform.OS === 'android')? AndriodKeyboardOpen : IOSCustomKeyboardOpenHeight;
 
 
 
