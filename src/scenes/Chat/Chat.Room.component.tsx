@@ -184,7 +184,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         const KeyboardOpen = (e) => {
             dispatch(setMenuVisiblityFalse());
             dispatch(setKeyboardHeight(e.endCoordinates.height));
-            dispatch(setKeyboardTrue());            
+            dispatch(setKeyboardTrue());
+            
         }
 
         const KeyboardHide = (e : KeyboardEvent) => {            
@@ -648,9 +649,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart : () => dispatch(setMenuVisiblityFalse()) }}
+                textInputProps={{autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart : () => dispatch(setKeyboardFalse()) }}
                 placeholder="Chat Message"
                 textInputStyle={styles.ChatComposer}
+                
             />
         )
     };
@@ -768,6 +770,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         >
             <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
 
+            <KeyboardAvoidingView
+                style={styles.Container}
+                behavior={Platform.OS === 'android' ? 'height' : 'padding'}
+                keyboardVerticalOffset={Platform.OS === 'android' ? 60 : -230}
+            >
                 <Layout style={styles.mainContainer}>
 
                     <GiftedChat
@@ -854,6 +861,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
                 {/*채팅방 탑 탭바*/}
                 <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+
+               
+            </KeyboardAvoidingView>
 
             <AudioComponent
                 roomName={roomName}
