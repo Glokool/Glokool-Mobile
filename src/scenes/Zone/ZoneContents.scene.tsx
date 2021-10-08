@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, ScrollView, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import { ArrowLeft } from '../../assets/icon/Common';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { SeriesBottomLogo } from '../../assets/icon/Series'
 import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
@@ -25,6 +23,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         return () => { dispatch(setCategoryIndex(0)) }
     }, [])
 
+    // 페이지 내 컨텐츠 렌더링
     const renderContents = (item) => {
         return (
             <TouchableOpacity
@@ -45,10 +44,12 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         )
     }
 
+    // 페이지 렌더링 
     const renderPage = (item) => {
 
         return (
             <Layout style={styles.PageContainer} >
+                {/* 페이지 내 아이템들을 보여주는 리스트 */}
                 <FlatList
                     data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                     renderItem={renderContents}
@@ -80,7 +81,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                         style={styles.CategoryListContainer}
                     />}
             />
-
+            {/* page 전체를 담는 list , 양옆으로 swipe 가능 */}
             <SwiperFlatList
                 index={categoryIndex}
                 data={sampleData}
@@ -144,7 +145,9 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     PageFooterContainer: {
-        alignItems: 'center'
+        paddingTop: 20,
+        alignItems: 'center',
+        paddingBottom: windowHeight * 0.05
     },
     CategoryListContainer: {
         marginTop: 10,

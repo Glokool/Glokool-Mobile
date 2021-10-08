@@ -3,7 +3,6 @@ import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -12,6 +11,7 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
 
     const sampleData = ['red', 'black', 'blue', 'green', 'orange', 'tomato']
 
+    // list item
     const renderItem = (item) => {
 
         return (
@@ -23,6 +23,7 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
 
     return (
         <Layout style={styles.MainContainer}>
+            {/* zone 메인 배너 */}
             <SwiperFlatList
                 index={0}
                 autoplay={true}

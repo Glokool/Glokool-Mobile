@@ -23,7 +23,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
             {/* 최상단 지역 버튼 */}
             <ZoneMainTopTabBarComponent {...props} />
             
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Layout style={styles.InnerContainer}>
                     {/* 지역 이미지 배너 */}
                     <ZoneBannerComponent {...props} />
@@ -33,6 +33,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 </Layout>
 
                 <Layout style={styles.ListContainer}>
+                    {/* 카테고리 & 컨텐츠 목록 */}
                     <ZoneCategoryListComponent {...props} />
                 </Layout>
 

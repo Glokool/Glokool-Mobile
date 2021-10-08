@@ -1,13 +1,12 @@
 import React from 'react';
 import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform } from 'react-native';
-import { Layout, Text, Divider, Button } from '@ui-kitten/components'
+import { Divider } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../model';
-import { setLocationVisiblityFalse, setLocationVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
+import { setLocationVisiblityFalse } from '../../../model/Zone/Zone.UI.model';
 import FastImage from 'react-native-fast-image';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Check } from '../../../assets/icon/Zone';
 
@@ -30,7 +29,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
         if (locationVisiblity) {
             Animated.timing(heightLevel, {
-                duration: 1000,
+                duration: 500,
                 toValue: -(windowHeight * 0.3),
                 useNativeDriver: false
             }).start();
@@ -57,7 +56,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
         setTimeout(() => {
             return dispatch(setLocationVisiblityFalse());
-        }, 800);
+        }, 500);
     };
 
     const renderButton = (item: any): React.ReactElement => {

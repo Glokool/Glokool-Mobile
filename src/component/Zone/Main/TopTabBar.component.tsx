@@ -2,11 +2,10 @@ import React from 'react';
 import { StyleSheet, Pressable, Platform } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
-import { windowHeight, windowWidth } from '../../../Design.component';
+import { windowWidth } from '../../../Design.component';
 import { TopTabButton } from '../../../assets/icon/Zone';
 import { useDispatch } from 'react-redux';
 import { setLocationVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const ZoneMainTopTabBarComponent = (props: ZoneMainSceneProps): React.ReactElement => {
 

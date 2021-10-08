@@ -24,12 +24,14 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
         InitialGuideList();
     }, []);
 
+    // 초기 가이드 리스트 초기화
     const InitialGuideList = () => {
         axios.get(SERVER + '/api/guides')
             .then((response) => setGuideList(response.data))
             .catch((e) => console.log(e));
     }
 
+    // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
     const InitialGuideInfo = async (item) => {
 
         if (item.uid != '') {
@@ -56,6 +58,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
         }
     }
 
+    // 가이드 리스트 아이템
     const renderItem = (item: { item, index }) => {
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
@@ -91,6 +94,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     return (
         <Layout style={{ alignItems: 'center' }}>
+            {/* 가이드 (챗방) list */}
             <FlatList
                 data={guideList}
                 renderItem={renderItem}
@@ -100,6 +104,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 ListFooterComponent={<Layout style={{ width: 15 }} />}
                 keyExtractor={(item, index) => index.toString()}
             />
+            {/* guide 더보기 버튼 */}
             <TouchableOpacity style={styles.ButtonContainer}>
                 <Text style={[styles.ButtonText, { color: 'white' }]}>Click to Explore More </Text>
                 <Text style={[styles.ButtonText, { color: '#8596FF', marginRight: 10, }]}>Travel Assistants</Text>
