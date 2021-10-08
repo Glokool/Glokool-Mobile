@@ -13,6 +13,7 @@ import {
     AppStateStatus,
     Keyboard,
     LayoutAnimation,
+    StatusBar,
 } from 'react-native';
 import {
     Layout,
@@ -85,7 +86,7 @@ import { setKeyboardFalse, setKeyboardHeight, setKeyboardTrue } from '../../mode
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { getBottomSpace, isIphoneX } from "react-native-iphone-x-helper";
 
-var ToastRef : any;
+var ToastRef: any;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
@@ -93,21 +94,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
 
-    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
-    const keyboardOpen = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardOpen);
+    const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
+    const keyboardOpen = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardOpen);
     const guideToken = useSelector((state: RootState) => state.ChatDataModel.guideUID);
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
 
-  
+
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const [bottomHeight, setBottomHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
-    
+
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -185,9 +186,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         dispatch(setMenuVisiblityFalse());
         dispatch(setKeyboardHeight(e.endCoordinates.height));
         dispatch(setKeyboardTrue());
+
     }
 
-    const KeyboardHide = (e : KeyboardEvent) => {            
+    const KeyboardHide = (e: KeyboardEvent) => {
         dispatch(setKeyboardFalse());
     }
 
@@ -259,7 +261,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
 
-            
+
 
             messages = messages.map((node: messageType) => {
 
@@ -653,9 +655,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart : () => dispatch(setKeyboardFalse()) }}
+                textInputProps={{ autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart: () => dispatch(setKeyboardFalse()) }}
                 placeholder="Chat Message"
-                textInputStyle={styles.ChatComposer}                
+                textInputStyle={styles.ChatComposer}
             />
         )
     };
@@ -722,15 +724,15 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                         dispatch(setKeyboardFalse());
                         Keyboard.dismiss();
                     }
-                                        
+
                 }}
             >
-                {menuVisiblity?
+                {menuVisiblity ?
                     <FastImage
                         style={styles.MenuImage}
                         source={require('../../assets/image/Chat/Exit.png')}
                     />
-                :
+                    :
                     <FastImage
                         style={styles.MenuImage}
                         source={require('../../assets/icon/Chat/Menu_S.png')}
@@ -756,9 +758,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Avatar
                 {...props}
-                imageStyle={{ 
-                    left : { width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 },
-                    right : {}
+                imageStyle={{
+                    left: { width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 },
+                    right: {}
                 }}
             />
         )
@@ -766,9 +768,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     //실제 렌더링
     return (
-        <SafeAreaView style={{ width: '100%', height: windowHeight }}>
-            
-            <Layout style={{ width: '100%', height: (keyboardOpen || menuVisiblity)? windowHeight - keyboardHeight - 60 - bottomHeight : windowHeight}}>
+        <SafeAreaView>
+
+            <Layout style={{ width: '100%', height: (menuVisiblity) ? windowHeight - bottomHeight - keyboardHeight - getStatusBarHeight() : windowHeight - bottomHeight - getStatusBarHeight() }}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -805,9 +807,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             </Layout>
 
 
-            {(menuVisiblity && !keyboardOpen)?
+            {(menuVisiblity && !keyboardOpen) ?
 
-                <Layout style={{ justifyContent : 'flex-end', height : keyboardHeight + 60, backgroundColor : '#F8F8F8' }}>
+                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight + 60, backgroundColor: '#F8F8F8' }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}
@@ -815,21 +817,21 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             <Record />
                             <Text style={styles.SideButtonTxt}>Voices</Text>
                         </Pressable>
-    
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => ImageSend()}>
                             <Images />
                             <Text style={styles.SideButtonTxt}>Images</Text>
                         </Pressable>
-    
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => takePhoto()}>
                             <Camera />
                             <Text style={styles.SideButtonTxt}>Camera</Text>
                         </Pressable>
-    
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => LocationMessage()}>
@@ -841,7 +843,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     </Layout>
 
                 </Layout>
-            :
+                :
                 null
             }
 
@@ -855,8 +857,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <LocationModal />
 
             {/*채팅방 탑 탭바*/}
-            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-                        <AudioComponent
+            {/* <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} /> */}
+            <AudioComponent
                 roomName={roomName}
                 currentUser={currentUser}
                 ChatDB={ChatDB}
@@ -1120,9 +1122,9 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         height: 90,
         backgroundColor: 'white',
-        borderRadius : 32,
+        borderRadius: 32,
         paddingLeft: 25,
-        paddingBottom : 5
+        paddingBottom: 5
     },
     ChatInputToolBar: {
         borderWidth: 1.5,
