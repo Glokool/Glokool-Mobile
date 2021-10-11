@@ -1,19 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
-  <g id="그룹_1496" data-name="그룹 1496" transform="translate(-62 -723)">
-    <g id="그룹_1422" data-name="그룹 1422" transform="translate(-245 -17)">
-      <g id="그룹_1492" data-name="그룹 1492">
-        <g id="그룹_1490" data-name="그룹 1490">
-          <g id="그룹_1491" data-name="그룹 1491">
-            <path id="패스_2104" data-name="패스 2104" d="M22.5,0A22.5,22.5,0,1,1,0,22.5,22.5,22.5,0,0,1,22.5,0Z" transform="translate(307 740)" fill="#8797ff"/>
-          </g>
-        </g>
-      </g>
-      <g id="Series__Content_위치_아이콘_" data-name="Series_ Content 위치 아이콘 " transform="translate(319.57 749.623)">
-        <g id="그룹_1493" data-name="그룹 1493">
-          <path id="패스_114" data-name="패스 114" d="M2.7,2.928a9.033,9.033,0,0,1,13.405,0,10.651,10.651,0,0,1,0,14.354s-5.169,7.177-6.7,7.177-6.7-7.177-6.7-7.177A10.968,10.968,0,0,1,2.7,2.928Z" transform="translate(-0.025 0.05)" fill="#fff" stroke="#fff" stroke-width="1.5" fill-rule="evenodd"/>
-        </g>
-      </g>
-      <path id="패스_2063" data-name="패스 2063" d="M2.91,4.967V-4.708S5.3.161,7.592.161s4.492-4.869,4.492-4.869V4.967" transform="translate(321.503 761.052)" fill="none" stroke="#8797ff" stroke-linejoin="round" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.143" y1="0.097" x2="0.826" y2="0.795" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3fc7a2"/>
+      <stop offset="1" stop-color="#77f"/>
+    </linearGradient>
+  </defs>
+  <g id="그룹_1644" data-name="그룹 1644" transform="translate(-322 -732)">
+    <circle id="타원_600" data-name="타원 600" cx="22.5" cy="22.5" r="22.5" transform="translate(322 732)" fill="url(#linear-gradient)"/>
+    <g id="Series__Content_위치_아이콘_" data-name="Series_ Content 위치 아이콘 " transform="translate(335 741.623)">
+      <path id="패스_114" data-name="패스 114" d="M2.7,2.928a9.033,9.033,0,0,1,13.405,0,10.651,10.651,0,0,1,0,14.354s-5.169,7.177-6.7,7.177-6.7-7.177-6.7-7.177A10.968,10.968,0,0,1,2.7,2.928Z" transform="translate(-0.025 0.05)" fill="#fff" stroke="#fff" stroke-width="1.5" fill-rule="evenodd"/>
     </g>
+    <path id="패스_2063" data-name="패스 2063" d="M2.91,4.967V-4.708S5.3.161,7.592.161s4.492-4.869,4.492-4.869V4.967" transform="translate(336.59 753.052)" fill="none" stroke="#51aebf" stroke-linejoin="round" stroke-width="3"/>
   </g>
 </svg>

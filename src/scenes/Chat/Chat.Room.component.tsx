@@ -5,15 +5,11 @@ import {
     Text,
     Platform,
     PermissionsAndroid,
-    Dimensions,
-    KeyboardAvoidingView,
     Pressable,
     AppState,
     Alert,
     AppStateStatus,
     Keyboard,
-    LayoutAnimation,
-    StatusBar,
 } from 'react-native';
 import {
     Layout,
@@ -25,11 +21,6 @@ import database, {
 import {
     GiftedChat,
     IMessage,
-    BubbleProps,
-    ActionsProps,
-    AvatarProps,
-    Avatar,
-    Composer, ComposerProps, InputToolbarProps
 } from 'react-native-gifted-chat';
 import storage from '@react-native-firebase/storage';
 import {
@@ -44,8 +35,6 @@ import {
     Camera,
     MyLocation,
     Record,
-    LocationTitle,
-    Exit,
 } from '../../assets/icon/Chat';
 import ImagePicker from 'react-native-image-crop-picker';
 import {
@@ -57,7 +46,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { ProfileModal } from '../../component/Chat/chat.profile.component';
-import { LocationBubbleMessage, messageType } from '../../types';
+import { messageType } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { messageIdGenerator } from '../../component/Common/MessageIdGenerator';
 import { setAudioVisiblityTrue, setLocationVisiblityTrue, setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../model/Chat/Chat.UI.model';
@@ -69,18 +58,16 @@ import {
     renderTime,
     renderInputToolbar,
     renderLoading,
-    renderSend,
     renderSystemMessage,
     renderSound,
     ChatTopTabBarComponent,
-    AudioComponent
-} from '../../component/Chat/Chatroom';
+    AudioComponent,
+    renderAvatar,
+    renderCustomBubble,
+} from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { setLocation } from '../../model/Chat/Chat.Location.model';
-import FastImage from 'react-native-fast-image';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { setKeyboardFalse, setKeyboardHeight, setKeyboardTrue } from '../../model/Chat/Chat.Keyboard.model';
 import { getStatusBarHeight } from "react-native-status-bar-height";
@@ -108,8 +95,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [bottomHeight, setBottomHeight] = React.useState<number>(0);
     const [statusBarHeight, setStatusBarHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-
-    
 
     const AndriodKeyboardOpen = windowHeight - bottomHeight - keyboardHeight - 60;
     const IOSKeyboardOpen = windowHeight - bottomHeight - 70;
@@ -446,12 +431,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return await Promise.all(promises).catch((e) => console.log(e.code));
     };
 
-    /* 갤러리 열기*/
-    //이미지 전송을 위한 버튼
-    const openGallery = async (options) => {
-        return await ImagePicker.openPicker(options);
-    };
-
     //이미지 전송을 위한 버튼
     const ImageSend = async () => {
 
@@ -473,7 +452,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 });
             }
 
-            const images = await openGallery(pickerOptions);
+            const images = await ImagePicker.openPicker(pickerOptions);
 
             if (images?.length) {
                 const additionalInfo = await createAdditionalInfo(images);
@@ -660,128 +639,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     };
 
-
-    /* 채팅창 내부 컴포넌트 시작용 ---------------------------------------------------------------------------------------------------------------*/
-
-    const renderComposer = (props: ComposerProps): React.ReactElement => {
-
-        return (
-            <Composer
-                {...props}
-                textInputProps={{ autoFocus: false, selectTextOnFocus: false, numberOfLines: 5, onTouchStart: () => dispatch(setMenuVisiblityFalse())}}
-                placeholder="Chat Message"
-                textInputStyle={styles.ChatComposer}
-            />
-        )
-    };
-
-    const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubbleMessage) => {
-
-        // Mapview (My Location) 출력을 위한 코드
-        if (props.currentMessage.messageType === 'location') {
-            return (
-                <Pressable
-                    onPress={() => {
-                        dispatch(setLocationVisiblityTrue());
-                        dispatch(setLocation({ lat: props.currentMessage.location.lat, lon: props.currentMessage.location.lon }))
-                    }}
-                >
-                    <Layout style={styles.MyLocationHeaderContainer}>
-                        <LocationTitle />
-                        <Text style={styles.MyLocationHeaderText}>My Location</Text>
-                    </Layout>
-
-                    <MapView
-                        provider={PROVIDER_GOOGLE}
-                        style={{ width: 250, height: 125, margin: 10 }}
-                        region={{
-                            latitude: parseFloat(
-                                props.currentMessage.location.lat,
-                            ),
-                            longitude: parseFloat(
-                                props.currentMessage.location.lon,
-                            ),
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
-                        }}>
-                        <Marker
-                            coordinate={{
-                                latitude: parseFloat(
-                                    props.currentMessage.location.lat,
-                                ),
-                                longitude: parseFloat(
-                                    props.currentMessage.location.lon,
-                                ),
-                            }}
-                            title={'My Location'}
-                        />
-                    </MapView>
-                </Pressable>
-            );
-        }
-    };
-
-    // Action 버튼 렌더링 및 함수 설정
-    const renderActions = (props: ActionsProps): React.ReactElement => {
-        return (
-            <Pressable
-                style={styles.ActionButton}
-                onPress={() => {
-
-                    if (menuVisiblity) {
-                        dispatch(setMenuVisiblityFalse());
-                    }
-
-                    else {
-                        dispatch(setMenuVisiblityTrue());
-                        dispatch(setKeyboardFalse());
-                        Keyboard.dismiss();
-                    }
-
-                }}
-            >
-                {menuVisiblity ?
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../assets/image/Chat/Exit.png')}
-                    />
-                    :
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../assets/icon/Chat/Menu_S.png')}
-                    />
-                }
-
-            </Pressable>
-        );
-    };
-
-    // 아바타 렌더링
-    const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement => {
-
-        if (props.currentMessage?.user.avatar == undefined) {
-
-            return (
-                <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 }}>
-                    <FastImage source={require('../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
-                </Layout>
-            )
-        }
-
-        return (
-            <Avatar
-                {...props}
-                imageStyle={{
-                    left: { width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 },
-                    right: {}
-                }}
-            />
-        )
-    }
-
-    //실제 렌더링
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex : 0}}>
 
             <Layout style={{ width: '100%', height: (menuVisiblity)? CustomKeyboardOpenHeight : (keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
 
@@ -805,16 +664,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     renderAvatarOnTop={true}
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}
-                    renderSend={renderSend}
-                    renderInputToolbar={(props) => renderInputToolbar(props, day)}
+                    renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity)}
                     renderBubble={renderBubble}
                     renderLoading={renderLoading}
-                    renderComposer={renderComposer}
                     renderSystemMessage={renderSystemMessage}
                     renderMessageImage={renderImage}
                     renderMessageAudio={renderSound}
-                    renderCustomView={renderCustomBubble}
-                    renderActions={renderActions}
+                    renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
             </Layout>
@@ -822,7 +678,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             {(menuVisiblity && !keyboardOpen) ?
 
-                <Layout style={{ justifyContent: 'flex-end', height: keyboardHeight, backgroundColor: '#F8F8F8' }}>
+                <Layout style={{ justifyContent: 'center', height: keyboardHeight + statusBarHeight , backgroundColor: '#F8F8F8' }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}
@@ -854,6 +710,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                             </Text>
                         </Pressable>
                     </Layout>
+
+                    <Layout style={styles.SideContainer}></Layout>
 
                 </Layout>
                 :
@@ -975,11 +833,6 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
     },
-    ActionButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 15,
-    },
 
     menuContainer: {
         minHeight: 144,
@@ -1036,7 +889,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         width: '100%',
-        height: '100%',
+        height: '50%',
         backgroundColor: '#F8F8F8',
 
     },
@@ -1128,6 +981,20 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
+
+    ChatInputToolBar: {
+        borderColor: '#D1D1D1',
+        borderRadius: 30,
+        margin: 10,
+        alignItems: 'center',
+        height: 90
+    },
+    
+    keyboardContainer: {
+        backgroundColor: 'white',
+        paddingVertical: 5,
+        width: windowWidth
+    },
     ChatComposer: {
         alignSelf: 'center',
         textDecorationLine: 'none',
@@ -1137,37 +1004,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 32,
         paddingLeft: 25,
-        paddingBottom: 5
     },
-    ChatInputToolBar: {
-        borderWidth: 1.5,
-        borderColor: '#D1D1D1',
-        borderRadius: 30,
-        margin: 10,
-        alignItems: 'center',
-        height: 90
-    },
-    MyLocationHeaderContainer: {
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-        flexDirection: 'row'
-    },
-    MyLocationHeaderText: {
-        textAlign: 'right',
-        marginTop: 5,
-        marginRight: 10,
-        color: '#8C8C8C',
-        fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 17,
-        marginLeft: 5
-    },
-    keyboardContainer: {
-        backgroundColor: 'white',
-        paddingVertical: 5,
-        width: windowWidth
-    },
-
-
 
 });
 

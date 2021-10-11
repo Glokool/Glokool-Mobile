@@ -2,6 +2,9 @@ import Help from './Help.svg';
 import SendIcon from './Send.svg';
 import Menu from './Menu.svg';
 
+import Chat_App from './Chat_App.svg';
+import Chat_Setting from './Chat_Setting.svg';
+
 import MyLocation from './MyLocation.svg';
 import Images from './Images.svg';
 import Camera from './Camera.svg';
@@ -22,6 +25,9 @@ import LocationTitle from './LocationTitle.svg';
 
 import Exit from './Exit.svg';
 
+import Send1 from './Send_1.svg';
+import Send2 from './Send_2.svg';
+
 export {
     Help,
     Menu,
@@ -32,6 +38,9 @@ export {
     Camera,
     Report,
     EmergencyCall,
+
+    Chat_Setting,
+    Chat_App,
 
     Chat_Voice_End,
     Chat_Voice_Stop,
@@ -44,5 +53,8 @@ export {
 
     LocationTitle,
 
-    Exit
+    Exit,
+
+    Send1,
+    Send2
 }

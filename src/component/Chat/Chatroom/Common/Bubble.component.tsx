@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
                 shadowOpacity: 0.2,
             },
             android: {
-                elevation: 8,                
+                elevation: 1,                
             },
         }),
     },
@@ -73,18 +73,11 @@ const styles = StyleSheet.create({
         borderBottomStartRadius : 15,
         borderBottomEndRadius: 5,
         marginBottom: 3,
-
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000',
-                shadowOffset: {width: 1, height: 3},
-                shadowOpacity: 0.2,
-            },
-            android: {
-                elevation: 8,
-                
-            },
-        })
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 3,
+        elevation: 5,
     },
 
     RightBubbleText: {

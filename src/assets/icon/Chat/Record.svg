@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.102" x2="0.753" y2="0.836" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#e88778"/>
+      <stop offset="1" stop-color="#77f"/>
+    </linearGradient>
+  </defs>
   <g id="그룹_1629" data-name="그룹 1629" transform="translate(-274 -581)">
-    <circle id="타원_627" data-name="타원 627" cx="22.5" cy="22.5" r="22.5" transform="translate(274 581)" fill="#8797ff"/>
+    <circle id="타원_627" data-name="타원 627" cx="22.5" cy="22.5" r="22.5" transform="translate(274 581)" fill="url(#linear-gradient)"/>
     <g id="CHAT_음성버튼" transform="translate(82 -148)">
       <rect id="사각형_2497" data-name="사각형 2497" width="9" height="14" rx="4.5" transform="translate(210 740)" fill="#fff"/>
       <g id="그룹_1627" data-name="그룹 1627" transform="translate(-1.257)">

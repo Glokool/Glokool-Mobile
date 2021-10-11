@@ -1,10 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
-  <g id="그룹_1494" data-name="그룹 1494" transform="translate(-70 -739)">
-    <path id="패스_2060" data-name="패스 2060" d="M22.5,0A22.5,22.5,0,1,1,0,22.5,22.5,22.5,0,0,1,22.5,0Z" transform="translate(70 739)" fill="#8797ff"/>
-    <g id="Photos" transform="translate(82 753)">
-      <rect id="사각형_549" data-name="사각형 549" width="17" height="17" transform="translate(0 0)" fill="none"/>
-      <path id="패스_148" data-name="패스 148" d="M19.2-.952a1.289,1.289,0,0,1,.857.354A1.273,1.273,0,0,1,20.576.462V13.722a1.373,1.373,0,0,1-.343.884,1.8,1.8,0,0,1-1.029.354H1.372a1.8,1.8,0,0,1-1.029-.354A1.934,1.934,0,0,1,0,13.545V-2.205H10.471L12.3-.952ZM18,12.307,12.86,4.352,8.23,10.539l-3.086-2.3L2.572,12.307Z" transform="translate(0 2.205)" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.202" y1="0.09" x2="0.868" y2="0.838" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#975ce4"/>
+      <stop offset="1" stop-color="#77f"/>
+    </linearGradient>
+  </defs>
+  <g id="그룹_1646" data-name="그룹 1646" transform="translate(-140 -732)">
+    <g id="그룹_1645" data-name="그룹 1645">
+      <path id="패스_2060" data-name="패스 2060" d="M22.5,0A22.5,22.5,0,1,1,0,22.5,22.5,22.5,0,0,1,22.5,0Z" transform="translate(140 732)" fill="url(#linear-gradient)"/>
+      <g id="Photos" transform="translate(152 746)">
+        <rect id="사각형_549" data-name="사각형 549" width="17" height="17" transform="translate(0 0)" fill="none"/>
+        <path id="패스_148" data-name="패스 148" d="M19.2-.952a1.289,1.289,0,0,1,.857.354A1.273,1.273,0,0,1,20.576.462V13.722a1.373,1.373,0,0,1-.343.884,1.8,1.8,0,0,1-1.029.354H1.372a1.8,1.8,0,0,1-1.029-.354A1.934,1.934,0,0,1,0,13.545V-2.205H10.471L12.3-.952ZM18,12.307,12.86,4.352,8.23,10.539l-3.086-2.3L2.572,12.307Z" transform="translate(0 2.205)" fill="#fff"/>
+      </g>
     </g>
-    <circle id="타원_601" data-name="타원 601" cx="2" cy="2" r="2" transform="translate(86 757)" fill="#8797ff"/>
+    <circle id="타원_601" data-name="타원 601" cx="2" cy="2" r="2" transform="translate(155 750)" fill="#9260e8"/>
   </g>
 </svg>

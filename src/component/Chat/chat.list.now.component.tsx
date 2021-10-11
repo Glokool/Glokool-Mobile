@@ -21,7 +21,20 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const userContext = useContext(AuthContext);
     const dispatch = useDispatch();
 
-    const [data, setData] = useState<Array<GloChatData>>([]);
+    const [data, setData] = useState<Array<GloChatData>>([
+        {
+            _id: 'test',
+            day: new Date(),
+            guide: {
+                name: 'beomseok',
+                score: 10,
+                uid: '12345678',
+                token: '123',
+                avatar: '123',
+            },
+            paymentID: 'test'
+        }
+    ]);
     const [refresh, setRefresh] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
