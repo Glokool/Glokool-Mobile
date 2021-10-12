@@ -11,8 +11,14 @@ type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_SECOND]: {
         name: string;
         email: string;
-        snsID?: string;
-        phone?: string;
+        snsID?: {
+            type: string;
+            value: string;
+        };
+        phone?: {
+            type: Array<string> | undefined;
+            value: string;
+        };
     };
     [SceneRoute.PAY_FAILED]: undefined;
     [SceneRoute.PAY_CANCELLATION]: undefined;

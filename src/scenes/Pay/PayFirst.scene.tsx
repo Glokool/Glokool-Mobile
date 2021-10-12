@@ -11,6 +11,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { FormikErrorIcon } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CountryPicker from 'react-native-country-picker-modal';
 
 export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
 
@@ -19,8 +20,11 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
     const [snsID, setSnsID] = useState<string>("");
     const [email, setEmail] = useState<string>("");
 
+    const [countryCode, setCountryCode] = useState<any>("KR");
+    const [callingCode, setCallingCode] = useState<Array<string>>();
+
     const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
-    const messengerType = ["Facebook" , "Instagram"];
+    const messengerType = ["Facebook", "Instagram"];
     const displayValue = messengerType[selectedIndex.row]
 
     const [isEmail, setIsEmail] = useState<boolean>(false);
@@ -98,17 +102,31 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         *Optional
                     </Text>
                 </Layout>
+                <Layout style={styles.DropdownContainer}>
+                    <CountryPicker
+                        countryCode={countryCode}
+                        withFilter
+                        withFlag
+                        withCountryNameButton
+                        withCallingCode
+                        withEmoji
+                        onSelect={(response) => {
+                            setCountryCode(response.cca2);
+                            setCallingCode(response.callingCode);
+                        }}
+                        containerButtonStyle={styles.CountryPickerStyle}
+                    />
+                    <Input
+                        style={[styles.InputContainer, { flex: 2 }]}
+                        textStyle={styles.InputTextStyle}
+                        onChangeText={(e) => {
+                            setPhone(e)
+                        }}
+                        placeholder={'010XXXXXXXX'}
+                        placeholderTextColor={'#aaa'}
 
-                <Input
-                    style={styles.InputContainer}
-                    textStyle={styles.InputTextStyle}
-                    onChangeText={(e) => {
-                        setPhone(e)
-                    }}
-                    placeholder={'010XXXXXXXX'}
-                    placeholderTextColor={'#aaa'}
-
-                />
+                    />
+                </Layout>
             </Layout>
 
             <Layout style={styles.FormContainer}>
@@ -169,8 +187,14 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                             {
                                 name: name,
                                 email: email,
-                                phone: phone,
-                                snsID: snsID,
+                                phone: {
+                                    type: callingCode,
+                                    value: phone,
+                                },
+                                snsID: {
+                                    type: displayValue,
+                                    value: snsID,
+                                },
                             }
                         )
                     }}
@@ -272,9 +296,16 @@ const styles = StyleSheet.create({
     },
     DropdownContainer: {
         flexDirection: 'row',
+        alignItems: 'flex-end'
     },
     SelectContainer: {
         flex: 1,
         marginRight: 5,
+    },
+    CountryPickerStyle: {
+        backgroundColor: 'rgba(247,249,252,1.0)',
+        borderColor: 'rgba(232,236,243,1.0)',
+        borderWidth: 0.5,
+        borderRadius: 3,
     }
 })
