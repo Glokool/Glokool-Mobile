@@ -39,7 +39,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             alertWindow(props.navigation);
         }
         else { 
-            props.navigation.navigate(NavigatorRoute.BOOK); 
+            props.navigation.navigate(NavigatorRoute.PAY); 
         }
     }
 
