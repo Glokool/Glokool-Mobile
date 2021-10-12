@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flex: 5,
         fontFamily: 'BrandonGrotesque-Bold',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18,
     },
     BackButton: {
         flex: 1,

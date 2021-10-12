@@ -3,15 +3,14 @@ import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
-import { BookFirstScreen, BookSecondScreen, BookThirdScreen, PaymentScreen, BookFouthScreen } from '../scenes/Book';
 import { CallbackRsp } from 'iamport-react-native';
-import { RefundPolicy } from '../component/Booking';
-import { PayFirstScene, PaySecondScene, PayFailedScene } from '../scenes/Pay';
+import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy } from '../scenes/Pay';
 
 type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_FIRST]: undefined;
     [SceneRoute.PAY_SECOND]: undefined;
     [SceneRoute.PAY_FAILED]: undefined;
+    [SceneRoute.PAY_CANCELLATION]: undefined;
 }
 
 export interface PayFirstSceneProps {
@@ -29,6 +28,10 @@ export interface PayFailedSceneProps {
     route: RouteProp<PayNavigatorParams, SceneRoute.PAY_FAILED>;
 }
 
+export interface CancellationPolicyProps {
+    navigation: StackNavigationProp<PayNavigatorParams, SceneRoute.PAY_CANCELLATION>;
+}
+
 const Stack = createStackNavigator();
 
 export const PayNavigator = (): React.ReactElement => (
@@ -36,5 +39,6 @@ export const PayNavigator = (): React.ReactElement => (
         <Stack.Screen name={SceneRoute.PAY_FIRST} component={PayFirstScene} />
         <Stack.Screen name={SceneRoute.PAY_SECOND} component={PaySecondScene} />
         <Stack.Screen name={SceneRoute.PAY_FAILED} component={PayFailedScene} />
+        <Stack.Screen name={SceneRoute.PAY_CANCELLATION} component={CancellationPolicy} />
     </Stack.Navigator>
 );
