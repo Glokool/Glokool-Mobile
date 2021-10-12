@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
@@ -11,30 +11,63 @@ import {
     ZoneCategoryListComponent,
 } from '../../component/Zone/Main';
 import { windowWidth } from '../../Design.component';
+import axios from 'axios';
+import { SERVER } from '../../server.component';
+import { useSelector, useDispatch } from 'react-redux';
+import { setZoneMainBanner } from '../../model/Zone/Zone.data.model';
+import { RootState } from '../../model';
+import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
 
 export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => {
 
     // Zone 화면 출력을 위한 Component Combine 역할 scene
     // Redux 최대 활용
 
-    return (
+    const loading = useSelector((state: RootState) => state.ZoneLoadingModel.loading);
+    const dispatch = useDispatch();
+
+    const [bannerImage, setBannerImage] = useState();
+    const [chatrooms, setChatrooms] = useState();
+    const [contents, setContents] = useState();
+
+    useEffect(() => {
+        dispatch(setZoneLoadingTrue());
+        InitZoneMain();
+    }, [])
+
+    const InitZoneMain = async () => {
+        const response = await axios.get(SERVER + '/api/zone-main')
+            .then((response) => {
+
+                setBannerImage(response.data.zoneInfo.images);
+                setChatrooms(response.data.chatRooms);
+                setContents(response.data.contents);
+
+                dispatch(setZoneLoadingFalse());
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    return loading ? (<Layout />) : (
         <Layout style={styles.MainContainer}>
 
             {/* 최상단 지역 버튼 */}
             <ZoneMainTopTabBarComponent {...props} />
-            
+
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Layout style={styles.InnerContainer}>
                     {/* 지역 이미지 배너 */}
-                    <ZoneBannerComponent {...props} />
+                    <ZoneBannerComponent {...props} items={bannerImage} />
                     {/* 가이드 리스트 */}
                     <Text style={styles.GuideText}>LOCAL EXPERTS IN THIS AREA</Text>
-                    <ZoneGuideListComponent {...props} />
+                    <ZoneGuideListComponent {...props} items={chatrooms} />
                 </Layout>
 
                 <Layout style={styles.ListContainer}>
                     {/* 카테고리 & 컨텐츠 목록 */}
-                    <ZoneCategoryListComponent {...props} />
+                    <ZoneCategoryListComponent {...props} items={contents} />
                 </Layout>
 
             </ScrollView>

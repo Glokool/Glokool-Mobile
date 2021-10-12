@@ -22,7 +22,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     const [route, setRoute] = useState({});
 
     useEffect(() => {
-        InitialGuideList();
+        // InitialGuideList();
     }, []);
 
     // 초기 가이드 리스트 초기화
@@ -61,24 +61,26 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     // 가이드 리스트 아이템
     const renderItem = (item: { item, index }) => {
+
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: item.index === 0 ? '#7777ff' : '#0000' }]}>
-                        <FastImage source={{ uri: CDN + item.item.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
+                        <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
                     </Layout>
 
-                    <Text style={styles.ItemText}>{item.item.name}</Text>
+                    <Text style={styles.ItemText}>{item.item.guide.name}</Text>
 
                     <Layout style={styles.KeywordContainer}>
-                        <Text># K-pop lover</Text>
-                        <Text># Hidden Spots</Text>
+                        {item.item.guide.keyword.map((item) => (
+                            <Text>#{item}</Text>
+                        ))}
                     </Layout>
 
                 </Layout>
 
-                {(item.index === 0) && (
+                {(item.item.price === 0 && item.item.maxUserNum > item.item.users.length) && (
                     <LinearGradient
                         style={styles.FreeIcon}
                         colors={['#9668ef', '#7777ff']}
@@ -88,12 +90,12 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                         <Text style={styles.FreeText}>FREE</Text>
                     </LinearGradient>
                 )}
-                {(item.index === 1) && (
+                {(item.item.price === 0 && item.item.maxUserNum == item.item.users.length) && (
                     <Layout style={styles.FreeIconDisabled}>
                         <Text style={styles.FreeTextDisabled}>FREE</Text>
                     </Layout>
                 )}
-                {(item.index === 2) && (
+                {(item.item.price > 0 && item.item.maxUserNum > item.item.users.length) && (
                     <Layout style={[styles.FreeIcon, { backgroundColor: '#7777ff' }]} >
                         <Text style={styles.FreeText}>GROUP</Text>
                     </Layout>
@@ -109,10 +111,10 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     }
 
     return (
-        <Layout style={{ alignItems: 'center' }}>
+        <Layout style={{ width: '100%' }}>
             {/* 가이드 (챗방) list */}
             <FlatList
-                data={guideList}
+                data={props.items}
                 renderItem={renderItem}
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -208,6 +210,7 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.95,
         flexDirection: 'row',
         alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingVertical: 15,

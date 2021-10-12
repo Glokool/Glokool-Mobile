@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
-import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
 import { ZoneMainScene, ZoneContentsScene } from '../../scenes/Zone';
@@ -15,6 +15,7 @@ export type ZoneNavigatorParams = AppNavigatorParams & {
 export interface ZoneMainSceneProps {
     navigation: StackNavigationProp<ZoneNavigatorParams, SceneRoute.ZONE_MAIN>;
     route: RouteProp<ZoneNavigatorParams, SceneRoute.ZONE_MAIN>;
+    items?: any;
 }
 
 export interface ZoneContentsSceneProps {

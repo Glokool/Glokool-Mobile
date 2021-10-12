@@ -5,15 +5,22 @@ import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.nav
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
+import FastImage from 'react-native-fast-image';
+import { CDN } from '../../../server.component';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
+
     const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
 
     // 컨텐츠 렌더링
     const renderContents = (item) => {
+        console.log(item);
         return (
             <TouchableOpacity style={styles.ContentContainer}>
-
+                <FastImage
+                    source={{ uri: CDN + item.item.image }}
+                    style={styles.ItemImage}
+                />
             </TouchableOpacity>
         )
     }
@@ -23,10 +30,10 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
         return (
             <Layout style={styles.CategoryContainer}>
-                <Text style={styles.ItemText}>{item.item}</Text>
+                <Text style={styles.ItemText}>{item.item.name}</Text>
                 {/* 카테고리 하위 컨텐츠 아이템 리스트 */}
                 <FlatList
-                    data={[1, 2, 3, 4, 5]}
+                    data={item.item.items}
                     renderItem={renderContents}
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -51,10 +58,10 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                     <Text style={styles.AllText}>View All</Text>
                 </Layout>
             </Layout>
-            
+
             {/* 카테고리 리스트 */}
             <FlatList
-                data={sampleData}
+                data={props.items}
                 renderItem={renderCategory}
                 scrollEnabled={false}
                 showsVerticalScrollIndicator={false}
@@ -114,6 +121,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#ddd',
         marginHorizontal: 5,
+    },
+    ItemImage: {
+        width: windowWidth * 0.4,
+        height: windowWidth * 0.4,
+        borderRadius: 10,
     },
     CategoryContainer: {
         paddingVertical: 15,
