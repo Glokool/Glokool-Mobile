@@ -41,8 +41,10 @@ export enum SceneRoute {
     CHAT_HELP = 'Chat Help',
     CHAT_REPORT = 'Chat Report',
     CHAT_ROOM = 'Chat Room',
+    CHAT_ROOM_SETTING = 'Chat Room Setting',
     CHAT_ERROR_REPORT = 'Chat Error Report',
     CHAT_QUICK_SEARCH = 'Chat Quick Search',
+    CHAT_QUICK_RECOMMENDATION = 'Chat Quick Recommendation',
 
     //Series Navigator
     SERIES = 'Series',

@@ -69,7 +69,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
             <Pressable
                 style={styles.SmallIcon}
                 onPress={() => {
-                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
+                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_RECOMMENDATION);
                 }}>
                 <Chat_App />
             </Pressable>
@@ -77,7 +77,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
             <Pressable
                 style={styles.RightIcon}
                 onPress={() => {
-                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
+                    props.props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING);
                 }}>
                 <Chat_Setting />
             </Pressable>

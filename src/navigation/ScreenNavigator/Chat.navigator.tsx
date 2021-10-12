@@ -9,6 +9,8 @@ import {
   ChatHelpScreen,
   ChatReportScreen,
   ChatQuickSearch,
+  ChatQuickRecommendationScene,
+  ChatRoomSettingScene,
 } from '../../scenes/Chat';
 import { SeriesAInfoScreen, SeriesBInfoScreen, SeriesHiddenGemDetailScreen } from '../../scenes/Series';
 
@@ -49,6 +51,8 @@ export type ChatNavigatorParams = AppNavigatorParams & {
     TourCode : string;
   };
   [SceneRoute.CHAT_QUICK_SEARCH]: undefined;
+  [SceneRoute.CHAT_QUICK_RECOMMENDATION] : undefined;
+  [SceneRoute.CHAT_ROOM_SETTING] : undefined;
 }
 
 export interface ChatScreenProps {
@@ -86,6 +90,16 @@ export interface ChatQuickSearchProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
 }
 
+export interface ChatQuickRecommendationProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_RECOMMENDATION>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_RECOMMENDATION>;
+}
+
+export interface ChatRoomSettingProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
+}
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
@@ -97,5 +111,7 @@ export const ChatNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
     <Stack.Screen name={SceneRoute.CHAT_QUICK_SEARCH} component={ChatQuickSearch}/>
+    <Stack.Screen name={SceneRoute.CHAT_QUICK_RECOMMENDATION} component={ChatQuickRecommendationScene}/>
+    <Stack.Screen name={SceneRoute.CHAT_ROOM_SETTING} component={ChatRoomSettingScene}/>
   </Stack.Navigator>
 );
