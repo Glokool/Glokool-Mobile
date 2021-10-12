@@ -43,7 +43,8 @@ export const ChatListNow = (props: ChatListNowProps): LayoutElement => {
     const [route, setRoute] = useState({});
 
     useEffect(() => {
-        InitNowList();
+        //InitNowList();
+        setLoading(false);
     }, []);
 
     const InitNowList = async () => {

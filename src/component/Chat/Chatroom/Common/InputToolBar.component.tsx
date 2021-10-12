@@ -3,7 +3,7 @@ import { Platform, Pressable, StyleSheet, Keyboard } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { ActionsProps, Composer, ComposerProps, IMessage, InputToolbar, InputToolbarProps, Send, SendProps } from 'react-native-gifted-chat';
 import { useDispatch, useSelector } from 'react-redux';
-import { Send1 } from '../../../../assets/icon/Chat';
+import { Chat_Exit, Chat_Menu, Send1 } from '../../../../assets/icon/Chat';
 import { RootState } from '../../../../model';
 import { setKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
 import { setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
@@ -65,15 +65,9 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
                 }}
             >
                 {menuVisiblity ?
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../../../assets/image/Chat/Exit.png')}
-                    />
+                    <Chat_Exit />
                     :
-                    <FastImage
-                        style={styles.MenuImage}
-                        source={require('../../../../assets/icon/Chat/Menu_S.png')}
-                    />
+                    <Chat_Menu />
                 }
 
             </Pressable>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { IMessage, MessageImageProps } from 'react-native-gifted-chat';
@@ -7,11 +7,9 @@ import { setImageURL, setImageVisiblityTrue } from '../../../../model/Chat/Chat.
 
 
 /* gifted chat 이미지 렌더링 */
-export const renderImage = (props : Readonly<MessageImageProps<IMessage>>) => {
+export const renderImage = (props : Readonly<MessageImageProps<IMessage>> , dispatch : Dispatch<any>) => {
 
     const imageURL = props.currentMessage?.image;
-    const dispatch = useDispatch();
-
     const imageZoom = (imageUrl : string ) : void => {
         dispatch(setImageVisiblityTrue());
         dispatch(setImageURL(imageUrl));

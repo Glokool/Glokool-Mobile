@@ -28,6 +28,9 @@ import Exit from './Exit.svg';
 import Send1 from './Send_1.svg';
 import Send2 from './Send_2.svg';
 
+import Chat_Menu from './Chat_Menu.svg';
+import Chat_Exit from './Chat_Exit.svg';
+
 export {
     Help,
     Menu,
@@ -56,5 +59,8 @@ export {
     Exit,
 
     Send1,
-    Send2
+    Send2,
+
+    Chat_Menu,
+    Chat_Exit
 }

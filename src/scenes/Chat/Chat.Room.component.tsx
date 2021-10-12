@@ -668,7 +668,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     renderBubble={renderBubble}
                     renderLoading={renderLoading}
                     renderSystemMessage={renderSystemMessage}
-                    renderMessageImage={renderImage}
+                    renderMessageImage={(props) => renderImage(props, dispatch)}
                     renderMessageAudio={renderSound}
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
@@ -1007,5 +1007,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-
