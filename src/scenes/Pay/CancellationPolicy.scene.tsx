@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { Layout, Text, Divider } from '@ui-kitten/components';
 import { CancellationPolicyProps } from '../../navigation/Pay.navigator';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { windowHeight } from '../../Design.component';
 
 export const CancellationPolicy = (props: CancellationPolicyProps) => {
     return (
         <Layout style={styles.MainContainer}>
-            <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 30 }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 30, paddingTop: Platform.OS === 'ios' ? 50 : 20 }}>
 
                 <Text style={styles.Title}>Refund Policy</Text>
 
@@ -39,12 +41,12 @@ export const CancellationPolicy = (props: CancellationPolicyProps) => {
                     {`We therefore strongly recommend that you purchase a travel insurance to protect yourself from unexpected circumstances that may cause you to cancel your booking.`}{'\n'}{'\n'}
                 </Text>
 
-                <Layout style={{ marginBottom: 50 }} />
+                <Layout style={{ height: windowHeight * 0.1 }} />
 
             </ScrollView>
 
             <TouchableOpacity style={styles.CloseButton} onPress={() => props.navigation.goBack()}>
-                <Text style={styles.CloseButtonText}>Close</Text>
+                <Text style={styles.CloseButtonText}>GO BACK</Text>
             </TouchableOpacity>
 
 
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     CloseButton: {
         position: 'absolute',
         alignSelf: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#8797FF',
         justifyContent: 'center',
         bottom: 20,
         width: '80%',
@@ -109,9 +111,9 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     CloseButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        color: '#8797FF',
+        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontSize: 18,
+        color: '#fff',
         textAlign: 'center'
     }
 });
