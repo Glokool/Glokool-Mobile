@@ -32,6 +32,11 @@ export enum SceneRoute {
     BOOK_FOUTH = 'Book Fouth',
     REFUND_POLICY2 = 'Refund Policy2',
 
+    // Pay Navigator
+    PAY_FIRST = 'Pay First',
+    PAY_SECOND = 'Pay Second',
+    PAY_FAILED = 'Pay Failed',
+
     //Home Navigator
     HOME = 'HomeScreen',
 

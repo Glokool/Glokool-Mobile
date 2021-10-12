@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
 import { BookNavigator } from './Book.navigator';
+import { PayNavigator } from './Pay.navigator';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { BookmarkNavigator } from './Bookmark.navigator';
 import { CallbackRsp } from 'iamport-react-native';
@@ -30,6 +31,7 @@ export const AppNavigator = (props: React.ReactElement): React.ReactElement => {
             <Stack.Screen name={NavigatorRoute.AUTH} component={AuthNavigator} />
             <Stack.Screen name={NavigatorRoute.BOOK} component={BookNavigator} />
             <Stack.Screen name={NavigatorRoute.BOOKMARK} component={BookmarkNavigator} />
+            <Stack.Screen name={NavigatorRoute.PAY} component={PayNavigator} />
         </Stack.Navigator>
     )
 
