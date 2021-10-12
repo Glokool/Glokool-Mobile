@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Layout, LayoutElement, Input, Button } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
-import { PaySecondSceneProps } from '../../navigation/Pay.navigator';
+import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
 import { PayFirstPage } from '../../assets/icon/Pay';
 import { Formik } from 'formik';
 import { PayFormikComponent } from '../../component/Pay/PayFormik.component';
@@ -14,7 +14,7 @@ import { windowHeight } from '../../Design.component';
 import { FormikErrorIcon } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const PayFirstScene = (props: PaySecondSceneProps): LayoutElement => {
+export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
 
     const [name, setName] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
@@ -150,10 +150,15 @@ export const PayFirstScene = (props: PaySecondSceneProps): LayoutElement => {
                                 ? '#aaa' : '#7777ff'
                     }]}
                     onPress={() => {
-                        console.log(name)
-                        console.log(phone)
-                        console.log(email)
-                        console.log(snsID)
+                        props.navigation.navigate(
+                            SceneRoute.PAY_SECOND,
+                            {
+                                name: name,
+                                email: email,
+                                phone: phone,
+                                snsID: snsID,
+                            }
+                        )
                     }}
                 >
                     <Text style={styles.ButtonText}>CONTINUE</Text>

@@ -8,7 +8,12 @@ import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy } fro
 
 type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_FIRST]: undefined;
-    [SceneRoute.PAY_SECOND]: undefined;
+    [SceneRoute.PAY_SECOND]: {
+        name: string;
+        email: string;
+        snsID?: string;
+        phone?: string;
+    };
     [SceneRoute.PAY_FAILED]: undefined;
     [SceneRoute.PAY_CANCELLATION]: undefined;
 }
