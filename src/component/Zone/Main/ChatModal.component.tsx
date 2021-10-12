@@ -15,13 +15,13 @@ import { EnterIcon } from '../../../assets/icon/Zone';
 
 import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '.';
 
-export const  ZoneChatModal = (props: any) => {
+export const ZoneChatModal = (props: any) => {
 
     const guideVisible = useSelector((state: RootState) => state.ZoneUIModel.guideVisiblity);
     const dispatch = useDispatch();
 
-    const isFree = true;
-    const isFull = false;
+    const availableUsers = props.guide.maxUserNum - props.guide.users.length;
+    const price = props.guide.price;
 
     // 주기적으로 서버에 요청하는 테스트 코드
     useEffect(() => {
@@ -91,7 +91,7 @@ export const  ZoneChatModal = (props: any) => {
                             </Layout>
                             <Text
                                 style={styles.guideNameText}>
-                                {props.guide.name}
+                                {props.guide.guide.name}
                             </Text>
                         </Layout>
                     </Layout>
@@ -117,9 +117,9 @@ export const  ZoneChatModal = (props: any) => {
                             <Text style={[styles.valTextStyle, { flex: 1 }]}>
                                 Group Chat
                             </Text>
-                            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end'}}>
+                            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
                                 <Text style={styles.keyTextStyle}>Max</Text>
-                                <Text style={styles.valTextStyle}>10</Text>
+                                <Text style={styles.valTextStyle}>{props.guide.maxUserNum}</Text>
                             </Layout>
                         </Layout>
 
@@ -133,33 +133,34 @@ export const  ZoneChatModal = (props: any) => {
                             </Text>
                         </Layout>
 
-                        <Layout style={{ marginTop: 20, alignItems: 'center' }}>
+                        {/* keyword 에 다른 값이 들어와서 잠시 주석처리 */}
+                        {/* <Layout style={{ marginTop: 20, alignItems: 'center' }}>
                             <FlatList
                                 data={props.guide.keyword.slice(0,2)}
                                 renderItem={renderItem}
                                 horizontal
                                 scrollEnabled={false}
                             />
-                        </Layout>
+                        </Layout> */}
 
                         <Layout style={styles.limitContainer}>
                             <PersonIcon />
-                            <Text style={styles.limitNumber}>5 </Text>
+                            <Text style={styles.limitNumber}>{props.guide.maxUserNum - props.guide.users.length} </Text>
                             <Text style={styles.limitText}>more people can join this chat</Text>
                         </Layout>
 
-                        <TouchableOpacity disabled={isFull} style={styles.buttonContainer}>
-                            {isFree ? (
-                                isFull ?
+                        <TouchableOpacity disabled={availableUsers == 0} style={styles.buttonContainer}>
+                            {price == 0 ? (
+                                availableUsers == 0 ?
                                     // 무료방 꽉찼을때
                                     <FreeDisabledButton />
                                     :
                                     <FreeAvailableButton />
                             ) : (
-                                isFull ?
-                                    <PayDisabledButton />
+                                availableUsers == 0 ?
+                                    <PayDisabledButton price={price} />
                                     :
-                                    <PayAvailableButton />
+                                    <PayAvailableButton price={price} />
                             )}
                         </TouchableOpacity>
 

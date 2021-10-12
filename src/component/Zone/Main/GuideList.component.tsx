@@ -34,7 +34,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
     const InitialGuideInfo = async (item) => {
-
+        console.log(item)
         if (item.uid != '') {
             setRoute({
                 params: {
@@ -47,7 +47,8 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
             });
 
             try {
-                const res = await axios.get(`${SERVER}/api/guides/` + item.uid);
+                const res = await axios.get(`${SERVER}/api/chat-rooms/` + item._id);
+                console.log(res.data);
                 setGuideInfo(res.data)
                 dispatch(setGuideVisiblityTrue());
             } catch (e) {

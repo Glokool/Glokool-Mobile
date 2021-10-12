@@ -44,13 +44,13 @@ export const FreeDisabledButton = () => {
     )
 }
 
-export const PayAvailableButton = () => {
+export const PayAvailableButton = (props: { price: number }) => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#7777ff', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
                 <Text style={[styles.PriceText, { color: '#7777ff' }]}>$ </Text>
                 <Text style={styles.OriginalPriceText}>14 </Text>
-                <Text style={styles.PriceText}>6.99</Text>
+                <Text style={styles.PriceText}>{props.price}</Text>
                 <Text style={[styles.PriceText, { color: '#7777ff' }]}> / day</Text>
             </Layout>
             <Text style={[styles.ButtonText, { fontSize: 12 }]}>Join a Chat Room</Text>
@@ -61,13 +61,13 @@ export const PayAvailableButton = () => {
     )
 }
 
-export const PayDisabledButton = () => {
+export const PayDisabledButton = (props: { price: number }) => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#a2a2a2', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
                 <Text style={[styles.PriceText, { color: '#a2a2a2' }]}>$ </Text>
                 <Text style={styles.OriginalPriceText}>14 </Text>
-                <Text style={styles.PriceText}>6.99</Text>
+                <Text style={styles.PriceText}>{props.price}</Text>
                 <Text style={[styles.PriceText, { color: '#a2a2a2' }]}> / day</Text>
             </Layout>
             <Text style={[styles.ButtonText, { fontSize: 12 }]}>The Group Chat is Full</Text>
