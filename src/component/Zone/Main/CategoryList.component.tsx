@@ -54,9 +54,12 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
             <Layout style={styles.TitleContainer}>
                 <Text style={styles.TitleText}>LOCAL'S RECOMMENDATIONS</Text>
-                <Layout style={styles.AllContainer}>
+                <TouchableOpacity
+                    style={styles.AllContainer}
+                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}
+                >
                     <Text style={styles.AllText}>View All</Text>
-                </Layout>
+                </TouchableOpacity>
             </Layout>
 
             {/* 카테고리 리스트 */}
@@ -69,7 +72,10 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
             />
 
             {/* 더 많은 컨텐츠 보기 버튼 */}
-            <TouchableOpacity style={styles.BottomButton} onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}>
+            <TouchableOpacity
+                style={styles.BottomButton}
+                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}
+            >
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>
                 <Layout style={styles.SideSpace}>

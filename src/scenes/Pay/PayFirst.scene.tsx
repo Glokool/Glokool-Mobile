@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Layout, LayoutElement, Input, Button } from '@ui-kitten/components';
+import { Layout, LayoutElement, Input, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
 import { PayFirstPage } from '../../assets/icon/Pay';
 import { Formik } from 'formik';
-import { PayFormikComponent } from '../../component/Pay/PayFormik.component';
-import { PayValidationData, PayValidationModel } from '../../model/Pay/Pay.validation.model';
 import * as Yup from 'yup';
 import { AngleRight_Color } from '../../assets/icon/Common';
 import { SceneRoute } from '../../navigation/app.route';
-import { windowHeight } from '../../Design.component';
+import { windowHeight, windowWidth } from '../../Design.component';
 import { FormikErrorIcon } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,6 +18,10 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
     const [phone, setPhone] = useState<string>("");
     const [snsID, setSnsID] = useState<string>("");
     const [email, setEmail] = useState<string>("");
+
+    const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
+    const messengerType = ["Facebook" , "Instagram"];
+    const displayValue = messengerType[selectedIndex.row]
 
     const [isEmail, setIsEmail] = useState<boolean>(false);
     const validEmail = Yup.object().shape({
@@ -96,6 +98,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         *Optional
                     </Text>
                 </Layout>
+
                 <Input
                     style={styles.InputContainer}
                     textStyle={styles.InputTextStyle}
@@ -117,15 +120,26 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         *Optional
                     </Text>
                 </Layout>
-                <Input
-                    style={styles.InputContainer}
-                    textStyle={styles.InputTextStyle}
-                    onChangeText={(e) => {
-                        setSnsID(e)
-                    }}
-                    placeholder={'glokool_korea'}
-                    placeholderTextColor={'#aaa'}
-                />
+                <Layout style={styles.DropdownContainer}>
+                    <Select
+                        style={styles.SelectContainer}
+                        selectedIndex={selectedIndex}
+                        onSelect={(index) => setSelectedIndex(index)}
+                        value={displayValue}
+                    >
+                        <SelectItem title='Facebook' />
+                        <SelectItem title='Instagram' />
+                    </Select>
+                    <Input
+                        style={[styles.InputContainer, { flex: 2 }]}
+                        textStyle={styles.InputTextStyle}
+                        onChangeText={(e) => {
+                            setSnsID(e)
+                        }}
+                        placeholder={'glokool_korea'}
+                        placeholderTextColor={'#aaa'}
+                    />
+                </Layout>
             </Layout>
 
             <Layout style={styles.InfoContainer}>
@@ -210,7 +224,8 @@ const styles = StyleSheet.create({
     },
     FormContainer: {
         marginVertical: 10,
-        width: '90%'
+        paddingHorizontal: windowWidth * 0.05,
+        width: '100%',
     },
     InfoContainer: {
         width: '90%',
@@ -254,5 +269,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Regular',
         fontSize: 13,
         marginLeft: 5,
+    },
+    DropdownContainer: {
+        flexDirection: 'row',
+    },
+    SelectContainer: {
+        flex: 1,
+        marginRight: 5,
     }
 })
