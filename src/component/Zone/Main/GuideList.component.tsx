@@ -62,7 +62,6 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     // 가이드 리스트 아이템
     const renderItem = (item: { item, index }) => {
-
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
@@ -73,11 +72,11 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
                     <Text style={styles.ItemText}>{item.item.guide.name}</Text>
 
-                    <Layout style={styles.KeywordContainer}>
+                    {/* <Layout style={styles.KeywordContainer}>
                         {item.item.guide.keyword.map((item) => (
                             <Text>#{item}</Text>
                         ))}
-                    </Layout>
+                    </Layout> */}
 
                 </Layout>
 

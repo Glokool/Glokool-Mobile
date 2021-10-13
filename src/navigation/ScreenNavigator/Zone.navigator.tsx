@@ -9,7 +9,9 @@ const Stack = createStackNavigator();
 
 export type ZoneNavigatorParams = AppNavigatorParams & {
     [SceneRoute.ZONE_MAIN]: undefined;
-    [SceneRoute.ZONE_CONTENTS]: undefined;
+    [SceneRoute.ZONE_CONTENTS]: {
+        pageIndex: number;
+    };
 }
 
 export interface ZoneMainSceneProps {

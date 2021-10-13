@@ -6,11 +6,16 @@ import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
-import { CDN } from '../../../server.component';
+import { CDN, SERVER } from '../../../server.component';
+import axios from 'axios';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
     const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
+
+    const fetchCategory = (ID: string) => {
+
+    }
 
     // 컨텐츠 렌더링
     const renderContents = (item) => {
@@ -26,7 +31,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
     // 카테고리 렌더링 
     const renderCategory = (item) => {
-
+        // console.log(item.item)
         return (
             <Layout style={styles.CategoryContainer}>
                 <Text style={styles.ItemText}>{item.item.name}</Text>
@@ -37,7 +42,10 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     ListFooterComponent={
-                        <TouchableOpacity style={styles.ListFooterIcon}>
+                        <TouchableOpacity
+                            style={styles.ListFooterIcon}
+                            onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: item.index })}
+                        >
                             <ViewMoreIcon />
                         </TouchableOpacity>
                     }
@@ -55,7 +63,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 <Text style={styles.TitleText}>LOCAL'S RECOMMENDATIONS</Text>
                 <TouchableOpacity
                     style={styles.AllContainer}
-                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}
+                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0 })}
                 >
                     <Text style={styles.AllText}>View All</Text>
                 </TouchableOpacity>
@@ -73,7 +81,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
             {/* 더 많은 컨텐츠 보기 버튼 */}
             <TouchableOpacity
                 style={styles.BottomButton}
-                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS)}
+                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0 })}
             >
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>
