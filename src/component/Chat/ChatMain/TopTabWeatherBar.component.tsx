@@ -1,19 +1,18 @@
 
 import React from 'react';
-import { StyleSheet, Platform, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import {
     Layout,
     LayoutElement
 } from '@ui-kitten/components';
-import { WeatherInfo } from '../../types';
-import { Snow, Sunny, Rainy, Cloudy } from '../../assets/image/Chat'
+import { WeatherInfo } from '../../../types';
 import moment from 'moment';
 import axios from 'axios';
-import { SERVER } from '../../server.component';
+import { SERVER } from '../../../server.component';
 
 
 
-export const WeatherComponent = (props: any): LayoutElement => {
+export const TopTabWeatherbar = (props: any): LayoutElement => {
 
     const [data, setData] = React.useState<WeatherInfo>();
     const today = new Date();
@@ -25,35 +24,40 @@ export const WeatherComponent = (props: any): LayoutElement => {
     const InitWeather = async () => {
         const Weather = await axios.get(SERVER + '/api/weather');
         setData(Weather.data);
-
     }
 
 
     return (
         <Layout style={styles.Container}>
-            {/* Snow, Rain, Clouds, Clear ... */}
-            {(data?.main === 'Snow') ? <Snow /> : (data?.main === 'Rain') ? <Rainy /> : (data?.main === 'Clouds') ? <Cloudy /> : <Sunny />}
+
             <Layout style={styles.TextContainer}>
 
-                <Layout style={styles.TextContainer1}>
+                <Layout style={styles.TextMinorContainer}>
                     <Text style={styles.Location}>
                         SEOUL
                     </Text>
                     <Text style={styles.Date}>
-                        {`Today ${moment(today).format('MM / DD')}`}
+                        {`${moment(today).format('MM / DD')}`}
                     </Text>
-                    <Text style={styles.HighLowTem}>
-                        {`H  ${data?.temp_max}° L  ${data?.temp_min}°`}
-                        <Text style={styles.Weather}>  {data?.main}</Text>
-                    </Text>
-
                 </Layout>
 
-                <Layout style={styles.TextContainer2}>
-                    <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
+                <Layout style={styles.TextMinorContainer}>
+                    <Text style={styles.Date}>Today</Text>
+                    <Text style={styles.HighLowTem}>
+                        {`H  ${data?.temp_max}° L  ${data?.temp_min}°`}                        
+                    </Text>
                 </Layout>
 
             </Layout>
+
+            <Layout style={styles.TextContainer}>
+                <Layout style={styles.TextMinorContainer2}>
+                    <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
+                    <Text style={styles.Weather}>{data?.main}</Text>
+                </Layout>
+            </Layout>
+
+
         </Layout>
     )
 }
@@ -61,23 +65,31 @@ export const WeatherComponent = (props: any): LayoutElement => {
 const styles = StyleSheet.create({
     Container: {
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    TextContainer: {
-        position: 'absolute',
-        top: '25%',
-        left: '10%',
-        backgroundColor: '#00FF0000',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 75,
         flexDirection: 'row',
-        marginTop: Platform.OS === 'ios' ? 15 : 0,
+        paddingHorizontal: 20
     },
-    TextContainer1: {
+
+    TextContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'center'
+    },
+
+    TextMinorContainer: {
+        justifyContent: 'center',
         alignItems: 'flex-start',
-        flexDirection: 'column',
-        backgroundColor: '#00FF0000',
-        marginRight: 30
+        marginHorizontal: 5
     },
+
+    TextMinorContainer2: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     TextContainer2: {
         alignItems: 'center',
         flexDirection: 'column',
@@ -101,24 +113,21 @@ const styles = StyleSheet.create({
     },
     Tem: {
         fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 38,
+        fontSize: 25,
         color: '#292434',
         marginBottom: 0,
-        marginTop: -5
+        marginRight: -7,
     },
     Tem2: {
         fontFamily: 'BrandonGrotesque-Medium',
-        fontSize: 38,
+        fontSize: 25,
         color: '#8797FF',
         marginBottom: 0,
-        marginTop: -5
     },
     Weather: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 17,
+        fontSize: 15,
         color: '#8797FF',
-        marginTop: -10
+        marginTop : -10
     }
-
-
 })

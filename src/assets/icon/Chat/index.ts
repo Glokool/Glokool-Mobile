@@ -34,6 +34,9 @@ import Chat_Exit from './Chat_Exit.svg';
 import Right_Play from './Right_Play.svg';
 import Right_Stop from './Right_Stop.svg';
 
+import Arrow_Bottom from './Arrow_Bottom.svg';
+import Chat_Book_Button from './Chat_Book_Button.svg';
+
 export {
     Help,
     Menu,
@@ -68,5 +71,8 @@ export {
     Chat_Exit,
 
     Right_Play,
-    Right_Stop
+    Right_Stop,
+
+    Arrow_Bottom,
+    Chat_Book_Button
 }
