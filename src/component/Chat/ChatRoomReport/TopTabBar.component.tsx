@@ -1,6 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, SafeAreaView } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatReportScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
@@ -20,27 +20,41 @@ export const ReportTopTabBar = ({ props, value } : { props : ChatReportScreenPro
     }
 
     return (
-        <Layout style={styles.MainContainer}>
-            
-            <Pressable
-                style={styles.LeftIcon}
-                onPress={() => {PressBackButton()}}>
-                <ArrowLeft />
-            </Pressable>
+        <Layout style={styles.TopTabBar}>
 
-            <Layout style={styles.TitleContainer}>
-                <Text style={styles.Title}>REPORT</Text>
-            </Layout>
+            <SafeAreaView style={{flex: 0}}/>
 
-            <Pressable style={styles.RightIcon} onPress={() => {PressSend()}}>
-                <FastImage source={require('../../../assets/image/Chat/SendButton.png')} style={styles.RightButton}/>
-            </Pressable>
-        </Layout>            
+            <Layout style={styles.MainContainer}>            
+                <Pressable
+                    style={styles.LeftIcon}
+                    onPress={() => {PressBackButton()}}>
+                    <ArrowLeft />
+                </Pressable>
+
+                <Layout style={styles.TitleContainer}>
+                    <Text style={styles.Title}>REPORT</Text>
+                </Layout>
+
+                <Pressable style={styles.RightIcon} onPress={() => {PressSend()}}>
+                    <FastImage source={require('../../../assets/image/Chat/SendButton.png')} style={styles.RightButton}/>
+                </Pressable>
+            </Layout>     
+        </Layout>
+       
 
     );
 }
 
 const styles = StyleSheet.create({
+
+    TopTabBar : {
+        position: 'absolute',
+        width: '100%',
+        top: 0,
+        height: 60,
+        justifyContent: 'center',
+    },
+
     MainContainer : {
         flexDirection: 'row',
         position: 'absolute',

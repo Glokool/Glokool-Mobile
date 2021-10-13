@@ -640,7 +640,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     return (
-        <SafeAreaView style={{flex : 0}}>
+        <SafeAreaView style={{flex : 1}}>
 
             <Layout style={{ width: '100%', height: (menuVisiblity)? CustomKeyboardOpenHeight : (keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
 

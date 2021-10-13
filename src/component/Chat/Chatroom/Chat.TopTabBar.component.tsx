@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Keyboard, Platform, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Keyboard, Platform, Pressable, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { AngleLeft, ArrowLeft } from '../../../assets/icon/Common';
 import { Chat_App, Chat_Setting, QuickSearchButton } from '../../../assets/icon/Chat';
@@ -33,55 +33,61 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
     }
 
     return(
-        <Layout style={styles.TabBar} onTouchStart={Keyboard.dismiss}>
-            
-            <Pressable
-                style={styles.LeftIcon}
-                onPress={() => {PressBackButton()}}>
-                <ArrowLeft />
-            </Pressable>
 
-            <Layout style={styles.ProfileContainer}>
-                <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                    {guide.avatar != " " &&
-                        guide.avatar != undefined &&
-                        guide.avatar != null ? (
-                        <Image
-                            source={{ uri: CDN + guide.avatar }}
-                            style={styles.ProfileImage}
-                        />
-                    ) : (
-                        <Image
-                            source={require('../../assets/profile/profile_01.png')}
-                            style={styles.ProfileImage}
-                        />
-                    )}
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                    <Text style={styles.Title}>
-                        {props.props.route.params.guide.name === undefined
-                            ? `매칭중..`
-                            : `${props.props.route.params.guide.name}`}
-                    </Text>
-                </TouchableOpacity>
-            </Layout>
+        <Layout style={styles.TabBar}>
 
-            <Pressable
-                style={styles.SmallIcon}
-                onPress={() => {
-                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_RECOMMENDATION);
-                }}>
-                <Chat_App />
-            </Pressable>
+            <SafeAreaView style={{flex: 0}}/>
 
-            <Pressable
-                style={styles.RightIcon}
-                onPress={() => {
-                    props.props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING);
-                }}>
-                <Chat_Setting />
-            </Pressable>
-        </Layout>            
+            <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>                        
+                <Pressable
+                    style={styles.LeftIcon}
+                    onPress={() => {PressBackButton()}}>
+                    <ArrowLeft />
+                </Pressable>
+
+                <Layout style={styles.ProfileContainer}>
+                    <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
+                        {guide.avatar != " " &&
+                            guide.avatar != undefined &&
+                            guide.avatar != null ? (
+                            <Image
+                                source={{ uri: CDN + guide.avatar }}
+                                style={styles.ProfileImage}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../../assets/profile/profile_01.png')}
+                                style={styles.ProfileImage}
+                            />
+                        )}
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
+                        <Text style={styles.Title}>
+                            {props.props.route.params.guide.name === undefined
+                                ? `매칭중..`
+                                : `${props.props.route.params.guide.name}`}
+                        </Text>
+                    </TouchableOpacity>
+                </Layout>
+
+                <Pressable
+                    style={styles.SmallIcon}
+                    onPress={() => {
+                        props.props.navigation.navigate(SceneRoute.CHAT_QUICK_RECOMMENDATION);
+                    }}>
+                    <Chat_App />
+                </Pressable>
+
+                <Pressable
+                    style={styles.RightIcon}
+                    onPress={() => {
+                        props.props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING);
+                    }}>
+                    <Chat_Setting />
+                </Pressable>
+            </Layout>            
+        </Layout>
+        
   
     )
 }
@@ -102,15 +108,19 @@ const styles = StyleSheet.create({
     },
 
     TabBar: {
-        flexDirection: 'row',
         position: 'absolute',
         width: '100%',
         top: 0,
         height: 60,
-        alignItems: 'center',
+        justifyContent : 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderBottomWidth : 1,
         borderBottomColor : '#F0F0F0'
+    },
+
+    TabBarContainer : {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 
     ProfileContainer: {
