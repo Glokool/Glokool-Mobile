@@ -7,6 +7,7 @@ import ChatLoadingModel from "./Chat/Chat.Loading.model";
 import ChatUIModel from "./Chat/Chat.UI.model";
 import ChatLocationModel from "./Chat/Chat.Location.model";
 import ChatKeyboardModel from "./Chat/Chat.Keyboard.model";
+import ChatSettingUIModel from './Chat/Chat.Setting.model';
 
 // My
 import MyLoadingModel from "./My/My.Loading.model";
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     ChatDataModel,
     ChatLocationModel,
     ChatKeyboardModel,
+    ChatSettingUIModel,
 
     //My
     MyLoadingModel,

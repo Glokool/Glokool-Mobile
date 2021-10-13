@@ -4,7 +4,11 @@ export { ImageModal } from './Image/Chat.ImageModal.component'
 
 // Location
 export { LocationModal } from './Location/LocationModal.component';
-export { renderCustomBubble } from './Location/LocationMessage.component'
+export { renderCustomBubble } from './Location/LocationMessage.component';
+
+
+// Audio
+export {  ChatAudioComponent } from './Audio/Audio.component'
 
 // common
 export { renderBubble } from './Common/Bubble.component';

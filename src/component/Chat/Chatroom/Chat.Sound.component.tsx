@@ -1,9 +1,11 @@
 import React from "react";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Layout, Text, } from '@ui-kitten/components'
+import { StyleSheet, Pressable } from "react-native";
 import { IMessage } from "react-native-gifted-chat";
 import Sound from "react-native-sound";
+import { Right_Play } from "../../../assets/icon/Chat";
+import { useDispatch } from "react-redux";
+import { ChatAudioComponent } from ".";
 
 type ChatAudioMessage = {
     currentMessage : {
@@ -11,16 +13,14 @@ type ChatAudioMessage = {
     }
 }
 
-export const renderSound = (message : IMessage & ChatAudioMessage ) : React.ReactElement => {
+export const renderSound = (message : IMessage & ChatAudioMessage) : React.ReactElement => {
 
     const PlaySoundMessage = async() => {
         const sound = new Sound(message.currentMessage.audio, '',
             (error) => {
                 if (error) {
                     console.log('보이스 파일 다운로드 실패');
-                }
-
-               
+                }               
   
                 sound.play((success) => {
                     if (success) {
@@ -35,21 +35,14 @@ export const renderSound = (message : IMessage & ChatAudioMessage ) : React.Reac
     }
 
     return (
-        <TouchableOpacity
-        
-            style={styles.AudioMessageContainer}
-            onPress={() => PlaySoundMessage()}>
-
-            <FontAwesomeIcon icon={faPlay} size={16} />
-
-        </TouchableOpacity>
+        <Layout style={styles.AudioMessageContainer}>            
+            <ChatAudioComponent {...message} />
+        </Layout>
     );
 };
 
 const styles = StyleSheet.create({
     AudioMessageContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
+        backgroundColor: '#00FF0000'
     }
 })

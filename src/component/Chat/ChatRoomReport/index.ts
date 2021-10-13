@@ -1,0 +1,1 @@
+export { ReportTopTabBar } from './TopTabBar.component';
