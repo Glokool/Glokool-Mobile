@@ -18,7 +18,7 @@ export const CommonTopTabBar = (props) => {
 
                 <Text style={styles.TopTabText}>{props.title}</Text>
 
-                <Layout style={{ flex: 1 }} />
+                <Layout style={{ flex: 1,}} />
             </Layout>
             {props.child}
         </Layout>

@@ -37,6 +37,7 @@ export enum SceneRoute {
     PAY_SECOND = 'Pay Second',
     PAY_FAILED = 'Pay Failed',
     PAY_CANCELLATION = 'Pay Cancellation',
+    PAY_PROCESS = 'Pay Process',
 
     //Home Navigator
     HOME = 'HomeScreen',

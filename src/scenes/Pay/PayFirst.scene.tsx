@@ -32,6 +32,35 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
         email: Yup.string().required().email(),
     })
 
+    const onPressButton = () => {
+        const params = {
+            name: name,
+            email: email,
+        }
+
+        if (phone.length > 0 && callingCode) {
+            const phoneParam = {
+                phone: {
+                    type: callingCode[0],
+                    value: phone,
+                }
+            }
+            Object.assign(params, phoneParam);
+        }
+
+        if (snsID.length > 0 && displayValue) {
+            const snsParam = {
+                snsID: {
+                    type: displayValue,
+                    value: snsID,
+                }
+            }
+            Object.assign(params, snsParam);
+        }
+        
+        props.navigation.navigate(SceneRoute.PAY_SECOND, params);
+    }
+
     return (
         <Layout style={styles.MainContainer}>
 
@@ -181,23 +210,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                             isEmail == false || name.length == 0
                                 ? '#aaa' : '#7777ff'
                     }]}
-                    onPress={() => {
-                        props.navigation.navigate(
-                            SceneRoute.PAY_SECOND,
-                            {
-                                name: name,
-                                email: email,
-                                phone: {
-                                    type: callingCode,
-                                    value: phone,
-                                },
-                                snsID: {
-                                    type: displayValue,
-                                    value: snsID,
-                                },
-                            }
-                        )
-                    }}
+                    onPress={() => { onPressButton() }}
                 >
                     <Text style={styles.ButtonText}>CONTINUE</Text>
                 </TouchableOpacity>

@@ -31,6 +31,7 @@ import GrayArrow from './GrayArrow.svg';
 import Exit_C from './Exit_Color.svg';
 import Comments from './Comments.svg';
 import Location from './Location.svg';
+import EmptyImage from './EmptyImage.svg';
 
 export {
     Korean, 
@@ -66,5 +67,6 @@ export {
     Exit_C,
     Comments,
     Location,
+    EmptyImage,
 }
 

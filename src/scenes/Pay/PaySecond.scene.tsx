@@ -8,6 +8,8 @@ import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IMP_PAY_METHOD } from 'iamport-react-native';
+import { Paypal } from '../../assets/icon/Booking';
+import { SceneRoute } from '../../navigation/app.route';
 
 interface State {
     paypalClicked: boolean;
@@ -39,10 +41,10 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
     });
 
     const Payment = () => {
-        state.paypalClicked ? Paypal() : KakaoPay();
+        state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
     }
 
-    const Paypal = async () => {
+    const PaypalMethod = () => {
         const PayMethod: IMP_PAY_METHOD = 'card';
         // 테스트 중에는 결제금액 1로 설정
         const amount = 1;
@@ -64,7 +66,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         // payment 로 navigate
     }
 
-    const KakaoPay = async () => {
+    const KakaoPayMethod = async () => {
         const PayMethod: IMP_PAY_METHOD = 'card';
         // 테스트 중에는 결제금액 1로 설정
         const amount = 1;
@@ -83,7 +85,21 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             app_scheme: 'Glokool',
         };
 
+        var ReservationData = {
+            name: props.route.params.name,
+            email: props.route.params.email,
+        }
+
+        if (props.route.params.snsID) {
+            Object.assign(ReservationData, { snsID: props.route.params.snsID });
+        }
+
+        if (props.route.params.phone) {
+            Object.assign(ReservationData, { snsID: props.route.params.phone });
+        }
+
         //payment navigate
+        props.navigation.navigate(SceneRoute.PAY_PROCESS, params);
     }
 
     return (
@@ -205,7 +221,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     style={[styles.ButtonContainer, {
                         backgroundColor: !state.kakaoClicked && !state.paypalClicked ? '#aaa' : '#7777ff'
                     }]}
-                    onPress={() => { }}
+                    onPress={() => { Payment() }}
                 >
                     <Text style={styles.ButtonText}>CONFIRM and PAY</Text>
                 </TouchableOpacity>
