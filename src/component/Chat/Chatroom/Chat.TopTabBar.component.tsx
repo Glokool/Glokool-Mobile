@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, Keyboard, Platform, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { AngleLeft } from '../../../assets/icon/Common';
-import { QuickSearchButton } from '../../../assets/icon/Chat';
+import { AngleLeft, ArrowLeft } from '../../../assets/icon/Common';
+import { Chat_App, Chat_Setting, QuickSearchButton } from '../../../assets/icon/Chat';
 import { SceneRoute } from '../../../navigation/app.route';
 import { CDN } from '../../../server.component';
 import { useDispatch } from 'react-redux';
@@ -34,10 +34,11 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
     return(
         <Layout style={styles.TabBar} onTouchStart={Keyboard.dismiss}>
+            
             <Pressable
-                style={styles.IconContainer}
+                style={styles.LeftIcon}
                 onPress={() => {PressBackButton()}}>
-                <AngleLeft />
+                <ArrowLeft />
             </Pressable>
 
             <Layout style={styles.ProfileContainer}>
@@ -66,13 +67,22 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
             </Layout>
 
             <Pressable
-                style={styles.IconContainer}
+                style={styles.SmallIcon}
                 onPress={() => {
-                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_SEARCH);
+                    props.props.navigation.navigate(SceneRoute.CHAT_QUICK_RECOMMENDATION);
                 }}>
-                <QuickSearchButton />
+                <Chat_App />
             </Pressable>
-        </Layout>        
+
+            <Pressable
+                style={styles.RightIcon}
+                onPress={() => {
+                    props.props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING);
+                }}>
+                <Chat_Setting />
+            </Pressable>
+        </Layout>            
+  
     )
 }
 
@@ -82,13 +92,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 15,
-        marginRight: 15,
+        padding: 10,
     },
 
     Title: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: Platform.OS === 'ios' ? 18 : 15,
+        textAlign : 'center',
+        fontSize: Platform.OS === 'ios' ? 18 : 16,
     },
 
     TabBar: {
@@ -96,21 +106,62 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         top: 0,
-        height: 80,
+        height: 60,
         alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderBottomWidth : 1,
+        borderBottomColor : '#F0F0F0'
     },
 
     ProfileContainer: {
-        flex: 5,
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
 
     ProfileImage: {        
-        width: 40,
-        height: 40,
+        width: 25,
+        height: 25,
         borderRadius: 100,
         marginRight: 15,
+    },
+
+    SmallIconContainer: {
+        flex: 2,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 15,
+    },
+
+    LeftIcon : {
+        width: 10,
+        height : 10,
+        marginHorizontal: 5,
+        padding : 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10
+    },
+
+    RightIcon : {
+        width: 10,
+        height : 10,
+        marginHorizontal: 5,
+        padding : 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10
+    },
+
+    SmallIcon : {
+        width: 10,
+        height : 10,
+        marginHorizontal: 5,
+        padding : 15,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
     

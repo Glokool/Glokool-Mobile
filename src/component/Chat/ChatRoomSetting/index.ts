@@ -1,0 +1,1 @@
+export { SettingTopTabBarComponent } from './TopTabBar.component'

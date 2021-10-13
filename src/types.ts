@@ -395,3 +395,13 @@ export type CommonTopTabBarType = {
     title: string;
     child?: any;
 }
+
+export type LocationBubbleMessage = {
+    currentMessage : {
+        location : {
+            lat : string,
+            lon : string
+        },
+        messageType : string
+    }
+}
