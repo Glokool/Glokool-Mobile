@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Layout, LayoutElement, Input, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
-import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
+import { PayFirstSceneProps } from '../../navigation/Pay/Pay.navigator';
 import { PayFirstPage } from '../../assets/icon/Pay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -57,7 +57,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
             }
             Object.assign(params, snsParam);
         }
-        
+
         props.navigation.navigate(SceneRoute.PAY_SECOND, params);
     }
 
@@ -112,7 +112,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     }}
                     placeholder={'glokool@example.com'}
                     placeholderTextColor={'#aaa'}
-
+                    keyboardType={'email-address'}
                 />
                 {!isEmail &&
                     <Layout style={styles.Warning}>
@@ -214,7 +214,6 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                 >
                     <Text style={styles.ButtonText}>CONTINUE</Text>
                 </TouchableOpacity>
-                <SafeAreaView />
             </Layout>
 
 
@@ -266,9 +265,9 @@ const styles = StyleSheet.create({
     },
     InfoContainer: {
         width: '90%',
-        position: 'absolute',
         backgroundColor: '#0000',
         bottom: 10,
+        marginTop: windowWidth * 0.45
     },
     InfoText: {
         fontFamily: 'Pretendard-Medium',

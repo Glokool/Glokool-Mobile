@@ -1,10 +1,10 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { NavigatorRoute, SceneRoute } from './app.route';
-import { AppNavigatorParams } from './app.navigator';
+import { NavigatorRoute, SceneRoute } from '../app.route';
+import { AppNavigatorParams } from '../app.navigator';
 import { CallbackRsp } from 'iamport-react-native';
-import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene } from '../scenes/Pay';
+import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../../scenes/Pay';
 
 type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_FIRST]: undefined;
@@ -49,6 +49,8 @@ type PayNavigatorParams = AppNavigatorParams & {
             };
         }
     };
+    //
+    [SceneRoute.PAY_SUCCESS]: undefined;
 
 }
 
@@ -76,6 +78,11 @@ export interface PayProcessSceneProps {
     route: RouteProp<PayNavigatorParams, SceneRoute.PAY_PROCESS>;
 }
 
+export interface PaySuccessSceneProps {
+    navigation: StackNavigationProp<PayNavigatorParams, SceneRoute.PAY_SUCCESS>;
+    route: RouteProp<PayNavigatorParams, SceneRoute.PAY_SUCCESS>;
+}
+
 const Stack = createStackNavigator();
 
 export const PayNavigator = (): React.ReactElement => (
@@ -85,5 +92,6 @@ export const PayNavigator = (): React.ReactElement => (
         <Stack.Screen name={SceneRoute.PAY_FAILED} component={PayFailedScene} />
         <Stack.Screen name={SceneRoute.PAY_CANCELLATION} component={CancellationPolicy} />
         <Stack.Screen name={SceneRoute.PAY_PROCESS} component={PayProcessScene} />
+        <Stack.Screen name={SceneRoute.PAY_SUCCESS} component={PaySuccessScene} />
     </Stack.Navigator>
 );

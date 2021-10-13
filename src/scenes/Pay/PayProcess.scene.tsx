@@ -6,7 +6,7 @@ import { Layout, LayoutElement } from '@ui-kitten/components';
 import { PaymentScreenProps } from '../../navigation/Book.navigator';
 import { TopTabBar } from '../../component/Booking';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
-import { PayProcessSceneProps } from '../../navigation/Pay.navigator';
+import { PayProcessSceneProps } from '../../navigation/Pay/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common';
 import { PaySecondPage } from '../../assets/icon/Pay';
 
@@ -16,19 +16,13 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
     function callback(response: CallbackRsp) {
         console.log(response)
 
-        if (response.imp_success === "true"){
-
+        if (response.imp_success === "true") {
+            props.navigation.reset({
+                routes: [{ name: SceneRoute.PAY_SUCCESS }]
+            });
         } else {
             props.navigation.navigate(SceneRoute.PAY_FAILED);
         }
-        
-        // props.navigation.navigate(NavigatorRoute.BOOK, {
-        //     screen: SceneRoute.BOOK_FOUTH,
-        //     params: {
-        //         response: response,
-        //         ReservationData: props.route.params.data,
-        //     },
-        // });
     }
 
     return (

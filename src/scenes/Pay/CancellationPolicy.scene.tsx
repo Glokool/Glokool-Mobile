@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { Layout, Text, Divider } from '@ui-kitten/components';
-import { CancellationPolicyProps } from '../../navigation/Pay.navigator';
+import { CancellationPolicyProps } from '../../navigation/Pay/Pay.navigator';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { windowHeight } from '../../Design.component';
 

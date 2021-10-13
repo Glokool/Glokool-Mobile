@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, Platform, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Layout, LayoutElement, Divider, Radio } from '@ui-kitten/components';
 import { PaySecondPage } from '../../assets/icon/Pay';
-import { PaySecondSceneProps } from '../../navigation/Pay.navigator';
+import { PaySecondSceneProps } from '../../navigation/Pay/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
@@ -42,6 +42,10 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
     const Payment = () => {
         state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
+        
+        // props.navigation.reset({
+        //     routes: [{ name: SceneRoute.PAY_SUCCESS }]
+        // });
     }
 
     const PaypalMethod = () => {
@@ -112,7 +116,8 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     <Layout style={styles.Pagination}>
                         <PaySecondPage />
                     </Layout>
-                } />
+                }
+            />
 
             <ScrollView style={styles.InnerContainer}>
 
@@ -173,7 +178,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 </Layout>
 
                 {/* Banner */}
-                <PromotionBanner />
+                <PromotionBanner width={windowWidth * 0.9} />
 
                 {/* Divider */}
                 <Divider style={styles.Divider} />
@@ -225,7 +230,6 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 >
                     <Text style={styles.ButtonText}>CONFIRM and PAY</Text>
                 </TouchableOpacity>
-                <SafeAreaView />
             </ScrollView>
 
         </Layout>
@@ -236,10 +240,12 @@ const styles = StyleSheet.create({
     MainContainer: {
         width: '100%',
         height: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     InnerContainer: {
-        paddingHorizontal: windowWidth * 0.05
+        // paddingHorizontal: windowWidth * 0.05
+        width: '90%',
+        backgroundColor: '#0000',
     },
     Pagination: {
         width: '100%',
@@ -313,6 +319,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: windowWidth * 0.08
     },
     ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -329,8 +336,10 @@ const styles = StyleSheet.create({
     PaymentMethod: {
         flexDirection: 'row',
         alignItems: 'center',
+        alignSelf: 'center',
         padding: 10,
         marginVertical: 5,
+        width: '99%',
         height: windowHeight * 0.07,
         borderRadius: 10,
         shadowColor: '#777',
@@ -339,7 +348,7 @@ const styles = StyleSheet.create({
             height: 0.5,
         },
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 2,
         elevation: 2,
     },
     MethodContainer: {

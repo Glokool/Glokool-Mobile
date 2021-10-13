@@ -1,60 +1,60 @@
-import React from 'react';
-import { Text, StyleSheet, Platform } from 'react-native'
 import { Layout } from '@ui-kitten/components';
-import { CommonTopTabBar } from '../../component/Common';
-import { PayFailedSceneProps } from '../../navigation/Pay/Pay.navigator';
-import { PayFailedPage } from '../../assets/icon/Pay';
-import { EmptyImage, ArrowLeft } from '../../assets/icon/Common';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { windowHeight, windowWidth } from '../../Design.component';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
+import { PaySuccessSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { ArrowLeft, EmptyImage } from '../../assets/icon/Common';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { PaySuccessPage } from '../../assets/icon/Pay';
+import { windowWidth, windowHeight } from '../../Design.component';
+import { NavigatorRoute } from '../../navigation/app.route';
 
-export const PayFailedScene = (props: PayFailedSceneProps) => {
-
-    const goBackTwice = () => {
-        props.navigation.pop();
-        props.navigation.pop();
-    }
-
+export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     return (
         <Layout style={styles.MainContainer}>
 
             <Layout style={styles.TopTabContainer}>
                 <Layout style={styles.TopTabItems}>
-                    <TouchableOpacity
-                        style={styles.BackButton}
-                        onPress={() => goBackTwice()}
-                    >
-                        <ArrowLeft />
-                    </TouchableOpacity>
-
                     <Text style={styles.TopTabText}>BOOKING CONFIRMATION</Text>
-
-                    <Layout style={{ width: 30, height: 30, }} />
                 </Layout>
 
                 <Layout style={styles.Pagination}>
-                    <PayFailedPage />
+                    <PaySuccessPage />
                 </Layout>
             </Layout>
 
             <Layout style={styles.InfoContainer}>
                 <EmptyImage />
 
-                <Text style={styles.FailureText}>Payment Failure</Text>
-                <Text style={styles.RetryText}>Please Try It Again :(</Text>
+                <Text style={styles.FailureText}>Payment Successful</Text>
+                <Text style={styles.RetryText}>Your booking has been confirmed</Text>
+                <Text style={styles.RetryText}>and the receipt has been issued.</Text>
             </Layout>
 
-            <TouchableOpacity
-                style={styles.ButtonContainer}
-                onPress={() => goBackTwice()}
-            >
-                <Text style={styles.ButtonText}>GO BACK</Text>
-            </TouchableOpacity>
+            <Layout>
+                <TouchableOpacity
+                    style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
+                    onPress={() => { }}
+                >
+                    <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
+                    onPress={() => { props.navigation.navigate(NavigatorRoute.HOME) }}
+                >
+                    <Text style={[styles.ButtonText, { color: '#7777ff' }]}>CONTINUE BROWSING</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[styles.ButtonContainer, { backgroundColor: '#7777ff' }]}
+                    onPress={() => { }}
+                >
+                    <Text style={[styles.ButtonText, { color: 'white' }]}>START CONVERSATION</Text>
+                </TouchableOpacity>
+            </Layout>
 
         </Layout>
     )
-};
+}
 
 const styles = StyleSheet.create({
     Pagination: {
@@ -68,32 +68,30 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingBottom: windowHeight * 0.07
+        paddingBottom: windowHeight * 0.05
     },
     ButtonContainer: {
         width: windowWidth * 0.9,
         height: windowHeight * 0.06,
         borderRadius: 10,
-        marginTop: 20,
+        marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'black',
     },
     ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
-        color: 'white',
         fontSize: 18
     },
     FailureText: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: '#FE8686',
-        marginTop: 20,
+        marginVertical: 20,
     },
     RetryText: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
-        marginTop: 10,
+        marginTop: 5,
     },
     TopTabContainer: {
         width: windowWidth * 0.9,
