@@ -7,7 +7,7 @@ import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Paypal } from '../../assets/icon/Booking';
+import { IMP_PAY_METHOD } from 'iamport-react-native';
 
 interface State {
     paypalClicked: boolean;
@@ -37,6 +37,54 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         paypalClicked: false,
         kakaoClicked: false,
     });
+
+    const Payment = () => {
+        state.paypalClicked ? Paypal() : KakaoPay();
+    }
+
+    const Paypal = async () => {
+        const PayMethod: IMP_PAY_METHOD = 'card';
+        // 테스트 중에는 결제금액 1로 설정
+        const amount = 1;
+
+        const params = {
+            pg: 'paypal',
+            pay_method: PayMethod,
+            name: 'Glokool-Assistant-Service',
+            merchant_uid: `mid_${new Date().getTime()}`,
+            amount: amount,
+            buyer_name: props.route.params.name,
+            buyer_tel: '',
+            buyer_email: props.route.params.email,
+            buyer_addr: '서울시 강남구 역삼동 721-11 301호',
+            buyer_postcode: '00000',
+            app_scheme: 'Glokool',
+        }
+
+        // payment 로 navigate
+    }
+
+    const KakaoPay = async () => {
+        const PayMethod: IMP_PAY_METHOD = 'card';
+        // 테스트 중에는 결제금액 1로 설정
+        const amount = 1;
+
+        const params = {
+            pg: 'kakaopay',
+            pay_method: PayMethod,
+            merchant_uid: `merchant_${new Date().getTime()}`,
+            name: 'Glokool-Assistant-Service',
+            amount: amount,
+            buyer_email: props.route.params.email,
+            buyer_name: props.route.params.name,
+            buyer_tel: '', //contact 도 일단 공백
+            buyer_addr: '서울시 강남구 역삼동 721-11 301호',
+            buyer_postcode: '00000',
+            app_scheme: 'Glokool',
+        };
+
+        //payment navigate
+    }
 
     return (
         <Layout style={styles.MainContainer}>
@@ -155,7 +203,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <TouchableOpacity
                     disabled={!state.kakaoClicked && !state.paypalClicked}
                     style={[styles.ButtonContainer, {
-                        backgroundColor: !state.kakaoClicked && !state.paypalClicked ? '#aaa':'#7777ff'
+                        backgroundColor: !state.kakaoClicked && !state.paypalClicked ? '#aaa' : '#7777ff'
                     }]}
                     onPress={() => { }}
                 >
