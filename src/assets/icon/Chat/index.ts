@@ -37,6 +37,10 @@ import Right_Stop from './Right_Stop.svg';
 import Arrow_Bottom from './Arrow_Bottom.svg';
 import Chat_Book_Button from './Chat_Book_Button.svg';
 
+import Guide_Location from './Guide_Location.svg';
+
+
+
 export {
     Help,
     Menu,
@@ -74,5 +78,6 @@ export {
     Right_Stop,
 
     Arrow_Bottom,
-    Chat_Book_Button
+    Chat_Book_Button,
+    Guide_Location,
 }

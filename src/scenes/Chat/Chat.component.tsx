@@ -7,7 +7,8 @@ import {
     BackHandler,
     Dimensions,
     Alert,
-    SafeAreaView
+    SafeAreaView,
+    Pressable
 } from 'react-native';
 import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -22,11 +23,13 @@ import { PriceData } from '../../types';
 
 import { alertWindow } from '../../component/Common/LoginCheck.component';
 import { ChatList, TopTabWeatherbar } from '../../component/Chat/ChatMain';
+import FastImage from 'react-native-fast-image';
 
 var ToastRef: any;
 const windowHeight = Dimensions.get('window').height;
 
 export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
+
     const [now, setNow] = useState<boolean>(true);
     const [price, setPrice] = useState<PriceData>();
 
@@ -105,9 +108,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
             <Divider style={styles.Divider}/>
 
-            <ChatList />
-
-
+            <ChatList {...props}/>
 
             {/* <Layout style={styles.TextButtonContainer}>
                 <TouchableOpacity onPress={() => setNow(true)}>
@@ -187,7 +188,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 const styles = StyleSheet.create({
     MainContainer: {
         width: '100%',
-        height: '100%',
+        height: windowHeight,
         backgroundColor: 'white',
     },
 
@@ -202,8 +203,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Bold',
         fontSize: 17,
         marginVertical: 20
-    }
-
+    },
 
     // TextButtonContainer: {
     //     marginLeft: 0,

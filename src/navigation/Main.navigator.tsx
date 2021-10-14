@@ -45,6 +45,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
 import { alertWindow } from '../component/Common/LoginCheck.component';
 import { ZoneNavigator } from './ScreenNavigator/Zone.navigator';
+import { windowWidth } from '../Design.component';
 
 const Tab = createBottomTabNavigator();
 
@@ -177,6 +178,8 @@ const GuideVisiblity = (route: any) => {
         routeName === 'Chatroom' ||
         routeName === 'Chat Help' ||
         routeName === 'Chat Report' ||
+        routeName === SceneRoute.CHAT_QUICK_RECOMMENDATION ||
+        routeName === SceneRoute.CHAT_ROOM_SETTING ||
         routeName === SceneRoute.PAID_CHAT_LIST || 
         routeName === SceneRoute.HISTORY || 
         routeName === SceneRoute.ZONE_CONTENTS
@@ -251,6 +254,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         paddingHorizontal: 15,
+        height : 65,
+        width: windowWidth,
         paddingBottom: Platform.OS === 'ios' ? 20 : 0,
         paddingTop: Platform.OS === 'ios' ? 5 : 0,
         borderTopLeftRadius: 15,
