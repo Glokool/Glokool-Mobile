@@ -48,6 +48,8 @@ import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
 import { ZoneDetailBlogSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { useDispatch } from 'react-redux';
+import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -55,6 +57,8 @@ const windowHeight = Dimensions.get('window').height;
 export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
 
     const ScrollViewRef = useRef<any>(null);
+
+    const dispatch = useDispatch();
 
     const [height, setHeight] = useState<number>(0);
     const [Id, setId] = useState(props.route.params.Id);
@@ -69,7 +73,6 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     const [nowComment, setNowComment] = useState('');
     const [bookmarkList, setBookmarkList] = useState<Array<string>>();
     const [shareImage, setShareImage] = useState<string | ArrayBuffer | undefined>();
-    const [Glochat, setGlochat] = useState(false);
     const [modalItem, setModalItem] = useState();
 
     const [pressLike, setPressLike] = useState(false);
@@ -83,13 +86,6 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     useEffect(() => {
         encodeBase64Img();
     }, [content]);
-
-    // 모달 컴포넌트에 bool 값 전달 후 바로 초기화
-    useEffect(() => {
-        if (Glochat) {
-            setGlochat(false);
-        }
-    }, [Glochat])
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
@@ -184,7 +180,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     // glo-chat service 클릭 시 visible = true
     // item 을 전달받아서 set 해줍니다!
     const pressService = (item: any) => {
-        setGlochat(!Glochat);
+        dispatch(setGloServiceVisibilityTrue());
         setModalItem(item);
     }
 
@@ -464,7 +460,7 @@ glokool.page.link/jdF1`,
                         </>
                     ))}
                     {/* 글로서비스 모달 */}
-                    <GlokoolServiceModal isVisible={Glochat} data={modalItem} />
+                    <GlokoolServiceModal data={modalItem} />
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>

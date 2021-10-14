@@ -31,7 +31,6 @@ import {
     Comments6,
     Comments6_s,
 } from '../../assets/icon/Series';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from 'moment';
 import { SERVER, CDN } from '../../server.component';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -46,6 +45,8 @@ import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
 import { ZoneDetailContentSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { useDispatch } from 'react-redux';
+import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -55,7 +56,8 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     const ScrollViewRef = useRef<any>(null);
     const Id = props.route.params.Id;
 
-    const [carouselIndex, setCarouselIndex] = useState<number>(0);
+    const dispatch = useDispatch();
+
     const [content, setContent] = useState<Series_Item>();
     const [image, setImage] = useState<Array<string>>([]);
     const [recommendation, setRecommendation] = useState<Array<recommendation_Item>>([]);
@@ -72,7 +74,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     const [commentPosition, setCommentPosition] = useState<number>(0);
 
     const user = auth().currentUser;
-    const uid: string | uid = user?.uid;
+    const uid: string | any = user?.uid;
 
     useEffect(() => {
         encodeBase64Img();
@@ -148,12 +150,6 @@ glokool.page.link/jdF1`,
             .then((res) => console.log(res))
             .catch((e) => console.log(e));
     }
-    // 모달 컴포넌트에 bool 값 전달후 바로 초기화
-    useEffect(() => {
-        if (Glochat) {
-            setGlochat(false);
-        }
-    }, [Glochat])
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/contents/' + Id);
@@ -403,10 +399,10 @@ glokool.page.link/jdF1`,
                     </Layout>
 
                     {/* 글로챗 컨테이너 */}
-                    <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
+                    <TouchableOpacity onPress={() => dispatch(setGloServiceVisibilityTrue())}>
                         <GlokoolServiceButton />
                     </TouchableOpacity>
-                    <GlokoolServiceModal isVisible={Glochat} data={content} />
+                    <GlokoolServiceModal data={content} />
 
                     {/* 공유 부분 */}
                     <Layout style={{ alignItems: 'center', marginTop: 20, }}>

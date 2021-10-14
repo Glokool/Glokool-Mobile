@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 import { Layout, Text, Modal } from '@ui-kitten/components';
 import {
     StyleSheet,
@@ -7,24 +7,22 @@ import {
     Platform,
 } from 'react-native';
 import { GlokoolService, CloseButton } from '../../../assets/icon/Series';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../model';
+import { setGloServiceVisibilityFalse } from '../../../model/Zone/Zone.UI.model';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const GlokoolServiceModal = (props: any) => {
 
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        if (props.isVisible) {
-            setVisible(true);
-        }
-    })
+    const gloServiceVisibility = useSelector((state: RootState) => state.ZoneUIModel.gloServiceVisibility);
+    const dispatch = useDispatch();
 
     return (
         <Modal
-            visible={visible}
+            visible={gloServiceVisibility}
             backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', }}
-            onBackdropPress={() => setVisible(false)}
+            onBackdropPress={() => dispatch(setGloServiceVisibilityFalse())}
         >
             <Layout style={{ padding: 30, borderRadius: 20, }}>
                 <Layout style={styles.TopContainer}>
@@ -32,7 +30,7 @@ export const GlokoolServiceModal = (props: any) => {
                         <Text style={styles.TitleText}>GloChat Services </Text>
                         <GlokoolService />
                     </Layout>
-                    <TouchableOpacity onPress={() => setVisible(false)} style={styles.CloseButton}>
+                    <TouchableOpacity onPress={() => dispatch(setGloServiceVisibilityFalse())} style={styles.CloseButton}>
                         <CloseButton />
                     </TouchableOpacity>
                 </Layout>

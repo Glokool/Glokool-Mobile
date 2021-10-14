@@ -2,11 +2,11 @@ import React from 'react';
 import { Layout, Text, } from '@ui-kitten/components';
 import {
     StyleSheet,
-    TouchableOpacity,
 } from 'react-native';
 import { GlokoolService } from '../../../assets/icon/Series';
 
 export const GlokoolServiceButton = () => {
+
     return (
         <Layout style={styles.GlochatContainer}>
             <Text style={styles.GloChatText}>Glo-Chat Services{' '}</Text>
