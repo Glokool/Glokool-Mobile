@@ -36,7 +36,7 @@ export const ChatQuickRecommendationScene = (props : ChatQuickRecommendationProp
 const styles = StyleSheet.create({
     MainContainer: {
         width : windowWidth,
-        height: windowHeight,
+        height: '100%',
         backgroundColor: 'white'
     },
 

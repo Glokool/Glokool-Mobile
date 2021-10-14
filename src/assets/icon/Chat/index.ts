@@ -39,7 +39,7 @@ import Chat_Book_Button from './Chat_Book_Button.svg';
 
 import Guide_Location from './Guide_Location.svg';
 
-
+import Left_Play from './Left_Play.svg';
 
 export {
     Help,
@@ -80,4 +80,6 @@ export {
     Arrow_Bottom,
     Chat_Book_Button,
     Guide_Location,
+
+    Left_Play
 }

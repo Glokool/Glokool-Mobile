@@ -27,7 +27,7 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
      
         const TouchStartPlatform = () => {
             if (Platform.OS === 'android') {
-                dispatch(setKeyboardFalse());
+                dispatch(setMenuVisiblityFalse());
             } else {
                 dispatch(setMenuVisiblityFalse());
             }
@@ -36,7 +36,7 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
         return (
             <Composer
                 {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 5, onTouchStart: () => TouchStartPlatform()}}
+                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
                 placeholder="Ask anything about travel"
                 textInputStyle={styles.ChatComposer}
             />
@@ -57,9 +57,9 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
                     }
 
                     else {
-                        dispatch(setMenuVisiblityTrue());
-                        dispatch(setKeyboardFalse());
                         Keyboard.dismiss();
+                        dispatch(setMenuVisiblityTrue());
+                        dispatch(setKeyboardFalse());                        
                     }
 
                 }}

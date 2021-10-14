@@ -17,7 +17,7 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
             guide: {
                 name: 'beomseok',
                 score: 10,
-                uid: '12345678',
+                uid: 'PZhXvw6fKecR0fWfD8Y80yCc6EC3',
                 token: '123',
                 avatar: '123',
             },

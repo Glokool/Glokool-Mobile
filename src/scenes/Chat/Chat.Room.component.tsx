@@ -10,6 +10,7 @@ import {
     Alert,
     AppStateStatus,
     Keyboard,
+    Dimensions,
 } from 'react-native';
 import {
     Layout,
@@ -89,6 +90,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
 
 
+    console.log('스크린 : ', Dimensions.get('screen').height);
+    console.log('윈도우 : ', Dimensions.get('window').height) 
+
+
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
@@ -96,9 +101,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [statusBarHeight, setStatusBarHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
 
-    const AndriodKeyboardOpen = windowHeight - bottomHeight - keyboardHeight - 60;
+    const AndriodKeyboardOpen = Dimensions.get('window').height - bottomHeight - keyboardHeight -60;
     const IOSKeyboardOpen = windowHeight - bottomHeight - 70;
-    const AndroidKeyboardDown = windowHeight - bottomHeight;
+    const AndroidKeyboardDown = windowHeight - bottomHeight - 26;
     const IOSKeyboardDown = windowHeight - bottomHeight - statusBarHeight;
     const IOSCustomKeyboardOpenHeight = windowHeight - keyboardHeight - statusBarHeight + 2;
 
@@ -182,7 +187,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         dispatch(setMenuVisiblityFalse());
         dispatch(setKeyboardHeight(e.endCoordinates.height));
         dispatch(setKeyboardTrue());
-
     }
 
     const KeyboardHide = (e: KeyboardEvent) => {
@@ -640,9 +644,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     };
 
     return (
-        <SafeAreaView style={{flex : 1}}>
+        <SafeAreaView style={{height : '100%', backgroundColor: 'white'}}>
 
-            <Layout style={{ width: '100%', height: (menuVisiblity)? CustomKeyboardOpenHeight : (keyboardOpen) ? KeyboardOpenHeight : KeyboardDownHeight }}>
+            <Layout style={{ flex : 1 }}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -656,29 +660,27 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     isAnimated
                     messagesContainerStyle={{
                         paddingBottom: 30,
-                        paddingTop: 80,
+                        paddingTop: 60,
                     }}
-                    renderUsernameOnMessage={false}
-                    alwaysShowSend={true}
+                    alwaysShowSend={true}                    
                     showUserAvatar={false}
                     renderAvatarOnTop={true}
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}
                     renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity)}
-                    renderBubble={renderBubble}
+                    renderBubble={(prop) => renderBubble(prop, props.route.params.guide)}
                     renderLoading={renderLoading}
                     renderSystemMessage={renderSystemMessage}
                     renderMessageImage={(props) => renderImage(props, dispatch)}
-                    renderMessageAudio={renderSound}
+                    renderMessageAudio={(prop) => renderSound(prop, props.route.params.guide)}
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
             </Layout>
 
 
-            {(menuVisiblity && !keyboardOpen) ?
-
-                <Layout style={{ justifyContent: 'center', height: keyboardHeight + statusBarHeight , backgroundColor: '#F8F8F8' }}>
+            {(menuVisiblity)?
+                <Layout style={{ justifyContent: 'center', height: keyboardHeight, backgroundColor: '#F8F8F8' }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}

@@ -245,8 +245,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 10,
         marginTop: 15,
-        marginBottom: 15,
-
+        marginBottom: 15
     },
 
     TabbarContainer: {

@@ -26,6 +26,8 @@ import com.reactnativerestart.RestartPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.wix.reactnativekeyboardinput.KeyboardInputPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -39,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
+          
           
           return packages;
         }
