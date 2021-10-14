@@ -9,7 +9,7 @@ import {
     ZoneBannerComponent,
     ZoneGuideListComponent,
     ZoneCategoryListComponent,
-} from '../../component/Zone/Main';
+} from '../../component/Zone';
 import { windowWidth } from '../../Design.component';
 import axios from 'axios';
 import { SERVER } from '../../server.component';

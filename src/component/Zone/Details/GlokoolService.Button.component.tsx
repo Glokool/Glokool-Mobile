@@ -4,9 +4,9 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import { GlokoolService } from '../../assets/icon/Series';
+import { GlokoolService } from '../../../assets/icon/Series';
 
-export const Service = () => {
+export const GlokoolServiceButton = () => {
     return (
         <Layout style={styles.GlochatContainer}>
             <Text style={styles.GloChatText}>Glo-Chat Services{' '}</Text>

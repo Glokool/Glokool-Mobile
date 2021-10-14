@@ -42,8 +42,7 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
-import { Service } from '../../component/Series/Service.component';
-import { ServiceModal } from '../../component/Series/Service.Modal.component';
+import { GlokoolServiceButton,  GlokoolServiceModal } from '../../component/Zone';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
@@ -406,9 +405,9 @@ glokool.page.link/jdF1`,
 
                     {/* 글로챗 컨테이너 */}
                     <TouchableOpacity onPress={() => setGlochat(!Glochat)}>
-                        <Service />
+                        <GlokoolServiceButton />
                     </TouchableOpacity>
-                    <ServiceModal isVisible={Glochat} data={content} />
+                    <GlokoolServiceModal isVisible={Glochat} data={content} />
 
                     {/* 공유 부분 */}
                     <Layout style={{ alignItems: 'center', marginTop: 20, }}>

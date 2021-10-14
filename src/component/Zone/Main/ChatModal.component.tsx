@@ -13,7 +13,7 @@ import { PersonIcon } from '../../../assets/icon/Zone';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EnterIcon } from '../../../assets/icon/Zone';
 
-import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '.';
+import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '..';
 
 export const ZoneChatModal = (props: any) => {
 

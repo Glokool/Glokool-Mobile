@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { PurpleArrow } from '../../assets/icon/Common';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { PurpleArrow } from '../../../assets/icon/Common';
+import { NavigatorRoute } from '../../../navigation/app.route';
 
 const windowWidth = Dimensions.get('window').width;
 

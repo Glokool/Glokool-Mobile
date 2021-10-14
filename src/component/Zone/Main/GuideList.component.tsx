@@ -8,7 +8,7 @@ import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.nav
 import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
-import { ZoneChatModal } from '.';
+import { ZoneChatModal } from '..';
 import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;

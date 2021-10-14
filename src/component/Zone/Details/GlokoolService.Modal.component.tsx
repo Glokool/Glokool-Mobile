@@ -6,11 +6,11 @@ import {
     Dimensions,
     Platform,
 } from 'react-native';
-import { GlokoolService, CloseButton } from '../../assets/icon/Series';
+import { GlokoolService, CloseButton } from '../../../assets/icon/Series';
 
 const windowWidth = Dimensions.get('window').width;
 
-export const ServiceModal = (props: any) => {
+export const GlokoolServiceModal = (props: any) => {
 
     const [visible, setVisible] = useState(false);
 

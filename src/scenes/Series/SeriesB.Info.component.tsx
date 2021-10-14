@@ -45,9 +45,8 @@ import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
-import { Service } from '../../component/Series/Service.component';
-import { ServiceModal } from '../../component/Series/Service.Modal.component';
-import { GloChatButton } from '../../component/Series';
+import { GlokoolServiceButton,  GlokoolServiceModal } from '../../component/Zone';
+import { GloChatButton } from '../../component/Zone';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog } from '../../types';
@@ -491,14 +490,14 @@ glokool.page.link/jdF1`,
 
                                 {/* 글로서비스 컨테이너 */}
                                 <TouchableOpacity onPress={() => pressService(item)}>
-                                    <Service />
+                                    <GlokoolServiceButton />
                                 </TouchableOpacity>
 
                             </Layout>
                         </>
                     ))}
                     {/* 글로서비스 모달 */}
-                    <ServiceModal isVisible={Glochat} data={modalItem} />
+                    <GlokoolServiceModal isVisible={Glochat} data={modalItem} />
 
                     {/* 땡큐 버튼 및 Go up 버튼 */}
                     <Layout style={styles.FinalConatiner}>
