@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, Platform } from 'react-native'
 import { Layout } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common';
-import { PayFailedSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { PayFailedSceneProps } from '../../navigation/Pay.navigator';
 import { PayFailedPage } from '../../assets/icon/Pay';
 import { EmptyImage, ArrowLeft } from '../../assets/icon/Common';
 import { TouchableOpacity } from 'react-native-gesture-handler';

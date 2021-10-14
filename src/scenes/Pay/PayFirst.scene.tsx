@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Layout, LayoutElement, Input, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
-import { PayFirstSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
 import { PayFirstPage } from '../../assets/icon/Pay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';

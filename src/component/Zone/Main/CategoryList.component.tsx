@@ -132,13 +132,13 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.4,
         height: windowWidth * 0.4,
         borderRadius: 10,
-        backgroundColor: '#ddd',
         marginHorizontal: 5,
     },
     ItemImage: {
         width: windowWidth * 0.4,
         height: windowWidth * 0.4,
         borderRadius: 10,
+        borderWidth: 0.5,
     },
     CategoryContainer: {
         paddingVertical: 15,

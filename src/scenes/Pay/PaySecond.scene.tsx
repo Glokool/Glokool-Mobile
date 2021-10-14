@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, Platform, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Layout, LayoutElement, Divider, Radio } from '@ui-kitten/components';
 import { PaySecondPage } from '../../assets/icon/Pay';
-import { PaySecondSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { PaySecondSceneProps } from '../../navigation/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';

@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
 import { BookNavigator } from './Book.navigator';
-import { PayNavigator } from './Pay/Pay.navigator';
+import { PayNavigator } from './Pay.navigator';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { BookmarkNavigator } from './Bookmark.navigator';
 import { CallbackRsp } from 'iamport-react-native';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
-import { AppNavigatorParams } from '../app.navigator';
-import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../../scenes/Pay';
+import { SceneRoute } from './app.route';
+import { AppNavigatorParams } from './app.navigator';
+import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../scenes/Pay';
 
 type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_FIRST]: undefined;
@@ -48,8 +48,20 @@ type PayNavigatorParams = AppNavigatorParams & {
             };
         };
     };
-    //
-    [SceneRoute.PAY_SUCCESS]: undefined;
+    [SceneRoute.PAY_SUCCESS]: {
+        ReservationData: {
+            name: string;
+            email: string;
+            snsID?: {
+                type: string;
+                value: string;
+            };
+            phone?: {
+                type: string | undefined;
+                value: string;
+            };
+        };
+    };
 
 }
 

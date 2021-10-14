@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
-import { PaySuccessSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { PaySuccessSceneProps } from '../../navigation/Pay.navigator';
 import { ArrowLeft, EmptyImage } from '../../assets/icon/Common';
 import { PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';

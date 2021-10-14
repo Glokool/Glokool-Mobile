@@ -3,16 +3,19 @@ import { StyleSheet } from 'react-native';
 import IMP, { CallbackRsp } from 'iamport-react-native';
 import { Layout, LayoutElement, Spinner } from '@ui-kitten/components';
 import { SceneRoute } from '../../navigation/app.route';
-import { PayProcessSceneProps } from '../../navigation/Pay/Pay.navigator';
+import { PayProcessSceneProps } from '../../navigation/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common';
 import { PaySecondPage } from '../../assets/icon/Pay';
 
-export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {    
+export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
 
     const callback = (response: CallbackRsp) => {
         if (response.imp_success === "true") {
             props.navigation.reset({
-                routes: [{ name: SceneRoute.PAY_SUCCESS }]
+                routes: [{
+                    name: SceneRoute.PAY_SUCCESS,
+                    params: props.route.params.ReservationData
+                }]
             });
         } else {
             props.navigation.navigate(SceneRoute.PAY_FAILED);
