@@ -41,7 +41,7 @@ import { Instagram, Naver } from '../../assets/icon/SNS';
 import { SelectableText } from '../../component/Common/SelectableText.component';
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
-import { GlokoolServiceButton,  GlokoolServiceModal } from '../../component/Zone';
+import { GlokoolServiceButton, GlokoolServiceModal } from '../../component/Zone';
 import { GloChatButton } from '../../component/Zone';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
@@ -71,7 +71,6 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     >([]);
     const [comments, setComments] = useState<Array<Comments_Item_Blog>>([]);
     const [nowComment, setNowComment] = useState('');
-    const [bookmarkList, setBookmarkList] = useState<Array<string>>();
     const [shareImage, setShareImage] = useState<string | ArrayBuffer | undefined>();
     const [modalItem, setModalItem] = useState();
 
@@ -124,8 +123,6 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
 
-                    setBookmarkList(dataTemp);
-
                     setContent(Content.data);
                     setContentInfo(Content.data.contents);
                     setRecommendation(Content.data.recommendation);
@@ -143,7 +140,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
         setComments(Content.data.comments);
     }
 
-    const facebookShare = async () => {
+    const facebookShare = () => {
         // facebook 에 공유하는 부분 (링크, quotion)
         const sharingOptions: FacebookShareItem = {
             contentType: 'link',
@@ -151,7 +148,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
             quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
         };
 
-        const result = await ShareDialog.canShow(sharingOptions).then((canShow) => {
+        ShareDialog.canShow(sharingOptions).then((canShow) => {
             if (canShow) {
                 return ShareDialog.show(sharingOptions);
             }
@@ -187,24 +184,18 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
-            {
-                title: 'Share Contents',
-                // 여기 메세지 앞에 indent 추가하지 말아주세요!
-                message: `${content?.title}
+        const shareOptions: ShareItem = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
 Click to find out exclusive Korea travel tips!
 glokool.page.link/jdF1`,
-                url: shareImage,
-            }
-        ) : (
-            {
-                title: 'Share Contents',
-                // 여기 메세지 앞에 indent 추가하지 말아주세요!
-                message: `${content?.title}
-Click to find out exclusive Korea travel tips!
-glokool.page.link/jdF1`,
-            }
-        )
+        }
+
+        if (Platform.OS === 'ios') {
+            Object.assign(shareOptions, { url: shareImage });
+        }
+
         Share.open(shareOptions)
             .then((res) => console.log(res))
             .catch((e) => console.log(e));
@@ -336,7 +327,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
+            .then(() => {
                 InitComments();
             })
             .catch((error) => {
@@ -547,10 +538,7 @@ glokool.page.link/jdF1`,
                                         style={
                                             styles.CommentsAuthorContainerLayout
                                         }>
-                                        <Layout
-                                            style={
-                                                styles.CommentsAuthorInner01Layout
-                                            }></Layout>
+                                        <Layout></Layout>
                                         <Layout
                                             style={
                                                 styles.CommentsAuthorInner02Layout
@@ -773,9 +761,6 @@ const styles = StyleSheet.create({
     ContainerLayout: {
         paddingBottom: windowHeight * 0.11
     },
-    Container: {
-        backgroundColor: 'white',
-    },
     // 탑탭 style
     ContainerLayoutAngleLeft: {
         width: '100%',
@@ -902,23 +887,6 @@ const styles = StyleSheet.create({
         width: windowWidth,
         marginBottom: 30,
     },
-    CarouselInsideContainer: {
-        marginLeft: -16,
-        alignItems: 'center',
-        width: windowWidth,
-        height: windowWidth,
-    },
-    CarouselDotContainer: {
-        bottom: 8,
-        backgroundColor: '#00FF0000',
-        opacity: 40,
-        alignSelf: 'center',
-    },
-    CarouselDot: {
-        width: 13,
-        height: 4,
-        borderRadius: 30,
-    },
     authorContainer: {
         position: 'absolute',
         flexDirection: 'row',
@@ -1003,63 +971,6 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.3,
         borderRadius: 10,
     },
-    RecommendationTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#000000',
-        marginTop: 5,
-        marginLeft: 3,
-    },
-    PurpleContainerLayoutStyle: {
-        backgroundColor: '#7777FF',
-        width: windowWidth,
-    },
-    PurpleArrow: {
-        position: 'absolute',
-        top: -20,
-        left: 20,
-    },
-    PurpleTopLayoutStyle: {
-        backgroundColor: '#0000',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 2,
-    },
-    GloChatTextContainer: {
-        backgroundColor: '#0000',
-        padding: 20,
-    },
-    GloChatButtonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 35,
-        paddingVertical: 40,
-    },
-    PurpleTopTxtStyle: {
-        color: '#FFFFFF',
-        fontFamily: 'Pretendard-Regular',
-        fontSize: 14,
-    },
-    PurpleBottomContainerLayoutStyle: {
-        backgroundColor: '#00FF0000',
-        alignItems: 'flex-end',
-    },
-    PurpleBottomLayoutStyle: {
-        backgroundColor: '#ffffff',
-        width: windowWidth * 0.46,
-        height: 42,
-        lineHeight: 42,
-        marginTop: 5,
-        borderRadius: 14,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    PurpleBottomTxtStyle: {
-        color: '#7777FF',
-        fontFamily: 'BrandonGrotesque-BoldItalic',
-        fontSize: 20,
-    },
     CommentsConainer: {
         marginBottom: 10,
     },
@@ -1084,7 +995,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 2,
     },
-    CommentsAuthorInner01Layout: {},
     CommentsAuthorInner02Layout: {
         flex: 1,
     },
@@ -1123,11 +1033,6 @@ const styles = StyleSheet.create({
         padding: 6,
         margin: 4,
         justifyContent: 'center',
-    },
-    CommentsContentContainerLayout: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#5D5959',
     },
     CommentsContentTxtLayout: {
         fontFamily: 'IBMPlexSansKR-Medium',

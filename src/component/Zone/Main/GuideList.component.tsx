@@ -34,7 +34,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
     const InitialGuideInfo = async (item) => {
-        console.log(item)
+
         if (item.uid != '') {
             setRoute({
                 params: {
@@ -48,7 +48,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/chat-rooms/` + item._id);
-                console.log(res.data);
+    
                 setGuideInfo(res.data)
                 dispatch(setGuideVisiblityTrue());
             } catch (e) {
@@ -129,7 +129,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 <ExploreIcon />
             </TouchableOpacity>
 
-            {guideInfo && <ZoneChatModal guide={guideInfo} />}
+            {guideInfo && <ZoneChatModal guide={guideInfo} navigation={props.navigation} />}
 
         </Layout>
     )
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.2,
         shadowRadius: 3.84,
-        elevation: 2,
+        elevation: 5,
     },
     ItemText: {
         fontFamily: 'Pretendard-Medium',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 15,
         top: 5,
-        elevation: 3,
+        elevation: 6,
     },
     FreeText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 15,
         top: 5,
-        elevation: 3,
+        elevation: 6,
     },
     FreeTextDisabled: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     },
     GuideContainer: {
         paddingTop: 20,
+        paddingBottom: 10,
         alignItems: 'center',
     },
     ImageBorder: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, FlatList, TouchableOpacity, Platform } from 'react-native';
-import { Layout, ListItem, Spinner } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { SeriesBottomLogo } from '../../assets/icon/Series'
@@ -12,7 +12,6 @@ import { CommonTopTabBar } from '../../component/Common';
 import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import FastImage from 'react-native-fast-image';
-import { setZoneLoadingFalse, setZoneLoadingTrue } from '../../model/Zone/Zone.Loading.model';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
@@ -25,11 +24,9 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     const [fetchedItem, setFetchedItem] = useState<any>({});
 
     useEffect(() => {
-
         initCategory();
+        // zone 메인에서 소분류 더보기 눌렀을때 props 로 인덱스 받음
         dispatch(setCategoryIndex(props.route.params.pageIndex));
-        // unmount 시 index 0 으로 초기화
-        // return () => { dispatch(setCategoryIndex(0)) }
     }, [])
 
     // 페이지 내 컨텐츠 렌더링
@@ -56,8 +53,6 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     const onPressCategory = (index: number) => {
         scrollRef.current?.scrollToIndex({ index: index });
-
-        // onChangePage(index);
     }
 
     // 상단 바 카테고리 버튼 리스트
@@ -73,11 +68,15 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         )
     }
 
+    /*
+    카테고리 클릭 혹은 좌우 스와이프 시
+    서버 요청 전적이 없으면 요청 후 저장
+    서버 요청 전적이 있으면 요청 안함
+    */
     const onChangePage = (index: number) => {
         if (!(category[index].name in fetchedItem)) {
             axios.get(SERVER + '/api/main-categories/' + 'Hongdae' + '?q=' + category[index].name + '&limit=0')
                 .then((response) => {
-                    // console.log(response.data);
                     setFetchedItem({ ...fetchedItem, [category[index].name]: response.data });
                 });
         }

@@ -21,6 +21,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { PriceData } from '../../types';
 
 import { alertWindow } from '../../component/Common/LoginCheck.component';
+import moment from 'moment';
 
 var ToastRef: any;
 const windowHeight = Dimensions.get('window').height;
@@ -34,13 +35,33 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
+    // 19 ~ 23:59 사이 결제불가
+    const isAvailableTime = () => {
+        const hourDiff = new Date().getTimezoneOffset() / 60 * 100;
+        const localTime = Number(moment(new Date).format('kkmm'))
+        const KST = localTime + hourDiff + 900;
+
+        if (1901 <= KST && KST <= 2359) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const pressBookButton = () => {
+        // 로그인 확인
         if (!currentUser) {
             alertWindow(props.navigation);
+            return;
         }
-        else { 
-            props.navigation.navigate(NavigatorRoute.PAY); 
+
+        // 결제 시간 확인
+        if (isAvailableTime()) {
+            props.navigation.navigate(NavigatorRoute.PAY);
+        } else {
+            Alert.alert("", "Sorry, booking is only available from 12AM ~ 6:59PM (KST) everyday. Please try again later.")
         }
+
     }
 
     // 백핸들러 적용을 위한 함수
@@ -156,20 +177,21 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
                         </Text>
                     </Text>
                 </Layout>
+                <TouchableOpacity
+                    onPress={() => pressBookButton()}>
+                    <Layout style={styles.AdContainer3}>
 
-                <Layout style={styles.AdContainer3}>
-                    <TouchableOpacity
-                        onPress={() => pressBookButton()}>
                         <Text style={styles.BookButtonText}>
                             BOOK
                         </Text>
-                    </TouchableOpacity>
-                </Layout>
+
+                    </Layout>
+                </TouchableOpacity>
             </Layout>
 
             <Toast ref={(toast) => (ToastRef = toast)} position={'bottom'} />
 
-            
+
         </Layout>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-native';
 import { Layout, Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../../assets/icon/Series';
@@ -12,13 +12,17 @@ import { Location } from '../../../assets/icon/Common';
 import { PersonIcon } from '../../../assets/icon/Zone';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EnterIcon } from '../../../assets/icon/Zone';
+import { AuthContext } from '../../../context/AuthContext';
 
 import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '..';
+import { alertWindow } from '../../Common/LoginCheck.component';
 
 export const ZoneChatModal = (props: any) => {
 
     const guideVisible = useSelector((state: RootState) => state.ZoneUIModel.guideVisiblity);
     const dispatch = useDispatch();
+
+    const { currentUser } = useContext(AuthContext);
 
     const availableUsers = props.guide.maxUserNum - props.guide.users.length;
     const price = props.guide.price;
@@ -40,6 +44,13 @@ export const ZoneChatModal = (props: any) => {
         // axios.get('https://glokool-guide.com/api/chat-rooms/615c02a248cce35ccaaad4be/check')
         //     .then((response) => console.log(response.data))
         //     .catch((e) => console.log(e));
+    }
+
+    const onPressEnterButton = () => {
+        if (!currentUser) {
+            alertWindow(props.navigation);
+            dispatch(setGuideVisiblityFalse());
+        }
     }
 
     const renderItem = (item: any) => {
@@ -149,7 +160,7 @@ export const ZoneChatModal = (props: any) => {
                             <Text style={styles.limitText}>more people can join this chat</Text>
                         </Layout>
 
-                        <TouchableOpacity disabled={availableUsers == 0} style={styles.buttonContainer}>
+                        <Pressable disabled={availableUsers == 0} style={styles.buttonContainer} onPress={() => onPressEnterButton()}>
                             {price == 0 ? (
                                 availableUsers == 0 ?
                                     // 무료방 꽉찼을때
@@ -162,7 +173,7 @@ export const ZoneChatModal = (props: any) => {
                                     :
                                     <PayAvailableButton price={price} />
                             )}
-                        </TouchableOpacity>
+                        </Pressable>
 
 
                     </Layout>

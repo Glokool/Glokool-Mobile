@@ -40,7 +40,7 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
-import { GlokoolServiceButton,  GlokoolServiceModal } from '../../component/Zone';
+import { GlokoolServiceButton, GlokoolServiceModal } from '../../component/Zone';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
@@ -109,7 +109,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
 
     }
 
-    const facebookShare = async () => {
+    const facebookShare = () => {
         // facebook 에 공유하는 부분 (링크, quotion)
         const sharingOptions: FacebookShareItem = {
             contentType: 'link',
@@ -117,7 +117,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
             quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
         };
 
-        await ShareDialog.canShow(sharingOptions).then((canShow) => {
+        ShareDialog.canShow(sharingOptions).then((canShow) => {
             if (canShow) {
                 return ShareDialog.show(sharingOptions);
             }
@@ -127,24 +127,18 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
-            {
-                title: 'Share Contents',
-                // 여기 메세지 앞에 indent 추가하지 말아주세요!
-                message: `${content?.title}
+        const shareOptions: ShareItem = {
+            title: 'Share Contents',
+            // 여기 메세지 앞에 indent 추가하지 말아주세요!
+            message: `${content?.title}
 Click to find out exclusive Korea travel tips!
 glokool.page.link/jdF1`,
-                url: shareImage,
-            }
-        ) : (
-            {
-                title: 'Share Contents',
-                // 여기 메세지 앞에 indent 추가하지 말아주세요!
-                message: `${content?.title}
-Click to find out exclusive Korea travel tips!
-glokool.page.link/jdF1`,
-            }
-        )
+        }
+
+        if (Platform.OS === 'ios') {
+            Object.assign(shareOptions, { url: shareImage });
+        }
+
         Share.open(shareOptions)
             .then((res) => console.log(res))
             .catch((e) => console.log(e));
@@ -193,7 +187,7 @@ glokool.page.link/jdF1`,
     }
 
     const RenderCarousel = (item: { item: string }) => {
-        console.log(item)
+        
         return (
             <Layout style={styles.ItemContainer}>
                 <ImageModal resizeMode="contain" source={{ uri: CDN + item.item }} style={styles.ImageContainer} />
@@ -354,7 +348,7 @@ glokool.page.link/jdF1`,
                         style={{ flex: 0, backgroundColor: '#00FF0000' }}
                     />
                     <Layout style={{ height: 55 }} />
-                    <Layout style={styles.CarouselContainerLayout}>
+                    <Layout>
                         <SwiperFlatList
                             data={image}
                             renderItem={RenderCarousel}
@@ -492,10 +486,7 @@ glokool.page.link/jdF1`,
                                         style={
                                             styles.CommentsAuthorContainerLayout
                                         }>
-                                        <Layout
-                                            style={
-                                                styles.CommentsAuthorInner01Layout
-                                            }></Layout>
+                                        <Layout></Layout>
                                         <Layout
                                             style={
                                                 styles.CommentsAuthorInner02Layout
@@ -604,7 +595,7 @@ glokool.page.link/jdF1`,
 
                         {/* 댓글 입력 */}
                         {uid ? (
-                            <Layout style={styles.CommentsTextLayout}>
+                            <Layout>
                                 <TextInput
                                     style={styles.CommentsTextInput}
                                     placeholder="Write your comment"
@@ -690,18 +681,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: windowWidth,
     },
-    ContainerOpacityLayoutAngleLeft: {
-        width: windowWidth,
-        height: 50,
-        position: 'absolute',
-        top: 0,
-        backgroundColor: '#00FF0000',
-    },
-    ContainerAngleLeft: {
-        width: windowWidth,
-        backgroundColor: '#00FF0000',
-        padding: 20,
-    },
     ContainerAngleLeft_W: {
         backgroundColor: '#ffffff',
         padding: 20,
@@ -722,34 +701,9 @@ const styles = StyleSheet.create({
     PlusTouch: {
         padding: 2,
     },
-    SeriesInfoImg: {
-        width: 110,
-    },
     ItemContainer: {
         width: windowWidth,
         height: windowWidth,
-    },
-    CarouselContainerLayout: {},
-    Carousel: {
-        height: windowWidth,
-        backgroundColor: '#00FF0000',
-    },
-    CarouselInsideContainer: {
-        marginLeft: -16,
-        alignItems: 'center',
-    },
-    CarouselDotContainer: {
-        position: 'absolute',
-        bottom: -15,
-        backgroundColor: '#00FF0000',
-        opacity: 40,
-        alignSelf: 'center',
-    },
-    CarouselDot: {
-        width: 13,
-        height: 4,
-        borderRadius: 30,
-        color: '#ffffff',
     },
     ImageContainer: {
         width: windowWidth,
@@ -828,13 +782,6 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.3,
         borderRadius: 10,
     },
-    RecommendationTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#000000',
-        marginTop: 5,
-        marginLeft: 3,
-    },
     PurpleContainerLayoutStyle: {
         backgroundColor: '#7777FF',
         width: windowWidth,
@@ -904,7 +851,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 2,
     },
-    CommentsAuthorInner01Layout: {},
     CommentsAuthorInner02Layout: {
         flex: 1,
     },
@@ -942,18 +888,10 @@ const styles = StyleSheet.create({
         margin: 4,
         justifyContent: 'center',
     },
-    CommentsContentContainerLayout: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 15,
-        color: '#5D5959',
-    },
     CommentsContentTxtLayout: {
         fontFamily: 'IBMPlexSansKR-Medium',
         fontSize: 15,
         color: '#5D5959',
-    },
-    CommentsTextLayout: {
-        // margin: 15,
     },
     CommentsTextInput: {
         height: 49,
@@ -964,8 +902,6 @@ const styles = StyleSheet.create({
         fontFamily: 'IBMPlexSansKR-Medium',
         paddingTop: 0,
         paddingBottom: 0,
-        // fontSize: 15,
-        // position: 'relative',
     },
     CommentSendingTouch: {
         position: 'absolute',
