@@ -86,7 +86,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <CommonTopTabBar title={'RECEIPTS'} navigation={props.navigation} />
+            <CommonTopTabBar title={'RECEIPTS'} navigation={props.navigation} child={<Layout style={{ height: 10 }} />} />
 
             {(data.length === 0) ?
                 <Layout style={styles.emptyContainer}>

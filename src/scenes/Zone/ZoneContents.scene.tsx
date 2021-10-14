@@ -65,10 +65,10 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
         return (
             <TouchableOpacity
-                style={[styles.CategoryItemStyle, { borderBottomColor: item.index == categoryIndex ? "black" : "#ccc", }]}
+                style={[styles.CategoryItemStyle, { borderBottomColor: item.index == categoryIndex ? (item.index === 0 ? "black" : "#7777ff") : "#ccc", }]}
                 onPress={() => onPressCategory(item.index)}
             >
-                <Text style={[styles.CategoryTextStyle, { color: item.index == categoryIndex ? "black" : "#ccc", }]}>{item.item.name.toUpperCase()}</Text>
+                <Text style={[styles.CategoryTextStyle, { color: item.index == categoryIndex ? (item.index === 0 ? "black" : "#7777ff") : "#ccc", }]}>{item.item.name.toUpperCase()}</Text>
             </TouchableOpacity>
         )
     }
@@ -112,13 +112,16 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                 title={'HONGDAE'}
                 navigation={props.navigation}
                 child={
-                    <FlatList
-                        data={category}
-                        renderItem={renderCategory}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        style={styles.CategoryListContainer}
-                    />}
+                    <Layout style={styles.CategoryOuterContainer}>
+                        <FlatList
+                            data={category}
+                            renderItem={renderCategory}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.CategoryListContainer}
+                        />
+                    </Layout>
+                }
             />
             {/* page 전체를 담는 list , 양옆으로 swipe 가능 */}
             <SwiperFlatList
@@ -167,13 +170,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     CategoryItemStyle: {
-        borderBottomWidth: 2,
-        paddingHorizontal: 5,
+        borderBottomWidth: 2.5,
+        paddingHorizontal: 10,
+        // paddingBottom: 5,
     },
     CategoryTextStyle: {
         marginLeft: 5,
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 14
+        fontSize: 14,
+        paddingBottom: 5,
     },
     ContentsItemStyle: {
         width: windowWidth * 0.48,
@@ -192,5 +197,12 @@ const styles = StyleSheet.create({
     },
     CategoryListContainer: {
         marginTop: 10,
+        // position:'absolute',
+        bottom: -2.5,
+    },
+    CategoryOuterContainer: {
+        borderBottomWidth: 2.5,
+        borderBottomColor: '#ccc',
+        height: windowHeight * 0.05,
     }
 })

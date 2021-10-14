@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, Platform } from 'react-native'
 import { Layout, LayoutElement, Input, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
@@ -79,7 +79,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     FULL NAME
                 </Text>
                 <Input
-                    style={styles.InputContainer}
+                    style={[styles.InputContainer, { borderBottomColor: name.length == 0 ? '#FF6148' : '#c9c9c9' }]}
                     textStyle={styles.InputTextStyle}
                     onChangeText={(e) => {
                         setName(e);
@@ -87,12 +87,14 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     placeholder={'First name, Last name'}
                     placeholderTextColor={'#aaa'}
                 />
-                {name.length == 0 &&
-                    <Layout style={styles.Warning}>
-                        <FormikErrorIcon />
-                        <Text style={styles.WarningText}>Please write your full name.</Text>
-                    </Layout>
-                }
+                <Layout style={styles.Warning}>
+                    {name.length == 0 &&
+                        <>
+                            <FormikErrorIcon />
+                            <Text style={styles.WarningText}>Please write your full name.</Text>
+                        </>
+                    }
+                </Layout>
             </Layout>
 
             <Layout style={styles.FormContainer}>
@@ -100,7 +102,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     E-MAIL
                 </Text>
                 <Input
-                    style={styles.InputContainer}
+                    style={[styles.InputContainer, { borderBottomColor: !isEmail ? '#FF6148' : '#c9c9c9' }]}
                     textStyle={styles.InputTextStyle}
                     onChangeText={(e) => {
                         validEmail.isValid({
@@ -114,12 +116,14 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     placeholderTextColor={'#aaa'}
                     keyboardType={'email-address'}
                 />
-                {!isEmail &&
-                    <Layout style={styles.Warning}>
-                        <FormikErrorIcon />
-                        <Text style={styles.WarningText}>Invalid email value</Text>
-                    </Layout>
-                }
+                <Layout style={styles.Warning}>
+                    {!isEmail &&
+                        <>
+                            <FormikErrorIcon />
+                            <Text style={styles.WarningText}>Invalid email value</Text>
+                        </>
+                    }
+                </Layout>
             </Layout>
 
             <Layout style={styles.FormContainer}>
@@ -267,7 +271,7 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#0000',
         bottom: 10,
-        marginTop: windowWidth * 0.45
+        marginTop: windowHeight * 0.2
     },
     InfoText: {
         fontFamily: 'Pretendard-Medium',
@@ -298,7 +302,8 @@ const styles = StyleSheet.create({
     },
     Warning: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: windowHeight * 0.02
     },
     WarningText: {
         color: '#FF6148',

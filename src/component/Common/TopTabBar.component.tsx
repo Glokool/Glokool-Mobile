@@ -28,9 +28,8 @@ export const CommonTopTabBar = (props) => {
 const styles = StyleSheet.create({
     TopTabContainer: {
         width: windowWidth,
-        paddingBottom: 10,
         paddingTop: Platform.OS === 'ios' ? 50 : 20,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
     },
     TopTabItems: {
         flexDirection: 'row',

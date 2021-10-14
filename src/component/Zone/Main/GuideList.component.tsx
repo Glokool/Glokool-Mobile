@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions, Alert, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { SERVER, CDN } from '../../../server.component';
 import axios from 'axios';
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 15,
         top: 5,
+        elevation: 3,
     },
     FreeText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 15,
         top: 5,
+        elevation: 3,
     },
     FreeTextDisabled: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
@@ -218,6 +220,6 @@ const styles = StyleSheet.create({
     },
     ButtonText: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 16,
+        fontSize: Platform.OS === 'ios' ? 16 : 14,
     },
 })

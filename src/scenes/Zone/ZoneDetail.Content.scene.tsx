@@ -66,7 +66,6 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     const [nowComment, setNowComment] = useState('');
 
     const [shareImage, setShareImage] = useState<string | ArrayBuffer | undefined>();
-    const [Glochat, setGlochat] = useState(false);
 
     const [pressLike, setPressLike] = useState(false);
     const [pressBookmark, setPressBookmark] = useState(false);
@@ -250,8 +249,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
-                // InitSeries();
+            .then(() => {
                 setPressLike(!pressLike);
             })
             .catch((error) => {
@@ -282,7 +280,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
+            .then(() => {
                 setNowComment('');
                 InitComments();
             })
@@ -303,7 +301,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
+            .then(() => {
                 InitComments();
             })
             .catch((error) => {
@@ -329,7 +327,7 @@ glokool.page.link/jdF1`,
         };
 
         axios(config)
-            .then((response) => {
+            .then(() => {
                 InitComments();
             })
             .catch((error) => {

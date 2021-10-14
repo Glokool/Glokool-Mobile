@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
     },
     InnerContainer: {
         // paddingHorizontal: windowWidth * 0.05
+        paddingTop: 20,
         width: '90%',
         backgroundColor: '#0000',
     },
@@ -278,6 +279,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 10,
+        borderBottomColor: '#ddd',
+        borderBottomWidth: 0.5
     },
     TitleText: {
         fontFamily: 'Pretendard-Medium',
@@ -345,7 +348,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: windowWidth * 0.08
+        marginBottom: windowHeight * 0.1
     },
     ButtonText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',

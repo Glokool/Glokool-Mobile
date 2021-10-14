@@ -59,7 +59,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <CommonTopTabBar title={'HISTORY'} navigation={props.navigation} />
+            <CommonTopTabBar title={'HISTORY'} navigation={props.navigation} child={<Layout style={{ height: 10 }} />} />
 
             {/* Previous Chatting List */}
             <FlatList
