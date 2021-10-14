@@ -97,7 +97,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 <TouchableOpacity
                     onPress={() =>
                         props.navigation.navigate(
-                            SceneRoute.SERIES_A_DETAIL,
+                            SceneRoute.ZONE_DETAIL_CONTENT,
                             { Id: '60cc01e0ee8b3104211971b4' },
                         )}
                     style={{ alignItems: 'center', backgroundColor: '#00ff0000', }}>

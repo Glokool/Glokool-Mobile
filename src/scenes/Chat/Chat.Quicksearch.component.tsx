@@ -123,13 +123,7 @@ export const ChatQuickSearch = (props: ChatRoomScreenProps) => {
 
     // 아이템 클릭 시 화면전환
     const onPressItem = (item: any) => {
-        if (item.type == 'tour') {
-            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, { TourCode: item._id });
-        } else if (item.type == 'content') {
-            props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: item._id })
-        } else if (item.type == 'blog') {
-            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: item._id })
-        }
+        
     }
 
     // 카테고리 버튼 렌더링

@@ -31,7 +31,6 @@ import {
     Comments6,
     Comments6_s,
 } from '../../assets/icon/Series';
-import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.navigator';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from 'moment';
 import { SERVER, CDN } from '../../server.component';

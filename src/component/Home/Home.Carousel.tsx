@@ -25,15 +25,7 @@ export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
     }
 
     function PressCarousel(type: string, id: string) {
-        if (type === 'tour') {
-            props.navigation.navigate(SceneRoute.SERIES_HIDDEN_GEM_DETAIL, {
-                TourCode: id,
-            });
-        } else if (type === 'content') {
-            props.navigation.navigate(SceneRoute.SERIES_A_DETAIL, { Id: id });
-        } else {
-            props.navigation.navigate(SceneRoute.SERIES_B_DETAIL, { Id: id });
-        }
+        
     }
 
     const RenderCarousel = (item: {

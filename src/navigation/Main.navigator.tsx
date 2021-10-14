@@ -25,7 +25,7 @@ import {
 import {
     HomeNavigator,
     ChatNavigator,
-    SeriesNavigator,
+    ZoneNavigator,
     MyNavigator,
 } from './ScreenNavigator';
 import {
@@ -44,7 +44,6 @@ import { ChatContext } from '../context/ChatContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
 import { alertWindow } from '../component/Common/LoginCheck.component';
-import { ZoneNavigator } from './ScreenNavigator/Zone.navigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -141,7 +140,7 @@ const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTa
                                 ) : (
                                     <Home />
                                 )
-                            ) : label === NavigatorRoute.SERIES ? (
+                            ) : label === NavigatorRoute.ZONE ? (
                                 isFocused ? (
                                     <Zone_S />
                                 ) : (
@@ -206,7 +205,7 @@ export const MainNavigator = (): React.ReactElement => (
         />
 
         <Tab.Screen
-            name={NavigatorRoute.SERIES}
+            name={NavigatorRoute.ZONE}
             component={ZoneNavigator}
             options={({ route }) => ({
                 unmountOnBlur: true,
