@@ -1,21 +1,15 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import IMP, { CallbackRsp } from 'iamport-react-native';
-import { PaymentLoading } from '../../component/Booking/PaymentLoading';
-import { Layout, LayoutElement } from '@ui-kitten/components';
-import { PaymentScreenProps } from '../../navigation/Book.navigator';
-import { TopTabBar } from '../../component/Booking';
-import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
+import { Layout, LayoutElement, Spinner } from '@ui-kitten/components';
+import { SceneRoute } from '../../navigation/app.route';
 import { PayProcessSceneProps } from '../../navigation/Pay/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common';
 import { PaySecondPage } from '../../assets/icon/Pay';
 
-export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
-    const params = props.route.params;
+export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {    
 
-    function callback(response: CallbackRsp) {
-        console.log(response)
-
+    const callback = (response: CallbackRsp) => {
         if (response.imp_success === "true") {
             props.navigation.reset({
                 routes: [{ name: SceneRoute.PAY_SUCCESS }]
@@ -41,8 +35,12 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
             <IMP.Payment
                 userCode={'imp70430956'}
                 tierCode={''}
-                loading={<PaymentLoading />}
-                data={props.route.params}
+                loading={
+                    <Layout style={styles.Loading}>
+                        <Spinner size={'giant'} />
+                    </Layout>
+                }
+                data={props.route.params.params}
                 callback={(response) => callback(response)}
             />
 
@@ -57,4 +55,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 10,
     },
+    Loading: {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

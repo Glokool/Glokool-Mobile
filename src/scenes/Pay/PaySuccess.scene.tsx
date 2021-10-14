@@ -1,11 +1,11 @@
-import { Layout } from '@ui-kitten/components';
 import React from 'react';
+import { Layout } from '@ui-kitten/components';
+import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { PaySuccessSceneProps } from '../../navigation/Pay/Pay.navigator';
 import { ArrowLeft, EmptyImage } from '../../assets/icon/Common';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     return (
@@ -24,15 +24,15 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             <Layout style={styles.InfoContainer}>
                 <EmptyImage />
 
-                <Text style={styles.FailureText}>Payment Successful</Text>
-                <Text style={styles.RetryText}>Your booking has been confirmed</Text>
-                <Text style={styles.RetryText}>and the receipt has been issued.</Text>
+                <Text style={styles.SuccessText}>Payment Successful</Text>
+                <Text style={styles.ConfirmText}>Your booking has been confirmed</Text>
+                <Text style={styles.ConfirmText}>and the receipt has been issued.</Text>
             </Layout>
 
             <Layout>
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
-                    onPress={() => { }}
+                    onPress={() => {props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)}}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
                 </TouchableOpacity>
@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 18
     },
-    FailureText: {
+    SuccessText: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
-        color: '#FE8686',
+        color: '#7777ff',
         marginVertical: 20,
     },
-    RetryText: {
+    ConfirmText: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         marginTop: 5,

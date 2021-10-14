@@ -1,9 +1,8 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { NavigatorRoute, SceneRoute } from '../app.route';
+import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../app.navigator';
-import { CallbackRsp } from 'iamport-react-native';
 import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../../scenes/Pay';
 
 type PayNavigatorParams = AppNavigatorParams & {
@@ -35,7 +34,7 @@ type PayNavigatorParams = AppNavigatorParams & {
             buyer_addr: string;
             buyer_postcode: string;
             app_scheme: string;
-        },
+        };
         ReservationData: {
             name: string;
             email: string;
@@ -47,7 +46,7 @@ type PayNavigatorParams = AppNavigatorParams & {
                 type: string | undefined;
                 value: string;
             };
-        }
+        };
     };
     //
     [SceneRoute.PAY_SUCCESS]: undefined;

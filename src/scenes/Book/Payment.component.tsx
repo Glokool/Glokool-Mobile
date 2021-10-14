@@ -15,6 +15,10 @@ export const PaymentScreen = (props: PaymentScreenProps): LayoutElement => {
         app_scheme: 'Glokool',
     };
 
+    React.useEffect(()=>{
+        console.log('test');
+    },[])
+
     function callback(response: CallbackRsp) {
         props.navigation.navigate(NavigatorRoute.BOOK, {
             screen: SceneRoute.BOOK_FOUTH,

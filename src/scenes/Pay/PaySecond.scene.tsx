@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { IMP_PAY_METHOD } from 'iamport-react-native';
 import { Paypal } from '../../assets/icon/Booking';
 import { SceneRoute } from '../../navigation/app.route';
+import moment from 'moment';
 
 interface State {
     paypalClicked: boolean;
@@ -42,7 +43,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
     const Payment = () => {
         state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
-        
+
         // props.navigation.reset({
         //     routes: [{ name: SceneRoute.PAY_SUCCESS }]
         // });
@@ -67,7 +68,21 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             app_scheme: 'Glokool',
         }
 
-        // payment 로 navigate
+        const ReservationData = {
+            name: props.route.params.name,
+            email: props.route.params.email,
+        }
+
+        // 메신져 id , 전화번호는 optional 이라서 확인 후 전달
+        if (props.route.params.snsID) {
+            Object.assign(ReservationData, { snsID: props.route.params.snsID });
+        }
+
+        if (props.route.params.phone) {
+            Object.assign(ReservationData, { snsID: props.route.params.phone });
+        }
+        props.navigation.navigate(SceneRoute.PAY_PROCESS, { params, ReservationData });
+
     }
 
     const KakaoPayMethod = async () => {
@@ -89,7 +104,8 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             app_scheme: 'Glokool',
         };
 
-        var ReservationData = {
+        // 메신져 id , 전화번호는 optional 이라서 확인 후 전달
+        const ReservationData = {
             name: props.route.params.name,
             email: props.route.params.email,
         }
@@ -101,9 +117,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         if (props.route.params.phone) {
             Object.assign(ReservationData, { snsID: props.route.params.phone });
         }
-
-        //payment navigate
-        props.navigation.navigate(SceneRoute.PAY_PROCESS, params);
+        props.navigation.navigate(SceneRoute.PAY_PROCESS, { params, ReservationData });
     }
 
     return (
@@ -136,7 +150,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
                     <Layout style={[styles.TypeInnerContainer, { backgroundColor: '#0000' }]}>
                         <Text style={styles.ValueText}>
-                            2021.08.20
+                            {moment(new Date()).format('YYYY.MM.DD')}
                         </Text>
                         <Layout style={styles.RowContainer}>
                             <Text style={styles.ValueText}>
@@ -194,18 +208,30 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <Layout style={styles.MethodContainer}>
                     <Text style={styles.TitleText}>PAYMENT METHOD</Text>
 
-                    <Layout style={styles.PaymentMethod}>
+                    <Layout
+                        style={[
+                            styles.PaymentMethod,
+                            { borderColor: state.paypalClicked ? '#7777ff' : '#0000' }
+                        ]}
+                        onTouchEnd={() => dispatch({ type: 'paypal', paypalClicked: true })}
+                    >
                         <Radio
                             checked={state.paypalClicked}
-                            onChange={(nextChecked) =>
+                            onChange={(nextChecked) => {
                                 dispatch({ type: 'paypal', nextChecked })
-                            }
+                            }}
                             style={styles.Radio}
                         />
                         <Paypal />
                     </Layout>
 
-                    <Layout style={styles.PaymentMethod}>
+                    <Layout
+                        style={[
+                            styles.PaymentMethod,
+                            { borderColor: state.kakaoClicked ? '#7777ff' : '#0000' }
+                        ]}
+                        onTouchEnd={() => dispatch({ type: 'kakao', kakaoClicked: true })}
+                    >
                         <Radio
                             checked={state.kakaoClicked}
                             onChange={(nextChecked) =>
@@ -327,7 +353,8 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     Radio: {
-        marginRight: 10
+        marginLeft: 10,
+        marginRight: 15,
     },
     Logo: {
         width: 90,
@@ -342,6 +369,7 @@ const styles = StyleSheet.create({
         width: '99%',
         height: windowHeight * 0.07,
         borderRadius: 10,
+        borderWidth: 2,
         shadowColor: '#777',
         shadowOffset: {
             width: 0,
