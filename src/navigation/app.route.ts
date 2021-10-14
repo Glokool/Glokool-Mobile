@@ -71,6 +71,12 @@ export enum SceneRoute {
     SUBCATEGORY_DETAIL = 'SubCategory Detail',
     GUIDEBOOK_DETAIL = 'Guidebook Detail',
 
+    //Zone Navigator
+    ZONE_MAIN = 'Zone Main',
+    ZONE_CONTENTS = 'Zone Contents',
+    ZONE_DETAIL_BLOG = 'Zone Detail Blog',
+    ZONE_DETAIL_CONTENT = 'Zone Detail Content',
+
     //Auth Navigator
     SIGN_IN = 'Sign In',
     SIGN_UP = 'Sign Up',
@@ -121,7 +127,4 @@ export enum SceneRoute {
     BOOK_PAY = 'Book Pay',
     BOOK_PROFILE = 'Book Profile',
 
-    //Zone Navigator용 route
-    ZONE_MAIN = 'Zone Main',
-    ZONE_CONTENTS = 'Zone Contents',
 }

@@ -129,6 +129,7 @@ export type Comments_Item = {
 };
 
 export type Comments_Item_Blog = {
+    _id: string;
     writer: {
         uid: string;
         name: string;
@@ -272,7 +273,7 @@ export type RestaurantData = {
 export type ShareItem = {
     title: string;
     message: string;
-    url?: string;
+    url?: string | any;
 };
 
 export type FacebookShareItem = {
@@ -311,6 +312,13 @@ export type GlokoolTourData = {
     lon: string;
 };
 
+export type Bookmark_Item = {
+    _id: string;
+    id: string;
+    image: string;
+    title: string;
+}
+
 // My
 export type Detail_Item = {
     _id: string;
@@ -319,7 +327,7 @@ export type Detail_Item = {
     title: string;
 };
 
-export type Bookmark_Item = {
+export type Bookmark_List = {
     _id: string;
     tours: Array<Detail_Item>;
     blog: Array<Detail_Item>;

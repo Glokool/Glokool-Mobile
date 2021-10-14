@@ -13,14 +13,20 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
     const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
 
-    const fetchCategory = (ID: string) => {
-
+    const onPressContent = (type: string, id: string) => {
+        if (type == 'blog') {
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id })
+        } else if (type == 'content') {
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_CONTENT, { Id: id })
+        }
     }
 
     // 컨텐츠 렌더링
     const renderContents = (item) => {
+        console.log(item.item.type);
+        console.log(item.item._id);
         return (
-            <TouchableOpacity style={styles.ContentContainer}>
+            <TouchableOpacity style={styles.ContentContainer} onPress={()=>onPressContent(item.item.type, item.item._id)}>
                 <FastImage
                     source={{ uri: CDN + item.item.image }}
                     style={styles.ItemImage}
