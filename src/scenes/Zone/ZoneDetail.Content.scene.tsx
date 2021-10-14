@@ -35,7 +35,7 @@ import { SeriesADetailInfoProps } from '../../navigation/ScreenNavigator/Series.
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from 'moment';
 import { SERVER, CDN } from '../../server.component';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import auth from '@react-native-firebase/auth';
 import qs from 'query-string';
 import { SelectableText } from '../../component/Common/SelectableText.component';
@@ -45,7 +45,7 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { Service } from '../../component/Series/Service.component';
 import { ServiceModal } from '../../component/Series/Service.Modal.component';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import { recommendation_Item, Comments_Item, Series_Item } from '../../types';
+import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
 import { ZoneDetailContentSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
 
@@ -54,18 +54,18 @@ const windowHeight = Dimensions.get('window').height;
 
 export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): LayoutElement => {
 
-    const ScrollViewRef = useRef(null);
-    const Id = props.route.params.Id
+    const ScrollViewRef = useRef<any>(null);
+    const Id = props.route.params.Id;
 
     const [carouselIndex, setCarouselIndex] = useState<number>(0);
-    const [content, setContent] = useState<Series_Item>(null);
+    const [content, setContent] = useState<Series_Item>();
     const [image, setImage] = useState<Array<string>>([]);
     const [recommendation, setRecommendation] = useState<Array<recommendation_Item>>([]);
 
     const [comments, setComments] = useState<Array<Comments_Item>>([]);
     const [nowComment, setNowComment] = useState('');
 
-    const [shareImage, setShareImage] = useState();
+    const [shareImage, setShareImage] = useState<string | ArrayBuffer | undefined>();
     const [Glochat, setGlochat] = useState(false);
 
     const [pressLike, setPressLike] = useState(false);
@@ -74,7 +74,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     const [commentPosition, setCommentPosition] = useState<number>(0);
 
     const user = auth().currentUser;
-    const uid = user?.uid;
+    const uid: string | uid = user?.uid;
 
     useEffect(() => {
         encodeBase64Img();
@@ -100,8 +100,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
         xhr.onload = function (e) {
             var reader = new FileReader();
             reader.onload = function (event) {
-                var res = event.target.result;
-                res = res.replace("\\r?\\n", "");
+                var res = event.target?.result;
                 setShareImage(res);
             }
             var file = this.response;
@@ -113,7 +112,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
 
     const facebookShare = async () => {
         // facebook 에 공유하는 부분 (링크, quotion)
-        const sharingOptions = {
+        const sharingOptions: FacebookShareItem = {
             contentType: 'link',
             contentUrl: 'https://glokool.page.link/jdF1',
             quote: content?.title + '\nClick to find out exclusive Korea travel tips!',
@@ -129,7 +128,7 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     // sns 공유 메소드
     const shareItems = async () => {
         // // sns 공유
-        const shareOptions = Platform.OS === 'ios' ? (
+        const shareOptions: ShareItem = Platform.OS === 'ios' ? (
             {
                 title: 'Share Contents',
                 // 여기 메세지 앞에 indent 추가하지 말아주세요!
@@ -170,7 +169,7 @@ glokool.page.link/jdF1`,
         if (uid) {
             const authToken = await auth().currentUser?.getIdToken();
 
-            const config = {
+            const config: AxiosRequestConfig = {
                 method: 'get',
                 url: SERVER + '/api/users/bookmark',
                 headers: {
@@ -181,9 +180,9 @@ glokool.page.link/jdF1`,
             axios(config)
                 .then(function (response) {
                     let data = response.data.contents;
-                    let dataTemp = [];
+                    let dataTemp: Array<string> = [];
 
-                    data.forEach((item) => {
+                    data.forEach((item: Bookmark_Item) => {
                         dataTemp.push(item.id);
                     });
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
@@ -200,10 +199,11 @@ glokool.page.link/jdF1`,
         setComments(Content.data.comments);
     }
 
-    const RenderCarousel = ({ item }) => {
+    const RenderCarousel = (item: { item: string }) => {
+        console.log(item)
         return (
             <Layout style={styles.ItemContainer}>
-                <ImageModal resizeMode="contain" source={{ uri: CDN + item }} style={styles.ImageContainer} />
+                <ImageModal resizeMode="contain" source={{ uri: CDN + item.item }} style={styles.ImageContainer} />
             </Layout>
         );
     };
@@ -246,7 +246,7 @@ glokool.page.link/jdF1`,
 
     const PressPlus = async () => {
         const authToken = await auth().currentUser?.getIdToken();
-        var config = {
+        var config: AxiosRequestConfig = {
             method: 'patch',
             url: SERVER + '/api/contents/' + content?._id + '/like',
             headers: {
@@ -277,7 +277,7 @@ glokool.page.link/jdF1`,
             comment: nowComment,
         });
 
-        var config = {
+        var config: AxiosRequestConfig = {
             method: 'post',
             url: SERVER + '/api/comments',
             headers: {
@@ -297,9 +297,9 @@ glokool.page.link/jdF1`,
             });
     };
 
-    const DeleteComment = async (id) => {
+    const DeleteComment = async (id: string) => {
         const authToken = await auth().currentUser?.getIdToken();
-        var config = {
+        var config: AxiosRequestConfig = {
             method: 'delete',
             url: SERVER + '/api/contents/' + content?._id + '/comments/' + id,
             headers: {
@@ -317,9 +317,9 @@ glokool.page.link/jdF1`,
             });
     };
 
-    const LikeComment = async (id) => {
+    const LikeComment = async (id: string) => {
         const authToken = await auth().currentUser?.getIdToken();
-        var config = {
+        var config: AxiosRequestConfig = {
             method: 'patch',
             url:
                 SERVER +
@@ -363,35 +363,6 @@ glokool.page.link/jdF1`,
                     />
                     <Layout style={{ height: 55 }} />
                     <Layout style={styles.CarouselContainerLayout}>
-                        {/* <Carousel
-                            data={image}
-                            layout={'default'}
-                            renderItem={RenderCarousel}
-                            style={styles.Carousel}
-                            sliderWidth={Dimensions.get('window').width}
-                            itemWidth={windowWidth}
-                            hasParallaxImages={false}
-                            firstItem={0}
-                            inactiveSlideScale={0.8}
-                            inactiveSlideOpacity={0.7}
-                            inactiveSlideShift={0}
-                            // containerCustomStyle={styles.CarouselInsideContainer}
-                            loop={false}
-                            autoplay={false}
-                            onSnapToItem={(index: number) =>
-                                setCarouselIndex(index)
-                            }
-                        />
-                        <Pagination
-                            dotsLength={image.length}
-                            containerStyle={styles.CarouselDotContainer}
-                            activeDotIndex={carouselIndex}
-                            dotColor={'#FFFFFF'}
-                            dotStyle={styles.CarouselDot}
-                            inactiveDotColor={'#ffffff'}
-                            inactiveDotOpacity={0.4}
-                            inactiveDotScale={1}
-                        /> */}
                         <SwiperFlatList
                             data={image}
                             renderItem={RenderCarousel}
@@ -565,7 +536,7 @@ glokool.page.link/jdF1`,
                                                         style={
                                                             styles.CommentsAuthorInner02PlusContainerLayout
                                                         }>
-                                                        <Comments6_s/>
+                                                        <Comments6_s />
                                                         <Text
                                                             style={
                                                                 styles.CommentsAuthorInnerPlusNum02Layout
@@ -627,10 +598,7 @@ glokool.page.link/jdF1`,
                                             </Layout>
                                         )}
                                     </Layout>
-                                    <Layout
-                                        style={
-                                            styles.CommentsContentContainerLayout
-                                        }>
+                                    <Layout>
                                         <Text
                                             style={
                                                 styles.CommentsContentTxtLayout

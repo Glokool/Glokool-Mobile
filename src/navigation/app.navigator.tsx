@@ -19,6 +19,7 @@ export type AppNavigatorParams = {
         }
     };
     [NavigatorRoute.BOOKMARK]: undefined;
+    [NavigatorRoute.PAY]: undefined;
 };
 
 const Stack = createStackNavigator();

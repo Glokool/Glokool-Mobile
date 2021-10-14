@@ -38,7 +38,7 @@ export interface ZoneDetailBlogSceneProps {
 
 export interface ZoneDetailContentSceneProps {
     navigation: StackNavigationProp<ZoneNavigatorParams, SceneRoute.ZONE_DETAIL_CONTENT>;
-    route: RouteProp<ZoneNavigatorParams, SceneRoute.ZONE_CONTENTS>;
+    route: RouteProp<ZoneNavigatorParams, SceneRoute.ZONE_DETAIL_CONTENT>;
 }
 
 export const ZoneNavigator = (): React.ReactElement => (

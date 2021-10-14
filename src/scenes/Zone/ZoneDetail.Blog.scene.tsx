@@ -121,7 +121,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
                     let data = response.data.blog;
                     let dataTemp: Array<string> = [];
 
-                    data.forEach((item:  Bookmark_Item) => {
+                    data.forEach((item: Bookmark_Item) => {
                         console.log(item);
                         dataTemp.push(item.id);
                     });
@@ -654,10 +654,7 @@ glokool.page.link/jdF1`,
                                             </Layout>
                                         )}
                                     </Layout>
-                                    <Layout
-                                        style={
-                                            styles.CommentsContentContainerLayout
-                                        }>
+                                    <Layout>
                                         <Text
                                             style={
                                                 styles.CommentsContentTxtLayout
