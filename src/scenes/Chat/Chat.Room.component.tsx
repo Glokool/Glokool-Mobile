@@ -9,7 +9,8 @@ import {
     AppState,
     Alert,
     AppStateStatus,
-    Keyboard
+    Keyboard,
+    KeyboardAvoidingView
 } from 'react-native';
 import {
     Layout,
@@ -80,6 +81,7 @@ import {
     Keyboard as UIKeyboard,
 } from 'react-native-ui-lib';
 import '../../component/Chat/ChatRoom/Common/Keyboard.component';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 // 전체 UI 용 변수
@@ -115,7 +117,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const keyboardComponent = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardComponent);
     const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
     
-    console.log(keyboardHeight);
+    const insets = useSafeAreaInsets();
 
     const PressActionButton = () => {        
         if(menuVisiblity){
@@ -691,9 +693,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
    
     return (
-        <SafeAreaView style={{height : '100%', backgroundColor: 'red'}}>
+        <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
 
-            <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
+            <SafeAreaView style={{flex: 0}} />
 
                 <GiftedChat
                     messages={chatMessages}
@@ -707,7 +709,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     isAnimated
                     messagesContainerStyle={{
                         paddingBottom: 30,
-                        paddingTop: 60,
+                        paddingTop: 45,
                     }}
                     alwaysShowSend={true}                    
                     showUserAvatar={false}
@@ -725,37 +727,30 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
+            
+                {/* 가이드 정보를 출력하는 모달 */}
+                <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
+
+                {/* 이미지 클릭시 확대 이미지 창 출력 */}
+                <ImageModal />
+
+                {/* 지도 메시지 클릭시 확대 창 출력 */}
+                <LocationModal />
+
+                {/*채팅방 탑 탭바*/}
+                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+
+                <AudioComponent
+                    roomName={roomName}
+                    currentUser={currentUser}
+                    ChatDB={ChatDB}
+                    chatMessages={chatMessages}
+                    messageIdGenerator={messageIdGenerator}
+                    createPushNoti={createPushNoti}
+                />
+
             </Layout>
 
-            <KeyboardAccessoryView 
-                kbInitialProps={chatTextInputRef}
-                onHeightChanged={(height) => dispatch(setKeyboardHeight(height))}
-                kbComponent={keyboardComponent}
-                revealKeyboardInteractive
-            />
-
-            {/* 가이드 정보를 출력하는 모달 */}
-            <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
-
-            {/* 이미지 클릭시 확대 이미지 창 출력 */}
-            <ImageModal />
-
-            {/* 지도 메시지 클릭시 확대 창 출력 */}
-            <LocationModal />
-
-            {/*채팅방 탑 탭바*/}
-            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
-
-            <AudioComponent
-                roomName={roomName}
-                currentUser={currentUser}
-                ChatDB={ChatDB}
-                chatMessages={chatMessages}
-                messageIdGenerator={messageIdGenerator}
-                createPushNoti={createPushNoti}
-            />
-
-        </SafeAreaView>
     );
 };
 

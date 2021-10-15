@@ -7,15 +7,17 @@ import { SceneRoute } from '../../../navigation/app.route';
 import { CDN } from '../../../server.component';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
-
+const statusBarHeight = getStatusBarHeight();
 
 export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
     const guide = props.guide;
     const msgRef = props.msgRef;
     const ChatDB = props.ChatDB;
-    const dispatch = useDispatch();    
+    const dispatch = useDispatch();
+    
 
     const resetUserUnreadMsgCount = () => {
         msgRef.transaction((userUnreadCount: number) => {
@@ -35,8 +37,6 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
     return(
 
         <Layout style={styles.TabBar}>
-
-            <SafeAreaView style={{flex: 0}}/>
 
             <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>                        
                 <Pressable
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     TabBar: {
         position: 'absolute',
         width: '100%',
-        top: 0,
+        top: statusBarHeight,
         height: 60,
         justifyContent : 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
