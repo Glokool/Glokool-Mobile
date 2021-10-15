@@ -88,7 +88,6 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
             </Layout>            
         </Layout>
         
-  
     )
 }
 

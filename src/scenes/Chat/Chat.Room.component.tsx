@@ -74,21 +74,11 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import { getBottomSpace } from "react-native-iphone-x-helper";
-import {
-    Keyboard as UIKeyboard,
-} from 'react-native-ui-lib';
-import '../../component/Chat/ChatRoom/Common/Keyboard.component';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // 전체 UI 용 변수
 var ToastRef: any;
 
-
-const KeyboardAccessoryView = UIKeyboard.KeyboardAccessoryView;
-const KeyboardUtils = UIKeyboard.KeyboardUtils;
-const KeyboardRegistry = UIKeyboard.KeyboardRegistry;
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
@@ -100,39 +90,26 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
+    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
 
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
-    const [bottomHeight, setBottomHeight] = React.useState<number>(0);
-    const [statusBarHeight, setStatusBarHeight] = React.useState<number>(0);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-
-    /* 키보드 관련 변수 / 함수 */
-    const [keyboardOpen, setKeyboardOpen] = React.useState(true);
-    const [chatTextInputRef, setChatTextInputRef] = React.useState<React.Ref<any> | undefined>(undefined)
-    const [customKeyboardOpen, setCustomKeyboardOpen] = React.useState<boolean>(false);
-    const keyboardComponent = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardComponent);
-    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
-    
-    console.log(keyboardHeight);
+    const insets = useSafeAreaInsets()
 
     const PressActionButton = () => {        
         if(menuVisiblity){
             dispatch(setMenuVisiblityFalse());
-            dispatch(cleanKeyboardComponent())
-            KeyboardUtils.dismiss();
         }
         else {
-            dispatch(setMenuVisiblityTrue());
-            dispatch(setKeyboardComponent('menu'));
-            KeyboardRegistry.requestShowKeyboard('menu');
+            Keyboard.dismiss();
+            setTimeout(() => {
+                dispatch(setMenuVisiblityTrue());
+            }, 100)
+            
         }
     }
-
-   
-
-
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -205,13 +182,16 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         dispatch(cleanRoomName())
     }
 
+    const KeyboardShow = (e) => {
+        if (keyboardHeight === 0){
+            dispatch(setKeyboardHeight(e.endCoordinates.height));
+        }
+    }
+
     React.useEffect(() => {
 
-
-        setStatusBarHeight(getStatusBarHeight());
+        Keyboard.addListener('keyboardDidShow', KeyboardShow);
         setChatIcon(false);
-        setBottomHeight(getBottomSpace());
-
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
         //initGuide();
@@ -237,6 +217,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             };
 
             dispatch(setMenuVisiblityFalse());
+            dispatch(cleanKeyboardHeight());
 
         };
 
@@ -679,7 +660,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                ref={(chatTextInput) => setChatTextInputRef(chatTextInput)}
                 textInputProps={{ numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
                 placeholder="Ask anything about travel"
                 textInputStyle={styles.ChatComposer}
@@ -698,6 +678,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <GiftedChat
                     messages={chatMessages}
                     textInputProps={{ autoFocus: true }}
+                    bottomOffset={insets.bottom + 48}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
                     createdAt={new Date().getTime()}
@@ -726,13 +707,47 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 />
 
             </Layout>
+            
+            {(menuVisiblity)?
+                <Layout style={{ justifyContent: 'center', backgroundColor: '#F8F8F8', height: keyboardHeight, minHeight: 180}}>
+                    <Layout style={styles.SideContainer}>
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => dispatch(setAudioVisiblityTrue())}>
+                            <Record />
+                            <Text style={styles.SideButtonTxt}>Voices</Text>
+                        </Pressable>
+        
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => ImageSend()}>
+                            <Images />
+                            <Text style={styles.SideButtonTxt}>Images</Text>
+                        </Pressable>
+        
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => takePhoto()}>
+                            <Camera />
+                            <Text style={styles.SideButtonTxt}>Camera</Text>
+                        </Pressable>
+        
+                        <Pressable
+                            style={styles.SideButton}
+                            onPress={() => LocationMessage()}>
+                            <MyLocation />
+                            <Text style={styles.SideButtonTxt}>
+                                My Location
+                            </Text>
+                        </Pressable>
+                    </Layout>
+        
+                    <Layout style={styles.SideContainer}></Layout>
+                </Layout>
+            :
+                null
+            }
 
-            <KeyboardAccessoryView 
-                kbInitialProps={chatTextInputRef}
-                onHeightChanged={(height) => dispatch(setKeyboardHeight(height))}
-                kbComponent={keyboardComponent}
-                revealKeyboardInteractive
-            />
 
             {/* 가이드 정보를 출력하는 모달 */}
             <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
