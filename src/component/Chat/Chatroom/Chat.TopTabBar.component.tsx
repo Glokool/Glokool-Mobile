@@ -36,7 +36,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
         <Layout style={styles.TabBar}>
 
-            <SafeAreaView style={{flex: 0}}/>
+            <SafeAreaView style={{flex: 1}}/>
 
             <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>                        
                 <Pressable

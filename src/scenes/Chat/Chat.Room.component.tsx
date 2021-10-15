@@ -683,15 +683,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
                 placeholder="Ask anything about travel"
                 textInputStyle={styles.ChatComposer}
+                textInputAutoFocus
+                composerHeight={35}
             />
         )
     };
 
    
     return (
-        <SafeAreaView style={{height : '100%', backgroundColor: 'white'}}>
+        <SafeAreaView style={{height : '100%', backgroundColor: 'red'}}>
 
-            <Layout style={{ flex : 1 }}>
+            <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
 
                 <GiftedChat
                     messages={chatMessages}
@@ -1018,14 +1020,11 @@ const styles = StyleSheet.create({
     },
 
     ChatComposer: {
-        alignSelf: 'center',
-        textDecorationLine: 'none',
-        borderBottomWidth: 0,
-        textAlignVertical: 'center',
-        height: 70,
+        paddingTop: 7,
         backgroundColor: 'white',
         borderRadius: 32,
-        paddingLeft: 25,
+        paddingLeft: 20,
+        lineHeight: 0
     },
 
 });

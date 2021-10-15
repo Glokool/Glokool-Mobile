@@ -1,1 +1,1 @@
-export { AudioComponent } from "./Chatroom/Chat.Audio.component";
+export { AudioComponent } from "./ChatRoom/Chat.Audio.component";

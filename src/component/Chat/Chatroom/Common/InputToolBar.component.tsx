@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width : '100%',
-        paddingRight: 10
+        paddingRight: 10,
     },
 
     sendButton : {
         position: 'absolute',
-        paddingBottom: 2,
+        paddingBottom: 0,
         right: 20,
         width: 36,
         height : 36
@@ -70,29 +70,6 @@ const styles = StyleSheet.create({
     ChatInputToolBar : {
         height: 70,
         alignItems: 'center',
-    },
-
-    ChatComposer: {
-        alignSelf: 'center',
-        textDecorationLine: 'none',
-        borderBottomWidth: 0,
-        textAlignVertical: 'center',
-        height: 70,
-        backgroundColor: 'white',
-        borderRadius: 32,
-        paddingLeft: 25,
-    },
-
-    ActionButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 15,
-    },
-
-    MenuImage: {
-        width: 20,
-        height: 20,
-        resizeMode: 'stretch',
     },
 
 });
