@@ -75,18 +75,7 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
-<<<<<<< HEAD
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-=======
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import { getBottomSpace } from "react-native-iphone-x-helper";
-import {
-    Keyboard as UIKeyboard,
-} from 'react-native-ui-lib';
-import '../../component/Chat/ChatRoom/Common/Keyboard.component';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
->>>>>>> d121239ad7ead29ca77fa03554ebadcfdbdeb074
 
 // 전체 UI 용 변수
 var ToastRef: any;
@@ -683,9 +672,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
    
     return (
-        <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
+        <SafeAreaView style={{ flex : 1 , backgroundColor: 'yellow'}}>
 
-            <SafeAreaView style={{flex: 0}} />
+            <Layout style={{ flex: 1, }} >
 
                 <GiftedChat
                     messages={chatMessages}
@@ -779,7 +768,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     createPushNoti={createPushNoti}
                 />
 
-            </Layout>
+        </SafeAreaView>
 
     );
 };
