@@ -3,17 +3,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-// import com.facebook.react.BuildConfig;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.iamport.IamportPackage;
-
-import com.iamport.IamportPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.iamport.IamportPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.iamport.IamportPackage;
 import com.smarkets.paypal.RNPaypalPackage;
@@ -26,7 +18,6 @@ import com.reactnativerestart.RestartPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import com.wix.reactnativekeyboardinput.KeyboardInputPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 

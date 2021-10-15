@@ -257,7 +257,6 @@ dependencies {
     
     implementation "com.braintreepayments.api:braintree:3.14.1"
 
-    implementation project(":reactnativekeyboardinput")
 }
 
 // Run this once to be able to run the application with BUCK

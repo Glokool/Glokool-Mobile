@@ -8,7 +8,7 @@ export { renderCustomBubble } from './Location/LocationMessage.component';
 
 
 // Audio
-export {  ChatAudioComponent } from './Audio/Audio.component'
+export { ChatAudioComponent } from './Audio/Audio.component';
 
 // common
 export { renderBubble } from './Common/Bubble.component';

@@ -23,56 +23,8 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
 
     }
 
-    const renderComposer = (props: ComposerProps): React.ReactElement => {
-     
-        const TouchStartPlatform = () => {
-            if (Platform.OS === 'android') {
-                dispatch(setMenuVisiblityFalse());
-            } else {
-                dispatch(setMenuVisiblityFalse());
-            }
-        }
-    
-        return (
-            <Composer
-                {...props}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
-                placeholder="Ask anything about travel"
-                textInputStyle={styles.ChatComposer}
-            />
-        )
-    };
 
-    
-    // Action 버튼 렌더링 및 함수 설정
-    const renderActions = (props: ActionsProps): React.ReactElement => {
 
-        return (
-            <Pressable
-                style={styles.ActionButton}
-                onPress={() => {
-
-                    if (menuVisiblity) {
-                        dispatch(setMenuVisiblityFalse());
-                    }
-
-                    else {
-                        Keyboard.dismiss();
-                        dispatch(setMenuVisiblityTrue());
-                        dispatch(setKeyboardFalse());                        
-                    }
-
-                }}
-            >
-                {menuVisiblity ?
-                    <Chat_Exit />
-                    :
-                    <Chat_Menu />
-                }
-
-            </Pressable>
-        );
-    };
 
     return(
         <>
@@ -86,8 +38,6 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
                         primaryStyle={styles.ToolBarContainer}
                         containerStyle={styles.ChatInputToolBar}
                         renderSend={renderSend}
-                        renderComposer={renderComposer}
-                        renderActions={renderActions}
                     />
                 ) 
                 : 
