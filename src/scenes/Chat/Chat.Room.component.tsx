@@ -680,11 +680,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <Composer
                 {...props}
                 ref={(chatTextInput) => setChatTextInputRef(chatTextInput)}
-                textInputProps={{ autoFocus: true, selectTextOnFocus: false, numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
+                textInputProps={{ numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
                 placeholder="Ask anything about travel"
                 textInputStyle={styles.ChatComposer}
                 textInputAutoFocus
-                composerHeight={35}
+                composerHeight={40}
             />
         )
     };
@@ -1020,11 +1020,11 @@ const styles = StyleSheet.create({
     },
 
     ChatComposer: {
-        paddingTop: 7,
         backgroundColor: 'white',
         borderRadius: 32,
         paddingLeft: 20,
-        lineHeight: 0
+        lineHeight: 0,
+        
     },
 
 });

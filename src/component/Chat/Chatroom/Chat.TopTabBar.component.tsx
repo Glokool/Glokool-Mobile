@@ -36,7 +36,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
         <Layout style={styles.TabBar}>
 
-            <SafeAreaView style={{flex: 1}}/>
+            <SafeAreaView style={{flex: 0}}/>
 
             <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>                        
                 <Pressable
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
     TabBarContainer : {
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: '#00FF0000'
     },
 
     ProfileContainer: {
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#00FF0000'
     },
 
     ProfileImage: {        
@@ -143,6 +145,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 15,
+        backgroundColor: '#00FF0000'
     },
 
     LeftIcon : {
@@ -152,7 +155,8 @@ const styles = StyleSheet.create({
         padding : 15,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 10
+        marginLeft: 10,
+        backgroundColor: '#00FF0000'
     },
 
     RightIcon : {

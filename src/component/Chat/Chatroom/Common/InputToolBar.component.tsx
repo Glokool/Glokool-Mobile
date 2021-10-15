@@ -1,12 +1,7 @@
 import React, { Dispatch } from 'react';
-import { Platform, Pressable, StyleSheet, Keyboard } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { ActionsProps, Composer, ComposerProps, IMessage, InputToolbar, InputToolbarProps, Send, SendProps } from 'react-native-gifted-chat';
-import { useDispatch, useSelector } from 'react-redux';
-import { Chat_Exit, Chat_Menu, Send1 } from '../../../../assets/icon/Chat';
-import { RootState } from '../../../../model';
-import { setKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
-import { setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
+import { StyleSheet } from 'react-native';
+import {  IMessage, InputToolbar, InputToolbarProps, Send, SendProps } from 'react-native-gifted-chat';
+import { Send1 } from '../../../../assets/icon/Chat';
 
 
 //입력 창 확인
@@ -22,9 +17,6 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
         )
 
     }
-
-
-
 
     return(
         <>
@@ -51,19 +43,20 @@ const styles = StyleSheet.create({
 
     ToolBarContainer: {
         height: 70,
+        paddingRight: 15,
         backgroundColor : '#F8F8F8',
         justifyContent: 'center',
         alignItems: 'center',
         width : '100%',
-        paddingRight: 10,
     },
 
     sendButton : {
+        width: 40,
+        height : 40,
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute',
-        paddingBottom: 0,
-        right: 20,
-        width: 36,
-        height : 36
+        right: 20
     },
 
 
