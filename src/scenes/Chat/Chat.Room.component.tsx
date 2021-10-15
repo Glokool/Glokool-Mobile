@@ -9,7 +9,8 @@ import {
     AppState,
     Alert,
     AppStateStatus,
-    Keyboard
+    Keyboard,
+    KeyboardAvoidingView
 } from 'react-native';
 import {
     Layout,
@@ -74,7 +75,18 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
+<<<<<<< HEAD
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+=======
+import { getStatusBarHeight } from "react-native-status-bar-height";
+import { getBottomSpace } from "react-native-iphone-x-helper";
+import {
+    Keyboard as UIKeyboard,
+} from 'react-native-ui-lib';
+import '../../component/Chat/ChatRoom/Common/Keyboard.component';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+>>>>>>> d121239ad7ead29ca77fa03554ebadcfdbdeb074
 
 // 전체 UI 용 변수
 var ToastRef: any;
@@ -671,9 +683,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
    
     return (
-        <SafeAreaView style={{height : '100%', backgroundColor: 'red'}}>
+        <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
 
-            <Layout style={{ flex : 1 , backgroundColor: 'yellow'}}>
+            <SafeAreaView style={{flex: 0}} />
 
                 <GiftedChat
                     messages={chatMessages}
@@ -688,7 +700,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     isAnimated
                     messagesContainerStyle={{
                         paddingBottom: 30,
-                        paddingTop: 60,
+                        paddingTop: 45,
                     }}
                     alwaysShowSend={true}                    
                     showUserAvatar={false}
@@ -749,28 +761,26 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             }
 
 
-            {/* 가이드 정보를 출력하는 모달 */}
-            <ProfileModal guide={guide} navigation={props.navigation} route={props.route} />
+                {/* 이미지 클릭시 확대 이미지 창 출력 */}
+                <ImageModal />
 
-            {/* 이미지 클릭시 확대 이미지 창 출력 */}
-            <ImageModal />
+                {/* 지도 메시지 클릭시 확대 창 출력 */}
+                <LocationModal />
 
-            {/* 지도 메시지 클릭시 확대 창 출력 */}
-            <LocationModal />
+                {/*채팅방 탑 탭바*/}
+                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
 
-            {/*채팅방 탑 탭바*/}
-            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+                <AudioComponent
+                    roomName={roomName}
+                    currentUser={currentUser}
+                    ChatDB={ChatDB}
+                    chatMessages={chatMessages}
+                    messageIdGenerator={messageIdGenerator}
+                    createPushNoti={createPushNoti}
+                />
 
-            <AudioComponent
-                roomName={roomName}
-                currentUser={currentUser}
-                ChatDB={ChatDB}
-                chatMessages={chatMessages}
-                messageIdGenerator={messageIdGenerator}
-                createPushNoti={createPushNoti}
-            />
+            </Layout>
 
-        </SafeAreaView>
     );
 };
 
