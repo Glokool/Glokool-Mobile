@@ -76,7 +76,7 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 // 전체 UI 용 변수
 var ToastRef: any;
@@ -692,7 +692,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     isAnimated
                     messagesContainerStyle={{
                         paddingBottom: 30,
-                        paddingTop: 45,
+                        paddingTop: isIphoneX()? (getStatusBarHeight() + 60) :  60,
                     }}
                     alwaysShowSend={true}                    
                     showUserAvatar={false}
@@ -751,9 +751,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 }
 
             </Layout>
-            
-            
-
 
                 {/* 이미지 클릭시 확대 이미지 창 출력 */}
                 <ImageModal />

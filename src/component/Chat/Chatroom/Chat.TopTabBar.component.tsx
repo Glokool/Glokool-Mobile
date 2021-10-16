@@ -7,7 +7,7 @@ import { SceneRoute } from '../../../navigation/app.route';
 import { CDN } from '../../../server.component';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 const statusBarHeight = getStatusBarHeight();
 
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     TabBar: {
         position: 'absolute',
         width: '100%',
-        top: statusBarHeight,
+        top: isIphoneX()? statusBarHeight : 0 ,
         height: 60,
         justifyContent : 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
