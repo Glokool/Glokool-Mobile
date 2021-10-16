@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
 
     ChatInputToolBar : {
         height: 70,
-        alignItems: 'center',
+        alignContent : 'center',
+        justifyContent: 'center',
     },
 
 });

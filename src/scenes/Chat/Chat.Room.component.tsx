@@ -76,6 +76,7 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 // 전체 UI 용 변수
 var ToastRef: any;
@@ -661,10 +662,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         return (
             <Composer
                 {...props}
-                textInputProps={{ numberOfLines: 1, onTouchStart: () => TouchStartPlatform()}}
+                textInputProps={{ 
+                    onTouchStart: () => TouchStartPlatform(),
+                }}
                 placeholder="Ask anything about travel"
                 textInputStyle={styles.ChatComposer}
                 textInputAutoFocus
+                multiline={false}
                 composerHeight={40}
             />
         )
@@ -672,14 +676,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
    
     return (
-        <SafeAreaView style={{ flex : 1 , backgroundColor: 'yellow'}}>
+        <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}>
 
-            <Layout style={{ flex: 1, }} >
+            <Layout style={{ flex : 1 }} >
 
                 <GiftedChat
                     messages={chatMessages}
                     textInputProps={{ autoFocus: true }}
-                    bottomOffset={insets.bottom + 48}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
                     createdAt={new Date().getTime()}
@@ -707,9 +710,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
-            </Layout>
-            
-            {(menuVisiblity)?
+                {(menuVisiblity)?
                 <Layout style={{ justifyContent: 'center', backgroundColor: '#F8F8F8', height: keyboardHeight, minHeight: 180}}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
@@ -745,9 +746,13 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         
                     <Layout style={styles.SideContainer}></Layout>
                 </Layout>
-            :
-                null
-            }
+                :
+                    null
+                }
+
+            </Layout>
+            
+            
 
 
                 {/* 이미지 클릭시 확대 이미지 창 출력 */}
@@ -1037,7 +1042,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 32,
         paddingLeft: 20,
-        lineHeight: 0,
+        paddingBottom: 0,
+        paddingTop: 0,
         
     },
 

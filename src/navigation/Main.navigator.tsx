@@ -46,8 +46,10 @@ import { AuthContext } from '../context/AuthContext';
 import { alertWindow } from '../component/Common/LoginCheck.component';
 import { ZoneNavigator } from './ScreenNavigator/Zone.navigator';
 import { windowWidth } from '../Design.component';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const Tab = createBottomTabNavigator();
+const BottomHeight = getBottomSpace();
 
 const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTabBarOptions>) => {
 
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         paddingHorizontal: 15,
-        height : 65,
+        height : 65 + (BottomHeight / 2),
         width: windowWidth,
         paddingBottom: Platform.OS === 'ios' ? 20 : 0,
         paddingTop: Platform.OS === 'ios' ? 5 : 0,
