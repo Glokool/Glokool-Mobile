@@ -41,7 +41,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         const localTime = Number(moment(new Date).format('kkmm'))
         const KST = localTime + hourDiff + 900;
 
-        if (1901 <= KST && KST <= 2359) {
+        if (1801 <= KST && KST <= 2359) {
             return false;
         } else {
             return true;

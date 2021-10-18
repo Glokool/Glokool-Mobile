@@ -64,7 +64,7 @@ import {
     AudioComponent,
     renderAvatar,
     renderCustomBubble,
-} from '../../component/Chat/Chatroom';
+} from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';

@@ -26,7 +26,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
         console.log(item.item.type);
         console.log(item.item._id);
         return (
-            <TouchableOpacity style={styles.ContentContainer} onPress={()=>onPressContent(item.item.type, item.item._id)}>
+            <TouchableOpacity style={styles.ContentContainer} onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
                     source={{ uri: CDN + item.item.image }}
                     style={styles.ItemImage}

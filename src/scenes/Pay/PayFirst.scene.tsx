@@ -140,7 +140,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         countryCode={countryCode}
                         withFilter
                         withFlag
-                        withCountryNameButton
+                        withCallingCodeButton
                         withCallingCode
                         withEmoji
                         onSelect={(response) => {
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     SelectContainer: {
-        flex: 1,
+        width: windowWidth * 0.3,
         marginRight: 5,
     },
     CountryPickerStyle: {
@@ -324,5 +324,8 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(232,236,243,1.0)',
         borderWidth: 0.5,
         borderRadius: 3,
+        marginRight: 5,
+        width: windowWidth * 0.3,
+        paddingLeft: 10,
     }
 })

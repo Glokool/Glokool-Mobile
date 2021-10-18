@@ -12,6 +12,7 @@ import { CommonTopTabBar } from '../../component/Common';
 import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import FastImage from 'react-native-fast-image';
+import { SceneRoute } from '../../navigation/app.route';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
@@ -29,11 +30,19 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         dispatch(setCategoryIndex(props.route.params.pageIndex));
     }, [])
 
+    const onPressContent = (type: string, id: string) => {
+        if (type == 'blog') {
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id });
+        } else if (type == 'content') {
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_CONTENT, { Id: id });
+        }
+    }
+
     // 페이지 내 컨텐츠 렌더링
     const renderContents = (item) => {
 
         return (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
                     source={{ uri: CDN + item.item.image }}
                     style={styles.ContentsItemStyle}
