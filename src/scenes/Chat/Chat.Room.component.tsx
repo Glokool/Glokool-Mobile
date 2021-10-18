@@ -77,9 +77,14 @@ import { windowHeight, windowWidth } from '../../Design.component';
 import { cleanKeyboardComponent, setKeyboardComponent, setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { string } from 'yup/lib/locale';
 
 // 전체 UI 용 변수
 var ToastRef: any;
+
+type mappingMessage = {
+    id : string, node : messageType
+};
 
 
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
@@ -239,10 +244,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 return;
             }
 
+            let tempMessages = Object.entries(messages);
+            let chatMessages : Array<messageType> = [];
 
-
-            messages = messages.map((node: messageType) => {
-
+            for( let[id, node] of tempMessages) {          
                 const message: messageType = {
                     _id: node._id,
                     text: node.messageType === 'message' ? node.text : '',
@@ -254,11 +259,34 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     image: node.messageType === 'image' ? node.image : '',
                     audio: node.messageType === 'audio' ? node.audio : '',
                     messageType: node.messageType,
-                }
-                return message;
-            });
+                }       
+                
+                chatMessages.push(message);                
+            }
 
-            setChatMessages([...messages]);
+            setChatMessages([...chatMessages]);
+
+       
+
+
+            // messages = messages.map((node: messageType) => {
+
+            //     const message: messageType = {
+            //         _id: node._id,
+            //         text: node.messageType === 'message' ? node.text : '',
+            //         location: node.messageType === 'location' ? node.location : '',
+            //         createdAt: node.createdAt,
+            //         user: {
+            //             _id: node.user._id,
+            //         },
+            //         image: node.messageType === 'image' ? node.image : '',
+            //         audio: node.messageType === 'audio' ? node.audio : '',
+            //         messageType: node.messageType,
+            //     }
+            //     return message;
+            // });
+
+            //setChatMessages([...messages]);
             dispatch(setChatLoadingFalse());
         });
 
@@ -524,13 +552,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         messages[0].user.name = currentUser?.displayName;
 
         if (filterText(messages[0].text)) {
-            await Promise.all([
-                ChatDB?.update({
-                    messages: [messages[0], ...chatMessages],
-                    guideUnreadCount: database.ServerValue.increment(1),
-                }),
-                sendMessage(messages[0]),
-            ]);
+
+            const pushMessage = ChatDB?.child('messages').push();
+            pushMessage?.set(messages[0]);
+
+            // await Promise.all([
+            //     ChatDB?.update({
+            //         messages: [messages[0], ...chatMessages],
+            //         guideUnreadCount: database.ServerValue.increment(1),
+            //     }),
+            //     sendMessage(messages[0]),
+            // ]);
         } else {
             ToastRef.show(
                 'Please refrain from any content that may offend the other person.',

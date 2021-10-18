@@ -12,7 +12,7 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
 
     const [data, setData] = React.useState([
         {
-            _id : 'test',
+            _id : 'testChat',
             day: new Date(),
             guide: {
                 name: 'beomseok',
