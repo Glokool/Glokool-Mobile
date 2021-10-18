@@ -57,13 +57,8 @@ export const CustomerServiceComponent = (
             .update({ isDelete: true });
 
         await auth().signInWithEmailAndPassword(currentUser?.email, passward);
-
-        const NewUser = await auth().currentUser?.delete();
-
-        console.log(NewUser);
-
-        console.log('프로필 업데이트', UserData);
-
+        await auth().currentUser?.delete();
+        
         props.navigation.navigate(NavigatorRoute.HOME);
     }
 

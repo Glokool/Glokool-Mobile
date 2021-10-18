@@ -4,6 +4,7 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './app.navigator';
 import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../scenes/Pay';
+import { PaymentData } from 'iamport-react-native';
 
 type PayNavigatorParams = AppNavigatorParams & {
     [SceneRoute.PAY_FIRST]: undefined;
@@ -15,26 +16,14 @@ type PayNavigatorParams = AppNavigatorParams & {
             value: string;
         };
         phone?: {
-            type: string | undefined;
+            type: string | any;
             value: string;
         };
     };
     [SceneRoute.PAY_FAILED]: undefined;
     [SceneRoute.PAY_CANCELLATION]: undefined;
     [SceneRoute.PAY_PROCESS]: {
-        params: {
-            pg: string;
-            pay_method: string;
-            name: string;
-            merchant_uid: string;
-            amount: number,
-            buyer_name: string;
-            buyer_tel: string;
-            buyer_email: string;
-            buyer_addr: string;
-            buyer_postcode: string;
-            app_scheme: string;
-        };
+        params: PaymentData;
         ReservationData: {
             name: string;
             email: string;

@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Pressable, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../assets/icon/Common';
 import { windowWidth } from '../../Design.component';
 
-export const CommonTopTabBar = (props) => {
+export const CommonTopTabBar = (props: any) => {
     return (
         <Layout style={styles.TopTabContainer}>
             <Layout style={styles.TopTabItems}>

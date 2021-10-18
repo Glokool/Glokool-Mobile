@@ -96,7 +96,6 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id).catch((e) => console.log(e));
-        console.log(Content.data);
         // 북마크 조회 하기 위한 함수
         if (uid) {
             const authToken = await auth().currentUser?.getIdToken();
@@ -120,12 +119,12 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
                     });
 
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
-                    Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
+                    Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
 
-                    setContent(Content.data);
-                    setContentInfo(Content.data.contents);
-                    setRecommendation(Content.data.recommendation);
-                    setComments(Content.data.comments);
+                    setContent(Content?.data);
+                    setContentInfo(Content?.data.contents);
+                    setRecommendation(Content?.data.recommendation);
+                    setComments(Content?.data.comments);
                 })
                 .catch(function (error) {
                     console.log(error);

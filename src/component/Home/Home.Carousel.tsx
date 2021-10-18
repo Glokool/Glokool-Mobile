@@ -1,11 +1,9 @@
 import React from 'react';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import { HomeCarouselProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { Dimensions, Image, StyleSheet, Pressable } from 'react-native';
-import { SceneRoute } from '../../navigation/app.route';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { HomeCarousel_Item } from '../../types';
 
@@ -13,7 +11,6 @@ const ImageSize = Dimensions.get('window').width * 0.85;
 
 export const HomeCarousel = (props: HomeCarouselProps): LayoutElement => {
     const [content, setContent] = React.useState<Array<HomeCarousel_Item>>([]);
-    const [carouselIndex, setCarouselIndex] = React.useState<number>(2);
 
     React.useEffect(() => {
         InitHomeCarousel();

@@ -2,21 +2,12 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
-import { BookNavigator } from './Book.navigator';
 import { PayNavigator } from './Pay.navigator';
-import { NavigatorRoute, SceneRoute } from './app.route';
-import { CallbackRsp } from 'iamport-react-native';
+import { NavigatorRoute } from './app.route';
 
 export type AppNavigatorParams = {
     [NavigatorRoute.AUTH]: undefined;
     [NavigatorRoute.MAIN]: undefined;
-    [NavigatorRoute.BOOK]: {
-        screen: SceneRoute,
-        params: {
-            response: CallbackRsp,
-            ReservationData: any,
-        }
-    };
     [NavigatorRoute.PAY]: undefined;
 };
 
@@ -28,7 +19,6 @@ export const AppNavigator = (props: React.ReactElement): React.ReactElement => {
         <Stack.Navigator {...props} headerMode="none">
             <Stack.Screen name={NavigatorRoute.MAIN} component={MainNavigator} />
             <Stack.Screen name={NavigatorRoute.AUTH} component={AuthNavigator} />
-            <Stack.Screen name={NavigatorRoute.BOOK} component={BookNavigator} />
             <Stack.Screen name={NavigatorRoute.PAY} component={PayNavigator} />
         </Stack.Navigator>
     )

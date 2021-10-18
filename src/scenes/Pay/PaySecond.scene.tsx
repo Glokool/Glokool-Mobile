@@ -7,7 +7,7 @@ import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { IMP_PAY_METHOD } from 'iamport-react-native';
+import { IMP_PAY_METHOD, PaymentData } from 'iamport-react-native';
 import { Paypal } from '../../assets/icon/Booking';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
@@ -54,7 +54,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         // 테스트 중에는 결제금액 1로 설정
         const amount = 1;
 
-        const params = {
+        const params: PaymentData = {
             pg: 'paypal',
             pay_method: PayMethod,
             name: 'Glokool-Assistant-Service',
@@ -90,7 +90,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         // 테스트 중에는 결제금액 1로 설정
         const amount = 1;
 
-        const params = {
+        const params: PaymentData = {
             pg: 'kakaopay',
             pay_method: PayMethod,
             merchant_uid: `merchant_${new Date().getTime()}`,
