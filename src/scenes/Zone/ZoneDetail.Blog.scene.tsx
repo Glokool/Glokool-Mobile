@@ -10,9 +10,7 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Platform,
-    ActivityIndicator
-} from 'react-native';
+    Platform} from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import { SERVER, CDN } from '../../server.component';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -50,6 +48,7 @@ import ImageModal from 'react-native-image-modal';
 import { ZoneDetailBlogSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
+import { Loading } from '../../component/Common';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -361,9 +360,7 @@ glokool.page.link/jdF1`,
     };
 
     return content == null ? (
-        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <ActivityIndicator color='#999' size='large' />
-        </Layout>
+        <Loading/>
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView

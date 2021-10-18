@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
-import { Layout, LayoutElement, Spinner, Text } from '@ui-kitten/components';
+import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { ReservationInfo } from '../../types';
 import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
@@ -15,6 +15,7 @@ import { RootState } from '../../model';
 import { setMyLoadingTrue, setMyLoadingFalse } from '../../model/My/My.Loading.model';
 import { setReceiptVisibleTrue } from '../../model/My/My.UI.model';
 import { CommonTopTabBar } from '../../component/Common';
+import { Loading } from '../../component/Common';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -79,9 +80,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
     }
 
     return loading ? (
-        <Layout style={styles.LoadingContainer}>
-            <Spinner size='giant' />
-        </Layout>
+        <Loading />
     ) : (
         <Layout style={styles.MainContainer}>
 

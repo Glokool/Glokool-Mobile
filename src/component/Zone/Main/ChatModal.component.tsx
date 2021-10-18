@@ -15,7 +15,7 @@ import { EnterIcon } from '../../../assets/icon/Zone';
 import { AuthContext } from '../../../context/AuthContext';
 
 import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '..';
-import { alertWindow } from '../../Common/LoginCheck.component';
+import { loginAlertWindow } from '../../Common/LoginCheck.component';
 
 export const ZoneChatModal = (props: any) => {
 
@@ -48,7 +48,7 @@ export const ZoneChatModal = (props: any) => {
 
     const onPressEnterButton = () => {
         if (!currentUser) {
-            alertWindow(props.navigation);
+            loginAlertWindow(props.navigation);
             dispatch(setGuideVisiblityFalse());
         } else {
             Alert.alert(

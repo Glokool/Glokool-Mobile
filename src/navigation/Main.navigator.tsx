@@ -43,7 +43,7 @@ import { NavigatorRoute, SceneRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
-import { alertWindow } from '../component/Common/LoginCheck.component';
+import { loginAlertWindow } from '../component/Common/LoginCheck.component';
 
 const Tab = createBottomTabNavigator();
 
@@ -96,7 +96,7 @@ const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTa
 
                 const onPress = () => {
                     if (route.name == 'My' && !currentUser) {
-                        alertWindow(navigation);
+                        loginAlertWindow(navigation);
                     }
                     else {
                         const event = navigation.emit({

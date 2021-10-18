@@ -20,7 +20,7 @@ import Toast from 'react-native-easy-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { PriceData } from '../../types';
 
-import { alertWindow } from '../../component/Common/LoginCheck.component';
+import { loginAlertWindow } from '../../component/Common/LoginCheck.component';
 import moment from 'moment';
 
 var ToastRef: any;
@@ -51,7 +51,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     const pressBookButton = () => {
         // 로그인 확인
         if (!currentUser) {
-            alertWindow(props.navigation);
+            loginAlertWindow(props.navigation);
             return;
         }
 

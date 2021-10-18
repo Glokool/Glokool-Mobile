@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigatorRoute } from "../../navigation/app.route";
 import { Alert } from 'react-native';
 
-export const alertWindow = (navigation: any) => {
+export const loginAlertWindow = (navigation: any) => {
     Alert.alert(
         "Login Request",
         "This service requires login.\n Click 'Continue' to log in.",

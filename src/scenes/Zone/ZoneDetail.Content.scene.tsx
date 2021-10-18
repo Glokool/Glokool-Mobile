@@ -11,7 +11,6 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Platform,
-    ActivityIndicator,
 } from 'react-native';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
@@ -47,6 +46,7 @@ import ImageModal from 'react-native-image-modal';
 import { ZoneDetailContentSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
+import { Loading } from '../../component/Common';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -172,7 +172,7 @@ glokool.page.link/jdF1`,
                     data.forEach((item: Bookmark_Item) => {
                         dataTemp.push(item.id);
                     });
-                    
+
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
                 })
@@ -188,7 +188,7 @@ glokool.page.link/jdF1`,
     }
 
     const RenderCarousel = (item: { item: string }) => {
-        
+
         return (
             <Layout style={styles.ItemContainer}>
                 <ImageModal resizeMode="contain" source={{ uri: CDN + item.item }} style={styles.ImageContainer} />
@@ -330,9 +330,7 @@ glokool.page.link/jdF1`,
             });
     };
     return content == null ? (
-        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <ActivityIndicator color='#999' size='large' />
-        </Layout>
+        <Loading />
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView

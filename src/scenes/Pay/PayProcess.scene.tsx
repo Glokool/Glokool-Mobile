@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import IMP, { CallbackRsp } from 'iamport-react-native';
-import { Layout, LayoutElement, Spinner } from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { SceneRoute } from '../../navigation/app.route';
 import { PayProcessSceneProps } from '../../navigation/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common';
 import { PaySecondPage } from '../../assets/icon/Pay';
+import { Loading } from '../../component/Common';
 
 export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
 
@@ -39,9 +40,7 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
                 userCode={'imp70430956'}
                 tierCode={''}
                 loading={
-                    <Layout style={styles.Loading}>
-                        <Spinner size={'giant'} />
-                    </Layout>
+                    <Loading />
                 }
                 data={props.route.params.params}
                 callback={(response) => callback(response)}
