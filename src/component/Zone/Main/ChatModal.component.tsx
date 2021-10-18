@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-native';
+import { StyleSheet, Image, Pressable, Text, Platform, FlatList, Alert } from 'react-native';
 import { Layout, Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../../assets/icon/Series';
 import { SceneRoute } from '../../../navigation/app.route';
@@ -50,6 +50,23 @@ export const ZoneChatModal = (props: any) => {
         if (!currentUser) {
             alertWindow(props.navigation);
             dispatch(setGuideVisiblityFalse());
+        } else {
+            Alert.alert(
+                "Chat Room Rules",
+                "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
+                [{
+                    text: "Cancel",
+                    onPress: () => console.log("press canceled"),
+                    style: "destructive"
+                }, {
+                    text: "Confirm",
+                    onPress: () => {
+                        dispatch(setGuideVisiblityFalse());
+                        console.log("press continue")
+                    },
+                    style: "default"
+                }],
+            )
         }
     }
 

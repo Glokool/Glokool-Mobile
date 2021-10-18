@@ -36,6 +36,7 @@ export const MyProfile = (props: MyScreenProps) => {
     return (
         <TouchableOpacity onPress={()=>props.navigation.navigate(SceneRoute.MY_PROFILE)}>
             <View style={styles.ProfileContainer}>
+                
                 {/* 프로필 이미지 */}
                 {props.currentUser.photoURL === '' ||
                     props.currentUser.photoURL === null ||

@@ -166,12 +166,13 @@ glokool.page.link/jdF1`,
 
             axios(config)
                 .then(function (response) {
-                    let data = response.data.contents;
+                    const data = response.data.items;
                     let dataTemp: Array<string> = [];
 
                     data.forEach((item: Bookmark_Item) => {
                         dataTemp.push(item.id);
                     });
+                    
                     dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
                     Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
                 })
@@ -223,7 +224,7 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response: { data: any }) => {
-                // InitSeries();
+                console.log(response.data);
                 setPressBookmark(!pressBookmark);
             })
             .catch((error: Error) => {

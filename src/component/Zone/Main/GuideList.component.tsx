@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
 import { ZoneChatModal } from '..';
 import LinearGradient from 'react-native-linear-gradient';
+import { windowHeight } from '../../../Design.component';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -48,7 +49,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
             try {
                 const res = await axios.get(`${SERVER}/api/chat-rooms/` + item._id);
-    
+
                 setGuideInfo(res.data)
                 dispatch(setGuideVisiblityTrue());
             } catch (e) {
@@ -72,11 +73,13 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
                     <Text style={styles.ItemText}>{item.item.guide.name}</Text>
 
-                    {/* <Layout style={styles.KeywordContainer}>
-                        {item.item.guide.keyword.map((item) => (
-                            <Text>#{item}</Text>
-                        ))}
-                    </Layout> */}
+                    <Layout style={styles.KeywordContainer}>
+                        {item.item.guide.keyword &&
+                            item.item.guide.keyword.map((item) => (
+                                <Text>#{item}</Text>
+                            ))
+                        }
+                    </Layout>
 
                 </Layout>
 
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
     KeywordContainer: {
         alignItems: 'center',
         marginTop: 10,
+        height: windowHeight * 0.04
     },
     FreeIcon: {
         position: 'absolute',

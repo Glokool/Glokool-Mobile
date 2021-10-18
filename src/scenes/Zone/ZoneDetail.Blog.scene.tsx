@@ -95,7 +95,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     }, []);
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/api/blog/' + Id);
+        var Content = await axios.get(SERVER + '/api/blog/' + Id).catch((e) => console.log(e));
 
         // 북마크 조회 하기 위한 함수
         if (uid) {
@@ -239,10 +239,11 @@ glokool.page.link/jdF1`,
 
     const PressBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
-        var axios = require('axios');
+
         var data = qs.stringify({
             blogCode: content?._id,
         });
+        console.log(data);
         var config: AxiosRequestConfig = {
             method: 'post',
             url: SERVER + '/api/users/bookmark',
@@ -258,7 +259,7 @@ glokool.page.link/jdF1`,
                 setPressBookmark(!pressBookmark);
             })
             .catch((error: Error) => {
-                console.log(error);
+                console.log("Error", error);
             });
     };
 

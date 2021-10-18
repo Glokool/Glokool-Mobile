@@ -26,6 +26,10 @@ export const BookmarkList = () => {
         InitBookmark();
     }, [])
 
+    const onPressItem = () => {
+
+    }
+
     // bookmarklist 초기화, api 완성 되면 바꿔야함
     const InitBookmark = async () => {
         const authToken = await auth().currentUser?.getIdToken();
@@ -38,12 +42,23 @@ export const BookmarkList = () => {
         };
 
         axios(config).then((response) => {
-            setBookmarkList([...response.data.tours, ...response.data.contents, ...response.data.blog]);
+            console.log(response.data);
+            setBookmarkList(response.data.item);
         })
     }
 
+    const renderEmptyComponent = () => {
+        return (
+            <View style={styles.EmptyContainer}>
+                <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
+                <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
+                <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
+                <EmptyBookmark />
+            </View>
+        )
+    }
+
     const renderItem = (item: { item: Detail_Item }) => {
-        console.log(item);
         return (
             <TouchableOpacity onPress={() => { }} style={styles.ItemContainer}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />
@@ -51,16 +66,7 @@ export const BookmarkList = () => {
         )
     }
 
-    return bookmarkList.length === 0 ? (
-        // 리스트가 비었을때
-        <View style={styles.EmptyContainer}>
-            <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
-            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
-            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
-            <EmptyBookmark />
-        </View>
-    ) : (
-        // 리스트 존재할때
+    return (
         <View style={styles.MainContainer}>
             <FlatList
                 data={bookmarkList}
@@ -70,6 +76,7 @@ export const BookmarkList = () => {
                 keyExtractor={(item) => "_" + item._id}
                 style={styles.FlatListContainer}
                 contentContainerStyle={styles.ContentContainer}
+                ListEmptyComponent={renderEmptyComponent}
             />
         </View>
     )
