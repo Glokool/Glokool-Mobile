@@ -8,5 +8,14 @@ import MyPage_S from './my_selected.svg';
 import Zone from './zone_unselected.svg';
 import Zone_S from './zone_selected.svg';
 
-
-export {Chat, Chat_S,Chat_Alert, Home, Home_S, MyPage, MyPage_S, Zone, Zone_S}
+export {
+    Chat,
+    Chat_S,
+    Chat_Alert,
+    Home,
+    Home_S,
+    MyPage,
+    MyPage_S,
+    Zone,
+    Zone_S
+}

@@ -8,7 +8,7 @@ import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IMP_PAY_METHOD, PaymentData } from 'iamport-react-native';
-import { Paypal } from '../../assets/icon/Booking';
+import { Paypal } from '../../assets/icon/Pay';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
 
@@ -240,7 +240,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                             style={styles.Radio}
                         />
                         <Image
-                            source={require('../../assets/icon/Booking/kakaopay.png')}
+                            source={require('../../assets/icon/Pay/kakaopay.png')}
                             style={styles.Logo}
                             resizeMode={'contain'}
                         />

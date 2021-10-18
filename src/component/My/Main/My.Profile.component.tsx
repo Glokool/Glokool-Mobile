@@ -42,7 +42,7 @@ export const MyProfile = (props: MyScreenProps) => {
                     props.currentUser.photoURL === null ||
                     props.currentUser.photoURL === undefined ? (
                     <Image
-                        source={require('../../assets/profile/profile_01.png')}
+                        source={require('../../assets/image/Chat/guideGray.png')}
                         style={styles.profileImage}
                     />
                 ) : (

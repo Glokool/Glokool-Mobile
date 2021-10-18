@@ -1,11 +1,11 @@
-import Alert from './Alert.svg';
+import AlertIcon from './AlertIcon.svg';
 import Email from './Email.svg';
 import GoogleLogin from './GoogleLogin.svg';
 import AppleLogin from './AppleLogin.svg';
 import FbLogin from './FbLogin.svg';
 
 export {
-    Alert,
+    AlertIcon,
     Email,
     GoogleLogin,
     AppleLogin,

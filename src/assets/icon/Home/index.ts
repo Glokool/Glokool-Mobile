@@ -1,11 +1,13 @@
-import Logo from './Logo.svg';
-import AngleRightDouble from './AngleRightDouble.svg';
 import GloChatAD from './GloChatAD.svg';
-import InstagramPurple from './InstagramPurple.svg';
-import WebsitePurple from './WebsitePurple.svg';
 import HomeBG from './HomeBG.svg';
 import TextLogo from './TextLogo.svg';
 import GloChatInfo from './GloChatInfo.svg';
 import GloChatInfoIcon from './GloChatInfoIcon.svg';
 
-export { Logo, AngleRightDouble, GloChatAD, InstagramPurple, WebsitePurple, HomeBG, TextLogo, GloChatInfo, GloChatInfoIcon }
+export { 
+    GloChatAD, 
+    HomeBG, 
+    TextLogo, 
+    GloChatInfo, 
+    GloChatInfoIcon 
+}

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="72" height="20" viewBox="0 0 72 20">
-  <g id="Resident" transform="translate(-219 -741)">
-    <g id="사각형_2031" data-name="사각형 2031" transform="translate(219 741)" fill="none" stroke="#9df37e" stroke-width="1">
-      <rect width="72" height="20" rx="10" stroke="none"/>
-      <rect x="0.5" y="0.5" width="71" height="19" rx="9.5" fill="none"/>
-    </g>
-    <text id="Resident-2" data-name="Resident" transform="translate(254.5 756)" fill="#9df37e" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-28.184" y="0">Resident</tspan></text>
-  </g>
-</svg>

@@ -10,7 +10,7 @@ import {
 import { SceneRoute } from '../../navigation/app.route';
 import { LayoutElement, Layout } from '@ui-kitten/components';
 import { EmailFailScreenProps } from '../../navigation/auth.navigator';
-import { Alert, Email } from '../../assets/icon/Auth';
+import { AlertIcon, Email } from '../../assets/icon/Auth';
 import { AngleLeft } from '../../assets/icon/Common';
 
 export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
@@ -100,7 +100,7 @@ export const EmailFailScreen = (props: EmailFailScreenProps): LayoutElement => {
                 </Layout>
             ) : (
                 <Layout style={styles.container}>
-                    <Alert style={{ marginVertical: 10 }} />
+                    <AlertIcon style={{ marginVertical: 10 }} />
 
                     <Text style={styles.title}>E-mail check error</Text>
                     <Text style={styles.desc}>

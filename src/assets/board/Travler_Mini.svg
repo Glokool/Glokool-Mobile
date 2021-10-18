@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g id="Travler_미니" data-name="Travler 미니" transform="translate(-219 -741)">
-    <g id="사각형_2031" data-name="사각형 2031" transform="translate(219 741)" fill="#fff" stroke="#9fdfff" stroke-width="1">
-      <rect width="20" height="20" rx="10" stroke="none"/>
-      <rect x="0.5" y="0.5" width="19" height="19" rx="9.5" fill="none"/>
-    </g>
-    <text id="T" transform="translate(229 756)" fill="#9fdfff" font-size="13" font-family="NotoSansCJKkr-Bold, Noto Sans CJK KR" font-weight="700"><tspan x="-4.063" y="0">T</tspan></text>
-  </g>
-</svg>
