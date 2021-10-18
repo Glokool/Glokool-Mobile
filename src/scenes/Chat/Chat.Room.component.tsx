@@ -628,7 +628,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 <GiftedChat
                     messages={chatMessages}
                     textInputProps={{ autoFocus: true }}
-                    bottomOffset={(Platform.OS === 'ios')? getBottomSpace() : 0}
+                    bottomOffset={(isIphoneX())? -getBottomSpace() + 47 : (Platform.OS === 'ios')?  - 25 : 0}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
                     createdAt={new Date().getTime()}
