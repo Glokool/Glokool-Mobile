@@ -15,6 +15,7 @@ import {
   MyProfile,
   HistoryScreen
 } from '../../scenes/My';
+import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { ChatRoomScreen } from '../../scenes/Chat';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 import { authContextType, ReservationInfo } from '../../types';
@@ -31,11 +32,16 @@ type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CUSTOMER_SERVICE]: undefined;
   [SceneRoute.FAQ]: undefined;
   [SceneRoute.MY_PROFILE]: undefined;
-  [SceneRoute.BOOKMARK_LIST]: undefined;
   [SceneRoute.HISTORY]: undefined;
   [SceneRoute.CHATROOM]: undefined;
 
-  [NavigatorRoute.HOME]: undefined;
+  // bookmark
+  [SceneRoute.BOOKMARK_DETAIL_BLOG]: {
+    Id: string;
+  };
+  [SceneRoute.BOOKMARK_DETAIL_CONTENT]: {
+    Id: string;
+  }
 };
 
 export interface MyScreenProps {
@@ -93,11 +99,6 @@ export interface FAQProps {
   route: RouteProp<MyNavigatorParams, SceneRoute.FAQ>;
 }
 
-export interface BookmarkListProps {
-  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
-  route: RouteProp<MyNavigatorParams, SceneRoute.BOOKMARK_LIST>;
-}
-
 // 일단은 history -> chat 으로 가니까 이렇게 해둠
 // 나중에 chat 바뀔때 recent 를 chat navigator 에서 없애고
 // my navigator 로 이식
@@ -128,6 +129,10 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
 
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
+
+    {/* Bookmark */}
+    <Stack.Screen name={SceneRoute.BOOKMARK_DETAIL_BLOG} component={ZoneDetailBlogScene} />
+    <Stack.Screen name={SceneRoute.BOOKMARK_DETAIL_CONTENT} component={ZoneDetailContentScene} />
 
   </Stack.Navigator>
 );

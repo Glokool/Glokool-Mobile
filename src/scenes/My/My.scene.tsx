@@ -140,7 +140,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* Bookmarklist 컴포넌트 분리 */}
-                <BookmarkList />
+                <BookmarkList {...props}/>
 
             </Layout>
 

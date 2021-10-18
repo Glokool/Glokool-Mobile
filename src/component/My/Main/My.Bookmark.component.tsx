@@ -15,10 +15,12 @@ import FastImage from 'react-native-fast-image';
 import { SERVER, CDN } from '../../../server.component';
 import { Detail_Item } from '../../../types';
 import { EmptyBookmark } from '../../../assets/icon/My';
+import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
 
 const windowWidth = Dimensions.get('window').width;
 
-export const BookmarkList = () => {
+export const BookmarkList = (props: MyScreenProps) => {
 
     const [bookmarkList, setBookmarkList] = useState<Array<Detail_Item>>([]);
 
@@ -26,8 +28,12 @@ export const BookmarkList = () => {
         InitBookmark();
     }, [])
 
-    const onPressItem = () => {
-
+    const onPressItem = (type: string, id: string) => {
+        if (type == 'blog') {
+            props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_BLOG, { Id: id });
+        } else if (type == 'contents') {
+            props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_CONTENT, { Id: id });
+        }
     }
 
     // bookmarklist 초기화, api 완성 되면 바꿔야함
@@ -42,31 +48,26 @@ export const BookmarkList = () => {
         };
 
         axios(config).then((response) => {
-            console.log(response.data);
-            setBookmarkList(response.data.item);
+            setBookmarkList(response.data.items);
         })
     }
 
-    const renderEmptyComponent = () => {
+    const renderItem = (item) => {
         return (
-            <View style={styles.EmptyContainer}>
-                <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
-                <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
-                <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
-                <EmptyBookmark />
-            </View>
-        )
-    }
-
-    const renderItem = (item: { item: Detail_Item }) => {
-        return (
-            <TouchableOpacity onPress={() => { }} style={styles.ItemContainer}>
+            <TouchableOpacity style={styles.ItemContainer} onPress={() => onPressItem(item.item.itemType, item.item.id)}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />
             </TouchableOpacity>
         )
     }
 
-    return (
+    return bookmarkList.length === 0 ? (
+        <View style={styles.EmptyContainer}>
+            <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
+            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
+            <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
+            <EmptyBookmark />
+        </View>
+    ) : (
         <View style={styles.MainContainer}>
             <FlatList
                 data={bookmarkList}
@@ -76,7 +77,6 @@ export const BookmarkList = () => {
                 keyExtractor={(item) => "_" + item._id}
                 style={styles.FlatListContainer}
                 contentContainerStyle={styles.ContentContainer}
-                ListEmptyComponent={renderEmptyComponent}
             />
         </View>
     )
@@ -94,16 +94,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     ItemContainer: {
-        borderWidth: 1,
         borderRadius: 10,
-        margin: 1,
+        width: windowWidth * 0.31,
+        height: windowWidth * 0.31,
+        margin: windowWidth * 0.005,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 1,
         },
         shadowOpacity: 0.2,
-        shadowRadius: 3.84,
+        shadowRadius: 2,
         elevation: 2,
     },
     FlatListContainer: {
@@ -111,7 +112,8 @@ const styles = StyleSheet.create({
         paddingBottom: 30,
     },
     ContentContainer: {
-        alignSelf: 'center'
+        width: windowWidth * 0.965,
+        alignSelf: 'center',
     },
     EmptyContainer: {
         backgroundColor: '#f9f9f9',

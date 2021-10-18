@@ -96,7 +96,7 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/api/blog/' + Id).catch((e) => console.log(e));
-
+        console.log(Content.data);
         // 북마크 조회 하기 위한 함수
         if (uid) {
             const authToken = await auth().currentUser?.getIdToken();
@@ -112,11 +112,10 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
 
             axios(config)
                 .then(function (response) {
-                    let data = response.data.blog;
+                    let data = response.data.items;
                     let dataTemp: Array<string> = [];
 
                     data.forEach((item: Bookmark_Item) => {
-                        console.log(item);
                         dataTemp.push(item.id);
                     });
 

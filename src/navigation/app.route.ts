@@ -94,17 +94,16 @@ export enum SceneRoute {
     BOOKMARK_LIST = 'Bookmark List',
     HISTORY = 'History',
 
-    // Bookmark list
-    BOOKMARK_SERIES = 'Bookmark Series',
-    BOOKMARK_SERIES_A = 'Bookmark Series A',
-    BOOKMARK_SERIES_B = 'Bookmark Series B',
+    // My - Bookmark
+    BOOKMARK_DETAIL_BLOG = 'Bookmark Detail Blog',
+    BOOKMARK_DETAIL_CONTENT = 'Bookmark Detail Content',
 
-    //My - Privacy
+    // My - Privacy
     PRIVACY = 'Privacy',
     PRIVACY_CONFIRM = 'Privacy Confirm',
     PRIVACY_LOGIN = 'Privacy Login',
 
-    //My - Customer Service
+    // My - Customer Service
     CUSTOMER_SERVICE = 'Customer Service',
     FAQ = 'FAQ',
 
