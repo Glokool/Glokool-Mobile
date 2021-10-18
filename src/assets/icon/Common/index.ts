@@ -6,6 +6,7 @@ import AngleLeft from './AngleLeft.svg';
 import AngleLeft_W from './AngleLeft_White.svg';
 import AngleLeft_Color from './AngleLeft_Color.svg';
 import AngleRight_Color from './AngleRight_Color.svg';
+import PurpleArrow from './PurpleArrow.svg';
 
 import Plus from './Plus.svg';
 import Plus_P from './Plus_Purple.svg';
@@ -43,5 +44,6 @@ export {
     Comments,
     Location,
     EmptyImage,
+    PurpleArrow
 }
 
