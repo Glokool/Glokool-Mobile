@@ -15,7 +15,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../../context/AuthContext';
 import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
 
-import { MyProfile, BookmarkList } from '../../component/My/Main';
+import { MyProfile, BookmarkList } from '../../component/My';
 import {
     SettingsButton,
     ReceiptsButton,
