@@ -54,17 +54,11 @@ const styles = StyleSheet.create({
         borderBottomStartRadius : 15,
         borderBottomEndRadius: 15,
         marginBottom: 3,
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000',
-                
-                shadowOffset: {width: 1, height: 3},
-                shadowOpacity: 0.2,
-            },
-            android: {
-                elevation: 1,                
-            },
-        }),
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 10,
+        elevation: 5,
     },
 
     LeftBubbleText: {
@@ -81,17 +75,11 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         borderColor: '#7676FE',
         borderWidth: 2,
-        ...Platform.select({
-            ios: {
-                shadowColor: '#000',
-                
-                shadowOffset: {width: 1, height: 3},
-                shadowOpacity: 0.2,
-            },
-            android: {
-                elevation: 1,                
-            },
-        }),
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 10,
+        elevation: 5,
     },
 
 
@@ -105,7 +93,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity:  0.4,
-        shadowRadius: 3,
+        shadowRadius: 10,
         elevation: 5,
     },
 

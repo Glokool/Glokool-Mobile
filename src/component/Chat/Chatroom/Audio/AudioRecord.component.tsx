@@ -18,19 +18,19 @@ import {
     Chat_Voice_End,
     Chat_Voice_Start,
     Chat_Voice_Stop,
-} from '../../../assets/icon/Chat';
-import { Exit_C } from '../../../assets/icon/Common';
+} from '../../../../assets/icon/Chat';
+import { Exit_C } from '../../../../assets/icon/Common';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../model';
-import { countAudioDuration, resetAudioDuration } from '../../../model/Chat/Chat.Audio.model';
-import { setAudioVisiblityFalse, setAudioVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { RootState } from '../../../../model';
+import { countAudioDuration, resetAudioDuration } from '../../../../model/Chat/Chat.Audio.model';
+import { setAudioVisiblityFalse, setAudioVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 
 
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export const AudioComponent = (props : any) => {
+export const AudioRecordComponent = (props : any) => {
     
     const audioVisiblity = useSelector((state : RootState) => state.ChatUIModel.audioVisiblity);
     const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);

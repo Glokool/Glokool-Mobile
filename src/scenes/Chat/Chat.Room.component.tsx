@@ -66,7 +66,7 @@ import {
     renderSystemMessage,
     renderSound,
     ChatTopTabBarComponent,
-    AudioComponent,
+    AudioRecordComponent,
     renderAvatar,
     renderCustomBubble,
 } from '../../component/Chat/ChatRoom';
@@ -100,18 +100,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
     const insets = useSafeAreaInsets()
 
-    const PressActionButton = () => {        
-        if(menuVisiblity){
-            dispatch(setMenuVisiblityFalse());
-        }
-        else {
-            Keyboard.dismiss();
-            setTimeout(() => {
-                dispatch(setMenuVisiblityTrue());
-            }, 100)
-            
-        }
-    }
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -631,49 +619,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     };
 
-    
-
-
-    // Action 버튼 렌더링 및 함수 설정
-    const renderActions = (props: ActionsProps): React.ReactElement => {
-
-        return (
-            <Pressable
-                style={styles.ActionButton}
-                onPress={PressActionButton}
-            >
-                {menuVisiblity ?
-                    <Chat_Exit />
-                    :
-                    <Chat_Menu />
-                }
-
-            </Pressable>
-        );
-    };
-
-    const renderComposer = (props: ComposerProps): React.ReactElement => {
-     
-        const TouchStartPlatform = () => {
-            dispatch(cleanKeyboardComponent());
-            dispatch(setMenuVisiblityFalse());
-        }
-    
-        return (
-            <Composer
-                {...props}
-                textInputProps={{ 
-                    onTouchStart: () => TouchStartPlatform(),
-                }}
-                placeholder="Ask anything about travel"
-                textInputStyle={styles.ChatComposer}
-                textInputAutoFocus
-                multiline={false}
-                composerHeight={40}
-            />
-        )
-    };
-
    
     return (
         <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}>
@@ -698,8 +643,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     showUserAvatar={false}
                     renderAvatarOnTop={true}
                     renderAvatar={renderAvatar}
-                    renderActions={renderActions}
-                    renderComposer={renderComposer}
                     renderTime={renderTime}
                     renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity)}
                     renderBubble={(prop) => renderBubble(prop, props.route.params.guide)}
@@ -710,6 +653,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
+            </Layout>
+                {/* 사이드바 컴포넌트 (분리 예정) */}
                 {(menuVisiblity)?
                 <Layout style={{ justifyContent: 'center', backgroundColor: '#F8F8F8', height: keyboardHeight, minHeight: 180}}>
                     <Layout style={styles.SideContainer}>
@@ -750,8 +695,6 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     null
                 }
 
-            </Layout>
-
                 {/* 이미지 클릭시 확대 이미지 창 출력 */}
                 <ImageModal />
 
@@ -761,7 +704,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 {/*채팅방 탑 탭바*/}
                 <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
 
-                <AudioComponent
+                <AudioRecordComponent
                     roomName={roomName}
                     currentUser={currentUser}
                     ChatDB={ChatDB}
@@ -783,11 +726,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
 
-    ActionButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 15,
-    },
+
 
     TabBar: {
         flexDirection: 'row',
@@ -862,16 +801,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    mainContainer: {
 
-    },
-    inputToolbar: {
-        margin: 10,
-    },
-    sendIcon: {
-        width: 32,
-        height: 32,
-    },
 
     menuContainer: {
         minHeight: 144,
@@ -944,104 +874,7 @@ const styles = StyleSheet.create({
         color: '#8C8C8C',
         fontSize: 12,
     },
-    BackDropContainer: {
-        width: windowWidth,
-        height: windowHeight * 0.7,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    AudioContainer: {
-        width: windowWidth,
-        height: windowHeight * 0.3,
-        borderTopWidth: 5,
-        borderColor: '#7676FE',
-        backgroundColor: '#F8F8F8',
-    },
-    VoiceContainerExitButton: {
-        alignSelf: 'flex-end',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-    },
-    AudioCenterContainer: {
-        backgroundColor: "#00FF0000",
-    },
-    AudioCenterStopwatch: {
-        paddingRight: 3,
-        textAlign: 'center',
-        fontFamily: 'BrandonGrotesque-Bold',
-        color: '#7777FF',
-        fontSize: 18,
-        marginBottom: 15,
-    },
-    VoiceRecorder: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        backgroundColor: '#00FF0000',
-    },
-    RecordingStatusTxt: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        color: '#D2D2D2',
-        fontSize: 16,
-        textAlign: 'center',
-    },
-    RecordingStatusTxt_ing: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
-        color: '#7777FF',
-        fontSize: 16,
-        textAlign: 'center',
-    },
-    RecordingButton: {
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-    },
-    SendButton: {
-        borderRadius: 35,
-        backgroundColor: '#7777FF',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    SendButton_D: {
-        borderRadius: 35,
-        backgroundColor: '#D2D2D2',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    SendButtonTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
-        fontSize: 16,
-        marginHorizontal: 20,
-        marginVertical: 5,
-        color: 'white',
-        textAlign: 'center',
-    },
 
-    ChatInputToolBar: {
-        borderColor: '#D1D1D1',
-        borderRadius: 30,
-        margin: 10,
-        alignItems: 'center',
-        height: 90
-    },
-    
-    keyboardContainer: {
-        backgroundColor: 'white',
-        paddingVertical: 5,
-        width: windowWidth
-    },
 
-    ChatComposer: {
-        backgroundColor: 'white',
-        borderRadius: 32,
-        paddingLeft: 20,
-        paddingBottom: 0,
-        paddingTop: 0,
-        
-    },
 
 });

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Image, Keyboard, Platform, Pressable, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { AngleLeft, ArrowLeft } from '../../../assets/icon/Common';
-import { Chat_App, Chat_Setting, QuickSearchButton } from '../../../assets/icon/Chat';
-import { SceneRoute } from '../../../navigation/app.route';
-import { CDN } from '../../../server.component';
+import { AngleLeft, ArrowLeft } from '../../../../assets/icon/Common';
+import { Chat_App, Chat_Setting, QuickSearchButton } from '../../../../assets/icon/Chat';
+import { SceneRoute } from '../../../../navigation/app.route';
+import { CDN } from '../../../../server.component';
 import { useDispatch } from 'react-redux';
-import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { setGuideVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 const statusBarHeight = getStatusBarHeight();

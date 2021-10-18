@@ -2,7 +2,7 @@ import React from "react";
 import { Layout } from '@ui-kitten/components'
 import { StyleSheet } from "react-native";
 import { IMessage } from "react-native-gifted-chat";
-import { ChatAudioComponent } from ".";
+import { ChatAudioComponent } from "..";
 
 type ChatAudioMessage = {
     currentMessage : {
