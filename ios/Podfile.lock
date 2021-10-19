@@ -862,8 +862,6 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.2.0):
     - React-Core
-  - react-native-slider (3.0.3):
-    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-webview (11.6.2):
@@ -938,12 +936,8 @@ PODS:
     - React-Core
   - RNAudio (4.3.0):
     - React
-  - RNCCheckbox (0.5.7):
-    - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNCMaskedView (0.1.11):
-    - React
   - RNFastImage (8.3.4):
     - React-Core
     - SDWebImage (~> 5.8)
@@ -1082,7 +1076,6 @@ DEPENDENCIES:
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -1100,9 +1093,7 @@ DEPENDENCIES:
   - ReactNativeUiLib (from `../node_modules/react-native-ui-lib/lib`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - RNAudio (from `../node_modules/react-native-audio`)
-  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
-  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
@@ -1227,8 +1218,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-slider:
-    :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
@@ -1263,12 +1252,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNAudio:
     :path: "../node_modules/react-native-audio"
-  RNCCheckbox:
-    :path: "../node_modules/@react-native-community/checkbox"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
-  RNCMaskedView:
-    :path: "../node_modules/@react-native-community/masked-view"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFBApp:
@@ -1379,7 +1364,6 @@ SPEC CHECKSUMS:
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
-  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 193d233c29eacce1f42ca2637dab7ba79c25a6de
   React-perflogger: aad6d4b4a267936b3667260d1f649b6f6069a675
@@ -1397,9 +1381,7 @@ SPEC CHECKSUMS:
   ReactNativeUiLib: cde7263a7d308b60161cd286f95c9433e79f2f7d
   RNAppleAuthentication: e95bcfbd044013667f35c5ca20ae17d39500c009
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
-  RNCCheckbox: d1749e6a92178ce5dbc31e63becd1f34f0c76bbd
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: b97d6654509a5852d49f0abf93be76b300fd2e2c
   RNFBAuth: 07fd836f31fe09d465c22476a052766251af1c49
