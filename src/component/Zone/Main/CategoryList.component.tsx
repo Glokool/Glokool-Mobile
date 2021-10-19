@@ -23,7 +23,6 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
     // 컨텐츠 렌더링
     const renderContents = (item) => {
-        console.log(item.item);
         return (
             <TouchableOpacity style={styles.ContentContainer} onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
@@ -36,7 +35,6 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
     // 카테고리 렌더링 
     const renderCategory = (item) => {
-        // console.log(item.item)
         return (
             <Layout style={styles.CategoryContainer}>
                 <Text style={styles.ItemText}>{item.item.name}</Text>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions, Alert, Platfo
 import { Layout } from '@ui-kitten/components';
 import { SERVER, CDN } from '../../../server.component';
 import axios from 'axios';
-import { ExploreIcon } from '../../../assets/icon/Zone';
+import { ExploreIcon, GloProfile } from '../../../assets/icon/Zone';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
 import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
@@ -61,13 +61,36 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
         }
     }
 
+    const ListHeaderComponent = () => {
+        return (
+            <TouchableOpacity style={styles.GuideContainer} onPress={() => { }}>
+                <Layout style={styles.ItemContainer}>
+
+                    <Layout style={[styles.ImageBorder, { borderColor: '#8797ff' }]}>
+                        {/* <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} /> */}
+                        <GloProfile />
+                    </Layout>
+
+                    <Text style={[styles.ItemText, { color: '#7777ff' }]}>Glo</Text>
+
+                    <Layout style={styles.KeywordContainer}>
+                        <Text style={styles.KeywordText}>Virtual</Text>
+                        <Text style={styles.KeywordText}>Travel Assistant</Text>
+                    </Layout>
+
+                </Layout>
+
+            </TouchableOpacity>
+        )
+    }
+
     // 가이드 리스트 아이템
     const renderItem = (item: { item, index }) => {
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
 
-                    <Layout style={[styles.ImageBorder, { borderColor: item.index === 0 ? '#7777ff' : '#0000' }]}>
+                    <Layout style={[styles.ImageBorder, { borderColor: item.item.maxUserNum > item.item.users.length ? '#7777ff' : '#0000' }]}>
                         <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
                     </Layout>
 
@@ -76,37 +99,43 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                     <Layout style={styles.KeywordContainer}>
                         {item.item.guide.keyword &&
                             item.item.guide.keyword.map((item) => (
-                                <Text>#{item}</Text>
+                                <Text style={styles.KeywordText}>#{item}</Text>
                             ))
                         }
                     </Layout>
 
                 </Layout>
 
-                {(item.item.price === 0 && item.item.maxUserNum > item.item.users.length) && (
-                    <LinearGradient
-                        style={styles.FreeIcon}
-                        colors={['#9668ef', '#7777ff']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                    >
-                        <Text style={styles.FreeText}>FREE</Text>
-                    </LinearGradient>
-                )}
-                {(item.item.price === 0 && item.item.maxUserNum == item.item.users.length) && (
-                    <Layout style={styles.FreeIconDisabled}>
-                        <Text style={styles.FreeTextDisabled}>FREE</Text>
-                    </Layout>
-                )}
-                {(item.item.price > 0 && item.item.maxUserNum > item.item.users.length) && (
-                    <Layout style={[styles.FreeIcon, { backgroundColor: '#7777ff' }]} >
-                        <Text style={styles.FreeText}>GROUP</Text>
-                    </Layout>
-                )}
-                {(item.index === 3) && (
-                    <Layout style={[styles.FreeIcon, { backgroundColor: '#7777ff' }]} >
-                        <Text style={styles.FreeText}>PRIVATE</Text>
-                    </Layout>
+                {/* 채팅방 참여 가능 여부 먼저 검사 */}
+                {(item.item.maxUserNum > item.item.users.length) ? (
+                    // 참여 가능 시
+                    // group 인지 private 인지 검사
+                    item.item.maxUserNum > 1 ? (
+                        <LinearGradient
+                            style={styles.ChatTypeIcon}
+                            colors={['#9668ef', '#7777ff']}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                        >
+                            <Text style={styles.ChatTypeText}>GROUP</Text>
+                        </LinearGradient>
+                    ) : (
+                        <Layout style={[styles.ChatTypeIcon, { backgroundColor: '#7777ff' }]} >
+                            <Text style={styles.ChatTypeText}>PRIVATE</Text>
+                        </Layout>
+                    )
+                ) : (
+                    // 참여 불가능 시
+                    // group 인지 private 인지 검사
+                    item.item.maxUserNum > 1 ? (
+                        <Layout style={styles.ChatTypeIconDisabled} >
+                            <Text style={styles.ChatTypeText}>GROUP</Text>
+                        </Layout>
+                    ) : (
+                        <Layout style={styles.ChatTypeIconDisabled} >
+                            <Text style={styles.ChatTypeText}>PRIVATE</Text>
+                        </Layout>
+                    )
                 )}
 
             </TouchableOpacity>
@@ -123,6 +152,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 showsHorizontalScrollIndicator={false}
                 style={styles.FlatListContainer}
                 ListFooterComponent={<Layout style={{ width: 15 }} />}
+                ListHeaderComponent={ListHeaderComponent}
                 keyExtractor={(item, index) => index.toString()}
             />
             {/* guide 더보기 버튼 */}
@@ -157,7 +187,7 @@ const styles = StyleSheet.create({
     ItemText: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
-        marginTop: 5,
+        marginTop: 10,
     },
     ImageItem: {
         width: windowWidth * 0.15,
@@ -167,10 +197,15 @@ const styles = StyleSheet.create({
     },
     KeywordContainer: {
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 7,
         height: windowHeight * 0.04
     },
-    FreeIcon: {
+    KeywordText: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 14,
+        textAlign: 'center'
+    },
+    ChatTypeIcon: {
         position: 'absolute',
         borderRadius: 15,
         paddingVertical: 5,
@@ -178,11 +213,11 @@ const styles = StyleSheet.create({
         top: 5,
         elevation: 6,
     },
-    FreeText: {
+    ChatTypeText: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: 'white',
     },
-    FreeIconDisabled: {
+    ChatTypeIconDisabled: {
         position: 'absolute',
         backgroundColor: '#b5b5b5',
         borderRadius: 15,
@@ -191,7 +226,7 @@ const styles = StyleSheet.create({
         top: 5,
         elevation: 6,
     },
-    FreeTextDisabled: {
+    ChatTypeTextDisabled: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
         color: '#e4e4e4',
     },

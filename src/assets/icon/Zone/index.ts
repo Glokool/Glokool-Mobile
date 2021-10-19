@@ -4,6 +4,7 @@ import ExploreIcon from './ExploreIcon.svg';
 import PersonIcon from './PersonIcon.svg';
 import EnterIcon from './EnterIcon.svg';
 import ViewMoreIcon from './ViewMoreIcon.svg';
+import GloProfile from './GloProfile.svg';
 
 export {
     TopTabButton,
@@ -12,4 +13,5 @@ export {
     PersonIcon,
     EnterIcon,
     ViewMoreIcon,
+    GloProfile,
 }

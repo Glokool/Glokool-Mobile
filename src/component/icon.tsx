@@ -37,7 +37,7 @@ export const InfoIcon = (props): IconElement => (
   <Icon {...props} name='info-outline'/>
 );
 
-export const AlertTriangleIcon = (props): IconElement => (
+export const AlertTriangleIcon = (props): IconElement => ( //
   <Icon {...props} name='alert-triangle-outline'/>
 );
 
@@ -45,11 +45,11 @@ export const AlertCircleIcon = (props): IconElement => (
   <Icon {...props} name='alert-circle-outline'/>
 );
 
-export const EyeIcon = (props): IconElement => (
+export const EyeIcon = (props): IconElement => ( //
   <Icon {...props} name='eye-outline'/>
 );
 
-export const EyeOffIcon = (props): IconElement => (
+export const EyeOffIcon = (props): IconElement => ( //
   <Icon {...props} name='eye-off-outline'/>
 );
 
