@@ -20,3 +20,7 @@ export { BottomTabBarComponent } from './Common/BottomTabBar.component'
 export { ChatAudioComponent } from './Audio/Audio.component';
 export { renderSound } from './Audio/Sound.component';
 export { AudioRecordComponent } from './Audio/AudioRecord.component';
+
+
+
+
