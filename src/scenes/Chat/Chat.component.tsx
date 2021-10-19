@@ -5,8 +5,11 @@ import {
     BackHandler,
     Dimensions,
     Alert,
-    SafeAreaView} from 'react-native';
-import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
+    SafeAreaView,
+    Pressable,
+    Text
+} from 'react-native';
+import { Divider, Layout, LayoutElement, } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
@@ -114,14 +117,14 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
 
     return (
         <Layout style={styles.MainContainer}>
-            
-            <SafeAreaView style={{flex: 0}} />
+
+            <SafeAreaView style={{ flex: 0 }} />
 
             <TopTabWeatherbar />
 
-            <Divider style={styles.Divider}/>
+            <Divider style={styles.Divider} />
 
-            <ChatList {...props}/>
+            <ChatList {...props} />
 
             {/* <Layout style={styles.TextButtonContainer}>
                 <TouchableOpacity onPress={() => setNow(true)}>
@@ -206,14 +209,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
 
-    Divider : {
+    Divider: {
         backgroundColor: '#F8F8F8',
         height: 6,
         width: '100%'
     },
 
-    Title : {
-        marginLeft : 20,
+    Title: {
+        marginLeft: 20,
         fontFamily: 'Pretendard-Bold',
         fontSize: 17,
         marginVertical: 20
