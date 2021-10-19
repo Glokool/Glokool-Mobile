@@ -2,7 +2,7 @@ import React from 'react';
 import database, { FirebaseDatabaseTypes } from '@react-native-firebase/database';
 import { IMessage } from "react-native-gifted-chat";
 import { AuthContext } from '../../../context/AuthContext';
-import { filterText } from "../../filterChat";
+import { filterText } from "../../FilterChat";
 import axios from 'axios';
 
 
