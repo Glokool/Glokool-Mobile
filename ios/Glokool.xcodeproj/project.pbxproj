@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		250C2A77271EC8940005F8C0 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 250C2A76271EC8930005F8C0 /* splash.png */; };
 		254BBAC62704544600A9060A /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = DFECF71D26BA226B005EBF8F /* Fonts */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -80,6 +81,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Glokool/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Glokool/main.m; sourceTree = "<group>"; };
 		16FC9B879A527F02AFC735B3 /* Pods-Glokool-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Glokool-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Glokool-tvOS/Pods-Glokool-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		250C2A76271EC8930005F8C0 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash.png; sourceTree = "<group>"; };
 		254BBAC72704550800A9060A /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Glokool-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Glokool-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Glokool-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Glokool-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +168,7 @@
 		13B07FAE1A68108700A75B9A /* Glokool */ = {
 			isa = PBXGroup;
 			children = (
+				250C2A76271EC8930005F8C0 /* splash.png */,
 				DF96D1482604422A0005AD8D /* loading.json */,
 				DF96CF972604330C0005AD8D /* Glokool.entitlements */,
 				DF8CDD2A260320DF001B6EE7 /* SplashScreen.storyboard */,
@@ -463,6 +466,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				DF96D1492604422A0005AD8D /* loading.json in Resources */,
 				DF0FA78625B6B9A600C39905 /* GoogleService-Info.plist in Resources */,
+				250C2A77271EC8940005F8C0 /* splash.png in Resources */,
 				DF8CDD2B260320DF001B6EE7 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -835,6 +839,8 @@
 			baseConfigurationReference = A2D4B4EF1727F96497743AA4 /* Pods-Glokool.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Glokool/Glokool.entitlements;
 				CURRENT_PROJECT_VERSION = 2704;
@@ -865,6 +871,8 @@
 			baseConfigurationReference = 486283A7D9B9E0638CED9DE6 /* Pods-Glokool.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Glokool/Glokool.entitlements;
 				CURRENT_PROJECT_VERSION = 2704;
