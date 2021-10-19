@@ -86,7 +86,6 @@ type mappingMessage = {
     id : string, node : messageType
 };
 
-
 export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
@@ -103,8 +102,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-    const insets = useSafeAreaInsets()
-
+    const insets = useSafeAreaInsets();
 
     const getGuideToken = async (uid: string) => {
         const guideRef = database().ref(`/guide/${uid}`);
@@ -189,7 +187,17 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setChatIcon(false);
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
         getGuideToken(props.route.params.guide.uid);
-        //initGuide();
+
+        const chat = database().ref('/chats/' + 'testChat/messages');
+        setChatDB(chat);
+
+        dispatch(setChatLoadingFalse());
+        
+
+        // 채팅방 초기화
+        chat.orderByKey().limitToLast(50).on('child_added', (snapshot) => {
+            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
+        });
 
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
 
@@ -221,75 +229,11 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     const ChatRoomInit = (id: string): void => {
 
-        const chat = database().ref('/chats/' + id);
-
         dispatch(setChatLoadingTrue()) // 로딩 시작
         setChatMessages([]); //로컬 메시지 저장소 초기화
-        setChatDB(chat);
+        
 
         dispatch(setRoomName(id));
-
-
-        chat.on('value', (snapshot) => {
-
-            if (!snapshot.val()) {
-                setChatMessages([]);
-                dispatch(setChatLoadingFalse());
-                return;
-            }
-
-            let { messages } = snapshot.val();
-
-            if (!messages) {
-                return;
-            }
-
-            let tempMessages = Object.entries(messages);
-            let chatMessages : Array<messageType> = [];
-
-            for( let[id, node] of tempMessages) {          
-                const message: messageType = {
-                    _id: node._id,
-                    text: node.messageType === 'message' ? node.text : '',
-                    location: node.messageType === 'location' ? node.location : '',
-                    createdAt: node.createdAt,
-                    user: {
-                        _id: node.user._id,
-                    },
-                    image: node.messageType === 'image' ? node.image : '',
-                    audio: node.messageType === 'audio' ? node.audio : '',
-                    messageType: node.messageType,
-                }       
-                
-                chatMessages.push(message);                
-            }
-
-            setChatMessages([...chatMessages]);
-
-       
-
-
-            // messages = messages.map((node: messageType) => {
-
-            //     const message: messageType = {
-            //         _id: node._id,
-            //         text: node.messageType === 'message' ? node.text : '',
-            //         location: node.messageType === 'location' ? node.location : '',
-            //         createdAt: node.createdAt,
-            //         user: {
-            //             _id: node.user._id,
-            //         },
-            //         image: node.messageType === 'image' ? node.image : '',
-            //         audio: node.messageType === 'audio' ? node.audio : '',
-            //         messageType: node.messageType,
-            //     }
-            //     return message;
-            // });
-
-            //setChatMessages([...messages]);
-            dispatch(setChatLoadingFalse());
-        });
-
     }
 
 
@@ -545,30 +489,36 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     };
 
-    const onSend = async (messages: IMessage[]) => {
-
-        messages[0].messageType = 'message';
-        messages[0].createdAt = new Date().getTime();
-        messages[0].user.name = currentUser?.displayName;
+    const onSend = async(messages: IMessage[]) => {
 
         if (filterText(messages[0].text)) {
 
-            const pushMessage = ChatDB?.child('messages').push();
-            pushMessage?.set(messages[0]);
+            const newMessage = ChatDB?.push();
+            let message = {
+                _id : newMessage?.key,
+                user : {
+                    _id : currentUser?.uid,
+                    name : currentUser?.displayName
+                },
+                messageType : 'message',
+                createdAt : new Date().getTime(),
+                location : '',
+                image : '',
+                audio : '',
+                text : messages[0].text
+            }
 
-            // await Promise.all([
-            //     ChatDB?.update({
-            //         messages: [messages[0], ...chatMessages],
-            //         guideUnreadCount: database.ServerValue.increment(1),
-            //     }),
-            //     sendMessage(messages[0]),
-            // ]);
+            newMessage?.set(message, (e) => {
+                console.log('채팅 전송 실패 : ', e)
+            }); 
+
         } else {
             ToastRef.show(
                 'Please refrain from any content that may offend the other person.',
                 1000,
             );
         }
+        
     };
 
     const LocationMessage = () => {
@@ -907,7 +857,4 @@ const styles = StyleSheet.create({
         color: '#8C8C8C',
         fontSize: 12,
     },
-
-
-
 });
