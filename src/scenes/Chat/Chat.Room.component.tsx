@@ -61,7 +61,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
-    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
+    const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
 
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [guide, setGuide] = React.useState({});
@@ -127,7 +127,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
     }
 
     const KeyboardShow = (e) => {
-        if (keyboardHeight === 0){
+        if (keyboardHeight === 0) {
             dispatch(setKeyboardHeight(e.endCoordinates.height));
         }
     }
@@ -143,7 +143,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         setChatDB(chat);
 
         dispatch(setChatLoadingFalse());
-        
+
 
         // 채팅방 초기화
         chat.orderByKey().limitToLast(50).on('child_added', (snapshot) => {
@@ -188,28 +188,28 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
 
 
-    const onSend = async(messages: IMessage[]) => {
+    const onSend = async (messages: IMessage[]) => {
 
         if (filterText(messages[0].text)) {
 
             const newMessage = ChatDB?.push();
             let message = {
-                _id : newMessage?.key,
-                user : {
-                    _id : currentUser?.uid,
-                    name : currentUser?.displayName
+                _id: newMessage?.key,
+                user: {
+                    _id: currentUser?.uid,
+                    name: currentUser?.displayName
                 },
-                messageType : 'message',
-                createdAt : new Date().getTime(),
-                location : '',
-                image : '',
-                audio : '',
-                text : messages[0].text
+                messageType: 'message',
+                createdAt: new Date().getTime(),
+                location: '',
+                image: '',
+                audio: '',
+                text: messages[0].text
             }
 
             newMessage?.set(message, (e) => {
                 console.log('채팅 전송 실패 : ', e)
-            }); 
+            });
 
         } else {
             ToastRef.show(
@@ -217,20 +217,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                 1000,
             );
         }
-        
+
     };
 
-   
-   
-    return (
-        <SafeAreaView style={{ flex : 1 , backgroundColor: 'white'}}>
 
-            <Layout style={{ flex : 1 }} >
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+
+            <Layout style={{ flex: 1 }} >
 
                 <GiftedChat
                     messages={chatMessages}
                     textInputProps={{ autoFocus: true }}
-                    bottomOffset={(isIphoneX())? -getBottomSpace() + 47 : (Platform.OS === 'ios')?  - 25 : 0}
+                    bottomOffset={(isIphoneX()) ? -getBottomSpace() + 47 : (Platform.OS === 'ios') ? - 25 : 0}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
                     createdAt={new Date().getTime()}
@@ -239,10 +239,10 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     }}
                     isAnimated
                     messagesContainerStyle={{
-                        paddingBottom: 30,
-                        paddingTop: isIphoneX()? (getStatusBarHeight() + 60) :  60,
+                        paddingBottom: getBottomSpace() - 13,
+                        paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60,
                     }}
-                    alwaysShowSend={true}                    
+                    alwaysShowSend={true}
                     showUserAvatar={false}
                     renderAvatarOnTop={true}
                     renderAvatar={renderAvatar}
@@ -258,20 +258,20 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             </Layout>
 
-                {/* 사이드바 컴포넌트 */}
-                <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
+            {/* 사이드바 컴포넌트 */}
+            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
 
-                {/* 이미지 클릭시 확대 이미지 창 출력 */}
-                <ImageModal />
+            {/* 이미지 클릭시 확대 이미지 창 출력 */}
+            <ImageModal />
 
-                {/* 지도 메시지 클릭시 확대 창 출력 */}
-                <LocationModal />
+            {/* 지도 메시지 클릭시 확대 창 출력 */}
+            <LocationModal />
 
-                {/*채팅방 탑 탭바*/}
-                <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+            {/*채팅방 탑 탭바*/}
+            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
 
-                {/* 녹음 펑션 화면 */}
-                <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />
+            {/* 녹음 펑션 화면 */}
+            <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />
 
         </SafeAreaView>
 
