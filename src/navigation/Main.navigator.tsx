@@ -44,8 +44,11 @@ import { ChatContext } from '../context/ChatContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
 import { loginAlertWindow } from '../component/Common/LoginCheck.component';
+import { windowWidth } from '../Design.component';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const Tab = createBottomTabNavigator();
+const BottomHeight = getBottomSpace();
 
 const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTabBarOptions>) => {
 
@@ -176,6 +179,8 @@ const GuideVisiblity = (route: any) => {
         routeName === 'Chatroom' ||
         routeName === 'Chat Help' ||
         routeName === 'Chat Report' ||
+        routeName === SceneRoute.CHAT_QUICK_RECOMMENDATION ||
+        routeName === SceneRoute.CHAT_ROOM_SETTING ||
         routeName === SceneRoute.PAID_CHAT_LIST || 
         routeName === SceneRoute.HISTORY || 
         routeName === SceneRoute.ZONE_CONTENTS
@@ -241,8 +246,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 10,
         marginTop: 15,
-        marginBottom: 15,
-
+        marginBottom: 15
     },
 
     TabbarContainer: {
@@ -250,6 +254,8 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         paddingHorizontal: 15,
+        height : 65 + (BottomHeight / 2),
+        width: windowWidth,
         paddingBottom: Platform.OS === 'ios' ? 20 : 0,
         paddingTop: Platform.OS === 'ios' ? 5 : 0,
         borderTopLeftRadius: 15,

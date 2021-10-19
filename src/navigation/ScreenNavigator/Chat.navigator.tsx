@@ -35,7 +35,7 @@ export type ChatNavigatorParams = AppNavigatorParams & {
     }};
   [SceneRoute.CHAT_REPORT] : {
     id : string;
-    guide: {
+    user: {
       name : string;
       uid : string;
     }
