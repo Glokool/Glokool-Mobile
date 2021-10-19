@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -13,31 +13,33 @@ import {
     Layout,
     Modal,
 } from '@ui-kitten/components';
-import database from '@react-native-firebase/database';
 import {
     Chat_Voice_End,
     Chat_Voice_Start,
     Chat_Voice_Stop,
-} from '../../../assets/icon/Chat';
-import { Exit_C } from '../../../assets/icon/Common';
-
+} from '../../../../assets/icon/Chat';
+import { Exit_C } from '../../../../assets/icon/Common';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../model';
-import { countAudioDuration, resetAudioDuration } from '../../../model/Chat/Chat.Audio.model';
-import { setAudioVisiblityFalse, setAudioVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { RootState } from '../../../../model';
+import { countAudioDuration, resetAudioDuration } from '../../../../model/Chat/Chat.Audio.model';
+import { setAudioVisiblityFalse } from '../../../../model/Chat/Chat.UI.model';
+import { AuthContext } from '../../../../context/AuthContext';
+import { messageIdGenerator } from '../../../Common/MessageIdGenerator';
 
 
 const WindowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export const AudioComponent = (props : any) => {
+export const AudioRecordComponent = (props : any) => {
     
+    const ChatDB = props.ChatDB;
+    const { currentUser, setCurrentUser } = React.useContext(AuthContext);
+
     const audioVisiblity = useSelector((state : RootState) => state.ChatUIModel.audioVisiblity);
     const duration = useSelector((state: RootState) => state.AudioDurationModel.duration);
     const dispatch = useDispatch();
 
     const [startAudio, setStartAudio] = useState(false);
-    const [audioMessage, setAudioMessage] = useState('');
     const [audioPath, setAudioPath] = useState('');
     const increment = useRef<NodeJS.Timeout | any>();
 
@@ -79,10 +81,9 @@ export const AudioComponent = (props : any) => {
             //오디오 버튼 시작
 
             setStartAudio(true);
-            setAudioMessage(props.messageIdGenerator);
 
             await AudioRecorder.prepareRecordingAtPath(
-                `${AudioUtils.DocumentDirectoryPath}/${audioMessage}test.aac`,
+                `${AudioUtils.DocumentDirectoryPath}/${messageIdGenerator()}.aac`,
                 {
                     SampleRate: 22050,
                     Channels: 1,
@@ -118,35 +119,33 @@ export const AudioComponent = (props : any) => {
     };
 
     const sendAudio = () => {
+
+        const newMessage = ChatDB.push();
         const reference = storage().ref();
-        const voiceRef = reference.child(
-            `chat/${props.roomName}/voice/${audioMessage}.aac`,
-        ); //xxxxx는 대화방 이름으로 변경
+        const voiceRef = reference.child(`chat/${props.roomName}/voice/${newMessage.key}.aac`,); //xxxxx는 대화방 이름으로 변경
 
-        voiceRef
-            .putFile(audioPath)
+        voiceRef.putFile(audioPath) 
             .then((response) => {
-                voiceRef.getDownloadURL().then((result) => {
-                    const message = {
-                        _id: audioMessage,
-                        createdAt: new Date().getTime(),
-                        user: {
-                            _id: props.currentUser?.uid,
-                            name: props.currentUser?.displayName,
-                            avatar: props.currentUser?.photoURL,
-                        },
-                        audio: result, //파일 경로만 전달
-                        messageType: 'audio',
-                    };
-                    const push = props.createPushNoti('음성메시지를 보냈습니다.');
 
-                    Promise.all([
-                        props.ChatDB.update({
-                            messages: [message, ...props.chatMessages],
-                            guideUnreadCount: database.ServerValue.increment(1),
-                        }),
-                        // sendMessage(push),
-                    ]);
+                voiceRef.getDownloadURL().then((result) => {
+
+                    let message = {
+                        _id : newMessage.key,
+                        user : {
+                            _id : currentUser?.uid,
+                            name : currentUser?.displayName
+                        },
+                        messageType : 'audio',
+                        createdAt : new Date().getTime(),
+                        location : '',
+                        image : '',
+                        audio : result,
+                        text : ''
+                    };
+        
+                    newMessage?.set(message, (e) => {
+                        console.log('이미지 메시지 전송 실패 : ', e)
+                    });
 
                     setAudioPath('');
                     dispatch(setAudioVisiblityFalse());

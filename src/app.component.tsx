@@ -168,5 +168,7 @@ export default (props: any): React.ReactFragment => {
     );
 };
 
-LogBox.ignoreLogs(['Warning: ...']);
-LogBox.ignoreLogs(['WARN: ...']);
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+    'Require cycle'
+]);

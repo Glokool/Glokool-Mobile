@@ -4814,11 +4814,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^2.1.2", "fsevents@^2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
@@ -6625,7 +6620,7 @@
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
   "version" "3.10.1"
 
-"lodash@^4.0.0", "lodash@^4.17.10", "lodash@^4.17.11", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.20", "lodash@^4.3.0", "lodash@^4.7.0":
+"lodash@^4.0.0", "lodash@^4.17.10", "lodash@^4.17.11", "lodash@^4.17.14", "lodash@^4.17.15", "lodash@^4.17.20", "lodash@^4.17.21", "lodash@^4.3.0", "lodash@^4.7.0":
   "integrity" "sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg=="
   "resolved" "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   "version" "4.17.21"
@@ -8306,11 +8301,6 @@
   dependencies:
     "dotenv" "^10.0.0"
 
-"react-native-draggable-view@^0.0.6":
-  "integrity" "sha512-Em7H/GbBJrgizXZkm16ZsE5LsMBNbkXWu5QLzsu+f7jQyCHUCEN7ypHLce5d2Z+Nhv+quLZtmclGcDwsOGM1Qw=="
-  "resolved" "https://registry.npmjs.org/react-native-draggable-view/-/react-native-draggable-view-0.0.6.tgz"
-  "version" "0.0.6"
-
 "react-native-easy-toast@^2.0.0":
   "integrity" "sha512-mLvHOy/slCJfgrLfOercIhVKslTF6D7NrJ7XLTRK3BCim7kNO1JdAgQ5+IF6bqdcUcFMIW/GwiauUbnSpynr8Q=="
   "resolved" "https://registry.npmjs.org/react-native-easy-toast/-/react-native-easy-toast-2.0.0.tgz"
@@ -8568,10 +8558,10 @@
   "resolved" "https://registry.npmjs.org/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz"
   "version" "0.1.7"
 
-"react-native-ui-lib@^6.1.1":
-  "integrity" "sha512-vqFWjH54uS59LxLP5jfA6Gm++RPABZ6Ta0dTuMx//Pvuc6dmStlEtNVG81RpYMLv5Mot3MoxTODcxNjNjHVIOA=="
-  "resolved" "https://registry.npmjs.org/react-native-ui-lib/-/react-native-ui-lib-6.1.1.tgz"
-  "version" "6.1.1"
+"react-native-ui-lib@^6.1.2":
+  "integrity" "sha512-1NRfNK2pdZyPa8/45GMtWa0ZE8pftJ4mOUsvEgzsAq5Lx4COOnsLr1/ejhn20X4TBAq3ewjPcD7jza19xW8wWw=="
+  "resolved" "https://registry.npmjs.org/react-native-ui-lib/-/react-native-ui-lib-6.1.2.tgz"
+  "version" "6.1.2"
   dependencies:
     "babel-plugin-transform-inline-environment-variables" "^0.0.2"
     "color" "^3.1.0"

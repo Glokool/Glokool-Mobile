@@ -31,6 +31,16 @@ import Send2 from './Send_2.svg';
 import Chat_Menu from './Chat_Menu.svg';
 import Chat_Exit from './Chat_Exit.svg';
 
+import Right_Play from './Right_Play.svg';
+import Right_Stop from './Right_Stop.svg';
+
+import Arrow_Bottom from './Arrow_Bottom.svg';
+import Chat_Book_Button from './Chat_Book_Button.svg';
+
+import Guide_Location from './Guide_Location.svg';
+
+import Left_Play from './Left_Play.svg';
+
 export {
     Help,
     Menu,
@@ -62,5 +72,14 @@ export {
     Send2,
 
     Chat_Menu,
-    Chat_Exit
+    Chat_Exit,
+
+    Right_Play,
+    Right_Stop,
+
+    Arrow_Bottom,
+    Chat_Book_Button,
+    Guide_Location,
+
+    Left_Play
 }

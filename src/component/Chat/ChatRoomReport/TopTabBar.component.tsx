@@ -1,21 +1,30 @@
 import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import { Pressable, StyleSheet, SafeAreaView } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatQuickRecommendationProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatReportScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import FastImage from 'react-native-fast-image';
 
 
-export const QuickRecommendationTopTabBarComponent = (props : ChatQuickRecommendationProps) : React.ReactElement => {
+
+export const ReportTopTabBar = ({ props, value } : { props : ChatReportScreenProps, value : string}) : React.ReactElement => {
 
     const PressBackButton = () => {
         props.navigation.goBack();
     }
 
+    const PressSend = () => {
+        console.log(value)
+
+    }
+
     return (
         <Layout style={styles.TopTabBar}>
-            <SafeAreaView style={{flex: 0}} />
-            <Layout style={styles.MainContainer}>
-                
+
+            <SafeAreaView style={{flex: 0}}/>
+
+            <Layout style={styles.MainContainer}>            
                 <Pressable
                     style={styles.LeftIcon}
                     onPress={() => {PressBackButton()}}>
@@ -23,19 +32,21 @@ export const QuickRecommendationTopTabBarComponent = (props : ChatQuickRecommend
                 </Pressable>
 
                 <Layout style={styles.TitleContainer}>
-                    <Text style={styles.Title}>QUICK RECOMMENDATION</Text>
+                    <Text style={styles.Title}>REPORT</Text>
                 </Layout>
 
-                <Layout style={styles.EmptyContainer}/>
-            </Layout>  
+                <Pressable style={styles.RightIcon} onPress={() => {PressSend()}}>
+                    <FastImage source={require('../../../assets/image/Chat/SendButton.png')} style={styles.RightButton}/>
+                </Pressable>
+            </Layout>     
         </Layout>
-
-          
+       
 
     );
 }
 
 const styles = StyleSheet.create({
+
     TopTabBar : {
         position: 'absolute',
         width: '100%',
@@ -46,9 +57,11 @@ const styles = StyleSheet.create({
 
     MainContainer : {
         flexDirection: 'row',
+        position: 'absolute',
         width: '100%',
-        alignItems: 'center',
+        top: 0,
         height: 60,
+        alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         borderBottomWidth : 1,
         borderBottomColor : '#F0F0F0'
@@ -70,7 +83,7 @@ const styles = StyleSheet.create({
 
     
     LeftIcon : {
-        width: 10,
+        width: 64,
         height : 10,
         marginHorizontal: 5,
         padding : 15,
@@ -79,13 +92,18 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
 
-    EmptyContainer: {
-        width: 10,
-        height : 10,
+    RightIcon : {
+        width: 64,
+        height : 32,
         marginHorizontal: 5,
-        padding : 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10
+    },
+
+    RightButton : {
+        width : 64,
+        height : 32
     }
+
 })

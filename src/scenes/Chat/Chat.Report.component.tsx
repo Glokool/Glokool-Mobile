@@ -6,13 +6,12 @@ import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.nav
 import { AngleLeft } from '../../assets/icon/Common';
 import { Report } from '../../assets/icon/Chat';
 import { AuthContext } from '../../context/AuthContext';
+import { ReportTopTabBar } from '../../component/Chat/ChatRoomReport';
 
-export const ChatReportScreen = (
-    props: ChatReportScreenProps,
-): LayoutElement => {
+export const ChatReportScreen = (props: ChatReportScreenProps): LayoutElement => {
+
     const { currentUser } = React.useContext(AuthContext);
-
-    const guide = props.route.params.guide;
+    const user = props.route.params.user;
     const [value, setValue] = React.useState('');
 
     const PressSend = () => {
@@ -22,8 +21,8 @@ export const ChatReportScreen = (
         } else {
             const report = {
                 id: props.route.params.id,
-                guideUid: guide?.uid,
-                guideName: guide?.name,
+                guideUid: user?.uid,
+                guideName: user?.name,
                 user: currentUser?.email,
                 userName: currentUser?.displayName,
                 value: value,
@@ -38,7 +37,7 @@ export const ChatReportScreen = (
 
             const docRef = firestore()
                 .collection('ReportAssistant')
-                .doc(`${guide.uid}-${currentUser?.uid}-${reportDate}`)
+                .doc(`${user.uid}-${currentUser?.uid}-${reportDate}`)
                 .set(report);
 
             props.navigation.goBack();
@@ -46,49 +45,16 @@ export const ChatReportScreen = (
     };
 
     return (
-        <React.Fragment>
-            <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
-
-            {/*탭바 디자인*/}
-            <Layout style={styles.TabBar}>
-                <TouchableOpacity
-                    style={styles.IconContainer}
-                    onPress={() => props.navigation.goBack()}>
-                    <AngleLeft />
-                </TouchableOpacity>
-
-                <Report />
-
-                <Text
-                    style={{
-                        fontSize: 18,
-                        fontFamily: 'IBMPlexSansKR-Medium',
-                        marginLeft: 10,
-                    }}>
-                    Report Travel Assistant
-                </Text>
-
-                <Layout
-                    style={{
-                        flex: 5,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}></Layout>
-
-                <Layout style={styles.IconContainer} />
-            </Layout>
+        <SafeAreaView style={styles.MainContainer}>
+            
+            <Layout style={styles.EmptyContainer}/>
 
             {/* 내용물 */}
             <Layout style={{ flex: 9, padding: 20, flexDirection: 'column' }}>
                 <Layout style={styles.SendContainer}>
                     <Text style={styles.desc}>
-                        If there is any problem, please report and let us know.
+                        please report and let us know.
                     </Text>
-                    <TouchableOpacity
-                        style={styles.SendButton}
-                        onPress={() => PressSend()}>
-                        <Text style={styles.SendButtonTxt}>Send</Text>
-                    </TouchableOpacity>
                 </Layout>
 
                 <Input
@@ -99,16 +65,25 @@ export const ChatReportScreen = (
                     onChangeText={(nextValue) => setValue(nextValue)}
                 />
             </Layout>
-        </React.Fragment>
+
+            <ReportTopTabBar props={props} value={value}/>
+            
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    TabBar: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
+
+    MainContainer: {
+        width :'100%',
+        height : '100%'
     },
+
+    EmptyContainer: {
+        height: 52,
+  
+    },
+
     IconContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -123,7 +98,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
-        height: '50%',
+        height: 240
     },
     SendContainer: {
         flexDirection: 'row',
