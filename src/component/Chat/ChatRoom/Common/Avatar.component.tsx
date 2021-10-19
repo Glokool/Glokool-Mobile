@@ -10,18 +10,18 @@ export const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement =
     if (props.currentMessage?.user.avatar == undefined) {
         return (
             <>
-            <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 }}>
+            <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: 10 }}>
                 <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />              
             </Layout>
-            <Text numberOfLines={1} style={styles.NicknameText}>nickName</Text>
+            <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage?.user.name}</Text>
             </>
         )
     }
 
     return (
-        <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5 }}>
+        <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: 10 }}>
             <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
-
+  
             <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage.user.name}</Text>
         </Layout>
     )
