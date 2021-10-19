@@ -56,7 +56,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
                             />
                         ) : (
                             <Image
-                                source={require('../../assets/image/Chat/guideGray.png')}
+                                source={require('../../../../assets/image/Chat/guideGray.png')}
                                 style={styles.ProfileImage}
                             />
                         )}

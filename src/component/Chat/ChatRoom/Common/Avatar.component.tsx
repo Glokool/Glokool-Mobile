@@ -10,43 +10,31 @@ export const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement =
     if (props.currentMessage?.user.avatar == undefined) {
         return (
             <>
-                <Layout style={styles.AvatarContainer}>
-                    <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={styles.Avatar} resizeMode={'stretch'} />              
-                </Layout>
-                <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage?.user.name}</Text>
+            <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: 10 }}>
+                <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />              
+            </Layout>
+            <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage?.user.name}</Text>
             </>
         )
     }
 
     return (
-        <>
-            <Layout style={styles.AvatarContainer}>
-                <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={styles.Avatar} resizeMode={'stretch'} />              
-            </Layout>
-            <Text numberOfLines={1} style={styles.NicknameText}>nickname</Text>
-        </>
+        <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: 10 }}>
+            <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
+  
+            <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage.user.name}</Text>
+        </Layout>
     )
 }
 
 const styles = StyleSheet.create({
 
-    AvatarContainer: {
-        width: windowWidth * 0.08, 
-        height: windowWidth * 0.08, 
-        marginRight: 5,
-    },
-
-    Avatar: {
-        width: windowWidth * 0.08, 
-        height: windowWidth * 0.08,
-        borderRadius: 50
-    },
-
     NicknameText: {
         position: 'absolute', 
-        top: -10, 
-        right: -140,
-        width: 140
+        top: -15, 
+        right: -105,
+        overflow : 'visible',
+        width: 100
     }
 
 

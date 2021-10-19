@@ -134,32 +134,29 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
     React.useEffect(() => {
 
-        Keyboard.addListener('keyboardDidShow', KeyboardShow);
-        setChatIcon(false);
+        const Chat = database().ref('/chats/' + 'testChat/messages');
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
-        getGuideToken(props.route.params.guide.uid);
-
-        const chat = database().ref('/chats/' + 'testChat/messages');
-        setChatDB(chat);
-
-        dispatch(setChatLoadingFalse());
-
-
-        // 채팅방 초기화
-        chat.orderByKey().limitToLast(50).on('child_added', (snapshot) => {
-            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-        });
 
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
+        Keyboard.addListener('keyboardDidShow', KeyboardShow);
+
+        setChatDB(Chat);
+        setChatIcon(false);
+        getGuideToken(props.route.params.guide.uid);        
+
+        Chat.orderByKey().limitToLast(50).on('child_added', (snapshot) => {
+            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
+        })
 
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
-
             resetUserUnreadMsgCount();
         })
 
         if (!currentUser?.access_token) {
             getAccessToken();   /* check access token */
         }
+
+        dispatch(setChatLoadingFalse());
 
         return () => {
 
