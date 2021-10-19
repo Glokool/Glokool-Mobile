@@ -26,7 +26,7 @@ import storage from '@react-native-firebase/storage';
 import {
     launchCamera,
 } from 'react-native-image-picker/src';
-import { filterText } from '../../data/filterChat';
+import { filterText } from '../../data/FilterChat';
 import Geolocation from '@react-native-community/geolocation';
 
 import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';

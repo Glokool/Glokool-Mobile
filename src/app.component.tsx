@@ -9,7 +9,7 @@ import {
 } from '@ui-kitten/components';
 import { default as mapping } from '../mapping.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { AppNavigator } from './navigation/app.navigator';
+import { AppNavigator } from './navigation/App.navigator';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';

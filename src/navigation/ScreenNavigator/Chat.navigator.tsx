@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 import { SceneRoute } from '../app.route';
-import { AppNavigatorParams } from '../app.navigator';
+import { AppNavigatorParams } from '../App.navigator';
 import { 
   ChatScreen,
   ChatRoomScreen,

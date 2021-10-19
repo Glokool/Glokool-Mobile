@@ -24,7 +24,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Profile } from '../../assets/icon/My';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
-import { Loading } from '../../component/Common/Loading';
+import { Loading } from '../../component/Common/Loading.component';
 import { AuthContext } from '../../context/AuthContext';
 import { ChangeProfile, ProfileBasic, ProfileBlue, ProfileGray, ProfileOrange, ProfileGreen, ProfilePurple } from '../../assets/icon/My';
 import { userInfoType } from '../../types';

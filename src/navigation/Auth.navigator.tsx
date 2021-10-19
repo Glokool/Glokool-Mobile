@@ -5,7 +5,7 @@ import {
     StackNavigationProp,
 } from '@react-navigation/stack';
 import { SceneRoute } from './app.route';
-import { AppNavigatorParams } from './app.navigator';
+import { AppNavigatorParams } from './App.navigator';
 import {
     SignupScreen,
     SigninScreen,

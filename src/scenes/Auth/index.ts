@@ -1,6 +1,6 @@
-export { SigninScreen } from './signIn.component';
-export { SignupScreen } from './signUp.component';
-export { SnsSignupScreen } from './snsSignUp.component';
-export { EmailVerificationScreen } from './emailVerification.component';
-export { EmailFailScreen } from './emailFail.component';
-export { PasswordResetScreen } from './PasswordReset.component'
+export { SigninScreen } from './SignIn.scene';
+export { SignupScreen } from './SignUp.scene';
+export { SnsSignupScreen } from './SignUp.SNS.scene';
+export { EmailVerificationScreen } from './EmailVerification.scene';
+export { EmailFailScreen } from './EmailFail.scene';
+export { PasswordResetScreen } from './PasswordReset.scene'

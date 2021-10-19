@@ -13,7 +13,7 @@ import {
   Button
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
-import { PrivacyData, PrivacySchema } from '../../../data/privacy.model';
+import { PrivacyData, PrivacySchema } from '../../../data/Privacy.model';
 import { FormInput } from '../../../component/privacy.component';
 import { EyeIcon, EyeOffIcon } from '../../../component/icon';
 import Toast from 'react-native-easy-toast';

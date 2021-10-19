@@ -20,7 +20,7 @@ const library = [
   "whore"
 ];
 
-export const filterText = (text) => {
+export const filterText = (text: string) => {
   var filterString = text.toLowerCase();
   
   for(var n=0; n<library.length; n++){
