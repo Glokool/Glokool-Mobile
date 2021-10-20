@@ -17,18 +17,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="8oZ-hq-MvD">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash.png" translatesAutoresizingMaskIntoConstraints="NO" id="KTS-9G-Atp">
+                                <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="tintColor"/>
                         <color key="tintColor" red="0.46666666666666667" green="0.46666666666666667" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="8oZ-hq-MvD" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="3dX-DM-hE5"/>
-                            <constraint firstAttribute="trailing" secondItem="8oZ-hq-MvD" secondAttribute="trailing" id="NME-je-Cus"/>
-                            <constraint firstItem="8oZ-hq-MvD" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="SvM-9c-qQl"/>
-                            <constraint firstAttribute="bottom" secondItem="8oZ-hq-MvD" secondAttribute="bottom" id="Tja-2j-Lld"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="KTS-9G-Atp" secondAttribute="trailing" id="6gE-3O-xrE"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="KTS-9G-Atp" secondAttribute="bottom" id="CmU-s9-9Lz"/>
+                            <constraint firstItem="KTS-9G-Atp" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="YwM-HJ-E47"/>
+                            <constraint firstItem="KTS-9G-Atp" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="sWP-cS-mhM"/>
                         </constraints>
                     </view>
                 </viewController>
