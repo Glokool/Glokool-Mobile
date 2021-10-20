@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="172" height="45" viewBox="0 0 172 45">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.74" y1="1" x2="0.023" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#77f"/>
+      <stop offset="1" stop-color="#8946a1"/>
+    </linearGradient>
+  </defs>
+  <g id="그룹_2437" data-name="그룹 2437" transform="translate(-212 -212)">
+    <g id="그룹_2467" data-name="그룹 2467" transform="translate(0 -1)">
+      <rect id="사각형_2987" data-name="사각형 2987" width="172" height="45" rx="22.5" transform="translate(212 213)" opacity="0.84" fill="url(#linear-gradient)"/>
+      <text id="Start_GloChat" data-name="Start GloChat" transform="translate(290 241)" fill="#fff" font-size="15" font-family="Helvetica"><tspan x="-45.436" y="0">Start GloChat</tspan></text>
+      <g id="그룹_2411" data-name="그룹 2411" transform="translate(344.241 223)">
+        <g id="타원_727" data-name="타원 727" transform="translate(-0.241)" fill="none" stroke="#d0d0ff" stroke-width="1.5">
+          <circle cx="13" cy="13" r="13" stroke="none"/>
+          <circle cx="13" cy="13" r="12.25" fill="none"/>
+        </g>
+        <line id="선_232" data-name="선 232" x2="13" transform="translate(5.5 13.5)" fill="none" stroke="#d0d0ff" stroke-width="1.5"/>
+        <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(12.5 6.5)" fill="none" stroke="#d0d0ff" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>
