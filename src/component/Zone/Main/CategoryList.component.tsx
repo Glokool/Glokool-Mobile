@@ -6,8 +6,7 @@ import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
-import { CDN, SERVER } from '../../../server.component';
-import axios from 'axios';
+import { CDN } from '../../../server.component';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 

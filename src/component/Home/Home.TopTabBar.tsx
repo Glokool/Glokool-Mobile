@@ -9,7 +9,7 @@ import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { HomeTopTabBarProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { AuthContext } from '../../context/AuthContext';
-import { TextLogo } from '../../assets/icon/Home';
+import { TextLogo, LoginIcon } from '../../assets/icon/Home';
 
 export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
 
@@ -52,9 +52,7 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                         currentUser?.photoURL === '' ||
                             currentUser.photoURL === null ||
                             currentUser.photoURL === undefined ? (
-                            <Layout
-                                style={[styles.UserImage, { backgroundColor: '#d2d2d2' }]}
-                            />
+                            <LoginIcon />
                         ) : (
                             <Image
                                 source={{ uri: currentUser.photoURL }}
@@ -62,9 +60,7 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
                             />
                         )
                     ) : (
-                        <Layout
-                            style={[styles.UserImage, { backgroundColor: '#d2d2d2' }]}
-                        />
+                        <LoginIcon />
                     )}
                 </TouchableOpacity>
             </Layout>

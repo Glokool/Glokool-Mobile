@@ -36,17 +36,19 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
     }, [])
 
     const InitZoneMain = async () => {
-        const response = await axios.get(SERVER + '/api/zone-main')
+        axios.get(SERVER + '/api/zone-main')
             .then((response) => {
 
                 setBannerImage(response.data.zoneInfo.images);
                 setChatrooms(response.data.chatRooms);
                 setContents(response.data.contents);
 
+                console.log(response.data);
+
                 dispatch(setZoneLoadingFalse());
             })
             .catch((e) => {
-                console.log(e);
+                console.log("Zone main",e);
             });
     }
 

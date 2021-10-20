@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, LayoutElement, Spinner } from '@ui-kitten/components';
 
-export const Loading = () : LayoutElement => {
+export const Loading = (): LayoutElement => {
 
-    return(
+    return (
         <Layout style={styles.MainContainer}>
             <Spinner size={'giant'} />
         </Layout>

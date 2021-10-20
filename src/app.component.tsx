@@ -134,7 +134,7 @@ export default (props: any): React.ReactFragment => {
 
         setTimeout(() => {
             SplashScreen.hide();
-        }, 2000);
+        }, 1000);
 
         return () => {
             unsubscribe;

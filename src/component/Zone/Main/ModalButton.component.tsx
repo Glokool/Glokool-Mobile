@@ -5,19 +5,24 @@ import { EnterIcon } from '../../../assets/icon/Zone';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const FreeAvailableButton = () => {
+export const GroupAvailableButton = (props: { price: number }) => {
     return (
         <LinearGradient
             style={[
                 styles.ButtonContainer,
-                { backgroundColor: '#7777ff', justifyContent: 'space-evenly' }
+                { backgroundColor: '#7777ff', justifyContent: 'space-between' }
             ]}
             colors={['#9668ef', '#7777ff']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
         >
-            <Layout style={styles.SideContainer} />
-            <Text style={styles.ButtonText}>Experience FREE Trial Now</Text>
+            <Layout style={styles.CostContainer}>
+                <Text style={styles.OriginalPriceText}>$ 14</Text>
+                <Text style={[styles.PriceText, { color: '#7777ff' }]}>$ </Text>
+                <Text style={styles.PriceText}>{props.price}</Text>
+                <Text style={[styles.PriceText, { color: '#7777ff' }]}> / day</Text>
+            </Layout>
+            <Text style={styles.ButtonText}>Join a Chat Room</Text>
             <Layout style={styles.SideContainer}>
                 <EnterIcon />
             </Layout>
@@ -25,35 +30,37 @@ export const FreeAvailableButton = () => {
     )
 }
 
-export const FreeDisabledButton = () => {
+export const GroupDisabledButton = (props: { price: number }) => {
     return (
         <Layout
             style={[
                 styles.ButtonContainer,
                 {
                     backgroundColor: '#a2a2a2',
-                    justifyContent: 'center'
+                    justifyContent: 'space-between'
                 }
             ]}>
-            <Text
-                style={[styles.ButtonText, { fontSize: 12 }]}
-            >
-                The group chat is full. Please try it later.
-            </Text>
+            <Layout style={styles.CostContainer}>
+                <Text style={styles.OriginalPriceText}>$ 14</Text>
+                <Text style={styles.PriceText}> $ {props.price}</Text>
+                <Text style={[styles.PriceText, { color: '#a2a2a2' }]}> / day</Text>
+            </Layout>
+            <Text style={[styles.ButtonText]}>The Group Chat is Full</Text>
+            <Layout style={[styles.SideContainer, { width: windowWidth * 0.02 }]} />
         </Layout>
     )
 }
 
-export const PayAvailableButton = (props: { price: number }) => {
+export const PrivateAvailableButton = (props: { price: number }) => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#7777ff', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
-                <Text style={[styles.PriceText, { color: '#7777ff' }]}>$ </Text>
-                <Text style={styles.OriginalPriceText}>14 </Text>
+                <Text style={styles.OriginalPriceText}>$ 14</Text>
+                <Text style={[styles.PriceText, { color: '#7777ff' }]}> $ </Text>
                 <Text style={styles.PriceText}>{props.price}</Text>
                 <Text style={[styles.PriceText, { color: '#7777ff' }]}> / day</Text>
             </Layout>
-            <Text style={[styles.ButtonText, { fontSize: 12 }]}>Join a Chat Room</Text>
+            <Text style={styles.ButtonText}>Join a Chat Room</Text>
             <Layout style={styles.SideContainer}>
                 <EnterIcon />
             </Layout>
@@ -61,16 +68,15 @@ export const PayAvailableButton = (props: { price: number }) => {
     )
 }
 
-export const PayDisabledButton = (props: { price: number }) => {
+export const PrivateDisabledButton = (props: { price: number }) => {
     return (
         <Layout style={[styles.ButtonContainer, { backgroundColor: '#a2a2a2', justifyContent: 'space-between' }]}>
             <Layout style={styles.CostContainer}>
-                <Text style={[styles.PriceText, { color: '#a2a2a2' }]}>$ </Text>
-                <Text style={styles.OriginalPriceText}>14 </Text>
-                <Text style={styles.PriceText}>{props.price}</Text>
+                <Text style={styles.OriginalPriceText}>$ 14</Text>
+                <Text style={styles.PriceText}> $ {props.price}</Text>
                 <Text style={[styles.PriceText, { color: '#a2a2a2' }]}> / day</Text>
             </Layout>
-            <Text style={[styles.ButtonText, { fontSize: 12 }]}>The Group Chat is Full</Text>
+            <Text style={styles.ButtonText}>The Group Chat is Full</Text>
             <Layout style={[styles.SideContainer, { width: windowWidth * 0.02 }]} />
         </Layout>
     )

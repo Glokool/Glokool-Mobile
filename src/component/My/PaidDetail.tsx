@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
-import { LayoutElement, Layout, Modal, Card, Button, Divider } from "@ui-kitten/components";
+import { LayoutElement, Layout, Modal, Divider } from "@ui-kitten/components";
 import { SceneRoute } from "../../navigation/app.route";
 import { StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
@@ -105,7 +105,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
         <Modal
             visible={receiptVisible}
             backdropStyle={styles.backdrop}
-            onBackdropPress={()=>dispatch(setReceiptVisibleFalse())}
+            onBackdropPress={() => dispatch(setReceiptVisibleFalse())}
             style={styles.ModalContainer}
         >
             <Layout style={styles.TitleContainer}>

@@ -162,7 +162,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 <ExploreIcon />
             </TouchableOpacity>
 
-            {guideInfo && <ZoneChatModal guide={guideInfo} navigation={props.navigation} />}
+            {guideInfo && <ZoneChatModal guideInfo={guideInfo} navigation={props.navigation} />}
 
         </Layout>
     )

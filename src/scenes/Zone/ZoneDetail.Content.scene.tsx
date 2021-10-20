@@ -224,7 +224,6 @@ glokool.page.link/jdF1`,
 
         axios(config)
             .then((response: { data: any }) => {
-                console.log(response.data);
                 setPressBookmark(!pressBookmark);
             })
             .catch((error: Error) => {

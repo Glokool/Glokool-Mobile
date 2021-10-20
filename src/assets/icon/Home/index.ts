@@ -1,13 +1,15 @@
-import GloChatAD from './GloChatAD.svg';
-import HomeBG from './HomeBG.svg';
+import EmptyHomeImage from './EmptyHomeImage.svg';
 import TextLogo from './TextLogo.svg';
-import GloChatInfo from './GloChatInfo.svg';
-import GloChatInfoIcon from './GloChatInfoIcon.svg';
+import LoginIcon from './LoginIcon.svg';
+import GloChatHomeButton from './GloChatHomeButton.svg';
+import GloChatInfoButton from './GloChatInfoButton.svg';
+import HomeGloIcon from './HomeGloIcon.svg';
 
-export { 
-    GloChatAD, 
-    HomeBG, 
-    TextLogo, 
-    GloChatInfo, 
-    GloChatInfoIcon 
+export {
+    TextLogo,
+    LoginIcon,
+    EmptyHomeImage,
+    GloChatHomeButton,
+    GloChatInfoButton,
+    HomeGloIcon,
 }

@@ -3,18 +3,12 @@ import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../model';
 import { CDN } from '../../../server.component';
 import FastImage from 'react-native-fast-image';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
-
-    const sampleData = ['red', 'black', 'blue', 'green', 'orange', 'tomato']
-    const BannerItems = useSelector((state: RootState) => state.ZoneDataModel.images);
 
     // list item
     const renderItem = (item: { item: string, index: number }) => {

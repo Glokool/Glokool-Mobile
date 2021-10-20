@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavigatorRoute } from "../../navigation/app.route";
 import { Alert } from 'react-native';
 
