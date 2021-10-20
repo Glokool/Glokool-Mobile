@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Text, Platform } from 'react-native';
+import { TextInput, Text, Platform } from 'react-native';
 
 export const SelectableText = (props: any) => {
     return (

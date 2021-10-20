@@ -1,8 +1,6 @@
 import React from 'react';
 import { Layout, Text, } from '@ui-kitten/components';
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet, } from 'react-native';
 import { GlokoolService } from '../../../assets/icon/Series';
 
 export const GlokoolServiceButton = () => {

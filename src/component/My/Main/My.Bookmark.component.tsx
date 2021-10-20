@@ -15,7 +15,7 @@ import FastImage from 'react-native-fast-image';
 import { SERVER, CDN } from '../../../server.component';
 import { Detail_Item } from '../../../types';
 import { EmptyBookmark } from '../../../assets/icon/My';
-import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { SceneRoute } from '../../../navigation/app.route';
 import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
 
 const windowWidth = Dimensions.get('window').width;

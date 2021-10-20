@@ -121,7 +121,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             <SafeAreaView style={{ flex: 0 }} />
 
             <TopTabWeatherbar />
-            <Button onPress={() => pressBookButton()}>test 결제버튼</Button>
+            {/* <Button onPress={() => pressBookButton()}>test 결제버튼</Button> */}
             <Divider style={styles.Divider} />
 
             <ChatList {...props} />

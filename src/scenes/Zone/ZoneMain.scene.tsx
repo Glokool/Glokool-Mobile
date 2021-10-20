@@ -43,6 +43,8 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 setChatrooms(response.data.chatRooms);
                 setContents(response.data.contents);
 
+                console.log(response.data);
+
                 dispatch(setZoneLoadingFalse());
             })
             .catch((e) => {

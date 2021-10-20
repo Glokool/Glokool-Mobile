@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React from 'react';
 import { Layout, Text, Modal } from '@ui-kitten/components';
 import {
     StyleSheet,

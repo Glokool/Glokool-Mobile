@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { StyleSheet, Image, Pressable, Text, Platform, FlatList, Alert } from 'react-native';
 import { Layout, Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../../assets/icon/Series';
-import { SceneRoute } from '../../../navigation/app.route';
-import { CDN, SERVER } from '../../../server.component';
-import axios from 'axios';
+import { CDN } from '../../../server.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../model';
 import { setGuideVisiblityFalse } from '../../../model/Zone/Zone.UI.model';
 import { Location } from '../../../assets/icon/Common';
 import { PersonIcon } from '../../../assets/icon/Zone';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { EnterIcon } from '../../../assets/icon/Zone';
 import { AuthContext } from '../../../context/AuthContext';
 
 import { GroupAvailableButton, GroupDisabledButton, PrivateAvailableButton, PrivateDisabledButton } from '..';
