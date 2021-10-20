@@ -10,6 +10,7 @@ import {
   ChatReportScreen,
   ChatRoomSettingScene,
   ChatZoneSelectScene,
+  ChatTASelectScene,
 } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
@@ -92,13 +93,11 @@ export interface ChatTASelectSceneProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_TA_SELECT>;
 }
 
-
-
-
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
     <Stack.Screen name={SceneRoute.CHAT_ZONE_SELECT} component={ChatZoneSelectScene} />
+    <Stack.Screen name={SceneRoute.CHAT_TA_SELECT} component={ChatTASelectScene} />
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />

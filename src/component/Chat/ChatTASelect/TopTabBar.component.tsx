@@ -2,11 +2,13 @@ import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatZoneSelectSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatTASelectSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
-export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) : React.ReactElement => {
+export const TASelectTopTabBarComponent = (props : ChatTASelectSceneProps) : React.ReactElement => {
+
+    const Zone = props.route.params.zone;
 
     const PressBackButton = () => {
         props.navigation.goBack();
@@ -22,10 +24,11 @@ export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) :
             </Pressable>
 
             <Layout style={styles.TitleContainer}>
-                <Text style={styles.Title}>ZONES</Text>
+                <Text style={styles.Title}>{Zone}</Text>
             </Layout>
 
             <Layout style={styles.EmptyContainer}/>
+
         </Layout>            
 
     );
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
 
     EmptyContainer: {
         width: 10,
-        height : 10,
+        height : 0,
         marginHorizontal: 5,
         padding : 15,
         justifyContent: 'center',

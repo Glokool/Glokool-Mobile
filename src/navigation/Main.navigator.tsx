@@ -176,11 +176,12 @@ const GuideVisiblity = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     if (
-        routeName === 'Chatroom' ||
-        routeName === 'Chat Help' ||
-        routeName === 'Chat Report' ||
-        routeName === SceneRoute.CHAT_QUICK_RECOMMENDATION ||
+        routeName === SceneRoute.CHATROOM ||
+        routeName === SceneRoute.CHAT_HELP ||
+        routeName === SceneRoute.CHAT_REPORT ||
         routeName === SceneRoute.CHAT_ROOM_SETTING ||
+        routeName === SceneRoute.CHAT_TA_SELECT ||
+        routeName === SceneRoute.CHAT_ZONE_SELECT ||
         routeName === SceneRoute.PAID_CHAT_LIST || 
         routeName === SceneRoute.HISTORY || 
         routeName === SceneRoute.ZONE_CONTENTS

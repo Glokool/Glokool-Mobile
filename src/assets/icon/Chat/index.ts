@@ -43,6 +43,9 @@ import Left_Play from './Left_Play.svg';
 
 import How_It_Works_Button from './How_It_Works_Button.svg';
 
+import Calendar from './Calendar.svg';
+import Time from './Time.svg';
+
 export {
     Help,
     Menu,
@@ -85,5 +88,8 @@ export {
 
     Left_Play,
 
-    How_It_Works_Button
+    How_It_Works_Button,
+
+    Time,
+    Calendar
 }
