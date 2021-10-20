@@ -62,10 +62,10 @@ export const BookmarkList = (props: MyScreenProps) => {
 
     return bookmarkList.length === 0 ? (
         <View style={styles.EmptyContainer}>
+            <EmptyBookmark />
             <Text style={[styles.EmptyText, { fontSize: 20 }]}>Whoops!</Text>
             <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Your bookmark list is empty :(</Text>
             <Text style={[styles.EmptyText, { fontSize: 15, marginVertical: 5 }]}>Tap the bookmark icon to easily add to the list!</Text>
-            <EmptyBookmark />
         </View>
     ) : (
         <View style={styles.MainContainer}>
