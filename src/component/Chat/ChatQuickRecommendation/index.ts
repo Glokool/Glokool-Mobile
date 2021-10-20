@@ -1,1 +1,0 @@
-export { QuickRecommendationTopTabBarComponent } from './TopTabBar.component'

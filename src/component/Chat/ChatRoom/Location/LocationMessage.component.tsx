@@ -4,6 +4,7 @@ import { Pressable, StyleSheet } from "react-native";
 import { BubbleProps, IMessage } from "react-native-gifted-chat";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { LocationTitle } from "../../../../assets/icon/Chat";
+import { AuthContext } from "../../../../context/AuthContext";
 import { setLocation } from "../../../../model/Chat/Chat.Location.model";
 import { setLocationVisiblityTrue } from "../../../../model/Chat/Chat.UI.model";
 import { LocationBubbleMessage } from "../../../../types";
@@ -13,6 +14,7 @@ export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubble
 
     // Mapview (My Location) 출력을 위한 코드
     if (props.currentMessage.messageType === 'location') {
+
         return (
             <Pressable
                 onPress={() => {
@@ -38,6 +40,7 @@ export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubble
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}>
+                        
                     <Marker
                         coordinate={{
                             latitude: parseFloat(

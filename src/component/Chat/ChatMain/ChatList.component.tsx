@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Pressable, FlatList, ScrollView } from 'react-native';
 import { Layout, Text, Divider } from '@ui-kitten/components';
-import { Arrow_Bottom, Chat_Book_Button, Guide_Location } from '../../../assets/icon/Chat';
+import { Arrow_Bottom, Chat_Book_Button, Guide_Location, How_It_Works_Button } from '../../../assets/icon/Chat';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import FastImage from 'react-native-fast-image';
 import { ChatRoomScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
@@ -21,17 +21,6 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
                 token: '123',
                 avatar: '123',
             },
-        },
-    ]);
-    const [freeTrialData, setFreeTrailData] = React.useState([
-        {
-            _id : 'dkvoslsd-wkdjvisw12'
-        },
-        {
-            _id : 'dkvoslsd-wkdjvisw14'
-        },
-        {
-            _id : 'dkvoslsd-wkdjvisw13'
         },
     ]);
 
@@ -99,36 +88,10 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
         )
     }
 
-    const renderItem = ({item} : {item : any, index : number}) : React.ReactElement => {
 
-        return(
-            <Layout style={styles.GuideInfoContainer}>
-
-                <Layout style={styles.GuideTitleContainer}>
-                    <Guide_Location />
-                    <Text style={styles.GuideLocationTitleText}>  HONGDAE</Text>
-                </Layout>
-
-                <Layout style={styles.GuideProfileContainer}>
-
-                    <Layout style={styles.GuideProfileImageContainer}>
-                        <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.GuideProfileImage} />
-                    </Layout>
-
-                    <Layout style={styles.GuideProfileInfoContainer}>
-                        <Text style={styles.GuideNameText}>GlokoolOfficial</Text>
-                        <Text style={styles.GuideTagText1}># <Text style={styles.GuideTagText2}>k-pop Lover</Text></Text>
-                        <Text style={styles.GuideTagText1}># <Text style={styles.GuideTagText2}>k-pop Lover</Text></Text>
-                    </Layout>
-
-                </Layout>
-
-            </Layout>
-        )
-    }
 
     // 비었을 때
-    if (data.length === 0) {
+    if (data.length === 1) {
         return(
             <Layout style={styles.Container}>
 
@@ -145,35 +108,18 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
 
                         <Arrow_Bottom style={styles.BottomIcon}/>
 
-                        <Pressable>
+                        <Pressable style={styles.ChatMainADButton} onPress={() => props.navigation.navigate(SceneRoute.CHAT_ZONE_SELECT)}>
                             <Chat_Book_Button />
+                        </Pressable>
+
+                        <Pressable style={styles.ChatMainADButton}>
+                            <How_It_Works_Button />                      
                         </Pressable>
                         
                     </Layout>
-
-                    <Divider style={styles.Divider}/>
-
-                    <Text style={styles.Title}>START FREE TRIAL</Text>
-                    <Text style={styles.Desc}>with a local travel assistant!</Text>
-
-                    <FlatList
-                        style={styles.GuideHorizontalList}
-                        keyExtractor={(item: any, index) => item._id}
-                        data={freeTrialData}
-                        renderItem={renderItem}
-                        horizontal={true}
-                        contentContainerStyle={styles.ListContainer}
-                    />
                 
                 </ScrollView>
 
-                <Layout style={styles.ADContainer}>
-                    <FastImage source={require('../../../assets/image/Chat/Chat_Main_Bottom_AD.png')} style={styles.ADContainer}/>
-
-                    <Pressable style={styles.ADButton}>
-                        <FastImage source={require('../../../assets/image/Chat/GloChat_AD_Button.png')} style={styles.ADButtonImage} />
-                    </Pressable>
-                </Layout>
 
             </Layout>
 
@@ -187,21 +133,12 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
 
             <Text style={styles.Title}>MY GloChat</Text>
 
-
             <FlatList 
                 style={styles.GuideVerticalList}
                 keyExtractor={(item: any, index) => item._id}
                 data={data}
                 renderItem={renderGuide}
             />
-
-            <Layout style={styles.ADContainer}>
-                <FastImage source={require('../../../assets/image/Chat/Chat_Main_Bottom_AD.png')} style={styles.ADContainer}/>
-
-                <Pressable style={styles.ADButton}>
-                    <FastImage source={require('../../../assets/image/Chat/GloChat_AD_Button.png')} style={styles.ADButtonImage} />
-                </Pressable>
-            </Layout> 
 
         </Layout>
 
@@ -494,6 +431,12 @@ const styles = StyleSheet.create({
         color: 'white',
         margin: 3,
         marginHorizontal: 10
+    },
+
+    ChatMainADButton : {
+        width : 364,
+        height: 56,
+        marginVertical: 10
     }
 
 

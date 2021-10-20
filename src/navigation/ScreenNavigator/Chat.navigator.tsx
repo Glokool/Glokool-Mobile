@@ -8,8 +8,8 @@ import {
   ChatRoomScreen,
   ChatHelpScreen,
   ChatReportScreen,
-  ChatQuickRecommendationScene,
   ChatRoomSettingScene,
+  ChatZoneSelectScene,
 } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
@@ -39,9 +39,12 @@ export type ChatNavigatorParams = AppNavigatorParams & {
       uid : string;
     }
   };
-  [SceneRoute.CHAT_QUICK_SEARCH]: undefined;
-  [SceneRoute.CHAT_QUICK_RECOMMENDATION] : undefined;
   [SceneRoute.CHAT_ROOM_SETTING] : undefined;
+
+  [SceneRoute.CHAT_ZONE_SELECT] : undefined;
+  [SceneRoute.CHAT_TA_SELECT] : {
+    zone : string;
+  }
 }
 
 export interface ChatScreenProps {
@@ -74,29 +77,31 @@ export interface ChatReportScreenProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
 }
 
-export interface ChatQuickSearchProps { 
-  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
-  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_SEARCH>;
-}
-
-export interface ChatQuickRecommendationProps { 
-  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_RECOMMENDATION>;
-  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_QUICK_RECOMMENDATION>;
-}
-
 export interface ChatRoomSettingProps { 
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
 }
 
+export interface ChatZoneSelectSceneProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_ZONE_SELECT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ZONE_SELECT>;
+}
+
+export interface ChatTASelectSceneProps { 
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_TA_SELECT>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_TA_SELECT>;
+}
+
+
+
+
 export const ChatNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
     <Stack.Screen name={SceneRoute.CHAT} component={ChatScreen} />
-
+    <Stack.Screen name={SceneRoute.CHAT_ZONE_SELECT} component={ChatZoneSelectScene} />
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
     <Stack.Screen name={SceneRoute.CHAT_HELP} component={ChatHelpScreen} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScreen} />
-    <Stack.Screen name={SceneRoute.CHAT_QUICK_RECOMMENDATION} component={ChatQuickRecommendationScene}/>
     <Stack.Screen name={SceneRoute.CHAT_ROOM_SETTING} component={ChatRoomSettingScene}/>
   </Stack.Navigator>
 );

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="364" height="56" viewBox="0 0 364 56">
+  <g id="그룹_2481" data-name="그룹 2481" transform="translate(-25 -413)">
+    <g id="사각형_3518" data-name="사각형 3518" transform="translate(25 413)" fill="none" stroke="#a3a3ff" stroke-width="2">
+      <rect width="364" height="56" rx="28" stroke="none"/>
+      <rect x="1" y="1" width="362" height="54" rx="27" fill="none"/>
+    </g>
+    <text id="How_it_works_" data-name="How it works?" transform="translate(154 447)" fill="#77f" font-size="17" font-family="Pretendard-Medium, Pretendard" font-weight="500" letter-spacing="-0.011em"><tspan x="0" y="0">How it works?</tspan></text>
+    <g id="그룹_2435" data-name="그룹 2435" transform="translate(350.241 428)">
+      <g id="타원_727" data-name="타원 727" transform="translate(-0.241)" fill="none" stroke="#a3a3ff" stroke-width="1.5">
+        <circle cx="13" cy="13" r="13" stroke="none"/>
+        <circle cx="13" cy="13" r="12.25" fill="none"/>
+      </g>
+      <line id="선_232" data-name="선 232" x2="13" transform="translate(5.5 13.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
+      <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(12.5 6.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

@@ -132,21 +132,52 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
     }
 
-    React.useEffect(() => {
+    const ChatRoomMessageInit = async() : Promise<void> => {
 
         const Chat = database().ref('/chats/' + 'testChat/messages');
+        setChatDB(Chat);
+
+        var tempMessages : Array<IMessage> = [];
+        let newItems = false;
+
+        Chat.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
+
+            if(newItems === false){
+                newItems = true;
+            }
+
+            else {
+                setChatMessages(value => GiftedChat.append(value, snapshot.val()));
+            }
+            
+        });
+
+        
+        Chat.orderByKey().limitToLast(50).once('value', (snapshot) => {            
+            snapshot.forEach((data) => {
+                tempMessages = GiftedChat.append(tempMessages, data.val());
+            });
+
+            setChatMessages(tempMessages);
+        });
+
+
+
+    }
+
+
+    React.useEffect(() => {
+
         const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
 
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
         Keyboard.addListener('keyboardDidShow', KeyboardShow);
 
-        setChatDB(Chat);
+  
         setChatIcon(false);
-        getGuideToken(props.route.params.guide.uid);        
+        getGuideToken(props.route.params.guide.uid);
 
-        Chat.orderByKey().limitToLast(50).on('child_added', (snapshot) => {
-            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-        })
+        ChatRoomMessageInit();
 
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
             resetUserUnreadMsgCount();
@@ -157,6 +188,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
         }
 
         dispatch(setChatLoadingFalse());
+
 
         return () => {
 
@@ -236,8 +268,8 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     }}
                     isAnimated
                     messagesContainerStyle={{
-                        paddingBottom: getBottomSpace() - 13,
-                        paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60,
+                        paddingBottom: Platform.OS === 'ios'? getBottomSpace() - 13 : 20,
+                        paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
                     alwaysShowSend={true}
                     showUserAvatar={false}

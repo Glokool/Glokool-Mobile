@@ -41,6 +41,8 @@ import Guide_Location from './Guide_Location.svg';
 
 import Left_Play from './Left_Play.svg';
 
+import How_It_Works_Button from './How_It_Works_Button.svg';
+
 export {
     Help,
     Menu,
@@ -81,5 +83,7 @@ export {
     Chat_Book_Button,
     Guide_Location,
 
-    Left_Play
+    Left_Play,
+
+    How_It_Works_Button
 }

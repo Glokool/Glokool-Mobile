@@ -38,7 +38,8 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
         <Layout style={styles.TabBar}>
 
-            <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>                        
+            <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>      
+
                 <Pressable
                     style={styles.LeftIcon}
                     onPress={() => {PressBackButton()}}>
@@ -61,6 +62,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
                             />
                         )}
                     </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
                         <Text style={styles.Title}>
                             {props.props.route.params.guide.name === undefined
@@ -68,15 +70,8 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
                                 : `${props.props.route.params.guide.name}`}
                         </Text>
                     </TouchableOpacity>
+                    
                 </Layout>
-
-                <Pressable
-                    style={styles.SmallIcon}
-                    onPress={() => {
-                        props.props.navigation.navigate(SceneRoute.CHAT_QUICK_RECOMMENDATION);
-                    }}>
-                    <Chat_App />
-                </Pressable>
 
                 <Pressable
                     style={styles.RightIcon}
@@ -85,6 +80,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
                     }}>
                     <Chat_Setting />
                 </Pressable>
+
             </Layout>            
         </Layout>
         
