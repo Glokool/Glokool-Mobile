@@ -10,7 +10,7 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
 
     const [data, setData] = React.useState([
         {
-            _id: "616d28b2e5d90f7a8568ec6a",
+            _id: "616d28b2e5d90f7a8568ec63",
             guide: {
                 _id : "6094d2265c8f9d70b4c997aa",
                 uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
@@ -45,42 +45,7 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
             },
             users: []
         },
-        {
-            _id: "616d28b2e5d90f7a8568ec6a",
-            guide: {
-                _id : "6094d2265c8f9d70b4c997aa",
-                uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
-                avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
-                name : "GlokoolOfficial",
-                desc : '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
-                keyword : ['안녕', '반가워'],
-                lang: [true, false ],
-                },
-            maxUserNum: 1,
-            price: {
-                price: 50,
-                discount: "20"
-            },
-            users: []
-        },
-        {
-            _id: "616d28b2e5d90f7a8568ec6a",
-            guide: {
-                _id : "6094d2265c8f9d70b4c997aa",
-                uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
-                avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
-                name : "GlokoolOfficial",
-                desc : '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
-                keyword : ['안녕', '반가워'],
-                lang: [true, false ],
-                },
-            maxUserNum: 1,
-            price: {
-                price: 50,
-                discount: "20"
-            },
-            users: []
-        }
+
     ]);
 
     const renderGuide = ({item} : {item : any, index : number}) => {
@@ -170,18 +135,18 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
             <Text style={styles.MainTitle}>FIND THE BEST</Text>
             <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
 
-            {/* <FlatList
+            <FlatList
                 data={data}
                 contentContainerStyle={{padding : 2}}
                 keyExtractor={(item) => (item._id)}
                 renderItem={renderGuide}
-            /> */}
+            />
 
-            <Layout style={styles.EmptyContainer}>
+            {/* <Layout style={styles.EmptyContainer}>
                 <Text style={styles.EmptyTitle1}>Comming Soon</Text>
                 <Text style={styles.EmptyTitle2}>We are currently updating our travel assistants list.</Text>
                 <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
-            </Layout>
+            </Layout> */}
 
 
 

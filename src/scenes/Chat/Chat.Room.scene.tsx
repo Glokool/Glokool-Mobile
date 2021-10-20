@@ -18,7 +18,7 @@ import {
     IMessage,
 } from 'react-native-gifted-chat';
 import { filterText } from '../../data/FilterChat';
-import { ChatRoomScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
@@ -52,7 +52,7 @@ import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-ipho
 // 전체 UI 용 변수
 var ToastRef: any;
 
-export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
+export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);

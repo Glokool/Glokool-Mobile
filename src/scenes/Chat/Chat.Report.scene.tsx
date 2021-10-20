@@ -2,13 +2,13 @@ import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { StyleSheet, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native';
 import { Layout, LayoutElement, Input, Button } from '@ui-kitten/components';
-import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatReportSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { AngleLeft } from '../../assets/icon/Common';
 import { Report } from '../../assets/icon/Chat';
 import { AuthContext } from '../../context/AuthContext';
 import { ReportTopTabBar } from '../../component/Chat/ChatRoomReport';
 
-export const ChatReportScreen = (props: ChatReportScreenProps): LayoutElement => {
+export const ChatReportScene = (props: ChatReportSceneProps): LayoutElement => {
 
     const { currentUser } = React.useContext(AuthContext);
     const user = props.route.params.user;

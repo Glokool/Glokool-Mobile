@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Button } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatMainSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { AuthContext } from '../../context/AuthContext';
@@ -24,7 +24,7 @@ import { ChatList, TopTabWeatherbar } from '../../component/Chat/ChatMain';
 var ToastRef: any;
 const windowHeight = Dimensions.get('window').height;
 
-export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
+export const ChatMainScene = (props: ChatMainSceneProps): LayoutElement => {
 
     const [now, setNow] = useState<boolean>(true);
     const [price, setPrice] = useState<PriceData>();
