@@ -197,7 +197,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             unsubscribe;
 
             if (ChatDB != undefined) {
-                ChatDB.off('value', OfftheDB)
+                ChatDB.off('child_added', OfftheDB)
             };
 
             dispatch(setMenuVisiblityFalse());
