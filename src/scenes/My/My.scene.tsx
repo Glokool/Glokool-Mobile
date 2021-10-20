@@ -22,7 +22,6 @@ import {
     HistoryButton,
     BookmarkListIcon,
 } from '../../assets/icon/My';
-import { HomeBG, } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
 
 const windowWidth = Dimensions.get('window').width;
@@ -70,16 +69,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
         <Layout style={styles.SuperContainer}>
 
             <SafeAreaView />
-
-            {/* 배경 이미지, 안드로이드에서 svg 안보여서 png 로 대체 */}
-            {Platform.OS === 'ios' ? (
-                <HomeBG style={styles.backgroundStyle} />
-            ) : (
-                <Image
-                    source={require('../../assets/icon/Home/HomeBGimg.png')}
-                    style={styles.backgroundStyle}
-                />
-            )}
 
             <Layout style={styles.MainContainer}>
                 <Layout style={styles.Container}>
