@@ -263,11 +263,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
                     bottomOffset={(isIphoneX()) ? -getBottomSpace() + 47 : (Platform.OS === 'ios') ? - 25 : 0}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
-                    createdAt={new Date().getTime()}
                     user={{
                         _id: currentUser?.uid,
                     }}
-                    isAnimated
                     messagesContainerStyle={{
                         paddingBottom: Platform.OS === 'ios'? getBottomSpace() - 13 : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
@@ -304,7 +302,7 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
             <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />
 
             {/* 공지사항 화면 */}
-            <NoticeComponent />
+            {/* <NoticeComponent /> */}
 
         </SafeAreaView>
 

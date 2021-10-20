@@ -9,6 +9,7 @@ import { WeatherInfo } from '../../../types';
 import moment from 'moment';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
+import { Cloudy } from '../../../assets/icon/Chat/Weather';
 
 
 
@@ -50,11 +51,16 @@ export const TopTabWeatherbar = (props: any): LayoutElement => {
 
             </Layout>
 
-            <Layout style={styles.TextContainer}>
+            <Layout style={styles.WeatherContainer}>
                 <Layout style={styles.TextMinorContainer2}>
                     <Text style={styles.Tem}>{data?.temp}<Text style={styles.Tem2}>°</Text></Text>
                     <Text style={styles.Weather}>{data?.main}</Text>
                 </Layout>
+
+                <Layout style={styles.WeatherIcon}>
+                    <Cloudy />
+                </Layout>
+               
             </Layout>
 
 
@@ -129,5 +135,17 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#8797FF',
         marginTop : -10
+    },
+
+    WeatherContainer : {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+    },      
+
+    WeatherIcon : {
+        alignItems: 'flex-end',
+        justifyContent: 'center'
     }
 })
