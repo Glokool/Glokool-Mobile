@@ -4,6 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import { ChatTASelectSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { CurrentKoreanTimeComponent, GuideListComponent, TASelectTopTabBarComponent } from '../../component/Chat/ChatTASelect';
 import { useInterval } from '../../component/Chat/ChatRoom/Audio/Timer.component';
+import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
 
@@ -38,7 +39,7 @@ export const ChatTASelectScene = (props : ChatTASelectSceneProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 60,
+        paddingTop: isIphoneX()? getStatusBarHeight() + 60 : 60,
         backgroundColor: 'white'
     },
 

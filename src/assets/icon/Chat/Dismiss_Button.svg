@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="24" viewBox="0 0 76 24">
+  <g id="그룹_2515" data-name="그룹 2515" transform="translate(-10860 -600)">
+    <text id="DISMISS" transform="translate(10873 617)" fill="#a5a3a3" font-size="13" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="0" y="0">DISMISS</tspan></text>
+    <g id="사각형_3316" data-name="사각형 3316" transform="translate(10860 600)" fill="none" stroke="#a5a3a3" stroke-width="1.5">
+      <rect width="76" height="24" rx="12" stroke="none"/>
+      <rect x="0.75" y="0.75" width="74.5" height="22.5" rx="11.25" fill="none"/>
+    </g>
+  </g>
+</svg>

@@ -40,6 +40,7 @@ import {
     renderAvatar,
     renderCustomBubble,
     BottomTabBarComponent,
+    NoticeComponent,
 } from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
@@ -301,6 +302,9 @@ export const ChatRoomScreen = (props: ChatRoomScreenProps): LayoutElement => {
 
             {/* 녹음 펑션 화면 */}
             <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />
+
+            {/* 공지사항 화면 */}
+            <NoticeComponent />
 
         </SafeAreaView>
 

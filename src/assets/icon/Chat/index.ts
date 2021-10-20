@@ -46,6 +46,10 @@ import How_It_Works_Button from './How_It_Works_Button.svg';
 import Calendar from './Calendar.svg';
 import Time from './Time.svg';
 
+import AngleDown_Gray from './AngleDown_Gray.svg';
+import NoticeClose_Button from './NoticeClose_Button.svg';
+import Dismiss_Button from './Dismiss_Button.svg';
+
 export {
     Help,
     Menu,
@@ -91,5 +95,9 @@ export {
     How_It_Works_Button,
 
     Time,
-    Calendar
+    Calendar,
+
+    Dismiss_Button,
+    NoticeClose_Button,
+    AngleDown_Gray,
 }

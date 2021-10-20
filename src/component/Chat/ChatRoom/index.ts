@@ -14,7 +14,8 @@ export { renderSystemMessage } from './Common/SystemMessage.component';
 export { renderTime } from './Common/Time.component'
 export { renderAvatar } from './Common/Avatar.component'
 export { ChatTopTabBarComponent } from './Common/TopTabBar.component';
-export { BottomTabBarComponent } from './Common/BottomTabBar.component'
+export { BottomTabBarComponent } from './Common/BottomTabBar.component';
+export { NoticeComponent } from './Common/Notice.component'
 
 // Audio
 export { ChatAudioComponent } from './Audio/Audio.component';
