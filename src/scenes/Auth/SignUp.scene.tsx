@@ -1,7 +1,6 @@
 import React from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import firebase from "firebase/app";
 
 import {
   StyleSheet,
@@ -16,14 +15,12 @@ import {
 import {
   CheckBox,
   Layout,
-  Button,
   Text,
   IndexPath,
   Select,
   SelectItem,
   Datepicker,
   LayoutElement,
-  Divider,
   Modal,
   Card
 } from '@ui-kitten/components';
@@ -36,7 +33,7 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/CountryTypes'
 import { SignUpScreenProps } from '../../navigation/auth.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faAngleLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { TermsConditionCard } from '../../component/terms&Condition.component'
 import { privacyPolicycard } from '../../component/privacyPolicy.component'
 

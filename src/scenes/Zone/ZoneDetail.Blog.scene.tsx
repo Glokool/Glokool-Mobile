@@ -10,7 +10,8 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Platform} from 'react-native';
+    Platform
+} from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import { SERVER, CDN } from '../../server.component';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -360,7 +361,7 @@ glokool.page.link/jdF1`,
     };
 
     return content == null ? (
-        <Loading/>
+        <Loading />
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView

@@ -1,11 +1,11 @@
 import { PermissionsAndroid, Platform } from 'react-native';
-import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions'
+import { PERMISSIONS, check, request, RESULTS } from 'react-native-permissions'
 import messaging from '@react-native-firebase/messaging';
 
 
 const requestNotificationsPermission = async () => {
     try {
-        if(Platform.OS === 'ios'){
+        if (Platform.OS === 'ios') {
             const authStatus = await messaging().requestPermission();
             const enabled =
                 authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -41,16 +41,16 @@ const requestCameraPermission = async () => {
                 return { granted: 0 };
             }
         }
-        else{
-            const res = await check(PERMISSIONS.IOS.CAMERA); 
-        
-            if (res === RESULTS.GRANTED) { 
+        else {
+            const res = await check(PERMISSIONS.IOS.CAMERA);
+
+            if (res === RESULTS.GRANTED) {
                 return { granted: 1 };
-            } else if (res === RESULTS.DENIED) { 
-            const res2 = await request(PERMISSIONS.IOS.CAMERA);
-                if(res2 === RESULTS.GRANTED){
+            } else if (res === RESULTS.DENIED) {
+                const res2 = await request(PERMISSIONS.IOS.CAMERA);
+                if (res2 === RESULTS.GRANTED) {
                     return { granted: 1 }
-                }else{
+                } else {
                     return { granted: 0 }
                 }
             }
@@ -79,16 +79,16 @@ const requestStoragePermission = async () => {
             } else {
                 return { granted: 0 };
             }
-        }else{
-            const res = await check(PERMISSIONS.IOS.PHOTO_LIBRARY); 
-        
-            if (res === RESULTS.GRANTED) { 
+        } else {
+            const res = await check(PERMISSIONS.IOS.PHOTO_LIBRARY);
+
+            if (res === RESULTS.GRANTED) {
                 return { granted: 1 };
-            } else if (res === RESULTS.DENIED) { 
-            const res2 = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
-                if(res2 === RESULTS.GRANTED){
+            } else if (res === RESULTS.DENIED) {
+                const res2 = await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+                if (res2 === RESULTS.GRANTED) {
                     return { granted: 1 }
-                }else{
+                } else {
                     return { granted: 0 }
                 }
             }

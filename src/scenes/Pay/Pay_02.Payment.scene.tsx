@@ -6,7 +6,6 @@ import { PaySecondSceneProps } from '../../navigation/Pay.navigator';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { PromotionBanner } from '../../assets/icon/Pay';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { IMP_PAY_METHOD, PaymentData } from 'iamport-react-native';
 import { Paypal } from '../../assets/icon/Pay';
 import { SceneRoute } from '../../navigation/app.route';

@@ -49,16 +49,16 @@ const initialAudioDuration: AudioDurationState = {
     duration: 0,
 }
 
-function AudioDurationModel  (
+function AudioDurationModel(
     state: AudioDurationState = initialAudioDuration,
     action: AudioDurationAction
 ): AudioDurationState {
 
     switch (action.type) {
         case COUNT_AUDIO_DURATION:
-            return { duration : state.duration + 1 };
+            return { duration: state.duration + 1 };
         case RESET_AUDIO_DURATION:
-            return { duration : 0 };
+            return { duration: 0 };
         default:
             return state;
     }

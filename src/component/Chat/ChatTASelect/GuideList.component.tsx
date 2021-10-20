@@ -182,10 +182,6 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
                 <Text style={styles.EmptyTitle2}>We are currently updating our travel assistants list.</Text>
                 <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
             </Layout>
-
-
-
-
         </Layout>
 
     )

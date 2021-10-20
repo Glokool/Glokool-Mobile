@@ -9,8 +9,7 @@ export class SignUpData {
     readonly password: string,
     readonly passwordConfirm: string,
     readonly name: string,
-    ) {
-  }
+  ) { }
 
   static empty(): SignUpData {
     return new SignUpData(

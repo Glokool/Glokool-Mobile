@@ -14,7 +14,6 @@ import {
     PasswordResetScreen,
     SnsSignupScreen,
 } from '../scenes/Auth';
-import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 type AuthNavigatorParams = AppNavigatorParams & {
     [SceneRoute.SIGN_IN]: undefined;

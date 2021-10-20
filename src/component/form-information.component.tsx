@@ -23,7 +23,7 @@ export const FormInformation = ({ id, ...inputProps }: FormInformationProps): In
   };
 
   return (
-    <Input  
+    <Input
       {...inputProps}
       {...fieldProps}
       style={styles.input}
@@ -35,7 +35,7 @@ export const FormInformation = ({ id, ...inputProps }: FormInformationProps): In
 
 
 const styles = StyleSheet.create({
-  input:{
+  input: {
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
     borderBottomColor: '#C9C9C9'

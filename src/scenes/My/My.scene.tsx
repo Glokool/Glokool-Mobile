@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
 import {
     StyleSheet,
-    Image,
     BackHandler,
     TouchableOpacity,
     Dimensions,
-    SafeAreaView,
-    Platform
+    SafeAreaView
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 
@@ -119,7 +117,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 {/* Bookmarklist 텍스트 */}
                 <Layout style={styles.SmallTitleContainer}>
                     <Layout style={styles.TextTitleContainer}>
-                        <BookmarkListIcon/>
+                        <BookmarkListIcon />
                         <Text style={styles.TextTitle}>MY BOOKMARK LIST</Text>
                     </Layout>
 
@@ -129,7 +127,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* Bookmarklist 컴포넌트 분리 */}
-                <BookmarkList {...props}/>
+                <BookmarkList {...props} />
 
             </Layout>
 

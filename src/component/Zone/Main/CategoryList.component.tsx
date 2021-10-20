@@ -10,8 +10,6 @@ import { CDN } from '../../../server.component';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
-    const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
-
     const onPressContent = (type: string, id: string) => {
         if (type == 'blog') {
             props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id })

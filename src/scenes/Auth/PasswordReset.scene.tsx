@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { 
+import {
   NavigatorRoute,
 } from '../../navigation/app.route'
 import { PasswordData, PasswordSchema } from '../../data/Password.model';
@@ -22,38 +22,35 @@ import { FormInput } from '../../component/form-input.component';
 
 export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElement => {
 
-  const [sendbutton, setButton] = React.useState(false);
-
   const AuthNavigate = CommonActions.reset({
     index: 0,
-    routes: [{name: NavigatorRoute.AUTH}],
+    routes: [{ name: NavigatorRoute.AUTH }],
   });
 
   const PressBack = (): void => {
     auth().signOut();
-    props.navigation.dispatch(AuthNavigate);  
+    props.navigation.dispatch(AuthNavigate);
   };
 
   const onFormSubmit = (values: PasswordData): void => {
-    if(values.email == ''){
+    if (values.email == '') {
 
     }
-    else{
-        auth().sendPasswordResetEmail(values.email)
-          .then(function() {
-            setButton(true);
-            props.navigation.dispatch(AuthNavigate);
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+    else {
+      auth().sendPasswordResetEmail(values.email)
+        .then(function () {
+          props.navigation.dispatch(AuthNavigate);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
 
     }
   }
 
   const renderForm = (Props: FormikProps<PasswordData>): React.ReactFragment => (
     <React.Fragment>
-      
+
       <Layout style={styles.InputContainer}>
         <Text style={styles.smallTitle}>E-mail</Text>
         <FormInput
@@ -86,26 +83,26 @@ export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElem
 
   return (
     <React.Fragment>
-      <SafeAreaView style={{flex: 0, backgroundColor: 'white'}}/>
-      
+      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+
       <Layout style={styles.container}>
-        
-        <Image style={{width: 200, height: 30, marginBottom: 100}} source={require('../../assets/Glokool_Logo.png')}/>
-        
-          <Text style={styles.TitleTxt}>Forgot your password?</Text>
-          <Text style={styles.descTxt}>Glokool will send you a link to your email.</Text>
-        
-          <Layout style={styles.InputContainer}>
-            <Formik
-              initialValues={PasswordData.empty()}
-              validationSchema={PasswordSchema}
-              onSubmit={onFormSubmit}>
-              {renderForm}
-            </Formik>
-          </Layout>
-      
-      
-      </Layout>    
+
+        <Image style={{ width: 200, height: 30, marginBottom: 100 }} source={require('../../assets/Glokool_Logo.png')} />
+
+        <Text style={styles.TitleTxt}>Forgot your password?</Text>
+        <Text style={styles.descTxt}>Glokool will send you a link to your email.</Text>
+
+        <Layout style={styles.InputContainer}>
+          <Formik
+            initialValues={PasswordData.empty()}
+            validationSchema={PasswordSchema}
+            onSubmit={onFormSubmit}>
+            {renderForm}
+          </Formik>
+        </Layout>
+
+
+      </Layout>
     </React.Fragment>
   );
 };
@@ -136,9 +133,9 @@ const styles = StyleSheet.create({
     margin: 10,
     width: '90%',
   },
-  EmailButton : {
+  EmailButton: {
     borderRadius: 15,
-    backgroundColor : '#7777FF',
+    backgroundColor: '#7777FF',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
@@ -152,11 +149,11 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: '#FFFFFF'
   },
-  BackButton : {
+  BackButton: {
     borderRadius: 15,
     width: '100%',
     height: 56,
-    backgroundColor : '#FFFFFF',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: "#000",
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: '#7777FF'
   },
-  smallTitle :{
+  smallTitle: {
     alignItems: 'flex-start',
     marginHorizontal: 10,
     marginVertical: 0,

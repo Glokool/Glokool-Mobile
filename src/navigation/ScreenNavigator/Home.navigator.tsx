@@ -1,23 +1,23 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
-import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { HomeScreen } from '../../scenes/Home';
 
 type HomeNavigatorParams = AppNavigatorParams & {
-    [SceneRoute.HOME] : undefined;
-    [NavigatorRoute.CHAT] : undefined;
+  [SceneRoute.HOME]: undefined;
+  [NavigatorRoute.CHAT]: undefined;
 }
-  
+
 export interface HomeScreenProps {
-    navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
-    route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
+  navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
+  route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
 }
 
 export interface HomeTopTabBarProps {
-    navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
-    route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
+  navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
+  route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
 }
 
 export interface HomeCarouselProps {
@@ -29,6 +29,6 @@ const Stack = createStackNavigator();
 
 export const HomeNavigator = (): React.ReactElement => (
   <Stack.Navigator headerMode='none'>
-    <Stack.Screen name={SceneRoute.HOME} component={HomeScreen}/>
+    <Stack.Screen name={SceneRoute.HOME} component={HomeScreen} />
   </Stack.Navigator>
 );

@@ -28,7 +28,7 @@ const config = {
                 [NavigatorRoute.CHAT]: {
                     path: "chat",
                     screens: {
-                        [SceneRoute.CHATROOM]:{
+                        [SceneRoute.CHATROOM]: {
                             path: "chatroom/:id",
                             parse: {
                                 id: (id) => `${id}`,
@@ -39,7 +39,7 @@ const config = {
                 [NavigatorRoute.MY]: {
                     path: "my",
                     screens: {
-                        BookmarkList:{
+                        BookmarkList: {
                             path: "bookmarklist",
                         }
                     }

@@ -17,7 +17,6 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import {
     Keyboard,
     Platform,
-    Text,
     TouchableOpacity,
     View,
     StyleSheet,
@@ -41,7 +40,6 @@ import {
 } from '../assets/icon/BottomNavigation';
 import { NavigatorRoute, SceneRoute } from './app.route';
 import { ChatContext } from '../context/ChatContext';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContext } from '../context/AuthContext';
 import { loginAlertWindow } from '../component/Common/LoginCheck.component';
 import { windowWidth } from '../Design.component';
@@ -182,8 +180,8 @@ const GuideVisiblity = (route: any) => {
         routeName === SceneRoute.CHAT_ROOM_SETTING ||
         routeName === SceneRoute.CHAT_TA_SELECT ||
         routeName === SceneRoute.CHAT_ZONE_SELECT ||
-        routeName === SceneRoute.PAID_CHAT_LIST || 
-        routeName === SceneRoute.HISTORY || 
+        routeName === SceneRoute.PAID_CHAT_LIST ||
+        routeName === SceneRoute.HISTORY ||
         routeName === SceneRoute.ZONE_CONTENTS
     ) {
         return false;
@@ -195,7 +193,7 @@ const GuideVisiblity = (route: any) => {
 export const MainNavigator = (): React.ReactElement => (
 
     <Tab.Navigator
-        tabBar={(props) => <MyTabBar {...props}/>}
+        tabBar={(props) => <MyTabBar {...props} />}
         tabBarOptions={{
             keyboardHidesTabBar: true,
         }}
@@ -214,7 +212,7 @@ export const MainNavigator = (): React.ReactElement => (
             name={NavigatorRoute.ZONE}
             component={ZoneNavigator}
             options={({ route }) => ({
-                unmountOnBlur: true,
+                unmountOnBlur: false,
                 tabBarVisible: GuideVisiblity(route),
             })}
         />
@@ -233,7 +231,7 @@ export const MainNavigator = (): React.ReactElement => (
             component={MyNavigator}
             options={({ route }) => ({
                 tabBarVisible: GuideVisiblity(route),
-                unmountOnBlur: false,
+                unmountOnBlur: true,
             })}
         />
     </Tab.Navigator>
@@ -255,7 +253,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         flexDirection: 'row',
         paddingHorizontal: 15,
-        height : 65 + (BottomHeight / 2),
+        height: 65 + (BottomHeight / 2),
         width: windowWidth,
         paddingBottom: Platform.OS === 'ios' ? 20 : 0,
         paddingTop: Platform.OS === 'ios' ? 5 : 0,

@@ -40,7 +40,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     // 페이지 내 컨텐츠 렌더링
     const renderContents = (item) => {
-        
+
         return (
             <TouchableOpacity onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage

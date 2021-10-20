@@ -6,8 +6,7 @@ import { filterText } from "../../FilterChat";
 import axios from 'axios';
 
 
-
-export const MessageOnSend = async(messages: IMessage[], chatMessages : Array<IMessage>, ChatDB : FirebaseDatabaseTypes.Reference) : Promise<void> => {
+export const MessageOnSend = async (messages: IMessage[], chatMessages: Array<IMessage>, ChatDB: FirebaseDatabaseTypes.Reference): Promise<void> => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
 
@@ -78,13 +77,13 @@ export const MessageOnSend = async(messages: IMessage[], chatMessages : Array<IM
                 messages: [messages[0], ...chatMessages],
                 guideUnreadCount: database.ServerValue.increment(1),
             }),
-            sendMessage(messages[0]);
+                sendMessage(messages[0]);
         }
         
 
 
 
-    } 
+    }
     else {
 
 

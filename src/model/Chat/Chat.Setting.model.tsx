@@ -18,7 +18,7 @@ type ChatSettingUIState = {
 }
 
 const InitialChatSettingUIState: ChatSettingUIState = {
-    guideVisiblity : false
+    guideVisiblity: false
 }
 
 function ChatSettingUIModel(
@@ -27,9 +27,9 @@ function ChatSettingUIModel(
 ): ChatSettingUIState {
 
     switch (action.type) {
-        case SET_SETTING_GUIDE_VISIBLITY_TRUE : return { guideVisiblity : true }
-        case SET_SETTING__GUIDE_VISIBLITY_FALSE : return { guideVisiblity: false }
-        default : return state
+        case SET_SETTING_GUIDE_VISIBLITY_TRUE: return { guideVisiblity: true }
+        case SET_SETTING__GUIDE_VISIBLITY_FALSE: return { guideVisiblity: false }
+        default: return state
     }
 }
 

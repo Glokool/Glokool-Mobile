@@ -5,11 +5,8 @@ import {
     BackHandler,
     Dimensions,
     Alert,
-    SafeAreaView,
-    Pressable,
-    Text
-} from 'react-native';
-import { Divider, Layout, LayoutElement, Button } from '@ui-kitten/components';
+    SafeAreaView} from 'react-native';
+import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';

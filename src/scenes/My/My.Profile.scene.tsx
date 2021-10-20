@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
@@ -13,7 +13,6 @@ import {
     IndexPath,
     Layout,
     Text,
-    Input,
     Select,
     SelectItem,
     LayoutElement,
@@ -27,7 +26,6 @@ import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import { Loading } from '../../component/Common/Loading.component';
 import { AuthContext } from '../../context/AuthContext';
 import { ChangeProfile, ProfileBasic, ProfileBlue, ProfileGray, ProfileOrange, ProfileGreen, ProfilePurple } from '../../assets/icon/My';
-import { userInfoType } from '../../types';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export const MyProfile = (props: MYProfileProps): LayoutElement => {

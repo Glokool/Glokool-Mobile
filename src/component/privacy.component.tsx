@@ -36,7 +36,7 @@ export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement =
 };
 
 const styles = StyleSheet.create({
-  input:{
+  input: {
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
     borderBottomColor: '#C9C9C9',
