@@ -7,6 +7,7 @@ import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
+import { ZoneContentsType, ZoneItemListType } from '../../../types';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
@@ -19,7 +20,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     }
 
     // 컨텐츠 렌더링
-    const renderContents = (item) => {
+    const renderContents = (item: { item: ZoneContentsType }) => {
         return (
             <TouchableOpacity style={styles.ContentContainer} onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
@@ -31,7 +32,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     }
 
     // 카테고리 렌더링 
-    const renderCategory = (item) => {
+    const renderCategory = (item: { item: ZoneItemListType, index: number }) => {
         return (
             <Layout style={styles.CategoryContainer}>
                 <Text style={styles.ItemText}>{item.item.name}</Text>

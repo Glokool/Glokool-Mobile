@@ -170,5 +170,7 @@ export default (props: any): React.ReactFragment => {
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
-    'Require cycle'
+    'Require cycle',
+    'VirtualizedLists should never be nested',
+    'VirtualizedList: missing keys for items',
 ]);

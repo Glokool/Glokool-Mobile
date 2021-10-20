@@ -69,44 +69,10 @@ export type GuideInfoType = {
     withdrawal?: boolean;
 };
 
-// Series
+// ZONE (구 Series)
 export type image = {
     width: number,
     height: number
-}
-
-export type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-}
-
-export type photoSpot = {
-    _id: string;
-    desc: string;
-    images: Array<photoSpotImage>;
-    location: string;
-}
-
-export type photoSpotImage = {
-    _id: string;
-    author: string;
-    img: string;
-}
-
-export type GridItem = {
-    image: string,
-    title: string,
-    id: string,
-    type: string,
-}
-
-export type SignatureMenu = {
-    _id: string;
-    author: string;
-    img: string;
-    money: string;
-    title: string;
 }
 
 export type recommendation_Item = {
@@ -184,92 +150,6 @@ export type Series_Item_Blog = {
     recommendation: Array<recommendation_Item>;
 };
 
-export type AttractionData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    photoSpot: Array<photoSpot>;
-};
-
-export type CafeData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SignatureMenu>;
-};
-
-export type RestaurantData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SignatureMenu>;
-}
-
 export type ShareItem = {
     title: string;
     message: string;
@@ -282,17 +162,6 @@ export type FacebookShareItem = {
     quote?: string;
 }
 
-export type TourData = {
-    tourCode: string;
-    title: string;
-    cover: string;
-    desc: string;
-    tag: Array<string>;
-    plus: Array<string>;
-    lat: string;
-    lon: string;
-};
-
 export type DetailData = {
     banner: string;
     desc: string;
@@ -303,20 +172,38 @@ export type DetailData = {
     lon: string;
 };
 
-export type GlokoolTourData = {
-    tour: TourData;
-    attraction: Array<DetailData>;
-    restaurant: Array<DetailData>;
-    cafe: Array<DetailData>;
-    lat: string;
-    lon: string;
-};
-
 export type Bookmark_Item = {
     _id: string;
     id: string;
     image: string;
     title: string;
+}
+
+export type ZoneCategoryType = {
+    _id: string;
+    category: string;
+    name: string;
+    parent: string;
+    subCategoryWeight: number;
+}
+
+export type ZoneContentsType = {
+    _id: string;
+    categories: string;
+    count: number;
+    createdAt: string;
+    image: string;
+    title: string;
+    type: string;
+}
+
+export type ZoneItemListType = {
+    _id: string;
+    category: string;
+    items: Array<ZoneContentsType>;
+    name: string;
+    parent: string;
+    subCategoryWeight: number;
 }
 
 // My
