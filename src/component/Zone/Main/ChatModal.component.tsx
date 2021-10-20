@@ -14,7 +14,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { EnterIcon } from '../../../assets/icon/Zone';
 import { AuthContext } from '../../../context/AuthContext';
 
-import { FreeAvailableButton, FreeDisabledButton, PayAvailableButton, PayDisabledButton } from '..';
+import { GroupAvailableButton, GroupDisabledButton, PrivateAvailableButton, PrivateDisabledButton } from '..';
 import { loginAlertWindow } from '../../Common/LoginCheck.component';
 
 export const ZoneChatModal = (props: any) => {
@@ -24,8 +24,8 @@ export const ZoneChatModal = (props: any) => {
 
     const { currentUser } = useContext(AuthContext);
 
-    const availableUsers = props.guide.maxUserNum - props.guide.users.length;
-    const price = props.guide.price;
+    const availableUsers = props.guideInfo.maxUserNum - props.guideInfo.users.length;
+    const price = props.guideInfo.price;
 
     // 주기적으로 서버에 요청하는 테스트 코드
     useEffect(() => {
@@ -99,11 +99,11 @@ export const ZoneChatModal = (props: any) => {
                     </Layout>
 
                     <Layout style={styles.innerContainer}>
-                        {props.guide.avatar != " " &&
-                            props.guide.avatar != undefined &&
-                            props.guide.avatar != null ? (
+                        {props.guideInfo.avatar != " " &&
+                            props.guideInfo.avatar != undefined &&
+                            props.guideInfo.avatar != null ? (
                             <Image
-                                source={{ uri: CDN + props.guide.avatar }}
+                                source={{ uri: CDN + props.guideInfo.avatar }}
                                 style={styles.profileImage}
                             />
                         ) : (
@@ -119,7 +119,7 @@ export const ZoneChatModal = (props: any) => {
                             </Layout>
                             <Text
                                 style={styles.guideNameText}>
-                                {props.guide.guide.name}
+                                {props.guideInfo.guide.name}
                             </Text>
                         </Layout>
                     </Layout>
@@ -127,53 +127,62 @@ export const ZoneChatModal = (props: any) => {
 
                     <Layout style={styles.infoContainer}>
 
-                        <Layout style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                        <Layout style={styles.infoItemContainer}>
                             <Text style={styles.keyTextStyle}>Language</Text>
                             <Text style={styles.valTextStyle}>
-                                {props.guide.lang && (props.guide.lang[0] && 'English ')}
-                                {props.guide.lang && (props.guide.lang[1] && '中文')}
+                                {props.guideInfo.lang && (props.guideInfo.lang[0] && 'English ')}
+                                {props.guideInfo.lang && (props.guideInfo.lang[1] && '中文')}
                             </Text>
                         </Layout>
 
-                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Layout style={styles.infoItemContainer}>
                             <Text style={styles.keyTextStyle}>Nationality</Text>
-                            <Text style={styles.valTextStyle}>{props.guide.country}</Text>
+                            <Text style={styles.valTextStyle}>{props.guideInfo.country}</Text>
                         </Layout>
 
-                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Layout style={styles.infoItemContainer}>
                             <Text style={styles.keyTextStyle}>Chat Type</Text>
                             <Text style={[styles.valTextStyle, { flex: 1 }]}>
                                 Group Chat
                             </Text>
                             <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
                                 <Text style={styles.keyTextStyle}>Max</Text>
-                                <Text style={styles.valTextStyle}>{props.guide.maxUserNum}</Text>
+                                <Text style={styles.valTextStyle}>{props.guideInfo.maxUserNum}</Text>
+                            </Layout>
+                        </Layout>
+
+                        <Layout style={styles.infoItemContainer}>
+                            <Text style={styles.keyTextStyle}>Service Time</Text>
+                            <Layout style={{ flex: 2, flexDirection: 'row' }}>
+                                <Text style={styles.valTextStyle}>10 AM ~ 7 PM</Text>
+                                <Text style={[styles.valTextStyle, { flex: 2, color: '#ccc' }]}>(GMT+9)</Text>
                             </Layout>
                         </Layout>
 
                         <Layout style={styles.introContainer}>
                             <Text style={styles.oneLineIntro}>
-                                {props.guide.oneLineIntro}
+                                {props.guideInfo.oneLineIntro}
                             </Text>
 
                             <Text style={styles.intro}>
-                                {props.guide.intro}
+                                {props.guideInfo.intro}
                             </Text>
                         </Layout>
 
-                        {/* keyword 에 다른 값이 들어와서 잠시 주석처리 */}
-                        {/* <Layout style={{ marginTop: 20, alignItems: 'center' }}>
-                            <FlatList
-                                data={props.guide.keyword.slice(0,2)}
-                                renderItem={renderItem}
-                                horizontal
-                                scrollEnabled={false}
-                            />
-                        </Layout> */}
+                        {(props.guideInfo.guide.keyword) && (
+                            <Layout style={{ marginTop: 20, alignItems: 'center' }}>
+                                <FlatList
+                                    data={props.guideInfo.guide.keyword}
+                                    renderItem={renderItem}
+                                    horizontal
+                                    scrollEnabled={false}
+                                />
+                            </Layout>
+                        )}
 
                         <Layout style={styles.limitContainer}>
                             <PersonIcon />
-                            <Text style={styles.limitNumber}>{props.guide.maxUserNum - props.guide.users.length} </Text>
+                            <Text style={styles.limitNumber}>{props.guideInfo.maxUserNum - props.guideInfo.users.length} </Text>
                             <Text style={styles.limitText}>more people can join this chat</Text>
                         </Layout>
 
@@ -181,14 +190,14 @@ export const ZoneChatModal = (props: any) => {
                             {price == 0 ? (
                                 availableUsers == 0 ?
                                     // 무료방 꽉찼을때
-                                    <FreeDisabledButton />
+                                    <GroupDisabledButton price={price} />
                                     :
-                                    <FreeAvailableButton />
+                                    <GroupAvailableButton price={price} />
                             ) : (
                                 availableUsers == 0 ?
-                                    <PayDisabledButton price={price} />
+                                    <PrivateDisabledButton price={price} />
                                     :
-                                    <PayAvailableButton price={price} />
+                                    <PrivateAvailableButton price={price} />
                             )}
                         </Pressable>
 
@@ -225,7 +234,7 @@ const styles = StyleSheet.create({
     },
     valTextStyle: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: Platform.OS === 'ios' ? 15 : 13,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         flex: 2,
     },
     oneLineIntro: {
@@ -310,5 +319,10 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         paddingVertical: 7,
         paddingHorizontal: 4,
+    },
+    infoItemContainer: {
+        flexDirection: 'row',
+        marginTop: 5,
+        alignItems: 'flex-end'
     }
 });

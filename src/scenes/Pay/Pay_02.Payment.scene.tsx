@@ -154,7 +154,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                         </Text>
                         <Layout style={styles.RowContainer}>
                             <Text style={styles.ValueText}>
-                                10 AM ~ 8 PM
+                                10 AM ~ 7 PM
                             </Text>
                             <Text style={[styles.ValueText, { color: '#a1a1a1', marginLeft: 5 }]}>
                                 (KST)
@@ -183,11 +183,11 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     </Text>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Service Fees</Text>
-                        <Text style={styles.ValueText}>20.00 USD</Text>
+                        <Text style={styles.ValueText}>23.00 USD</Text>
                     </Layout>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Promotion</Text>
-                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>- 10.01 USD</Text>
+                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>- 15.01 USD</Text>
                     </Layout>
                 </Layout>
 
@@ -200,7 +200,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <Layout style={styles.CostContainer}>
                     <Text style={styles.SubTitleText}>TOTAL</Text>
                     <Layout style={styles.RowContainer}>
-                        <Text style={styles.CostText}>9.99</Text>
+                        <Text style={styles.CostText}>14.99</Text>
                         <Text style={[styles.ValueText, { color: '#7777ff' }]}>USD</Text>
                     </Layout>
                 </Layout>

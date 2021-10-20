@@ -9,7 +9,7 @@ import {
     Pressable,
     Text
 } from 'react-native';
-import { Divider, Layout, LayoutElement, } from '@ui-kitten/components';
+import { Divider, Layout, LayoutElement, Button } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
@@ -121,7 +121,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             <SafeAreaView style={{ flex: 0 }} />
 
             <TopTabWeatherbar />
-
+            <Button onPress={() => pressBookButton()}>test 결제버튼</Button>
             <Divider style={styles.Divider} />
 
             <ChatList {...props} />
