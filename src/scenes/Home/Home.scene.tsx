@@ -110,9 +110,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 style={styles.ScrollViewContainer}>
 
                 {/* top tab bar */}
-                <HomeTopTabBar
-                    navigation={props.navigation}
-                    route={props.route} />
+                <HomeTopTabBar />
 
                 {/* glochat 소개 컨테이너 */}
                 <Layout style={styles.GloChatContainer}>

@@ -512,7 +512,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     ) : null}
 
-                    <GloChatButton navigation={props.navigation} />
+                    <GloChatButton />
 
                     {/* Comments */}
                     <Layout

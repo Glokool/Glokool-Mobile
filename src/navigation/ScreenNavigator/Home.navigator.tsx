@@ -15,16 +15,6 @@ export interface HomeScreenProps {
   route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
 }
 
-export interface HomeTopTabBarProps {
-  navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
-  route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
-}
-
-export interface HomeCarouselProps {
-  navigation: StackNavigationProp<HomeNavigatorParams, SceneRoute.HOME>;
-  route: RouteProp<HomeNavigatorParams, SceneRoute.HOME>;
-}
-
 const Stack = createStackNavigator();
 
 export const HomeNavigator = (): React.ReactElement => (

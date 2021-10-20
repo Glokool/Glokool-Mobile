@@ -67,7 +67,7 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
     return (
         <Layout style={styles.mainContainer}>
             {/*탭바 표현*/}
-            <CommonTopTabBar title={'SETTINGS'} navigation={props.navigation} />
+            <CommonTopTabBar title={'SETTINGS'} />
 
             {/* 세팅 내용물*/}
             <Layout style={styles.Container}>

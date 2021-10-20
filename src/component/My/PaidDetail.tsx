@@ -13,6 +13,7 @@ import { MY_Refund_Policy } from '../../assets/icon/My';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../model';
 import { setReceiptVisibleFalse } from '../../model/My/My.UI.model';
+import { useNavigation } from '@react-navigation/core';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,6 +21,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     const receiptVisible = useSelector((state: RootState) => state.MyUIModel.receiptVisible);
     const dispatch = useDispatch();
+    const navigation = useNavigation()
 
     const [refundCheck, setRefundCheck] = useState<boolean>(true);
     const [data, setData] = useState<ReservationInfo | undefined>({
@@ -186,7 +188,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                 <Text style={[styles.AdditionalText, { color: '#bcbcbc' }]}>Please contact us if you have any questions.</Text>
 
                 <TouchableOpacity style={styles.PolicyContainer} onPress={() => {
-                    props.navigation.navigate(SceneRoute.REFUND_POLICY);
+                    navigation.navigate(SceneRoute.REFUND_POLICY);
                     dispatch(setReceiptVisibleFalse())
                 }}>
                     <Text style={styles.PolicyText}>Refund Policy</Text>

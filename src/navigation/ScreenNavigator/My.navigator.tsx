@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { NavigatorRoute, SceneRoute } from '../app.route';
+import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import {
   CustomerServiceComponent,
@@ -13,11 +13,11 @@ import {
   PrivacyConfirm,
   PrivacyLogin,
   MyProfile,
-  HistoryScreen
+  HistoryScreen,
+  RefundPolicy
 } from '../../scenes/My';
 import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { ChatRoomScreen } from '../../scenes/Chat';
-import { RefundPolicy } from '../../component/My/RefundPolicy';
 import { authContextType, ReservationInfo } from '../../types';
 import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
 
@@ -62,7 +62,6 @@ export interface MYSettingProps {
 
 export interface PaidDetailProps {
   data: ReservationInfo | undefined;
-  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.PAID_CHAT_LIST>;
 }
 
 export interface PaidChatListProps {

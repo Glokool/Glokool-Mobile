@@ -23,7 +23,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
     const [countryCode, setCountryCode] = useState<any>("KR");
     const [callingCode, setCallingCode] = useState<Array<string>>();
 
-    const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
+    const [selectedIndex, setSelectedIndex] = useState<IndexPath | any>(new IndexPath(0));
     const messengerType = ["Facebook", "Instagram"];
     const displayValue = messengerType[selectedIndex.row]
 
@@ -67,7 +67,6 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
             {/* top tap bar */}
             <CommonTopTabBar
                 title={'USER INFORMATION'}
-                navigation={props.navigation}
                 child={
                     <Layout style={styles.Pagination}>
                         <PayFirstPage />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Layout, LayoutElement, Button, Text, Divider } from '@ui-kitten/components';
 import { RefundPolicyProps } from '../../navigation/ScreenNavigator/My.navigator';
 
@@ -9,7 +9,7 @@ export const RefundPolicy = (props: RefundPolicyProps): LayoutElement => {
     return (
         <Layout style={styles.MainContainer}>
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 30 }}>
-
+                <SafeAreaView/>
                 <Text style={styles.Title}>Refund Policy</Text>
 
                 <Text style={styles.DescLeft}>Canceling a reservation with Glokool can result in cancellation fees being applied by Glokool and/or third party supplier or tour operator.</Text>
@@ -46,7 +46,7 @@ export const RefundPolicy = (props: RefundPolicyProps): LayoutElement => {
             </ScrollView>
 
             <TouchableOpacity style={styles.CloseButton} onPress={() => props.navigation.goBack()}>
-                <Text style={styles.CloseButtonText}>Close</Text>
+                <Text style={styles.CloseButtonText}>GO BACK</Text>
             </TouchableOpacity>
 
 
@@ -104,15 +104,15 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 3,
         },
         shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        shadowRadius: 3,
         elevation: 2,
     },
     CloseButtonText: {
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
+        fontFamily: 'Pretendard-Bold',
+        fontSize: 18,
         color: '#8797FF',
         textAlign: 'center'
     }

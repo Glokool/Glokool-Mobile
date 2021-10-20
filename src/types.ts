@@ -179,6 +179,15 @@ export type Bookmark_Item = {
     title: string;
 }
 
+export type MySceneBookmarkItem = {
+    _id: string;
+    createdAt: string;
+    id: string;
+    image: string;
+    itemType: string;
+    title: string;
+}
+
 export type ZoneCategoryType = {
     _id: string;
     category: string;
@@ -207,21 +216,6 @@ export type ZoneItemListType = {
 }
 
 // My
-export type Detail_Item = {
-    _id: string;
-    id: string;
-    image: string;
-    title: string;
-};
-
-export type Bookmark_List = {
-    _id: string;
-    tours: Array<Detail_Item>;
-    blog: Array<Detail_Item>;
-    contents: Array<Detail_Item>;
-    createdAt: string;
-    uid: string;
-};
 
 export type ReservationInfo = {
     uid: string,
@@ -286,7 +280,6 @@ export type authContextType = {
 
 // ETC.
 export type CommonTopTabBarType = {
-    navigation: any;
     title: string;
     child?: any;
 }

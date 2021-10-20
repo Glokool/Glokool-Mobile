@@ -5,8 +5,9 @@ import {
     BackHandler,
     Dimensions,
     Alert,
-    SafeAreaView} from 'react-native';
-import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
+    SafeAreaView,
+} from 'react-native';
+import { Divider, Layout, LayoutElement, Button } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import axios from 'axios';
@@ -31,7 +32,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
 
-    // 19 ~ 23:59 사이 결제불가
+    // 18:00 ~ 23:59 사이 결제불가
     const isAvailableTime = () => {
         const hourDiff = new Date().getTimezoneOffset() / 60 * 100;
         const localTime = Number(moment(new Date).format('kkmm'))
@@ -55,7 +56,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
         if (isAvailableTime()) {
             props.navigation.navigate(NavigatorRoute.PAY);
         } else {
-            Alert.alert("", "Sorry, booking is only available from 12AM ~ 6:59PM (KST) everyday. Please try again later.")
+            Alert.alert("", "Sorry, booking is only available from 12AM ~ 5:59PM (KST) everyday. Please try again later.")
         }
 
     }
@@ -118,7 +119,7 @@ export const ChatScreen = (props: ChatScreenProps): LayoutElement => {
             <SafeAreaView style={{ flex: 0 }} />
 
             <TopTabWeatherbar />
-            {/* <Button onPress={() => pressBookButton()}>test 결제버튼</Button> */}
+            <Button onPress={() => pressBookButton()}>test 결제버튼</Button>
             <Divider style={styles.Divider} />
 
             <ChatList {...props} />

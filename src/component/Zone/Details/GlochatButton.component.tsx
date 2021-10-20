@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PurpleArrow } from '../../../assets/icon/Common';
@@ -6,6 +7,8 @@ import { NavigatorRoute } from '../../../navigation/app.route';
 const windowWidth = Dimensions.get('window').width;
 
 export const GloChatButton = (props: any) => {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.MainContainer}>
             <PurpleArrow style={styles.PurpleArrow} />
@@ -20,7 +23,7 @@ export const GloChatButton = (props: any) => {
                         {`Ask our travel assistants for more! `}
                     </Text>
                 </View>
-                <TouchableOpacity onPress={() => props.navigation.navigate(NavigatorRoute.CHAT)}>
+                <TouchableOpacity onPress={() => navigation.navigate(NavigatorRoute.CHAT)}>
                     <View style={styles.GloChatButtonContainer}>
                         <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', color: '#7777ff', fontSize: 15 }}>
                             CLICK

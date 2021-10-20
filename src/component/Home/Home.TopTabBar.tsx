@@ -7,12 +7,13 @@ import {
 } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { HomeTopTabBarProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import { AuthContext } from '../../context/AuthContext';
 import { TextLogo, LoginIcon } from '../../assets/icon/Home';
+import { useNavigation } from '@react-navigation/core';
 
-export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
+export const HomeTopTabBar = (): LayoutElement => {
 
+    const navigation = useNavigation();
     const { currentUser } = useContext(AuthContext);
 
     const name =
@@ -22,9 +23,9 @@ export const HomeTopTabBar = (props: HomeTopTabBarProps): LayoutElement => {
 
     function PressLoginButton() {
         if (currentUser === null) {
-            props.navigation.navigate(NavigatorRoute.AUTH);
+            navigation.navigate(NavigatorRoute.AUTH);
         } else {
-            props.navigation.navigate(NavigatorRoute.MY);
+            navigation.navigate(NavigatorRoute.MY);
         }
     }
 

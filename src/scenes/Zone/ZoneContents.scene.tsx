@@ -118,7 +118,6 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
             {/* Top Tab Bar */}
             <CommonTopTabBar
                 title={'HONGDAE'}
-                navigation={props.navigation}
                 child={
                     <Layout style={styles.CategoryOuterContainer}>
                         <FlatList

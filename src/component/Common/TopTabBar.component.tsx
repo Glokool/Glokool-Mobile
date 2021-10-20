@@ -3,15 +3,19 @@ import { StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../assets/icon/Common';
 import { windowWidth } from '../../Design.component';
+import { useNavigation } from '@react-navigation/core';
 
 export const CommonTopTabBar = (props: any) => {
+
+    const navigation = useNavigation();
+
     return (
         <Layout style={styles.TopTabContainer}>
             <Layout style={styles.TopTabItems}>
 
                 <TouchableOpacity
                     style={styles.BackButton}
-                    onPress={() => props.navigation.pop()}
+                    onPress={() => navigation.goBack()}
                 >
                     <ArrowLeft />
                 </TouchableOpacity>

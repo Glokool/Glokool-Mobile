@@ -16,7 +16,7 @@ interface State {
     kakaoClicked: boolean;
 }
 
-const reducer = (state: State, action): State => {
+const reducer = (state: State, action: any): State => {
     switch (action.type) {
         case 'paypal':
             return {
@@ -124,7 +124,6 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             {/* top tap bar */}
             <CommonTopTabBar
                 title={'PAYMENT INFORMATION'}
-                navigation={props.navigation}
                 child={
                     <Layout style={styles.Pagination}>
                         <PaySecondPage />

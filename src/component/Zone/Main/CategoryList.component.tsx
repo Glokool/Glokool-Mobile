@@ -8,6 +8,7 @@ import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
 import { ZoneContentsType, ZoneItemListType } from '../../../types';
+import { useNavigation } from '@react-navigation/core';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 

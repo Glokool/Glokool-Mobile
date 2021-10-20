@@ -225,7 +225,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     if (auth().currentUser != null) {
       auth().signOut();
     }
-    props.navigation.replace(NavigatorRoute.MAIN);
+    props.navigation.pop();
   }
 
   const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (

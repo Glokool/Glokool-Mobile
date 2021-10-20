@@ -182,7 +182,8 @@ const GuideVisiblity = (route: any) => {
         routeName === SceneRoute.CHAT_ZONE_SELECT ||
         routeName === SceneRoute.PAID_CHAT_LIST ||
         routeName === SceneRoute.HISTORY ||
-        routeName === SceneRoute.ZONE_CONTENTS
+        routeName === SceneRoute.ZONE_CONTENTS || 
+        routeName === SceneRoute.REFUND_POLICY
     ) {
         return false;
     }
