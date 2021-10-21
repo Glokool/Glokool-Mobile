@@ -33,36 +33,36 @@ export const setAudioVisiblityFalse = () => ({
 })
 
 export const setImageVisiblityTrue = () => ({
-    type : SET_IMAGE_VISIBLITY_TRUE
+    type: SET_IMAGE_VISIBLITY_TRUE
 })
 
-export const setImageVisiblityFalse = ()=> ({
-    type : SET_IMAGE_VISIBLITY_FALSE
+export const setImageVisiblityFalse = () => ({
+    type: SET_IMAGE_VISIBLITY_FALSE
 })
 
-export const setImageURL = (diff : string) => ({
-    type : SET_IMAGEURL,
-    payload : diff
+export const setImageURL = (diff: string) => ({
+    type: SET_IMAGEURL,
+    payload: diff
 })
 
 export const cleanImageURL = () => ({
-    type : CLEAN_IMAGEURL
+    type: CLEAN_IMAGEURL
 })
 
 export const setLocationVisiblityTrue = () => ({
-    type : SET_LOCATION_VISIBLITY_TRUE
+    type: SET_LOCATION_VISIBLITY_TRUE
 })
 
 export const setLocationVisiblityFalse = () => ({
-    type : SET_LOCATION_VISIBLITY_FALSE
+    type: SET_LOCATION_VISIBLITY_FALSE
 })
 
 export const setMenuVisiblityTrue = () => ({
-    type : SET_MENU_VISIBLITY_TRUE
+    type: SET_MENU_VISIBLITY_TRUE
 })
 
 export const setMenuVisiblityFalse = () => ({
-    type : SET_MENU_VISIBLITY_FALSE
+    type: SET_MENU_VISIBLITY_FALSE
 })
 
 type ChatUIAction =
@@ -83,18 +83,18 @@ type ChatUIState = {
     guideVisiblity: boolean,
     audioVisiblity: boolean,
     imageVisiblity: boolean,
-    imageUrl : string,
-    locationVisiblity : boolean,
-    menuVisiblity : boolean
+    imageUrl: string,
+    locationVisiblity: boolean,
+    menuVisiblity: boolean
 }
 
 const InitialChatUIState: ChatUIState = {
     guideVisiblity: false,
     audioVisiblity: false,
     imageVisiblity: false,
-    imageUrl : '',
-    locationVisiblity : false,
-    menuVisiblity : false
+    imageUrl: '',
+    locationVisiblity: false,
+    menuVisiblity: false
 }
 
 function ChatUIModel(
@@ -103,18 +103,18 @@ function ChatUIModel(
 ): ChatUIState {
 
     switch (action.type) {
-        case SET_GUIDE_VISIBLITY_TRUE: return { guideVisiblity: true, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_GUIDE_VISIBLITY_FALSE: return { guideVisiblity: false, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_AUDIO_VISIBLITY_FALSE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: false, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_AUDIO_VISIBLITY_TRUE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: true, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_IMAGEURL : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : action.payload, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case CLEAN_IMAGEURL : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : '', locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_IMAGE_VISIBLITY_TRUE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : true, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_IMAGE_VISIBLITY_FALSE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : false, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : state.menuVisiblity }
-        case SET_LOCATION_VISIBLITY_FALSE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : false, menuVisiblity : state.menuVisiblity }
-        case SET_LOCATION_VISIBLITY_TRUE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : true, menuVisiblity : state.menuVisiblity }
-        case SET_MENU_VISIBLITY_FALSE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : false }
-        case SET_MENU_VISIBLITY_TRUE : return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity : state.imageVisiblity, imageUrl : state.imageUrl, locationVisiblity : state.locationVisiblity, menuVisiblity : true }
+        case SET_GUIDE_VISIBLITY_TRUE: return { guideVisiblity: true, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_GUIDE_VISIBLITY_FALSE: return { guideVisiblity: false, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_AUDIO_VISIBLITY_FALSE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: false, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_AUDIO_VISIBLITY_TRUE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: true, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_IMAGEURL: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: action.payload, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case CLEAN_IMAGEURL: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: '', locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_IMAGE_VISIBLITY_TRUE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: true, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_IMAGE_VISIBLITY_FALSE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: false, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: state.menuVisiblity }
+        case SET_LOCATION_VISIBLITY_FALSE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: false, menuVisiblity: state.menuVisiblity }
+        case SET_LOCATION_VISIBLITY_TRUE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: true, menuVisiblity: state.menuVisiblity }
+        case SET_MENU_VISIBLITY_FALSE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: false }
+        case SET_MENU_VISIBLITY_TRUE: return { guideVisiblity: state.guideVisiblity, audioVisiblity: state.audioVisiblity, imageVisiblity: state.imageVisiblity, imageUrl: state.imageUrl, locationVisiblity: state.locationVisiblity, menuVisiblity: true }
 
         default: return state
     }

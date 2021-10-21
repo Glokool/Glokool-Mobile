@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
-import { ZoneMainSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import {
     ZoneMainBottomTabBarComponent,
     ZoneMainTopTabBarComponent,
@@ -14,7 +14,6 @@ import { windowWidth } from '../../Design.component';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { useSelector, useDispatch } from 'react-redux';
-import { setZoneMainBanner } from '../../model/Zone/Zone.data.model';
 import { RootState } from '../../model';
 import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
 
@@ -48,7 +47,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 dispatch(setZoneLoadingFalse());
             })
             .catch((e) => {
-                console.log("Zone main",e);
+                console.log("Zone main", e);
             });
     }
 

@@ -14,10 +14,10 @@ import {
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
 import { PrivacyConfirmData, PrivacyConfirmSchema } from '../../../data/Privacy.Confirm.model';
-import { FormInput } from '../../../component/privacy.component';
-import { EyeIcon, EyeOffIcon } from '../../../component/icon';
+import { FormInput } from '../../../component/PrivacyInput.component';
+import { EyeIcon, EyeOffIcon } from '../../../component/Icon.component';
 import Toast from 'react-native-easy-toast';
-import { PrivacyConfirmProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { PrivacyConfirmProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { SceneRoute } from '../../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';

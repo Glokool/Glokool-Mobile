@@ -103,7 +103,7 @@ function ZoneUIModel(
         case SET_GLOSERVICE_VISIBILITY_TRUE:
             return {
                 guideVisiblity: state.guideVisiblity,
-                locationVisiblity:state.locationVisiblity,
+                locationVisiblity: state.locationVisiblity,
                 gloServiceVisibility: true,
                 categoryIndex: state.categoryIndex
             }

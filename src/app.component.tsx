@@ -18,7 +18,7 @@ import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
-import { requestNotificationsPermission } from './component/permission.component';
+import { requestNotificationsPermission } from './component/Permissions.component';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
@@ -134,7 +134,7 @@ export default (props: any): React.ReactFragment => {
 
         setTimeout(() => {
             SplashScreen.hide();
-        }, 1000);
+        }, 500);
 
         return () => {
             unsubscribe;
@@ -170,5 +170,7 @@ export default (props: any): React.ReactFragment => {
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
-    'Require cycle'
+    'Require cycle',
+    'VirtualizedLists should never be nested',
+    'VirtualizedList: missing keys for items',
 ]);

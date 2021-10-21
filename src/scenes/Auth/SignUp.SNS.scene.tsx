@@ -1,7 +1,6 @@
 import React from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import firebase from "@react-native-firebase/app";
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,36 +8,32 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  TouchableWithoutFeedback,
   TextInput
 } from 'react-native';
 import {
   CheckBox,
   Layout,
-  Button,
   Text,
   IndexPath,
   Select,
   SelectItem,
   Datepicker,
   LayoutElement,
-  Divider,
   Modal,
   Card
 } from '@ui-kitten/components';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/CountryTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faAngleLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { TermsConditionCard } from '../../component/terms&Condition.component'
-import { privacyPolicycard } from '../../component/privacyPolicy.component'
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { TermsConditionCard } from '../../component/TermsCondition.component'
+import { privacyPolicycard } from '../../component/Privacy.component'
 import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import Toast from 'react-native-easy-toast';
 import { SnsSignUpScreenProps } from '../../navigation/auth.navigator';
 import { CommonActions } from '@react-navigation/native';
 import { NavigatorRoute } from '../../navigation/app.route'
-import { Profile } from 'react-native-fbsdk-next';
 
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
@@ -184,7 +179,7 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
     if (!email) {
       setEmail(" ");
     }
-    
+
     const ProfileData = {
       name: name,
       email: email,
@@ -261,7 +256,7 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
                 keyboardType='email-address'
                 editable={false}
                 value={email}
-                onChangeText={(email)=>setEmail(email)}
+                onChangeText={(email) => setEmail(email)}
               />
             )}
             <Text style={styles.smallTitle}>Type</Text>

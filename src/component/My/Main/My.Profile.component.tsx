@@ -10,11 +10,13 @@ import {
 import firestore from '@react-native-firebase/firestore';
 
 import { Korean, Traveler, Resident } from '../../../assets/icon/Common';
-import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
 import { SceneRoute } from '../../../navigation/app.route';
+import { authContextType } from '../../../types';
+import { useNavigation } from '@react-navigation/core';
 
-export const MyProfile = (props: MyScreenProps) => {
+export const MyProfile = (props: { currentUser: authContextType }) => {
 
+    const navigation = useNavigation();
     const [userType, setUserType] = useState();
 
     useEffect(() => {
@@ -34,7 +36,7 @@ export const MyProfile = (props: MyScreenProps) => {
     }
 
     return (
-        <TouchableOpacity onPress={() => props.navigation.navigate(SceneRoute.MY_PROFILE)}>
+        <TouchableOpacity onPress={() => navigation.navigate(SceneRoute.MY_PROFILE)}>
             <View style={styles.ProfileContainer}>
 
                 {/* 프로필 이미지 */}

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-native';
-import { Layout, Modal } from '@ui-kitten/components';
+import React from 'react';
+import { StyleSheet, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { EnterIcon } from '../../../assets/icon/Zone';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import LinearGradient from 'react-native-linear-gradient';

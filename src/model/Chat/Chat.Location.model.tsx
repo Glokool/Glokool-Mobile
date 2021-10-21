@@ -6,7 +6,7 @@
 const SET_LOCATION = 'model/chat/set_location' as const;
 const CLEAN_LOCATION = 'model/chat/clean_location' as const;
 
-export const setLocation = (diff: { lat : string, lon : string }) => ({
+export const setLocation = (diff: { lat: string, lon: string }) => ({
     type: SET_LOCATION,
     payload: diff
 });
@@ -21,25 +21,25 @@ type ChatLocationAction =
     | ReturnType<typeof cleanLocation>;
 
 type ChatLocationState = {
-    lat : string;
-    lon : string;
+    lat: string;
+    lon: string;
 }
 
 const initialAudioDuration: ChatLocationState = {
-    lat : '',
-    lon : ''
+    lat: '',
+    lon: ''
 }
 
-function ChatLocationModel  (
+function ChatLocationModel(
     state: ChatLocationState = initialAudioDuration,
     action: ChatLocationAction
 ): ChatLocationState {
 
     switch (action.type) {
         case SET_LOCATION:
-            return { lat : action.payload.lat, lon : action.payload.lon};
+            return { lat: action.payload.lat, lon: action.payload.lon };
         case CLEAN_LOCATION:
-            return { lat : '', lon : '' };
+            return { lat: '', lon: '' };
         default:
             return state;
     }

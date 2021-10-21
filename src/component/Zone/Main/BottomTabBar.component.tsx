@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform } from 'react-native';
 import { Divider } from '@ui-kitten/components'
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../model';

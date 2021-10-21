@@ -4,7 +4,7 @@ import { Layout, Text, Divider } from '@ui-kitten/components';
 import { Arrow_Bottom, Chat_Book_Button, Guide_Location, How_It_Works_Button } from '../../../assets/icon/Chat';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import FastImage from 'react-native-fast-image';
-import { ChatRoomScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomScreenProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { SceneRoute } from '../../../navigation/app.route';
 
 
@@ -91,7 +91,7 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
 
 
     // 비었을 때
-    if (data.length === 0) {
+    if (data.length !== 0) {
         return(
             <Layout style={styles.Container}>
 

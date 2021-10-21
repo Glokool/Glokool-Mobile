@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
     //My
     MyLoadingModel,
     MyUIModel,
-    
+
     //Zone
     ZoneUIModel,
     ZoneDataModel,

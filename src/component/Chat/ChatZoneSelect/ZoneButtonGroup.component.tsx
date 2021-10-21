@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { ChatZoneSelectSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatZoneSelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { AngleRight_Gray } from '../../../assets/icon/Common';
 import { SceneRoute } from '../../../navigation/app.route';
 

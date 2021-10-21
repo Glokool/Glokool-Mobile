@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Divider, Layout, Text, Toggle } from '@ui-kitten/components';
 import { GuideModal, MemberList, SettingTopTabBarComponent } from '../../component/Chat/ChatRoomSetting';
 import FastImage from 'react-native-fast-image';
-import { ChatRoomSettingSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSettingSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../model/Chat/Chat.Setting.model';
 import { SceneRoute } from '../../navigation/app.route';

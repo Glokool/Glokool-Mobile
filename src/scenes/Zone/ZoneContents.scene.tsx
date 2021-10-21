@@ -4,7 +4,7 @@ import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { SeriesBottomLogo } from '../../assets/icon/Series'
-import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneContentsSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setCategoryIndex } from '../../model/Zone/Zone.UI.model';
@@ -13,6 +13,7 @@ import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import FastImage from 'react-native-fast-image';
 import { SceneRoute } from '../../navigation/app.route';
+import { ZoneCategoryType, ZoneContentsType } from '../../types';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
@@ -30,6 +31,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         dispatch(setCategoryIndex(props.route.params.pageIndex));
     }, [])
 
+    // 컨텐츠 클릭 시
     const onPressContent = (type: string, id: string) => {
         if (type == 'blog') {
             props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id });
@@ -39,8 +41,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }
 
     // 페이지 내 컨텐츠 렌더링
-    const renderContents = (item) => {
-        
+    const renderContents = (item: { item: ZoneContentsType }) => {
         return (
             <TouchableOpacity onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
@@ -65,7 +66,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }
 
     // 상단 바 카테고리 버튼 리스트
-    const renderCategory = (item) => {
+    const renderCategory = (item: { item: ZoneCategoryType, index: number }) => {
 
         return (
             <TouchableOpacity
@@ -92,8 +93,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }
 
     // 페이지 렌더링 
-    const renderPage = (item) => {
-
+    const renderPage = (item: { item: ZoneCategoryType, index: number }) => {
         return (
             <Layout style={styles.PageContainer} >
                 {/* 페이지 내 아이템들을 보여주는 리스트 */}
@@ -118,7 +118,6 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
             {/* Top Tab Bar */}
             <CommonTopTabBar
                 title={'HONGDAE'}
-                navigation={props.navigation}
                 child={
                     <Layout style={styles.CategoryOuterContainer}>
                         <FlatList
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
         paddingBottom: windowHeight * 0.05
     },
     CategoryListContainer: {
-        marginTop: 10,
+        marginTop: 5,
         // position:'absolute',
         bottom: -2.5,
     },

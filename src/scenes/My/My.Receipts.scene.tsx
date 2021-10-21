@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
-import { ReservationInfo } from '../../types';
-import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { ReceiptDetailInfo } from '../../types';
+import { PaidChatListProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { Receipt_Large } from '../../assets/icon/My';
 import { PaidDetail } from '../../component/My';
@@ -20,8 +20,8 @@ import { Loading } from '../../component/Common';
 const windowWidth = Dimensions.get('window').width;
 
 export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
-    const [data, setData] = useState<Array<ReservationInfo>>([]);
-    const [detailData, setDetailData] = useState<ReservationInfo>();
+    const [data, setData] = useState<Array<ReceiptDetailInfo>>([]);
+    const [detailData, setDetailData] = useState<ReceiptDetailInfo>();
     const [refundCode, setRefundCode] = useState<string>('');
 
     const loading = useSelector((state: RootState) => state.MyLoadingModel.loading);
@@ -49,13 +49,14 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
     }
 
 
-    const PressDetail = (item: ReservationInfo) => {
+    const PressDetail = (item: ReceiptDetailInfo) => {
         setRefundCode(item._id);
         setDetailData(item);
+        console.log(item);
         dispatch(setReceiptVisibleTrue());
     }
 
-    const renderItem = (item) => {
+    const renderItem = (item: { item: ReceiptDetailInfo }) => {
 
         return (
             <TouchableOpacity onPress={() => PressDetail(item.item)}>
@@ -85,7 +86,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <CommonTopTabBar title={'RECEIPTS'} navigation={props.navigation} child={<Layout style={{ height: 10 }} />} />
+            <CommonTopTabBar title={'RECEIPTS'} child={<Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#ddd' }} />} />
 
             {(data.length === 0) ?
                 <Layout style={styles.emptyContainer}>
@@ -99,7 +100,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                 />
             }
 
-            <PaidDetail navigation={props.navigation} data={detailData} />
+            <PaidDetail data={detailData} />
 
         </Layout>
     )

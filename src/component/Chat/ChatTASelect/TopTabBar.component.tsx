@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatTASelectSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 

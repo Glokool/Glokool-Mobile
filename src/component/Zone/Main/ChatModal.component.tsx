@@ -12,8 +12,12 @@ import { AuthContext } from '../../../context/AuthContext';
 
 import { GroupAvailableButton, GroupDisabledButton, PrivateAvailableButton, PrivateDisabledButton } from '..';
 import { loginAlertWindow } from '../../Common/LoginCheck.component';
+import { GuideInfoType } from '../../../types';
+import { useNavigation } from '@react-navigation/core';
 
-export const ZoneChatModal = (props: any) => {
+export const ZoneChatModal = (props: { guideInfo }) => {
+
+    const navigation = useNavigation();
 
     const guideVisible = useSelector((state: RootState) => state.ZoneUIModel.guideVisiblity);
     const dispatch = useDispatch();
@@ -44,7 +48,7 @@ export const ZoneChatModal = (props: any) => {
 
     const onPressEnterButton = () => {
         if (!currentUser) {
-            loginAlertWindow(props.navigation);
+            loginAlertWindow(navigation);
             dispatch(setGuideVisiblityFalse());
         } else {
             Alert.alert(

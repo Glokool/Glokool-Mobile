@@ -13,16 +13,16 @@ import axios, { AxiosRequestConfig } from 'axios';
 import FastImage from 'react-native-fast-image';
 
 import { SERVER, CDN } from '../../../server.component';
-import { Detail_Item } from '../../../types';
+import { MySceneBookmarkItem } from '../../../types';
 import { EmptyBookmark } from '../../../assets/icon/My';
 import { SceneRoute } from '../../../navigation/app.route';
-import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { MyScreenProps } from '../../../navigation/SceneNavigator/My.navigator';
 
 const windowWidth = Dimensions.get('window').width;
 
 export const BookmarkList = (props: MyScreenProps) => {
 
-    const [bookmarkList, setBookmarkList] = useState<Array<Detail_Item>>([]);
+    const [bookmarkList, setBookmarkList] = useState<Array<MySceneBookmarkItem>>([]);
 
     useEffect(() => {
         InitBookmark();
@@ -31,7 +31,7 @@ export const BookmarkList = (props: MyScreenProps) => {
     const onPressItem = (type: string, id: string) => {
         if (type == 'blog') {
             props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_BLOG, { Id: id });
-        } else if (type == 'contents') {
+        } else if (type == 'content') {
             props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_CONTENT, { Id: id });
         }
     }
@@ -52,7 +52,8 @@ export const BookmarkList = (props: MyScreenProps) => {
         })
     }
 
-    const renderItem = (item) => {
+    const renderItem = (item: { item: MySceneBookmarkItem }) => {
+        console.log(item.item)
         return (
             <TouchableOpacity style={styles.ItemContainer} onPress={() => onPressItem(item.item.itemType, item.item.id)}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />

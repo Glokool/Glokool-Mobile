@@ -16,13 +16,14 @@ import {
     Card,
     Input,
 } from '@ui-kitten/components';
-import { CustomerServiceProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { CustomerServiceProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import { TermsConditionCard } from '../../../component/terms&Condition.component';
+import { TermsConditionCard } from '../../../component/TermsCondition.component';
 import { CustomerService } from '../../../assets/icon/My';
-import { privacyPolicycard } from '../../../component/privacyPolicy.component';
+import { privacyPolicycard } from '../../../component/Privacy.component';
 import { AngleLeft } from '../../../assets/icon/Common';
 import { AuthContext } from '../../../context/AuthContext';
+import { windowHeight } from '../../../Design.component';
 
 export const CustomerServiceComponent = (
     props: CustomerServiceProps,
@@ -58,7 +59,7 @@ export const CustomerServiceComponent = (
 
         await auth().signInWithEmailAndPassword(currentUser?.email, passward);
         await auth().currentUser?.delete();
-        
+
         props.navigation.navigate(NavigatorRoute.HOME);
     }
 
@@ -115,7 +116,7 @@ export const CustomerServiceComponent = (
                             </Layout>
                         </TouchableOpacity>
 
-                        {aboutUsVisible ? (
+                        {aboutUsVisible && (
                             <Layout>
                                 <Layout style={styles.aboutTitleContainer}>
                                     <Text style={styles.aboutTitle}>
@@ -177,8 +178,6 @@ export const CustomerServiceComponent = (
                                     </Text>
                                 </Layout>
                             </Layout>
-                        ) : (
-                            <Layout />
                         )}
 
                         <TouchableOpacity onPress={PressTermsOfService}>
@@ -199,12 +198,10 @@ export const CustomerServiceComponent = (
                             </Layout>
                         </TouchableOpacity>
 
-                        {termsofService ? (
+                        {termsofService && (
                             <Layout style={{ marginHorizontal: 30 }}>
                                 {TermsConditionCard()}
                             </Layout>
-                        ) : (
-                            <Layout />
                         )}
 
                         <TouchableOpacity onPress={PressPrivacyPolicy}>
@@ -225,12 +222,10 @@ export const CustomerServiceComponent = (
                             </Layout>
                         </TouchableOpacity>
 
-                        {privacy ? (
+                        {privacy && (
                             <Layout style={{ marginHorizontal: 30 }}>
                                 {privacyPolicycard()}
                             </Layout>
-                        ) : (
-                            <Layout />
                         )}
 
                         <TouchableOpacity
@@ -269,6 +264,7 @@ export const CustomerServiceComponent = (
                                 </Layout>
                             </Layout>
                         </TouchableOpacity>
+                        <Layout style={{ height: windowHeight * 0.15 }} />
                     </ScrollView>
                 </Layout>
             </Layout>

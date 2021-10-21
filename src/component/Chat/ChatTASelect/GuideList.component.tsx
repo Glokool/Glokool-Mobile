@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Divider, Layout, Text } from '@ui-kitten/components';
-import { ChatTASelectSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { BookButton, GroupChattingPerson, GroupChattingType } from '../../../assets/icon/Chat/GuideList';
 import FastImage from 'react-native-fast-image';
 

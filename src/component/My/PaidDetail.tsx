@@ -4,15 +4,16 @@ import { LayoutElement, Layout, Modal, Divider } from "@ui-kitten/components";
 import { SceneRoute } from "../../navigation/app.route";
 import { StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
-import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PaidDetailProps } from '../../navigation/SceneNavigator/My.navigator';
 import moment from 'moment';
-import { ReservationInfo } from '../../types';
+import { ReceiptDetailInfo } from '../../types';
 import { SERVER } from '../../server.component';
 import axios, { AxiosRequestConfig } from 'axios';
 import { MY_Refund_Policy } from '../../assets/icon/My';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../model';
 import { setReceiptVisibleFalse } from '../../model/My/My.UI.model';
+import { useNavigation } from '@react-navigation/core';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,31 +21,10 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     const receiptVisible = useSelector((state: RootState) => state.MyUIModel.receiptVisible);
     const dispatch = useDispatch();
+    const navigation = useNavigation()
 
     const [refundCheck, setRefundCheck] = useState<boolean>(true);
-    const [data, setData] = useState<ReservationInfo | undefined>({
-        uid: '',
-        name: 'hello',
-        email: 'glokoolofficial@naver.com',
-        contact: '010-xxxx-xxxx',
-        refund: {
-            check: true,
-            complete: false,
-            createdAt: new Date(),
-            completedAt: new Date(),
-        },
-        guide: {
-            uid: '',
-            name: 'guide',
-            score: 0,
-        },
-        day: new Date(),
-        lang: 'eng',
-        money: '10000',
-        paymentID: '',
-        paymentDate: new Date,
-        _id: ''
-    });
+    const [data, setData] = useState<ReceiptDetailInfo | undefined>();
 
     useEffect(() => {
 
@@ -120,7 +100,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                 </TouchableOpacity>
             </Layout>
 
-            {(data?.refund.complete !== true) && (
+            {(data?.refund.complete === true) && (
                 <Layout style={styles.RefundTextContainer}>
                     <Text style={styles.RefundText}>Refund Completed</Text>
                 </Layout>
@@ -147,7 +127,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Travel Destinaton</Text>
-                        <Text style={styles.ValueText}>Gwanghwamun</Text>
+                        <Text style={styles.ValueText}>{data?.travelArea}</Text>
                     </Layout>
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Travel Date</Text>
@@ -186,7 +166,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                 <Text style={[styles.AdditionalText, { color: '#bcbcbc' }]}>Please contact us if you have any questions.</Text>
 
                 <TouchableOpacity style={styles.PolicyContainer} onPress={() => {
-                    props.navigation.navigate(SceneRoute.REFUND_POLICY);
+                    navigation.navigate(SceneRoute.REFUND_POLICY);
                     dispatch(setReceiptVisibleFalse())
                 }}>
                     <Text style={styles.PolicyText}>Refund Policy</Text>

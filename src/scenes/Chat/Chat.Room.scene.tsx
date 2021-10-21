@@ -18,7 +18,7 @@ import {
     IMessage,
 } from 'react-native-gifted-chat';
 import { filterText } from '../../data/FilterChat';
-import { ChatRoomSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { SERVER } from '../../server.component';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';

@@ -1,3 +1,5 @@
+import { StringifiableRecord } from "query-string";
+
 // Home
 export type HomeCarousel_Item = {
     title: string;
@@ -69,44 +71,10 @@ export type GuideInfoType = {
     withdrawal?: boolean;
 };
 
-// Series
+// ZONE (구 Series)
 export type image = {
     width: number,
     height: number
-}
-
-export type IntroData = {
-    _id: string;
-    author: string;
-    img: string;
-}
-
-export type photoSpot = {
-    _id: string;
-    desc: string;
-    images: Array<photoSpotImage>;
-    location: string;
-}
-
-export type photoSpotImage = {
-    _id: string;
-    author: string;
-    img: string;
-}
-
-export type GridItem = {
-    image: string,
-    title: string,
-    id: string,
-    type: string,
-}
-
-export type SignatureMenu = {
-    _id: string;
-    author: string;
-    img: string;
-    money: string;
-    title: string;
 }
 
 export type recommendation_Item = {
@@ -184,92 +152,6 @@ export type Series_Item_Blog = {
     recommendation: Array<recommendation_Item>;
 };
 
-export type AttractionData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    photoSpot: Array<photoSpot>;
-};
-
-export type CafeData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SignatureMenu>;
-};
-
-export type RestaurantData = {
-    _id: string;
-    banner: string;
-    count: number;
-    cover: string;
-    cretedAt: Date;
-    desc: string;
-    editorNote: Array<string>;
-    entryFee: string;
-    glokoolService: Array<string>;
-    intro: Array<IntroData>;
-    lat: string;
-    lon: string;
-    loc: string;
-    note: string;
-    phone: string;
-    menu: Array<string>;
-    plus: Array<string>;
-    sns: string;
-    tag: Array<string>;
-    time: {
-        breakTime: string;
-        everyTime: string;
-    };
-    title: string;
-    visible: boolean;
-    sgntMenu: Array<SignatureMenu>;
-}
-
 export type ShareItem = {
     title: string;
     message: string;
@@ -282,32 +164,12 @@ export type FacebookShareItem = {
     quote?: string;
 }
 
-export type TourData = {
-    tourCode: string;
-    title: string;
-    cover: string;
-    desc: string;
-    tag: Array<string>;
-    plus: Array<string>;
-    lat: string;
-    lon: string;
-};
-
 export type DetailData = {
     banner: string;
     desc: string;
     visible: boolean;
     title: string;
     placeCode: string;
-    lat: string;
-    lon: string;
-};
-
-export type GlokoolTourData = {
-    tour: TourData;
-    attraction: Array<DetailData>;
-    restaurant: Array<DetailData>;
-    cafe: Array<DetailData>;
     lat: string;
     lon: string;
 };
@@ -319,22 +181,43 @@ export type Bookmark_Item = {
     title: string;
 }
 
-// My
-export type Detail_Item = {
+export type MySceneBookmarkItem = {
     _id: string;
+    createdAt: string;
     id: string;
     image: string;
+    itemType: string;
     title: string;
-};
+}
 
-export type Bookmark_List = {
+export type ZoneCategoryType = {
     _id: string;
-    tours: Array<Detail_Item>;
-    blog: Array<Detail_Item>;
-    contents: Array<Detail_Item>;
+    category: string;
+    name: string;
+    parent: string;
+    subCategoryWeight: number;
+}
+
+export type ZoneContentsType = {
+    _id: string;
+    categories: string;
+    count: number;
     createdAt: string;
-    uid: string;
-};
+    image: string;
+    title: string;
+    type: string;
+}
+
+export type ZoneItemListType = {
+    _id: string;
+    category: string;
+    items: Array<ZoneContentsType>;
+    name: string;
+    parent: string;
+    subCategoryWeight: number;
+}
+
+// My
 
 export type ReservationInfo = {
     uid: string,
@@ -358,6 +241,31 @@ export type ReservationInfo = {
     paymentID: string,
     paymentDate: Date,
     _id: string
+}
+
+export type ReceiptDetailInfo = {
+    _id: string;
+    contact: string;
+    day: string;
+    email: string;
+    guide: {
+        _id: string;
+        lang: Array<boolean>;
+        name : string;
+        uid: string;
+    },
+    lang: string;
+    money: string;
+    name: string;
+    paymentDate: string;
+    paymentID: string;
+    refund: {
+        check: boolean;
+        complete: boolean;
+    },
+    travelArea: string;
+    travelPlan: string;
+    uid: string;
 }
 
 export type FirebaseUserInfo = {
@@ -399,17 +307,16 @@ export type authContextType = {
 
 // ETC.
 export type CommonTopTabBarType = {
-    navigation: any;
     title: string;
     child?: any;
 }
 
 export type LocationBubbleMessage = {
-    currentMessage : {
-        location : {
-            lat : string,
-            lon : string
+    currentMessage: {
+        location: {
+            lat: string,
+            lon: string
         },
-        messageType : string
+        messageType: string
     }
 }

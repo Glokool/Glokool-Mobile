@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Pressable, Platform } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowWidth } from '../../../Design.component';
 import { TopTabButton } from '../../../assets/icon/Zone';
 import { useDispatch } from 'react-redux';

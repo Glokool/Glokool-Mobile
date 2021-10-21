@@ -6,7 +6,7 @@ import {
     Platform
 } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { HistoryScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { HistoryScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { CommonTopTabBar } from '../../component/Common';
 
@@ -59,7 +59,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
         <Layout style={styles.MainContainer}>
 
             {/* Top Tab Bar */}
-            <CommonTopTabBar title={'HISTORY'} navigation={props.navigation} child={<Layout style={{ height: 10 }} />} />
+            <CommonTopTabBar title={'HISTORY'} child={<Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#ddd' }} />} />
 
             {/* Previous Chatting List */}
             <FlatList

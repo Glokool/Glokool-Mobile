@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { ChatTASelectSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatTASelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { CurrentKoreanTimeComponent, GuideListComponent, TASelectTopTabBarComponent } from '../../component/Chat/ChatTASelect';
 import { useInterval } from '../../component/Chat/ChatRoom/Audio/Timer.component';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';

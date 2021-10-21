@@ -2,12 +2,32 @@ import React from 'react';
 import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { PaySuccessSceneProps } from '../../navigation/Pay.navigator';
-import { ArrowLeft, EmptyImage } from '../../assets/icon/Common';
+import { EmptyImage } from '../../assets/icon/Common';
 import { PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
+
+    // 서버로 보내야할 타입 샘플
+    type sample = {
+        travelDate: Date;
+        paymentID: string; //결제 코드
+        price: string;
+        guide: string; //가이드 id
+        email: string;
+        snsID?: {
+            type: string;
+            value: string;
+        },
+        phone?: {
+            type: string;
+            value: string;
+        },
+        name: string;
+        chatRoomCode: string;//채팅방 id
+    }
+
     return (
         <Layout style={styles.MainContainer}>
 
@@ -32,7 +52,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             <Layout>
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
-                    onPress={() => {props.navigation.navigate(SceneRoute.PAID_CHAT_LIST)}}
+                    onPress={() => { props.navigation.navigate(SceneRoute.PAID_CHAT_LIST) }}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
                 </TouchableOpacity>

@@ -10,7 +10,8 @@ import {
     ScrollView,
     TextInput,
     KeyboardAvoidingView,
-    Platform} from 'react-native';
+    Platform
+} from 'react-native';
 import { SceneRoute } from '../../navigation/app.route';
 import { SERVER, CDN } from '../../server.component';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -45,7 +46,7 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
-import { ZoneDetailBlogSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneDetailBlogSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 import { Loading } from '../../component/Common';
@@ -360,7 +361,7 @@ glokool.page.link/jdF1`,
     };
 
     return content == null ? (
-        <Loading/>
+        <Loading />
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
@@ -511,7 +512,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     ) : null}
 
-                    <GloChatButton navigation={props.navigation} />
+                    <GloChatButton />
 
                     {/* Comments */}
                     <Layout

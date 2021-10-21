@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
+import { ZoneContentsType, ZoneItemListType } from '../../../types';
+import { useNavigation } from '@react-navigation/core';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
-
-    const sampleData = ['THINGS TO DO', 'FOOD', 'PUB&CAFE', 'DAY TRIP', 'TRAVEL TIPS'];
 
     const onPressContent = (type: string, id: string) => {
         if (type == 'blog') {
@@ -21,7 +21,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     }
 
     // 컨텐츠 렌더링
-    const renderContents = (item) => {
+    const renderContents = (item: { item: ZoneContentsType }) => {
         return (
             <TouchableOpacity style={styles.ContentContainer} onPress={() => onPressContent(item.item.type, item.item._id)}>
                 <FastImage
@@ -33,10 +33,10 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     }
 
     // 카테고리 렌더링 
-    const renderCategory = (item) => {
+    const renderCategory = (item: { item: ZoneItemListType, index: number }) => {
         return (
             <Layout style={styles.CategoryContainer}>
-                <Text style={styles.ItemText}>{item.item.name}</Text>
+                <Text style={styles.ItemText}>{item.item.name.toUpperCase()}</Text>
                 {/* 카테고리 하위 컨텐츠 아이템 리스트 */}
                 <FlatList
                     data={item.item.items}

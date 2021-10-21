@@ -1,19 +1,17 @@
 import React, { useContext } from 'react';
 import {
     StyleSheet,
-    Image,
     BackHandler,
     TouchableOpacity,
     Dimensions,
-    SafeAreaView,
-    Platform
+    SafeAreaView
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 
 import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from '../../context/AuthContext';
-import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MyScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 
 import { MyProfile, BookmarkList } from '../../component/My';
 import {
@@ -74,7 +72,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 <Layout style={styles.Container}>
 
                     {/* 사용자 프로필 컴포넌트 분리 */}
-                    <MyProfile currentUser={currentUser} navigation={props.navigation} route={props.route} />
+                    <MyProfile currentUser={currentUser} />
 
                     {/* Settings, Bookmark, History 버튼 */}
                     <Layout style={styles.ButtonContainer}>
@@ -119,7 +117,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 {/* Bookmarklist 텍스트 */}
                 <Layout style={styles.SmallTitleContainer}>
                     <Layout style={styles.TextTitleContainer}>
-                        <BookmarkListIcon/>
+                        <BookmarkListIcon />
                         <Text style={styles.TextTitle}>MY BOOKMARK LIST</Text>
                     </Layout>
 
@@ -129,7 +127,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
                 </Layout>
 
                 {/* Bookmarklist 컴포넌트 분리 */}
-                <BookmarkList {...props}/>
+                <BookmarkList {...props} />
 
             </Layout>
 

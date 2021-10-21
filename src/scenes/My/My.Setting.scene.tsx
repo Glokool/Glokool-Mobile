@@ -4,10 +4,11 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
+    Alert,
 } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
-import { Layout, LayoutElement, Text, Modal } from '@ui-kitten/components';
-import { MYSettingProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { MYSettingProps } from '../../navigation/SceneNavigator/My.navigator';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
     Profile,
@@ -22,8 +23,6 @@ const windowWidth = Dimensions.get('window').width;
 
 export const MySetting = (props: MYSettingProps): LayoutElement => {
     const { setCurrentUser } = useContext(AuthContext);
-
-    const [logoutvisible, setLogoutvisible] = React.useState(false);
 
     const PressProfile = () => {
         props.navigation.navigate(SceneRoute.MY_PROFILE);
@@ -50,13 +49,25 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
     };
 
     const PressLogoutModal = () => {
-        setLogoutvisible(true);
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to logout?",
+            [{
+                text: "Cancel",
+                onPress: () => console.log("logout canceled"),
+                style: "destructive"
+            }, {
+                text: "Logout",
+                onPress: () => PressLogout(),
+                style: "default"
+            }]
+        );
     };
 
     return (
         <Layout style={styles.mainContainer}>
             {/*탭바 표현*/}
-            <CommonTopTabBar title={'SETTINGS'} navigation={props.navigation} />
+            <CommonTopTabBar title={'SETTINGS'} />
 
             {/* 세팅 내용물*/}
             <Layout style={styles.Container}>
@@ -109,27 +120,6 @@ export const MySetting = (props: MYSettingProps): LayoutElement => {
                 <Layout style={{ flex: 8, flexDirection: 'column' }} />
             </Layout>
 
-            <Modal visible={logoutvisible} backdropStyle={styles.backdrop}>
-                <Layout style={styles.ModalLayout}>
-                    <Text style={styles.ModalTxt}>
-                        Are you sure {'\n'} you want to log out?
-                    </Text>
-                    <Layout style={styles.ModalBtnContainer}>
-                        <TouchableOpacity
-                            style={styles.ModalBtnCancel}
-                            onPress={() => {
-                                setLogoutvisible(false);
-                            }}>
-                            <Text style={styles.ModalTxtCancel}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.ModalBtnLogout}
-                            onPress={() => PressLogout()}>
-                            <Text style={styles.ModalTxtLogout}>Logout</Text>
-                        </TouchableOpacity>
-                    </Layout>
-                </Layout>
-            </Modal>
         </Layout>
     );
 };
@@ -193,58 +183,5 @@ const styles = StyleSheet.create({
     // modal
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    ModalLayout: {
-        width: windowWidth * 0.85,
-        height: windowWidth * 0.85 * 0.57,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    ModalTxt: {
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-        textAlign: 'center',
-        marginTop: '10%',
-        lineHeight: 27,
-    },
-    ModalBtnContainer: {
-        flexDirection: 'row',
-        height: windowWidth * 0.85 * 0.41 * 0.36,
-        alignItems: 'flex-end',
-        flex: 1,
-        marginBottom: '5%',
-        justifyContent: 'center',
-        // borderWidth: 1,
-    },
-    ModalBtnCancel: {
-        borderWidth: 1,
-        borderColor: '#8797FF',
-        borderRadius: 10,
-        width: windowWidth * 0.85 * 0.41,
-        height: windowWidth * 0.85 * 0.41 * 0.36,
-        marginRight: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    ModalTxtCancel: {
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
-    },
-    ModalBtnLogout: {
-        borderRadius: 10,
-        backgroundColor: '#292434',
-        width: windowWidth * 0.85 * 0.41,
-        height: windowWidth * 0.85 * 0.41 * 0.36,
-        marginLeft: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    ModalTxtLogout: {
-        textAlign: 'center',
-        color: '#8797FF',
-        fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 22,
     },
 });

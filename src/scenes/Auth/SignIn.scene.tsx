@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import firebase from "@react-native-firebase/app";
 import 'firebase/auth';
 import {
   StyleSheet,
@@ -9,10 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Image,
   Dimensions,
-  Button,
   Platform,
   Alert,
 } from 'react-native';
@@ -23,8 +19,8 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
-import { FormInput } from '../../component/form-input.component';
+import { EyeIcon, EyeOffIcon } from '../../component/Icon.component';
+import { FormInput } from '../../component/FormInput.component';
 import { SignInData, SignInSchema } from '../../data/SignIn.model';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';
@@ -33,7 +29,7 @@ import Toast from 'react-native-easy-toast';
 import { AngleLeft_Color } from '../../assets/icon/Common';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { GoogleSignin } from '@react-native-community/google-signin';
-import { AccessToken, LoginManager, Profile, AuthenticationToken } from 'react-native-fbsdk-next';
+import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -229,7 +225,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     if (auth().currentUser != null) {
       auth().signOut();
     }
-    props.navigation.replace(NavigatorRoute.MAIN);
+    props.navigation.pop();
   }
 
   const renderForm = (props: FormikProps<SignInData>): React.ReactFragment => (

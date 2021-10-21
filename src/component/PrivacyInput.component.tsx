@@ -4,13 +4,13 @@ import {
 } from 'react-native';
 import { Input, InputElement, InputProps } from '@ui-kitten/components';
 import { useFormikContext } from 'formik';
-import { AlertTriangleIcon } from './icon';
+import { AlertTriangleIcon } from './Icon.component';
 
-interface FormInformationProps extends InputProps {
+interface FormInputProps extends InputProps {
   id: string;
 }
 
-export const FormInformation = ({ id, ...inputProps }: FormInformationProps): InputElement => {
+export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement => {
 
   const formContext = useFormikContext();
 
@@ -23,21 +23,26 @@ export const FormInformation = ({ id, ...inputProps }: FormInformationProps): In
   };
 
   return (
-    <Input  
+    <Input
       {...inputProps}
       {...fieldProps}
-      style={styles.input}
       caption={error}
+      style={styles.input}
+      textStyle={styles.textStyle}
+      size='large'
       onChangeText={formContext.handleChange(id)}
     />
   );
 };
 
-
 const styles = StyleSheet.create({
-  input:{
+  input: {
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
-    borderBottomColor: '#C9C9C9'
+    borderBottomColor: '#C9C9C9',
+    width: '100%',
   },
+  textStyle: {
+    color: 'black',
+  }
 });

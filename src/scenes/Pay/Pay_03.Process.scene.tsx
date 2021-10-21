@@ -29,7 +29,6 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
             {/* top tap bar */}
             <CommonTopTabBar
                 title={'PAYMENT INFORMATION'}
-                navigation={props.navigation}
                 child={
                     <Layout style={styles.Pagination}>
                         <PaySecondPage />

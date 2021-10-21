@@ -1,36 +1,43 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
-import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
-import { 
-  ChatReportScene,
+import {
   ChatRoomSettingScene,
   ChatZoneSelectScene,
   ChatTASelectScene,
   ChatMainScene,
-  ChatRoomScene
+  ChatRoomScene,
+  ChatReportScene
 } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
 
 export type ChatNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CHAT]: undefined;
-  [SceneRoute.CHATROOM] : {
-    id : string;
+  [SceneRoute.CHATROOM]: {
+    id: string;
     guide: {
-      name : string;
-      uid : string;
+      name: string;
+      uid: string;
       token?: string;
     }
     day: Date,
-    finish : boolean;
+    finish: boolean;
   };
-  [SceneRoute.CHAT_REPORT] : {
-    id : string;
+  [SceneRoute.CHAT_HELP]: {
+    id: string;
+    guide: {
+      name: string;
+      uid: string;
+    }
+  };
+  [SceneRoute.CHAT_REPORT]: {
+    id: string;
     user: {
-      name : string;
-      uid : string;
+      name: string;
+      uid: string;
     }
   };
   [SceneRoute.CHAT_ROOM_SETTING] : {
@@ -62,12 +69,12 @@ export interface ChatRoomSettingSceneProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
 }
 
-export interface ChatZoneSelectSceneProps { 
+export interface ChatZoneSelectSceneProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_ZONE_SELECT>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ZONE_SELECT>;
 }
 
-export interface ChatTASelectSceneProps { 
+export interface ChatTASelectSceneProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_TA_SELECT>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_TA_SELECT>;
 }
