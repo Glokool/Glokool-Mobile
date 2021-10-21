@@ -26,16 +26,16 @@ import {
 } from '@ui-kitten/components';
 import { SceneRoute } from '../../navigation/app.route'
 import { Formik, FormikProps } from 'formik';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
-import { FormInformation } from '../../component/form-information.component';
+import { EyeIcon, EyeOffIcon } from '../../component/Icon.component';
+import { FormInformation } from '../../component/FormInformation.component';
 import { SignUpData, SignUpSchema } from '../../data/SignUp.model';
 import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/CountryTypes'
 import { SignUpScreenProps } from '../../navigation/auth.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { TermsConditionCard } from '../../component/terms&Condition.component'
-import { privacyPolicycard } from '../../component/privacyPolicy.component'
+import { TermsConditionCard } from '../../component/TermsCondition.component'
+import { privacyPolicycard } from '../../component/Privacy.component'
 
 import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';

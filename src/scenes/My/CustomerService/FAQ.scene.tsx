@@ -12,7 +12,7 @@ import {
     Icon,
     Divider
 } from '@ui-kitten/components';
-import { FAQProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { FAQProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { AngleLeft } from '../../../assets/icon/Common';
 import { windowHeight } from '../../../Design.component';
 

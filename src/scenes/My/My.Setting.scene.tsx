@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
-import { MYSettingProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MYSettingProps } from '../../navigation/SceneNavigator/My.navigator';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {
     Profile,

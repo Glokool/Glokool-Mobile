@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { ReceiptDetailInfo } from '../../types';
-import { PaidChatListProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PaidChatListProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { Receipt_Large } from '../../assets/icon/My';
 import { PaidDetail } from '../../component/My';

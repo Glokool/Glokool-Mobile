@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { ChatZoneSelectSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatZoneSelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ZoneButtonGroupComponent, ZoneSelectTopTabBarComponent } from '../../component/Chat/ChatZoneSelect';
 
 

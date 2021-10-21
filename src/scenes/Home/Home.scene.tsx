@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Layout, LayoutElement, } from '@ui-kitten/components';
-import { HomeScreenProps } from '../../navigation/ScreenNavigator/Home.navigator';
+import { HomeScreenProps } from '../../navigation/SceneNavigator/Home.navigator';
 import {
     ScrollView,
     StyleSheet,

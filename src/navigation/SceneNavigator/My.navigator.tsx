@@ -19,7 +19,7 @@ import {
 import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { ChatRoomScreen } from '../../scenes/Chat';
 import { authContextType, ReceiptDetailInfo, ReservationInfo } from '../../types';
-import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatNavigatorParams } from './Chat.navigator';
 
 type MyNavigatorParams = AppNavigatorParams & {
   [SceneRoute.MY]: undefined;

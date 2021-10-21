@@ -9,7 +9,7 @@ import {
   LayoutElement,
   Text
 } from '@ui-kitten/components';
-import { PrivacyProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { PrivacyProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faAngleLeft

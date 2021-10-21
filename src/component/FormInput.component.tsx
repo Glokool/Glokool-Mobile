@@ -4,13 +4,13 @@ import {
 } from 'react-native';
 import { Input, InputElement, InputProps } from '@ui-kitten/components';
 import { useFormikContext } from 'formik';
-import { AlertTriangleIcon } from './icon';
+import { AlertTriangleIcon } from './Icon.component';
 
-interface FormInformationProps extends InputProps {
+interface FormInputProps extends InputProps {
   id: string;
 }
 
-export const FormInformation = ({ id, ...inputProps }: FormInformationProps): InputElement => {
+export const FormInput = ({ id, ...inputProps }: FormInputProps): InputElement => {
 
   const formContext = useFormikContext();
 
@@ -20,24 +20,33 @@ export const FormInformation = ({ id, ...inputProps }: FormInformationProps): In
   const fieldProps: Partial<InputProps> = {
     status: error && 'danger',
     captionIcon: error && AlertTriangleIcon,
+    textStyle: { color: 'red' }
   };
 
   return (
     <Input
       {...inputProps}
       {...fieldProps}
-      style={styles.input}
       caption={error}
+      style={styles.input}
+      textStyle={{ color: 'black' }}
+      placeholderTextColor={'#D2D2D2'}
+      size='large'
       onChangeText={formContext.handleChange(id)}
     />
   );
 };
 
-
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: '#FFFFFF',
-    borderColor: '#FFFFFF',
-    borderBottomColor: '#C9C9C9'
+    backgroundColor: '#00ff0000',
+    borderColor: '#00ff0000',
+    borderBottomColor: '#8797FF',
+    borderBottomWidth: 2,
+    borderRadius: 2,
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginVertical: 0,
+    width: '100%'
   },
 });

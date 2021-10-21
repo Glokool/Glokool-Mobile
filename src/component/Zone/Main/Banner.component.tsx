@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { CDN } from '../../../server.component';
 import FastImage from 'react-native-fast-image';
 

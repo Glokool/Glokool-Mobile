@@ -8,7 +8,7 @@ import { setAudioVisiblityTrue, setMenuVisiblityFalse } from '../../../../model/
 import { Images, Record, Camera, MyLocation } from '../../../../assets/icon/Chat';
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
 import { AuthContext } from '../../../../context/AuthContext';
-import { requestCameraPermission, requestStoragePermission } from '../../../permission.component';
+import { requestCameraPermission, requestStoragePermission } from '../../../Permissions.component';
 import { launchCamera } from 'react-native-image-picker/src';
 import Geolocation from '@react-native-community/geolocation';
 import ImagePicker from 'react-native-image-crop-picker';

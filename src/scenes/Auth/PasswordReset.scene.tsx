@@ -18,7 +18,7 @@ import {
   Layout,
 } from '@ui-kitten/components';
 import { PasswordResetScreenProps } from '../../navigation/auth.navigator';
-import { FormInput } from '../../component/form-input.component';
+import { FormInput } from '../../component/FormInput.component';
 
 export const PasswordResetScreen = (props: PasswordResetScreenProps): LayoutElement => {
 

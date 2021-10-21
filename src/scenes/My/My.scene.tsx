@@ -11,7 +11,7 @@ import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { AuthContext } from '../../context/AuthContext';
-import { MyScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MyScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 
 import { MyProfile, BookmarkList } from '../../component/My';
 import {

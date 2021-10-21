@@ -19,8 +19,8 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';
-import { EyeIcon, EyeOffIcon } from '../../component/icon';
-import { FormInput } from '../../component/form-input.component';
+import { EyeIcon, EyeOffIcon } from '../../component/Icon.component';
+import { FormInput } from '../../component/FormInput.component';
 import { SignInData, SignInSchema } from '../../data/SignIn.model';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route'
 import { CommonActions } from '@react-navigation/native';

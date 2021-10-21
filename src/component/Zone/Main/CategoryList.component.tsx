@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { ExploreIcon, ViewMoreIcon } from '../../../assets/icon/Zone';
 import { SceneRoute } from '../../../navigation/app.route';

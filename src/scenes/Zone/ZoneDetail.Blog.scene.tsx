@@ -46,7 +46,7 @@ import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item_Blog, ContentImg_Item, Content_Item, Series_Item_Blog, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
-import { ZoneDetailBlogSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneDetailBlogSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 import { Loading } from '../../component/Common';

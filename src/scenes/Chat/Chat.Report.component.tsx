@@ -2,7 +2,7 @@ import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { StyleSheet, SafeAreaView, Text, Alert } from 'react-native';
 import { Layout, LayoutElement, Input } from '@ui-kitten/components';
-import { ChatReportScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatReportScreenProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { AuthContext } from '../../context/AuthContext';
 import { ReportTopTabBar } from '../../component/Chat/ChatRoomReport';
 

@@ -26,8 +26,8 @@ import CountryPicker from 'react-native-country-picker-modal'
 import { CountryCode, Country } from '../../data/CountryTypes'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { TermsConditionCard } from '../../component/terms&Condition.component'
-import { privacyPolicycard } from '../../component/privacyPolicy.component'
+import { TermsConditionCard } from '../../component/TermsCondition.component'
+import { privacyPolicycard } from '../../component/Privacy.component'
 import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import Toast from 'react-native-easy-toast';

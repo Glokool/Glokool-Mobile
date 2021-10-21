@@ -17,7 +17,7 @@ import {
     SelectItem,
     LayoutElement,
 } from '@ui-kitten/components';
-import { MYProfileProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { MYProfileProps } from '../../navigation/SceneNavigator/My.navigator';
 import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker/src';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { AngleLeft } from '../../assets/icon/Common';

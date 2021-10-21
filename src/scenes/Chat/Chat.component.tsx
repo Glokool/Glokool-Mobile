@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Button } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
-import { ChatScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatScreenProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { AuthContext } from '../../context/AuthContext';

@@ -26,7 +26,7 @@ import {
     ChatNavigator,
     ZoneNavigator,
     MyNavigator,
-} from './ScreenNavigator';
+} from './SceneNavigator';
 import {
     Chat,
     Chat_S,

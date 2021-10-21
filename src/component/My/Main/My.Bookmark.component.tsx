@@ -16,7 +16,7 @@ import { SERVER, CDN } from '../../../server.component';
 import { MySceneBookmarkItem } from '../../../types';
 import { EmptyBookmark } from '../../../assets/icon/My';
 import { SceneRoute } from '../../../navigation/app.route';
-import { MyScreenProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { MyScreenProps } from '../../../navigation/SceneNavigator/My.navigator';
 
 const windowWidth = Dimensions.get('window').width;
 

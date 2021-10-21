@@ -4,7 +4,7 @@ import { LayoutElement, Layout, Modal, Divider } from "@ui-kitten/components";
 import { SceneRoute } from "../../navigation/app.route";
 import { StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
 import { Delete } from '../../assets/icon/Common';
-import { PaidDetailProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { PaidDetailProps } from '../../navigation/SceneNavigator/My.navigator';
 import moment from 'moment';
 import { ReceiptDetailInfo } from '../../types';
 import { SERVER } from '../../server.component';

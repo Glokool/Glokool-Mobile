@@ -6,7 +6,7 @@ import {
     Platform
 } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { HistoryScreenProps } from '../../navigation/ScreenNavigator/My.navigator';
+import { HistoryScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { CommonTopTabBar } from '../../component/Common';
 

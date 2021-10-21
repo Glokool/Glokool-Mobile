@@ -3,7 +3,7 @@ import auth from '@react-native-firebase/auth';
 import { Pressable, StyleSheet, SafeAreaView } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatReportScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatReportScreenProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
 
 

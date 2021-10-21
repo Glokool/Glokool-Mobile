@@ -4,7 +4,7 @@ import { Layout } from '@ui-kitten/components';
 import { SERVER, CDN } from '../../../server.component';
 import axios from 'axios';
 import { ExploreIcon, GloProfile } from '../../../assets/icon/Zone';
-import { ZoneMainSceneProps } from '../../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import FastImage from 'react-native-fast-image';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';

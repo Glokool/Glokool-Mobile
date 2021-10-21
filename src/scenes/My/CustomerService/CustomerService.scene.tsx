@@ -16,11 +16,11 @@ import {
     Card,
     Input,
 } from '@ui-kitten/components';
-import { CustomerServiceProps } from '../../../navigation/ScreenNavigator/My.navigator';
+import { CustomerServiceProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
-import { TermsConditionCard } from '../../../component/terms&Condition.component';
+import { TermsConditionCard } from '../../../component/TermsCondition.component';
 import { CustomerService } from '../../../assets/icon/My';
-import { privacyPolicycard } from '../../../component/privacyPolicy.component';
+import { privacyPolicycard } from '../../../component/Privacy.component';
 import { AngleLeft } from '../../../assets/icon/Common';
 import { AuthContext } from '../../../context/AuthContext';
 import { windowHeight } from '../../../Design.component';

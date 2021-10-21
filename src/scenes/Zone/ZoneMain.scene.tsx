@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, ScrollView } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
-import { ZoneMainSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneMainSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import {
     ZoneMainBottomTabBarComponent,
     ZoneMainTopTabBarComponent,

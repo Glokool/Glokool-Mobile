@@ -20,7 +20,7 @@ import { SceneRoute } from '../../navigation/app.route';
 import Toast from 'react-native-easy-toast';
 import { AngleLeft } from '../../assets/icon/Common';
 import { EmergencyCall, Help, Report } from '../../assets/icon/Chat';
-import { ChatHelpScreenProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatHelpScreenProps } from '../../navigation/SceneNavigator/Chat.navigator';
 
 var toastRef: any;
 

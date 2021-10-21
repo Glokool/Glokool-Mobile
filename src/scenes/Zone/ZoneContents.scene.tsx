@@ -4,7 +4,7 @@ import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { SeriesBottomLogo } from '../../assets/icon/Series'
-import { ZoneContentsSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneContentsSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setCategoryIndex } from '../../model/Zone/Zone.UI.model';

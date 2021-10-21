@@ -43,7 +43,7 @@ import { GlokoolServiceButton, GlokoolServiceModal } from '../../component/Zone'
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
-import { ZoneDetailContentSceneProps } from '../../navigation/ScreenNavigator/Zone.navigator';
+import { ZoneDetailContentSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 import { Loading } from '../../component/Common';

@@ -18,7 +18,7 @@ import { default as theme } from './theme.json';
 import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
-import { requestNotificationsPermission } from './component/permission.component';
+import { requestNotificationsPermission } from './component/Permissions.component';
 import axios, { AxiosRequestConfig } from 'axios';
 import { SERVER } from './server.component';
 import linking from './linking';
