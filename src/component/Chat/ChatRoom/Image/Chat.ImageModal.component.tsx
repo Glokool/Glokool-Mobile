@@ -1,6 +1,7 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { Layout, Modal, Text } from "@ui-kitten/components";
-import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import React, { useCallback } from "react";
+import { BackHandler, Pressable, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useDispatch, useSelector } from "react-redux";
 import { windowHeight, windowWidth } from "../../../../Design.component";
@@ -14,6 +15,21 @@ export const ImageModal = (props : any) : React.ReactElement => {
     
     const imageVisiblity = useSelector((state : RootState) => state.ChatUIModel.imageVisiblity);
     const imageURL = useSelector((state : RootState) => state.ChatUIModel.imageUrl);
+
+    const HardwareBackPress = () => {
+        dispatch(setImageVisiblityFalse());
+        return true;
+    }
+
+    if(imageVisiblity){
+        BackHandler.addEventListener('hardwareBackPress', HardwareBackPress);
+    }
+    else {
+        BackHandler.removeEventListener(
+            'hardwareBackPress',
+            HardwareBackPress,
+        );
+    }    
 
     return (
         <Modal

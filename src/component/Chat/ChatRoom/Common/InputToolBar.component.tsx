@@ -1,11 +1,8 @@
 import React, { Dispatch } from 'react';
-import { Platform, Pressable, StyleSheet, Keyboard } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Pressable, StyleSheet, Keyboard } from 'react-native';
 import { ActionsProps, Composer, ComposerProps, IMessage, InputToolbar, InputToolbarProps, Send, SendProps } from 'react-native-gifted-chat';
-import { useDispatch, useSelector } from 'react-redux';
 import { Chat_Exit, Chat_Menu, Send1 } from '../../../../assets/icon/Chat';
-import { RootState } from '../../../../model';
-import { cleanKeyboardComponent, setKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
+import { cleanKeyboardComponent } from '../../../../model/Chat/Chat.Keyboard.model';
 import { setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 
 
@@ -14,18 +11,12 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
 
 
     const renderSend = (props : SendProps<IMessage>) => {
-
         return (
             <Send {...props} containerStyle={styles.sendButton}>
                 <Send1 />
             </Send>
         )
-
     }
-
-    
-    
-
 
     // Action 버튼 렌더링 및 함수 설정
     const renderActions = (props: ActionsProps): React.ReactElement => {
@@ -78,10 +69,6 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
             />
         )
     };
-
-
-
-
 
     return(
         <InputToolbar
