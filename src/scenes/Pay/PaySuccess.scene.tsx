@@ -1,4 +1,5 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { PaySuccessSceneProps } from '../../navigation/Pay.navigator';
@@ -6,8 +7,51 @@ import { EmptyImage } from '../../assets/icon/Common';
 import { PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
+import axios from 'axios';
+import { SERVER } from '../../server.component';
+import { AuthContext } from '../../context/AuthContext';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
+    
+    const { currentUser, setCurrentUser } = React.useContext(AuthContext);
+    const ReservationData = props.route.params.ReservationData;
+
+    React.useEffect(() => {
+        SendPaymentData();
+    }, []);
+
+    const SendPaymentData = async() => {
+
+        const authToken = await auth().currentUser?.getIdToken();
+
+        const data = {
+            travelArea : { type : 'HONGDAE' },
+            paymentID : ReservationData.PaymentID,
+            price : ReservationData.price,
+            guide : ReservationData.guide,
+            email : ReservationData.email,
+            snsID : ReservationData.snsID,
+            phone : ReservationData.phone,
+            name : ReservationData.name,
+            chatRoomCode : ReservationData.ChatRoomID,
+            paymentPlatform : ReservationData.PaymentPlatform
+        }
+
+        const option = {
+            method : 'POST',
+            url : SERVER + '/api/payment',
+            data : data,
+            headers: {
+                Authorization: 'Bearer ' + authToken,
+            },
+        }
+
+        const sendData = await axios(option);
+
+
+    }
+
+
 
     // 서버로 보내야할 타입 샘플
     type sample = {

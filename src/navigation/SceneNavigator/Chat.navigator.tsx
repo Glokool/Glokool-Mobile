@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
+import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import {
   ChatRoomSettingScene,
@@ -46,7 +46,7 @@ export type ChatNavigatorParams = AppNavigatorParams & {
   [SceneRoute.CHAT_ZONE_SELECT] : undefined;
   [SceneRoute.CHAT_TA_SELECT] : {
     zone : string;
-  }
+  };
 }
 
 export interface ChatMainSceneProps {

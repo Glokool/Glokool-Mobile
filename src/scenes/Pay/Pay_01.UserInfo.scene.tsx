@@ -34,6 +34,8 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
         const params = {
             name: name,
             email: email,
+            guide : props.route.params.guide,
+            ChatRoomID : props.route.params.ChatRoomID
         }
 
         if (phone.length > 0 && callingCode) {

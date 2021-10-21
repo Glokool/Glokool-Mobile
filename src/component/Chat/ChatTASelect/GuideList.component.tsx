@@ -4,6 +4,7 @@ import { Divider, Layout, Text } from '@ui-kitten/components';
 import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { BookButton, GroupChattingPerson, GroupChattingType } from '../../../assets/icon/Chat/GuideList';
 import FastImage from 'react-native-fast-image';
+import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 
 
 export const GuideListComponent = (props : ChatTASelectSceneProps) : React.ReactElement => {
@@ -27,30 +28,11 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
             },
             users: []
         },
-        {
-            _id: "616d28b2e5d90f7a8568ec6a",
-            guide: {
-                _id : "6094d2265c8f9d70b4c997aa",
-                uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
-                avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
-                name : "GlokoolOfficial",
-                desc : '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
-                keyword : ['안녕', '반가워'],
-                lang: [true, false ],
-                },
-            maxUserNum: 1,
-            price: {
-                price: 50,
-                discount: "20"
-            },
-            users: []
-        },
+
 
     ]);
 
     const renderGuide = ({item} : {item : any, index : number}) => {
-
-
 
         return(
             <Layout style={styles.GuideContainer}>
@@ -65,7 +47,10 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
 
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
 
-                            <Pressable style={styles.Button}>
+                            <Pressable style={styles.Button} onPress={() => props.navigation.navigate(NavigatorRoute.PAY, { 
+                                screen : SceneRoute.PAY_FIRST,
+                                params : { ChatRoomID : item._id, guide : item.guide._id }
+                            })}>
                                 <BookButton />
                             </Pressable>
 

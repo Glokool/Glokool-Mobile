@@ -7,7 +7,7 @@ import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayP
 import { PaymentData } from 'iamport-react-native';
 
 type PayNavigatorParams = AppNavigatorParams & {
-    [SceneRoute.PAY_FIRST]: undefined;
+    [SceneRoute.PAY_FIRST]: { ChatRoomID : string; guide : string; };
     [SceneRoute.PAY_SECOND]: {
         name: string;
         email: string;
@@ -19,6 +19,9 @@ type PayNavigatorParams = AppNavigatorParams & {
             type: string | any;
             value: string;
         };
+        ChatRoomID : string;
+        guide : string;
+        PaymentPlatform : string;
     };
     [SceneRoute.PAY_FAILED]: undefined;
     [SceneRoute.PAY_CANCELLATION]: undefined;
@@ -35,12 +38,19 @@ type PayNavigatorParams = AppNavigatorParams & {
                 type: string | undefined;
                 value: string;
             };
+            ChatRoomID : string;
+            guide : string;
+            price : string;
+            PaymentPlatform : string;
         };
     };
     [SceneRoute.PAY_SUCCESS]: {
         ReservationData: {
             name: string;
             email: string;
+            PaymentID : string;
+            ChatRoomID : string;
+            guide : string;
             snsID?: {
                 type: string;
                 value: string;
@@ -49,6 +59,8 @@ type PayNavigatorParams = AppNavigatorParams & {
                 type: string | undefined;
                 value: string;
             };
+            price : string;
+            PaymentPlatform : string;
         };
     };
 

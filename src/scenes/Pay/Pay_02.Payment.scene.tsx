@@ -124,6 +124,10 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         const ReservationData = {
             name: props.route.params.name,
             email: props.route.params.email,
+            guide : props.route.params.guide,
+            ChatRoomID : props.route.params.ChatRoomID,
+            price : amount + '',
+            PaymentPlatform : (state.kakaoClicked)? 'kakao' : 'paypal' 
         }
 
         if (props.route.params.snsID) {

@@ -47,7 +47,7 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
-import { FCMData } from '../../data/Chat/ChatRoom/FCM.data';
+
 
 
 // 전체 UI 용 변수
@@ -217,8 +217,6 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     }
 
     const FCMSend = async(message : IMessage) => {
-
-        console.log('FCM 메시지 전송')
           
         if (currentUser.expiry_date < new Date().getTime()) {
             await getAccessToken();
