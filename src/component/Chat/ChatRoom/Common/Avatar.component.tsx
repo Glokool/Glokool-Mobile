@@ -30,9 +30,12 @@ export const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement =
 const styles = StyleSheet.create({
 
     NicknameText: {
-        position: 'absolute', 
-        top: -15, 
-        right: -105,
+        position: 'absolute',
+        fontFamily : 'Pretendard-Medium',
+        fontSize: 14,
+        color : '#575757',
+        top: -10, 
+        left : 0,
         overflow : 'visible',
         width: 100
     }

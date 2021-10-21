@@ -1,7 +1,7 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { Layout, Modal, Text } from "@ui-kitten/components";
-import React, { useCallback } from "react";
+
+import React from "react";
 import { BackHandler, Pressable, StyleSheet } from "react-native";
+import { Layout, Modal, Text } from "@ui-kitten/components";
 import FastImage from "react-native-fast-image";
 import { useDispatch, useSelector } from "react-redux";
 import { windowHeight, windowWidth } from "../../../../Design.component";
