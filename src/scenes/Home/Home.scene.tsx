@@ -131,11 +131,10 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 <Layout style={styles.GloChatButtonContainer}>
                     <Pressable>
-                        <GloChatInfoButton />
+                        <GloChatInfoButton width={windowWidth * 0.43} />
                     </Pressable>
-                    <Layout style={{ width: windowWidth * 0.05 }} />
                     <Pressable onPress={() => props.navigation.navigate(NavigatorRoute.CHAT)}>
-                        <GloChatHomeButton />
+                        <GloChatHomeButton width={windowWidth * 0.43} />
                     </Pressable>
                 </Layout>
 
@@ -240,9 +239,10 @@ const styles = StyleSheet.create({
     GloChatButtonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         marginTop: windowHeight * 0.015,
         paddingBottom: windowHeight * 0.025,
+        paddingHorizontal: windowWidth * 0.05,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
         shadowColor: '#7777ff',
@@ -251,8 +251,8 @@ const styles = StyleSheet.create({
             height: 2,
         },
         shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 2,
+        shadowRadius: 2,
+        elevation: 3,
     },
     GloContainer: {
         borderRadius: 22,

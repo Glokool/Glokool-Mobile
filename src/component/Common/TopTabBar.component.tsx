@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     },
     TopTabItems: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingBottom: 10,
     },
     TopTabText: {
         flex: 5,

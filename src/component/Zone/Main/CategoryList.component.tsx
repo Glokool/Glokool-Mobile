@@ -36,7 +36,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
     const renderCategory = (item: { item: ZoneItemListType, index: number }) => {
         return (
             <Layout style={styles.CategoryContainer}>
-                <Text style={styles.ItemText}>{item.item.name}</Text>
+                <Text style={styles.ItemText}>{item.item.name.toUpperCase()}</Text>
                 {/* 카테고리 하위 컨텐츠 아이템 리스트 */}
                 <FlatList
                     data={item.item.items}

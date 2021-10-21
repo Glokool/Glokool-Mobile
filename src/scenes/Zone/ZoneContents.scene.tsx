@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         paddingBottom: windowHeight * 0.05
     },
     CategoryListContainer: {
-        marginTop: 10,
+        marginTop: 5,
         // position:'absolute',
         bottom: -2.5,
     },
