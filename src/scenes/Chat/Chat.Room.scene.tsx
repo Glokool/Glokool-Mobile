@@ -110,7 +110,6 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             appState.current.match(/inactive|background/) &&
             nextAppState === 'active'
         ) {
-            // console.log('foreground');
         }
         if (
             appState.current.match(/inactive|active/) &&
@@ -296,7 +295,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             <LocationModal />
 
             {/*채팅방 탑 탭바*/}
-            <ChatTopTabBarComponent msgRef={msgRef} ChatDB={ChatDB} props={props} guide={guide} />
+            <ChatTopTabBarComponent {...props} />
 
             {/* 녹음 펑션 화면 */}
             <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />

@@ -16,7 +16,7 @@ import {
   HistoryScreen
 } from '../../scenes/My';
 import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
-import { ChatRoomScreen } from '../../scenes/Chat';
+import { ChatRoomScene } from '../../scenes/Chat';
 import { RefundPolicy } from '../../component/My/RefundPolicy';
 import { authContextType, ReservationInfo } from '../../types';
 import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
@@ -128,7 +128,7 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm} />
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
 
-    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScreen} />
+    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
 
     {/* Bookmark */}
     <Stack.Screen name={SceneRoute.BOOKMARK_DETAIL_BLOG} component={ZoneDetailBlogScene} />

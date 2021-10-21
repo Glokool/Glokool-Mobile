@@ -50,6 +50,9 @@ import AngleDown_Gray from './AngleDown_Gray.svg';
 import NoticeClose_Button from './NoticeClose_Button.svg';
 import Dismiss_Button from './Dismiss_Button.svg';
 
+import Report_Button from './Report_Button.svg';
+import Profile_Button from './Profile_Button.svg';
+
 export {
     Help,
     Menu,
@@ -100,4 +103,7 @@ export {
     Dismiss_Button,
     NoticeClose_Button,
     AngleDown_Gray,
+
+    Report_Button,
+    Profile_Button
 }

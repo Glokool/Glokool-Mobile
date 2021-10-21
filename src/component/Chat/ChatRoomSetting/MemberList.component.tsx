@@ -3,6 +3,8 @@ import React from 'react';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import FastImage from 'react-native-fast-image';
+import { ChatRoomSettingSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { Report_Button } from '../../../assets/icon/Chat';
 
 type MemberInfo = {
     avatar : string,
@@ -10,7 +12,7 @@ type MemberInfo = {
     uid : string,
 }
 
-export const MemberList = (props : any) : React.ReactElement => {
+export const MemberList = (props : ChatRoomSettingSceneProps) : React.ReactElement => {
 
     const [memberData, setMemberData] = React.useState<Array<MemberInfo>>([]);
 
@@ -29,8 +31,6 @@ export const MemberList = (props : any) : React.ReactElement => {
 
     const renderItem = ({item} : {item : MemberInfo, index : number}) => {
 
-        console.log(item);
-
         return(
             <Layout style={styles.MemberContainer}>
 
@@ -40,7 +40,7 @@ export const MemberList = (props : any) : React.ReactElement => {
                 </Layout>
 
                 <Pressable>
-                    <FastImage source={require('../../../assets/image/Chat/Report_Button.png')} style={styles.Button}/>
+                    <Report_Button style={styles.Button}/>
                 </Pressable>
 
             </Layout>
@@ -55,8 +55,6 @@ export const MemberList = (props : any) : React.ReactElement => {
                 data={memberData}
                 renderItem={renderItem}
             />
-
-
         </Layout>
     )
 }

@@ -11,22 +11,17 @@ import axios from 'axios';
 import { SERVER } from '../../../server.component';
 import { Cloudy } from '../../../assets/icon/Chat/Weather';
 
-
-
-export const TopTabWeatherbar = (props: any): LayoutElement => {
+export const TopTabWeatherbar = (): LayoutElement => {
 
     const [data, setData] = React.useState<WeatherInfo>();
     const today = new Date();
 
     React.useEffect(() => {
-        InitWeather();
+        axios.get(SERVER + '/api/weather')
+            .then((response) => {
+                setData(response.data);
+            });
     }, []);
-
-    const InitWeather = async () => {
-        const Weather = await axios.get(SERVER + '/api/weather');
-        setData(Weather.data);
-    }
-
 
     return (
         <Layout style={styles.Container}>
@@ -75,7 +70,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 75,
         flexDirection: 'row',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        borderBottomWidth: 6,
+        borderColor: '#F8F8F8'
     },
 
     TextContainer: {

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="28" viewBox="0 0 64 28">
+  <g id="그룹_2518" data-name="그룹 2518" transform="translate(-334 -230.411)">
+    <g id="그룹_2135" data-name="그룹 2135" transform="translate(23 -75.589)">
+      <g id="사각형_3184" data-name="사각형 3184" transform="translate(311 306)" fill="none" stroke="#c2c2c2" stroke-width="2">
+        <rect width="64" height="28" rx="14" stroke="none"/>
+        <rect x="1" y="1" width="62" height="26" rx="13" fill="none"/>
+      </g>
+      <text id="Report" transform="translate(321.5 325)" fill="#c2c2c2" font-size="14" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="0" y="0">Report</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -91,7 +91,7 @@ export const ChatList = (props : ChatRoomScreenProps) : React.ReactElement => {
 
 
     // 비었을 때
-    if (data.length === 1) {
+    if (data.length === 0) {
         return(
             <Layout style={styles.Container}>
 

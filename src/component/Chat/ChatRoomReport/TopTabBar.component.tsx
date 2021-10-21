@@ -5,6 +5,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatReportScreenProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
+import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
 
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     TopTabBar : {
         position: 'absolute',
         width: '100%',
-        top: 0,
+        top: isIphoneX()? getStatusBarHeight() : 0,
         height: 60,
         justifyContent: 'center',
     },

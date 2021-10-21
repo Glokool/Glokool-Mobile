@@ -33,7 +33,9 @@ export type ChatNavigatorParams = AppNavigatorParams & {
       uid : string;
     }
   };
-  [SceneRoute.CHAT_ROOM_SETTING] : undefined;
+  [SceneRoute.CHAT_ROOM_SETTING] : {
+    id : string;
+  };
   [SceneRoute.CHAT_ZONE_SELECT] : undefined;
   [SceneRoute.CHAT_TA_SELECT] : {
     zone : string;

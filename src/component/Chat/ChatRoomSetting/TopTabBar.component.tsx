@@ -2,11 +2,11 @@ import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatRoomSettingProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSettingSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
-export const SettingTopTabBarComponent = (props : ChatRoomSettingProps) : React.ReactElement => {
+export const SettingTopTabBarComponent = (props : ChatRoomSettingSceneProps) : React.ReactElement => {
 
     const PressBackButton = () => {
         props.navigation.goBack();

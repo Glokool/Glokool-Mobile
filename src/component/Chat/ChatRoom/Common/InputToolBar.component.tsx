@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 32,
         paddingLeft: 20,
+        paddingRight: 50,
+        textDecorationLine: 'none',
         paddingBottom: 0,
         paddingTop: 0,
     },

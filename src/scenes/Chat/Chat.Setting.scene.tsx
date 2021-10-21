@@ -1,25 +1,62 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Divider, Layout, Text, Toggle } from '@ui-kitten/components';
-import { windowHeight, windowWidth } from '../../Design.component';
 import { GuideModal, MemberList, SettingTopTabBarComponent } from '../../component/Chat/ChatRoomSetting';
 import FastImage from 'react-native-fast-image';
-import { ChatRoomSettingProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSettingSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../model/Chat/Chat.Setting.model';
 import { SceneRoute } from '../../navigation/app.route';
+import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { Profile_Button, Report_Button } from '../../assets/icon/Chat';
 
 
-export const ChatRoomSettingScene = (props: ChatRoomSettingProps) : React.ReactElement => {
+export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.ReactElement => {
 
     const dispatch = useDispatch();
+    const ChatRoomID = props.route.params.id;
     const [mute, setMute] = React.useState(false);
+
+    React.useEffect(() => {
+        AsyncStorage.getItem(`${ChatRoomID}_fcm`)
+            .then((value) => {
+                if (value === null){
+                    // 한번도 저장되지 않은 값이므로
+                    setMute(false);
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
+                }
+                else if (value === 'true'){
+                    setMute(true);
+                }
+                else {
+                    setMute(false);
+                }
+                
+            })
+            .catch((reason) => {
+                
+            })
+    }, [])
+
+
 
     const PressLeave = () => {
         console.log(props)
     }
 
     const PressMute = () => {
+
+        // 반대로 저장
+
+        if(mute === true){
+            AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
+            setMute(!mute);
+        }
+        else {
+            AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
+            setMute(!mute);
+        }       
 
     }
 
@@ -38,9 +75,7 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingProps) : React.ReactE
     }
 
     return(
-        <Layout style={styles.MainContainer}>
-
-            <Layout style={styles.EmptyContainer}/>
+        <SafeAreaView style={styles.MainContainer}>
 
             <Layout style={styles.ButtonContainer}>
                 <Pressable onPress={PressLeave}>
@@ -70,11 +105,11 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingProps) : React.ReactE
                 <Layout style={styles.DoubleButtonContainer}>
 
                     <Pressable onPress={PressProfile}>
-                        <FastImage source={require('../../assets/image/Chat/Profile_Button.png')} style={styles.MainButton} />
+                        <Profile_Button style={styles.MainButton}/>
                     </Pressable>
 
                     <Pressable onPress={PressReport}>
-                        <FastImage source={require('../../assets/image/Chat/Report_Button.png')} style={styles.MainButton} />
+                        <Report_Button style={styles.MainButton}/>
                     </Pressable>
 
                 </Layout>
@@ -96,20 +131,16 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingProps) : React.ReactE
 
             <SettingTopTabBarComponent {...props} />
 
-        </Layout>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     MainContainer : {
-        width : windowWidth,
-        height : windowHeight,
+        flex : 1,
         alignItems: 'center',
-    },
-
-    EmptyContainer: {
-        height: 60,
-        width: '100%'
+        backgroundColor: 'white',
+        paddingTop : isIphoneX()? getStatusBarHeight() + 60 : 60
     },
 
     ButtonContainer: {

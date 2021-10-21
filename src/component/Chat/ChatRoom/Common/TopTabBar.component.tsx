@@ -1,38 +1,21 @@
 import React from 'react';
-import { Image, Keyboard, Platform, Pressable, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Keyboard, Platform, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { AngleLeft, ArrowLeft } from '../../../../assets/icon/Common';
-import { Chat_App, Chat_Setting, QuickSearchButton } from '../../../../assets/icon/Chat';
+import { ArrowLeft } from '../../../../assets/icon/Common';
+import { Chat_Setting } from '../../../../assets/icon/Chat';
 import { SceneRoute } from '../../../../navigation/app.route';
-import { CDN } from '../../../../server.component';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { ChatRoomSceneProps } from '../../../../navigation/ScreenNavigator/Chat.navigator';
 
 const statusBarHeight = getStatusBarHeight();
 
-export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
+export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.ReactElement => {
 
-    const guide = props.guide;
-    const msgRef = props.msgRef;
-    const ChatDB = props.ChatDB;
+    const guide = props.route.params.guide;
     const dispatch = useDispatch();
     
-
-    const resetUserUnreadMsgCount = () => {
-        msgRef.transaction((userUnreadCount: number) => {
-            if (userUnreadCount && userUnreadCount > 0) {
-                userUnreadCount = 0;
-            }
-            return userUnreadCount;
-        });
-    };
-
-    const PressBackButton = () : void => {
-        ChatDB.off('value');
-        resetUserUnreadMsgCount();
-        props.props.navigation.goBack();
-    }
 
     return(
 
@@ -42,33 +25,20 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
 
                 <Pressable
                     style={styles.LeftIcon}
-                    onPress={() => {PressBackButton()}}>
+                    onPress={() => {props.navigation.goBack()}}>
                     <ArrowLeft />
                 </Pressable>
 
                 <Layout style={styles.ProfileContainer}>
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                        {guide.avatar != " " &&
-                            guide.avatar != undefined &&
-                            guide.avatar != null ? (
-                            <Image
-                                source={{ uri: CDN + guide.avatar }}
-                                style={styles.ProfileImage}
-                            />
-                        ) : (
-                            <Image
-                                source={require('../../../../assets/image/Chat/guideGray.png')}
-                                style={styles.ProfileImage}
-                            />
-                        )}
+                        <Image
+                            source={require('../../../../assets/image/Chat/guideGray.png')}
+                            style={styles.ProfileImage}
+                        />
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                        <Text style={styles.Title}>
-                            {props.props.route.params.guide.name === undefined
-                                ? `매칭중..`
-                                : `${props.props.route.params.guide.name}`}
-                        </Text>
+                        <Text style={styles.Title}>{guide.name}</Text>
                     </TouchableOpacity>
                     
                 </Layout>
@@ -76,7 +46,7 @@ export const ChatTopTabBarComponent = (props : any) : React.ReactElement => {
                 <Pressable
                     style={styles.RightIcon}
                     onPress={() => {
-                        props.props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING);
+                        props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING, { id : props.route.params.id });
                     }}>
                     <Chat_Setting />
                 </Pressable>
