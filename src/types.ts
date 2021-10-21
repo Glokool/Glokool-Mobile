@@ -1,3 +1,5 @@
+import { StringifiableRecord } from "query-string";
+
 // Home
 export type HomeCarousel_Item = {
     title: string;
@@ -239,6 +241,31 @@ export type ReservationInfo = {
     paymentID: string,
     paymentDate: Date,
     _id: string
+}
+
+export type ReceiptDetailInfo = {
+    _id: string;
+    contact: string;
+    day: string;
+    email: string;
+    guide: {
+        _id: string;
+        lang: Array<boolean>;
+        name : string;
+        uid: string;
+    },
+    lang: string;
+    money: string;
+    name: string;
+    paymentDate: string;
+    paymentID: string;
+    refund: {
+        check: boolean;
+        complete: boolean;
+    },
+    travelArea: string;
+    travelPlan: string;
+    uid: string;
 }
 
 export type FirebaseUserInfo = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, Platform, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Layout, LayoutElement, Divider, Radio } from '@ui-kitten/components';
 import { PaySecondPage } from '../../assets/icon/Pay';
@@ -10,6 +10,8 @@ import { IMP_PAY_METHOD, PaymentData } from 'iamport-react-native';
 import { Paypal } from '../../assets/icon/Pay';
 import { SceneRoute } from '../../navigation/app.route';
 import moment from 'moment';
+import axios from 'axios';
+import { SERVER } from '../../server.component';
 
 interface State {
     paypalClicked: boolean;
@@ -40,12 +42,27 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         kakaoClicked: false,
     });
 
+    const [price, setPrice] = useState<string>();
+    const [discount, setDiscount] = useState<string>();
+    const [discountedPrice, setDiscountedPrice] = useState<string>();
+
+    useEffect(() => {
+        InitMoney();
+    }, [])
+
+    const InitMoney = () => {
+        axios.get(SERVER + '/api/price')
+            .then((response) => {
+                setPrice(response.data.price);
+                setDiscountedPrice(response.data.discountedPrice);
+
+                const discountNum = Number(response.data.price) - Number(response.data.discountedPrice);
+                setDiscount(discountNum.toString())
+            })
+    }
+
     const Payment = () => {
         state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
-
-        // props.navigation.reset({
-        //     routes: [{ name: SceneRoute.PAY_SUCCESS }]
-        // });
     }
 
     const PaypalMethod = () => {
@@ -181,11 +198,11 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     </Text>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Service Fees</Text>
-                        <Text style={styles.ValueText}>23.00 USD</Text>
+                        <Text style={styles.ValueText}>{price} USD</Text>
                     </Layout>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Promotion</Text>
-                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>- 15.01 USD</Text>
+                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>-{discount} USD</Text>
                     </Layout>
                 </Layout>
 
@@ -198,7 +215,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <Layout style={styles.CostContainer}>
                     <Text style={styles.SubTitleText}>TOTAL</Text>
                     <Layout style={styles.RowContainer}>
-                        <Text style={styles.CostText}>14.99</Text>
+                        <Text style={styles.CostText}>{discountedPrice}</Text>
                         <Text style={[styles.ValueText, { color: '#7777ff' }]}>USD</Text>
                     </Layout>
                 </Layout>

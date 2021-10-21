@@ -8,6 +8,26 @@ import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
+
+    // 서버로 보내야할 타입 샘플
+    type sample = {
+        travelDate: Date;
+        paymentID: string; //결제 코드
+        price: string;
+        guide: string; //가이드 id
+        email: string;
+        snsID?: {
+            type: string;
+            value: string;
+        },
+        phone?: {
+            type: string;
+            value: string;
+        },
+        name: string;
+        chatRoomCode: string;//채팅방 id
+    }
+
     return (
         <Layout style={styles.MainContainer}>
 

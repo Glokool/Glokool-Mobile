@@ -18,7 +18,7 @@ import {
 } from '../../scenes/My';
 import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { ChatRoomScreen } from '../../scenes/Chat';
-import { authContextType, ReservationInfo } from '../../types';
+import { authContextType, ReceiptDetailInfo, ReservationInfo } from '../../types';
 import { ChatNavigatorParams } from '../../navigation/ScreenNavigator/Chat.navigator';
 
 type MyNavigatorParams = AppNavigatorParams & {
@@ -61,7 +61,7 @@ export interface MYSettingProps {
 }
 
 export interface PaidDetailProps {
-  data: ReservationInfo | undefined;
+  data: ReceiptDetailInfo | undefined;
 }
 
 export interface PaidChatListProps {

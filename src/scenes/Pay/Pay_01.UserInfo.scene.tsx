@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, Platform } from 'react-native'
-import { Layout, LayoutElement, Input, Button, Select, SelectItem, IndexPath } from '@ui-kitten/components';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Layout, LayoutElement, Input, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
 import { PayFirstPage } from '../../assets/icon/Pay';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { AngleRight_Color } from '../../assets/icon/Common';
 import { SceneRoute } from '../../navigation/app.route';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { FormikErrorIcon } from '../../assets/icon/Pay';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import CountryPicker from 'react-native-country-picker-modal';
 
 export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
@@ -154,7 +152,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         onChangeText={(e) => {
                             setPhone(e)
                         }}
-                        placeholder={'010XXXXXXXX'}
+                        placeholder={'Your phone number'}
                         placeholderTextColor={'#aaa'}
 
                     />
