@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Divider, Layout, Text, Toggle } from '@ui-kitten/components';
 import { GuideModal, MemberList, SettingTopTabBarComponent } from '../../component/Chat/ChatRoomSetting';
@@ -51,11 +52,16 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
 
         if(mute === true){
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
-            setMute(!mute);
+            messaging()
+                .unsubscribeFromTopic(ChatRoomID)
+                .then(() => setMute(!mute));
         }
         else {
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
-            setMute(!mute);
+            messaging()
+                .subscribeToTopic(ChatRoomID)
+                .then(() => setMute(!mute));
+            
         }       
 
     }

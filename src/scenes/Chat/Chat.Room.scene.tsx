@@ -47,6 +47,7 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { FCMData } from '../../data/Chat/ChatRoom/FCM.data';
 
 
 // 전체 UI 용 변수
@@ -215,6 +216,51 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         dispatch(setRoomName(id));
     }
 
+    const FCMSend = async(message : IMessage) => {
+
+        console.log('FCM 메시지 전송')
+          
+        if (currentUser.expiry_date < new Date().getTime()) {
+            await getAccessToken();
+        }
+    
+        const data = JSON.stringify({
+            message: {
+                notification: {
+                    title: message.user.name,
+                    body: message.text,
+                },
+                data: {
+                    time: new Date(Date.now()).toString(),
+                    roomId: props.route.params.id,
+                },
+                topic : props.route.params.id,
+                webpush: {
+                    fcm_options: {
+                        link: 'guide/main/chat',
+                    },
+                },
+            },
+        });
+    
+        const options = {
+            method: 'post',
+            url:
+                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser.access_token}`,
+            },
+            data: data,
+        };
+    
+        await axios(options).catch((e) => {
+            if (e.response) {
+                console.log(e.response.data);
+            }
+        });
+    }
+
 
 
     const onSend = async (messages: IMessage[]) => {
@@ -237,8 +283,11 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             }
 
             newMessage?.set(message, (e) => {
-                console.log('채팅 전송 실패 : ', e)
+                if (e != null) { console.log('채팅 전송 실패 : ', e) }             
             });
+
+            FCMSend(message);
+            
 
         } else {
             ToastRef.show(
