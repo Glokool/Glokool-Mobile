@@ -944,6 +944,8 @@ PODS:
     - React-Core
   - RNAudio (4.3.0):
     - React
+  - RNCAsyncStorage (1.15.9):
+    - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
   - RNFastImage (8.5.11):
@@ -1100,6 +1102,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - RNAudio (from `../node_modules/react-native-audio`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -1257,6 +1260,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNAudio:
     :path: "../node_modules/react-native-audio"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
   RNFastImage:
@@ -1385,6 +1390,7 @@ SPEC CHECKSUMS:
   ReactCommon: 149906e01aa51142707a10665185db879898e966
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
+  RNCAsyncStorage: 26f25150da507524a7815f2ada06ca0967f65633
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNFBApp: c679e71262a98a1ec0f4600e6db51ec7fcdaeb5b
