@@ -58,32 +58,15 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
     const dispatch = useDispatch();
-
-    const guideToken = useSelector((state: RootState) => state.ChatDataModel.guideUID);
     const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const day = props.route.params.day
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
     const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
+    const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
 
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
-    const [guide, setGuide] = React.useState({});
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
-
-
-    const getGuideToken = async (uid: string) => {
-        const guideRef = database().ref(`/guide/${uid}`);
-
-        guideRef.on('value', (snapshot) => {
-
-            if (!snapshot.val()) {
-                return;
-            }
-            const guideToken = snapshot.val();
-
-            dispatch(setGuideUID(guideToken));
-        });
-    };
 
     const getAccessToken = async () => {
         try {
@@ -142,15 +125,12 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         let newItems = false;
 
         Chat.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-
             if(newItems === false){
                 newItems = true;
             }
-
             else {
                 setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-            }
-            
+            }            
         });
 
         
@@ -176,8 +156,6 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
   
         setChatIcon(false);
-        getGuideToken(props.route.params.guide.uid);
-
         ChatRoomMessageInit();
 
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
@@ -321,7 +299,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                     renderAvatarOnTop={true}
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}
-                    renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity)}
+                    renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity, emojiKeyboardVisiblity)}
                     renderBubble={(prop) => renderBubble(prop, props.route.params.guide)}
                     renderLoading={renderLoading}
                     renderSystemMessage={renderSystemMessage}

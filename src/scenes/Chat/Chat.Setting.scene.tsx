@@ -51,17 +51,16 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
         // 반대로 저장
 
         if(mute === true){
+            setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
-            messaging()
-                .unsubscribeFromTopic(ChatRoomID)
-                .then(() => setMute(!mute));
+            messaging().unsubscribeFromTopic(ChatRoomID)
+
         }
         else {
+            setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
-            messaging()
-                .subscribeToTopic(ChatRoomID)
-                .then(() => setMute(!mute));
-            
+            messaging().subscribeToTopic(ChatRoomID)
+           
         }       
 
     }
