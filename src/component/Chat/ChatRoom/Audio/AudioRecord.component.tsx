@@ -25,6 +25,9 @@ import { countAudioDuration, resetAudioDuration } from '../../../../model/Chat/C
 import { setAudioVisiblityFalse } from '../../../../model/Chat/Chat.UI.model';
 import { AuthContext } from '../../../../context/AuthContext';
 import { messageIdGenerator } from '../../../Common/MessageIdGenerator';
+import axios from 'axios';
+import { IMessage } from 'react-native-gifted-chat';
+import { SERVER } from '../../../../server.component';
 
 
 const WindowWidth = Dimensions.get('window').width;
@@ -45,6 +48,59 @@ export const AudioRecordComponent = (props : any) => {
 
     const [isActive, setIsActive] = useState<boolean>(false);
     const [isPaused, setIsPaused] = useState<boolean>(false);
+
+    const getAccessToken = async () => {
+        try {
+            const res = await axios.get(`${SERVER}/api/token`);
+            setCurrentUser({ ...currentUser, ...res.data });
+        } catch (e) {
+            console.log('e', e);
+        }
+    };
+
+
+    const FCMSend = async(message : IMessage, messageType : string) => {
+          
+        if (currentUser.expiry_date < new Date().getTime()) {
+            await getAccessToken();
+        }
+    
+        const data = JSON.stringify({
+            message: {
+                notification: {
+                    title: message.user.name,
+                    body: messageType,
+                },
+                data: {
+                    time: new Date(Date.now()).toString(),
+                    roomId: props.roomName,
+                },
+                topic : props.roomName,
+                webpush: {
+                    fcm_options: {
+                        link: 'guide/main/chat',
+                    },
+                },
+            },
+        });
+    
+        const options = {
+            method: 'Post',
+            url:
+                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser.access_token}`,
+            },
+            data: data,
+        };
+    
+        await axios(options).catch((e) => {
+            if (e.response) {
+                console.log(e.response.data);
+            }
+        });
+    }
 
     const formatTime = () => {
         const getSeconds = `0${(duration % 60)}`.slice(-2)
@@ -147,6 +203,8 @@ export const AudioRecordComponent = (props : any) => {
                         console.log('이미지 메시지 전송 실패 : ', e)
                     });
 
+                    FCMSend(message, "Sent a Voice");
+
                     setAudioPath('');
                     dispatch(setAudioVisiblityFalse());
                 });
@@ -158,6 +216,8 @@ export const AudioRecordComponent = (props : any) => {
         audioStopwatchReset();
 
     };
+
+
     //녹음 버튼을 클릭하고 다시 녹음 버튼을 누르지 않고 종료 버튼을 클릭했을 때
     const audioExit = async () => {
         audioStopwatchReset();

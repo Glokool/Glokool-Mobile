@@ -220,7 +220,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         });
     
         const options = {
-            method: 'post',
+            method: "post",
             url:
                 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
             headers: {

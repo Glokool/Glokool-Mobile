@@ -12,6 +12,9 @@ import { requestCameraPermission, requestStoragePermission } from '../../../Perm
 import { launchCamera } from 'react-native-image-picker/src';
 import Geolocation from '@react-native-community/geolocation';
 import ImagePicker from 'react-native-image-crop-picker';
+import axios from 'axios';
+import { SERVER } from '../../../../server.component';
+import { IMessage } from 'react-native-gifted-chat';
 
 
 export const BottomTabBarComponent = (props : any) : React.ReactElement => {
@@ -24,6 +27,62 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
     const menuVisiblity = useSelector((state : RootState) => state.ChatUIModel.menuVisiblity);
     const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
     const dispatch = useDispatch();
+
+    const getAccessToken = async () => {
+        try {
+            const res = await axios.get(`${SERVER}/api/token`);
+            setCurrentUser({ ...currentUser, ...res.data });
+        } catch (e) {
+            console.log('e', e);
+        }
+    };
+
+
+    const FCMSend = async(message : any, messageType : string) => {
+          
+        if (currentUser.expiry_date < new Date().getTime()) {
+            await getAccessToken();
+        }
+    
+        const data = JSON.stringify({
+            message: {
+                notification: {
+                    title: message.user.name,
+                    body: messageType,
+                },
+                data: {
+                    time: new Date(Date.now()).toString(),
+                    roomId: ChatRoomID,
+                },
+                topic : ChatRoomID,
+                webpush: {
+                    fcm_options: {
+                        link: 'guide/main/chat',
+                    },
+                },
+            },
+        });
+    
+        const options = {
+            method: 'Post',
+            url:
+                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser.access_token}`,
+            },
+            data: data,
+        };
+
+        console.log('FCM 전송 시도')
+    
+        await axios(options).catch((e) => {
+            if (e.response) {
+                console.log(e.response.data);
+            }
+        });
+    }
+
 
 
     /*이미지 촬영 */
@@ -111,6 +170,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                                                 console.log('이미지 메시지 전송 실패 : ', e)
                                             });
 
+                                            FCMSend(message, "Sent a picture");
+
                                     });
                                 }
                             );
@@ -191,6 +252,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                                     console.log('이미지 메시지 전송 실패 : ', e)
                                 });
 
+                                FCMSend(message, "Sent a picture");
+
                         });
                     }
                 );
@@ -237,7 +300,10 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
 
             newMessage?.set(message, (e) => {
                 console.log('이미지 메시지 전송 실패 : ', e)
-            });              
+            });
+
+            FCMSend(message, "Sent a Location");
+
         }, (error) => {
             console.log(error);
         })
