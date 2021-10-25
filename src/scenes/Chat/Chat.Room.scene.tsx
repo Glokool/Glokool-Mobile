@@ -41,6 +41,7 @@ import {
     renderCustomBubble,
     BottomTabBarComponent,
     NoticeComponent,
+    renderLoadEarlier,
 } from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
@@ -64,6 +65,8 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
     const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
 
+
+    const [messagesCount, setMessagesCount] = React.useState<number>(50);
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
@@ -104,6 +107,36 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         appState.current = nextAppState;
     };
 
+    const LoadEarlierMessages = () => {
+
+        // 50개씩 예전 메시지 로딩
+
+        ChatDB?.off('child_added'); // 먼저 기존 리스너 제거
+
+        var tempMessages : Array<IMessage> = [];
+        let newItems = false;
+
+        ChatDB?.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
+            if(newItems === false){
+                newItems = true;
+            }
+            else {
+                setChatMessages(value => GiftedChat.append(value, snapshot.val()));
+            }            
+        });
+
+        
+        ChatDB?.orderByKey().limitToLast(messagesCount + 50).once('value', (snapshot) => {            
+            snapshot.forEach((data) => {
+                tempMessages = GiftedChat.append(tempMessages, data.val());
+            });
+
+            setChatMessages(tempMessages);
+        });
+
+        setMessagesCount(messagesCount + 50);
+
+    }
 
     const OfftheDB = (snapshot: FirebaseDatabaseTypes.DataSnapshot, response?: string | null | undefined): void => {
         setChatDB(undefined);
@@ -134,15 +167,13 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         });
 
         
-        Chat.orderByKey().limitToLast(50).once('value', (snapshot) => {            
+        Chat.orderByKey().limitToLast(messagesCount).once('value', (snapshot) => {            
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
 
             setChatMessages(tempMessages);
         });
-
-
 
     }
 
@@ -187,10 +218,8 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
 
     const ChatRoomInit = (id: string): void => {
-
         dispatch(setChatLoadingTrue()) // 로딩 시작
-        setChatMessages([]); //로컬 메시지 저장소 초기화       
-
+        setChatMessages([]); //로컬 메시지 저장소 초기화
         dispatch(setRoomName(id));
     }
 
@@ -236,8 +265,6 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             }
         });
     }
-
-
 
     const onSend = async (messages: IMessage[]) => {
 
@@ -287,6 +314,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                     bottomOffset={(isIphoneX()) ? -getBottomSpace() + 47 : (Platform.OS === 'ios') ? - 25 : 0}
                     onSend={(messages) => onSend(messages)}
                     infiniteScroll={true}
+                    loadEarlier={true}
                     user={{
                         _id: currentUser?.uid,
                     }}
@@ -294,9 +322,11 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                         paddingBottom: Platform.OS === 'ios'? getBottomSpace() - 13 : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
+                    onLoadEarlier={() => {LoadEarlierMessages()}}
                     alwaysShowSend={true}
                     showUserAvatar={false}
                     renderAvatarOnTop={true}
+                    renderLoadEarlier={renderLoadEarlier}
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}
                     renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity, emojiKeyboardVisiblity)}

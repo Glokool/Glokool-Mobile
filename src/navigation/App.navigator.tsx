@@ -3,12 +3,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
 import { PayNavigator } from './Pay.navigator';
-import { NavigatorRoute } from './app.route';
+import { NavigatorRoute, SceneRoute } from './app.route';
 
 export type AppNavigatorParams = {
-    [NavigatorRoute.AUTH]: undefined;
-    [NavigatorRoute.MAIN]: undefined;
-    [NavigatorRoute.PAY]: undefined;
+    [NavigatorRoute.AUTH]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+    [NavigatorRoute.MAIN]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+    [NavigatorRoute.PAY]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
 };
 
 const Stack = createStackNavigator();

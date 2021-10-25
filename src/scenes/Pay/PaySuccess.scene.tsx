@@ -10,6 +10,7 @@ import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
 import { AuthContext } from '../../context/AuthContext';
+import qs from 'query-string';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     
@@ -22,8 +23,6 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     }, []);
 
     const SendPaymentData = async() => {
-        
-        const qs = require('querystring');
         const authToken = await auth().currentUser?.getIdToken();
 
         const data = qs.stringify({
