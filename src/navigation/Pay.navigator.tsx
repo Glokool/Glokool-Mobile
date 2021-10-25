@@ -5,8 +5,9 @@ import { SceneRoute } from './app.route';
 import { AppNavigatorParams } from './App.navigator';
 import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../scenes/Pay';
 import { PaymentData } from 'iamport-react-native';
+import { MainNavigatorParams } from './Main.navigator';
 
-type PayNavigatorParams = AppNavigatorParams & {
+type PayNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.PAY_FIRST]: { ChatRoomID : string; guide : string; };
     [SceneRoute.PAY_SECOND]: {
         name: string;

@@ -13,6 +13,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     
+    
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const ReservationData = props.route.params.ReservationData;
 
@@ -21,11 +22,12 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     }, []);
 
     const SendPaymentData = async() => {
-
+        
+        const qs = require('querystring');
         const authToken = await auth().currentUser?.getIdToken();
 
-        const data = {
-            travelArea : { type : 'HONGDAE' },
+        const data = qs.stringify({
+            travelArea : 'HONGDAE',
             paymentID : ReservationData.PaymentID,
             price : ReservationData.price,
             guide : ReservationData.guide,
@@ -35,7 +37,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             name : ReservationData.name,
             chatRoomCode : ReservationData.ChatRoomID,
             paymentPlatform : ReservationData.PaymentPlatform
-        }
+        })
 
         const option = {
             method : 'POST',
@@ -96,7 +98,10 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             <Layout>
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
-                    onPress={() => { props.navigation.navigate(SceneRoute.PAID_CHAT_LIST) }}
+                    onPress={() => { props.navigation.navigate(NavigatorRoute.MY, {
+                        screen : SceneRoute.PAID_CHAT_LIST,
+                        params : undefined
+                    }) }}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
                 </TouchableOpacity>

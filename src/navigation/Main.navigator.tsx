@@ -48,6 +48,25 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 const Tab = createBottomTabNavigator();
 const BottomHeight = getBottomSpace();
 
+export type MainNavigatorParams = {
+    [NavigatorRoute.HOME]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+    [NavigatorRoute.CHAT]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+    [NavigatorRoute.ZONE]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+    [NavigatorRoute.MY]: {
+        screen : SceneRoute,
+        params : undefined
+    } | undefined;
+};
+
 const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTabBarOptions>) => {
 
     const { onChat } = useContext(ChatContext);

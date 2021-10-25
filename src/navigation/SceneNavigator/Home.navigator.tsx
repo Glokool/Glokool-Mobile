@@ -4,8 +4,9 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { HomeScreen } from '../../scenes/Home';
+import { MainNavigatorParams } from '../Main.navigator';
 
-type HomeNavigatorParams = AppNavigatorParams & {
+type HomeNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.HOME]: undefined;
   [NavigatorRoute.CHAT]: undefined;
 }

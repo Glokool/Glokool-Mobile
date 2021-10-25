@@ -4,10 +4,11 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { ZoneMainScene, ZoneContentsScene, ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
+import { MainNavigatorParams } from '../Main.navigator';
 
 const Stack = createStackNavigator();
 
-export type ZoneNavigatorParams = AppNavigatorParams & {
+export type ZoneNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.ZONE_MAIN]: undefined;
     [SceneRoute.ZONE_CONTENTS]: {
         pageIndex: number;

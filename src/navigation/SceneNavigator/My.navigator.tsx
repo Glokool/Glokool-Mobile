@@ -20,8 +20,9 @@ import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { ChatRoomScene } from '../../scenes/Chat';
 import { ChatNavigatorParams } from '../../navigation/SceneNavigator/Chat.navigator';
 import { authContextType, ReceiptDetailInfo, ReservationInfo } from '../../types';
+import { MainNavigatorParams } from '../Main.navigator';
 
-type MyNavigatorParams = AppNavigatorParams & {
+type MyNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.MY]: undefined;
   [SceneRoute.REFUND_POLICY]: undefined;
   [SceneRoute.PAID_CHAT_LIST]: undefined;

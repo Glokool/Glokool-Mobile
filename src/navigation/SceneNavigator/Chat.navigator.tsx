@@ -11,10 +11,11 @@ import {
   ChatRoomScene,
   ChatReportScene
 } from '../../scenes/Chat';
+import { MainNavigatorParams } from '../Main.navigator';
 
 const Stack = createStackNavigator();
 
-export type ChatNavigatorParams = AppNavigatorParams & {
+export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.CHAT]: undefined;
   [SceneRoute.CHATROOM]: {
     id: string;
