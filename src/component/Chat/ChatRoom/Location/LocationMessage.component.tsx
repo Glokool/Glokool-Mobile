@@ -21,6 +21,7 @@ export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubble
                     dispatch(setLocationVisiblityTrue());
                     dispatch(setLocation({ lat: props.currentMessage.location.lat, lon: props.currentMessage.location.lon }))
                 }}
+                style={styles.MyLocationContainer}
             >
                 <Layout style={styles.MyLocationHeaderContainer}>
                     <LocationTitle />
@@ -60,10 +61,16 @@ export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubble
 
 const styles = StyleSheet.create({
 
+    MyLocationContainer: {
+
+        backgroundColor: '#00FF0000'
+    },
+
     MyLocationHeaderContainer: {
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: '#00FF0000'
     },
 
     MyLocationHeaderText: {
