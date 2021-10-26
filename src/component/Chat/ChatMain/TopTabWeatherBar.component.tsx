@@ -64,8 +64,7 @@ export const TopTabWeatherbar = (): LayoutElement => {
                         :
                         <Sunny />
                     }
-                </Layout>
-               
+                </Layout>               
             </Layout>
 
 
@@ -148,11 +147,12 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
     },      
 
     WeatherIcon : {
-        alignItems: 'flex-end',
-        justifyContent: 'center'
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginBottom: -5
     }
 })

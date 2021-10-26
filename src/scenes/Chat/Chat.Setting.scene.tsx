@@ -100,42 +100,9 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
 
             <Divider style={styles.Divider}/>
 
-            <Layout style={styles.TitleContainer}>
-                <Text style={styles.Title}>Travel Assistant</Text>
-            </Layout>
-
-            <Layout style={styles.GuideInfoContainer}>
-
-                <Layout style={styles.GuideInfoContainer2}>
-                    <FastImage source={require('../../assets/image/Chat/guideGray.png')} style={styles.Avatar}/>
-
-                    <Text style={styles.Description}>Glokool Official</Text>
-                </Layout>
-
-                <Layout style={styles.DoubleButtonContainer}>
-
-                    <Pressable onPress={PressProfile}>
-                        <Profile_Button style={styles.MainButton}/>
-                    </Pressable>
-
-                    <Pressable onPress={PressReport}>
-                        <Report_Button style={styles.MainButton}/>
-                    </Pressable>
-
-                </Layout>
-
-            </Layout>
-
-            <Divider style={styles.Divider}/>
-
-            <Layout style={styles.TitleContainer}>
-                <Text style={styles.Title}>Members</Text>
-            </Layout>
-
             <Layout style={styles.MemberContainer}>
                 <MemberList {...props}/>
-            </Layout>
-            
+            </Layout>            
 
             <GuideModal {...props}/>
 
