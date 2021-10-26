@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="75.045" height="47.736" viewBox="0 0 75.045 47.736">
+  <defs>
+    <filter id="타원_678" x="36.011" y="26.055" width="14.935" height="14.935" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feFlood flood-opacity="0.149"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="합치기_9" x="0" y="0" width="62.008" height="39.031" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-2"/>
+      <feFlood flood-color="#3b4b9b" flood-opacity="0.349"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.892" y1="0.771" x2="0.227" y2="0.436" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#8e9dff"/>
+      <stop offset="1" stop-color="#8787ff"/>
+    </linearGradient>
+    <filter id="합치기_9-2" x="19.713" y="9.671" width="55.332" height="34.065" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1.5" result="blur-3"/>
+      <feFlood flood-color="#303bab" flood-opacity="0.251"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="그룹_2522" data-name="그룹 2522" transform="translate(-318.455 -298.778)">
+    <ellipse id="타원_577" data-name="타원 577" cx="2.797" cy="2.797" rx="2.797" ry="2.797" transform="translate(332.759 331.471)" fill="#c7cfff" opacity="0.95"/>
+    <ellipse id="타원_922" data-name="타원 922" cx="2.297" cy="2.297" rx="2.297" ry="2.297" transform="translate(327.914 340)" fill="#c7cfff" opacity="0.95"/>
+    <ellipse id="타원_576" data-name="타원 576" cx="2.771" cy="2.771" rx="2.771" ry="2.771" transform="translate(339.672 337.932)" fill="#c9d1ff" opacity="0.95"/>
+    <ellipse id="타원_578" data-name="타원 578" cx="2.638" cy="2.638" rx="2.638" ry="2.638" transform="translate(354.781 334)" fill="#c9d1ff" opacity="0.95"/>
+    <ellipse id="타원_579" data-name="타원 579" cx="2.054" cy="2.054" rx="2.054" ry="2.054" transform="translate(351.905 341.424)" fill="#c9d1ff"/>
+    <ellipse id="타원_921" data-name="타원 921" cx="1.777" cy="1.777" rx="1.777" ry="1.777" transform="translate(338.89 342.102)" fill="#c9d1ff" opacity="0.95"/>
+    <g id="타원_580" data-name="타원 580" transform="translate(369.903 336.014)" fill="#8d9cfe" stroke="#8e9dff" stroke-width="2" opacity="0.37">
+      <ellipse cx="2.169" cy="2.169" rx="2.169" ry="2.169" stroke="none"/>
+      <ellipse cx="2.169" cy="2.169" rx="1.169" ry="1.169" fill="none"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 318.46, 298.78)" filter="url(#타원_678)">
+      <g id="타원_678-2" data-name="타원 678" transform="translate(40.51 29.55)" fill="#8d9cfe" stroke="#8e9dff" stroke-width="2">
+        <ellipse cx="2.967" cy="2.967" rx="2.967" ry="2.967" stroke="none"/>
+        <ellipse cx="2.967" cy="2.967" rx="1.967" ry="1.967" fill="none"/>
+      </g>
+    </g>
+    <circle id="타원_680" data-name="타원 680" cx="2.795" cy="2.795" r="2.795" transform="translate(365.194 340.924)" fill="#c9d1ff" opacity="0.95"/>
+    <g id="그룹_2497" data-name="그룹 2497" transform="translate(-2 83.657)">
+      <g id="그룹_1407" data-name="그룹 1407" transform="translate(326.455 219.122)">
+        <g transform="matrix(1, 0, 0, 1, -6, -4)" filter="url(#합치기_9)">
+          <path id="합치기_9-3" data-name="합치기 9" d="M30.742,25.094a12.063,12.063,0,0,1-12.3.484,12.043,12.043,0,0,1-5.739,1.454C5.689,27.031,0,20.98,0,13.515S5.689,0,12.707,0a12.043,12.043,0,0,1,5.739,1.454,12.064,12.064,0,0,1,12.3.483A12.086,12.086,0,0,1,37.3,0c7.018,0,12.707,6.051,12.707,13.515S44.319,27.031,37.3,27.031A12.086,12.086,0,0,1,30.742,25.094Z" transform="translate(6 4)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="그룹_1405" data-name="그룹 1405" transform="translate(344.668 227.292)">
+        <g transform="matrix(1, 0, 0, 1, -24.21, -12.17)" filter="url(#합치기_9-2)">
+          <path id="합치기_9-4" data-name="합치기 9" d="M28.483,23.269a11.169,11.169,0,0,1-11.393.448,11.15,11.15,0,0,1-5.317,1.348C5.271,25.065,0,19.454,0,12.532S5.271,0,11.773,0A11.15,11.15,0,0,1,17.09,1.348,11.169,11.169,0,0,1,28.483,1.8,11.191,11.191,0,0,1,34.559,0c6.5,0,11.773,5.611,11.773,12.532S41.061,25.065,34.559,25.065A11.191,11.191,0,0,1,28.483,23.269Z" transform="translate(24.21 12.17)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

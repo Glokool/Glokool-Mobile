@@ -1,23 +1,67 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { Pressable, StyleSheet, SafeAreaView } from 'react-native';
+import { Pressable, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
-import { ChatReportScreenProps } from '../../../navigation/SceneNavigator/Chat.navigator';
+import { ChatReportSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { SERVER } from '../../../server.component';
+import axios from 'axios';
 
 
 
-export const ReportTopTabBar = ({ props, value } : { props : ChatReportScreenProps, value : string}) : React.ReactElement => {
+export const ReportTopTabBar = (props : any) : React.ReactElement => {
+
+    const prop : ChatReportSceneProps = props.props;
+    const input = props.value;
 
     const PressBackButton = () => {
-        props.navigation.goBack();
+        prop.navigation.goBack();
     }
 
     const PressSend = () => {
-        console.log(value)
 
+        const ChatRoomID = prop.route.params.id;
+        const userUID = prop.route.params.user.uid;
+        
+        
+        if (input == '') { Alert.alert('Report Error','Please enter contents') }
+        else {
+            
+            const AuthToken = auth().currentUser?.getIdToken()
+                .then((token) => {
+
+                    const data = {
+                        content: input,
+                        chatRoomCode: ChatRoomID,
+                        user: userUID
+                    }
+
+                    const options = {
+                        method : 'POST',
+                        url : SERVER + '/api/reports',
+                        data : JSON.stringify(data),
+                        headers: {
+                            Authorization: 'Bearer ' + token,
+                        },
+                    }
+
+                    axios(options)
+                        .then((response) => {
+                            prop.navigation.goBack();
+                        })
+                        .catch((e) => {
+                            console.log('신고 기능 서버 저장 실패 ! : ', e);
+                        })
+                })
+                .catch((error) => {
+                    console.log('Firebase Auth Token Error : ', error)
+                })
+
+
+
+        }
     }
 
     return (

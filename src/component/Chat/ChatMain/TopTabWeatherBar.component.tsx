@@ -9,7 +9,7 @@ import { WeatherInfo } from '../../../types';
 import moment from 'moment';
 import axios from 'axios';
 import { SERVER } from '../../../server.component';
-import { Cloudy } from '../../../assets/icon/Chat/Weather';
+import { Cloudy, Rain, Snow, Sunny } from '../../../assets/icon/Chat/Weather';
 
 export const TopTabWeatherbar = (): LayoutElement => {
 
@@ -53,7 +53,17 @@ export const TopTabWeatherbar = (): LayoutElement => {
                 </Layout>
 
                 <Layout style={styles.WeatherIcon}>
-                    <Cloudy />
+                    {(data?.main === 'Snow')?
+                        <Snow />
+                        :
+                     (data?.main === 'Clouds')?
+                        <Cloudy />
+                        :
+                     (data?.main === 'Rain')?
+                        <Rain />
+                        :
+                        <Sunny />
+                    }
                 </Layout>
                
             </Layout>

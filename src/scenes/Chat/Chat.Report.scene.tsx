@@ -14,36 +14,6 @@ export const ChatReportScene = (props: ChatReportSceneProps): LayoutElement => {
     const user = props.route.params.user;
     const [value, setValue] = React.useState('');
 
-    const PressSend = () => {
-        if (value == '') {
-            // 이거 실행 에러남
-            Alert.alert('Please enter contents');
-        } else {
-            const report = {
-                id: props.route.params.id,
-                guideUid: user?.uid,
-                guideName: user?.name,
-                user: currentUser?.email,
-                userName: currentUser?.displayName,
-                value: value,
-            };
-            
-            const now = new Date();
-            now.setHours(now.getHours() + 9);
-
-            const reportDate = `${now.getFullYear()}-${
-                now.getMonth() + 1
-            }-${now.getDate()}-${now.getHours()}:${now.getMinutes()}`;
-
-            const docRef = firestore()
-                .collection('ReportAssistant')
-                .doc(`${user.uid}-${currentUser?.uid}-${reportDate}`)
-                .set(report);
-
-            props.navigation.goBack();
-        }
-    };
-
     return (
         <SafeAreaView style={styles.MainContainer}>
             

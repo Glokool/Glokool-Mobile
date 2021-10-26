@@ -13,13 +13,17 @@ import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { Profile_Button, Report_Button } from '../../assets/icon/Chat';
 
 
+
 export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.ReactElement => {
 
     const dispatch = useDispatch();
     const ChatRoomID = props.route.params.id;
+    
+    const [users, setUsers] = React.useState<Array<any>>([]);
     const [mute, setMute] = React.useState(false);
 
     React.useEffect(() => {
+        
         AsyncStorage.getItem(`${ChatRoomID}_fcm`)
             .then((value) => {
                 if (value === null){
@@ -36,8 +40,10 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
                 
             })
             .catch((reason) => {
-                
+                console.log('Async Storage Load Error : ', reason);
             })
+            
+
     }, [])
 
 
@@ -60,7 +66,6 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
             setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
             messaging().subscribeToTopic(ChatRoomID)
-           
         }       
 
     }

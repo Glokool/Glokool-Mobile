@@ -1,10 +1,13 @@
 
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import FastImage from 'react-native-fast-image';
-import { ChatRoomSettingSceneProps } from '../../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatRoomSettingSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { Report_Button } from '../../../assets/icon/Chat';
+import { SERVER } from '../../../server.component';
+import axios from 'axios';
 
 type MemberInfo = {
     avatar : string,
@@ -14,6 +17,7 @@ type MemberInfo = {
 
 export const MemberList = (props : ChatRoomSettingSceneProps) : React.ReactElement => {
 
+    const ChatRoomID = props.route.params.id;
     const [memberData, setMemberData] = React.useState<Array<MemberInfo>>([]);
 
     React.useEffect(() => {
@@ -24,7 +28,31 @@ export const MemberList = (props : ChatRoomSettingSceneProps) : React.ReactEleme
                 name : '',
                 uid : '1'
             }
-        ])
+        ]);
+
+        const AuthToken = auth().currentUser?.getIdToken()
+            .then((token) => {
+            
+                const options = {
+                    method : 'GET',
+                    url : SERVER + '/api/' + ChatRoomID + '/reports',
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                }
+
+                axios(options)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((e) => {
+                        console.log('최초 유저 리스트 로딩 실패 : ', e);
+                    })
+            })
+            .catch((error) => {
+                console.log('Firebase Auth Token Error : ', error)
+            })
+        
 
 
     }, [])
