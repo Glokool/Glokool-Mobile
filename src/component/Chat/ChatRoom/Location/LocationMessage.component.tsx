@@ -62,7 +62,6 @@ export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubble
 const styles = StyleSheet.create({
 
     MyLocationContainer: {
-
         backgroundColor: '#00FF0000'
     },
 

@@ -16,7 +16,8 @@ export { renderAvatar } from './Common/Avatar.component'
 export { ChatTopTabBarComponent } from './Common/TopTabBar.component';
 export { BottomTabBarComponent } from './Common/BottomTabBar.component';
 export { NoticeComponent } from './Common/Notice.component';
-export { renderLoadEarlier } from './Common/LoadEarlier.component'
+export { renderLoadEarlier } from './Common/LoadEarlier.component';
+export { EmojiKeyboardComponent } from './Common/EmojiKeyboard.component'
 
 // Audio
 export { ChatAudioComponent } from './Audio/Audio.component';

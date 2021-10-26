@@ -42,6 +42,7 @@ import {
     BottomTabBarComponent,
     NoticeComponent,
     renderLoadEarlier,
+    EmojiKeyboardComponent,
 } from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
@@ -56,11 +57,14 @@ var ToastRef: any;
 
 export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
+    const day = props.route.params.day
+    const Guide = props.route.params.guide;
+
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
+
     const dispatch = useDispatch();
-    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
-    const day = props.route.params.day
+    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);    
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
     const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
     const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
@@ -330,11 +334,11 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}
                     renderInputToolbar={(props) => renderInputToolbar(props, day, dispatch, menuVisiblity, emojiKeyboardVisiblity)}
-                    renderBubble={(prop) => renderBubble(prop, props.route.params.guide)}
+                    renderBubble={(props) => renderBubble(props, Guide)}
                     renderLoading={renderLoading}
                     renderSystemMessage={renderSystemMessage}
                     renderMessageImage={(props) => renderImage(props, dispatch)}
-                    renderMessageAudio={(prop) => renderSound(prop, props.route.params.guide)}
+                    renderMessageAudio={(props) => renderSound(props, Guide)}
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
                 />
 
@@ -342,6 +346,9 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
             {/* 사이드바 컴포넌트 */}
             <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
+
+            {/* 이모지 키보드 컴포넌트 */}
+            <EmojiKeyboardComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
 
             {/* 이미지 클릭시 확대 이미지 창 출력 */}
             <ImageModal />
