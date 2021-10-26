@@ -10,7 +10,7 @@ import { setLocationVisiblityTrue } from "../../../../model/Chat/Chat.UI.model";
 import { LocationBubbleMessage } from "../../../../types";
 
 
-export const renderCustomBubble = (props: BubbleProps<IMessage> & LocationBubbleMessage, dispatch : Dispatch<any>) => {
+export const renderLocationMessage = (props: BubbleProps<IMessage> & LocationBubbleMessage, dispatch : Dispatch<any>) => {
 
     // Mapview (My Location) 출력을 위한 코드
     if (props.currentMessage.messageType === 'location') {

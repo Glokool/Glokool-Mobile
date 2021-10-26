@@ -4,7 +4,7 @@ export { ImageModal } from './Image/Chat.ImageModal.component'
 
 // Location
 export { LocationModal } from './Location/LocationModal.component';
-export { renderCustomBubble } from './Location/LocationMessage.component';
+export { renderLocationMessage } from './Location/LocationMessage.component';
 
 // common
 export { renderBubble } from './Common/Bubble.component';
@@ -18,6 +18,7 @@ export { BottomTabBarComponent } from './Common/BottomTabBar.component';
 export { NoticeComponent } from './Common/Notice.component';
 export { renderLoadEarlier } from './Common/LoadEarlier.component';
 export { EmojiKeyboardComponent } from './Common/EmojiKeyboard.component'
+export { renderCustomBubble } from './Common/CustomBubble.component'
 
 // Audio
 export { ChatAudioComponent } from './Audio/Audio.component';

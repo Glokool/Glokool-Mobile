@@ -48,11 +48,14 @@ export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispat
         const PressActionButton = () => {        
             if(menuVisiblity){
                 dispatch(setMenuVisiblityFalse());
+            
             }
             else {
+                dispatch(setEmojiKeyboardFalse());
                 Keyboard.dismiss();
                 setTimeout(() => {
                     dispatch(setMenuVisiblityTrue());
+
                 }, 100)            
             }
         }
