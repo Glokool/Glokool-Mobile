@@ -16,6 +16,7 @@ import { EmptyHomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon } fro
 import { windowHeight, windowWidth } from '../../Design.component';
 import { EnterIcon } from '../../assets/icon/Zone';
 import { NavigatorRoute } from '../../navigation/app.route';
+import { ChannelIO } from 'react-native-channel-plugin';
 
 var ToastRef: any;
 
@@ -23,6 +24,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
     var exitApp: any = undefined;
     var timeout: any;
+    let ChannelSettings = {
+        "pluginKey": '6178b816e82898b96f85'
+    };
+
+    ChannelIO.boot(ChannelSettings).then((result) => {
+        console.log(result);
+    })
 
     const [zoneIndex, setZoneIndex] = useState(0);
 
