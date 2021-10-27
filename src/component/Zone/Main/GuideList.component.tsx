@@ -262,4 +262,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: Platform.OS === 'ios' ? 16 : 14,
     },
+    
 })

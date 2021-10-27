@@ -12,11 +12,13 @@ import {
 import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar } from '../../component/Home';
-import { HomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon } from '../../assets/icon/Home';
+import { HomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon, Enter_LightPurple, Enter_Purple } from '../../assets/icon/Home';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { EnterIcon } from '../../assets/icon/Zone';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { ChannelIO } from 'react-native-channel-plugin';
+import LinearGradient from 'react-native-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 var ToastRef: any;
 
@@ -37,19 +39,31 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     const ZoneList = [
         {
             name: 'HONGDAE',
-            color: '#EFBA26',
+            bgColor: '#FAD46C',
+            textColor: '#BF9900',
+            title: 'Must-visit entertaining spot',
+            subTitle: 'Hondae street, Sinchon, Yonsei&Ewha Univ.',
         },
         {
             name: 'GWANGHWAMUN',
-            color: '#C1E2D3',
+            bgColor: '#9BD4B9',
+            textColor: '#4F5D56',
+            title: 'History Travel in the center of Seoul',
+            subTitle: 'Gyeongbokgung Palace, Bukchon Hanok Village, Insadong',
         },
         {
             name: 'MYEONGDONG',
-            color: '#CD6562',
+            bgColor: '#CD6562',
+            textColor: '#974644',
+            title: 'A Center of Shopping and Premier Cultural Hub',
+            subTitle: 'N tower, DDP, Myeongdong Cathedral',
         },
         {
             name: 'GANGNAM',
-            color: '#A969C4',
+            bgColor: '#A969C4',
+            textColor: '#85529B',
+            title: 'Most advanced metropolitan with modern attractions',
+            subTitle: 'Olympic park, Lotte towr, Coex, Gangnam Station',
         },
     ]
 
@@ -82,7 +96,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-    const renderZoneButton = (item: { item: { name: string, color: string }, index: number }) => {
+    const renderZoneButton = (item: { item, index: number }) => {
         const additionalStyle = zoneIndex === item.index ? styles.LocationButtonSelected : styles.LocationButtonUnselected;
         return (
             <Pressable
@@ -91,8 +105,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     styles.LocationButtonDefault,
                     additionalStyle,
                     {
-                        backgroundColor: zoneIndex === item.index ? 'white' : item.item.color,
-                        borderColor: item.item.color
+                        backgroundColor: zoneIndex === item.index ? 'white' : item.item.bgColor,
+                        borderColor: item.item.bgColor
                     }
                 ]}
             >
@@ -100,7 +114,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     style={[
                         styles.LocationButtonText,
                         {
-                            color: zoneIndex === item.index ? item.item.color : 'black'
+                            color: item.item.textColor
                         }]}
                 >
                     {item.item.name}
@@ -115,20 +129,21 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
             <Toast ref={(toast) => (ToastRef = toast)} position={'center'} />
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={styles.ScrollViewContainer}>
-
-                {/* top tab bar */}
-                <HomeTopTabBar />
+                style={styles.ScrollViewContainer}
+                bounces={false}>
 
                 {/* glochat 소개 컨테이너 */}
                 <Layout style={styles.GloChatContainer}>
+
+                    {/* top tab bar */}
+                    <HomeTopTabBar />
 
                     <HomeImage style={styles.GloChatImage} />
 
 
                     <Layout style={styles.GloChatTitleContainer}>
                         <Text style={styles.GloChatTitleText}>Start your journey</Text>
-                        <Text style={styles.GloChatTitleText}>with GloChat today!</Text>
+                        <Text style={styles.GloChatTitleText}>with <Text style={{ color: '#8B63FF' }}>GloChat</Text> today!</Text>
                     </Layout>
 
                     <Layout style={styles.GloChatSubTitleContainer}>
@@ -136,19 +151,28 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <Text style={styles.GloChatSubTitleText}>travel assistance service</Text>
                     </Layout>
 
-                </Layout>
+                    <Layout style={styles.GloChatButtonContainer}>
+                        <Pressable style={styles.HowItWorks}>
+                            <Text style={styles.HowItWorksText}>How it Works?</Text>
+                            <Enter_Purple />
+                        </Pressable>
 
-                <Layout style={styles.GloChatButtonContainer}>
-                    <Pressable>
-                        <GloChatInfoButton width={windowWidth * 0.43} />
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate(NavigatorRoute.CHAT)}>
-                        <GloChatHomeButton width={windowWidth * 0.43} style={{ opacity: 0.85 }} />
-                    </Pressable>
+                        <LinearGradient
+                            style={styles.StartGloChat}
+                            colors={['#7777ff', '#8946A1']}
+                            start={{ x: 1, y: 0.5 }}
+                            end={{ x: 0, y: 0.5 }}
+                            onTouchEnd={() => props.navigation.navigate(NavigatorRoute.CHAT)}
+                        >
+                            <Text style={styles.StartGloChatText}>Start GloChat</Text>
+                            <Enter_LightPurple />
+                        </LinearGradient>
+                    </Layout>
+
                 </Layout>
 
                 {/* Glo 소개하는 컨테이너 */}
-                <Pressable style={styles.GloContainer}>
+                {/* <Pressable style={styles.GloContainer}>
 
                     <Layout style={styles.GloAskButton}>
                         <Text style={styles.GloAskButtonText}>ASK</Text>
@@ -165,12 +189,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <Text style={styles.GloInfoText}>traveling in Korea.</Text>
                     </Layout>
 
-                </Pressable>
+                </Pressable> */}
 
                 {/* 지도 있는 곳  */}
                 <Layout style={styles.DiscoverContainer}>
 
-                    <Layout style={styles.DiscoverTextContainer}>
+                    <Layout>
                         <Text style={styles.DiscoverTitleText}>DISCOVER</Text>
                         <Text style={styles.DiscoverSubTitleText}>TRAVEL DESTINATION</Text>
                     </Layout>
@@ -185,8 +209,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Layout>
 
                     <Layout style={styles.DiscoverBottomContainer}>
-                        <Text style={[styles.DiscoverBottomText, { fontSize: 17 }]}>Must-visit entertaining spot</Text>
-                        <Text style={[styles.DiscoverBottomText, { fontSize: 15, color: '#707070' }]}>{'Hongdae street, Sinchon, Yonsei&Ehwa Univ.'}</Text>
+                        <Text style={[styles.DiscoverBottomText, { fontSize: 17 }]}>
+                            {ZoneList[zoneIndex].title}
+                        </Text>
+                        <Text style={[styles.DiscoverBottomText, { fontSize: 15, color: '#707070' }]}>
+                            {ZoneList[zoneIndex].subTitle}
+                        </Text>
                         <Layout style={styles.ExploreButtonContainer}>
                             <Text style={styles.ExploreButtonText}>EXPLORE</Text>
                             <EnterIcon />
@@ -203,7 +231,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
 
-                <Layout style={{ height: windowHeight * 0.15 }} />
+                <Layout style={{ height: windowHeight * 0.15, backgroundColor: '#0000' }} />
             </ScrollView>
 
         </Layout>
@@ -214,44 +242,14 @@ const styles = StyleSheet.create({
     MainContainer: {
         width: '100%',
         alignItems: 'center',
+        backgroundColor: '#ECECFC',
     },
     ScrollViewContainer: {
         width: '100%',
         backgroundColor: '#00ff0000',
     },
     GloChatContainer: {
-        height: windowHeight * 0.2,
-        paddingLeft: windowWidth * 0.05
-    },
-    GloChatImage: {
-        position: 'absolute',
-        right: 0,
-        bottom: - windowHeight * 0.04,
-    },
-    GloChatTitleContainer: {
-        backgroundColor: '#0000',
-    },
-    GloChatTitleText: {
-        fontFamily: 'Pretendard-SemiBold',
-        fontSize: 24,
-        color: '#2F2073'
-    },
-    GloChatSubTitleContainer: {
-        backgroundColor: '#0000',
-        marginTop: windowHeight * 0.015
-    },
-    GloChatSubTitleText: {
-        fontFamily: 'Pretendard-SemiBold',
-        fontSize: 16,
-        color: '#4A4A58'
-    },
-    GloChatButtonContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: windowHeight * 0.015,
-        paddingBottom: windowHeight * 0.025,
-        paddingHorizontal: windowWidth * 0.05,
+        paddingLeft: windowWidth * 0.05,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
         shadowColor: '#7777ff',
@@ -261,6 +259,37 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.3,
         shadowRadius: 2,
+    },
+    GloChatImage: {
+        position: 'absolute',
+        right: 0,
+        bottom: windowHeight * 0.05,
+    },
+    GloChatTitleContainer: {
+        backgroundColor: '#0000',
+    },
+    GloChatTitleText: {
+        fontFamily: 'Pretendard-ExtraBold',
+        fontSize: 27,
+        color: '#2F2073'
+    },
+    GloChatSubTitleContainer: {
+        backgroundColor: '#0000',
+        marginTop: windowHeight * 0.005
+    },
+    GloChatSubTitleText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 16,
+        color: '#5454A5'
+    },
+    GloChatButtonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: windowHeight * 0.12,
+        paddingBottom: windowHeight * 0.025,
+        width: windowWidth * 0.9,
+        backgroundColor: '#0000',
         elevation: 3,
     },
     GloContainer: {
@@ -303,15 +332,11 @@ const styles = StyleSheet.create({
         right: windowWidth * 0.05,
     },
     DiscoverContainer: {
+        width: windowWidth * 0.9,
+        alignSelf: 'center',
         marginTop: windowHeight * 0.025,
-        borderBottomWidth: 4,
-        borderBottomColor: '#e4e4e4',
-        paddingBottom: windowHeight * 0.025
-    },
-    DiscoverTextContainer: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        marginHorizontal: windowWidth * 0.05,
+        borderRadius: 10,
+        padding: windowHeight * 0.025
     },
     DiscoverTitleText: {
         fontFamily: 'Pretendard-SemiBold',
@@ -321,7 +346,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
         color: '#756EBC',
-        marginLeft: windowWidth * 0.025
     },
     LocationButtonDefault: {
         borderRadius: 10,
@@ -333,7 +357,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     LocationButtonUnselected: {
-        opacity: 0.7,
+        opacity: 0.8,
     },
     LocationButtonSelected: {
         shadowColor: '#000',
@@ -355,10 +379,9 @@ const styles = StyleSheet.create({
         marginTop: windowHeight * 0.01
     },
     FlatListContainer: {
-        marginLeft: windowWidth * 0.05
+
     },
     DiscoverBottomContainer: {
-        paddingHorizontal: windowWidth * 0.05,
         marginTop: windowHeight * 0.01
     },
     ExploreButtonContainer: {
@@ -381,8 +404,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium'
     },
     VisitContainer: {
-        paddingHorizontal: windowWidth * 0.05,
-        marginTop: windowHeight * 0.025
+        width: windowWidth * 0.9,
+        alignSelf: 'center',
+        marginTop: windowHeight * 0.025,
+        padding: windowWidth * 0.05,
+        borderRadius: 10,
     },
     VisitText: {
         fontFamily: 'Pretendard-SemiBold',
@@ -395,10 +421,43 @@ const styles = StyleSheet.create({
         marginTop: windowHeight * 0.015
     },
     VisitItem: {
-        width: windowWidth * 0.45,
-        height: windowWidth * 0.45,
+        width: windowWidth * 0.39,
+        height: windowWidth * 0.39,
         borderRadius: 10,
         borderWidth: 0.5,
-        marginHorizontal: windowWidth * 0.015
+        marginHorizontal: windowWidth * 0.01
+    },
+    StartGloChat: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: windowWidth * 0.43,
+        height: windowHeight * 0.05,
+        borderRadius: 100,
+        opacity: 0.84
+    },
+    StartGloChatText: {
+        color: 'white',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: windowWidth * 0.035,
+        marginRight: 5
+    },
+    HowItWorks: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: windowWidth * 0.43,
+        height: windowHeight * 0.05,
+        borderRadius: 100,
+        borderWidth: 1.5,
+        borderColor: '#9A94F6',
+        backgroundColor: '#fff',
+        opacity: 0.84,
+    },
+    HowItWorksText: {
+        color: '#6969DF',
+        fontFamily: 'Pretendard-Medium',
+        fontSize: windowWidth * 0.035,
+        marginRight: 5
     }
 });

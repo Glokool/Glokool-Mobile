@@ -10,6 +10,7 @@ import { NavigatorRoute } from '../../navigation/app.route';
 import { AuthContext } from '../../context/AuthContext';
 import { TextLogo, LoginIcon } from '../../assets/icon/Home';
 import { useNavigation } from '@react-navigation/core';
+import { windowWidth } from '../../Design.component';
 
 export const HomeTopTabBar = (): LayoutElement => {
 
@@ -71,13 +72,14 @@ export const HomeTopTabBar = (): LayoutElement => {
 
 const styles = StyleSheet.create({
     TopTabBarContainer: {
-        width: '100%',
-        marginTop: Platform.OS === 'ios' ? 40 : 20,
-        paddingHorizontal: 40,
+        width: windowWidth,
+        paddingTop: Platform.OS === 'ios' ? 40 : 20,
+        paddingHorizontal: windowWidth * 0.05,
         alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: '#00ff0000',
+        backgroundColor: '#fff',
     },
     LoginButtonContainer: {
         justifyContent: 'center',
