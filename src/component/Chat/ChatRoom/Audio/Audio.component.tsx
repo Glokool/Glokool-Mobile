@@ -1,6 +1,6 @@
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 import React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, Text } from 'react-native';
 import Sound from 'react-native-sound';
 import { Left_Play, Right_Play, Right_Stop } from '../../../../assets/icon/Chat';
 import { AuthContext } from '../../../../context/AuthContext';

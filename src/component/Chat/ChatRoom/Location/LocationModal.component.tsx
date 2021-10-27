@@ -1,23 +1,23 @@
 import React from 'react';
-import { Layout, Text, Modal, Card,  } from '@ui-kitten/components';
+import { Layout, Modal, Card, } from '@ui-kitten/components';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { windowHeight, windowWidth } from '../../../../Design.component';
-import { Pressable, StyleSheet, } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../model';
 import { setLocationVisiblityFalse, } from '../../../../model/Chat/Chat.UI.model';
 
-export const LocationModal = () : React.ReactElement => {
+export const LocationModal = (): React.ReactElement => {
 
-    const mapVisibility = useSelector((state : RootState) => state.ChatUIModel.locationVisiblity);
-    const lat = useSelector((state : RootState) => state.ChatLocationModel.lat);
-    const lon = useSelector((state : RootState) => state.ChatLocationModel.lon);
+    const mapVisibility = useSelector((state: RootState) => state.ChatUIModel.locationVisiblity);
+    const lat = useSelector((state: RootState) => state.ChatLocationModel.lat);
+    const lon = useSelector((state: RootState) => state.ChatLocationModel.lon);
     const dispatch = useDispatch();
-    
+
     // 맵 뷰 헤더
-    const LocationModalHeader = () : React.ReactElement => (
+    const LocationModalHeader = (): React.ReactElement => (
         <Layout style={{ flexDirection: 'row', padding: 20 }}>
             <Layout style={{ flex: 1, alignItems: 'flex-start' }}>
                 <Text style={styles.MyLocaionTitleText}>
@@ -67,8 +67,8 @@ export const LocationModal = () : React.ReactElement => {
 };
 
 const styles = StyleSheet.create({
-    
-    BackDrop : {
+
+    BackDrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
 
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
         alignItems: 'center',
-        fontFamily : 'BrandonGrotesque-Medium',
+        fontFamily: 'BrandonGrotesque-Medium',
         color: '#8C8C8C'
     }
-    
+
 })
 

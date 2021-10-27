@@ -1,26 +1,39 @@
 import React from 'react';
-import { FlatList, Pressable, StyleSheet } from 'react-native';
-import { Divider, Layout, Text } from '@ui-kitten/components';
+import { FlatList, Pressable, StyleSheet, Text } from 'react-native';
+import { Divider, Layout } from '@ui-kitten/components';
 import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { BookButton, GroupChattingPerson, GroupChattingType } from '../../../assets/icon/Chat/GuideList';
 import FastImage from 'react-native-fast-image';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { CurrentKoreanTimeComponent } from '.';
+import { useInterval } from '../ChatRoom/Audio/Timer.component';
 
+export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
 
-export const GuideListComponent = (props : ChatTASelectSceneProps) : React.ReactElement => {
+    const KRTIMEDIFF = 9 * 60 * 60 * 1000;
+
+    const date = new Date();
+    const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
+    const [time, setTime] = React.useState(new Date(utc + KRTIMEDIFF));
+
+    useInterval(() => {
+        const date = new Date();
+        const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
+        setTime(new Date(utc + KRTIMEDIFF));
+    }, 30000)
 
     const [data, setData] = React.useState([
         {
             _id: "616d28b2e5d90f7a8568ec63",
             guide: {
-                _id : "6094d2265c8f9d70b4c997aa",
+                _id: "6094d2265c8f9d70b4c997aa",
                 uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
                 avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
-                name : "GlokoolOfficial",
-                desc : '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
-                keyword : ['안녕', '반가워'],
-                lang: [true, false ],
-                },
+                name: "GlokoolOfficial",
+                desc: '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
+                keyword: ['안녕', '반가워'],
+                lang: [true, false],
+            },
             maxUserNum: 1,
             price: {
                 price: 50,
@@ -28,42 +41,30 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
             },
             users: []
         },
-
-
     ]);
 
-    const renderGuide = ({item} : {item : any, index : number}) => {
+    const renderGuide = ({ item }: { item: any, index: number }) => {
 
-        return(
+        return (
             <Layout style={styles.GuideContainer}>
-
                 <Layout style={styles.GuideInfoContainer}>
-
-                    <FastImage source={{uri : item.guide.avatar}} style={styles.Avatar}/>
-
+                    <FastImage source={{ uri: item.guide.avatar }} style={styles.Avatar} />
                     <Layout style={styles.GuideInfoTextContainer}>
-
                         <Layout style={styles.GuideNameContainer}>
-
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
-
-                            <Pressable style={styles.Button} onPress={() => props.navigation.navigate(NavigatorRoute.PAY, { 
-                                screen : SceneRoute.PAY_FIRST,
-                                params : { ChatRoomID : item._id, guide : item.guide._id }
+                            <Pressable style={styles.Button} onPress={() => props.navigation.navigate(NavigatorRoute.PAY, {
+                                screen: SceneRoute.PAY_FIRST,
+                                params: { ChatRoomID: item._id, guide: item.guide._id }
                             })}>
                                 <BookButton />
                             </Pressable>
-
                         </Layout>
-
                         <Text numberOfLines={2} style={styles.GuideDesc}>{item.guide.desc}</Text>
-
                     </Layout>
                 </Layout>
 
-                
+
                 <Layout style={styles.TagContainer}>
-                        
                     <Layout style={styles.Tag}>
                         <Text style={styles.TagText}>{item.guide.keyword[0]}</Text>
                     </Layout>
@@ -71,60 +72,51 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
                     <Layout style={styles.Tag}>
                         <Text style={styles.TagText}>{item.guide.keyword[1]}</Text>
                     </Layout>
-
                 </Layout>
 
                 <Divider style={styles.Divider} />
 
                 <Layout style={styles.BottomContainer}>
-
                     <Layout style={styles.TypeContainer}>
+                        <Layout style={styles.IconContainer}>
+                            <GroupChattingType />
+                            <Text style={styles.DescText}>Group Chat</Text>
+                        </Layout>
 
                         <Layout style={styles.IconContainer}>
-                            <GroupChattingType/>
-                            <Text style={styles.DescText}>Gruop Chat</Text>
-                        </Layout>          
-
-                        <Layout style={styles.IconContainer}>
-                            <GroupChattingPerson/>
+                            <GroupChattingPerson />
                             <Text style={styles.DescText}>10</Text>
-                        </Layout>                   
-
+                        </Layout>
                     </Layout>
 
                     <Layout style={styles.PriceContainer}>
-
                         <Text style={styles.DiscountBeforeText1}>$ <Text style={styles.DiscountBeforeText2}>30</Text></Text>
-
                         <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}> 14.00</Text> / day</Text>
-
                     </Layout>
-
-
                 </Layout>
-
-
-
-
             </Layout>
-
-
         )
     }
 
+    const ListHeaderComponent = () => {
+        return (
+            <>
+                <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} />
+                <Text style={styles.MainTitle}>FIND THE BEST</Text>
+                <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
+            </>
+        )
+    }
 
-
-    return(
+    return (
         <Layout style={styles.container}>
-
-            <Text style={styles.MainTitle}>FIND THE BEST</Text>
-            <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
 
             <FlatList
                 data={data}
-                contentContainerStyle={{padding : 2}}
+                contentContainerStyle={{ padding: 2 }}
                 keyExtractor={(item) => (item._id)}
                 renderItem={renderGuide}
+                ListHeaderComponent={ListHeaderComponent}
             />
 
             {/* <Layout style={styles.EmptyContainer}>
@@ -132,9 +124,6 @@ export const GuideListComponent = (props : ChatTASelectSceneProps) : React.React
                 <Text style={styles.EmptyTitle2}>We are currently updating our travel assistants list.</Text>
                 <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
             </Layout> */}
-
-
-
 
         </Layout>
 
@@ -147,13 +136,14 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
         paddingVertical: 5,
-        flex : 1,
+        flex: 1,
     },
 
     GuideContainer: {
         width: '100%',
-        padding : 10,
-        borderRadius : 10,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -171,23 +161,24 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    GuideInfoTextContainer : {
-        alignItems : 'flex-start',
+    GuideInfoTextContainer: {
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
-        marginLeft : 5,
-        flex : 1,
-        height : 80,
+        marginLeft: 5,
+        flex: 1,
+        height: 80,
         paddingBottom: 5
     },
 
     GuideNameContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
+        marginLeft: 5,
         width: '100%'
     },
 
-    Avatar : {
+    Avatar: {
         width: 80,
         height: 80,
         borderRadius: 100,
@@ -195,7 +186,7 @@ const styles = StyleSheet.create({
         borderColor: '#FFE4D2'
     },
 
-    Button : {
+    Button: {
         width: 80,
         height: 30
     },
@@ -209,9 +200,9 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
 
-    Tag : {
+    Tag: {
         justifyContent: 'center',
-        alignItems : 'center',
+        alignItems: 'center',
         backgroundColor: '#F1F1FF',
         borderRadius: 19,
         paddingVertical: 3,
@@ -219,17 +210,18 @@ const styles = StyleSheet.create({
     },
 
     Divider: {
-        height : 2,
+        height: 2,
         width: '100%',
         backgroundColor: '#F3F3F3',
-        marginVertical : 5
+        marginVertical: 5
     },
 
     BottomContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        flex : 1
+        marginTop: 10,
+        flex: 1
     },
 
     IconContainer: {
@@ -240,26 +232,26 @@ const styles = StyleSheet.create({
     },
 
     TypeContainer: {
-        flexDirection : 'row',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex : 1
+        flex: 1
     },
 
     PriceContainer: {
-        flexDirection : 'row',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex : 1
+        flex: 1
     },
 
-    MainTitle : {
+    MainTitle: {
         fontFamily: 'Pretendard-SemiBold',
         color: '#404040',
         fontSize: 17,
         marginLeft: 6,
     },
-    SubTitle : {
+    SubTitle: {
         fontFamily: 'Pretendard-Bold',
         color: '#000000',
         fontSize: 17,
@@ -267,15 +259,16 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 
-    GuideName : {
+    GuideName: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 19,
         color: 'black'
     },
 
-    GuideDesc : {
+    GuideDesc: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
+        marginLeft: 5,
         color: '#858588'
     },
 
@@ -293,48 +286,48 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
 
-    DiscountBeforeText1 : {
+    DiscountBeforeText1: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 16,
         color: '#D1D1D1'
     },
 
-    DiscountBeforeText2 : {
+    DiscountBeforeText2: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 16,
         color: '#D1D1D1',
-        textDecorationLine : 'line-through',
+        textDecorationLine: 'line-through',
     },
 
-    DiscountAfterText1 : {
+    DiscountAfterText1: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: '#7777FF'
     },
 
-    DiscountAfterText2 : {
+    DiscountAfterText2: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: 'black'
     },
 
-    EmptyContainer: { 
+    EmptyContainer: {
         justifyContent: 'center',
-        alignItems : 'center',
+        alignItems: 'center',
     },
 
-    EmptyTitle1 : {
+    EmptyTitle1: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 18,
-        marginVertical : 10
+        marginVertical: 10
     },
 
-    EmptyTitle2 : {
+    EmptyTitle2: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
 
-    EmptyTitle3 : {
+    EmptyTitle3: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#A5A5A5'

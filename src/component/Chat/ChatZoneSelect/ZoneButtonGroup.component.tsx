@@ -1,30 +1,29 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { AngleRight_Gray } from '../../../assets/icon/Common';
 import { SceneRoute } from '../../../navigation/app.route';
 
 
-export const ZoneButtonGroupComponent = (props : ChatZoneSelectSceneProps) : React.ReactElement => {
-
+export const ZoneButtonGroupComponent = (props: ChatZoneSelectSceneProps): React.ReactElement => {
 
     const Button = ['HONGDAE', 'GWANGHWAMUN', 'MYEONGDONG', 'GANGNAM']
 
     return (
         <Layout style={styles.container}>
 
-            {Button.map((item : string, index : number) => (
-                <Pressable style={styles.ButtonContainer} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT , { zone : item })}>
+            {Button.map((item: string, index: number) => (
+                <Pressable style={styles.ButtonContainer} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT, { zone: item })}>
 
                     <Layout style={styles.ButtonTextContainer}>
                         <Text style={styles.ButtonText}>{item}</Text>
                     </Layout>
-    
+
                     <Layout>
                         <AngleRight_Gray />
-                    </Layout>                
-    
+                    </Layout>
+
                 </Pressable>
             ))}
 
@@ -60,11 +59,11 @@ const styles = StyleSheet.create({
     ButtonTextContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-    },  
+    },
 
     ButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize : 16,
+        fontSize: 16,
         textAlign: 'left'
     }
 

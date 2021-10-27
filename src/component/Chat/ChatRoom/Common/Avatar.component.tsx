@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Avatar, AvatarProps, IMessage } from 'react-native-gifted-chat';
 import { windowWidth } from '../../../../Design.component';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 
 export const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement => {
 

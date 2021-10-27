@@ -1,12 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
-export const TASelectTopTabBarComponent = (props : ChatTASelectSceneProps) : React.ReactElement => {
+export const TASelectTopTabBarComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
 
     const Zone = props.route.params.zone;
 
@@ -16,10 +16,10 @@ export const TASelectTopTabBarComponent = (props : ChatTASelectSceneProps) : Rea
 
     return (
         <Layout style={styles.MainContainer}>
-            
+
             <Pressable
                 style={styles.LeftIcon}
-                onPress={() => {PressBackButton()}}>
+                onPress={() => { PressBackButton() }}>
                 <ArrowLeft />
             </Pressable>
 
@@ -27,24 +27,24 @@ export const TASelectTopTabBarComponent = (props : ChatTASelectSceneProps) : Rea
                 <Text style={styles.Title}>{Zone}</Text>
             </Layout>
 
-            <Layout style={styles.EmptyContainer}/>
+            <Layout style={styles.EmptyContainer} />
 
-        </Layout>            
+        </Layout>
 
     );
 }
 
 const styles = StyleSheet.create({
-    MainContainer : {
+    MainContainer: {
         flexDirection: 'row',
-        position: 'absolute',
+        // position: 'absolute',
         width: '100%',
-        top: isIphoneX()? getStatusBarHeight() : 0,
+        // top: isIphoneX()? getStatusBarHeight() : 0,
         height: 60,
         alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderBottomWidth : 1,
-        borderBottomColor : '#F0F0F0'
+        borderBottomWidth: 1,
+        borderBottomColor: '#F0F0F0'
     },
 
     TitleContainer: {
@@ -56,18 +56,18 @@ const styles = StyleSheet.create({
     },
 
     Title: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: 'black',
-        textAlign : 'center',
+        textAlign: 'center',
         backgroundColor: '#00FF0000'
     },
-    
-    LeftIcon : {
+
+    LeftIcon: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
 
     EmptyContainer: {
         width: 10,
-        height : 0,
+        height: 0,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,

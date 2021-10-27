@@ -1,17 +1,11 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ZoneButtonGroupComponent, ZoneSelectTopTabBarComponent } from '../../component/Chat/ChatZoneSelect';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
-
-
-
 export const ChatZoneSelectScene = (props : ChatZoneSelectSceneProps) : React.ReactElement => {
-
-
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -33,7 +27,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        paddingTop: isIphoneX()? getStatusBarHeight() + 60 : 60,
+        // paddingTop: isIphoneX()? getStatusBarHeight() + 60 : 60,
     },
 
     MainTitle : {

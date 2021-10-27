@@ -1,7 +1,7 @@
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, Text } from 'react-native';
 import { Bubble, BubbleProps, IMessage } from 'react-native-gifted-chat';
 
 

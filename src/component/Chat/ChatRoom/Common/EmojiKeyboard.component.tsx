@@ -2,9 +2,8 @@ import React from 'react';
 import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../model';
-import { FirebaseDatabaseTypes } from '@react-native-firebase/database';
 import { Layout } from '@ui-kitten/components';
-import { windowHeight, windowWidth } from '../../../../Design.component';
+import { windowWidth } from '../../../../Design.component';
 import { setEmojiKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
 
 export const EmojiKeyboardComponent = (props : any) : React.ReactElement => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ChatTASelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { CurrentKoreanTimeComponent, GuideListComponent, TASelectTopTabBarComponent } from '../../component/Chat/ChatTASelect';
 import { useInterval } from '../../component/Chat/ChatRoom/Audio/Timer.component';
@@ -8,7 +8,7 @@ import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 
 
-export const ChatTASelectScene = (props : ChatTASelectSceneProps) => {
+export const ChatTASelectScene = (props: ChatTASelectSceneProps) => {
 
     const Zone = props.route.params.zone;
     const KRTIMEDIFF = 9 * 60 * 60 * 1000;
@@ -19,18 +19,18 @@ export const ChatTASelectScene = (props : ChatTASelectSceneProps) => {
 
     useInterval(() => {
         const date = new Date();
-        const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);      
+        const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
         setTime(new Date(utc + KRTIMEDIFF));
     }, 30000)
 
-    return ( 
+    return (
         <SafeAreaView style={styles.container}>
 
-            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()}/>
+            <TASelectTopTabBarComponent {...props} />
+
+            {/* <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} /> */}
 
             <GuideListComponent {...props} />
-
-            <TASelectTopTabBarComponent {...props} />
 
         </SafeAreaView>
     )
@@ -39,11 +39,11 @@ export const ChatTASelectScene = (props : ChatTASelectSceneProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: isIphoneX()? getStatusBarHeight() + 60 : 60,
+        // paddingTop: isIphoneX() ? getStatusBarHeight() + 60 : 60,
         backgroundColor: 'white'
     },
 
-    component : {
+    component: {
         marginVertical: 10,
     }
 })

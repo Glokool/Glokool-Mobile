@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatZoneSelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
@@ -34,9 +34,9 @@ export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) :
 const styles = StyleSheet.create({
     MainContainer : {
         flexDirection: 'row',
-        position: 'absolute',
+        // position: 'absolute',
         width: '100%',
-        top: isIphoneX()? getStatusBarHeight() : 0,
+        // top: isIphoneX()? getStatusBarHeight() : 0,
         height: 60,
         alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',

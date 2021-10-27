@@ -53,6 +53,8 @@ import Dismiss_Button from './Dismiss_Button.svg';
 import Report_Button from './Report_Button.svg';
 import Profile_Button from './Profile_Button.svg';
 
+import SendIcon_Text from './SendIcon_Text.svg';
+
 export {
     Help,
     Menu,
@@ -105,5 +107,7 @@ export {
     AngleDown_Gray,
 
     Report_Button,
-    Profile_Button
+    Profile_Button,
+
+    SendIcon_Text
 }

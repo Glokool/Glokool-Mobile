@@ -1,6 +1,6 @@
 import React from 'react';
-import { Animated, GestureResponderEvent, Pressable, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Animated, Pressable, StyleSheet } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { AngleDown_Gray, Dismiss_Button, NoticeClose_Button } from '../../../../assets/icon/Chat';
 

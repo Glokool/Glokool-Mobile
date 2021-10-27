@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Pressable, FlatList, ScrollView } from 'react-native';
-import { Layout, Text, Divider } from '@ui-kitten/components';
+import { StyleSheet, Pressable, FlatList, ScrollView, Text } from 'react-native';
+import { Layout, Divider } from '@ui-kitten/components';
 import { Arrow_Bottom, Chat_Book_Button, Guide_Location, How_It_Works_Button } from '../../../assets/icon/Chat';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import FastImage from 'react-native-fast-image';
@@ -8,11 +8,11 @@ import { ChatRoomSceneProps } from '../../../navigation/SceneNavigator/Chat.navi
 import { SceneRoute } from '../../../navigation/app.route';
 
 
-export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
+export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
 
     const [data, setData] = React.useState([
         {
-            _id : 'testChat',
+            _id: 'testChat',
             day: new Date(),
             guide: {
                 name: 'beomseok',
@@ -24,10 +24,10 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
         },
     ]);
 
-    const renderGuide = ({item} : {item : any, index : number}) : React.ReactElement => {
+    const renderGuide = ({ item }: { item: any, index: number }): React.ReactElement => {
 
 
-        return(
+        return (
             <Pressable onPress={() => props.navigation.navigate(SceneRoute.CHATROOM, {
                 id: item._id,
                 guide: {
@@ -45,7 +45,7 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
                         <Text style={styles.GuideLocationTitleText}>  HONGDAE</Text>
                     </Layout>
 
-                    <Divider style={styles.ChatRoomDivider}/>
+                    <Divider style={styles.ChatRoomDivider} />
 
                     <Layout style={styles.ChatRoomProfileContainer}>
 
@@ -70,7 +70,7 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
 
                         </Layout>
 
-                        
+
                         <Layout style={styles.ChatRoomInfoContainer}>
                             <Text style={styles.TimeText}>00:00</Text>
 
@@ -83,7 +83,7 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
 
                 </Layout>
             </Pressable>
-            
+
 
         )
     }
@@ -92,7 +92,7 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
 
     // 비었을 때
     if (data.length !== 0) {
-        return(
+        return (
             <Layout style={styles.Container}>
 
                 <ScrollView>
@@ -106,18 +106,18 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
                             {`choose your travel destination first.`}
                         </Text>
 
-                        <Arrow_Bottom style={styles.BottomIcon}/>
+                        <Arrow_Bottom style={styles.BottomIcon} />
 
                         <Pressable style={styles.ChatMainADButton} onPress={() => props.navigation.navigate(SceneRoute.CHAT_ZONE_SELECT)}>
-                            <Chat_Book_Button />
+                            <Chat_Book_Button width={windowWidth * 0.9} />
                         </Pressable>
 
                         <Pressable style={styles.ChatMainADButton}>
-                            <How_It_Works_Button />                      
+                            <How_It_Works_Button width={windowWidth * 0.9} />
                         </Pressable>
-                        
+
                     </Layout>
-                
+
                 </ScrollView>
 
 
@@ -127,13 +127,13 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
     }
 
 
-    return(
+    return (
 
         <Layout style={styles.Container}>
 
             <Text style={styles.Title}>MY GloChat</Text>
 
-            <FlatList 
+            <FlatList
                 style={styles.GuideVerticalList}
                 keyExtractor={(item: any, index) => item._id}
                 data={data}
@@ -148,7 +148,7 @@ export const ChatList = (props : ChatRoomSceneProps) : React.ReactElement => {
 const styles = StyleSheet.create({
     Container: {
         marginBottom: 65,
-        height : windowHeight - 75 - 6 - 65
+        height: windowHeight - 75 - 6 - 65
     },
 
     MainContainer: {
@@ -165,22 +165,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    Title : {
-        marginLeft : 20,
+    Title: {
+        marginLeft: 20,
         fontFamily: 'Pretendard-Bold',
         fontSize: 17,
         marginVertical: 20
     },
 
-    Desc : {
-        marginLeft : 20,
+    Desc: {
+        marginLeft: 20,
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 17,
-        marginTop : -20,
+        marginTop: -20,
         color: '#A7A7A7'
     },
 
-    EmptyTextTitle : {
+    EmptyTextTitle: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 17,
         textAlign: 'center',
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
 
-    EmptyTextDesc : {
+    EmptyTextDesc: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#AAAAAA',
@@ -196,11 +196,11 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
 
-    BottomIcon : {
+    BottomIcon: {
         marginBottom: 20
     },
 
-    Divider : {
+    Divider: {
         backgroundColor: '#F8F8F8',
         height: 6,
         width: '100%'
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
 
-    GuideVerticalList : {
+    GuideVerticalList: {
         width: '100%',
     },
 
@@ -221,11 +221,11 @@ const styles = StyleSheet.create({
     },
 
     GuideInfoContainer: {
-        minWidth : 232,
-        width : windowWidth * 0.56,
-        minHeight : 144,
-        height : windowHeight * 0.16,
-        borderRadius : 10,
+        minWidth: 232,
+        width: windowWidth * 0.56,
+        minHeight: 144,
+        height: windowHeight * 0.16,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     },
 
     GuideTitleContainer: {
-        width : '87%',
+        width: '87%',
         height: '25%',
         alignItems: 'center',
         justifyContent: 'center',
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     },
 
     GuideLocationTitleText: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         justifyContent: 'center',
         alignItems: 'center'
@@ -271,28 +271,28 @@ const styles = StyleSheet.create({
     },
 
     GuideProfileImage: {
-        width : 70,
-        height : 70,
+        width: 70,
+        height: 70,
         borderRadius: 50
     },
 
     GuideProfileInfoContainer: {
-        flex : 3,
+        flex: 3,
         alignItems: 'center',
         justifyContent: 'center'
     },
 
     GuideNameText: {
-        fontFamily : 'Pretendard-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 16,
-        textAlign : 'left',
+        textAlign: 'left',
         alignSelf: 'flex-start',
         marginLeft: 5
     },
 
-    GuideTagText1 : {
+    GuideTagText1: {
         fontFamily: 'Pretendard-Medium',
-        fontSize : 14,
+        fontSize: 14,
         color: '#BEBEBE',
         alignSelf: 'flex-start',
         marginLeft: 7
@@ -300,33 +300,33 @@ const styles = StyleSheet.create({
 
     GuideTagText2: {
         fontFamily: 'Pretendard-Medium',
-        fontSize : 14,
+        fontSize: 14,
     },
 
     ADContainer: {
         width: '100%',
         minHeight: 120,
-        height : windowHeight * 0.13,
+        height: windowHeight * 0.13,
         borderRadius: 10,
     },
 
-    ADButton : {
+    ADButton: {
         position: 'absolute',
-        bottom : 10,
-        right : 10
+        bottom: 10,
+        right: 10
     },
 
     ADButtonImage: {
         width: 160,
-        height : 44
+        height: 44
     },
 
     ChatRoomContainer: {
-        width : '95%',
+        width: '95%',
         minHeight: 180,
-        alignSelf : 'center',
+        alignSelf: 'center',
         marginHorizontal: 15,
-        paddingHorizontal : 20,
+        paddingHorizontal: 20,
         paddingVertical: 20,
         shadowColor: "#000",
         shadowOffset: {
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
 
-    ChatRoomDivider : {
+    ChatRoomDivider: {
         backgroundColor: '#F8F8F8',
         height: 3,
         width: '100%',
@@ -357,43 +357,43 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        marginTop : 10
+        marginTop: 10
     },
 
     ChatRoomProfileImage: {
         width: 74,
-        height : 74,
+        height: 74,
         borderWidth: 2,
         borderColor: '#EEEEFF',
         borderRadius: 50,
         marginRight: 10
     },
 
-    ChatRoomGuideInfoContainer : {
+    ChatRoomGuideInfoContainer: {
         alignItems: 'flex-start',
-        justifyContent : 'center'
+        justifyContent: 'center'
     },
 
     ChatRoomGuideTagContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        marginTop : 5
+        marginTop: 5
     },
 
-    ChatRoomGuideTitle1 : {
+    ChatRoomGuideTitle1: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 14,
         color: '#B4B4B4'
     },
 
-    ChatRoomGuideTitle2 : {
+    ChatRoomGuideTitle2: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: 'black'
     },
 
-    ChatRoomTagTextContainer : {
+    ChatRoomTagTextContainer: {
         backgroundColor: '#F1F1FF',
         borderRadius: 15
     },
@@ -421,22 +421,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 100,
-        backgroundColor : '#7777FF',
+        backgroundColor: '#7777FF',
         marginHorizontal: 10
     },
 
-    UnreadMessageText : {
-        fontFamily : 'BrandonGrotesque-Bold',
+    UnreadMessageText: {
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 15,
         color: 'white',
         margin: 3,
         marginHorizontal: 10
     },
 
-    ChatMainADButton : {
-        width : 364,
-        height: 56,
-        marginVertical: 10
+    ChatMainADButton: {
+        marginVertical: 10,
     }
 
 

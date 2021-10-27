@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { Layout, Text, Divider } from '@ui-kitten/components';
+import { StyleSheet, ScrollView, TouchableOpacity, Platform, Text } from 'react-native';
+import { Layout, Divider } from '@ui-kitten/components';
 import { CancellationPolicyProps } from '../../navigation/Pay.navigator';
 import { windowHeight } from '../../Design.component';
 

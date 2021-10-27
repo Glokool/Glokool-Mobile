@@ -1,16 +1,15 @@
 import React from 'react';
-import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Divider, Layout, Text, Toggle } from '@ui-kitten/components';
+import { Divider, Layout, Toggle } from '@ui-kitten/components';
 import { GuideModal, MemberList, SettingTopTabBarComponent } from '../../component/Chat/ChatRoomSetting';
-import FastImage from 'react-native-fast-image';
 import { ChatRoomSettingSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../model/Chat/Chat.Setting.model';
 import { SceneRoute } from '../../navigation/app.route';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
-import { Profile_Button, Report_Button } from '../../assets/icon/Chat';
+import { windowWidth } from '../../Design.component';
 
 export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.ReactElement => {
 
@@ -86,22 +85,24 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
 
             <SettingTopTabBarComponent {...props} />
 
-            <Layout style={styles.ButtonContainer}>
+            {/* <Layout style={styles.ButtonContainer}>
                 <Pressable onPress={PressLeave}>
                     <FastImage source={require('../../assets/image/Chat/Leave_Button.png')} style={styles.LeaveButton} />
                 </Pressable>
-            </Layout>
+            </Layout> */}
 
-            <Layout style={styles.MuteButtonContainer}>
-                <Text style={styles.Title}>Mute Message Notification</Text>
-                <Toggle checked={mute} onChange={PressMute} />
-            </Layout>
+            <ScrollView style={styles.ScrollViewStyle}>
+                <Layout style={styles.MuteButtonContainer}>
+                    <Text style={styles.Title}>Mute Message Notification</Text>
+                    <Toggle checked={mute} onChange={PressMute} />
+                </Layout>
 
-            <Divider style={styles.Divider} />
+                <Divider style={styles.Divider} />
 
-            <Layout style={styles.MemberContainer}>
-                <MemberList {...props} />
-            </Layout>
+                <Layout style={styles.MemberContainer}>
+                    <MemberList {...props} />
+                </Layout>
+            </ScrollView>
 
             <GuideModal {...props} />
 
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
-        paddingTop: isIphoneX() ? getStatusBarHeight() + 60 : 60
+        // paddingTop: isIphoneX() ? getStatusBarHeight() + 60 : 60
     },
 
     ButtonContainer: {
@@ -194,6 +195,10 @@ const styles = StyleSheet.create({
     MemberContainer: {
         width: '100%',
         flex: 1,
+    },
+
+    ScrollViewStyle: {
+        width: windowWidth
     }
 
 })

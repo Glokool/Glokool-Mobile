@@ -1,9 +1,9 @@
 import React from 'react';
 import storage from '@react-native-firebase/storage';
-import { StyleSheet, Pressable, Platform, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Pressable, Platform, PermissionsAndroid, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../model';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 import { setAudioVisiblityTrue, setMenuVisiblityFalse } from '../../../../model/Chat/Chat.UI.model';
 import { Images, Record, Camera, MyLocation } from '../../../../assets/icon/Chat';
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database';

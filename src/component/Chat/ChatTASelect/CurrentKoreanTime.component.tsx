@@ -1,14 +1,12 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { Calendar, Time } from '../../../assets/icon/Chat';
 
 
-export const CurrentKoreanTimeComponent = (props : any) : React.ReactElement => {
+export const CurrentKoreanTimeComponent = (props: any): React.ReactElement => {
 
-    return(
-
-        <Layout style={styles.MainContainer}>
+    return (
             <Layout style={styles.container}>
 
                 <Text style={styles.Title}>Current time in Korea</Text>
@@ -28,33 +26,28 @@ export const CurrentKoreanTimeComponent = (props : any) : React.ReactElement => 
                 </Layout>
 
             </Layout>
-        </Layout>
-
     )
 }
 
 
 const styles = StyleSheet.create({
 
-    MainContainer: {
-        paddingHorizontal: 16
-    },
-
     container: {
-        width: '100%',
-        height : 85,
+        width: '95%',
+        height: 85,
         borderRadius: 15,
         backgroundColor: '#F1F1FF',
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf:'center',
         marginVertical: 10,
     },
 
     TimeContainer: {
-        flexDirection:'row',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '60%',
+        width: '65%',
         backgroundColor: '#00FF0000'
     },
 
@@ -65,7 +58,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000'
     },
 
-    Title : {
+    Title: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 17,
         color: '#7777FF'
@@ -78,7 +71,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
 
-    TimeTextComma : {
+    TimeTextComma: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: '#7777FF'

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Platform, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, Platform, TouchableOpacity, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../assets/icon/Common';
 import { windowWidth } from '../../Design.component';
 import { useNavigation } from '@react-navigation/core';

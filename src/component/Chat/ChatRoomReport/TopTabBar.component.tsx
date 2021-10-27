@@ -1,19 +1,19 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { Pressable, StyleSheet, SafeAreaView, Alert } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Pressable, StyleSheet, SafeAreaView, Alert, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatReportSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { SERVER } from '../../../server.component';
 import axios from 'axios';
+import { windowHeight } from '../../../Design.component';
+import { SendIcon_Text } from '../../../assets/icon/Chat';
 
+export const ReportTopTabBar = (props: any): React.ReactElement => {
 
-
-export const ReportTopTabBar = (props : any) : React.ReactElement => {
-
-    const prop : ChatReportSceneProps = props.props;
+    const prop: ChatReportSceneProps = props.props;
     const input = props.value;
 
     const PressBackButton = () => {
@@ -24,11 +24,11 @@ export const ReportTopTabBar = (props : any) : React.ReactElement => {
 
         const ChatRoomID = prop.route.params.id;
         const userUID = prop.route.params.user.uid;
-        
-        
-        if (input == '') { Alert.alert('Report Error','Please enter contents') }
+
+
+        if (input == '') { Alert.alert('Report Error', 'Please enter contents') }
         else {
-            
+
             const AuthToken = auth().currentUser?.getIdToken()
                 .then((token) => {
 
@@ -39,9 +39,9 @@ export const ReportTopTabBar = (props : any) : React.ReactElement => {
                     }
 
                     const options = {
-                        method : 'POST',
-                        url : SERVER + '/api/reports',
-                        data : JSON.stringify(data),
+                        method: 'POST',
+                        url: SERVER + '/api/reports',
+                        data: JSON.stringify(data),
                         headers: {
                             Authorization: 'Bearer ' + token,
                         },
@@ -67,12 +67,12 @@ export const ReportTopTabBar = (props : any) : React.ReactElement => {
     return (
         <Layout style={styles.TopTabBar}>
 
-            <SafeAreaView style={{flex: 0}}/>
+            <SafeAreaView style={{ flex: 0 }} />
 
-            <Layout style={styles.MainContainer}>            
+            <Layout style={styles.MainContainer}>
                 <Pressable
                     style={styles.LeftIcon}
-                    onPress={() => {PressBackButton()}}>
+                    onPress={() => { PressBackButton() }}>
                     <ArrowLeft />
                 </Pressable>
 
@@ -80,27 +80,27 @@ export const ReportTopTabBar = (props : any) : React.ReactElement => {
                     <Text style={styles.Title}>REPORT</Text>
                 </Layout>
 
-                <Pressable style={styles.RightIcon} onPress={() => {PressSend()}}>
-                    <FastImage source={require('../../../assets/image/Chat/SendButton.png')} style={styles.RightButton}/>
+                <Pressable style={styles.RightIcon} onPress={() => { PressSend() }}>
+                    {/* <FastImage source={require('../../../assets/image/Chat/SendButton.png')} style={styles.RightButton}/> */}
+                    <SendIcon_Text />
                 </Pressable>
-            </Layout>     
+            </Layout>
         </Layout>
-       
 
     );
 }
 
 const styles = StyleSheet.create({
 
-    TopTabBar : {
-        position: 'absolute',
+    TopTabBar: {
+        // position: 'absolute',
         width: '100%',
-        top: isIphoneX()? getStatusBarHeight() : 0,
+        // top: isIphoneX()? getStatusBarHeight() : 0,
         height: 60,
         justifyContent: 'center',
     },
 
-    MainContainer : {
+    MainContainer: {
         flexDirection: 'row',
         position: 'absolute',
         width: '100%',
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
         height: 60,
         alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderBottomWidth : 1,
-        borderBottomColor : '#F0F0F0'
+        borderBottomWidth: 1,
+        borderBottomColor: '#F0F0F0'
     },
 
     TitleContainer: {
@@ -120,35 +120,34 @@ const styles = StyleSheet.create({
     },
 
     Title: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: 'black',
-        textAlign : 'center'
+        textAlign: 'center'
     },
 
-    
-    LeftIcon : {
+
+    LeftIcon: {
         width: 64,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10
     },
 
-    RightIcon : {
+    RightIcon: {
         width: 64,
-        height : 32,
+        height: 32,
         marginHorizontal: 5,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10
     },
 
-    RightButton : {
-        width : 64,
-        height : 32
-    }
-
+    RightButton: {
+        width: 64,
+        height: 32
+    },
 })
