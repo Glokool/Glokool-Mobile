@@ -12,37 +12,35 @@ import { SceneRoute } from '../../navigation/app.route';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { Profile_Button, Report_Button } from '../../assets/icon/Chat';
 
-
-
-export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.ReactElement => {
+export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.ReactElement => {
 
     const dispatch = useDispatch();
     const ChatRoomID = props.route.params.id;
-    
+
     const [users, setUsers] = React.useState<Array<any>>([]);
     const [mute, setMute] = React.useState(false);
 
     React.useEffect(() => {
-        
+
         AsyncStorage.getItem(`${ChatRoomID}_fcm`)
             .then((value) => {
-                if (value === null){
+                if (value === null) {
                     // 한번도 저장되지 않은 값이므로
                     setMute(false);
                     AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
                 }
-                else if (value === 'true'){
+                else if (value === 'true') {
                     setMute(true);
                 }
                 else {
                     setMute(false);
                 }
-                
+
             })
             .catch((reason) => {
                 console.log('Async Storage Load Error : ', reason);
             })
-            
+
 
     }, [])
 
@@ -55,8 +53,7 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
     const PressMute = () => {
 
         // 반대로 저장
-
-        if(mute === true){
+        if (mute === true) {
             setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
             messaging().unsubscribeFromTopic(ChatRoomID)
@@ -66,7 +63,7 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
             setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
             messaging().subscribeToTopic(ChatRoomID)
-        }       
+        }
 
     }
 
@@ -76,16 +73,18 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
 
     const PressReport = () => {
         props.navigation.navigate(SceneRoute.CHAT_REPORT, {
-            id : 'charRoomID', // 채팅방 id
-            user : {
-                name : '가이드 이름',
-                uid : '1234'
+            id: 'charRoomID', // 채팅방 id
+            user: {
+                name: '가이드 이름',
+                uid: '1234'
             }
         })
     }
 
-    return(
+    return (
         <SafeAreaView style={styles.MainContainer}>
+
+            <SettingTopTabBarComponent {...props} />
 
             <Layout style={styles.ButtonContainer}>
                 <Pressable onPress={PressLeave}>
@@ -95,29 +94,27 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps) : React.R
 
             <Layout style={styles.MuteButtonContainer}>
                 <Text style={styles.Title}>Mute Message Notification</Text>
-                <Toggle checked={mute} onChange={PressMute}/>
+                <Toggle checked={mute} onChange={PressMute} />
             </Layout>
 
-            <Divider style={styles.Divider}/>
+            <Divider style={styles.Divider} />
 
             <Layout style={styles.MemberContainer}>
-                <MemberList {...props}/>
-            </Layout>            
+                <MemberList {...props} />
+            </Layout>
 
-            <GuideModal {...props}/>
-
-            <SettingTopTabBarComponent {...props} />
+            <GuideModal {...props} />
 
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    MainContainer : {
-        flex : 1,
+    MainContainer: {
+        flex: 1,
         alignItems: 'center',
         backgroundColor: 'white',
-        paddingTop : isIphoneX()? getStatusBarHeight() + 60 : 60
+        paddingTop: isIphoneX() ? getStatusBarHeight() + 60 : 60
     },
 
     ButtonContainer: {
@@ -131,9 +128,9 @@ const styles = StyleSheet.create({
         width: 140,
     },
 
-    LeaveButton : {
-        width : 140,
-        height : 40
+    LeaveButton: {
+        width: 140,
+        height: 40
     },
 
     MuteButtonContainer: {
@@ -145,58 +142,58 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
 
-    TitleContainer : {
+    TitleContainer: {
         paddingLeft: 20,
         width: '100%',
         marginVertical: 15
     },
 
-    Title : {
-        fontFamily : 'Pretendard-SemiBold',
+    Title: {
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 17
     },
 
     Divider: {
-        width : '100%',
-        height : 2,
+        width: '100%',
+        height: 2,
         backgroundColor: '#F3F3F3'
     },
 
     GuideInfoContainer: {
         flexDirection: 'row',
         width: '100%',
-        height : 52,
+        height: 52,
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         marginBottom: 15
     },
 
-    GuideInfoContainer2:{
+    GuideInfoContainer2: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    
-    Avatar : {
-        width : 52,
-        height : 52,
+
+    Avatar: {
+        width: 52,
+        height: 52,
         borderRadius: 100,
-        marginRight : 10
+        marginRight: 10
     },
 
-    Description : {
-        fontFamily : 'Pretendard-Medium',
+    Description: {
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16
     },
 
-    MainButton : {
-        width : 64,
-        height : 28
+    MainButton: {
+        width: 64,
+        height: 28
     },
-    
+
     MemberContainer: {
         width: '100%',
-        flex : 1,
+        flex: 1,
     }
 
 })

@@ -34,9 +34,9 @@ export const SettingTopTabBarComponent = (props : ChatRoomSettingSceneProps) : R
 const styles = StyleSheet.create({
     MainContainer : {
         flexDirection: 'row',
-        position: 'absolute',
+        // position: 'absolute',
         width: '100%',
-        top: isIphoneX()? getStatusBarHeight() : 0,
+        // top: isIphoneX()? getStatusBarHeight() : 0,
         height: 60,
         alignItems: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         fontFamily : 'BrandonGrotesque-Bold',
         fontSize: 16,
         color: 'black',
-        textAlign : 'center'
+        textAlign : 'center',
     },
 
     
