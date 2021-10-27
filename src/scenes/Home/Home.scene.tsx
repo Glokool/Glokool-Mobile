@@ -171,26 +171,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 </Layout>
 
-                {/* Glo 소개하는 컨테이너 */}
-                {/* <Pressable style={styles.GloContainer}>
-
-                    <Layout style={styles.GloAskButton}>
-                        <Text style={styles.GloAskButtonText}>ASK</Text>
-                    </Layout>
-
-                    <HomeGloIcon style={styles.GloIcon} />
-
-                    <Layout style={styles.GloTextContainer}>
-                        <Text style={styles.GloTitleText}>Hello! My name is Glo.</Text>
-                        <Text style={[styles.GloInfoText, { marginTop: windowHeight * 0.005 }]}>
-                            I am your <Text style={[styles.GloInfoText, { color: '#7777ff' }]}>virtual travel assistant.</Text>
-                        </Text>
-                        <Text style={styles.GloInfoText}>Ask me anything about</Text>
-                        <Text style={styles.GloInfoText}>traveling in Korea.</Text>
-                    </Layout>
-
-                </Pressable> */}
-
                 {/* 지도 있는 곳  */}
                 <Layout style={styles.DiscoverContainer}>
 
@@ -291,45 +271,6 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.9,
         backgroundColor: '#0000',
         elevation: 3,
-    },
-    GloContainer: {
-        borderRadius: 22,
-        borderWidth: 4,
-        borderColor: '#EDEAFF',
-        marginTop: windowHeight * 0.025,
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        paddingVertical: windowHeight * 0.025,
-        marginHorizontal: windowWidth * 0.05
-    },
-    GloTextContainer: {
-        backgroundColor: '#0000'
-    },
-    GloTitleText: {
-        fontFamily: 'Pretendard-SemiBold',
-        fontSize: 16,
-        color: '#AEAEAE',
-    },
-    GloInfoText: {
-        fontFamily: 'Pretendard-Regular',
-        fontSize: 14,
-    },
-    GloIcon: {
-        marginHorizontal: windowWidth * 0.05
-    },
-    GloAskButtonText: {
-        fontFamily: 'Pretendard-Medium',
-        fontSize: 13,
-        color: '#7777ff'
-    },
-    GloAskButton: {
-        borderRadius: 50,
-        backgroundColor: '#8680F644',
-        paddingHorizontal: windowWidth * 0.04,
-        paddingVertical: windowHeight * 0.007,
-        position: 'absolute',
-        bottom: windowHeight * 0.01,
-        right: windowWidth * 0.05,
     },
     DiscoverContainer: {
         width: windowWidth * 0.9,

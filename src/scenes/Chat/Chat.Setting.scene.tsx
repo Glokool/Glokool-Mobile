@@ -40,30 +40,24 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                 console.log('Async Storage Load Error : ', reason);
             })
 
-
     }, [])
-
-
 
     const PressLeave = () => {
         console.log(props)
     }
 
     const PressMute = () => {
-
         // 반대로 저장
         if (mute === true) {
             setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
             messaging().unsubscribeFromTopic(ChatRoomID)
-
         }
         else {
             setMute(!mute)
             AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
             messaging().subscribeToTopic(ChatRoomID)
         }
-
     }
 
     const PressProfile = () => {
@@ -85,15 +79,9 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
 
             <SettingTopTabBarComponent {...props} />
 
-            {/* <Layout style={styles.ButtonContainer}>
-                <Pressable onPress={PressLeave}>
-                    <FastImage source={require('../../assets/image/Chat/Leave_Button.png')} style={styles.LeaveButton} />
-                </Pressable>
-            </Layout> */}
-
             <ScrollView style={styles.ScrollViewStyle}>
                 <Layout style={styles.MuteButtonContainer}>
-                    <Text style={styles.Title}>Mute Message Notification</Text>
+                    <Text style={styles.Title}>Mute Message Notifications</Text>
                     <Toggle checked={mute} onChange={PressMute} />
                 </Layout>
 

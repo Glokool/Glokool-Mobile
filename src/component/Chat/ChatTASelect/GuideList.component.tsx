@@ -1,12 +1,14 @@
 import React from 'react';
-import { FlatList, Pressable, StyleSheet, Text } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, ScrollView } from 'react-native';
 import { Divider, Layout } from '@ui-kitten/components';
 import { ChatTASelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
-import { BookButton, GroupChattingPerson, GroupChattingType } from '../../../assets/icon/Chat/GuideList';
+import { BookButton, EmptyTAIcon, GroupChattingPerson, GroupChattingType } from '../../../assets/icon/Chat/GuideList';
 import FastImage from 'react-native-fast-image';
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { CurrentKoreanTimeComponent } from '.';
 import { useInterval } from '../ChatRoom/Audio/Timer.component';
+import { windowHeight, windowWidth } from '../../../Design.component';
+import { CDN } from '../../../server.component';
 
 export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
 
@@ -30,7 +32,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                 uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
                 avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
                 name: "GlokoolOfficial",
-                desc: '테스트 문구인데요 아직 생각한게 없네요. 좋은 글귀가 있으면 추천하세요',
+                desc: "A bright Seoul traveler, I'll help you on a bright trip",
                 keyword: ['안녕', '반가워'],
                 lang: [true, false],
             },
@@ -47,8 +49,9 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
 
         return (
             <Layout style={styles.GuideContainer}>
+
                 <Layout style={styles.GuideInfoContainer}>
-                    <FastImage source={{ uri: item.guide.avatar }} style={styles.Avatar} />
+                    <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
@@ -56,7 +59,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                                 screen: SceneRoute.PAY_FIRST,
                                 params: { ChatRoomID: item._id, guide: item.guide._id }
                             })}>
-                                <BookButton />
+                                <BookButton width={windowWidth * 0.18} height={windowWidth * 0.18 / 8 * 3} />
                             </Pressable>
                         </Layout>
                         <Text numberOfLines={2} style={styles.GuideDesc}>{item.guide.desc}</Text>
@@ -98,50 +101,46 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
         )
     }
 
-    const ListHeaderComponent = () => {
-        return (
-            <>
-                <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} />
-                <Text style={styles.MainTitle}>FIND THE BEST</Text>
-                <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
-            </>
-        )
-    }
-
     return (
-        <Layout style={styles.container}>
+        <ScrollView scrollEnabled={data.length > 0} style={{ paddingHorizontal: windowWidth * 0.05 }}>
+            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} />
+            <Text style={styles.MainTitle}>FIND THE BEST</Text>
+            <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
 
-            <FlatList
-                data={data}
-                contentContainerStyle={{ padding: 2 }}
-                keyExtractor={(item) => (item._id)}
-                renderItem={renderGuide}
-                ListHeaderComponent={ListHeaderComponent}
-            />
+            {data.length > 0 ? (
+                <FlatList
+                    data={data}
+                    contentContainerStyle={{ padding: 2 }}
+                    keyExtractor={(item) => (item._id)}
+                    renderItem={renderGuide}
+                    scrollEnabled={false}
+                />
+            ) : (
+                <Layout style={styles.EmptyContainer}>
+                    <EmptyTAIcon />
+                    <Text style={styles.EmptyTitle1}>Comming Soon</Text>
+                    <Text style={styles.EmptyTitle2}>We are currently updating our travel assistants list.</Text>
+                    <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
+                </Layout>
+            )}
 
-            {/* <Layout style={styles.EmptyContainer}>
-                <Text style={styles.EmptyTitle1}>Comming Soon</Text>
-                <Text style={styles.EmptyTitle2}>We are currently updating our travel assistants list.</Text>
-                <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
-            </Layout> */}
+        </ScrollView>
 
-        </Layout>
 
     )
 }
 
 
 const styles = StyleSheet.create({
-
     container: {
-        paddingHorizontal: 10,
         flex: 1,
+        alignItems: 'center'
     },
 
     GuideContainer: {
-        width: '100%',
-        paddingVertical: 15,
-        paddingHorizontal: 10,
+        width: windowWidth * 0.9,
+        paddingVertical: windowWidth * 0.05,
+        paddingHorizontal: windowWidth * 0.03,
         borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
@@ -162,7 +161,6 @@ const styles = StyleSheet.create({
 
     GuideInfoTextContainer: {
         alignItems: 'flex-start',
-        justifyContent: 'space-between',
         marginLeft: 5,
         flex: 1,
         height: 80,
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
     GuideNameContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         marginLeft: 5,
         width: '100%'
     },
@@ -249,13 +247,14 @@ const styles = StyleSheet.create({
         color: '#404040',
         fontSize: 17,
         marginLeft: 6,
+        marginTop: windowHeight * 0.01,
     },
     SubTitle: {
         fontFamily: 'Pretendard-Bold',
         color: '#000000',
         fontSize: 17,
         marginLeft: 6,
-        marginBottom: 10
+        marginBottom: windowHeight * 0.02,
     },
 
     GuideName: {
@@ -268,6 +267,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
         marginLeft: 5,
+        marginTop: 5,
         color: '#858588'
     },
 

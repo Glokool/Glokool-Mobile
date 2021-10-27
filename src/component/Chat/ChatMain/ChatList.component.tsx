@@ -39,7 +39,6 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
                 finish: true,
             })}>
                 <Layout style={styles.ChatRoomContainer}>
-
                     <Layout style={styles.ChatLocationTitle}>
                         <Guide_Location />
                         <Text style={styles.GuideLocationTitleText}>  HONGDAE</Text>
@@ -49,25 +48,27 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
 
                     <Layout style={styles.ChatRoomProfileContainer}>
 
-                        <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
+                        <Layout style={styles.ProfileContainer}>
+                            <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
 
-                        <Layout style={styles.ChatRoomGuideInfoContainer}>
+                            <Layout style={styles.ChatRoomGuideInfoContainer}>
 
-                            <Text style={styles.ChatRoomGuideTitle1}>Travel Assistant</Text>
-                            <Text style={styles.ChatRoomGuideTitle2}>Glokool Official</Text>
+                                <Text style={styles.ChatRoomGuideTitle1}>Travel Assistant</Text>
+                                <Text style={styles.ChatRoomGuideTitle2}>Glokool Official</Text>
 
-                            <Layout style={styles.ChatRoomGuideTagContainer}>
+                                <Layout style={styles.ChatRoomGuideTagContainer}>
 
-                                <Layout style={styles.ChatRoomTagTextContainer}>
-                                    <Text style={styles.ChatRoomTagText}>K-POP lover</Text>
-                                </Layout>
+                                    <Layout style={styles.ChatRoomTagTextContainer}>
+                                        <Text style={styles.ChatRoomTagText}>K-POP lover</Text>
+                                    </Layout>
 
-                                <Layout style={styles.ChatRoomTagTextContainer}>
-                                    <Text style={styles.ChatRoomTagText}>Hidden Spots</Text>
+                                    <Layout style={styles.ChatRoomTagTextContainer}>
+                                        <Text style={styles.ChatRoomTagText}>Hidden Spots</Text>
+                                    </Layout>
+
                                 </Layout>
 
                             </Layout>
-
                         </Layout>
 
 
@@ -78,7 +79,6 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
                                 <Text style={styles.UnreadMessageText}>3</Text>
                             </Layout>
                         </Layout>
-
                     </Layout>
 
                 </Layout>
@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontFamily: 'Pretendard-Bold',
         fontSize: 17,
-        marginVertical: 20
+        marginTop: 20,
+        marginBottom: 10,
     },
 
     Desc: {
@@ -290,17 +291,9 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
 
-    GuideTagText1: {
-        fontFamily: 'Pretendard-Medium',
-        fontSize: 14,
-        color: '#BEBEBE',
-        alignSelf: 'flex-start',
-        marginLeft: 7
-    },
-
-    GuideTagText2: {
-        fontFamily: 'Pretendard-Medium',
-        fontSize: 14,
+    ProfileContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 
     ADContainer: {
@@ -326,6 +319,7 @@ const styles = StyleSheet.create({
         minHeight: 180,
         alignSelf: 'center',
         marginHorizontal: 15,
+        marginVertical: 10,
         paddingHorizontal: 20,
         paddingVertical: 20,
         shadowColor: "#000",
@@ -337,7 +331,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         borderRadius: 10,
-        marginVertical: 10,
     },
 
     ChatLocationTitle: {
@@ -356,13 +349,13 @@ const styles = StyleSheet.create({
     ChatRoomProfileContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         marginTop: 10
     },
 
     ChatRoomProfileImage: {
-        width: 74,
-        height: 74,
+        width: 70,
+        height: 70,
         borderWidth: 2,
         borderColor: '#EEEEFF',
         borderRadius: 50,
@@ -422,7 +415,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 100,
         backgroundColor: '#7777FF',
-        marginHorizontal: 10
+        // marginHorizontal: 10,
+        marginTop: 5,
     },
 
     UnreadMessageText: {

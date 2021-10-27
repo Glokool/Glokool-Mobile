@@ -1,12 +1,9 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
-import { Layout } from '@ui-kitten/components';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { ChatTASelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
-import { CurrentKoreanTimeComponent, GuideListComponent, TASelectTopTabBarComponent } from '../../component/Chat/ChatTASelect';
+import { GuideListComponent, TASelectTopTabBarComponent } from '../../component/Chat/ChatTASelect';
 import { useInterval } from '../../component/Chat/ChatRoom/Audio/Timer.component';
-import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
-
-
+import { windowWidth } from '../../Design.component';
 
 export const ChatTASelectScene = (props: ChatTASelectSceneProps) => {
 
@@ -27,9 +24,6 @@ export const ChatTASelectScene = (props: ChatTASelectSceneProps) => {
         <SafeAreaView style={styles.container}>
 
             <TASelectTopTabBarComponent {...props} />
-
-            {/* <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} /> */}
-
             <GuideListComponent {...props} />
 
         </SafeAreaView>
@@ -40,7 +34,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // paddingTop: isIphoneX() ? getStatusBarHeight() + 60 : 60,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        width: windowWidth,
     },
 
 })

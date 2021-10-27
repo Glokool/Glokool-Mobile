@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     Title: {
         fontFamily : 'BrandonGrotesque-Bold',
-        fontSize: 16,
+        fontSize: 18,
         color: 'black',
         textAlign : 'center',
     },

@@ -2,30 +2,31 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { Calendar, Time } from '../../../assets/icon/Chat';
+import { windowWidth } from '../../../Design.component';
 
 
 export const CurrentKoreanTimeComponent = (props: any): React.ReactElement => {
 
     return (
-            <Layout style={styles.container}>
+        <Layout style={styles.container}>
 
-                <Text style={styles.Title}>Current time in Korea</Text>
+            <Text style={styles.Title}>Current time in Korea</Text>
 
-                <Layout style={styles.TimeContainer}>
+            <Layout style={styles.TimeContainer}>
 
-                    <Layout style={styles.TimeTextContainer}>
-                        <Calendar />
-                        <Text style={styles.TimeText}>{props.year} <Text style={styles.TimeTextComma}>.</Text>{props.month}<Text style={styles.TimeTextComma}>.</Text> {props.day}</Text>
-                    </Layout>
+                <Layout style={styles.TimeTextContainer}>
+                    <Calendar />
+                    <Text style={styles.TimeText}>{props.year} <Text style={styles.TimeTextComma}>.</Text>{props.month}<Text style={styles.TimeTextComma}>.</Text> {props.day}</Text>
+                </Layout>
 
-                    <Layout style={styles.TimeTextContainer}>
-                        <Time />
-                        <Text style={styles.TimeText}>{props.hour}<Text style={styles.TimeTextComma}>:</Text>{props.minutes}</Text>
-                    </Layout>
-
+                <Layout style={styles.TimeTextContainer}>
+                    <Time />
+                    <Text style={styles.TimeText}>{props.hour}<Text style={styles.TimeTextComma}>:</Text>{props.minutes}</Text>
                 </Layout>
 
             </Layout>
+
+        </Layout>
     )
 }
 
@@ -33,13 +34,13 @@ export const CurrentKoreanTimeComponent = (props: any): React.ReactElement => {
 const styles = StyleSheet.create({
 
     container: {
-        width: '95%',
+        width: windowWidth * 0.9,
         height: 85,
         borderRadius: 15,
         backgroundColor: '#F1F1FF',
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf:'center',
+        alignSelf: 'center',
         marginVertical: 10,
     },
 
