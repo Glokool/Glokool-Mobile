@@ -12,7 +12,7 @@ import {
 import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar } from '../../component/Home';
-import { EmptyHomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon } from '../../assets/icon/Home';
+import { HomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon } from '../../assets/icon/Home';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { EnterIcon } from '../../assets/icon/Zone';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -123,7 +123,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 {/* glochat 소개 컨테이너 */}
                 <Layout style={styles.GloChatContainer}>
 
-                    <EmptyHomeImage style={styles.GloChatImage} />
+                    <HomeImage style={styles.GloChatImage} />
+
 
                     <Layout style={styles.GloChatTitleContainer}>
                         <Text style={styles.GloChatTitleText}>Start your journey</Text>
@@ -142,7 +143,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <GloChatInfoButton width={windowWidth * 0.43} />
                     </Pressable>
                     <Pressable onPress={() => props.navigation.navigate(NavigatorRoute.CHAT)}>
-                        <GloChatHomeButton width={windowWidth * 0.43} />
+                        <GloChatHomeButton width={windowWidth * 0.43} style={{ opacity: 0.85 }} />
                     </Pressable>
                 </Layout>
 
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     GloChatImage: {
         position: 'absolute',
         right: 0,
-        bottom: 0,
+        bottom: - windowHeight * 0.04,
     },
     GloChatTitleContainer: {
         backgroundColor: '#0000',

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, Platform } from 'react-native'
 import { Layout } from '@ui-kitten/components';
 import { PayFailedSceneProps } from '../../navigation/Pay.navigator';
-import { PayFailedPage } from '../../assets/icon/Pay';
+import { PayFailedPage, PaymentFailure } from '../../assets/icon/Pay';
 import { EmptyImage, ArrowLeft } from '../../assets/icon/Common';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { windowHeight, windowWidth } from '../../Design.component';
@@ -37,7 +37,7 @@ export const PayFailedScene = (props: PayFailedSceneProps) => {
             </Layout>
 
             <Layout style={styles.InfoContainer}>
-                <EmptyImage />
+                <PaymentFailure/>
 
                 <Text style={styles.FailureText}>Payment Failure</Text>
                 <Text style={styles.RetryText}>Please Try It Again :(</Text>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     FailureText: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
-        color: '#FE8686',
+        color: '#000',
         marginTop: 20,
     },
     RetryText: {

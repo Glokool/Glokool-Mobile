@@ -6,6 +6,9 @@ import FormikErrorIcon from './FormikErrorIcon.svg';
 import PromotionBanner from './PromotionBanner.svg';
 import Paypal from './Paypal.svg';
 
+import PaymentSuccess from './PaymentSuccess.svg';
+import PaymentFailure from './PaymentFailure.svg';
+
 export {
     Paypal,
     PayFirstPage,
@@ -14,4 +17,7 @@ export {
     PayFailedPage,
     FormikErrorIcon,
     PromotionBanner,
+
+    PaymentSuccess,
+    PaymentFailure
 }

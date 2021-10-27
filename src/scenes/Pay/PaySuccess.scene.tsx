@@ -4,7 +4,7 @@ import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { PaySuccessSceneProps } from '../../navigation/Pay.navigator';
 import { EmptyImage } from '../../assets/icon/Common';
-import { PaySuccessPage } from '../../assets/icon/Pay';
+import { PaymentSuccess, PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
@@ -13,8 +13,8 @@ import { AuthContext } from '../../context/AuthContext';
 import qs from 'query-string';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
-    
-    
+
+
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const ReservationData = props.route.params.ReservationData;
 
@@ -22,26 +22,26 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
         SendPaymentData();
     }, []);
 
-    const SendPaymentData = async() => {
+    const SendPaymentData = async () => {
         const authToken = await auth().currentUser?.getIdToken();
 
         const data = qs.stringify({
-            travelArea : 'HONGDAE',
-            paymentID : ReservationData.PaymentID,
-            price : ReservationData.price,
-            guide : ReservationData.guide,
-            email : ReservationData.email,
-            snsID : ReservationData.snsID,
-            phone : ReservationData.phone,
-            name : ReservationData.name,
-            chatRoomCode : ReservationData.ChatRoomID,
-            paymentPlatform : ReservationData.PaymentPlatform
+            travelArea: 'HONGDAE',
+            paymentID: ReservationData.PaymentID,
+            price: ReservationData.price,
+            guide: ReservationData.guide,
+            email: ReservationData.email,
+            snsID: ReservationData.snsID,
+            phone: ReservationData.phone,
+            name: ReservationData.name,
+            chatRoomCode: ReservationData.ChatRoomID,
+            paymentPlatform: ReservationData.PaymentPlatform
         })
 
         const option = {
-            method : 'POST',
-            url : SERVER + '/api/payment',
-            data : data,
+            method: 'POST',
+            url: SERVER + '/api/payment',
+            data: data,
             headers: {
                 Authorization: 'Bearer ' + authToken,
             },
@@ -87,7 +87,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             </Layout>
 
             <Layout style={styles.InfoContainer}>
-                <EmptyImage />
+                <PaymentSuccess />
 
                 <Text style={styles.SuccessText}>Payment Successful</Text>
                 <Text style={styles.ConfirmText}>Your booking has been confirmed</Text>
@@ -97,10 +97,12 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             <Layout>
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
-                    onPress={() => { props.navigation.navigate(NavigatorRoute.MY, {
-                        screen : SceneRoute.PAID_CHAT_LIST,
-                        params : undefined
-                    }) }}
+                    onPress={() => {
+                        props.navigation.navigate(NavigatorRoute.MY, {
+                            screen: SceneRoute.PAID_CHAT_LIST,
+                            params: undefined
+                        })
+                    }}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
                 </TouchableOpacity>
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     SuccessText: {
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
-        color: '#7777ff',
+        color: '#000',
         marginVertical: 20,
     },
     ConfirmText: {

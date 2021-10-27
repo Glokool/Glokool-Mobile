@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
 
     container: {
         paddingHorizontal: 10,
-        paddingVertical: 5,
         flex: 1,
     },
 

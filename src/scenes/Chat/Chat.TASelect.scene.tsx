@@ -43,7 +43,4 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
 
-    component: {
-        marginVertical: 10,
-    }
 })
