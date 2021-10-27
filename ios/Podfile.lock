@@ -377,6 +377,7 @@ PODS:
     - Braintree/Core
   - BVLinearGradient (2.5.6):
     - React
+  - ChannelIOSDK (9.1.2)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.64.2)
   - FBReactNativeSpec (0.64.2):
@@ -948,6 +949,9 @@ PODS:
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
+  - RNChannelIO (0.1.0):
+    - ChannelIOSDK
+    - React
   - RNFastImage (8.5.11):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -1052,6 +1056,7 @@ PODS:
 DEPENDENCIES:
   - Braintree/DataCollector
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
+  - ChannelIOSDK (from `https://mobile-static.channel.io/ios/latest/framework.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -1104,6 +1109,7 @@ DEPENDENCIES:
   - RNAudio (from `../node_modules/react-native-audio`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
+  - RNChannelIO (from `../node_modules/react-native-channel-plugin`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
@@ -1176,6 +1182,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
+  ChannelIOSDK:
+    :podspec: https://mobile-static.channel.io/ios/latest/framework.podspec
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -1264,6 +1272,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
+  RNChannelIO:
+    :path: "../node_modules/react-native-channel-plugin"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFBApp:
@@ -1311,6 +1321,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Braintree: 78a33deb6f6ec617c2c4891fbe352854358b3a8d
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
+  ChannelIOSDK: 4166da017931e2ba2c820da2c5d68acc4d0285d2
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
   FBReactNativeSpec: b3c77077ed3b4e4859f2219e5a4ca60d943980a1
@@ -1392,6 +1403,7 @@ SPEC CHECKSUMS:
   RNAudio: cae2991f2dccb75163f260b60da8051717b959fa
   RNCAsyncStorage: 26f25150da507524a7815f2ada06ca0967f65633
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
+  RNChannelIO: 8343e2c7bbf734707cd1548ad58c5fc49baa73d0
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNFBApp: c679e71262a98a1ec0f4600e6db51ec7fcdaeb5b
   RNFBAuth: e09605dd868fc1de0c99f1c1efff6510c97fcb1d
@@ -1415,6 +1427,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
 
-PODFILE CHECKSUM: d3cb465fa09b7cadffd4d1c530ca598de8f033a5
+PODFILE CHECKSUM: 2afa1fd79f72463b85194d80e736daf5c3937dbe
 
 COCOAPODS: 1.11.2
