@@ -149,7 +149,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     const KeyboardShow = (e) => {
         if (keyboardHeight === 0) {
-            dispatch(setKeyboardHeight(e.endCoordinates.height));
+            dispatch(setKeyboardHeight(e.endCoordinates.height + 60));
         }
     }
 
@@ -184,14 +184,13 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     React.useEffect(() => {
 
-        const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomInit(props.route.params.id) });  // 앱 화면 포커스시 채팅방 초기화 실시
+        const unsubscribe = props.navigation.addListener('focus', () => { ChatRoomMessageInit() });  // 앱 화면 포커스시 채팅방 초기화 실시
 
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
         Keyboard.addListener('keyboardDidShow', KeyboardShow);
-
   
         setChatIcon(false);
-        ChatRoomMessageInit();
+        
 
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
             resetUserUnreadMsgCount();

@@ -5,7 +5,6 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.iamport.IamportPackage;
 import com.smarkets.paypal.RNPaypalPackage;
@@ -17,6 +16,10 @@ import com.facebook.soloader.SoLoader;
 import com.reactnativerestart.RestartPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import android.support.multidex.MultiDexApplication;
+import com.zoyi.channel.plugin.android.ChannelIO;
+import com.zoyi.channel.rn.RNChannelIOPackage;
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -32,7 +35,6 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
-          
           
           return packages;
         }
@@ -52,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    ChannelIO.initialize(this); // Initialize ChannelIO
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
