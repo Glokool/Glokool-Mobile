@@ -257,7 +257,8 @@ dependencies {
     
     implementation "com.braintreepayments.api:braintree:3.14.1"
 
-    implementation 'com.android.support:multidex:1.0.3'
+    def multidex_version = "2.0.1"
+    implementation 'androidx.multidex:multidex:$multidex_version'
 
 }
 

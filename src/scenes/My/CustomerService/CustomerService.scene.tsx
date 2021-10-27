@@ -20,7 +20,7 @@ import { CustomerServiceProps } from '../../../navigation/SceneNavigator/My.navi
 import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { TermsConditionCard } from '../../../component/TermsCondition.component';
 import { CustomerService } from '../../../assets/icon/My';
-import { privacyPolicycard } from '../../../component/privacy.component';
+import { privacyPolicycard } from '../../../component/Privacy.component';
 import { AngleLeft } from '../../../assets/icon/Common';
 import { AuthContext } from '../../../context/AuthContext';
 import { windowHeight } from '../../../Design.component';

@@ -1,6 +1,9 @@
 package com.glokool;
 import android.app.Application;
 import android.content.Context;
+import androidx.multidex.MultiDexApplication;
+import com.zoyi.channel.plugin.android.ChannelIO;
+import com.zoyi.channel.rn.RNChannelIOPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
@@ -17,12 +20,10 @@ import com.reactnativerestart.RestartPackage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import android.support.multidex.MultiDexApplication;
-import com.zoyi.channel.plugin.android.ChannelIO;
-import com.zoyi.channel.rn.RNChannelIOPackage;
 
 
-public class MainApplication extends Application implements ReactApplication {
+
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
