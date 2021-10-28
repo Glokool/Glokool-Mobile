@@ -177,4 +177,5 @@ LogBox.ignoreLogs([
     'Require cycle',
     'VirtualizedLists should never be nested',
     'VirtualizedList: missing keys for items',
+    'No stops in gradient',
 ]);

@@ -116,9 +116,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     EmptyContainer: {
+        marginTop: 10,
         backgroundColor: '#f9f9f9',
         width: windowWidth,
-        height: windowWidth,
+        height: windowWidth * 0.95,
         alignItems: 'center',
         justifyContent: 'center',
     },

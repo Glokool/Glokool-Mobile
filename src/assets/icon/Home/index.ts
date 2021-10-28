@@ -9,10 +9,16 @@ import HomeImage from './HomeImage.svg';
 import Enter_Purple from './Enter_Purple.svg';
 import Enter_LightPurple from './Enter_LightPurple.svg';
 
-import Map_Hongdae from './Map/Map_Hongdae.svg';
-import Map_Myeongdong from './Map/Map_Myeongdong.svg';
-import Map_Gwanghwamun from './Map/Map_Gwanghwamun.svg';
-import Map_Gangnam from './Map/Map_Gangnam.svg';
+
+import Map_background from './Map/Map_Background.svg';
+import Hongdae_selected from './Map/Hongdae_selected.svg';
+import Hongdae_unselected from './Map/Hongdae_unselected.svg';
+import Gwanghwamun_selected from './Map/Gwanghwamun_selected.svg';
+import Gwanghwamun_unselected from './Map/Gwanghwamun_unselected.svg';
+import Myeongdong_selected from './Map/Myeongdong_selected.svg';
+import Myeongdong_unselected from './Map/Myeongdong_unselected.svg';
+import Gangnam_selected from './Map/Gangnam_selected.svg';
+import Gangnam_unselected from './Map/Gangnam_unselected.svg';
 
 export {
     TextLogo,
@@ -26,8 +32,13 @@ export {
     Enter_Purple,
     Enter_LightPurple,
 
-    Map_Gangnam,
-    Map_Myeongdong,
-    Map_Hongdae,
-    Map_Gwanghwamun,
+    Map_background,
+    Hongdae_selected,
+    Hongdae_unselected,
+    Gwanghwamun_selected,
+    Gwanghwamun_unselected,
+    Myeongdong_selected,
+    Myeongdong_unselected,
+    Gangnam_selected,
+    Gangnam_unselected,
 }
