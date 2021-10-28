@@ -1,11 +1,7 @@
 /*
     바텀 네비게이션 스타일 및 기능을 위한 네비게이터 파일
-
     Tab navigator 사용 (스택 중첩 방식)
-    
-
 */
-
 
 import React, { useContext } from 'react';
 import {
@@ -43,27 +39,28 @@ import { ChatContext } from '../context/ChatContext';
 import { AuthContext } from '../context/AuthContext';
 import { loginAlertWindow } from '../component/Common/LoginCheck.component';
 import { windowWidth } from '../Design.component';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 const BottomHeight = getBottomSpace();
 
 export type MainNavigatorParams = {
     [NavigatorRoute.HOME]: {
-        screen : SceneRoute,
-        params : undefined
+        screen: SceneRoute,
+        params: undefined
     } | undefined;
     [NavigatorRoute.CHAT]: {
-        screen : SceneRoute,
-        params : undefined
+        screen: SceneRoute,
+        params: undefined
     } | undefined;
     [NavigatorRoute.ZONE]: {
-        screen : SceneRoute,
-        params : undefined
+        screen: SceneRoute,
+        params: undefined
     } | undefined;
     [NavigatorRoute.MY]: {
-        screen : SceneRoute,
-        params : undefined
+        screen: SceneRoute,
+        params: undefined
     } | undefined;
 };
 
@@ -102,7 +99,6 @@ const MyTabBar = ({ state, descriptors, navigation }: BottomTabBarProps<BottomTa
         <View style={styles.TabbarContainer} >
 
             {state.routes.map((route, id) => {
-
                 const { options } = descriptors[route.key];
                 const label = route.name;
                 // const label =
@@ -201,7 +197,7 @@ const GuideVisiblity = (route: any) => {
         routeName === SceneRoute.CHAT_ZONE_SELECT ||
         routeName === SceneRoute.PAID_CHAT_LIST ||
         routeName === SceneRoute.HISTORY ||
-        routeName === SceneRoute.ZONE_CONTENTS || 
+        routeName === SceneRoute.ZONE_CONTENTS ||
         routeName === SceneRoute.REFUND_POLICY
     ) {
         return false;
@@ -269,14 +265,14 @@ const styles = StyleSheet.create({
     },
 
     TabbarContainer: {
-        position: 'absolute',
-        bottom: 0,
+        // position: 'absolute',
+        // bottom: 0,
         flexDirection: 'row',
-        paddingHorizontal: 15,
         height: 65 + (BottomHeight / 2),
         width: windowWidth,
-        paddingBottom: Platform.OS === 'ios' ? 20 : 0,
-        paddingTop: Platform.OS === 'ios' ? 5 : 0,
+        paddingHorizontal: 15,
+        paddingBottom: isIphoneX() ? 20 : 0,
+        paddingTop: isIphoneX() ? 5 : 0,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         backgroundColor: 'white',

@@ -154,7 +154,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     <Layout style={styles.GloChatButtonContainer}>
                         <Pressable style={styles.HowItWorks}>
                             <Text style={styles.HowItWorksText}>How it Works?</Text>
-                            <Enter_Purple />
+                            <Enter_Purple width={windowWidth * 0.05} />
                         </Pressable>
 
                         <LinearGradient
@@ -165,7 +165,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                             onTouchEnd={() => props.navigation.navigate(NavigatorRoute.CHAT)}
                         >
                             <Text style={styles.StartGloChatText}>Start GloChat</Text>
-                            <Enter_LightPurple />
+                            <Enter_LightPurple width={windowWidth * 0.05} />
                         </LinearGradient>
                     </Layout>
 
@@ -197,7 +197,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         </Text>
                         <Layout style={styles.ExploreButtonContainer}>
                             <Text style={styles.ExploreButtonText}>EXPLORE</Text>
-                            <EnterIcon />
+                            <Enter_Purple width={windowWidth * 0.05} />
                         </Layout>
                     </Layout>
                 </Layout>
@@ -211,7 +211,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     </Layout>
                 </Layout>
 
-                <Layout style={{ height: windowHeight * 0.15, backgroundColor: '#0000' }} />
+                <Layout style={{ height: windowHeight * 0.05, backgroundColor: '#0000' }} />
             </ScrollView>
 
         </Layout>
@@ -328,8 +328,7 @@ const styles = StyleSheet.create({
     ExploreButtonContainer: {
         flexDirection: 'row',
         borderRadius: 15,
-        borderWidth: 2,
-        borderColor: '#7777ff',
+        backgroundColor: '#ECECFC',
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: windowHeight * 0.004,
@@ -338,7 +337,7 @@ const styles = StyleSheet.create({
     ExploreButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 15,
-        color: '#7777ff',
+        color: '#7B64C8',
         marginRight: windowWidth * 0.01
     },
     DiscoverBottomText: {
@@ -373,7 +372,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: windowWidth * 0.43,
-        height: windowHeight * 0.05,
+        paddingVertical: windowHeight * 0.01,
         borderRadius: 100,
         opacity: 0.84
     },
@@ -388,7 +387,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: windowWidth * 0.43,
-        height: windowHeight * 0.05,
+        paddingVertical: windowHeight * 0.01,
         borderRadius: 100,
         borderWidth: 1.5,
         borderColor: '#9A94F6',

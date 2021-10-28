@@ -94,7 +94,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
 
                     <Layout style={styles.PriceContainer}>
                         <Text style={styles.DiscountBeforeText1}>$ <Text style={styles.DiscountBeforeText2}>30</Text></Text>
-                        <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}> 14.00</Text> / day</Text>
+                        <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}>14.00</Text> / day</Text>
                     </Layout>
                 </Layout>
             </Layout>
@@ -102,8 +102,9 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
     }
 
     return (
-        <ScrollView scrollEnabled={data.length > 0} style={{ paddingHorizontal: windowWidth * 0.05 }}>
-            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} />
+        <ScrollView scrollEnabled={data.length > 0} showsVerticalScrollIndicator={false}>
+
+            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} time={time} />
             <Text style={styles.MainTitle}>FIND THE BEST</Text>
             <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
 
@@ -114,6 +115,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     keyExtractor={(item) => (item._id)}
                     renderItem={renderGuide}
                     scrollEnabled={false}
+                    style={{ alignSelf: 'center' }}
                 />
             ) : (
                 <Layout style={styles.EmptyContainer}>
@@ -246,14 +248,14 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-SemiBold',
         color: '#404040',
         fontSize: 17,
-        marginLeft: 6,
+        marginLeft: windowWidth * 0.06,
         marginTop: windowHeight * 0.01,
     },
     SubTitle: {
         fontFamily: 'Pretendard-Bold',
         color: '#000000',
         fontSize: 17,
-        marginLeft: 6,
+        marginLeft: windowWidth * 0.06,
         marginBottom: windowHeight * 0.02,
     },
 
@@ -279,7 +281,7 @@ const styles = StyleSheet.create({
 
     DescText: {
         fontFamily: 'Pretendard-Regular',
-        fontSize: 15,
+        fontSize: windowWidth * 0.035,
         color: 'black',
         textAlignVertical: 'center',
         marginLeft: 5
@@ -287,32 +289,33 @@ const styles = StyleSheet.create({
 
     DiscountBeforeText1: {
         fontFamily: 'Pretendard-SemiBold',
-        fontSize: 16,
+        fontSize: windowWidth * 0.037,
         color: '#D1D1D1'
     },
 
     DiscountBeforeText2: {
         fontFamily: 'Pretendard-SemiBold',
-        fontSize: 16,
+        fontSize: windowWidth * 0.037,
         color: '#D1D1D1',
         textDecorationLine: 'line-through',
     },
 
     DiscountAfterText1: {
         fontFamily: 'Pretendard-SemiBold',
-        fontSize: 18,
+        fontSize: windowWidth * 0.042,
         color: '#7777FF'
     },
 
     DiscountAfterText2: {
         fontFamily: 'Pretendard-SemiBold',
-        fontSize: 18,
+        fontSize: windowWidth * 0.042,
         color: 'black'
     },
 
     EmptyContainer: {
         justifyContent: 'center',
         alignItems: 'center',
+        paddingVertical: windowHeight * 0.03
     },
 
     EmptyTitle1: {

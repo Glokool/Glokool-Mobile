@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, ScrollView } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ZoneButtonGroupComponent, ZoneSelectTopTabBarComponent } from '../../component/Chat/ChatZoneSelect';
@@ -10,8 +10,8 @@ import { windowWidth } from '../../Design.component';
 export const ChatZoneSelectScene = (props: ChatZoneSelectSceneProps): React.ReactElement => {
 
     return (
-        <SafeAreaView style={styles.container}>
-
+        <ScrollView style={styles.container} bounces={false}>
+            <SafeAreaView />
             <ZoneSelectTopTabBarComponent {...props} />
 
             <ZoneMapImage width={windowWidth} height={windowWidth / 414 * 302} />
@@ -21,7 +21,7 @@ export const ChatZoneSelectScene = (props: ChatZoneSelectSceneProps): React.Reac
 
             <ZoneButtonGroupComponent {...props} />
 
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 

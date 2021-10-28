@@ -4,7 +4,8 @@ import {
     BackHandler,
     TouchableOpacity,
     Dimensions,
-    SafeAreaView
+    SafeAreaView,
+    ScrollView
 } from 'react-native';
 import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
 
@@ -64,7 +65,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     return currentUser === null ? (
         <Layout />
     ) : (
-        <Layout style={styles.SuperContainer}>
+        <ScrollView style={styles.SuperContainer} bounces={false} showsVerticalScrollIndicator={false}>
 
             <SafeAreaView />
 
@@ -131,7 +132,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
 
             </Layout>
 
-        </Layout>
+        </ScrollView>
     );
 };
 
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#fff',
-        alignItems: 'center'
+        // alignItems: 'center'
     },
     MainContainer: {
         backgroundColor: '#00000000',

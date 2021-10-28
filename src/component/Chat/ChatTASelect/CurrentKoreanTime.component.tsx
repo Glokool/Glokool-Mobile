@@ -3,6 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { Calendar, Time } from '../../../assets/icon/Chat';
 import { windowWidth } from '../../../Design.component';
+import moment from 'moment';
 
 
 export const CurrentKoreanTimeComponent = (props: any): React.ReactElement => {
@@ -16,12 +17,22 @@ export const CurrentKoreanTimeComponent = (props: any): React.ReactElement => {
 
                 <Layout style={styles.TimeTextContainer}>
                     <Calendar />
-                    <Text style={styles.TimeText}>{props.year} <Text style={styles.TimeTextComma}>.</Text>{props.month}<Text style={styles.TimeTextComma}>.</Text> {props.day}</Text>
+                    <Text style={styles.TimeText}>
+                        {moment(props.time).format('YYYY')}
+                        <Text style={styles.TimeTextComma}> . </Text>
+                        {moment(props.time).format('MM')}
+                        <Text style={styles.TimeTextComma}> . </Text>
+                        {moment(props.time).format('DD')}
+                    </Text>
                 </Layout>
 
                 <Layout style={styles.TimeTextContainer}>
                     <Time />
-                    <Text style={styles.TimeText}>{props.hour}<Text style={styles.TimeTextComma}>:</Text>{props.minutes}</Text>
+                    <Text style={styles.TimeText}>
+                        {moment(props.time).format('hh')}
+                        <Text style={styles.TimeTextComma}> : </Text>
+                        {moment(props.time).format('mm')}
+                    </Text>
                 </Layout>
 
             </Layout>
@@ -69,7 +80,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
         color: 'black',
-        marginLeft: 10
+        marginLeft: 5
     },
 
     TimeTextComma: {
