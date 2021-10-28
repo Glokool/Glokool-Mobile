@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   title: {
-    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontFamily: 'Pretendard-SemiBold',
     fontSize: 22,
     textAlign: 'center',
     marginVertical: 10,
   },
   desc: {
-    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontFamily: 'Pretendard-SemiBold',
     fontSize: 20,
     textAlign: 'center',
     marginVertical: 10,

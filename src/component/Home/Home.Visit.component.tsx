@@ -2,8 +2,9 @@ import React from 'react';
 import { Layout, } from '@ui-kitten/components';
 import { StyleSheet, Text } from 'react-native';
 import { windowWidth, windowHeight } from '../../Design.component';
+import { HomeScreenProps } from '../../navigation/SceneNavigator/Home.navigator';
 
-export const HomeVisitComponent = () => {
+export const HomeVisitComponent = (props: HomeScreenProps) => {
     return (
         <Layout style={styles.VisitContainer}>
             <Text style={styles.VisitText}>I WANT TO VISIT...</Text>

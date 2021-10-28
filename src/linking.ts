@@ -14,13 +14,13 @@ const config = {
                         [SceneRoute.SERIES_A]: {
                             path: "series-a/:id",
                             parse: {
-                                id: (id) => `${id}`,
+                                id: (id: string) => `${id}`,
                             }
                         },
                         [SceneRoute.SERIES_B]: {
                             path: "series-b",
                             parse: {
-                                id: (id) => `${id}`,
+                                id: (id: string) => `${id}`,
                             }
                         }
                     }
@@ -31,7 +31,7 @@ const config = {
                         [SceneRoute.CHATROOM]: {
                             path: "chatroom/:id",
                             parse: {
-                                id: (id) => `${id}`,
+                                id: (id: string) => `${id}`,
                             }
                         }
                     },

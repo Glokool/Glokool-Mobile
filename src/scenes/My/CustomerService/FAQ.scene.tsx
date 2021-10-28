@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     TextStyle: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 20,
     },
     Container: {
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 20,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#7777FF'
     },
     TitleContainer: {
@@ -389,13 +389,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     aboutTitle: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: 'black',
         fontSize: 16,
         marginVertical: 10
     },
     aboutDesc: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
     },
     button: {

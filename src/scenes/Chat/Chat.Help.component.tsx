@@ -56,7 +56,7 @@ export const ChatHelpScreen = (props: ChatHelpScreenProps): LayoutElement => {
                 <Text
                     style={{
                         fontSize: 18,
-                        fontFamily: 'IBMPlexSansKR-Medium',
+                        fontFamily: 'Pretendard-Medium',
                         marginLeft: 10,
                     }}>
                     HELP
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         marginLeft: 20,
     },
     backdrop: {

@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     },
     ButtonText: {
         flex: 9,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 20,
     },
     IconStyle: {

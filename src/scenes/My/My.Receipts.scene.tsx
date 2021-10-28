@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     Title: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 20,
         color: 'black'
     },
@@ -213,32 +213,32 @@ const styles = StyleSheet.create({
     },
     PaidTitle: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#BCBCBC'
     },
     PaidTitleR: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#AEAEAE'
     },
     PaidDesc: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: 'black'
     },
     PaidDescR: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#AEAEAE'
     },
     RefundProgress: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#7777FF'
     },
     RefundCompleted: {
         fontSize: 14,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#AEAEAE'
     },
     emptyContainer: {
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     emptyText: {
         marginTop: 10,
         textAlign: 'center',
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#AEAEAE'
     },

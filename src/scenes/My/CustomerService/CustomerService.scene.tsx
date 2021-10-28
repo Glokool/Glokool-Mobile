@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     TextStyle: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 20,
     },
     Container: {
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
     },
     buttonText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 20,
     },
     aboutTitleContainer: {
@@ -353,12 +353,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     aboutTitle: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: 'gray',
         fontSize: 16,
     },
     aboutDesc: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
     },
     StayButon: {
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
         color: '#8797FF',
     },
     modalDesc: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#AEAEAE',
         marginTop: 10,

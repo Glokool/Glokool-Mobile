@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     GloChatText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 14,
         color: '#8797ff',
     },

@@ -840,12 +840,12 @@ const styles = StyleSheet.create({
     },
     SeriesDateTxtStyle: {
         color: '#D2D2D2',
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
     SeriesCountTxtStyle: {
         color: '#D2D2D2',
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
     TopImgIconLayout: {
@@ -869,7 +869,7 @@ const styles = StyleSheet.create({
     },
     descTxt: {
         marginTop: 10,
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#414141',
     },
@@ -893,7 +893,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
     },
     authorText: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 13,
         color: '#ffffff',
         opacity: 0.6,
@@ -913,7 +913,7 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     ContentDescTxt: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#414141',
         marginTop: 10,
@@ -999,12 +999,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     CommentsAuthorInnerNameTxt02Layout: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 14,
         color: '#000000',
     },
     CommentsAuthorInnerDateTxt02Layout: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 11,
         color: '#C2C2C2',
     },
@@ -1016,7 +1016,7 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
     CommentsAuthorInnerPlusNum02Layout: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 11,
         color: '#FFA757',
         marginLeft: 5,
@@ -1032,7 +1032,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     CommentsContentTxtLayout: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#5D5959',
     },
@@ -1045,7 +1045,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderRadius: 30,
         paddingLeft: 20,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         position: 'relative',
         paddingTop: 0,

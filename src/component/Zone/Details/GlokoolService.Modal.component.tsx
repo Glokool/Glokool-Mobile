@@ -53,7 +53,7 @@ export const GlokoolServiceModal = (props: any) => {
 
 const styles = StyleSheet.create({
     IndexText: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#8797FF',
     },

@@ -727,12 +727,12 @@ const styles = StyleSheet.create({
     },
     SeriesDateTxtStyle: {
         color: '#B5B5B5',
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
     SeriesCountTxtStyle: {
         color: '#B5B5B5',
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
     SeriesTitleLayoutStyle: {
@@ -752,7 +752,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
     },
     SeriesDescTxtStyle: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#414141',
     },
@@ -856,12 +856,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     CommentsAuthorInnerNameTxt02Layout: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 14,
         color: '#000000',
     },
     CommentsAuthorInnerDateTxt02Layout: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 11,
         color: '#C2C2C2',
     },
@@ -871,7 +871,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     CommentsAuthorInnerPlusNum02Layout: {
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 11,
         color: '#FFA757',
         marginLeft: 5,
@@ -887,7 +887,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     CommentsContentTxtLayout: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#5D5959',
     },
@@ -897,7 +897,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderRadius: 30,
         paddingLeft: 20,
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         paddingTop: 0,
         paddingBottom: 0,
     },

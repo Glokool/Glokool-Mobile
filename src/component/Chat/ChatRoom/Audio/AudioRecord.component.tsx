@@ -334,13 +334,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000',
     },
     RecordingStatusTxt: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         color: '#D2D2D2',
         fontSize: 16,
         textAlign: 'center',
     },
     RecordingStatusTxt_ing: {
-        fontFamily: 'IBMPlexSansKR-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
         color: '#7777FF',
         fontSize: 16,
         textAlign: 'center',
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     SendButtonTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         marginHorizontal: 20,
         marginVertical: 5,

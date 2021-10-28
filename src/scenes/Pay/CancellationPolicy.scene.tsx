@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     Title: {
-        fontFamily: 'IBMPlexSansKR-Bold',
+        fontFamily: 'Pretendard-Bold',
         fontSize: 18,
         color: 'black',
         textAlign: 'left',
@@ -67,20 +67,20 @@ const styles = StyleSheet.create({
     },
     DescLeft: {
         textAlign: 'left',
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: 'black',
     },
     DescLeftDetail: {
         textAlign: 'left',
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: 'black',
         marginTop: 10
     },
     DescRight: {
         textAlign: 'right',
-        fontFamily: 'IBMPlexSansKR-Text',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#7777FF',
     },

@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     SideButtonTxt: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         color: '#8C8C8C',
         fontSize: 12,
     },

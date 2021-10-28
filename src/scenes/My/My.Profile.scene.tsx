@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     TextStyle: {
-        fontFamily: 'IBMPlexSansKR-Medium',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 20,
     },
     title: {

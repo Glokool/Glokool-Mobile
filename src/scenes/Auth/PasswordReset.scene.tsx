@@ -180,12 +180,12 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   TitleTxt: {
-    fontFamily: 'IBMPlexSansKR-SemiBold',
+    fontFamily: 'Pretendard-SemiBold',
     fontSize: 22,
     textAlign: 'center'
   },
   descTxt: {
-    fontFamily: 'IBMPlexSansKR-Medium',
+    fontFamily: 'Pretendard-Medium',
     fontSize: 20,
     textAlign: 'center',
     marginHorizontal: 50,
