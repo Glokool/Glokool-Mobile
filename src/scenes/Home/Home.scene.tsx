@@ -12,7 +12,7 @@ import {
 import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeTopTabBar } from '../../component/Home';
-import { HomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon, Enter_LightPurple, Enter_Purple } from '../../assets/icon/Home';
+import { HomeImage, GloChatInfoButton, GloChatHomeButton, HomeGloIcon, Enter_LightPurple, Enter_Purple, Map_Hongdae, Map_Gangnam, Map_Myeongdong, Map_Gwanghwamun } from '../../assets/icon/Home';
 import { windowHeight, windowWidth } from '../../Design.component';
 import { EnterIcon } from '../../assets/icon/Zone';
 import { NavigatorRoute } from '../../navigation/app.route';
@@ -97,7 +97,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     };
 
     const renderZoneButton = (item: { item, index: number }) => {
-        const additionalStyle = zoneIndex === item.index ? styles.LocationButtonSelected : styles.LocationButtonUnselected;
+        const additionalStyle = item.index === zoneIndex ? styles.LocationButtonSelected : styles.LocationButtonUnselected;
+
         return (
             <Pressable
                 onPress={() => setZoneIndex(item.index)}
@@ -105,8 +106,8 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     styles.LocationButtonDefault,
                     additionalStyle,
                     {
-                        backgroundColor: zoneIndex === item.index ? 'white' : item.item.bgColor,
-                        borderColor: item.item.bgColor
+                        backgroundColor: zoneIndex === item.index ? item.item.bgColor + 'aa' : 'white',
+                        borderColor: zoneIndex === item.index ? '#0000' : item.item.bgColor,
                     }
                 ]}
             >
@@ -114,7 +115,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                     style={[
                         styles.LocationButtonText,
                         {
-                            color: item.item.textColor
+                            color: item.item.textColor,
                         }]}
                 >
                     {item.item.name}
@@ -173,8 +174,12 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
                 {/* 지도 있는 곳  */}
                 <Layout style={styles.DiscoverContainer}>
+                    {zoneIndex == 0 && <Map_Hongdae style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
+                    {zoneIndex == 1 && <Map_Gwanghwamun style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
+                    {zoneIndex == 2 && <Map_Myeongdong style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
+                    {zoneIndex == 3 && <Map_Gangnam style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
 
-                    <Layout>
+                    <Layout style={{ backgroundColor: '#0000', }}>
                         <Text style={styles.DiscoverTitleText}>DISCOVER</Text>
                         <Text style={styles.DiscoverSubTitleText}>TRAVEL DESTINATION</Text>
                     </Layout>
@@ -195,11 +200,13 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                         <Text style={[styles.DiscoverBottomText, { fontSize: 15, color: '#707070' }]}>
                             {ZoneList[zoneIndex].subTitle}
                         </Text>
-                        <Layout style={styles.ExploreButtonContainer}>
-                            <Text style={styles.ExploreButtonText}>EXPLORE</Text>
-                            <Enter_Purple width={windowWidth * 0.05} />
-                        </Layout>
                     </Layout>
+
+                    <Layout style={styles.ExploreButtonContainer}>
+                        <Text style={styles.ExploreButtonText}>EXPLORE</Text>
+                        <Enter_Purple width={windowWidth * 0.05} />
+                    </Layout>
+
                 </Layout>
 
                 {/* I WANT TO VISIT */}
@@ -280,10 +287,12 @@ const styles = StyleSheet.create({
         padding: windowHeight * 0.025
     },
     DiscoverTitleText: {
+        backgroundColor: '#0000',
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 18,
     },
     DiscoverSubTitleText: {
+        backgroundColor: '#0000',
         fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
         color: '#756EBC',
@@ -298,9 +307,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     LocationButtonUnselected: {
-        opacity: 0.8,
-    },
-    LocationButtonSelected: {
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -310,12 +316,15 @@ const styles = StyleSheet.create({
         shadowRadius: 2.42,
         elevation: 2,
     },
+    LocationButtonSelected: {
+
+    },
     LocationButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 13
     },
     ZoneImageContainer: {
-        backgroundColor: '#EEF1FF',
+        backgroundColor: '#0000',
         paddingVertical: windowHeight * 0.02,
         marginTop: windowHeight * 0.01
     },
@@ -323,7 +332,13 @@ const styles = StyleSheet.create({
 
     },
     DiscoverBottomContainer: {
-        marginTop: windowHeight * 0.01
+        height: windowHeight * 0.1,
+        justifyContent: 'center',
+    },
+    DiscoverMap: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
     },
     ExploreButtonContainer: {
         flexDirection: 'row',
