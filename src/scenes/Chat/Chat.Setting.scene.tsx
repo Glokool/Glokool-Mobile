@@ -49,14 +49,26 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
     const PressMute = () => {
         // 반대로 저장
         if (mute === true) {
-            setMute(!mute)
-            AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
             messaging().unsubscribeFromTopic(ChatRoomID)
+                .then(() => {
+                    console.log('FCM 토픽 구독 해제 성공 : ', ChatRoomID);
+                    setMute(!mute)
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
+                })
+                .catch((err) => {
+                    console.log('FCM 토픽 구독 해제 실패 : ', err);
+                })
         }
         else {
-            setMute(!mute)
-            AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
             messaging().subscribeToTopic(ChatRoomID)
+                .then(() => {
+                    console.log('FCM 토픽 구독 성공 : ', ChatRoomID);
+                    setMute(!mute)
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
+                })
+                .catch((err) => {
+                    console.log('FCM 토픽 구독 실패 : ', err);
+                })
         }
     }
 

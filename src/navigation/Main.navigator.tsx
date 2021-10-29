@@ -238,7 +238,7 @@ export const MainNavigator = (): React.ReactElement => (
             component={ChatNavigator}
             options={({ route }) => ({
                 tabBarVisible: GuideVisiblity(route),
-                unmountOnBlur: true,
+                unmountOnBlur: false,
             })}
         />
 

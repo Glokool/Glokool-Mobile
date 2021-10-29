@@ -6,10 +6,19 @@ import { windowHeight, windowWidth } from '../../../Design.component';
 import FastImage from 'react-native-fast-image';
 import { ChatRoomSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { SceneRoute } from '../../../navigation/app.route';
+import { ChatCountContext, ChatCountState } from '../../../context/ChatCount.context';
+import moment from 'moment';
+import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface CheckedList {
+    ChatRoomID : string;
+    lastUpdated : string;
+}
 
 export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
 
+    const [checkedList, setCheckedList] = React.useState<Array<CheckedList>>([]);
     const [data, setData] = React.useState([
         {
             _id: 'testChat',
@@ -24,8 +33,38 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
         },
     ]);
 
+    const InitList = () => {
+
+        data.forEach(async(item) => {
+            
+            var temp = await AsyncStorage.getItem(`ChatCheck_${item._id}`);
+
+            if(temp != undefined){
+                var tempList = checkedList;
+                tempList.push({
+                    ChatRoomID : item._id,
+                    lastUpdated : temp
+                })
+
+                setCheckedList(tempList);
+            }
+
+        })
+
+
+
+    }
+
+    React.useEffect(() => {
+        InitList();
+    }, [])
+
     const renderGuide = ({ item }: { item: any, index: number }): React.ReactElement => {
 
+        const checked = checkedList.findIndex((itm) => itm.ChatRoomID === item._id);
+        var lastUpdated = ''; 
+
+        if (checked != -1) { lastUpdated = checkedList[checked].lastUpdated}       
 
         return (
             <Pressable onPress={() => props.navigation.navigate(SceneRoute.CHATROOM, {
@@ -73,11 +112,18 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
 
 
                         <Layout style={styles.ChatRoomInfoContainer}>
-                            <Text style={styles.TimeText}>00:00</Text>
+                            {(lastUpdated != '')?
+                                <>
+                                    <Text style={styles.TimeText}>{moment(lastUpdated).format('hh:mm')}</Text>
 
-                            <Layout style={styles.UnreadMessageContainer}>
-                                <Text style={styles.UnreadMessageText}>3</Text>
-                            </Layout>
+                                    <Layout style={styles.UnreadMessageContainer}>
+                                        <Text style={styles.UnreadMessageText}>{}</Text>
+                                    </Layout>                               
+                                </>
+                            :
+                                null
+                            }
+
                         </Layout>
                     </Layout>
 
@@ -417,6 +463,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#7777FF',
         // marginHorizontal: 10,
         marginTop: 5,
+        width: 15,
+        height : 15
     },
 
     UnreadMessageText: {

@@ -1,17 +1,14 @@
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
-import {
-    ApplicationProvider,
-    IconRegistry,
-} from '@ui-kitten/components';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { default as mapping } from '../mapping.json';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation/App.navigator';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import { default as theme } from './theme.json';
@@ -19,13 +16,12 @@ import SplashScreen from 'react-native-splash-screen';
 import { ChatContext } from './context/ChatContext';
 import { AuthContext } from './context/AuthContext';
 import { requestNotificationsPermission } from './component/Permissions.component';
-import axios, { AxiosRequestConfig } from 'axios';
-import { SERVER } from './server.component';
 import linking from './linking';
-
 import { createStore } from 'redux';
 import rootReducer from './model';
 import { Provider } from 'react-redux';
+import { ChatCountContext, ChatCountState } from './context/ChatCount.context';
+
 
 const saveTokenToDatabase = async (token: any) => {
 
@@ -55,35 +51,12 @@ export default (props: any): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
+    const [chatCount, setChatCount ] = React.useState<Array<ChatCountState>>([]);
+    const count = { chatCount, setChatCount };
+
     const store = createStore(rootReducer);
 
-    const InitNowList = async () => {
-        const user = auth().currentUser;
-
-        const Token = await user?.getIdToken(true);
-        const AxiosConfig: AxiosRequestConfig = {
-            method: 'get',
-            url: SERVER + '/api/users/reservations/future',
-            headers: {
-                Authorization: 'Bearer ' + Token,
-            },
-        };
-        const resData = await axios(AxiosConfig);
-        if (resData.data.length > 0) {
-            const chatID = resData.data[0]._id;
-
-            database()
-                .ref(`/chats/${chatID}/userUnreadCount`)
-                .once('value')
-                .then((snapshot) => {
-                    const unreadMsgCount = snapshot.val();
-                    if (unreadMsgCount > 0) {
-                        setChatIcon(true);
-                    }
-                });
-        }
-    };
-
+    
     React.useEffect(() => {
         auth().onAuthStateChanged((user) => {
             if (user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null) {
@@ -98,7 +71,6 @@ export default (props: any): React.ReactFragment => {
 
                     setCurrentUser(userInfo);
 
-                    InitNowList();
                 } else {
                     auth().signOut;
                 }
@@ -113,18 +85,17 @@ export default (props: any): React.ReactFragment => {
 
                 setCurrentUser(userInfo);
 
-                InitNowList();
             }
         });
     }, []);
 
     React.useEffect(() => {
-        const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+        const unsubscribe = messaging().onMessage(async(remoteMessage) => {
+
+            AsyncStorage.setItem('ChatCheck', 'true');
+            AsyncStorage.setItem(`ChatCheck_${remoteMessage.data?.roomId}`, remoteMessage.data?.time);
+
             setChatIcon(true);
-            // Alert.alert(
-            //     'A new FCM message arrived!',
-            //     JSON.stringify(remoteMessage),
-            // );
         });
 
         // Noti 권한 허용
@@ -152,18 +123,16 @@ export default (props: any): React.ReactFragment => {
         <Provider store={store}>
             <React.Fragment>
                 <IconRegistry icons={EvaIconsPack} />
-                <ApplicationProvider
-                    {...eva}
-                    theme={{ ...eva.light, ...theme }}
-                    customMapping={mapping}
-                >
+                <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }} customMapping={mapping} >
                     <SafeAreaProvider>
                         <AuthContext.Provider value={userValue}>
+                            <ChatCountContext.Provider value={count}>
                             <ChatContext.Provider value={value}>
                                 <NavigationContainer linking={linking}>
-                                    <AppNavigator />
+                                    <AppNavigator key={'App'} type={'Glokool'} props={undefined} />
                                 </NavigationContainer>
                             </ChatContext.Provider>
+                            </ChatCountContext.Provider>
                         </AuthContext.Provider>
                     </SafeAreaProvider>
                 </ApplicationProvider>
