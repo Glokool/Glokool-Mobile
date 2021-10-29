@@ -91,11 +91,11 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
 
     return (
         <Layout style={styles.DiscoverContainer}>
-            <Map_background style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />
-            {zoneIndex == 0 ? <Hongdae_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} /> : <Hongdae_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
-            {zoneIndex == 1 ? <Gwanghwamun_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} /> : <Gwanghwamun_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
-            {zoneIndex == 2 ? <Myeongdong_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} /> : <Myeongdong_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
-            {zoneIndex == 3 ? <Gangnam_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} /> : <Gangnam_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 289} />}
+            <Map_background style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />
+            {zoneIndex == 0 ? <Hongdae_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} /> : <Hongdae_unselected style={{ position: 'absolute', top: 30, right: 29 }} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />}
+            {zoneIndex == 1 ? <Gwanghwamun_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} /> : <Gwanghwamun_unselected style={{ position: 'absolute', top: -11, right: -2 }} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />}
+            {zoneIndex == 2 ? <Myeongdong_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} /> : <Myeongdong_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />}
+            {zoneIndex == 3 ? <Gangnam_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} /> : <Gangnam_unselected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />}
 
             <Layout style={{ backgroundColor: '#0000', }}>
                 <Text style={styles.DiscoverTitleText}>DISCOVER</Text>
