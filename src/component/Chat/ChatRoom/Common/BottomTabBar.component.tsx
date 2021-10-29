@@ -107,7 +107,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                     if (response != undefined) {
 
                         if (response.didCancel == true) {
-                            throw Error('Camera Cancel');
+                            console.log('카메라 촬영 취소');
                         } 
                         
                         else {

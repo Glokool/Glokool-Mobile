@@ -57,7 +57,7 @@ export const HomeGlochatComponent = (props: HomeScreenProps) => {
 
 const styles = StyleSheet.create({
     GloChatContainer: {
-        paddingLeft: windowWidth * 0.05,
+        paddingHorizontal: windowWidth * 0.05,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
         shadowColor: '#7777ff',
