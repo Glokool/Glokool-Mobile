@@ -18,6 +18,8 @@ export type AppNavigatorParams = {
         screen : SceneRoute,
         params : undefined
     } | undefined;
+    
+    
 };
 
 const Stack = createStackNavigator();

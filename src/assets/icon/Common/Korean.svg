@@ -8,6 +8,6 @@
       <rect width="84" height="20" rx="10" stroke="none"/>
       <rect x="0.516" y="0.516" width="82.969" height="18.969" rx="9.484" fill="none"/>
     </g>
-    <text id="KOREAN" transform="translate(1202.563 197.163)" fill="#fec286" font-size="14" font-family="Helvetica"><tspan x="-29.562" y="0">KOREAN</tspan></text>
+    <text id="KOREAN" transform="translate(1202.563 197.163)" fill="#fec286" font-size="14" font-family="Pretendard-SemiBold, Pretendard" font-weight="600"><tspan x="-27.768" y="0">KOREAN</tspan></text>
   </g>
 </svg>

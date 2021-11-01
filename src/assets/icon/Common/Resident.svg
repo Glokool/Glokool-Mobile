@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="84" height="20" viewBox="0 0 84 20">
-  <g id="Profile__Resident" data-name="Profile_ Resident" transform="translate(-1160.562 -182.162)">
+  <g id="Profile__Resident" data-name="Profile_ Resident" transform="translate(-1160.563 -182.162)">
     <g id="사각형_2447" data-name="사각형 2447" transform="translate(1160.562 182.162)" fill="none" stroke="#beb0ff" stroke-miterlimit="10" stroke-width="1.031">
       <rect width="84" height="20" rx="10" stroke="none"/>
       <rect x="0.516" y="0.516" width="82.969" height="18.969" rx="9.484" fill="none"/>
     </g>
-    <text id="RESIDENT" transform="translate(1202.563 197.163)" fill="#beb0ff" font-size="14" font-family="Helvetica"><tspan x="-35.393" y="0">RESIDENT</tspan></text>
+    <text id="RESIDENT" transform="translate(1202.563 197.163)" fill="#beb0ff" font-size="14" font-family="Pretendard-SemiBold, Pretendard" font-weight="600"><tspan x="-32.96" y="0">RESIDENT</tspan></text>
   </g>
 </svg>

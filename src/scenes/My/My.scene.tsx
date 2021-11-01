@@ -27,7 +27,6 @@ import { SceneRoute } from '../../navigation/app.route';
 const windowWidth = Dimensions.get('window').width;
 
 export const MYScreen = (props: MyScreenProps): LayoutElement => {
-
     const { currentUser } = useContext(AuthContext);
 
     var exitApp: any = undefined;
@@ -59,7 +58,6 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
             clearTimeout(timeout);
             BackHandler.exitApp();
         }
-
         return true;
     };
 

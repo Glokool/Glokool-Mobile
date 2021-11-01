@@ -54,10 +54,10 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }
 
     const initCategory = async () => {
-        const response = await axios.get(SERVER + '/api/main-categories/' + 'Hongdae' + '/sub-categories')
+        const response = await axios.get(SERVER + '/main-categories/' + 'Hongdae' + '/sub-categories')
         setCategory(response.data);
 
-        const initFirstCategory = await axios.get(SERVER + '/api/main-categories/' + 'Hongdae' + '?q=' + response.data[0].name + '&limit=0')
+        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + 'Hongdae' + '?q=' + response.data[0].name + '&limit=0')
         setFetchedItem({ ...fetchedItem, [response.data[0].name]: initFirstCategory.data });
     }
 
@@ -85,7 +85,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     */
     const onChangePage = (index: number) => {
         if (!(category[index].name in fetchedItem)) {
-            axios.get(SERVER + '/api/main-categories/' + 'Hongdae' + '?q=' + category[index].name + '&limit=0')
+            axios.get(SERVER + '/main-categories/' + 'Hongdae' + '?q=' + category[index].name + '&limit=0')
                 .then((response) => {
                     setFetchedItem({ ...fetchedItem, [category[index].name]: response.data });
                 });
@@ -117,7 +117,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
             {/* Top Tab Bar */}
             <CommonTopTabBar
-                title={'HONGDAE'}
+                title={props.route.params.title.toUpperCase()}
                 child={
                     <Layout style={styles.CategoryOuterContainer}>
                         <FlatList

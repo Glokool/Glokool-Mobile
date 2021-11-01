@@ -29,33 +29,42 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
     const [chatrooms, setChatrooms] = useState();
     const [contents, setContents] = useState();
 
+    const [zoneTitle, setZoneTitle] = useState<string>("");
+    const [zoneList, setZoneList] = useState();
+
+    const configURL = "/zone"
+
     useEffect(() => {
         // dispatch(setZoneLoadingTrue());
         InitZoneMain();
     }, [])
 
     const InitZoneMain = async () => {
-        // axios.get(SERVER + '/api/zone-main')
-        //     .then((response) => {
+        axios.get(SERVER + '/zone')
+            .then((response) => {
+                
+                setZoneList(response.data);
+                setZoneTitle(response.data[0].title);
+            })
+            .catch((e) => {
+                console.log("Zone", e);
+            });
 
-        //         setBannerImage(response.data.zoneInfo.images);
-        //         setChatrooms(response.data.chatRooms);
-        //         setContents(response.data.contents);
-
-        //         console.log(response.data);
-
-        //         dispatch(setZoneLoadingFalse());
-        //     })
-        //     .catch((e) => {
-        //         console.log("Zone main", e);
-        //     });
+        axios.get(SERVER + '/zone-main')
+            .then((response) => { 
+                // console.log(response.data);
+                setBannerImage(response.data.zoneInfo.images);
+                setChatrooms(response.data.chatRooms);
+                setContents(response.data.contents); 
+            })
+            .catch((e) => { console.log("Zone main", e) })
     }
 
     return loading ? (<Layout />) : (
         <Layout style={styles.MainContainer}>
 
             {/* 최상단 지역 버튼 */}
-            <ZoneMainTopTabBarComponent {...props} />
+            <ZoneMainTopTabBarComponent {...props} zoneTitle={zoneTitle} />
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Layout style={styles.InnerContainer}>
@@ -67,12 +76,12 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
 
                 <Layout style={styles.ListContainer}>
                     {/* 카테고리 & 컨텐츠 목록 */}
-                    <ZoneCategoryListComponent {...props} items={contents} />
+                    <ZoneCategoryListComponent {...props} items={contents} zoneTitle={zoneTitle} />
                 </Layout>
 
             </ScrollView>
             {/* 지역 바꿀 수 있는 Bottom Sheet */}
-            <ZoneMainBottomTabBarComponent {...props} />
+            <ZoneMainBottomTabBarComponent {...props} zoneList={zoneList} />
 
         </Layout>
     )
@@ -98,7 +107,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 2,
     },
-    
+
     ListContainer: {
         marginTop: 20,
         shadowColor: '#000',

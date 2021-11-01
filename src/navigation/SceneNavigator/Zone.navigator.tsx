@@ -1,10 +1,11 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/core';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { SceneRoute } from '../app.route';
+import { SceneRoute, NavigatorRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { ZoneMainScene, ZoneContentsScene, ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { MainNavigatorParams } from '../Main.navigator';
+import { ChatTASelectScene } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
 
@@ -12,13 +13,17 @@ export type ZoneNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.ZONE_MAIN]: undefined;
     [SceneRoute.ZONE_CONTENTS]: {
         pageIndex: number;
+        title: string;
     };
     [SceneRoute.ZONE_DETAIL_BLOG]: {
         Id: string;
     };
     [SceneRoute.ZONE_DETAIL_CONTENT]: {
         Id: string;
-    }
+    };
+    [SceneRoute.CHAT_TA_SELECT]: {
+        zone: string;
+    };
 }
 
 export interface ZoneMainSceneProps {
@@ -48,5 +53,6 @@ export const ZoneNavigator = (): React.ReactElement => (
         <Stack.Screen name={SceneRoute.ZONE_CONTENTS} component={ZoneContentsScene} />
         <Stack.Screen name={SceneRoute.ZONE_DETAIL_BLOG} component={ZoneDetailBlogScene} />
         <Stack.Screen name={SceneRoute.ZONE_DETAIL_CONTENT} component={ZoneDetailContentScene} />
+        <Stack.Screen name={SceneRoute.CHAT_TA_SELECT} component={ChatTASelectScene} />
     </Stack.Navigator>
 )

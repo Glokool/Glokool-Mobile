@@ -95,46 +95,55 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     }, []);
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/api/blog/' + Id).catch((e) => console.log(e));
+        var Content = await axios.get(SERVER + '/blog/' + Id)
+            .then((response) => {
+                setContent(response.data);
+                setContentInfo(response.data.contents);
+                setRecommendation(response.data.recommendation);
+                setComments(response.data.comments);
+            })
+            .catch((e) => console.log("Blog", e));
+
+
         // 북마크 조회 하기 위한 함수
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
+        // if (uid) {
+        //     const authToken = await auth().currentUser?.getIdToken();
 
-            var config: AxiosRequestConfig = {
-                method: 'get',
-                url: SERVER + '/api/users/bookmark',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                },
-            };
+        //     var config: AxiosRequestConfig = {
+        //         method: 'get',
+        //         url: SERVER + '/users/bookmark',
+        //         headers: {
+        //             Authorization: 'Bearer ' + authToken,
+        //         },
+        //     };
 
 
-            axios(config)
-                .then(function (response) {
-                    let data = response.data.items;
-                    let dataTemp: Array<string> = [];
+        //     axios(config)
+        //         .then(function (response) {
+        //             let data = response.data.items;
+        //             let dataTemp: Array<string> = [];
 
-                    data.forEach((item: Bookmark_Item) => {
-                        dataTemp.push(item.id);
-                    });
+        //             data.forEach((item: Bookmark_Item) => {
+        //                 dataTemp.push(item.id);
+        //             });
 
-                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
-                    Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
+        //             dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+        //             Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
 
-                    setContent(Content?.data);
-                    setContentInfo(Content?.data.contents);
-                    setRecommendation(Content?.data.recommendation);
-                    setComments(Content?.data.comments);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+        //             setContent(Content?.data);
+        //             setContentInfo(Content?.data.contents);
+        //             setRecommendation(Content?.data.recommendation);
+        //             setComments(Content?.data.comments);
+        //         })
+        //         .catch(function (error) {
+        //             console.log("error", error);
+        //         });
 
-        }
+        // }
     }
 
     const InitComments = async () => {
-        var Content = await axios.get(SERVER + '/api/blog/' + Id);
+        var Content = await axios.get(SERVER + '/blog/' + Id);
         setComments(Content.data.comments);
     }
 
@@ -244,7 +253,7 @@ glokool.page.link/jdF1`,
         console.log(data);
         var config: AxiosRequestConfig = {
             method: 'post',
-            url: SERVER + '/api/users/bookmark',
+            url: SERVER + '/users/bookmark',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -266,7 +275,7 @@ glokool.page.link/jdF1`,
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
             method: 'patch',
-            url: SERVER + '/api/blog/' + content?._id + '/like',
+            url: SERVER + '/blog/' + content?._id + '/like',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -296,7 +305,7 @@ glokool.page.link/jdF1`,
 
         var config: AxiosRequestConfig = {
             method: 'post',
-            url: SERVER + '/api/blog/comments',
+            url: SERVER + '/blog/comments',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -318,7 +327,7 @@ glokool.page.link/jdF1`,
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
             method: 'delete',
-            url: SERVER + '/api/blog/' + content?._id + '/comments/' + id,
+            url: SERVER + '/blog/' + content?._id + '/comments/' + id,
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -340,7 +349,7 @@ glokool.page.link/jdF1`,
             method: 'patch',
             url:
                 SERVER +
-                '/api/blog/' +
+                '/blog/' +
                 content?._id +
                 '/comments/' +
                 id +
@@ -756,7 +765,7 @@ glokool.page.link/jdF1`,
 
 const styles = StyleSheet.create({
     ContainerLayout: {
-        paddingBottom: windowHeight * 0.11
+        // paddingBottom: windowHeight * 0.11
     },
     // 탑탭 style
     ContainerLayoutAngleLeft: {
@@ -872,6 +881,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         color: '#414141',
+        lineHeight: 25,
     },
     LetsBeginTxt: {
         marginTop: 20,
@@ -917,6 +927,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#414141',
         marginTop: 10,
+        lineHeight: 25,
     },
     // thank you btn
     FinalConatiner: {

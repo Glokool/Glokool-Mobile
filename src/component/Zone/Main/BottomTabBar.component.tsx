@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform } from 'react-native';
+import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text } from 'react-native';
 import { Divider } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Check } from '../../../assets/icon/Zone';
 import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
 
-export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
+export const ZoneMainBottomTabBarComponent = (props) => {
 
     const heightLevel = new Animated.Value(0);
     const locationVisiblity = useSelector((state: RootState) => state.ZoneUIModel.locationVisiblity);
@@ -72,6 +72,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
                     resizeMode={'stretch'}
                 /> */}
                 {item.index === selectedButton && <Check style={styles.SelectedIcon} />}
+                <Text>{item.item.title.toUpperCase()}</Text>
             </TouchableOpacity>
         )
     }
@@ -85,7 +86,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
                     <Animated.View style={[styles.BottomButtonContainer, BottomTabBarMovement()]}>
                         <Divider style={styles.Divider} />
                         <FlatList
-                            data={tempData}
+                            data={props.zoneList}
                             renderItem={renderButton}
                             numColumns={2}
                         />
@@ -135,6 +136,8 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 10,
         margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     SelectedButton: {
         width: windowWidth * 0.43,
@@ -143,6 +146,8 @@ const styles = StyleSheet.create({
         borderColor: '#7777ff',
         borderRadius: 10,
         margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     SelectedIcon: {
         position: 'absolute',

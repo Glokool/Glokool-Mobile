@@ -7,14 +7,14 @@ import { TopTabButton } from '../../../assets/icon/Zone';
 import { useDispatch } from 'react-redux';
 import { setLocationVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
 
-export const ZoneMainTopTabBarComponent = (props: ZoneMainSceneProps): React.ReactElement => {
+export const ZoneMainTopTabBarComponent = (props): React.ReactElement => {
 
     const dispatch = useDispatch();
 
     return (
         <Layout style={styles.TopTabBarContainer}>
             <Pressable style={styles.ZoneButtonContainer} onPress={() => dispatch(setLocationVisiblityTrue())}>
-                <Text style={styles.ZoneButtonText}>HONGDAE</Text>
+                <Text style={styles.ZoneButtonText}>{props.zoneTitle.toUpperCase()}</Text>
                 <TopTabButton style={styles.ZoneButtonIcon} />
             </Pressable>
         </Layout>

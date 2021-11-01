@@ -9,7 +9,7 @@ import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
 import { ZoneContentsType, ZoneItemListType } from '../../../types';
 
-export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
+export const ZoneCategoryListComponent = (props) => {
 
     const onPressContent = (type: string, id: string) => {
         if (type == 'blog') {
@@ -45,7 +45,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                     ListFooterComponent={
                         <TouchableOpacity
                             style={styles.ListFooterIcon}
-                            onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: item.index })}
+                            onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: item.index, title: props.zoneTitle  })}
                         >
                             <ViewMoreIcon />
                         </TouchableOpacity>
@@ -64,7 +64,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 <Text style={styles.TitleText}>LOCAL'S RECOMMENDATIONS</Text>
                 <TouchableOpacity
                     style={styles.AllContainer}
-                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0 })}
+                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0, title: props.zoneTitle })}
                 >
                     <Text style={styles.AllText}>View All</Text>
                 </TouchableOpacity>
@@ -82,7 +82,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
             {/* 더 많은 컨텐츠 보기 버튼 */}
             <TouchableOpacity
                 style={styles.BottomButton}
-                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0 })}
+                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0, title: props.zoneTitle  })}
             >
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>

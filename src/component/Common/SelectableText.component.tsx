@@ -12,7 +12,7 @@ export const SelectableText = (props: any) => {
                     textAlignVertical='top'
                     style={[props.style, { paddingTop: 0, paddingBottom: 0 }]}
                 >
-                    {props.children}
+                    <Text>{props.children}</Text>
                 </TextInput>
             ) : (
                 <Text
