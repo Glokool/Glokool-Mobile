@@ -9,6 +9,7 @@ import { setLocationVisiblityFalse } from '../../../model/Zone/Zone.UI.model';
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Check } from '../../../assets/icon/Zone';
+import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
 
 export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
@@ -30,7 +31,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         if (locationVisiblity) {
             Animated.timing(heightLevel, {
                 duration: 500,
-                toValue: -(windowHeight * 0.3),
+                toValue: -(windowWidth * 0.55) - 65 - getBottomSpace() / 2,
                 useNativeDriver: false
             }).start();
         }
@@ -64,12 +65,12 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         const buttonStyle = item.index === selectedButton ? styles.SelectedButton : styles.UnselectedButton;
 
         return (
-            <TouchableOpacity onPress={() => setSelectedButton(item.index)}>
-                <FastImage
+            <TouchableOpacity style={buttonStyle} onPress={() => setSelectedButton(item.index)}>
+                {/* <FastImage
                     source={item.item}
                     style={buttonStyle}
                     resizeMode={'stretch'}
-                />
+                /> */}
                 {item.index === selectedButton && <Check style={styles.SelectedIcon} />}
             </TouchableOpacity>
         )
@@ -107,9 +108,9 @@ const styles = StyleSheet.create({
     },
     BottomButtonContainer: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? -(windowHeight * 0.21) : -(windowHeight * 0.3),
+        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.55) : -(windowWidth * 0.5),
         width: windowWidth,
-        height: windowHeight * 0.3,
+        height: windowWidth * 0.55,
         zIndex: 100,
         backgroundColor: 'white',
         borderTopStartRadius: 10,
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
         height: 3,
         marginTop: 10,
         marginBottom: 10,
+        borderRadius: 100,
     },
     ZoneButtonContainer: {
         flexDirection: 'row'
@@ -129,6 +131,9 @@ const styles = StyleSheet.create({
     UnselectedButton: {
         width: windowWidth * 0.43,
         height: windowWidth * 0.19,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
         margin: 5,
     },
     SelectedButton: {
@@ -137,6 +142,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#7777ff',
         borderRadius: 10,
+        margin: 5,
     },
     SelectedIcon: {
         position: 'absolute',

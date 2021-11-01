@@ -1,12 +1,13 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
 import { ChatZoneSelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) : React.ReactElement => {
+export const ZoneSelectTopTabBarComponent = (props: ChatZoneSelectSceneProps): React.ReactElement => {
 
     const PressBackButton = () => {
         props.navigation.goBack();
@@ -14,10 +15,10 @@ export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) :
 
     return (
         <Layout style={styles.MainContainer}>
-            
+
             <Pressable
                 style={styles.LeftIcon}
-                onPress={() => {PressBackButton()}}>
+                onPress={() => PressBackButton()}>
                 <ArrowLeft />
             </Pressable>
 
@@ -25,23 +26,22 @@ export const ZoneSelectTopTabBarComponent = (props : ChatZoneSelectSceneProps) :
                 <Text style={styles.Title}>ZONES</Text>
             </Layout>
 
-            <Layout style={styles.EmptyContainer}/>
-        </Layout>            
-
+            <Layout style={styles.EmptyContainer} />
+        </Layout>
     );
 }
 
 const styles = StyleSheet.create({
-    MainContainer : {
+    MainContainer: {
         flexDirection: 'row',
-        // position: 'absolute',
+        position: 'absolute',
         width: '100%',
-        // top: isIphoneX()? getStatusBarHeight() : 0,
+        top: isIphoneX() ? getStatusBarHeight() : 0,
         height: 60,
         alignItems: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderBottomWidth : 1,
-        borderBottomColor : '#F0F0F0'
+        backgroundColor: 'white',
+        borderBottomWidth: 1,
+        borderBottomColor: '#F0F0F0',
     },
 
     TitleContainer: {
@@ -53,18 +53,18 @@ const styles = StyleSheet.create({
     },
 
     Title: {
-        fontFamily : 'BrandonGrotesque-Bold',
+        fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 18,
         color: 'black',
-        textAlign : 'center',
+        textAlign: 'center',
         backgroundColor: '#00FF0000'
     },
-    
-    LeftIcon : {
+
+    LeftIcon: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
 
     EmptyContainer: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,

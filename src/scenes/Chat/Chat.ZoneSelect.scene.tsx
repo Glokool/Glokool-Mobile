@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Text, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, ScrollView, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ZoneButtonGroupComponent, ZoneSelectTopTabBarComponent } from '../../component/Chat/ChatZoneSelect';
@@ -8,18 +8,18 @@ import { ZoneMapImage } from '../../assets/icon/Chat';
 import { windowWidth } from '../../Design.component';
 
 export const ChatZoneSelectScene = (props: ChatZoneSelectSceneProps): React.ReactElement => {
-
+    
     return (
         <ScrollView style={styles.container} bounces={false}>
             <SafeAreaView />
-            <ZoneSelectTopTabBarComponent {...props} />
 
-            <ZoneMapImage width={windowWidth} height={windowWidth / 414 * 302} />
+            <ZoneMapImage width={windowWidth} height={windowWidth / 414 * 302} style={{ marginTop: Platform.OS === 'ios' ? 60 - getStatusBarHeight() : 60 }} />
 
             <Text style={styles.MainTitle}>WHERE ARE YOU PLANNING TO VISIT?</Text>
             <Text style={styles.SubTitle}>Select a zone to search for travel assistants</Text>
 
             <ZoneButtonGroupComponent {...props} />
+            <ZoneSelectTopTabBarComponent {...props} />
 
         </ScrollView>
     )

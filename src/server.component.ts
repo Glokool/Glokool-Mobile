@@ -2,8 +2,8 @@ let serverAPI;
 let cdnURL;
 
 if (process.env.NODE_ENV === "development") {
-    serverAPI = 'https://glokool-guide.com';
-    cdnURL = 'https://img.glokool-guide.com';
+    serverAPI = 'https://api.glokool.com/v3';
+    cdnURL = 'https://img.glokool.com';
 
 } else {
     serverAPI = 'https://glokool.info'; 

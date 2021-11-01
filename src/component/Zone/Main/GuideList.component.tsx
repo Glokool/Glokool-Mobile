@@ -11,6 +11,7 @@ import { setGuideVisiblityTrue } from '../../../model/Zone/Zone.UI.model';
 import { ZoneChatModal } from '..';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight } from '../../../Design.component';
+import { SceneRoute } from '../../../navigation/app.route';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -143,7 +144,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     return (
         <Layout style={{ width: '100%' }}>
-            
+
             <Text style={styles.GuideText}>LOCAL EXPERTS IN THIS AREA</Text>
 
             {/* 가이드 (챗방) list */}
@@ -158,7 +159,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 keyExtractor={(item, index) => index.toString()}
             />
             {/* guide 더보기 버튼 */}
-            <TouchableOpacity style={styles.ButtonContainer}>
+            <TouchableOpacity style={styles.ButtonContainer} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT, { zone: 'HONGDAE' })}>
                 <Text style={[styles.ButtonText, { color: 'white' }]}>Click to Explore More </Text>
                 <Text style={[styles.ButtonText, { color: '#8596FF', marginRight: 10, }]}>Travel Assistants</Text>
                 <ExploreIcon />
