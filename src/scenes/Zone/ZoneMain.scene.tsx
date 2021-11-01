@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, ScrollView } from 'react-native';
+import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
 import { ZoneMainSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
@@ -45,6 +45,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 
                 setZoneList(response.data);
                 setZoneTitle(response.data[0].title);
+
             })
             .catch((e) => {
                 console.log("Zone", e);

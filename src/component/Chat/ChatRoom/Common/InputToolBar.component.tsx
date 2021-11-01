@@ -10,9 +10,6 @@ import { cleanKeyboardComponent, setEmojiKeyboardFalse, setEmojiKeyboardTrue } f
 import { setMenuVisiblityFalse, setMenuVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 
 
-
-
-
 //입력 창 확인
 export const renderInputToolbar = (props : InputToolbarProps, day : Date, dispatch : Dispatch<any>, menuVisiblity : boolean, emojiKeyboardVisiblity : boolean) : React.ReactElement => {
   

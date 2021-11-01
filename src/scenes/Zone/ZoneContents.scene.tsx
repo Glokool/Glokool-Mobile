@@ -8,16 +8,18 @@ import { ZoneContentsSceneProps } from '../../navigation/SceneNavigator/Zone.nav
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { setCategoryIndex } from '../../model/Zone/Zone.UI.model';
-import { CommonTopTabBar } from '../../component/Common';
+import { CommonTopTabBar, Loading } from '../../component/Common';
 import axios from 'axios';
 import { SERVER, CDN } from '../../server.component';
 import FastImage from 'react-native-fast-image';
 import { SceneRoute } from '../../navigation/app.route';
 import { ZoneCategoryType, ZoneContentsType } from '../../types';
+import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
 
 export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     const categoryIndex = useSelector((state: RootState) => state.ZoneUIModel.categoryIndex);
+    const loading = useSelector((state: RootState) => state.ZoneLoadingModel.loading);
     const dispatch = useDispatch();
 
     const scrollRef = useRef<SwiperFlatList>(null);
@@ -54,10 +56,10 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }
 
     const initCategory = async () => {
-        const response = await axios.get(SERVER + '/main-categories/' + 'Hongdae' + '/sub-categories')
+        const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
         setCategory(response.data);
 
-        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + 'Hongdae' + '?q=' + response.data[0].name + '&limit=0')
+        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + response.data[0].name + '&limit=0')
         setFetchedItem({ ...fetchedItem, [response.data[0].name]: initFirstCategory.data });
     }
 
@@ -85,9 +87,15 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     */
     const onChangePage = (index: number) => {
         if (!(category[index].name in fetchedItem)) {
-            axios.get(SERVER + '/main-categories/' + 'Hongdae' + '?q=' + category[index].name + '&limit=0')
+            dispatch(setZoneLoadingTrue());
+            axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + category[index].name + '&limit=0')
                 .then((response) => {
                     setFetchedItem({ ...fetchedItem, [category[index].name]: response.data });
+                    dispatch(setZoneLoadingFalse());
+                })
+                .catch((e)=>{
+                    console.log(e);
+                    dispatch(setZoneLoadingFalse());
                 });
         }
     }
@@ -142,6 +150,8 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                     onChangePage(index);
                 }}
             />
+
+            {loading && <Loading />}
 
         </Layout>
     )

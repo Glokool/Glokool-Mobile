@@ -5,6 +5,7 @@ import {
     AppState,
     AppStateStatus,
     Keyboard,
+    Alert,
 } from 'react-native';
 import {
     Layout,
@@ -64,7 +65,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     const { setChatIcon } = useContext(ChatContext);
 
     const dispatch = useDispatch();
-    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);    
+    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
     const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
     const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
@@ -117,20 +118,20 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
         ChatDB?.off('child_added'); // 먼저 기존 리스너 제거
 
-        var tempMessages : Array<IMessage> = [];
+        var tempMessages: Array<IMessage> = [];
         let newItems = false;
 
         ChatDB?.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            if(newItems === false){
+            if (newItems === false) {
                 newItems = true;
             }
             else {
                 setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-            }            
+            }
         });
 
-        
-        ChatDB?.orderByKey().limitToLast(messagesCount + 50).once('value', (snapshot) => {            
+
+        ChatDB?.orderByKey().limitToLast(messagesCount + 50).once('value', (snapshot) => {
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
@@ -153,25 +154,25 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         }
     }
 
-    const ChatRoomMessageInit = async() : Promise<void> => {
+    const ChatRoomMessageInit = async (): Promise<void> => {
 
         const Chat = database().ref('/chats/' + 'testChat/messages');
         setChatDB(Chat);
 
-        var tempMessages : Array<IMessage> = [];
+        var tempMessages: Array<IMessage> = [];
         let newItems = false;
 
         Chat.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            if(newItems === false){
+            if (newItems === false) {
                 newItems = true;
             }
             else {
                 setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-            }            
+            }
         });
 
-        
-        Chat.orderByKey().limitToLast(messagesCount).once('value', (snapshot) => {            
+
+        Chat.orderByKey().limitToLast(messagesCount).once('value', (snapshot) => {
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
@@ -188,9 +189,9 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
         AppState.addEventListener('change', handleAppStateChange); // 앱 상태 확인
         Keyboard.addListener('keyboardDidShow', KeyboardShow);
-  
+
         setChatIcon(false);
-        
+
 
         props.navigation.addListener('beforeRemove', () => { // 메시지 읽음 표시
             resetUserUnreadMsgCount();
@@ -226,12 +227,12 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         dispatch(setRoomName(id));
     }
 
-    const FCMSend = async(message : IMessage) => {
-          
+    const FCMSend = async (message: IMessage) => {
+
         if (currentUser.expiry_date < new Date().getTime()) {
             await getAccessToken();
         }
-    
+
         const data = JSON.stringify({
             message: {
                 notification: {
@@ -242,7 +243,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                     time: new Date(Date.now()).toString(),
                     roomId: props.route.params.id,
                 },
-                topic : props.route.params.id,
+                topic: props.route.params.id,
                 webpush: {
                     fcm_options: {
                         link: 'guide/main/chat',
@@ -250,7 +251,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                 },
             },
         });
-    
+
         const options = {
             method: "post",
             url:
@@ -261,7 +262,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             },
             data: data,
         };
-    
+
         await axios(options).catch((e) => {
             if (e.response) {
                 console.log(e.response.data);
@@ -289,17 +290,18 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             }
 
             newMessage?.set(message, (e) => {
-                if (e != null) { console.log('채팅 전송 실패 : ', e) }             
+                if (e != null) { console.log('채팅 전송 실패 : ', e) }
             });
 
             FCMSend(message);
-            
+
 
         } else {
-            ToastRef.show(
-                'Please refrain from any content that may offend the other person.',
-                1000,
-            );
+            // ToastRef.show(
+            //     'Please refrain from any content that may offend the other person.',
+            //     1000,
+            // );
+            Alert.alert("The message contains inappropriate languages. Please try again.");
         }
 
     };
@@ -322,10 +324,10 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                         _id: currentUser?.uid,
                     }}
                     messagesContainerStyle={{
-                        paddingBottom: Platform.OS === 'ios'? getBottomSpace() - 13 : 20,
+                        paddingBottom: Platform.OS === 'ios' ? getBottomSpace() - 13 : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
-                    onLoadEarlier={() => {LoadEarlierMessages()}}
+                    onLoadEarlier={() => { LoadEarlierMessages() }}
                     alwaysShowSend={true}
                     showUserAvatar={false}
                     renderAvatarOnTop={true}

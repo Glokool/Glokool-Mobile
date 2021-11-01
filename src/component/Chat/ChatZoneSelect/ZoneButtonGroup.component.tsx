@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, Alert } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { AngleRight_Gray } from '../../../assets/icon/Common';
@@ -22,20 +22,31 @@ export const ZoneButtonGroupComponent = (props: ChatZoneSelectSceneProps): React
         color: "#A55EBB",
     }]
 
+    const onPressButton = (title: string, index: number) => {
+
+        if (index > 1) {
+            Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
+        } else {
+            props.navigation.navigate(
+                SceneRoute.CHAT_TA_SELECT,
+                { zone: title }
+            )
+        }
+
+    }
+
     return (
         <Layout style={styles.container}>
 
             {Button.map((item: any, index: number) => (
-                <Pressable style={[styles.ButtonContainer, { borderBottomColor: item.color }]} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT, { zone: item.title })}>
-
-                    <Layout style={styles.ButtonTextContainer}>
-                        <Text style={styles.ButtonText}>{item.title}</Text>
-                    </Layout>
-
-                    <Layout>
-                        <AngleRight_Gray />
-                    </Layout>
-
+                <Pressable
+                    style={[
+                        styles.ButtonContainer,
+                        { borderBottomColor: item.color }
+                    ]}
+                    onPress={() => onPressButton(item.title, index)}>
+                    <Text style={styles.ButtonText}>{item.title}</Text>
+                    <AngleRight_Gray />
                 </Pressable>
             ))}
 
