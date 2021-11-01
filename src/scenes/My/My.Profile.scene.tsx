@@ -8,11 +8,11 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
+    Text
 } from 'react-native';
 import {
     IndexPath,
     Layout,
-    Text,
     Select,
     SelectItem,
     LayoutElement,

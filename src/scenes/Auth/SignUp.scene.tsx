@@ -11,11 +11,11 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Alert,
+  Text
 } from 'react-native';
 import {
   CheckBox,
   Layout,
-  Text,
   IndexPath,
   Select,
   SelectItem,

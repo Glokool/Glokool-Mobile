@@ -5,7 +5,6 @@ import {
     ScrollView,
     StyleSheet,
     BackHandler,
-    Image
 } from 'react-native';
 import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';

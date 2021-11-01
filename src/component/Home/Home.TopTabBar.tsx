@@ -4,8 +4,9 @@ import {
     Image,
     StyleSheet,
     Platform,
+    Text
 } from 'react-native';
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { AuthContext } from '../../context/AuthContext';
 import { TextLogo, LoginIcon } from '../../assets/icon/Home';

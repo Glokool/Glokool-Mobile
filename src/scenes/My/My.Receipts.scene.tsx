@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
-import { StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { StyleSheet, TouchableOpacity, FlatList, Dimensions, Text } from 'react-native';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { ReceiptDetailInfo } from '../../types';
 import { PaidChatListProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     InfoText: {
-        fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         flex: 1,
     },

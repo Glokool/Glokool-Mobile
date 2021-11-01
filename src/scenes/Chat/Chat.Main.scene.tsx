@@ -7,7 +7,7 @@ import {
     SafeAreaView,
 } from 'react-native';
 import { Divider, Layout, LayoutElement} from '@ui-kitten/components';
-import { ChatMainSceneProps } from '../../navigation/ScreenNavigator/Chat.navigator';
+import { ChatMainSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ChatList, TopTabWeatherbar } from '../../component/Chat/ChatMain';
 
 var ToastRef: any;

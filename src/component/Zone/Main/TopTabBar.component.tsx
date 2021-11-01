@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Pressable, Platform } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, Pressable, Platform, Text } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowWidth } from '../../../Design.component';
 import { TopTabButton } from '../../../assets/icon/Zone';

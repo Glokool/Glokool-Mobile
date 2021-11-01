@@ -4,12 +4,12 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Text
 } from 'react-native';
 import {
   Layout,
   LayoutElement,
-  Text,
   Button
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';

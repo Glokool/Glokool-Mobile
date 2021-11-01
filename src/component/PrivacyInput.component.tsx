@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet, } from 'react-native';
 import { Input, InputElement, InputProps } from '@ui-kitten/components';
 import { useFormikContext } from 'formik';
 import { AlertTriangleIcon } from './Icon.component';

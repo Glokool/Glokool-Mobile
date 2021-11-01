@@ -3,12 +3,12 @@ import {
     StyleSheet,
     SafeAreaView,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Text
 } from 'react-native';
 import {
     Layout,
     LayoutElement,
-    Text,
     Icon,
     Divider
 } from '@ui-kitten/components';

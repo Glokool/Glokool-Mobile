@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-    Layout,
-    Text,
-} from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import { Layout, } from '@ui-kitten/components';
+import { StyleSheet, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export const TermsConditionCard = () => {

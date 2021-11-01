@@ -3,11 +3,11 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Text
 } from 'react-native';
 import {
   Layout,
   LayoutElement,
-  Text
 } from '@ui-kitten/components';
 import { PrivacyProps } from '../../../navigation/SceneNavigator/My.navigator';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'

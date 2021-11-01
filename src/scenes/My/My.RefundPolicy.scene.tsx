@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Layout, LayoutElement, Button, Text, Divider } from '@ui-kitten/components';
+import { StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Text } from 'react-native';
+import { Layout, LayoutElement, Button, Divider } from '@ui-kitten/components';
 import { RefundPolicyProps } from '../../navigation/SceneNavigator/My.navigator';
 
 

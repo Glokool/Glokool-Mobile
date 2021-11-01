@@ -3,9 +3,10 @@ import {
     StyleSheet,
     Dimensions,
     FlatList,
-    Platform
+    Platform,
+    Text
 } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 import { HistoryScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { CommonTopTabBar } from '../../component/Common';
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     InfoText: {
-        fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'Pretendard-Medium',
         fontSize: 15,
     },
     LocationContainer: {

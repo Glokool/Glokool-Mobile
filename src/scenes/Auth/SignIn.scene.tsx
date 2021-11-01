@@ -11,11 +11,11 @@ import {
   Dimensions,
   Platform,
   Alert,
+  Text
 } from 'react-native';
 import {
   Layout,
   LayoutElement,
-  Text,
   Divider,
 } from '@ui-kitten/components';
 import { Formik, FormikProps } from 'formik';

@@ -4,10 +4,11 @@ import {
     StyleSheet,
     TouchableOpacity,
     Dimensions,
-    Alert,
+    Alert, 
+    Text
 } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
-import { Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Layout, LayoutElement } from '@ui-kitten/components';
 import { MYSettingProps } from '../../navigation/SceneNavigator/My.navigator';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import {

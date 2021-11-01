@@ -6,11 +6,11 @@ import {
     SafeAreaView,
     TouchableOpacity,
     ScrollView,
+    Text
 } from 'react-native';
 import {
     Layout,
     LayoutElement,
-    Text,
     Icon,
     Modal,
     Card,

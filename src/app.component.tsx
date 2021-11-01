@@ -1,6 +1,6 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LogBox, StatusBar } from 'react-native';
+import { LogBox, Platform, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -123,7 +123,7 @@ export default (props: any): React.ReactFragment => {
         <Provider store={store}>
             <React.Fragment>
                 <IconRegistry icons={EvaIconsPack} />
-                <StatusBar barStyle="dark-content"/>
+                <StatusBar barStyle={Platform.OS === 'ios' ? "dark-content" : "default"}/>
                 <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }} customMapping={mapping} >
                     <SafeAreaProvider>
                         <AuthContext.Provider value={userValue}>

@@ -5,9 +5,10 @@ import {
     TouchableOpacity,
     Dimensions,
     SafeAreaView,
-    ScrollView
+    ScrollView, 
+    Text
 } from 'react-native';
-import { Divider, Layout, LayoutElement, Text } from '@ui-kitten/components';
+import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
 
 import { useFocusEffect } from '@react-navigation/native';
 
