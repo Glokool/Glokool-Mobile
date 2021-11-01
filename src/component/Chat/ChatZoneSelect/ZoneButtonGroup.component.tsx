@@ -8,16 +8,28 @@ import { SceneRoute } from '../../../navigation/app.route';
 
 export const ZoneButtonGroupComponent = (props: ChatZoneSelectSceneProps): React.ReactElement => {
 
-    const Button = ['HONGDAE', 'GWANGHWAMUN', 'MYEONGDONG', 'GANGNAM']
+    const Button = [{
+        title: "HONGDAE",
+        color: "#F9D981",
+    }, {
+        title: "GWANGHWAMUN",
+        color: "#93D8B7"
+    }, {
+        title: "MYEONGDONG",
+        color: "#DD637A",
+    }, {
+        title: "GANGNAM",
+        color: "#A55EBB",
+    }]
 
     return (
         <Layout style={styles.container}>
 
-            {Button.map((item: string, index: number) => (
-                <Pressable style={styles.ButtonContainer} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT, { zone: item })}>
+            {Button.map((item: any, index: number) => (
+                <Pressable style={[styles.ButtonContainer, { borderBottomColor: item.color }]} onPress={() => props.navigation.navigate(SceneRoute.CHAT_TA_SELECT, { zone: item.title })}>
 
                     <Layout style={styles.ButtonTextContainer}>
-                        <Text style={styles.ButtonText}>{item}</Text>
+                        <Text style={styles.ButtonText}>{item.title}</Text>
                     </Layout>
 
                     <Layout>
@@ -54,6 +66,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
+        borderBottomWidth: 4,
     },
 
     ButtonTextContainer: {

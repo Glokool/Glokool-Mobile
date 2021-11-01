@@ -4,7 +4,7 @@ import { Layout } from '@ui-kitten/components';
 import { ChatZoneSelectSceneProps } from '../../navigation/SceneNavigator/Chat.navigator';
 import { ZoneButtonGroupComponent, ZoneSelectTopTabBarComponent } from '../../component/Chat/ChatZoneSelect';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
-import { ZoneMapImage } from '../../assets/icon/Zone';
+import { ZoneMapImage } from '../../assets/icon/Chat';
 import { windowWidth } from '../../Design.component';
 
 export const ChatZoneSelectScene = (props: ChatZoneSelectSceneProps): React.ReactElement => {

@@ -30,25 +30,25 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
     const [contents, setContents] = useState();
 
     useEffect(() => {
-        dispatch(setZoneLoadingTrue());
+        // dispatch(setZoneLoadingTrue());
         InitZoneMain();
     }, [])
 
     const InitZoneMain = async () => {
-        axios.get(SERVER + '/api/zone-main')
-            .then((response) => {
+        // axios.get(SERVER + '/api/zone-main')
+        //     .then((response) => {
 
-                setBannerImage(response.data.zoneInfo.images);
-                setChatrooms(response.data.chatRooms);
-                setContents(response.data.contents);
+        //         setBannerImage(response.data.zoneInfo.images);
+        //         setChatrooms(response.data.chatRooms);
+        //         setContents(response.data.contents);
 
-                console.log(response.data);
+        //         console.log(response.data);
 
-                dispatch(setZoneLoadingFalse());
-            })
-            .catch((e) => {
-                console.log("Zone main", e);
-            });
+        //         dispatch(setZoneLoadingFalse());
+        //     })
+        //     .catch((e) => {
+        //         console.log("Zone main", e);
+        //     });
     }
 
     return loading ? (<Layout />) : (
@@ -62,7 +62,6 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                     {/* 지역 이미지 배너 */}
                     <ZoneBannerComponent {...props} items={bannerImage} />
                     {/* 가이드 리스트 */}
-                    <Text style={styles.GuideText}>LOCAL EXPERTS IN THIS AREA</Text>
                     <ZoneGuideListComponent {...props} items={chatrooms} />
                 </Layout>
 
@@ -99,13 +98,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 2,
     },
-    GuideText: {
-        fontFamily: 'Pretendard-Bold',
-        fontSize: 18,
-        alignSelf: 'center',
-        marginTop: 20,
-        marginBottom: 10,
-    },
+    
     ListContainer: {
         marginTop: 20,
         shadowColor: '#000',

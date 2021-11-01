@@ -8,7 +8,6 @@ import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
 import { ZoneContentsType, ZoneItemListType } from '../../../types';
-import { useNavigation } from '@react-navigation/core';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
@@ -131,14 +130,14 @@ const styles = StyleSheet.create({
         color: '#7777ff'
     },
     ContentContainer: {
-        width: windowWidth * 0.4,
-        height: windowWidth * 0.4,
+        width: windowWidth * 0.35,
+        height: windowWidth * 0.35,
         borderRadius: 10,
         marginHorizontal: 5,
     },
     ItemImage: {
-        width: windowWidth * 0.4,
-        height: windowWidth * 0.4,
+        width: windowWidth * 0.35,
+        height: windowWidth * 0.35,
         borderRadius: 10,
         borderWidth: 0.5,
     },

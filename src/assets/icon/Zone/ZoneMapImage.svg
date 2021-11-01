@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="414" height="302" viewBox="0 0 414 302">
-  <g id="그룹_2525" data-name="그룹 2525" transform="translate(0 -97)">
-    <rect id="사각형_3125" data-name="사각형 3125" width="414" height="302" transform="translate(0 97)" fill="#f8f8f8"/>
-    <text id="SEOUL_MAP_IMAGE" data-name="SEOUL MAP IMAGE" transform="translate(207 189)" fill="#b1b1b1" font-size="15" font-family="BrandonGrotesque-Bold, Brandon Grotesque" font-weight="700" style="mix-blend-mode: multiply;isolation: isolate"><tspan x="-66.51" y="0">SEOUL MAP IMAGE</tspan></text>
-    <path id="패스_2596" data-name="패스 2596" d="M80.03,4.5H11.366A6.866,6.866,0,0,0,4.5,11.366V80.03A6.866,6.866,0,0,0,11.366,86.9H80.03A6.866,6.866,0,0,0,86.9,80.03V11.366A6.866,6.866,0,0,0,80.03,4.5Zm0,75.53H11.366v-20.6L28.532,42.265,47.724,61.457a6.866,6.866,0,0,0,9.68,0L62.864,56,80.03,73.163Zm0-16.583L67.7,51.121a6.866,6.866,0,0,0-9.68,0l-5.46,5.46L33.372,37.388a6.866,6.866,0,0,0-9.68,0L11.366,49.714V11.366H80.03Z" transform="translate(161.302 194.693)" fill="#fff"/>
-  </g>
-</svg>

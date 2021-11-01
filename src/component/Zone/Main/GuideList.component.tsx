@@ -64,10 +64,9 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     const ListHeaderComponent = () => {
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => { }}>
-                <Layout style={styles.ItemContainer}>
+                <Layout style={[styles.ItemContainer, { borderWidth: 3, borderColor: '#D1D1FF' }]}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: '#8797ff' }]}>
-                        {/* <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} /> */}
                         <GloProfile />
                     </Layout>
 
@@ -85,7 +84,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     }
 
     // 가이드 리스트 아이템
-    const renderItem = (item: { item, index }) => {
+    const renderItem = (item: { item, index: number }) => {
         return (
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
@@ -144,6 +143,9 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     return (
         <Layout style={{ width: '100%' }}>
+            
+            <Text style={styles.GuideText}>LOCAL EXPERTS IN THIS AREA</Text>
+
             {/* 가이드 (챗방) list */}
             <FlatList
                 data={props.items}
@@ -262,5 +264,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: Platform.OS === 'ios' ? 16 : 14,
     },
-    
+    GuideText: {
+        fontFamily: 'Pretendard-Bold',
+        fontSize: 18,
+        alignSelf: 'center',
+        marginTop: 20,
+        marginBottom: 10,
+    },
 })

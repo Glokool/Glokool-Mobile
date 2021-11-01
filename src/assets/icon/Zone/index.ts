@@ -5,7 +5,6 @@ import PersonIcon from './PersonIcon.svg';
 import EnterIcon from './EnterIcon.svg';
 import ViewMoreIcon from './ViewMoreIcon.svg';
 import GloProfile from './GloProfile.svg';
-import ZoneMapImage from './ZoneMapImage.svg';
 
 export {
     TopTabButton,
@@ -15,5 +14,4 @@ export {
     EnterIcon,
     ViewMoreIcon,
     GloProfile,
-    ZoneMapImage,
 }

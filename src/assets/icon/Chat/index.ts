@@ -55,6 +55,8 @@ import Profile_Button from './Profile_Button.svg';
 
 import SendIcon_Text from './SendIcon_Text.svg';
 
+import ZoneMapImage from './ZoneMapImage.svg';
+
 export {
     Help,
     Menu,
@@ -109,5 +111,6 @@ export {
     Report_Button,
     Profile_Button,
 
-    SendIcon_Text
+    SendIcon_Text,
+    ZoneMapImage,
 }

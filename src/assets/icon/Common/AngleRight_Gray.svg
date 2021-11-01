@@ -1,3 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="10.589" height="21.047" viewBox="0 0 10.589 21.047">
-  <path id="arrow-ios-forward-fill" d="M15,28.5a1.5,1.5,0,0,1-1.155-2.46L20.565,18l-6.48-8.055A1.533,1.533,0,1,1,16.5,8.055l7.245,9a1.5,1.5,0,0,1,0,1.905l-7.5,9A1.5,1.5,0,0,1,15,28.5Z" transform="translate(-13.497 -7.456)" opacity="0.13"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="10.414" height="18.828" viewBox="0 0 10.414 18.828">
+  <g id="그룹_1944" data-name="그룹 1944" transform="translate(-43.219 0.965)">
+    <path id="패스_1618" data-name="패스 1618" d="M0,0,7.8,8,16,0" transform="translate(44.633 16.449) rotate(-90)" fill="none" stroke="#d6d6d6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
 </svg>
