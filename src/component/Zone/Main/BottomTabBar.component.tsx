@@ -15,11 +15,12 @@ import { setZoneLocation } from '../../../model/Zone/Zone.Location.model';
 export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
     const heightLevel = new Animated.Value(0);
+
     const locationVisiblity = useSelector((state: RootState) => state.ZoneUIModel.locationVisiblity);
     const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
-    const dispatch = useDispatch();
+    const locationIndex = useSelector((state: RootState) => state.ZoneLocationModel.index);
 
-    const [selectedButton, setSelectedButton] = React.useState<number>(0);
+    const dispatch = useDispatch();
 
     const tempData = [
         require('../../../assets/image/Zone/Button001.png'),
@@ -66,14 +67,13 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         if (item.index > 1) {
             Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
         } else {
-            setSelectedButton(item.index)
-            dispatch(setZoneLocation(item.item.title));
+            dispatch(setZoneLocation(item.item.title, item.index));
         }
     }
 
     const renderButton = (item: any): React.ReactElement => {
 
-        const buttonStyle = item.index === selectedButton ? styles.SelectedButton : styles.UnselectedButton;
+        const buttonStyle = item.index === locationIndex ? styles.SelectedButton : styles.UnselectedButton;
 
         return (
             <TouchableOpacity style={buttonStyle} onPress={() => onPressLocation(item)}>
@@ -82,7 +82,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
                     style={buttonStyle}
                     resizeMode={'stretch'}
                 /> */}
-                {item.index === selectedButton && <Check style={styles.SelectedIcon} />}
+                {item.index === locationIndex && <Check style={styles.SelectedIcon} />}
                 <Text>{item.item.title.toUpperCase()}</Text>
             </TouchableOpacity>
         )

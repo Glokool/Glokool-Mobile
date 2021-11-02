@@ -71,7 +71,7 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
     const onPressZoneButon = (item: { item: HomeZoneMapType, index: number }) => {
         setZoneIndex(item.index);
         if (item.index < 2) {
-            dispatch(setZoneLocation(item.item.name.toLowerCase()));
+            dispatch(setZoneLocation(item.item.name.toLowerCase(), item.index));
         }
     }
 

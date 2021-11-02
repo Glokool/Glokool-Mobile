@@ -1,8 +1,9 @@
 const SET_ZONE_LOCATION = 'model/zone/set_zone_location' as const;
 
-export const setZoneLocation = (diff: string) => ({
+export const setZoneLocation = (title: string, index: number) => ({
     type: SET_ZONE_LOCATION,
-    payload: diff,
+    payload: title,
+    zoneIndex: index,
 })
 
 type ZoneLocationAction =
@@ -10,10 +11,12 @@ type ZoneLocationAction =
 
 type ZoneLocationState = {
     location: string;
+    index: number;
 }
 
 const initialZoneLocation: ZoneLocationState = {
-    location: "hongdae"
+    location: "hongdae",
+    index: 0
 };
 
 function ZoneLocationModel(
@@ -23,7 +26,8 @@ function ZoneLocationModel(
     switch (action.type) {
         case SET_ZONE_LOCATION:
             return {
-                location: action.payload
+                location: action.payload,
+                index: action.zoneIndex,
             };
         default:
             return state

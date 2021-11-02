@@ -17,7 +17,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../model';
 import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
 import { setZoneLocation } from '../../model/Zone/Zone.Location.model';
-import { setLocationVisiblityFalse } from '../../model/Zone/Zone.UI.model';
 import { Loading } from '../../component/Common';
 
 export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => {
@@ -38,8 +37,6 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
     useEffect(() => {
         dispatch(setZoneLoadingTrue());
         InitZoneMain();
-        
-        // return () => { dispatch(setLocationVisiblityFalse()) }
     }, [location])
 
     const InitZoneMain = async () => {
