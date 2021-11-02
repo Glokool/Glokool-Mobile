@@ -30,6 +30,8 @@ export interface ZoneMainSceneProps {
     navigation: StackNavigationProp<ZoneNavigatorParams, SceneRoute.ZONE_MAIN>;
     route: RouteProp<ZoneNavigatorParams, SceneRoute.ZONE_MAIN>;
     items?: any;
+    zoneTitle?: string;
+    zoneList?: any;
 }
 
 export interface ZoneContentsSceneProps {

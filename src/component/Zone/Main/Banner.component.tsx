@@ -1,25 +1,46 @@
 import React from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
-import { CDN } from '../../../server.component';
-import FastImage from 'react-native-fast-image';
+import FastImage, { Source } from 'react-native-fast-image';
 
 const windowWidth = Dimensions.get('window').width;
 
+type BannerType = {
+    [key: string]: NodeRequire[];
+}
+
 export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
+    
+    const title = props.zoneTitle!.toUpperCase();
+    const Banners: BannerType =
+    {
+        "HONGDAE": [
+            require("../../../assets/image/Zone/ZoneMainBanner/hongdae/001.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/hongdae/002.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/hongdae/003.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/hongdae/004.png"),
+        ],
+        "GWANGHWAMUN": [
+            require("../../../assets/image/Zone/ZoneMainBanner/gwanghwamun/001.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/gwanghwamun/002.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/gwanghwamun/003.png"),
+            require("../../../assets/image/Zone/ZoneMainBanner/gwanghwamun/004.png"),
+        ],
+    }
 
     // list item
-    const renderItem = (item: { item: string, index: number }) => {
+    const renderItem = (item: { item: Source, index: number }) => {
+
         return (
-            <TouchableOpacity style={[styles.ItemContainer, { backgroundColor: 'red' }]}>
+            <Pressable style={[styles.ItemContainer, { backgroundColor: 'red' }]}>
                 <FastImage
-                    source={{ uri: CDN + item.item }}
+                    source={item.item}
                     style={styles.BannerItem}
                     resizeMode={'stretch'}
                 />
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 
@@ -32,7 +53,7 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
                 autoplayDelay={2}
                 autoplayLoop={true}
                 autoplayLoopKeepAnimation={true}
-                data={props.items}
+                data={Banners[title]}
                 renderItem={renderItem}
                 showPagination
                 paginationStyle={{ alignSelf: 'flex-start', bottom: -10 }}
@@ -58,7 +79,7 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
 const styles = StyleSheet.create({
     MainContainer: {
         width: windowWidth,
-        height: windowWidth / 3,
+        height: windowWidth / 800 * 348,
         backgroundColor: '#0000',
     },
     BannerContainer: {
@@ -66,10 +87,10 @@ const styles = StyleSheet.create({
     },
     ItemContainer: {
         width: windowWidth,
-        height: windowWidth / 3,
+        height: windowWidth / 800 * 348,
     },
     BannerItem: {
         width: windowWidth,
-        height: windowWidth / 3,
+        height: windowWidth / 800 * 348,
     }
 })

@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     Pressable,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { windowWidth, windowHeight } from '../../Design.component';
 import {
@@ -20,8 +21,15 @@ import {
 } from '../../assets/icon/Home';
 import { Enter_Purple } from '../../assets/icon/Home';
 import { HomeScreenProps } from '../../navigation/SceneNavigator/Home.navigator';
+import { useDispatch, useSelector } from 'react-redux';
+import { setZoneLocation } from '../../model/Zone/Zone.Location.model';
+import { NavigatorRoute } from '../../navigation/app.route';
+import { RootState } from '../../model';
 
 export const HomeMapComponent = (props: HomeScreenProps) => {
+
+    const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
+    const dispatch = useDispatch();
 
     const [zoneIndex, setZoneIndex] = useState(0);
 
@@ -60,12 +68,27 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
             subTitle: 'Olympic park, Lotte tower, Coex, Gangnam Station',
         },]
 
+    const onPressZoneButon = (item: { item: HomeZoneMapType, index: number }) => {
+        setZoneIndex(item.index);
+        if (item.index < 2) {
+            dispatch(setZoneLocation(item.item.name.toLowerCase()));
+        }
+    }
+
+    const onPressExplore = () => {
+        if (zoneIndex > 1) {
+            Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
+        } else {
+            props.navigation.navigate(NavigatorRoute.ZONE);
+        }
+    }
+
     const renderZoneButton = (item: { item: HomeZoneMapType, index: number }) => {
         const additionalStyle = item.index === zoneIndex ? styles.LocationButtonSelected : styles.LocationButtonUnselected;
 
         return (
             <Pressable
-                onPress={() => setZoneIndex(item.index)}
+                onPress={() => onPressZoneButon(item)}
                 style={[
                     styles.LocationButtonDefault,
                     additionalStyle,
@@ -92,7 +115,7 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
     return (
         <Layout style={styles.DiscoverContainer}>
             <Map_background style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />
-            
+
             {zoneIndex == 0 ?
                 <Hongdae_selected style={styles.DiscoverMap} width={windowWidth * 0.9} height={windowWidth * 0.9 / 383 * 280} />
                 :
@@ -137,7 +160,7 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
                 </Text>
             </Layout>
 
-            <Pressable style={styles.ExploreButtonContainer}>
+            <Pressable style={styles.ExploreButtonContainer} onPress={() => onPressExplore()}>
                 <Text style={styles.ExploreButtonText}>EXPLORE</Text>
                 <Enter_Purple width={windowWidth * 0.05} />
             </Pressable>

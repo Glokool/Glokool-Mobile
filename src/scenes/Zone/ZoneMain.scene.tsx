@@ -16,6 +16,9 @@ import { SERVER } from '../../server.component';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../model';
 import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
+import { setZoneLocation } from '../../model/Zone/Zone.Location.model';
+import { setLocationVisiblityFalse } from '../../model/Zone/Zone.UI.model';
+import { Loading } from '../../component/Common';
 
 export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => {
 
@@ -23,45 +26,43 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
     // Redux 최대 활용
 
     const loading = useSelector((state: RootState) => state.ZoneLoadingModel.loading);
+    const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
     const dispatch = useDispatch();
 
-    const [bannerImage, setBannerImage] = useState();
     const [chatrooms, setChatrooms] = useState();
     const [contents, setContents] = useState();
 
     const [zoneTitle, setZoneTitle] = useState<string>("");
     const [zoneList, setZoneList] = useState();
 
-    const configURL = "/zone"
-
     useEffect(() => {
-        // dispatch(setZoneLoadingTrue());
+        dispatch(setZoneLoadingTrue());
         InitZoneMain();
-    }, [])
+        
+        // return () => { dispatch(setLocationVisiblityFalse()) }
+    }, [location])
 
     const InitZoneMain = async () => {
         axios.get(SERVER + '/zone')
             .then((response) => {
-                
                 setZoneList(response.data);
-                setZoneTitle(response.data[0].title);
-
             })
             .catch((e) => {
                 console.log("Zone", e);
             });
 
-        axios.get(SERVER + '/zone-main')
-            .then((response) => { 
-                // console.log(response.data);
-                setBannerImage(response.data.zoneInfo.images);
+        axios.get(SERVER + "/zone-main?q=" + location)
+            .then((response) => {
                 setChatrooms(response.data.chatRooms);
-                setContents(response.data.contents); 
+                setContents(response.data.contents);
+                setZoneTitle(response.data.zoneInfo.title);
+                // console.log(response.data);
+                dispatch(setZoneLoadingFalse());
             })
             .catch((e) => { console.log("Zone main", e) })
     }
 
-    return loading ? (<Layout />) : (
+    return (
         <Layout style={styles.MainContainer}>
 
             {/* 최상단 지역 버튼 */}
@@ -70,7 +71,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Layout style={styles.InnerContainer}>
                     {/* 지역 이미지 배너 */}
-                    <ZoneBannerComponent {...props} items={bannerImage} />
+                    <ZoneBannerComponent {...props} zoneTitle={zoneTitle} />
                     {/* 가이드 리스트 */}
                     <ZoneGuideListComponent {...props} items={chatrooms} />
                 </Layout>
@@ -83,6 +84,8 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
             </ScrollView>
             {/* 지역 바꿀 수 있는 Bottom Sheet */}
             <ZoneMainBottomTabBarComponent {...props} zoneList={zoneList} />
+
+            {loading && <Loading />}
 
         </Layout>
     )

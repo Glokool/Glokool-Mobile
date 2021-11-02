@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text } from 'react-native';
+import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text, Alert } from 'react-native';
 import { Divider } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
@@ -10,11 +10,13 @@ import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Check } from '../../../assets/icon/Zone';
 import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
+import { setZoneLocation } from '../../../model/Zone/Zone.Location.model';
 
-export const ZoneMainBottomTabBarComponent = (props) => {
+export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
     const heightLevel = new Animated.Value(0);
     const locationVisiblity = useSelector((state: RootState) => state.ZoneUIModel.locationVisiblity);
+    const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
     const dispatch = useDispatch();
 
     const [selectedButton, setSelectedButton] = React.useState<number>(0);
@@ -60,12 +62,21 @@ export const ZoneMainBottomTabBarComponent = (props) => {
         }, 500);
     };
 
+    const onPressLocation = (item: any) => {
+        if (item.index > 1) {
+            Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
+        } else {
+            setSelectedButton(item.index)
+            dispatch(setZoneLocation(item.item.title));
+        }
+    }
+
     const renderButton = (item: any): React.ReactElement => {
 
         const buttonStyle = item.index === selectedButton ? styles.SelectedButton : styles.UnselectedButton;
 
         return (
-            <TouchableOpacity style={buttonStyle} onPress={() => setSelectedButton(item.index)}>
+            <TouchableOpacity style={buttonStyle} onPress={() => onPressLocation(item)}>
                 {/* <FastImage
                     source={item.item}
                     style={buttonStyle}

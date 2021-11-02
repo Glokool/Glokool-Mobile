@@ -17,6 +17,7 @@ import MyUIModel from "./My/My.UI.model";
 import ZoneDataModel from "./Zone/Zone.data.model";
 import ZoneUIModel from "./Zone/Zone.UI.model";
 import ZoneLoadingModel from "./Zone/Zone.Loading.model";
+import ZoneLocationModel from "./Zone/Zone.Location.model";
 
 const rootReducer = combineReducers({
 
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     ZoneUIModel,
     ZoneDataModel,
     ZoneLoadingModel,
+    ZoneLocationModel,
 });
 
 export default rootReducer;

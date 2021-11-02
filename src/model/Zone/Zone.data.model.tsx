@@ -13,7 +13,7 @@ export const setZoneMainBanner = (diff: ZoneMainBannerType) => ({
 });
 
 type ZoneDataAction =
-    | ReturnType<typeof setZoneMainBanner>;
+    | ReturnType<typeof setZoneMainBanner>
 
 const initialZoneMainBanner: ZoneMainBannerType = {
     __v: 0,
