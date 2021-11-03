@@ -60,6 +60,6 @@ buck-out/
 
 
 # 안드로이드 빌드 파일 무시
-android/app/build.gradle
+# android/app/build.gradle
 
 
