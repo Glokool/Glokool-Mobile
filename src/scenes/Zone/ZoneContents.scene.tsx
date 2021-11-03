@@ -29,9 +29,16 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     useEffect(() => {
         initCategory();
-        // zone 메인에서 소분류 더보기 눌렀을때 props 로 인덱스 받음
-        dispatch(setCategoryIndex(props.route.params.pageIndex));
     }, [])
+
+    const initCategory = async () => {
+        const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
+        setCategory(response.data);
+
+        const replacedName = response.data[0].name.replace('&', '%26');
+        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + replacedName + '&limit=0')
+        setFetchedItem({ ...fetchedItem, [response.data[0].name]: initFirstCategory.data });
+    }
 
     // 컨텐츠 클릭 시
     const onPressContent = (type: string, id: string) => {
@@ -53,14 +60,6 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                 />
             </TouchableOpacity>
         )
-    }
-
-    const initCategory = async () => {
-        const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
-        setCategory(response.data);
-
-        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + response.data[0].name + '&limit=0')
-        setFetchedItem({ ...fetchedItem, [response.data[0].name]: initFirstCategory.data });
     }
 
     const onPressCategory = (index: number) => {
@@ -86,17 +85,26 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     서버 요청 전적이 있으면 요청 안함
     */
     const onChangePage = (index: number) => {
+
+        const url = `https://api.glokool.com/v3/main-categories/${props.route.params.title}`
+
         if (!(category[index].name in fetchedItem)) {
             dispatch(setZoneLoadingTrue());
-            axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + category[index].name + '&limit=0')
-                .then((response) => {
-                    setFetchedItem({ ...fetchedItem, [category[index].name]: response.data });
-                    dispatch(setZoneLoadingFalse());
-                })
-                .catch((e)=>{
-                    console.log(e);
-                    dispatch(setZoneLoadingFalse());
-                });
+
+            axios(url, {
+                method: 'GET',
+                // url 파라미터를 params 아래로 구성
+                params: {
+                    q: category[index].name,
+                    limit: 0,
+                }
+            }).then((response) => {
+                setFetchedItem({ ...fetchedItem, [category[index].name]: response.data });
+                dispatch(setZoneLoadingFalse());
+            }).catch((e) => {
+                console.log(e);
+                dispatch(setZoneLoadingFalse());
+            });
         }
     }
 
@@ -112,7 +120,8 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                     keyExtractor={(item, index) => "_" + index.toString()}
                     numColumns={2}
                     showsVerticalScrollIndicator={false}
-                    style={styles.PageListContainer}
+                    style={styles.PageList}
+                    contentContainerStyle={styles.PageListContainer}
                     ListFooterComponent={<SeriesBottomLogo />}
                     ListFooterComponentStyle={styles.PageFooterContainer}
                 />
@@ -140,7 +149,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
             />
             {/* page 전체를 담는 list , 양옆으로 swipe 가능 */}
             <SwiperFlatList
-                initialScrollIndex={props.route.params.pageIndex}
+                initialScrollIndex={categoryIndex}
                 index={categoryIndex}
                 data={category}
                 ref={scrollRef}
@@ -201,11 +210,14 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.48,
         height: windowWidth * 0.48,
         borderRadius: 10,
-        margin: 2,
+        margin: windowWidth * 0.01,
         borderWidth: 0.3
     },
+    PageList: {
+        paddingTop: windowWidth * 0.01,
+    },
     PageListContainer: {
-        paddingTop: 10,
+        width: windowWidth,
     },
     PageFooterContainer: {
         paddingTop: 20,

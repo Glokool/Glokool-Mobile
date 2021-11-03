@@ -12,7 +12,6 @@ const Stack = createStackNavigator();
 export type ZoneNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.ZONE_MAIN]: undefined;
     [SceneRoute.ZONE_CONTENTS]: {
-        pageIndex: number;
         title: string;
     };
     [SceneRoute.ZONE_DETAIL_BLOG]: {

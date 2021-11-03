@@ -25,7 +25,7 @@ export const ZoneButtonGroupComponent = (props: ChatZoneSelectSceneProps): React
     const onPressButton = (title: string, index: number) => {
 
         if (index > 1) {
-            Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
+            Alert.alert("","Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
         } else {
             props.navigation.navigate(
                 SceneRoute.CHAT_TA_SELECT,

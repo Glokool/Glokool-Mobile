@@ -145,7 +145,7 @@ glokool.page.link/jdF1`,
     }
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/api/contents/' + Id);
+        var Content = await axios.get(SERVER + '/contents/' + Id);
 
         setContent(Content.data);
         setImage(Content.data.images);
@@ -153,37 +153,37 @@ glokool.page.link/jdF1`,
         setRecommendation(Content.data.recommendation);
 
         // 북마크 조회 하기 위한 함수
-        if (uid) {
-            const authToken = await auth().currentUser?.getIdToken();
+        // if (uid) {
+        //     const authToken = await auth().currentUser?.getIdToken();
 
-            const config: AxiosRequestConfig = {
-                method: 'get',
-                url: SERVER + '/api/users/bookmark',
-                headers: {
-                    Authorization: 'Bearer ' + authToken,
-                },
-            };
+        //     const config: AxiosRequestConfig = {
+        //         method: 'get',
+        //         url: SERVER + '/users/bookmark',
+        //         headers: {
+        //             Authorization: 'Bearer ' + authToken,
+        //         },
+        //     };
 
-            axios(config)
-                .then(function (response) {
-                    const data = response.data.items;
-                    let dataTemp: Array<string> = [];
+        //     axios(config)
+        //         .then(function (response) {
+        //             const data = response.data.items;
+        //             let dataTemp: Array<string> = [];
 
-                    data.forEach((item: Bookmark_Item) => {
-                        dataTemp.push(item.id);
-                    });
+        //             data.forEach((item: Bookmark_Item) => {
+        //                 dataTemp.push(item.id);
+        //             });
 
-                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
-                    Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+        //             dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+        //             Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // }
     }
 
     const InitComments = async () => {
-        var Content = await axios.get(SERVER + '/api/contents/' + Id);
+        var Content = await axios.get(SERVER + '/contents/' + Id);
         setComments(Content.data.comments);
     }
 
@@ -214,7 +214,7 @@ glokool.page.link/jdF1`,
 
         var config = {
             method: 'post',
-            url: SERVER + '/api/users/bookmark',
+            url: SERVER + '/users/bookmark',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -235,7 +235,7 @@ glokool.page.link/jdF1`,
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
             method: 'patch',
-            url: SERVER + '/api/contents/' + content?._id + '/like',
+            url: SERVER + '/contents/' + content?._id + '/like',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -265,7 +265,7 @@ glokool.page.link/jdF1`,
 
         var config: AxiosRequestConfig = {
             method: 'post',
-            url: SERVER + '/api/comments',
+            url: SERVER + '/comments',
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -287,7 +287,7 @@ glokool.page.link/jdF1`,
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
             method: 'delete',
-            url: SERVER + '/api/contents/' + content?._id + '/comments/' + id,
+            url: SERVER + '/contents/' + content?._id + '/comments/' + id,
             headers: {
                 Authorization: 'Bearer ' + authToken,
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -309,7 +309,7 @@ glokool.page.link/jdF1`,
             method: 'patch',
             url:
                 SERVER +
-                '/api/contents/' +
+                '/contents/' +
                 content?._id +
                 '/comments/' +
                 id +

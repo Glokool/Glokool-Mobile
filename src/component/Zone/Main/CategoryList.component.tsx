@@ -8,8 +8,12 @@ import { SceneRoute } from '../../../navigation/app.route';
 import FastImage from 'react-native-fast-image';
 import { CDN } from '../../../server.component';
 import { ZoneContentsType, ZoneItemListType } from '../../../types';
+import { useDispatch } from 'react-redux';
+import { setCategoryIndex } from '../../../model/Zone/Zone.UI.model';
 
-export const ZoneCategoryListComponent = (props) => {
+export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
+
+    const dispatch = useDispatch();
 
     const onPressContent = (type: string, id: string) => {
         if (type == 'blog') {
@@ -45,7 +49,10 @@ export const ZoneCategoryListComponent = (props) => {
                     ListFooterComponent={
                         <TouchableOpacity
                             style={styles.ListFooterIcon}
-                            onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: item.index, title: props.zoneTitle  })}
+                            onPress={() => {
+                                dispatch(setCategoryIndex(item.index));
+                                props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { title: props.zoneTitle! });
+                            }}
                         >
                             <ViewMoreIcon />
                         </TouchableOpacity>
@@ -64,7 +71,10 @@ export const ZoneCategoryListComponent = (props) => {
                 <Text style={styles.TitleText}>LOCAL'S RECOMMENDATIONS</Text>
                 <TouchableOpacity
                     style={styles.AllContainer}
-                    onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0, title: props.zoneTitle })}
+                    onPress={() => {
+                        dispatch(setCategoryIndex(0));
+                        props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { title: props.zoneTitle! });
+                    }}
                 >
                     <Text style={styles.AllText}>View All</Text>
                 </TouchableOpacity>
@@ -82,7 +92,10 @@ export const ZoneCategoryListComponent = (props) => {
             {/* 더 많은 컨텐츠 보기 버튼 */}
             <TouchableOpacity
                 style={styles.BottomButton}
-                onPress={() => props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { pageIndex: 0, title: props.zoneTitle  })}
+                onPress={() => {
+                    dispatch(setCategoryIndex(0));
+                    props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { title: props.zoneTitle! });
+                }}
             >
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>

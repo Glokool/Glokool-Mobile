@@ -8,7 +8,6 @@ const user = {
         email: "",
         photoURL: "",
         uid: "",
-        expiry_date: 0
     },
     setCurrentUser: (newState: authContextType | null) => { newState },
 };
