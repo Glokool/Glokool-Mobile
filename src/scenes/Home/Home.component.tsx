@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Layout, LayoutElement, } from '@ui-kitten/components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Button, Layout, LayoutElement, Modal } from '@ui-kitten/components';
 import { HomeScreenProps } from '../../navigation/ScreenNavigator/Home.navigator';
 import {
     Dimensions,
@@ -9,7 +9,8 @@ import {
     BackHandler,
     Image,
     Platform,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 import { NavigatorRoute } from '../../navigation/app.route';
 import { useFocusEffect, } from '@react-navigation/native';
@@ -19,6 +20,9 @@ import 'firebase/auth';
 import { HomeBG, GloChatInfo, GloChatInfoIcon } from '../../assets/icon/Home';
 import { SceneRoute } from '../../navigation/app.route';
 import { SelectableText } from '../../component/Common/SelectableText.component';
+import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { CloseButton } from '../../assets/icon/Series';
 
 var ToastRef: any;
 const windowWidth = Dimensions.get('window').width;
@@ -27,6 +31,31 @@ const windowHeight = Dimensions.get('window').height;
 export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
+
+    const [update, setUpdate] = useState(false);
+
+    useEffect(() => {
+        checkForUpdate();
+    }, []);
+
+    const checkForUpdate = () => {
+        const today = new Date();
+        const offset = today.getTimezoneOffset() / 60;
+
+        const date = moment(today).format('YYYYMMDD');
+
+        if (date > '20211201') {
+            setUpdate(true);
+        }
+    }
+
+    const onPressAppStore = () => {
+        if (Platform.OS === 'ios') {
+            Linking.openURL('itms-apps://apps.apple.com/kr/app/glokool-seoul-travel-guide/id1558793884');
+        } else {
+            Linking.openURL('https://play.google.com/store/apps/details?id=com.glokool&hl=ko&gl=US');
+        }
+    }
 
     const focusEvent = useFocusEffect(
         useCallback(() => {
@@ -132,6 +161,29 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
             </ScrollView>
 
+            <Modal
+                visible={update}
+                backdropStyle={{ backgroundColor: '#0005' }}
+                onBackdropPress={() => setUpdate(false)}
+            >
+                <Layout style={styles.ModalContainer}>
+                    <TouchableOpacity style={{ alignSelf: 'flex-end', width: 30, height: 30 }} onPress={() => setUpdate(false)}>
+                        <CloseButton />
+                    </TouchableOpacity>
+                    <Text style={styles.ModalTitle}>New Update Required</Text>
+                    <Text style={styles.ModalDesc}>
+                        Your Glokool app version is no longer available since December 1st. Please update your app on AppStore.
+                    </Text>
+
+
+
+                    <Button style={{ marginTop: 30 }} onPress={() => onPressAppStore()}>
+                        <Text style={styles.ButtonText}>Open AppStore</Text>
+                    </Button>
+                </Layout>
+            </Modal>
+
+
         </Layout>
     );
 };
@@ -178,5 +230,30 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         backgroundColor: '#00ff0000',
         width: windowWidth * 0.85
+    },
+    ModalContainer: {
+        width: windowWidth * 0.9,
+        padding: windowWidth * 0.05,
+        borderRadius: 15,
+        backgroundColor: '#111d',
+        paddingBottom: 40
+    },
+    ModalTitle: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 23,
+        color: '#fff',
+        marginBottom: 15,
+        alignSelf: 'center',
+    },
+    ModalDesc: {
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 18,
+        marginTop: 5,
+        color: '#eee',
+        marginHorizontal: 5,
+    },
+    ButtonText: {
+        fontFamily: 'Pretendard-Medium',
+        fontSize: 17,
     }
 });

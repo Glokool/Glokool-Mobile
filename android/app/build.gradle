@@ -159,9 +159,9 @@ android {
 
         release {
             // 윈도우 - 고범석용 릴리즈 키 설정
-            storeFile file('E:\\Projects\\Glokool\\Glokool-Mobile\\android\\app\\my-release-key.keystore')
+            // storeFile file('E:\\Projects\\Glokool\\Glokool-Mobile\\android\\app\\my-release-key.keystore')
             // 맥 - 장재훈용 릴리즈 키 설정
-            // storeFile file('/Users/jaehoon/develop/Glokool-Mobile/android/app/my-release-key.keystore')
+            storeFile file('/Users/jaehoon/develop/Glokool-Mobile/android/app/my-release-key.keystore')
             keyPassword 'tjdtn327'
             keyAlias 'my-key-alias'
             storePassword 'tjdtn327'
