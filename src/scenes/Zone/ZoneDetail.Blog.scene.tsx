@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Layout } from '@ui-kitten/components';
+import { Layout, ListItem } from '@ui-kitten/components';
 import {
     Dimensions,
     Image,
@@ -448,10 +448,16 @@ glokool.page.link/jdF1`,
                                     <SelectableText style={styles.ContentDescTxt} >{item.desc}</SelectableText>
                                 </Layout>
 
+                            
                                 {/* 글로서비스 컨테이너 */}
-                                <TouchableOpacity onPress={() => pressService(item)}>
-                                    <GlokoolServiceButton />
-                                </TouchableOpacity>
+                                {(item.desc === undefined || item.desc === '')?
+                                    null
+                                :
+                                    <TouchableOpacity onPress={() => pressService(item)}>
+                                        <GlokoolServiceButton />
+                                    </TouchableOpacity>
+                                }
+
 
                             </Layout>
                         </>
@@ -521,6 +527,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     ) : null}
 
+                    
                     <GloChatButton />
 
                     {/* Comments */}

@@ -150,7 +150,9 @@ glokool.page.link/jdF1`,
         setContent(Content.data);
         setImage(Content.data.images);
         setComments(Content.data.comments);
-        setRecommendation(Content.data.recommendation);
+
+        if (Content.data.recommendation != undefined) { setRecommendation(Content.data.recommendation) }
+        
 
         // 북마크 조회 하기 위한 함수
         // if (uid) {
@@ -422,7 +424,7 @@ glokool.page.link/jdF1`,
                                 {`CHECK\nOUT\nMORE`}
                             </Text>
                         </Layout>
-                        {recommendation.map((item) => (
+                        {recommendation.map((item, index) => (
                             <Layout style={styles.CheckMoreItemContainer}>
                                 <TouchableOpacity
                                     onPress={() => {
@@ -665,7 +667,6 @@ const styles = StyleSheet.create({
     },
     ContainerLayout: {
         position: 'relative',
-        paddingBottom: windowHeight * 0.11
     },
     // 탑탭 style
     ContainerLayoutAngleLeft: {

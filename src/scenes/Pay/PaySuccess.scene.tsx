@@ -25,7 +25,9 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     const SendPaymentData = async () => {
         const authToken = await auth().currentUser?.getIdToken();
 
-        const data = qs.stringify({
+        const url = SERVER + '/payment';
+
+        const data = JSON.stringify({
             travelArea: 'HONGDAE',
             paymentID: ReservationData.PaymentID,
             price: ReservationData.price,
@@ -38,16 +40,19 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             paymentPlatform: ReservationData.PaymentPlatform
         })
 
-        const option = {
-            method: 'POST',
-            url: SERVER + '/api/payment',
-            data: data,
+        const option = {            
             headers: {
                 Authorization: 'Bearer ' + authToken,
             },
         }
 
-        const sendData = await axios(option);
+        axios.post(url, data, option)
+            .then((result) => {
+                console.log('서버에 저장 완료')
+            })
+            .catch((err) => {
+                console.log('서버에 저장 실패 대 위기 씨발');
+            })
 
 
     }
