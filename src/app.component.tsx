@@ -58,6 +58,7 @@ export default (props: any): React.ReactFragment => {
 
     
     React.useEffect(() => {
+        
         auth().onAuthStateChanged((user) => {
             if (user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null) {
                 if (user && user?.emailVerified) {

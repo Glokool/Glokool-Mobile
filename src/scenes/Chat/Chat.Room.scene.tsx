@@ -50,6 +50,7 @@ import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
 import { setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
+import moment from 'moment';
 
 
 
@@ -156,7 +157,10 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     const ChatRoomMessageInit = async (): Promise<void> => {
 
-        const Chat = database().ref('/chats/' + 'testChat/messages');
+        const travelDate = moment(props.route.params.day).format('yyyy-MM-DD');
+        const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages'; 
+        
+        const Chat = database().ref(DBURL);
         setChatDB(Chat);
 
         var tempMessages: Array<IMessage> = [];
@@ -346,7 +350,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             </Layout>
 
             {/* 사이드바 컴포넌트 */}
-            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
+            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} TravelDate={props.route.params.day}/>
 
             {/* 이모지 키보드 컴포넌트 */}
             <EmojiKeyboardComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
@@ -361,7 +365,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             <ChatTopTabBarComponent {...props} />
 
             {/* 녹음 펑션 화면 */}
-            <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} />
+            <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} travelDate={props.route.params.day} />
 
             {/* 공지사항 화면 */}
             {/* <NoticeComponent /> */}

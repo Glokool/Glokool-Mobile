@@ -28,6 +28,7 @@ import { messageIdGenerator } from '../../../Common/MessageIdGenerator';
 import axios from 'axios';
 import { IMessage } from 'react-native-gifted-chat';
 import { SERVER } from '../../../../server.component';
+import moment from 'moment';
 
 
 const WindowWidth = Dimensions.get('window').width;
@@ -51,7 +52,7 @@ export const AudioRecordComponent = (props : any) => {
 
     const getAccessToken = async () => {
         try {
-            const res = await axios.get(`${SERVER}/api/token`);
+            const res = await axios.get(`${SERVER}/token`);
             setCurrentUser({ ...currentUser, ...res.data });
         } catch (e) {
             console.log('e', e);
@@ -176,9 +177,10 @@ export const AudioRecordComponent = (props : any) => {
 
     const sendAudio = () => {
 
+        const travelDate = moment(props.travelDate).format('yyyy-MM-DD');
         const newMessage = ChatDB.push();
         const reference = storage().ref();
-        const voiceRef = reference.child(`chat/${props.roomName}/voice/${newMessage.key}.aac`,); //xxxxx는 대화방 이름으로 변경
+        const voiceRef = reference.child(`chats/${travelDate}/${props.roomName}/voice/${newMessage.key}.aac`,); //xxxxx는 대화방 이름으로 변경
 
         voiceRef.putFile(audioPath) 
             .then((response) => {

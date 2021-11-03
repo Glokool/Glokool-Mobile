@@ -10,7 +10,6 @@ import { useFocusEffect, } from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import { HomeGlochatComponent, HomeMapComponent, HomeVisitComponent } from '../../component/Home';
 import { windowHeight, windowWidth } from '../../Design.component';
-import { ChannelIO } from 'react-native-channel-plugin';
 
 var ToastRef: any;
 
@@ -22,9 +21,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         pluginKey: '6178b816e82898b96f85'
     };
 
-    ChannelIO.boot(ChannelSettings).then((result) => {
-        console.log(result);
-    })
 
     useFocusEffect(
         useCallback(() => {
