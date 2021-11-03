@@ -32,6 +32,7 @@ interface ChatRoomData {
     priority : number;
     travelDate : Date;
     zone : string;
+    maxUserNum : number;
 }
 
 export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
@@ -114,6 +115,8 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
                             uid: item.guide.uid,
                             avatar: item.guide.avatar,
                         },
+                        zone : item.zone,
+                        maxUser : item.maxUserNum,
                         day: item.travelDate,
                         finish: true,
                     })

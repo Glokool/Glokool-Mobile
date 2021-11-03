@@ -18,7 +18,8 @@ export { BottomTabBarComponent } from './Common/BottomTabBar.component';
 export { NoticeComponent } from './Common/Notice.component';
 export { renderLoadEarlier } from './Common/LoadEarlier.component';
 export { EmojiKeyboardComponent } from './Common/EmojiKeyboard.component'
-export { renderCustomBubble } from './Common/CustomBubble.component'
+export { renderCustomBubble } from './Common/CustomBubble.component';
+export { GuideModalComponent } from './Common/Guide.ModalComponent'
 
 // Audio
 export { ChatAudioComponent } from './Audio/Audio.component';

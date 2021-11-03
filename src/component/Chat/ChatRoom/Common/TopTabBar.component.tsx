@@ -17,7 +17,6 @@ export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.React
     const guide = props.route.params.guide;
     const dispatch = useDispatch();
     
-
     return(
 
         <Layout style={styles.TabBar}>

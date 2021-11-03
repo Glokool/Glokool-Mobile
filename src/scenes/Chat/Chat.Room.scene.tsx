@@ -44,6 +44,7 @@ import {
     NoticeComponent,
     renderLoadEarlier,
     EmojiKeyboardComponent,
+    GuideModalComponent,
 } from '../../component/Chat/ChatRoom';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
@@ -51,6 +52,7 @@ import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.D
 import { setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
+import { GuideModal } from '../../component/Chat/ChatRoomSetting';
 
 
 
@@ -369,6 +371,9 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
             {/* 공지사항 화면 */}
             {/* <NoticeComponent /> */}
+
+            {/* 가이드 모달 */}
+            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser}/>
 
         </SafeAreaView>
 

@@ -25,6 +25,8 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
       avatar?: string;
     }
     day: Date,
+    zone : string;
+    maxUser : number;
     finish: boolean;
   };
   [SceneRoute.CHAT_HELP]: {
