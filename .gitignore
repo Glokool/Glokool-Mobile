@@ -35,6 +35,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # BUCK
 buck-out/
@@ -61,5 +62,7 @@ buck-out/
 
 # 안드로이드 빌드 파일 무시
 # android/app/build.gradle
+
+
 
 
