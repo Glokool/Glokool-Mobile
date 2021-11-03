@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import auth from '@react-native-firebase/auth';
 import { Text, StyleSheet, Platform, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { Layout, LayoutElement, Divider, Radio } from '@ui-kitten/components';
 import { PaySecondPage } from '../../assets/icon/Pay';
@@ -61,7 +62,31 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             })
     }
 
-    const Payment = () => {
+    const Payment = async() => {
+
+        const token = await auth().currentUser?.getIdToken();
+        const URL = SERVER + '/chat-rooms/entrance';
+        const data = JSON.stringify({
+            chatRoomCode : props.route.params.ChatRoomID
+        });
+        const config = {
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        }
+
+        axios.post(URL, data, config)
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+
+
+
         state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
     }
 
