@@ -19,7 +19,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     var exitApp: any = undefined;
     var timeout: any;
     let ChannelSettings = {
-        "pluginKey": '6178b816e82898b96f85'
+        pluginKey: '6178b816e82898b96f85'
     };
 
     ChannelIO.boot(ChannelSettings).then((result) => {
