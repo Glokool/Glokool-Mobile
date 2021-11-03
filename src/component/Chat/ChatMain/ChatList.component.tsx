@@ -1,65 +1,102 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { StyleSheet, Pressable, FlatList, ScrollView, Text, Alert } from 'react-native';
 import { Layout, Divider } from '@ui-kitten/components';
 import { Arrow_Bottom, Chat_Book_Button, Guide_Location, How_It_Works_Button } from '../../../assets/icon/Chat';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import FastImage from 'react-native-fast-image';
-import { ChatRoomSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
+import { ChatMainSceneProps } from '../../../navigation/SceneNavigator/Chat.navigator';
 import { SceneRoute } from '../../../navigation/app.route';
 import { ChatCountContext, ChatCountState } from '../../../context/ChatCount.context';
 import moment from 'moment';
 import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SERVER } from '../../../server.component';
+import axios from 'axios';
 
 interface CheckedList {
     ChatRoomID: string;
     lastUpdated: string;
 }
 
-export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
+interface ChatRoomData {
+    _id : string;
+    createdAt : Date;
+    guide : {
+        _id : string;
+        keyward : Array<string>;
+        name : string;
+        uid : string;
+        avatar : string;
+    }
+    priority : number;
+    travelDate : Date;
+    zone : string;
+}
+
+export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
     const [checkedList, setCheckedList] = React.useState<Array<CheckedList>>([]);
-    const [data, setData] = React.useState([
-        {
-            _id: 'testChat',
-            day: new Date(),
-            guide: {
-                name: 'beomseok',
-                score: 10,
-                uid: 'PZhXvw6fKecR0fWfD8Y80yCc6EC3',
-                token: '123',
-                avatar: '123',
-            },
-        },
-    ]);
+    const [data, setData] = React.useState<Array<ChatRoomData>>([]);
 
-    const InitList = () => {
+    const InitList = async() => {
 
-        data.forEach(async (item) => {
+        const token = await auth().currentUser?.getIdToken();
+        const url = SERVER + '/users/chat-rooms';
+        const config = {
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        }
 
-            var temp = await AsyncStorage.getItem(`ChatCheck_${item._id}`);
+        axios.get(url, config)
+            .then((response) => {
+                setData(response.data.userChatRoom);
+                
+                // 알림 표시를 위한 For Each 문
+                response.data.userChatRoom.forEach(async (item : ChatRoomData) => {
 
-            if (temp != undefined) {
-                var tempList = checkedList;
-                tempList.push({
-                    ChatRoomID: item._id,
-                    lastUpdated: temp
+                    var temp = await AsyncStorage.getItem(`ChatCheck_${item._id}`);
+
+                    if (temp != undefined) {
+                        var tempList = checkedList;
+                        tempList.push({
+                            ChatRoomID: item._id,
+                            lastUpdated: temp
+                        })
+
+                        setCheckedList(tempList);
+                    }
+
                 })
 
-                setCheckedList(tempList);
-            }
 
-        })
+            })
+            .catch((err) => {
+                console.log('유저가 보유한 채팅 리스트 조회 실패 : ', err);
+            })
 
+
+       
 
 
     }
 
     React.useEffect(() => {
-        InitList();
+
+
+
+        
+        const ScreenListener = props.navigation.addListener('focus', () => {
+            InitList();
+        });
+
+        return () => {
+            ScreenListener
+        };
     }, [])
 
-    const onPressChatroom = (item: any) => {
+    const onPressChatroom = (item: ChatRoomData) => {
         Alert.alert(
             "Chat Room Rules",
             "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
@@ -75,9 +112,9 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
                         guide: {
                             name: item.guide.name,
                             uid: item.guide.uid,
-                            token: item.guide.token,
+                            avatar: item.guide.avatar,
                         },
-                        day: item.day,
+                        day: item.travelDate,
                         finish: true,
                     })
                 },
@@ -86,7 +123,7 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
         )
     }
 
-    const renderGuide = ({ item }: { item: any, index: number }): React.ReactElement => {
+    const renderGuide = ({ item }: { item: ChatRoomData, index: number }): React.ReactElement => {
 
         const checked = checkedList.findIndex((itm) => itm.ChatRoomID === item._id);
         var lastUpdated = '';
@@ -98,7 +135,7 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
                 <Layout style={styles.ChatRoomContainer}>
                     <Layout style={styles.ChatLocationTitle}>
                         <Guide_Location />
-                        <Text style={styles.GuideLocationTitleText}>  HONGDAE</Text>
+                        <Text style={styles.GuideLocationTitleText}>{`  ${item.zone.toUpperCase()}`}</Text>
                     </Layout>
 
                     <Divider style={styles.ChatRoomDivider} />
@@ -106,22 +143,31 @@ export const ChatList = (props: ChatRoomSceneProps): React.ReactElement => {
                     <Layout style={styles.ChatRoomProfileContainer}>
 
                         <Layout style={styles.ProfileContainer}>
-                            <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
+
+                            {(item.guide.avatar)?
+                                <FastImage source={{uri : item.guide.avatar}} style={styles.ChatRoomProfileImage} />
+                            :
+                                <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
+                            }
+                            
 
                             <Layout style={styles.ChatRoomGuideInfoContainer}>
 
                                 <Text style={styles.ChatRoomGuideTitle1}>Travel Assistant</Text>
-                                <Text style={styles.ChatRoomGuideTitle2}>Glokool Official</Text>
+                                <Text style={styles.ChatRoomGuideTitle2}>{item.guide.name}</Text>
 
                                 <Layout style={styles.ChatRoomGuideTagContainer}>
 
-                                    <Layout style={styles.ChatRoomTagTextContainer}>
-                                        <Text style={styles.ChatRoomTagText}>K-POP lover</Text>
-                                    </Layout>
+                                    {(item.guide.keyward)?
+                                        item.guide.keyward.map((item, index) => (
+                                            <Layout style={styles.ChatRoomTagTextContainer}>
+                                                <Text style={styles.ChatRoomTagText}>{item}</Text>
+                                            </Layout>
+                                        ))
+                                    :
+                                        null
+                                    }
 
-                                    <Layout style={styles.ChatRoomTagTextContainer}>
-                                        <Text style={styles.ChatRoomTagText}>Hidden Spots</Text>
-                                    </Layout>
 
                                 </Layout>
 

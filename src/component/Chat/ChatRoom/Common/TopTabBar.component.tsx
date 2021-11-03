@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Keyboard, Platform, Pressable, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Keyboard, Platform, Pressable, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../../assets/icon/Common';
 import { Chat_Setting } from '../../../../assets/icon/Chat';
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { ChatRoomSceneProps } from '../../../../navigation/SceneNavigator/Chat.navigator';
+import FastImage from 'react-native-fast-image';
 
 const statusBarHeight = getStatusBarHeight();
 
@@ -31,10 +32,18 @@ export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.React
 
                 <Layout style={styles.ProfileContainer}>
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                        <Image
-                            source={require('../../../../assets/image/Chat/guideGray.png')}
-                            style={styles.ProfileImage}
-                        />
+                        {(props.route.params.guide.avatar)?
+                            <FastImage
+                                source={{uri : props.route.params.guide.avatar}}
+                                style={styles.ProfileImage}
+                            />
+                        :
+                            <FastImage
+                                source={require('../../../../assets/image/Chat/guideGray.png')}
+                                style={styles.ProfileImage}
+                            />
+                        }
+
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
