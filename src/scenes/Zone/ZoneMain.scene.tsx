@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, ScrollView, Alert, Modal } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 
 import { ZoneMainSceneProps } from '../../navigation/SceneNavigator/Zone.navigator';
@@ -18,6 +18,8 @@ import { RootState } from '../../model';
 import { setZoneLoadingTrue, setZoneLoadingFalse } from '../../model/Zone/Zone.Loading.model';
 import { setZoneLocation } from '../../model/Zone/Zone.Location.model';
 import { Loading } from '../../component/Common';
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => {
 
@@ -33,6 +35,8 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
 
     const [zoneTitle, setZoneTitle] = useState<string>("");
     const [zoneList, setZoneList] = useState();
+
+    const [failed, setFailed] = useState(false);
 
     useEffect(() => {
         dispatch(setZoneLoadingTrue());
@@ -53,13 +57,29 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                 setChatrooms(response.data.chatRooms);
                 setContents(response.data.contents);
                 setZoneTitle(response.data.zoneInfo.title);
-                // console.log(response.data);
+                // console.log(response.data.contents[4].items);
                 dispatch(setZoneLoadingFalse());
             })
-            .catch((e) => { console.log("Zone main", e) })
+            .catch((e) => {
+                console.log("Zone main", e);
+                setFailed(true);
+
+                showMessage({
+                    message: "Server Request Failed",
+                    type: "danger",
+                    icon: "danger",
+                });
+
+                dispatch(setZoneLoadingFalse());
+            })
+        // 로딩 실패 처리하기
     }
 
-    return (
+    return failed ? (
+        <Layout>
+            <FlashMessage autoHide={false} />
+        </Layout>
+    ) : (
         <Layout style={styles.MainContainer}>
 
             {/* 최상단 지역 버튼 */}
@@ -93,7 +113,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         width: '100%',
-        height: '100%'
+        height: '100%',
     },
     InnerContainer: {
         width: windowWidth,

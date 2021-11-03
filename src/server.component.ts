@@ -6,10 +6,9 @@ if (process.env.NODE_ENV === "development") {
     cdnURL = 'https://img.glokool.com';
 
 } else {
-    serverAPI = 'https://glokool.info'; 
+    serverAPI = 'https://api.glokool.com/v3';
     cdnURL = 'https://img.glokool.com';
 }
-
 export const SERVER = serverAPI;
 export const CDN = cdnURL;
 
