@@ -22,7 +22,7 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     guide: {
       name: string;
       uid: string;
-      token?: string;
+      avatar?: string;
     }
     day: Date,
     finish: boolean;

@@ -17,10 +17,17 @@ export const TopTabWeatherbar = (): LayoutElement => {
     const today = new Date();
 
     React.useEffect(() => {
-        axios.get(SERVER + '/api/weather')
+
+        const url = SERVER + '/weather';
+
+        axios.get(url)
             .then((response) => {
                 setData(response.data);
-            });
+                console.log(response.data.guide);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, []);
 
     return (
