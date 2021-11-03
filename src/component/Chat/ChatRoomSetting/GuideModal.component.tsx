@@ -1,19 +1,46 @@
 import React from 'react';
-import { StyleSheet, Image, Pressable, Text, Platform } from 'react-native';
+import { StyleSheet, Image, Pressable, Text, Platform, FlatList } from 'react-native';
 import { Layout, Modal } from '@ui-kitten/components';
 import { CloseButton } from '../../../assets/icon/Series';
-
 import { CDN, SERVER } from '../../../server.component';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../model';
 import { setGuideVisiblityFalse } from '../../../model/Chat/Chat.Setting.model';
 import { Location } from '../../../assets/icon/Common';
+import axios from 'axios';
 
-export const GuideModal = (props: any) => {
+interface GuideInfo {
+    _id : string;
+    avatar : string;
+    country : string;
+    keyward : Array<string>;
+    lang : Array<boolean>;
+    name : string;
+    oneLineIntro : string | undefined;
+    intro : string | undefined;
+}
 
+export const GuideModal = (props: any) : React.ReactElement => {
+
+    const guideUID = props.guide;
     const guideVisible = useSelector((state: RootState) => state.ChatSettingUIModel.guideVisiblity);
     const dispatch = useDispatch();
+
+    const [data, setData] = React.useState<GuideInfo | undefined>();
+
+    React.useEffect(() => {
+
+        const url = SERVER + '/guides/' + guideUID;
+        axios.get(url)
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch((err) => {
+                console.log('가이드 정보 불러오기 실패 (guides/uid) : ',err);
+            })
+    }, []);
+
+
 
     const renderItem = (item: any) => {
         return (
@@ -25,92 +52,99 @@ export const GuideModal = (props: any) => {
         )
     }
 
-    return (
-        <>
-            <Modal
-                style={{ padding: 20, width: '100%', }}
-                visible={guideVisible}
-                backdropStyle={styles.backdrop}
-                onBackdropPress={() => dispatch(setGuideVisiblityFalse())}
-            >
+    return (        
+        <Modal
+            style={{ padding: 20, width: '100%', }}
+            visible={guideVisible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={() => dispatch(setGuideVisiblityFalse())}
+        >
 
-                <Layout style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
+            <Layout style={{ padding: 20, borderRadius: 15, backgroundColor: 'white' }}>
 
-                    <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
 
-                        <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
-                            <CloseButton />
-                        </Pressable>
-                    </Layout>
+                    <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
+                        <CloseButton />
+                    </Pressable>
+                </Layout>
 
-                    <Layout style={styles.innerContainer}>
+                <Layout style={styles.innerContainer}>
 
+                    {data?.avatar? 
+                        <Image
+                            source={{uri : data.avatar}}
+                            style={styles.profileImage}
+                        />
+                    :
                         <Image
                             source={require('../../../assets/image/Chat/guideGray.png')}
                             style={styles.profileImage}
                         />
+                    }
 
-                        <Layout style={styles.nameContainer}>
-                            <Layout style={styles.locationContainer}>
-                                <Location />
-                                <Text style={styles.locationText}>HONGDAE</Text>
-                            </Layout>
-                            <Text style={styles.guideNameText}>
-                                Sarah
-                            </Text>
+
+                    <Layout style={styles.nameContainer}>
+                        <Layout style={styles.locationContainer}>
+                            <Location />
+                            <Text style={styles.locationText}>{props.zone.toUpperCase()}</Text>
+                        </Layout>
+                        <Text style={styles.guideNameText}>
+                            {data?.name}
+                        </Text>
+                    </Layout>
+                </Layout>
+
+
+                <Layout style={styles.infoContainer}>
+
+                    <Layout style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                        <Text style={styles.keyTextStyle}>Language</Text>
+                        <Text style={styles.valTextStyle}>{(data?.lang[0])? 'English' : ''} {(data?.lang[1] != undefined)? (data.lang[1])? 'Chinese' : '' : ''}</Text>
+                        
+                    </Layout>
+
+                    <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Text style={styles.keyTextStyle}>Nationality</Text>
+                        <Text style={styles.valTextStyle}>{data?.country}</Text>
+                    </Layout>
+
+                    <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
+                        <Text style={styles.keyTextStyle}>Chat Type</Text>
+                        <Text style={[styles.valTextStyle, { flex: 1 }]}>
+                            {props.maxUser === 1? 'Private Chat' : 'Group Chat'}
+                        </Text>
+                        <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <Text style={styles.keyTextStyle}>Max</Text>
+                            <Text style={styles.valTextStyle}>{props.maxUser}</Text>
                         </Layout>
                     </Layout>
 
+                    <Layout style={styles.introContainer}>
+                        <Text style={styles.oneLineIntro}>
+                            {data?.oneLineIntro}
+                        </Text>
 
-                    <Layout style={styles.infoContainer}>
-
-                        <Layout style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                            <Text style={styles.keyTextStyle}>Language</Text>
-                            <Text style={styles.valTextStyle}>English</Text>
-                        </Layout>
-
-                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
-                            <Text style={styles.keyTextStyle}>Nationality</Text>
-                            <Text style={styles.valTextStyle}>South Korea</Text>
-                        </Layout>
-
-                        <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
-                            <Text style={styles.keyTextStyle}>Chat Type</Text>
-                            <Text style={[styles.valTextStyle, { flex: 1 }]}>
-                                Group Chat
-                            </Text>
-                            <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={styles.keyTextStyle}>Max</Text>
-                                <Text style={styles.valTextStyle}>10</Text>
-                            </Layout>
-                        </Layout>
-
-                        <Layout style={styles.introContainer}>
-                            <Text style={styles.oneLineIntro}>
-                                안녕하세요 이제 꺼져요
-                            </Text>
-
-                            <Text style={styles.intro}>
-                                제곧내
-                            </Text>
-                        </Layout>
-
-                        {/* keyword 에 다른 값이 들어와서 잠시 주석처리 */}
-                        {/* <Layout style={{ marginTop: 20, alignItems: 'center' }}>
-                            <FlatList
-                                data={props.guide.keyword.slice(0,2)}
-                                renderItem={renderItem}
-                                horizontal
-                                scrollEnabled={false}
-                            />
-                        </Layout> */}
-
-
+                        <Text style={styles.intro}>
+                            {data?.intro}
+                        </Text>
                     </Layout>
+
+                    {/* keyword 에 다른 값이 들어와서 잠시 주석처리 */}
+                    <Layout style={{ marginTop: 20, alignItems: 'center' }}>
+                        <FlatList
+                            data={data?.keyward}
+                            renderItem={renderItem}
+                            horizontal
+                            scrollEnabled={false}
+                        />
+                    </Layout>
+
 
                 </Layout>
-            </Modal >
-        </>
+
+            </Layout>
+        </Modal >
     )
 }
 

@@ -54,7 +54,12 @@ export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.React
                 <Pressable
                     style={styles.RightIcon}
                     onPress={() => {
-                        props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING, { id : props.route.params.id });
+                        props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING, { 
+                            id : props.route.params.id,
+                            zone : props.route.params.zone,
+                            guide : props.route.params.guide.uid,
+                            maxUser : props.route.params.maxUser
+                        });
                     }}>
                     <Chat_Setting />
                 </Pressable>

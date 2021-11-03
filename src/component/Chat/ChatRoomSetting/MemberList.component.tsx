@@ -13,9 +13,10 @@ import { useDispatch } from 'react-redux';
 import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.Setting.model';
 
 type MemberInfo = {
-    avatar: string,
-    name: string,
-    uid: string,
+    _id : string;
+    avatar: string;
+    name: string;
+    uid: string;
 }
 
 type GuideInfo = {
@@ -33,34 +34,27 @@ export const MemberList = (props: ChatRoomSettingSceneProps): React.ReactElement
     const [guide, setGuide] = React.useState<GuideInfo | undefined>();
 
     React.useEffect(() => {
+        InitSetting();
+    }, []);
 
-        auth().currentUser?.getIdToken()
-            .then((token) => {
+    const InitSetting = async() => {
+        const token = await auth().currentUser?.getIdToken();
+        const url = SERVER + '/chat-rooms/' + props.route.params.id + '/people';
+        const config = {
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        }
 
-                const options: AxiosRequestConfig = {
-                    method: 'GET',
-                    url: SERVER + '/api/chat-rooms/' + '6167c6fa4ad9165cba018e42' + '/people',
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                    },
-                }
-
-                axios(options)
-                    .then((response) => {
-                        console.log(response.data);
-                        setMemberData(response.data.users);
-                        setGuide(response.data.guide);
-                    })
-                    .catch((e) => {
-                        console.log('최초 유저 리스트 로딩 실패 : ', e);
-                        setMemberData([]);
-                    })
+        axios.get(url, config)
+            .then((response) => {
+                setGuide(response.data.guide);
+                setMemberData(response.data.users);
             })
-            .catch((error) => {
-                console.log('Firebase Auth Token Error : ', error)
+            .catch((err) => {
+                console.log('멤버 리스트 로드 실패 : ', err);
             })
-
-    }, [])
+    }
 
     const renderItem = ({ item }: { item: MemberInfo, index: number }) => {
 
@@ -72,9 +66,24 @@ export const MemberList = (props: ChatRoomSettingSceneProps): React.ReactElement
                     <Text style={styles.NickName}>{item.name}</Text>
                 </Layout>
 
-                <Pressable>
-                    <Report_Button style={styles.Button} />
-                </Pressable>
+                {(item.uid === auth().currentUser?.uid)? 
+                    null
+                :
+                    <Pressable
+                        onPress={() => {
+                            props.navigation.navigate(SceneRoute.CHAT_REPORT, {
+                                id: ChatRoomID,
+                                user: {
+                                    name: item.name,
+                                    uid: item.uid
+                                }
+                            })
+                        }}
+                    >
+                        <Report_Button style={styles.Button} />
+                    </Pressable>
+                }
+
 
             </Layout>
         )
@@ -90,7 +99,7 @@ export const MemberList = (props: ChatRoomSettingSceneProps): React.ReactElement
             <Layout style={styles.GuideInfoContainer}>
 
                 <Layout style={styles.GuideInfoContainer2}>
-                    <FastImage source={{ uri: `${CDN}${guide?.avatar}` }} style={styles.Avatar} />
+                    <FastImage source={{ uri: `${guide?.avatar}` }} style={styles.Avatar} />
 
                     <Text style={styles.Description}>{guide?.name}</Text>
                 </Layout>

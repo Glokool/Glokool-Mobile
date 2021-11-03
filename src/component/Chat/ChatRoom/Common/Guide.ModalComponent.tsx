@@ -38,7 +38,7 @@ export const GuideModalComponent = (props: any) : React.ReactElement => {
             .catch((err) => {
                 console.log('가이드 정보 불러오기 실패 (guides/uid) : ',err);
             })
-    })
+    }, []);
 
 
 

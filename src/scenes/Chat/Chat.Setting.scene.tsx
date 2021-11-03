@@ -104,7 +104,8 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                 </Layout>
             </ScrollView>
 
-            <GuideModal {...props} />
+            {/* 가이드 모달 */}
+            <GuideModal guide={props.route.params.guide} zone={props.route.params.zone} maxUser={props.route.params.maxUser}/>
 
         </SafeAreaView>
     )

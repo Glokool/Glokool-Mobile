@@ -45,6 +45,9 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   };
   [SceneRoute.CHAT_ROOM_SETTING] : {
     id : string;
+    guide : string;
+    maxUser : number;
+    zone : string;
   };
   [SceneRoute.CHAT_ZONE_SELECT] : undefined;
   [SceneRoute.CHAT_TA_SELECT] : {
