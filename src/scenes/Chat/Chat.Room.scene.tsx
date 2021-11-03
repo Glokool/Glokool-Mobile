@@ -301,7 +301,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             //     'Please refrain from any content that may offend the other person.',
             //     1000,
             // );
-            Alert.alert("The message contains inappropriate languages. Please try again.");
+            Alert.alert("","The message contains inappropriate languages. Please try again.");
         }
 
     };

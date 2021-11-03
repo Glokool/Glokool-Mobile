@@ -32,6 +32,10 @@ import { GoogleSignin } from '@react-native-community/google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { GoogleLogin, AppleLogin, FbLogin } from '../../assets/icon/Auth';
 import { AuthContext } from '../../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../model';
+import { AuthLoadingEnd, AuthLoadingStart } from '../../model/Auth/Auth.Loading.model';
+import { Loading } from '../../component/Common';
 
 
 GoogleSignin.configure({
@@ -47,6 +51,9 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
   const { currentUser, setCurrentUser } = useContext(AuthContext);
 
+  const loading = useSelector((state: RootState) => state.AuthLoadingModel.loading);
+  const dispatch = useDispatch();
+
   const MainNavigate = CommonActions.reset({
     index: 0,
     routes: [{ name: NavigatorRoute.MAIN }],
@@ -59,20 +66,22 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
     }
 
     else {
-      toastRef.show("LOGIN...", 2000);
+      dispatch(AuthLoadingStart());
 
       auth().signInWithEmailAndPassword(values.email, values.password)
         .then((user) => {
           firestore().collection('Users').doc(user.user.uid).get()
             .then((result) => {
               if (user.user.emailVerified == true) {
-                toastRef.show("Login Success!");
+                dispatch(AuthLoadingEnd());
+
+                console.log(user.user);
 
                 const userInfo = {
-                  displayName: user.user.displayName,
-                  email: user.user.email,
+                  displayName: user.user.displayName!,
+                  email: user.user.email!,
                   photoURL: user.user.photoURL,
-                  uid: user.user.uid,
+                  uid: user.user.uid!,
                   access_token: null,
                 }
                 setCurrentUser(userInfo);
@@ -332,6 +341,7 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
       </ScrollView>
       {/* </KeyboardAvoidingView> */}
 
+      {loading && <Loading />}
 
     </React.Fragment>
   );

@@ -298,10 +298,10 @@ export type userInfoType = {
 }
 
 export type authContextType = {
-    access_token: string;
+    access_token: string | any;
     displayName: string;
     email: string;
-    photoURL: string;
+    photoURL: string | any;
     uid: string;
 }
 

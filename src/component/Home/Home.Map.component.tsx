@@ -77,7 +77,7 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
 
     const onPressExplore = () => {
         if (zoneIndex > 1) {
-            Alert.alert("Coming Very Soon!\n We are working very hard to open new zones. Please stay tuned!");
+            Alert.alert("Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
         } else {
             props.navigation.navigate(NavigatorRoute.ZONE);
         }

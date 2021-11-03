@@ -1,5 +1,8 @@
 import { combineReducers } from "redux";
 
+// Auth
+import AuthLoadingModel from "./Auth/Auth.Loading.model";
+
 // Chat
 import AudioDurationModel from "./Chat/Chat.Audio.model";
 import ChatDataModel from "./Chat/Chat.Data.model";
@@ -21,7 +24,10 @@ import ZoneLocationModel from "./Zone/Zone.Location.model";
 
 const rootReducer = combineReducers({
 
-    //Chat
+    // Auth
+    AuthLoadingModel,
+
+    // Chat
     AudioDurationModel,
     ChatUIModel,
     ChatLoadingModel,
@@ -30,11 +36,11 @@ const rootReducer = combineReducers({
     ChatKeyboardModel,
     ChatSettingUIModel,
 
-    //My
+    // My
     MyLoadingModel,
     MyUIModel,
 
-    //Zone
+    // Zone
     ZoneUIModel,
     ZoneDataModel,
     ZoneLoadingModel,

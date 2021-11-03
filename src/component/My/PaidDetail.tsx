@@ -70,13 +70,6 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                         style: "default",
                     },
                 ],
-                {
-                    cancelable: true,
-                    onDismiss: () =>
-                        Alert.alert(
-                            "This alert was dismissed by tapping outside of the alert dialog."
-                        ),
-                }
             );
         }
     }
