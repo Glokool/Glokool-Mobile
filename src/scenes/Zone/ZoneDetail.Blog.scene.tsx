@@ -50,6 +50,7 @@ import { ZoneDetailBlogSceneProps } from '../../navigation/SceneNavigator/Zone.n
 import { useDispatch } from 'react-redux';
 import { setGloServiceVisibilityTrue } from '../../model/Zone/Zone.UI.model';
 import { Loading } from '../../component/Common';
+import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -827,6 +828,7 @@ const styles = StyleSheet.create({
     CoverImg: {
         width: windowWidth,
         height: windowWidth,
+        marginTop: isIphoneX() ? getStatusBarHeight() + windowHeight * 0.01 : 0,
         position: 'relative',
     },
     SeriesBottomLayout: {

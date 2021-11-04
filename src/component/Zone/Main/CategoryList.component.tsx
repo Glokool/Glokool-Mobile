@@ -146,13 +146,12 @@ const styles = StyleSheet.create({
         width: windowWidth * 0.35,
         height: windowWidth * 0.35,
         borderRadius: 10,
-        marginHorizontal: 5,
+        marginHorizontal: windowWidth * 0.005,
     },
     ItemImage: {
         width: windowWidth * 0.35,
         height: windowWidth * 0.35,
         borderRadius: 10,
-        borderWidth: 0.5,
     },
     CategoryContainer: {
         paddingVertical: 15,

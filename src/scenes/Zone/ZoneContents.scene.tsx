@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.48,
         borderRadius: 10,
         margin: windowWidth * 0.01,
-        borderWidth: 0.3
     },
     PageList: {
         paddingTop: windowWidth * 0.01,

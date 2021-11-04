@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth'
 import { StyleSheet, TouchableOpacity, FlatList, Dimensions, Text } from 'react-native';
 import { Layout, LayoutElement } from '@ui-kitten/components';
-import { ReceiptDetailInfo } from '../../types';
+// import { any } from '../../types';
 import { PaidChatListProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { Receipt_Large } from '../../assets/icon/My';
@@ -20,9 +20,10 @@ import { Loading } from '../../component/Common';
 const windowWidth = Dimensions.get('window').width;
 
 export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
-    const [data, setData] = useState<Array<ReceiptDetailInfo>>([]);
-    const [detailData, setDetailData] = useState<ReceiptDetailInfo>();
+    const [data, setData] = useState<Array<any>>([]);
+    const [detailData, setDetailData] = useState<any>();
     const [refundCode, setRefundCode] = useState<string>('');
+    const [receiptID, setReceiptID] = useState<string>('');
 
     const loading = useSelector((state: RootState) => state.MyLoadingModel.loading);
     const dispatch = useDispatch();
@@ -38,25 +39,27 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
 
         const AxiosConfig: AxiosRequestConfig = {
             method: 'get',
-            url: SERVER + '/api/users/reservations',
+            url: SERVER + '/payments/receipts',
             headers: {
                 'Authorization': 'Bearer ' + Token
             }
         }
         const RevData = await axios(AxiosConfig);
+        // console.log(RevData.data);
         setData(RevData.data);
         dispatch(setMyLoadingFalse());
     }
 
 
-    const PressDetail = (item: ReceiptDetailInfo) => {
+    const PressDetail = (item: any) => {
         setRefundCode(item._id);
         setDetailData(item);
-        console.log(item);
+        // console.log(item);
+        setReceiptID(item._id);
         dispatch(setReceiptVisibleTrue());
     }
 
-    const renderItem = (item: { item: ReceiptDetailInfo }) => {
+    const renderItem = (item: { item: any }) => {
 
         return (
             <TouchableOpacity onPress={() => PressDetail(item.item)}>
@@ -64,7 +67,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                     <Layout style={styles.InfoContainer}>
                         <Layout style={styles.LocationContainer}>
                             <Location />
-                            <Text style={styles.LocationText}>LOCATION</Text>
+                            <Text style={styles.LocationText}>{item.item.travelArea}</Text>
                         </Layout>
                         <Layout style={styles.InfoItem}>
                             <Text style={[styles.InfoText, { color: '#b4b4b4' }]}>Travel Assistant</Text>
@@ -72,7 +75,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                         </Layout>
                         <Layout style={styles.InfoItem}>
                             <Text style={[styles.InfoText, { color: '#b4b4b4' }]}>Booking Date</Text>
-                            <Text style={styles.InfoText}>{moment(item.item.paymentDate).format('YYYY.MM.DD')}</Text>
+                            <Text style={styles.InfoText}>{moment(item.item.bookingDate).format('YYYY.MM.DD')}</Text>
                         </Layout>
                     </Layout>
                 </Layout>
@@ -100,7 +103,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                 />
             }
 
-            <PaidDetail data={detailData} />
+            <PaidDetail id={receiptID} />
 
         </Layout>
     )

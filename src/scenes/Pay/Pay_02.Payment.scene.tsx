@@ -168,7 +168,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
                 <Layout style={styles.PairContainer}>
                     <Text style={styles.SubTitleText}>Travel Destination</Text>
-                    <Text style={styles.ValueText}>{ReservationData.zone}</Text>
+                    <Text style={styles.ValueText}>{ReservationData.zone.charAt(0).toUpperCase() + ReservationData.zone.slice(1)}</Text>
                 </Layout>
                 <Layout style={styles.PairContainer}>
                     <Text style={styles.SubTitleText}>Travel Assistant Name</Text>

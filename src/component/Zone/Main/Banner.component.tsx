@@ -34,7 +34,7 @@ export const ZoneBannerComponent = (props: ZoneMainSceneProps) => {
     const renderItem = (item: { item: Source, index: number }) => {
 
         return (
-            <Pressable style={[styles.ItemContainer, { backgroundColor: 'red' }]}>
+            <Pressable style={styles.ItemContainer}>
                 <FastImage
                     source={item.item}
                     style={styles.BannerItem}

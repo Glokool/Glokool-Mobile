@@ -62,7 +62,8 @@ export interface MYSettingProps {
 }
 
 export interface PaidDetailProps {
-  data: ReceiptDetailInfo | undefined;
+  data?: ReceiptDetailInfo | undefined;
+  id: string;
 }
 
 export interface PaidChatListProps {
