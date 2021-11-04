@@ -1,3 +1,4 @@
+import { PaymentData } from "iamport-react-native";
 import { StringifiableRecord } from "query-string";
 
 // Home
@@ -319,4 +320,90 @@ export type LocationBubbleMessage = {
         },
         messageType: string
     }
+}
+
+export interface ReservationData_FIRST {
+    ChatRoomID : string;
+    zone : string;
+    guide : string;
+    guideName : string;
+    maxUserNum : number;
+    price : {
+        discountPrice : number;
+        price : number;
+    };
+}
+
+export interface ReservationData_SECOND {
+    name: string;
+    email: string;
+    snsID?: {
+        type: string;
+        value: string;
+    };
+    phone?: {
+        type: string | any;
+        value: string;
+    };
+    ChatRoomID : string;
+    zone : string;
+    guide : string;
+    guideName : string;
+    maxUserNum : number;
+    price : {
+        discountPrice : number;
+        price : number;
+    };
+    PaymentPlatform : string;
+}
+
+export interface ReservationData_Process {
+    params: PaymentData;
+    ReservationData: {
+        name: string;
+        email: string;
+        snsID?: {
+            type: string;
+            value: string;
+        };
+        phone?: {
+            type: string | undefined;
+            value: string;
+        };
+        ChatRoomID : string;
+        zone : string;
+        guide : string;
+        guideName : string;
+        maxUserNum : number;
+        price : {
+            discountPrice : number;
+            price : number;
+        };
+        PaymentPlatform : string;
+    };
+}
+
+export interface ReservationData_SUCCESS {
+    Payment : PaymentData;
+    name: string;
+    email: string;
+    PaymentID : string;
+    ChatRoomID : string;
+    zone : string;
+    guide : string;
+    guideName : string;
+    maxUserNum : number;
+    snsID?: {
+        type: string;
+        value: string;
+    };
+    phone?: {
+        type: string | undefined;
+        value: string;
+    };
+    price : {
+        discountPrice : number;
+        price : number;
+    };
+    PaymentPlatform : string;    
 }

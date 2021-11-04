@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
     Text,
@@ -62,10 +63,9 @@ export const AudioRecordComponent = (props : any) => {
 
     const FCMSend = async(message : IMessage, messageType : string) => {
           
-        if (currentUser.expiry_date < new Date().getTime()) {
-            await getAccessToken();
-        }
-    
+        const token = await auth().currentUser?.getIdToken();
+        const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
+
         const data = JSON.stringify({
             message: {
                 notification: {
@@ -86,21 +86,19 @@ export const AudioRecordComponent = (props : any) => {
         });
     
         const options = {
-            method: 'Post',
-            url:
-                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.access_token}`,
-            },
-            data: data,
+                Authorization: `Bearer ${token}`,
+            }
         };
+
     
-        await axios(options).catch((e) => {
+        axios.post(url , data, options).catch((e) => {
             if (e.response) {
                 console.log(e.response.data);
             }
         });
+        
     }
 
     const formatTime = () => {

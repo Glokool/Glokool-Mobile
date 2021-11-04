@@ -1,81 +1,58 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 import { PaySuccessSceneProps } from '../../navigation/Pay.navigator';
-import { EmptyImage } from '../../assets/icon/Common';
 import { PaymentSuccess, PaySuccessPage } from '../../assets/icon/Pay';
 import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
-import { AuthContext } from '../../context/AuthContext';
-import qs from 'query-string';
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
-
-    const { currentUser, setCurrentUser } = React.useContext(AuthContext);
-    const ReservationData = props.route.params.ReservationData;
+    const ReservationData = props.route.params;
 
     React.useEffect(() => {
         SendPaymentData();
     }, []);
 
     const SendPaymentData = async () => {
-        const authToken = await auth().currentUser?.getIdToken();
+        const authToken = await auth().currentUser?.getIdToken();  
 
-        const url = SERVER + '/payment';
+        const url = SERVER + '/payments';
 
         const data = JSON.stringify({
-            travelArea: 'HONGDAE',
-            paymentID: ReservationData.PaymentID,
-            price: ReservationData.price,
+            travelArea: ReservationData.zone,
+            paymentsID: ReservationData.PaymentID,
+            price: ReservationData.price.discountPrice,
             guide: ReservationData.guide,
             email: ReservationData.email,
             snsID: ReservationData.snsID,
             phone: ReservationData.phone,
             name: ReservationData.name,
             chatRoomCode: ReservationData.ChatRoomID,
-            paymentPlatform: ReservationData.PaymentPlatform
-        })
+            paymentPlatform: props.route.params.Payment.pg
+        });   
 
         const option = {            
             headers: {
                 Authorization: 'Bearer ' + authToken,
+                'Content-Type' : 'application/json'
             },
+            
         }
 
         axios.post(url, data, option)
             .then((result) => {
-                console.log('서버에 저장 완료')
+                console.log(result);
+                AsyncStorage.setItem(`${ReservationData.ChatRoomID}_fcm`, 'false');
             })
             .catch((err) => {
-                console.log('서버에 저장 실패 대 위기 씨발');
+                console.log(err);
             })
 
-
-    }
-
-
-
-    // 서버로 보내야할 타입 샘플
-    type sample = {
-        travelDate: Date;
-        paymentID: string; //결제 코드
-        price: string;
-        guide: string; //가이드 id
-        email: string;
-        snsID?: {
-            type: string;
-            value: string;
-        },
-        phone?: {
-            type: string;
-            value: string;
-        },
-        name: string;
-        chatRoomCode: string;//채팅방 id
     }
 
     return (

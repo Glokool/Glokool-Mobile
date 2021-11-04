@@ -24,6 +24,7 @@ export const ChatTASelectScene = (props: ChatTASelectSceneProps) => {
         <SafeAreaView style={styles.container}>
 
             <TASelectTopTabBarComponent {...props} />
+            
             <GuideListComponent {...props} />
 
         </SafeAreaView>

@@ -38,29 +38,13 @@ const reducer = (state: State, action: any): State => {
 
 export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
+    var ReservationData = props.route.params;
     const [state, dispatch] = React.useReducer(reducer, {
         paypalClicked: false,
         kakaoClicked: false,
     });
 
-    const [price, setPrice] = useState<string>();
-    const [discount, setDiscount] = useState<string>();
-    const [discountedPrice, setDiscountedPrice] = useState<string>();
-
-    useEffect(() => {
-        InitMoney();
-    }, [])
-
-    const InitMoney = () => {
-        axios.get(SERVER + '/api/price')
-            .then((response) => {
-                setPrice(response.data.price);
-                setDiscountedPrice(response.data.discountedPrice);
-
-                const discountNum = Number(response.data.price) - Number(response.data.discountedPrice);
-                setDiscount(discountNum.toString())
-            })
-    }
+    const [toastVisible, setToastVisible] = React.useState(false);
 
     const Payment = async() => {
 
@@ -71,23 +55,26 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         });
         const config = {
             headers : {
-                Authorization : `Bearer ${token}`
+                Authorization : `Bearer ${token}`,
+                'Content-Type' : 'application/json'
             }
         }
 
         axios.post(URL, data, config)
             .then((result) => {
                 console.log(result);
+                state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
             })
             .catch((err) => {
                 console.log(err);
+                setToastVisible(true);
+
+                setTimeout(() => {
+                    setToastVisible(false);
+                }, 5000)
             })
 
-
-
-
-
-        state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
+        
     }
 
     const PaypalMethod = () => {
@@ -109,20 +96,8 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             app_scheme: 'Glokool',
         }
 
-        const ReservationData = {
-            name: props.route.params.name,
-            email: props.route.params.email,
-        }
-
-        // 메신져 id , 전화번호는 optional 이라서 확인 후 전달
-        if (props.route.params.snsID) {
-            Object.assign(ReservationData, { snsID: props.route.params.snsID });
-        }
-
-        if (props.route.params.phone) {
-            Object.assign(ReservationData, { snsID: props.route.params.phone });
-        }
-        props.navigation.navigate(SceneRoute.PAY_PROCESS, { params, ReservationData });
+        
+        props.navigation.navigate(SceneRoute.PAY_PROCESS, { params , ReservationData });
 
     }
 
@@ -145,23 +120,6 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
             app_scheme: 'Glokool',
         };
 
-        // 메신져 id , 전화번호는 optional 이라서 확인 후 전달
-        const ReservationData = {
-            name: props.route.params.name,
-            email: props.route.params.email,
-            guide : props.route.params.guide,
-            ChatRoomID : props.route.params.ChatRoomID,
-            price : amount + '',
-            PaymentPlatform : (state.kakaoClicked)? 'kakao' : 'paypal' 
-        }
-
-        if (props.route.params.snsID) {
-            Object.assign(ReservationData, { snsID: props.route.params.snsID });
-        }
-
-        if (props.route.params.phone) {
-            Object.assign(ReservationData, { snsID: props.route.params.phone });
-        }
         props.navigation.navigate(SceneRoute.PAY_PROCESS, { params, ReservationData });
     }
 
@@ -177,7 +135,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 }
             />
 
-            <ScrollView style={styles.InnerContainer}>
+            <ScrollView style={styles.InnerContainer} showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.TitleText}>
                     {'REVIEW & PAY'}
@@ -189,7 +147,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <Layout style={styles.TypeContainer}>
 
                     <Layout style={styles.TypeInnerContainer}>
-                        <Text style={styles.ValueText}>Private Chat</Text>
+                        <Text style={styles.ValueText}>{ReservationData.maxUserNum === 1? 'Private Chat' : 'Group Chat' }</Text>
                     </Layout>
 
                     <Layout style={[styles.TypeInnerContainer, { backgroundColor: '#0000' }]}>
@@ -210,11 +168,11 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
                 <Layout style={styles.PairContainer}>
                     <Text style={styles.SubTitleText}>Travel Destination</Text>
-                    <Text style={styles.ValueText}>Hongdae</Text>
+                    <Text style={styles.ValueText}>{ReservationData.zone}</Text>
                 </Layout>
                 <Layout style={styles.PairContainer}>
                     <Text style={styles.SubTitleText}>Travel Assistant Name</Text>
-                    <Text style={styles.ValueText}>Glokool Official</Text>
+                    <Text style={styles.ValueText}>{ReservationData.guideName}</Text>
                 </Layout>
                 <Layout style={styles.PairContainer}>
                     <Text style={styles.SubTitleText}>Service Language</Text>
@@ -227,11 +185,11 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     </Text>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Service Fees</Text>
-                        <Text style={styles.ValueText}>{price} USD</Text>
+                        <Text style={styles.ValueText}>{props.route.params.price.price} USD</Text>
                     </Layout>
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Promotion</Text>
-                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>-{discount} USD</Text>
+                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>-{(props.route.params.price.price) - (props.route.params.price.discountPrice)} USD</Text>
                     </Layout>
                 </Layout>
 
@@ -244,7 +202,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 <Layout style={styles.CostContainer}>
                     <Text style={styles.SubTitleText}>TOTAL</Text>
                     <Layout style={styles.RowContainer}>
-                        <Text style={styles.CostText}>{discountedPrice}</Text>
+                        <Text style={styles.CostText}>{props.route.params.price.discountPrice}</Text>
                         <Text style={[styles.ValueText, { color: '#7777ff' }]}>USD</Text>
                     </Layout>
                 </Layout>
@@ -302,6 +260,14 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                 </TouchableOpacity>
             </ScrollView>
 
+            {toastVisible?
+                <Layout style={styles.ToastContainer}>
+                    <Text style={styles.ToastText}>Sorry, it's sold out.</Text>
+                </Layout>
+            :
+                null
+            }
+
         </Layout>
     )
 };
@@ -312,6 +278,24 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
     },
+
+    ToastContainer: {
+        position: 'absolute',
+        top: '50%',
+        left: '30%',
+        borderRadius : 15,
+        padding: 10,
+        backgroundColor : 'rgba(0,0,0,0.5)'
+    },
+
+    ToastText : {
+        color: 'white',
+        fontSize : 16,
+        fontFamily: 'Pretenedard-SemiBold',
+    },
+
+
+
     InnerContainer: {
         // paddingHorizontal: windowWidth * 0.05
         paddingTop: 20,

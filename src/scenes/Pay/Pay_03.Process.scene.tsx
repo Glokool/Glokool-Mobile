@@ -11,6 +11,10 @@ import { Loading } from '../../component/Common';
 export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
 
     const callback = (response: CallbackRsp) => {
+
+        const data = props.route.params.ReservationData;        
+        Object.assign(data, { Payment : props.route.params.params })
+
         if (response.imp_success === "true") {
             props.navigation.reset({
                 routes: [{
@@ -19,7 +23,7 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
                 }]
             });
         } else {
-            props.navigation.navigate(SceneRoute.PAY_FAILED);
+            props.navigation.navigate(SceneRoute.PAY_FAILED);            
         }
     }
 

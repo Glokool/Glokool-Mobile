@@ -4,6 +4,7 @@ import { AuthNavigator } from './Auth.navigator';
 import { MainNavigator } from './Main.navigator';
 import { PayNavigator } from './Pay.navigator';
 import { NavigatorRoute, SceneRoute } from './app.route';
+import { ReservationData_FIRST } from '../types';
 
 export type AppNavigatorParams = {
     [NavigatorRoute.AUTH]: {
@@ -16,7 +17,7 @@ export type AppNavigatorParams = {
     } | undefined;
     [NavigatorRoute.PAY]: {
         screen : SceneRoute,
-        params : undefined
+        params : ReservationData_FIRST;
     } | undefined;
     
     

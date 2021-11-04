@@ -19,7 +19,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
     const [email, setEmail] = useState<string>("");
 
     const [countryCode, setCountryCode] = useState<any>("KR");
-    const [callingCode, setCallingCode] = useState<Array<string>>();
+    const [callingCode, setCallingCode] = useState<Array<string>>(["82"]);
 
     const [selectedIndex, setSelectedIndex] = useState<IndexPath | any>(new IndexPath(0));
     const messengerType = ["Facebook", "Instagram"];
@@ -31,33 +31,27 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
     })
 
     const onPressButton = () => {
+
         const params = {
             name: name,
             email: email,
             guide : props.route.params.guide,
-            ChatRoomID : props.route.params.ChatRoomID
-        }
-
-        if (phone.length > 0 && callingCode) {
-            const phoneParam = {
-                phone: {
-                    type: callingCode[0],
-                    value: phone,
-                }
+            guideName : props.route.params.guideName,
+            ChatRoomID : props.route.params.ChatRoomID,
+            maxUserNum : props.route.params.maxUserNum,
+            zone : props.route.params.zone,
+            price : props.route.params.price,
+            PaymentPlatform : '',
+            phone: {
+                type: callingCode[0],
+                value: phone,
+            },
+            snsID: {
+                type: displayValue,
+                value: snsID,
             }
-            Object.assign(params, phoneParam);
         }
-
-        if (snsID.length > 0 && displayValue) {
-            const snsParam = {
-                snsID: {
-                    type: displayValue,
-                    value: snsID,
-                }
-            }
-            Object.assign(params, snsParam);
-        }
-
+        
         props.navigation.navigate(SceneRoute.PAY_SECOND, params);
     }
 
@@ -145,6 +139,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         onSelect={(response) => {
                             setCountryCode(response.cca2);
                             setCallingCode(response.callingCode);
+                            console.log(response);
                         }}
                         containerButtonStyle={styles.CountryPickerStyle}
                     />

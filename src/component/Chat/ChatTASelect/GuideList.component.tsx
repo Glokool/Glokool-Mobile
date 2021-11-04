@@ -8,11 +8,35 @@ import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
 import { CurrentKoreanTimeComponent } from '.';
 import { useInterval } from '../ChatRoom/Audio/Timer.component';
 import { windowHeight, windowWidth } from '../../../Design.component';
-import { CDN } from '../../../server.component';
+import { CDN, SERVER } from '../../../server.component';
+import axios from 'axios';
+
+interface GuideData {
+    _id : string;
+    createdAt : Date;
+    guide : {
+        _id : string;
+        avatar : string;
+        name : string;
+        uid : string;
+        oneLineIntro : string;
+        keyword : Array<string> | undefined;
+    }
+    maxUserNum : number;
+    price : {
+        discountPrice : number;
+        price : number;
+    }
+    reservationPendingCount : number;
+    travelDate : Date;
+    userCount : number;
+}
 
 export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
 
     const KRTIMEDIFF = 9 * 60 * 60 * 1000;
+
+    const [data, setData] = React.useState<Array<GuideData>>([]);
 
     const date = new Date();
     const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
@@ -22,60 +46,73 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
         const date = new Date();
         const utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000);
         setTime(new Date(utc + KRTIMEDIFF));
-    }, 30000)
+    }, 30000);
 
-    const [data, setData] = React.useState([
-        {
-            _id: "616d28b2e5d90f7a8568ec63",
-            guide: {
-                _id: "6094d2265c8f9d70b4c997aa",
-                uid: "caVmbSeML7htswLPgtEQxmcFX3I3",
-                avatar: "https://s3tests3.s3.ap-northeast-2.amazonaws.com/guide/caVmbSeML7htswLPgtEQxmcFX3I3/16286640089833b11d14d-4fe7.png",
-                name: "GlokoolOfficial",
-                desc: "A bright Seoul traveler, I'll help you on a bright trip",
-                keyword: ['안녕', '반가워'],
-                lang: [true, false],
-            },
-            maxUserNum: 1,
-            price: {
-                price: 50,
-                discount: "20"
-            },
-            users: []
-        },
-    ]);
+    React.useEffect(() => {
 
-    const renderGuide = ({ item }: { item: any, index: number }) => {
+        // 서버에서 정보 가져오기;
+
+        const URL = SERVER + '/chat-rooms';
+        const config = {
+            params : {
+                q : (props.route.params.zone).toLowerCase()
+            }
+        }
+
+        axios.get(URL,config)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((err) => {
+                console.log('가이드 리스트 받아오기 실패 : ', err);
+            })
+
+    }, [])
+
+    
+
+    const renderGuide = ({ item }: { item: GuideData, index: number }) => {
 
         return (
             <Layout style={styles.GuideContainer}>
 
                 <Layout style={styles.GuideInfoContainer}>
-                    <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
+                    <FastImage source={{ uri: item.guide.avatar }} style={styles.Avatar} />
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
                             <Pressable style={styles.Button} onPress={() => props.navigation.navigate(NavigatorRoute.PAY, {
                                 screen: SceneRoute.PAY_FIRST,
-                                params: { ChatRoomID: item._id, guide: item.guide._id }
+                                params: { 
+                                    ChatRoomID: item._id, 
+                                    guide: item.guide._id, 
+                                    price : item.price,
+                                    guideName : item.guide.name, 
+                                    zone : props.route.params.zone, 
+                                    maxUserNum : item.maxUserNum 
+                                }
                             })}>
                                 <BookButton width={windowWidth * 0.18} height={windowWidth * 0.18 / 8 * 3} />
                             </Pressable>
                         </Layout>
-                        <Text numberOfLines={2} style={styles.GuideDesc}>{item.guide.desc}</Text>
+                        <Text numberOfLines={2} style={styles.GuideDesc}>{item.guide.oneLineIntro}</Text>
                     </Layout>
                 </Layout>
 
-
-                <Layout style={styles.TagContainer}>
-                    <Layout style={styles.Tag}>
-                        <Text style={styles.TagText}>{item.guide.keyword[0]}</Text>
+                {(item.guide.keyword?.length === 2)?
+                    <Layout style={styles.TagContainer}>
+                        <Layout style={styles.Tag}>
+                            <Text style={styles.TagText}>{item.guide.keyword[0]}</Text>
+                        </Layout>
+    
+                        <Layout style={styles.Tag}>
+                            <Text style={styles.TagText}>{item.guide.keyword[1]}</Text>
+                        </Layout>
                     </Layout>
-
-                    <Layout style={styles.Tag}>
-                        <Text style={styles.TagText}>{item.guide.keyword[1]}</Text>
-                    </Layout>
-                </Layout>
+                :
+                    <Layout style={styles.TagContainer} />
+                }
 
                 <Divider style={styles.Divider} />
 
@@ -83,18 +120,18 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     <Layout style={styles.TypeContainer}>
                         <Layout style={styles.IconContainer}>
                             <GroupChattingType />
-                            <Text style={styles.DescText}>Group Chat</Text>
+                            <Text style={styles.DescText}>{(item.maxUserNum === 1)? 'Private Chat' : 'Group Chat'}</Text>
                         </Layout>
 
                         <Layout style={styles.IconContainer}>
                             <GroupChattingPerson />
-                            <Text style={styles.DescText}>10</Text>
+                            <Text style={styles.DescText}>{item.maxUserNum}</Text>
                         </Layout>
                     </Layout>
 
                     <Layout style={styles.PriceContainer}>
-                        <Text style={styles.DiscountBeforeText1}>$ <Text style={styles.DiscountBeforeText2}>30</Text></Text>
-                        <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}>14.00</Text> / day</Text>
+                        <Text style={styles.DiscountBeforeText1}>$ <Text style={styles.DiscountBeforeText2}>{item.price.price}</Text></Text>
+                        <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}>{item.price.discountPrice}</Text> / day</Text>
                     </Layout>
                 </Layout>
             </Layout>

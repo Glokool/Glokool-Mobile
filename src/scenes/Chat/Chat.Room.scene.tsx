@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import auth from '@react-native-firebase/auth';
 import {
     SafeAreaView,
     Platform,
@@ -49,7 +50,7 @@ import {
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../model';
 import { cleanRoomName, setGuideUID, setRoomName } from '../../model/Chat/Chat.Data.model';
-import { setKeyboardHeight, cleanKeyboardHeight } from '../../model/Chat/Chat.Keyboard.model';
+import { setKeyboardHeight, cleanKeyboardHeight, setEmojiKeyboardFalse } from '../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
 import { GuideModal } from '../../component/Chat/ChatRoomSetting';
@@ -220,6 +221,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             };
 
             dispatch(setMenuVisiblityFalse());
+            dispatch(setEmojiKeyboardFalse());
             dispatch(cleanKeyboardHeight());
 
         };
@@ -235,9 +237,8 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     const FCMSend = async (message: IMessage) => {
 
-        if (currentUser.expiry_date < new Date().getTime()) {
-            await getAccessToken();
-        }
+        const token = await auth().currentUser?.getIdToken();
+        const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
 
         const data = JSON.stringify({
             message: {
@@ -259,21 +260,18 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
         });
 
         const options = {
-            method: "post",
-            url:
-                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.access_token}`,
-            },
-            data: data,
+                Authorization: `Bearer token ${token}`,
+            }
         };
 
-        await axios(options).catch((e) => {
-            if (e.response) {
-                console.log(e.response.data);
-            }
-        });
+        axios.post(url, data, options)
+            .catch((e) => {
+                if (e.response) {
+                    console.log(e.response.data);
+                }
+            });
     }
 
     const onSend = async (messages: IMessage[]) => {

@@ -6,64 +6,17 @@ import { AppNavigatorParams } from './App.navigator';
 import { PayFirstScene, PaySecondScene, PayFailedScene, CancellationPolicy, PayProcessScene, PaySuccessScene } from '../scenes/Pay';
 import { PaymentData } from 'iamport-react-native';
 import { MainNavigatorParams } from './Main.navigator';
+import { ReservationData_FIRST, ReservationData_Process, ReservationData_SECOND, ReservationData_SUCCESS } from '../types';
+
+
 
 type PayNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
-    [SceneRoute.PAY_FIRST]: { ChatRoomID : string; guide : string; };
-    [SceneRoute.PAY_SECOND]: {
-        name: string;
-        email: string;
-        snsID?: {
-            type: string;
-            value: string;
-        };
-        phone?: {
-            type: string | any;
-            value: string;
-        };
-        ChatRoomID : string;
-        guide : string;
-        PaymentPlatform : string;
-    };
+    [SceneRoute.PAY_FIRST]: ReservationData_FIRST;
+    [SceneRoute.PAY_SECOND]: ReservationData_SECOND;
     [SceneRoute.PAY_FAILED]: undefined;
     [SceneRoute.PAY_CANCELLATION]: undefined;
-    [SceneRoute.PAY_PROCESS]: {
-        params: PaymentData;
-        ReservationData: {
-            name: string;
-            email: string;
-            snsID?: {
-                type: string;
-                value: string;
-            };
-            phone?: {
-                type: string | undefined;
-                value: string;
-            };
-            ChatRoomID : string;
-            guide : string;
-            price : string;
-            PaymentPlatform : string;
-        };
-    };
-    [SceneRoute.PAY_SUCCESS]: {
-        ReservationData: {
-            name: string;
-            email: string;
-            PaymentID : string;
-            ChatRoomID : string;
-            guide : string;
-            snsID?: {
-                type: string;
-                value: string;
-            };
-            phone?: {
-                type: string | undefined;
-                value: string;
-            };
-            price : string;
-            PaymentPlatform : string;
-        };
-    };
+    [SceneRoute.PAY_PROCESS]: ReservationData_Process;
+    [SceneRoute.PAY_SUCCESS]: ReservationData_SUCCESS;
 
 }
 

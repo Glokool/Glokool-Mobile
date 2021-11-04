@@ -1,4 +1,5 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import { StyleSheet, Pressable, Platform, PermissionsAndroid, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,10 +43,9 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
 
     const FCMSend = async(message : any, messageType : string) => {
           
-        if (currentUser.expiry_date < new Date().getTime()) {
-            await getAccessToken();
-        }
-    
+        const token = await auth().currentUser?.getIdToken();
+        const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
+
         const data = JSON.stringify({
             message: {
                 notification: {
@@ -66,19 +66,14 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
         });
     
         const options = {
-            method: 'Post',
-            url:
-                'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser.access_token}`,
-            },
-            data: data,
+                Authorization: `Bearer ${token}`,
+            }
         };
 
-        console.log('FCM 전송 시도')
     
-        await axios(options).catch((e) => {
+        axios.post(url , data, options).catch((e) => {
             if (e.response) {
                 console.log(e.response.data);
             }

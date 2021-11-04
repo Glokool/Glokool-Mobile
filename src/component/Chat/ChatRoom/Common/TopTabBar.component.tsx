@@ -9,6 +9,7 @@ import { setGuideVisiblityTrue } from '../../../../model/Chat/Chat.UI.model';
 import { getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import { ChatRoomSceneProps } from '../../../../navigation/SceneNavigator/Chat.navigator';
 import FastImage from 'react-native-fast-image';
+import { CDN } from '../../../../server.component';
 
 const statusBarHeight = getStatusBarHeight();
 
@@ -33,7 +34,7 @@ export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.React
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
                         {(props.route.params.guide.avatar)?
                             <FastImage
-                                source={{uri : props.route.params.guide.avatar}}
+                                source={{uri : CDN + props.route.params.guide.avatar}}
                                 style={styles.ProfileImage}
                             />
                         :
