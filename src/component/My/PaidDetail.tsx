@@ -40,7 +40,10 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
     const InitReceipt = () => {
         const url = SERVER + '/payments/' + props.id;
-        axios.get(url).then((response) => setData(response.data)).catch((e) => console.log("영수증 : ", e))
+        axios.get(url)
+            .then((response) => {
+                setData(response.data);
+            }).catch((e) => console.log("영수증 : ", e))
     }
 
     async function PressRefund() {
@@ -97,7 +100,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                     <Delete />
                 </TouchableOpacity>
             </Layout>
-            
+
             {(data?.refund.complete === true) && (
                 <Layout style={styles.RefundTextContainer}>
                     <Text style={styles.RefundText}>Refund Completed</Text>
@@ -137,7 +140,10 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                     </Layout>
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Assistant Language</Text>
-                        <Text style={styles.ValueText}>{(data?.lang === 'eng') ? `English` : `Chinese`}</Text>
+                        <Text style={styles.ValueText}>
+                            {data?.guide.lang && (data?.guide.lang[0] && 'English ')}
+                            {data?.guide.lang && (data?.guide.lang[1] && '中文')}
+                        </Text>
                     </Layout>
 
                 </Layout>

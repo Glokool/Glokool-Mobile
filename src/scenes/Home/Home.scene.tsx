@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         backgroundColor: '#ECECFC',
+        paddingBottom: windowHeight * 0.1
     },
     ScrollViewContainer: {
         width: '100%',

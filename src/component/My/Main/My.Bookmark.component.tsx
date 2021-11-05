@@ -41,15 +41,17 @@ export const BookmarkList = (props: MyScreenProps) => {
         const authToken = await auth().currentUser?.getIdToken();
         var config: AxiosRequestConfig = {
             method: 'get',
-            url: SERVER + '/api/users/bookmark',
+            url: SERVER + '/users/bookmark',
             headers: {
                 Authorization: 'Bearer ' + authToken,
             },
         };
 
-        axios(config).then((response) => {
-            setBookmarkList(response.data.items);
-        })
+        axios(config)
+            .then((response) => {
+                setBookmarkList(response.data.items);
+            })
+            .catch((e) => console.log("북마크 리스트 : ", e));
     }
 
     const renderItem = (item: { item: MySceneBookmarkItem }) => {
@@ -65,8 +67,8 @@ export const BookmarkList = (props: MyScreenProps) => {
         <View style={styles.EmptyContainer}>
             <EmptyBookmark width={windowWidth * 0.45} />
             <Text style={[styles.EmptyText, { fontSize: windowWidth * 0.06 }]}>Whoops!</Text>
-            <Text style={[styles.EmptyText, { fontSize: windowWidth * 0.04, marginVertical: windowWidth*0.01 }]}>Your bookmark list is empty :(</Text>
-            <Text style={[styles.EmptyText, { fontSize: windowWidth * 0.04, marginVertical: windowWidth*0.01 }]}>Tap the bookmark icon to easily add to the list!</Text>
+            <Text style={[styles.EmptyText, { fontSize: windowWidth * 0.04, marginVertical: windowWidth * 0.01 }]}>Your bookmark list is empty :(</Text>
+            <Text style={[styles.EmptyText, { fontSize: windowWidth * 0.04, marginVertical: windowWidth * 0.01 }]}>Tap the bookmark icon to easily add to the list!</Text>
         </View>
     ) : (
         <View style={styles.MainContainer}>

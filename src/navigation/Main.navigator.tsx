@@ -198,6 +198,8 @@ const GuideVisiblity = (route: any) => {
         routeName === SceneRoute.PAID_CHAT_LIST ||
         routeName === SceneRoute.HISTORY ||
         routeName === SceneRoute.ZONE_CONTENTS ||
+        routeName === SceneRoute.ZONE_DETAIL_BLOG ||
+        routeName === SceneRoute.ZONE_DETAIL_CONTENT ||
         routeName === SceneRoute.REFUND_POLICY
     ) {
         return false;
@@ -265,8 +267,8 @@ const styles = StyleSheet.create({
     },
 
     TabbarContainer: {
-        // position: 'absolute',
-        // bottom: 0,
+        position: 'absolute',
+        bottom: 0,
         flexDirection: 'row',
         height: 65 + (BottomHeight / 2),
         width: windowWidth,

@@ -44,10 +44,18 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                 'Authorization': 'Bearer ' + Token
             }
         }
-        const RevData = await axios(AxiosConfig);
-        // console.log(RevData.data);
-        setData(RevData.data);
-        dispatch(setMyLoadingFalse());
+        axios(AxiosConfig)
+            .then((response) => {
+                setData(response.data)
+                dispatch(setMyLoadingFalse());
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.log(e)
+                dispatch(setMyLoadingFalse());
+            });
+
+
     }
 
 
@@ -71,7 +79,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                         </Layout>
                         <Layout style={styles.InfoItem}>
                             <Text style={[styles.InfoText, { color: '#b4b4b4' }]}>Travel Assistant</Text>
-                            <Text style={styles.InfoText}>Glokool Official</Text>
+                            <Text style={styles.InfoText}>{item.item.guide.name}</Text>
                         </Layout>
                         <Layout style={styles.InfoItem}>
                             <Text style={[styles.InfoText, { color: '#b4b4b4' }]}>Booking Date</Text>
@@ -103,7 +111,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                 />
             }
 
-            <PaidDetail id={receiptID} />
+            {receiptID !== '' && (<PaidDetail id={receiptID} />)}
 
         </Layout>
     )
@@ -247,7 +255,7 @@ const styles = StyleSheet.create({
     emptyContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 50
+        height: '80%'
     },
     emptyText: {
         marginTop: 10,

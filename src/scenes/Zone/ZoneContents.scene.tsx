@@ -32,12 +32,13 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
     }, [])
 
     const initCategory = async () => {
-        const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
-        setCategory(response.data);
 
-        const replacedName = response.data[0].name.replace('&', '%26');
-        const initFirstCategory = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=' + replacedName + '&limit=0')
-        setFetchedItem({ ...fetchedItem, [response.data[0].name]: initFirstCategory.data });
+        const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
+        setCategory([{ name: "all" }, ...response.data]);
+        console.log([{ name: "all" }, ...response.data]);
+
+        const ALL = await axios.get(SERVER + '/main-categories/hongdae?q=all');
+        setFetchedItem({ ...fetchedItem, all: ALL.data });
     }
 
     // 컨텐츠 클릭 시
@@ -68,7 +69,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
     // 상단 바 카테고리 버튼 리스트
     const renderCategory = (item: { item: ZoneCategoryType, index: number }) => {
-
+        // console.log(item);
         return (
             <TouchableOpacity
                 style={[styles.CategoryItemStyle, { borderBottomColor: item.index == categoryIndex ? (item.index === 0 ? "black" : "#7777ff") : "#ccc", }]}
