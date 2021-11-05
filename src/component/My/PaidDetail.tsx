@@ -23,18 +23,19 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
     const dispatch = useDispatch();
     const navigation = useNavigation()
 
-    const [refundCheck, setRefundCheck] = useState<boolean>(true);
+    const [refundCheck, setRefundCheck] = useState<boolean>(false);
     const [data, setData] = useState<any>();
 
     useEffect(() => {
 
-        // if (receiptVisible === true) {
-        //     setData(props.data);
+        if (receiptVisible === true) {
+            setData(props.data);
 
-        //     const today = moment(new Date());
-        //     const subDate = moment(props.data?.day).subtract(1, 'days');
-        //     setRefundCheck(subDate < today);
-        // }
+            const today = moment(new Date());
+            const subDate = moment(props.data?.day).subtract(1, 'days');
+            setRefundCheck(subDate < today);
+        }
+
         InitReceipt();
     }, []);
 
@@ -47,39 +48,41 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
     }
 
     async function PressRefund() {
-        // const Token = await auth().currentUser?.getIdToken();
-        // const config: AxiosRequestConfig = {
-        //     method: 'patch',
-        //     url: SERVER + '/api/reservations/' + data?._id + '/refund',
-        //     headers: {
-        //         'Authorization': 'Bearer ' + Token
-        //     }
-        // }
+        const Token = await auth().currentUser?.getIdToken();
+        const config: AxiosRequestConfig = {
+            method: 'patch',
+            url: SERVER + '/payments/' + data?._id + '/refund',
+            headers: {
+                'Authorization': 'Bearer ' + Token
+            }
+        }
 
-        // axios(config);
-        // dispatch(setReceiptVisibleFalse())
+        axios(config)
+            .then((response) => { console.log(response.data) })
+            .catch((e) => console.log("환불", e));
+        dispatch(setReceiptVisibleFalse())
     }
 
     function PressButton() {
-        // if (data?.refund.check === true) {
-        //     return;
-        // } else {
-        //     Alert.alert(
-        //         "Are you Sure?",
-        //         "Do you really want to Refund GloChat Service?",
-        //         [
-        //             {
-        //                 text: "Cancel",
-        //                 onPress: () => console.log('canceled'),
-        //                 style: "destructive",
-        //             }, {
-        //                 text: "Refund",
-        //                 onPress: () => PressRefund(),
-        //                 style: "default",
-        //             },
-        //         ],
-        //     );
-        // }
+        if (data?.refund.check === true) {
+            return;
+        } else {
+            Alert.alert(
+                "Are you Sure?",
+                "Do you really want to Refund GloChat Service?",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log('canceled'),
+                        style: "destructive",
+                    }, {
+                        text: "Refund",
+                        onPress: () => PressRefund(),
+                        style: "default",
+                    },
+                ],
+            );
+        }
     }
 
     return (
