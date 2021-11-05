@@ -50,7 +50,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                         <TouchableOpacity
                             style={styles.ListFooterIcon}
                             onPress={() => {
-                                dispatch(setCategoryIndex(item.index));
+                                dispatch(setCategoryIndex(item.index + 1));
                                 props.navigation.navigate(SceneRoute.ZONE_CONTENTS, { title: props.zoneTitle! });
                             }}
                         >

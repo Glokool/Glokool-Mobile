@@ -84,7 +84,9 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
     const uid: string | any = user?.uid;
 
     useEffect(() => {
-        encodeBase64Img();
+        if (content) {
+            encodeBase64Img();
+        }
     }, [content]);
 
     useEffect(() => {
@@ -97,50 +99,42 @@ export const ZoneDetailBlogScene = (props: ZoneDetailBlogSceneProps) => {
 
     async function InitSeries() {
         var Content = await axios.get(SERVER + '/blog/' + Id)
-            .then((response) => {
-                setContent(response.data);
-                setContentInfo(response.data.contents);
-                setRecommendation(response.data.recommendation);
-                setComments(response.data.comments);
-            })
             .catch((e) => console.log("Blog", e));
 
+        setContent(Content?.data);
+        setContentInfo(Content?.data.contents);
+        setRecommendation(Content?.data.recommendation);
+        setComments(Content?.data.comments);
 
         // 북마크 조회 하기 위한 함수
-        // if (uid) {
-        //     const authToken = await auth().currentUser?.getIdToken();
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
 
-        //     var config: AxiosRequestConfig = {
-        //         method: 'get',
-        //         url: SERVER + '/users/bookmark',
-        //         headers: {
-        //             Authorization: 'Bearer ' + authToken,
-        //         },
-        //     };
+            var config: AxiosRequestConfig = {
+                method: 'get',
+                url: SERVER + '/users/bookmark',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                },
+            };
 
+            axios(config)
+                .then((response) => {
+                    let data = response.data.items;
+                    let dataTemp: Array<string> = [];
 
-        //     axios(config)
-        //         .then(function (response) {
-        //             let data = response.data.items;
-        //             let dataTemp: Array<string> = [];
+                    data.forEach((item: Bookmark_Item) => {
+                        dataTemp.push(item.id);
+                    });
 
-        //             data.forEach((item: Bookmark_Item) => {
-        //                 dataTemp.push(item.id);
-        //             });
+                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+                    Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
 
-        //             dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
-        //             Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
-
-        //             setContent(Content?.data);
-        //             setContentInfo(Content?.data.contents);
-        //             setRecommendation(Content?.data.recommendation);
-        //             setComments(Content?.data.comments);
-        //         })
-        //         .catch(function (error) {
-        //             console.log("error", error);
-        //         });
-
-        // }
+                })
+                .catch(function (error) {
+                    console.log("error", error);
+                });
+        }
     }
 
     const InitComments = async () => {
@@ -379,7 +373,7 @@ glokool.page.link/jdF1`,
                 behavior="padding"
             >
                 <ScrollView
-                    style={{ backgroundColor: '#ffffff' }}
+                    style={{ backgroundColor: '#ffffff', }}
                     showsVerticalScrollIndicator={false}
                     ref={ScrollViewRef}
                     onScroll={(e) => setHeight(e.nativeEvent.contentOffset.y)}
@@ -449,11 +443,11 @@ glokool.page.link/jdF1`,
                                     <SelectableText style={styles.ContentDescTxt} >{item.desc}</SelectableText>
                                 </Layout>
 
-                            
+
                                 {/* 글로서비스 컨테이너 */}
-                                {(item.desc === undefined || item.desc === '')?
+                                {(item.desc === undefined || item.desc === '') ?
                                     null
-                                :
+                                    :
                                     <TouchableOpacity onPress={() => pressService(item)}>
                                         <GlokoolServiceButton />
                                     </TouchableOpacity>
@@ -528,7 +522,7 @@ glokool.page.link/jdF1`,
                         </Layout>
                     ) : null}
 
-                    
+
                     <GloChatButton />
 
                     {/* Comments */}
@@ -682,6 +676,8 @@ glokool.page.link/jdF1`,
                             </Layout>
                         ) : null}
                     </Layout>
+
+                    <Layout style={{ height: windowHeight * 0.1 }} />
                 </ScrollView>
             </KeyboardAvoidingView>
 
@@ -767,13 +763,14 @@ glokool.page.link/jdF1`,
 
                 </Layout>
             )}
+
         </Layout>
     );
 };
 
 const styles = StyleSheet.create({
     ContainerLayout: {
-        // paddingBottom: windowHeight * 0.11
+        // paddingBottom: windowHeight * 0.1
     },
     // 탑탭 style
     ContainerLayoutAngleLeft: {
@@ -790,6 +787,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
         width: windowWidth,
+        backgroundColor: '#0000',
     },
     ContainerOpacityLayoutAngleLeft: {
         width: windowWidth,
@@ -808,7 +806,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     ContainerAngleLeft_W: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#0000',
         width: 30,
         height: 30,
         alignItems: 'center',
@@ -817,6 +815,7 @@ const styles = StyleSheet.create({
     TopTabIconLayout: {
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: '#0000'
     },
     BookmarkTouch: {
         marginRight: 25,

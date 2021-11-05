@@ -76,7 +76,9 @@ export const ZoneDetailContentScene = (props: ZoneDetailContentSceneProps,): Lay
     const uid: string | any = user?.uid;
 
     useEffect(() => {
-        encodeBase64Img();
+        if (image.length > 0) {
+            encodeBase64Img();
+        }
     }, [image]);
 
     useEffect(() => {
@@ -145,48 +147,57 @@ glokool.page.link/jdF1`,
     }
 
     async function InitSeries() {
-        var Content = await axios.get(SERVER + '/contents/' + Id);
+        var Content = await axios.get(SERVER + '/contents/' + Id).catch((e) => console.log("카드뉴스 : ", e));
 
-        setContent(Content.data);
-        setImage(Content.data.images);
-        setComments(Content.data.comments);
+        setContent(Content?.data);
+        setImage(Content?.data.images);
+        setComments(Content?.data.comments);
 
-        if (Content.data.recommendation != undefined) { setRecommendation(Content.data.recommendation) }
-        
+        if (Content?.data.recommendation != undefined) {
+            setRecommendation(Content.data.recommendation)
+        }
+
 
         // 북마크 조회 하기 위한 함수
-        // if (uid) {
-        //     const authToken = await auth().currentUser?.getIdToken();
+        if (uid) {
+            const authToken = await auth().currentUser?.getIdToken();
 
-        //     const config: AxiosRequestConfig = {
-        //         method: 'get',
-        //         url: SERVER + '/users/bookmark',
-        //         headers: {
-        //             Authorization: 'Bearer ' + authToken,
-        //         },
-        //     };
+            const config: AxiosRequestConfig = {
+                method: 'get',
+                url: SERVER + '/users/bookmark',
+                headers: {
+                    Authorization: 'Bearer ' + authToken,
+                },
+            };
 
-        //     axios(config)
-        //         .then(function (response) {
-        //             const data = response.data.items;
-        //             let dataTemp: Array<string> = [];
+            axios(config)
+                .then(function (response) {
+                    console.log(response.data);
+                    const data = response.data.items;
+                    let dataTemp: Array<string> = [];
 
-        //             data.forEach((item: Bookmark_Item) => {
-        //                 dataTemp.push(item.id);
-        //             });
+                    data.forEach((item: Bookmark_Item) => {
+                        dataTemp.push(item.id);
+                    });
 
-        //             dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
-        //             Content.data.plus.indexOf(uid) !== -1 && setPressLike(true);
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        // }
+                    dataTemp.indexOf(Id) !== -1 && setPressBookmark(true);
+                    Content?.data.plus.indexOf(uid) !== -1 && setPressLike(true);
+                })
+                .catch(function (error) {
+                    console.log("error : ", error);
+                });
+        }
     }
 
     const InitComments = async () => {
-        var Content = await axios.get(SERVER + '/contents/' + Id);
-        setComments(Content.data.comments);
+        axios.get(SERVER + '/contents/' + Id)
+            .then((response) => {
+                setComments(response.data.comments);
+            })
+            .catch((e) => {
+                console.log("카드뉴스 댓글 : ", e);
+            });
+
     }
 
     const RenderCarousel = (item: { item: string }) => {
@@ -613,7 +624,7 @@ glokool.page.link/jdF1`,
                         ) : null}
                     </Layout>
 
-
+                    <Layout style={{ height: windowHeight * 0.1 }} />
                 </ScrollView>
 
             </KeyboardAvoidingView>

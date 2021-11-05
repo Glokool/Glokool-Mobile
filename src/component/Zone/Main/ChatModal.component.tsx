@@ -31,15 +31,7 @@ export const ZoneChatModal = (props: { guideInfo: any }) => {
 
     // 주기적으로 서버에 요청하는 테스트 코드
     useEffect(() => {
-        let interval: any;
-        // if (guideVisible) {
-        //     interval = setInterval(() => {
-        //         GetNumber();
-        //     }, 3000)
-        // }
-        // return () => {
-        //     clearInterval(interval);
-        // }
+        console.log("PROPS : ",props.guideInfo.guide.lang)
     }, [guideVisible])
 
     const GetNumber = () => {
@@ -193,14 +185,14 @@ export const ZoneChatModal = (props: { guideInfo: any }) => {
                         <Layout style={styles.infoItemContainer}>
                             <Text style={styles.keyTextStyle}>Language</Text>
                             <Text style={styles.valTextStyle}>
-                                {props.guideInfo.lang && (props.guideInfo.lang[0] && 'English ')}
-                                {props.guideInfo.lang && (props.guideInfo.lang[1] && '中文')}
+                                {props.guideInfo.guide.lang && (props.guideInfo.guide.lang[0] && 'English ')}
+                                {props.guideInfo.guide.lang && (props.guideInfo.guide.lang[1] && '中文')}
                             </Text>
                         </Layout>
 
                         <Layout style={styles.infoItemContainer}>
                             <Text style={styles.keyTextStyle}>Nationality</Text>
-                            <Text style={styles.valTextStyle}>{props.guideInfo.country}</Text>
+                            <Text style={styles.valTextStyle}>{props.guideInfo.guide.country}</Text>
                         </Layout>
 
                         <Layout style={styles.infoItemContainer}>
@@ -238,6 +230,7 @@ export const ZoneChatModal = (props: { guideInfo: any }) => {
                                     data={props.guideInfo.guide.keyword}
                                     renderItem={renderItem}
                                     horizontal
+                                    showsHorizontalScrollIndicator={false}
                                     scrollEnabled={false}
                                 />
                             </Layout>
