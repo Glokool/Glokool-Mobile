@@ -103,7 +103,7 @@ export const ZoneMainScene = (props: ZoneMainSceneProps): React.ReactElement => 
                     {/* 지역 이미지 배너 */}
                     <ZoneBannerComponent {...props} zoneTitle={zoneTitle} />
                     {/* 가이드 리스트 */}
-                    <ZoneGuideListComponent {...props} items={chatrooms} />
+                    <ZoneGuideListComponent {...props} items={chatrooms} zoneTitle={zoneTitle} />
                 </Layout>
 
                 <Layout style={styles.ListContainer}>

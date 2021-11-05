@@ -19,7 +19,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
     }, []);
 
     const SendPaymentData = async () => {
-        const authToken = await auth().currentUser?.getIdToken();  
+        const authToken = await auth().currentUser?.getIdToken();
 
         const url = SERVER + '/payments';
 
@@ -34,14 +34,14 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             name: ReservationData.name,
             chatRoomCode: ReservationData.ChatRoomID,
             paymentPlatform: props.route.params.Payment.pg
-        });   
+        });
 
-        const option = {            
+        const option = {
             headers: {
                 Authorization: 'Bearer ' + authToken,
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             },
-            
+
         }
 
         axios.post(url, data, option)
@@ -80,10 +80,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
                     onPress={() => {
-                        props.navigation.navigate(NavigatorRoute.MY, {
-                            screen: SceneRoute.PAID_CHAT_LIST,
-                            params: undefined
-                        })
+                        props.navigation.navigate(SceneRoute.PAID_CHAT_LIST, undefined)
                     }}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
