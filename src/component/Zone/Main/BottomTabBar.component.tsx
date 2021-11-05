@@ -9,8 +9,9 @@ import { setLocationVisiblityFalse } from '../../../model/Zone/Zone.UI.model';
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Check } from '../../../assets/icon/Zone';
-import { getBottomSpace, isIphoneX } from 'react-native-iphone-x-helper';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { setZoneLocation } from '../../../model/Zone/Zone.Location.model';
+
 
 export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     },
     BottomButtonContainer: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.58) : -(windowWidth * 0.53),
+        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.58) : - (windowWidth * 0.55 + 12),
         width: windowWidth,
         height: windowWidth * 0.55,
         zIndex: 100,
