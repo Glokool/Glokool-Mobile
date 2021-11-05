@@ -55,7 +55,7 @@ export const BookmarkList = (props: MyScreenProps) => {
     }
 
     const renderItem = (item: { item: MySceneBookmarkItem }) => {
-        console.log(item.item)
+
         return (
             <TouchableOpacity style={styles.ItemContainer} onPress={() => onPressItem(item.item.itemType, item.item.id)}>
                 <FastImage source={{ uri: CDN + item.item.image }} style={styles.BookmarkItem} resizeMode='stretch' />

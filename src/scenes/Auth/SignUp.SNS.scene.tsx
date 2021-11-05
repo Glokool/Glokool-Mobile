@@ -190,7 +190,6 @@ export const SnsSignupScreen = (props: SnsSignUpScreenProps): LayoutElement => {
       avatar: '',
       type: type[selectedTypeIndex.row]
     };
-    console.log(ProfileData);
 
     if (name && minMaxPickerState.date && country.name) {
       await firestore().collection('Users').doc(user?.uid).set(ProfileData)

@@ -75,8 +75,6 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
               if (user.user.emailVerified == true) {
                 dispatch(AuthLoadingEnd());
 
-                console.log(user.user);
-
                 const userInfo = {
                   displayName: user.user.displayName!,
                   email: user.user.email!,

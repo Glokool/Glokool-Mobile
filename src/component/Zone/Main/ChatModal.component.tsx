@@ -29,17 +29,6 @@ export const ZoneChatModal = (props: { guideInfo: any }) => {
     const availableUsers = props.guideInfo.maxUserNum - props.guideInfo.users.length;
     const price = props.guideInfo.price;
 
-    // 주기적으로 서버에 요청하는 테스트 코드
-    useEffect(() => {
-        console.log("PROPS : ",props.guideInfo.guide.lang)
-    }, [guideVisible])
-
-    const GetNumber = () => {
-        // axios.get('https://glokool-guide.com/api/chat-rooms/615c02a248cce35ccaaad4be/check')
-        //     .then((response) => console.log(response.data))
-        //     .catch((e) => console.log(e));
-    }
-
     const onPressEnterButton = () => {
         if (!currentUser) {
             loginAlertWindow(navigation);

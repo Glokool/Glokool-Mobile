@@ -60,7 +60,6 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
         axios.get(URL, config)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((err) => {
                 console.log('가이드 리스트 받아오기 실패 : ', err);
@@ -92,7 +91,6 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                                         maxUserNum: item.maxUserNum
                                     }
                                 })
-                                console.log(item);
                             }}>
                                 <BookButton width={windowWidth * 0.18} height={windowWidth * 0.18 / 8 * 3} />
                             </Pressable>

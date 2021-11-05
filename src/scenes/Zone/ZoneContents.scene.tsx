@@ -35,7 +35,6 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
 
         const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
         setCategory([{ name: "all" }, ...response.data]);
-        console.log([{ name: "all" }, ...response.data]);
 
         const ALL = await axios.get(SERVER + '/main-categories/hongdae?q=all');
         setFetchedItem({ ...fetchedItem, all: ALL.data });
