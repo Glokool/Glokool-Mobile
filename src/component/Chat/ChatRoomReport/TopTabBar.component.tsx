@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { Pressable, StyleSheet, SafeAreaView, Alert, Text } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { ArrowLeft } from '../../../assets/icon/Common';
@@ -20,48 +21,46 @@ export const ReportTopTabBar = (props: any): React.ReactElement => {
         prop.navigation.goBack();
     }
 
-    const PressSend = () => {
+    const PressSend = async() => {
 
         const ChatRoomID = prop.route.params.id;
         const userUID = prop.route.params.user.uid;
 
-
-        if (input == '') { Alert.alert('Report Error', 'Please enter contents') }
-        else {
-
-            const AuthToken = auth().currentUser?.getIdToken()
-                .then((token) => {
-
-                    const data = {
-                        content: input,
-                        chatRoomCode: ChatRoomID,
-                        user: userUID
-                    }
-
-                    const options = {
-                        method: 'POST',
-                        url: SERVER + '/api/reports',
-                        data: JSON.stringify(data),
-                        headers: {
-                            Authorization: 'Bearer ' + token,
-                        },
-                    }
-
-                    axios(options)
-                        .then((response) => {
-                            prop.navigation.goBack();
-                        })
-                        .catch((e) => {
-                            console.log('신고 기능 서버 저장 실패 ! : ', e);
-                        })
+        if (input != '') { 
+            const Reportdoc = await firestore().collection('Reports').doc(ChatRoomID)
+            .update({
+                users : firestore.FieldValue.arrayUnion({
+                    user : prop.route.params.user.uid,
+                    repoter : auth().currentUser?.uid, 
+                    desc : input
                 })
-                .catch((error) => {
-                    console.log('Firebase Auth Token Error : ', error)
+            })
+                .then((result) => {
+                    setTimeout(() => {
+                        prop.navigation.goBack();
+                    }, 2000)
                 })
-
-
-
+                .catch((err) => {
+                    if(err.code === 'firestore/not-found') { 
+                        firestore().collection('Reports').doc(ChatRoomID)
+                            .set({
+                                users : firestore.FieldValue.arrayUnion({
+                                    user : prop.route.params.user.uid,
+                                    repoter : auth().currentUser?.uid, 
+                                    desc : input
+                                })
+                            })
+                            .then((result) => {
+                                setTimeout(() => {
+                                    prop.navigation.goBack();
+                                }, 2000)
+                            })
+                    }
+                })
+        
         }
+
+        else { Alert.alert('Report Error', 'Please enter contents') }
     }
 
     return (
