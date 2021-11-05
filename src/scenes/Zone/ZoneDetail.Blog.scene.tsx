@@ -199,7 +199,7 @@ glokool.page.link/jdF1`,
         }
 
         Share.open(shareOptions)
-            .then((res) => console.log(res))
+            .then((res) => { })
             .catch((e) => console.log(e));
     }
 
@@ -245,7 +245,7 @@ glokool.page.link/jdF1`,
         var data = qs.stringify({
             blogCode: content?._id,
         });
-        console.log(data);
+      
         var config: AxiosRequestConfig = {
             method: 'post',
             url: SERVER + '/users/bookmark',

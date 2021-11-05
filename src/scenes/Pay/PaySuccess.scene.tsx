@@ -48,7 +48,6 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
         axios.post(url, data, option)
             .then((result) => {
-                console.log(result);
                 AsyncStorage.setItem(`${ReservationData.ChatRoomID}_fcm`, 'false');
             })
             .catch((err) => {

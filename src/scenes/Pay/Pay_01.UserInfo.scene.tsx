@@ -139,7 +139,6 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                         onSelect={(response) => {
                             setCountryCode(response.cca2);
                             setCallingCode(response.callingCode);
-                            console.log(response);
                         }}
                         containerButtonStyle={styles.CountryPickerStyle}
                     />

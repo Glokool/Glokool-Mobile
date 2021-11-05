@@ -142,7 +142,7 @@ glokool.page.link/jdF1`,
         }
 
         Share.open(shareOptions)
-            .then((res) => console.log(res))
+            .then((res) => { })
             .catch((e) => console.log(e));
     }
 
@@ -172,7 +172,6 @@ glokool.page.link/jdF1`,
 
             axios(config)
                 .then(function (response) {
-                    console.log(response.data);
                     const data = response.data.items;
                     let dataTemp: Array<string> = [];
 

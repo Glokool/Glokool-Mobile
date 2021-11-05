@@ -58,7 +58,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
         }
 
         axios(config)
-            .then((response) => { console.log(response.data) })
+            .then((response) => { })
             .catch((e) => console.log("환불", e));
         dispatch(setReceiptVisibleFalse())
     }

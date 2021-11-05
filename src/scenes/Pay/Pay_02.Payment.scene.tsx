@@ -62,7 +62,6 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
         axios.post(URL, data, config)
             .then((result) => {
-                console.log(result);
                 state.paypalClicked ? PaypalMethod() : KakaoPayMethod();
             })
             .catch((err) => {

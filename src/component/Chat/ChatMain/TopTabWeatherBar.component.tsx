@@ -23,7 +23,6 @@ export const TopTabWeatherbar = (): LayoutElement => {
         axios.get(url)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data.guide);
             })
             .catch((err) => {
                 console.log(err);

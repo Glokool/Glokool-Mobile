@@ -48,7 +48,6 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
             .then((response) => {
                 setData(response.data)
                 dispatch(setMyLoadingFalse());
-                console.log(response.data);
             })
             .catch((e) => {
                 console.log(e)
