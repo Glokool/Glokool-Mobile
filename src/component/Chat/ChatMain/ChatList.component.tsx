@@ -221,7 +221,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
                             <Chat_Book_Button width={windowWidth * 0.9} />
                         </Pressable>
 
-                        <Pressable style={styles.ChatMainADButton}>
+                        <Pressable style={styles.ChatMainADButton} >
                             <How_It_Works_Button width={windowWidth * 0.9} />
                         </Pressable>
 

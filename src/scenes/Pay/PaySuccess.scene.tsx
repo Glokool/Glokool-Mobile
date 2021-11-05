@@ -14,6 +14,8 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
     const ReservationData = props.route.params;
 
+    console.log(ReservationData)
+
     React.useEffect(() => {
         SendPaymentData();
     }, []);
@@ -33,7 +35,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             phone: ReservationData.phone,
             name: ReservationData.name,
             chatRoomCode: ReservationData.ChatRoomID,
-            paymentPlatform: props.route.params.Payment.pg
+            paymentPlatform: ReservationData.Payment.pg
         });   
 
         const option = {            
