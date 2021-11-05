@@ -12,24 +12,24 @@ import { CDN, SERVER } from '../../../server.component';
 import axios from 'axios';
 
 interface GuideData {
-    _id : string;
-    createdAt : Date;
-    guide : {
-        _id : string;
-        avatar : string;
-        name : string;
-        uid : string;
-        oneLineIntro : string;
-        keyword : Array<string> | undefined;
+    _id: string;
+    createdAt: Date;
+    guide: {
+        _id: string;
+        avatar: string;
+        name: string;
+        uid: string;
+        oneLineIntro: string;
+        keyword: Array<string> | undefined;
     }
-    maxUserNum : number;
-    price : {
-        discountPrice : number;
-        price : number;
+    maxUserNum: number;
+    price: {
+        discountPrice: number;
+        price: number;
     }
-    reservationPendingCount : number;
-    travelDate : Date;
-    userCount : number;
+    reservationPendingCount: number;
+    travelDate: Date;
+    userCount: number;
 }
 
 export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
@@ -49,17 +49,15 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
     }, 30000);
 
     React.useEffect(() => {
-
         // 서버에서 정보 가져오기;
-
         const URL = SERVER + '/chat-rooms';
         const config = {
-            params : {
-                q : (props.route.params.zone).toLowerCase()
+            params: {
+                q: (props.route.params.zone).toLowerCase()
             }
         }
 
-        axios.get(URL,config)
+        axios.get(URL, config)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -70,7 +68,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
 
     }, [])
 
-    
+
 
     const renderGuide = ({ item }: { item: GuideData, index: number }) => {
 
@@ -82,17 +80,20 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
-                            <Pressable style={styles.Button} onPress={() => props.navigation.navigate(NavigatorRoute.PAY, {
-                                screen: SceneRoute.PAY_FIRST,
-                                params: { 
-                                    ChatRoomID: item._id, 
-                                    guide: item.guide._id, 
-                                    price : item.price,
-                                    guideName : item.guide.name, 
-                                    zone : props.route.params.zone, 
-                                    maxUserNum : item.maxUserNum 
-                                }
-                            })}>
+                            <Pressable style={styles.Button} onPress={() => {
+                                props.navigation.navigate(NavigatorRoute.PAY, {
+                                    screen: SceneRoute.PAY_FIRST,
+                                    params: {
+                                        ChatRoomID: item._id,
+                                        guide: item.guide._id,
+                                        price: item.price,
+                                        guideName: item.guide.name,
+                                        zone: props.route.params.zone,
+                                        maxUserNum: item.maxUserNum
+                                    }
+                                })
+                                console.log(item);
+                            }}>
                                 <BookButton width={windowWidth * 0.18} height={windowWidth * 0.18 / 8 * 3} />
                             </Pressable>
                         </Layout>
@@ -100,17 +101,17 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     </Layout>
                 </Layout>
 
-                {(item.guide.keyword?.length === 2)?
+                {(item.guide.keyword?.length === 2) ?
                     <Layout style={styles.TagContainer}>
                         <Layout style={styles.Tag}>
                             <Text style={styles.TagText}>{item.guide.keyword[0]}</Text>
                         </Layout>
-    
+
                         <Layout style={styles.Tag}>
                             <Text style={styles.TagText}>{item.guide.keyword[1]}</Text>
                         </Layout>
                     </Layout>
-                :
+                    :
                     <Layout style={styles.TagContainer} />
                 }
 
@@ -120,7 +121,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     <Layout style={styles.TypeContainer}>
                         <Layout style={styles.IconContainer}>
                             <GroupChattingType />
-                            <Text style={styles.DescText}>{(item.maxUserNum === 1)? 'Private Chat' : 'Group Chat'}</Text>
+                            <Text style={styles.DescText}>{(item.maxUserNum === 1) ? 'Private Chat' : 'Group Chat'}</Text>
                         </Layout>
 
                         <Layout style={styles.IconContainer}>

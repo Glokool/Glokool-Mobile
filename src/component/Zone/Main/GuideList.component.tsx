@@ -18,44 +18,18 @@ const windowWidth = Dimensions.get('window').width;
 export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
     const dispatch = useDispatch();
-
-    const [guideList, setGuideList] = useState();
     const [guideInfo, setGuideInfo] = useState();
-    const [route, setRoute] = useState({});
-
-    useEffect(() => {
-        // InitialGuideList();
-    }, []);
-
-    // 초기 가이드 리스트 초기화
-    const InitialGuideList = () => {
-        axios.get(SERVER + '/api/guides')
-            .then((response) => setGuideList(response.data))
-            .catch((e) => console.log(e));
-    }
 
     // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
     const InitialGuideInfo = async (item) => {
 
         if (item.uid != '') {
-            setRoute({
-                params: {
-                    id: item._id,
-                    guide: {
-                        uid: item.uid,
-                        name: item.name,
-                    }
-                }
-            });
-
-            try {
-                const res = await axios.get(`${SERVER}/api/chat-rooms/` + item._id);
-
+            axios.get(`${SERVER}/chat-rooms/` + item._id).then((res) => {
                 setGuideInfo(res.data)
                 dispatch(setGuideVisiblityTrue());
-            } catch (e) {
+            }).catch((e) => {
                 console.log('e', e);
-            }
+            });
         }
         else {
             Alert.alert('Sorry,', 'Guide Not Matched!');
@@ -90,7 +64,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
             <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
                 <Layout style={styles.ItemContainer}>
 
-                    <Layout style={[styles.ImageBorder, { borderColor: item.item.maxUserNum > item.item.users.length ? '#7777ff' : '#0000' }]}>
+                    <Layout style={[styles.ImageBorder, { borderColor: item.item.maxUserNum > item.item.userCount ? '#7777ff' : '#0000' }]}>
                         <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
                     </Layout>
 
@@ -107,7 +81,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 </Layout>
 
                 {/* 채팅방 참여 가능 여부 먼저 검사 */}
-                {(item.item.maxUserNum > item.item.users.length) ? (
+                {(item.item.maxUserNum > item.item.userCount) ? (
                     // 참여 가능 시
                     // group 인지 private 인지 검사
                     item.item.maxUserNum > 1 ? (

@@ -14,8 +14,10 @@ import { GroupAvailableButton, GroupDisabledButton, PrivateAvailableButton, Priv
 import { loginAlertWindow } from '../../Common/LoginCheck.component';
 import { GuideInfoType } from '../../../types';
 import { useNavigation } from '@react-navigation/core';
+import { NavigatorRoute, SceneRoute } from '../../../navigation/app.route';
+import { windowWidth } from '../../../Design.component';
 
-export const ZoneChatModal = (props: { guideInfo }) => {
+export const ZoneChatModal = (props: { guideInfo: any }) => {
 
     const navigation = useNavigation();
 
@@ -30,14 +32,14 @@ export const ZoneChatModal = (props: { guideInfo }) => {
     // 주기적으로 서버에 요청하는 테스트 코드
     useEffect(() => {
         let interval: any;
-        if (guideVisible) {
-            interval = setInterval(() => {
-                GetNumber();
-            }, 3000)
-        }
-        return () => {
-            clearInterval(interval);
-        }
+        // if (guideVisible) {
+        //     interval = setInterval(() => {
+        //         GetNumber();
+        //     }, 3000)
+        // }
+        // return () => {
+        //     clearInterval(interval);
+        // }
     }, [guideVisible])
 
     const GetNumber = () => {
@@ -51,23 +53,84 @@ export const ZoneChatModal = (props: { guideInfo }) => {
             loginAlertWindow(navigation);
             dispatch(setGuideVisiblityFalse());
         } else {
-            Alert.alert(
-                "Chat Room Rules",
-                "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
-                [{
-                    text: "Cancel",
-                    onPress: () => console.log("press canceled"),
-                    style: "destructive"
-                }, {
-                    text: "Confirm",
-                    onPress: () => {
-                        dispatch(setGuideVisiblityFalse());
-                        console.log("press continue")
-                    },
-                    style: "default"
-                }],
-            )
+            if (isInChatRoom()) {
+                Alert.alert(
+                    "Chat Room Rules",
+                    "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
+                    [{
+                        text: "Cancel",
+                        onPress: () => console.log("press canceled"),
+                        style: "destructive"
+                    }, {
+                        text: "Confirm",
+                        onPress: () => navigateChatroom(),
+                        style: "default"
+                    }],
+                )
+            } else {
+                Alert.alert(
+                    "Payment Required",
+                    "Payment is required to enter the chat room. Would you like to go to the payment page?",
+                    [{
+                        text: "Cancel",
+                        onPress: () => console.log("press canceled"),
+                        style: "destructive"
+                    }, {
+                        text: "Confirm",
+                        onPress: () => navigatePayment(),
+                        style: "default"
+                    }],
+                )
+            }
+
         }
+    }
+
+    const isInChatRoom = () => {
+        var list: string[] = [];
+        props.guideInfo.users.map((item: any) => {
+            list.push(item.uid);
+        });
+
+        if (list.includes(currentUser.uid)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const navigateChatroom = () => {
+        dispatch(setGuideVisiblityFalse());
+        navigation.navigate(
+            SceneRoute.CHATROOM,
+            {
+                id: props.guideInfo._id,
+                guide: {
+                    name: props.guideInfo.guide.name,
+                    uid: props.guideInfo.guide.uid,
+                    avatar: props.guideInfo.guide.avatar,
+                },
+                zone: props.guideInfo.zone,
+                maxUser: props.guideInfo.maxUserNum,
+                day: props.guideInfo.travelDate,
+                finish: true,
+            }
+        )
+    }
+
+    const navigatePayment = () => {
+        dispatch(setGuideVisiblityFalse());
+        navigation.navigate(NavigatorRoute.PAY, {
+            screen: SceneRoute.PAY_FIRST,
+            params: {
+                ChatRoomID: props.guideInfo._id,
+                guide: props.guideInfo.guide._id,
+                price: price,
+                guideName: props.guideInfo.guide.name,
+                zone: props.guideInfo.zone,
+                maxUserNum: props.guideInfo.maxUserNum,
+            }
+        })
     }
 
     const renderItem = (item: any) => {
@@ -187,17 +250,17 @@ export const ZoneChatModal = (props: { guideInfo }) => {
                         </Layout>
 
                         <Pressable disabled={availableUsers == 0} style={styles.buttonContainer} onPress={() => onPressEnterButton()}>
-                            {price == 0 ? (
+                            {price.discountPrice == 0 ? (
                                 availableUsers == 0 ?
                                     // 무료방 꽉찼을때
-                                    <GroupDisabledButton price={price} />
+                                    <GroupDisabledButton price={price.price} discountPrice={price.discountPrice} />
                                     :
-                                    <GroupAvailableButton price={price} />
+                                    <GroupAvailableButton price={price.price} discountPrice={price.discountPrice} />
                             ) : (
                                 availableUsers == 0 ?
-                                    <PrivateDisabledButton price={price} />
+                                    <PrivateDisabledButton price={price.price} discountPrice={price.discountPrice} />
                                     :
-                                    <PrivateAvailableButton price={price} />
+                                    <PrivateAvailableButton price={price.price} discountPrice={price.discountPrice} />
                             )}
                         </Pressable>
 
@@ -217,7 +280,7 @@ const styles = StyleSheet.create({
     innerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 15,
+        paddingHorizontal: windowWidth * 0.05,
     },
     profileImage: {
         width: 73,
@@ -267,6 +330,9 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         marginRight: 5,
         backgroundColor: '#efefef',
+        width: windowWidth * 0.35,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     keywordText: {
         fontFamily: 'Pretendard-Regular',

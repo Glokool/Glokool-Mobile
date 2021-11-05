@@ -24,54 +24,59 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
     const navigation = useNavigation()
 
     const [refundCheck, setRefundCheck] = useState<boolean>(true);
-    const [data, setData] = useState<ReceiptDetailInfo | undefined>();
+    const [data, setData] = useState<any>();
 
     useEffect(() => {
 
-        if (receiptVisible === true) {
-            setData(props.data);
+        // if (receiptVisible === true) {
+        //     setData(props.data);
 
-            const today = moment(new Date());
-            const subDate = moment(props.data?.day).subtract(1, 'days');
-            setRefundCheck(subDate < today);
-        }
+        //     const today = moment(new Date());
+        //     const subDate = moment(props.data?.day).subtract(1, 'days');
+        //     setRefundCheck(subDate < today);
+        // }
+        InitReceipt();
+    }, []);
 
-    }, [props]);
+    const InitReceipt = () => {
+        const url = SERVER + '/payments/' + props.id;
+        axios.get(url).then((response) => setData(response.data)).catch((e) => console.log("영수증 : ", e))
+    }
 
     async function PressRefund() {
-        const Token = await auth().currentUser?.getIdToken();
-        const config: AxiosRequestConfig = {
-            method: 'patch',
-            url: SERVER + '/api/reservations/' + data?._id + '/refund',
-            headers: {
-                'Authorization': 'Bearer ' + Token
-            }
-        }
+        // const Token = await auth().currentUser?.getIdToken();
+        // const config: AxiosRequestConfig = {
+        //     method: 'patch',
+        //     url: SERVER + '/api/reservations/' + data?._id + '/refund',
+        //     headers: {
+        //         'Authorization': 'Bearer ' + Token
+        //     }
+        // }
 
-        axios(config);
-        dispatch(setReceiptVisibleFalse())
+        // axios(config);
+        // dispatch(setReceiptVisibleFalse())
     }
 
     function PressButton() {
-        if (data?.refund.check === true) {
-            return;
-        } else {
-            Alert.alert(
-                "Are you Sure?",
-                "Do you really want to Refund GloChat Service?",
-                [
-                    {
-                        text: "Cancel",
-                        onPress: () => console.log('canceled'),
-                        style: "destructive",
-                    }, {
-                        text: "Refund",
-                        onPress: () => PressRefund(),
-                        style: "default",
-                    },
-                ],
-            );
-        }
+        // if (data?.refund.check === true) {
+        //     return;
+        // } else {
+        //     Alert.alert(
+        //         "Are you Sure?",
+        //         "Do you really want to Refund GloChat Service?",
+        //         [
+        //             {
+        //                 text: "Cancel",
+        //                 onPress: () => console.log('canceled'),
+        //                 style: "destructive",
+        //             }, {
+        //                 text: "Refund",
+        //                 onPress: () => PressRefund(),
+        //                 style: "default",
+        //             },
+        //         ],
+        //     );
+        // }
     }
 
     return (
@@ -92,7 +97,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                     <Delete />
                 </TouchableOpacity>
             </Layout>
-
+            
             {(data?.refund.complete === true) && (
                 <Layout style={styles.RefundTextContainer}>
                     <Text style={styles.RefundText}>Refund Completed</Text>
@@ -124,7 +129,7 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
                     </Layout>
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Travel Date</Text>
-                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                        <Text style={styles.ValueText}>{moment(data?.bookingDate).format('YYYY. MM. DD')}</Text>
                     </Layout>
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Assistant Name</Text>
@@ -143,11 +148,11 @@ export const PaidDetail = (props: PaidDetailProps): LayoutElement => {
 
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Booking Date</Text>
-                        <Text style={styles.ValueText}>{moment(data?.day).format('YYYY. MM. DD')}</Text>
+                        <Text style={styles.ValueText}>{moment(data?.bookingDate).format('YYYY. MM. DD')}</Text>
                     </Layout>
                     <Layout style={styles.ItemContainer}>
                         <Text style={styles.InfoText}>Total</Text>
-                        <Text style={styles.ValueText}>{data?.money} USD</Text>
+                        <Text style={styles.ValueText}>{data?.price} USD</Text>
                     </Layout>
 
                 </Layout>

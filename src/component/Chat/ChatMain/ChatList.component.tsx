@@ -77,10 +77,6 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
                 console.log('유저가 보유한 채팅 리스트 조회 실패 : ', err);
             })
 
-
-       
-
-
     }
 
     React.useEffect(() => {
