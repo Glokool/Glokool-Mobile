@@ -12,6 +12,8 @@ export const ChatReportScene = (props: ChatReportSceneProps): LayoutElement => {
     const user = props.route.params.user;
     const [value, setValue] = React.useState('');
 
+    
+
     return (
         <SafeAreaView style={styles.MainContainer}>
             <ReportTopTabBar props={props} value={value} />
@@ -31,6 +33,7 @@ export const ChatReportScene = (props: ChatReportSceneProps): LayoutElement => {
                     placeholder="Please write what you need to report"
                     placeholderTextColor={'#d1d1d1'}
                 />
+
             </Layout>
 
 

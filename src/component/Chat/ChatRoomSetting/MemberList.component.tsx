@@ -99,7 +99,7 @@ export const MemberList = (props: ChatRoomSettingSceneProps): React.ReactElement
             <Layout style={styles.GuideInfoContainer}>
 
                 <Layout style={styles.GuideInfoContainer2}>
-                    <FastImage source={{ uri: `${guide?.avatar}` }} style={styles.Avatar} />
+                    <FastImage source={{ uri: `${CDN}${guide?.avatar}` }} style={styles.Avatar} />
 
                     <Text style={styles.Description}>{guide?.name}</Text>
                 </Layout>
@@ -133,10 +133,10 @@ export const MemberList = (props: ChatRoomSettingSceneProps): React.ReactElement
             </Layout>
 
             <FlatList
-                keyExtractor={(item, index) => item.uid}
                 data={memberData}
                 renderItem={renderItem}
                 scrollEnabled={false}
+                showsVerticalScrollIndicator={false}
             />
         </Layout>
     )

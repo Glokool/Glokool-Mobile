@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     },
     BottomButtonContainer: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.55) : -(windowWidth * 0.5),
+        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.55) : -(windowWidth * 0.6),
         width: windowWidth,
         height: windowWidth * 0.55,
         zIndex: 100,
