@@ -11,7 +11,7 @@ import { ChatCountContext, ChatCountState } from '../../../context/ChatCount.con
 import moment from 'moment';
 import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SERVER } from '../../../server.component';
+import { CDN, SERVER } from '../../../server.component';
 import axios from 'axios';
 
 interface CheckedList {
@@ -148,7 +148,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
                         <Layout style={styles.ProfileContainer}>
 
                             {(item.guide.avatar)?
-                                <FastImage source={{uri : item.guide.avatar}} style={styles.ChatRoomProfileImage} />
+                                <FastImage source={{uri : CDN + item.guide.avatar}} style={styles.ChatRoomProfileImage} />
                             :
                                 <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
                             }
