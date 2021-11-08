@@ -169,9 +169,9 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
                         <Layout style={styles.ProfileContainer}>
 
-                            {(item.guide.avatar)?
-                                <FastImage source={{uri : CDN + item.guide.avatar}} style={styles.ChatRoomProfileImage} />
-                            :
+                            {(item.guide.avatar) ?
+                                <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.ChatRoomProfileImage} />
+                                :
                                 <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
                             }
 
@@ -247,7 +247,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
                             <Chat_Book_Button width={windowWidth * 0.9} />
                         </Pressable>
 
-                        <Pressable style={styles.ChatMainADButton} >
+                        <Pressable style={styles.ChatMainADButton} onPress={() => props.navigation.navigate(SceneRoute.CHAT_INFO)}>
                             <How_It_Works_Button width={windowWidth * 0.9} />
                         </Pressable>
 

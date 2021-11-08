@@ -200,7 +200,7 @@ const GuideVisiblity = (route: any) => {
         routeName === SceneRoute.ZONE_CONTENTS ||
         routeName === SceneRoute.ZONE_DETAIL_BLOG ||
         routeName === SceneRoute.ZONE_DETAIL_CONTENT ||
-        routeName === SceneRoute.REFUND_POLICY
+        routeName === SceneRoute.REFUND_POLICY 
     ) {
         return false;
     }

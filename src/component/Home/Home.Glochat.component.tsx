@@ -11,7 +11,7 @@ import { HomeImage } from '../../assets/icon/Home';
 import { Enter_Purple, Enter_LightPurple } from '../../assets/icon/Home';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowWidth, windowHeight } from '../../Design.component';
-import { NavigatorRoute } from '../../navigation/app.route';
+import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 
 export const HomeGlochatComponent = (props: HomeScreenProps) => {
     return (
@@ -34,7 +34,7 @@ export const HomeGlochatComponent = (props: HomeScreenProps) => {
             </Layout>
 
             <Layout style={styles.GloChatButtonContainer}>
-                <Pressable style={styles.HowItWorks}>
+                <Pressable style={styles.HowItWorks} onPress={() => props.navigation.navigate(SceneRoute.CHAT_INFO)}>
                     <Text style={styles.HowItWorksText}>How it Works?</Text>
                     <Enter_Purple width={windowWidth * 0.05} />
                 </Pressable>
