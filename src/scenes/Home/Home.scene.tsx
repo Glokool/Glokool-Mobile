@@ -84,7 +84,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 {/* I WANT TO VISIT */}
                 <HomeVisitComponent {...props} />
 
-                <Layout style={{ height: windowHeight * 0.05, backgroundColor: '#0000' }} />
+                <Layout style={{ height: windowHeight * 0.15, backgroundColor: '#0000' }} />
 
             </ScrollView>
 
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         backgroundColor: '#ECECFC',
-        paddingBottom: windowHeight * 0.1
     },
     ScrollViewContainer: {
         width: '100%',

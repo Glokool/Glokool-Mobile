@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text, Alert } from 'react-native';
-import { Divider } from '@ui-kitten/components'
+import { Divider, Layout } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,8 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         require('../../../assets/image/Zone/Button001.png'),
         require('../../../assets/image/Zone/Button002.png'),
         require('../../../assets/image/Zone/Button003.png'),
-        require('../../../assets/image/Zone/Button001.png')
+        require('../../../assets/image/Zone/Button004.png'),
+
     ]
 
     React.useEffect(() => {
@@ -75,17 +76,16 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
     const renderButton = (item: any): React.ReactElement => {
 
-        const buttonStyle = item.index === locationIndex ? styles.SelectedButton : styles.UnselectedButton;
 
         return (
-            <TouchableOpacity style={buttonStyle} onPress={() => onPressLocation(item)}>
-                {/* <FastImage
-                    source={item.item}
-                    style={buttonStyle}
+            <TouchableOpacity style={styles.ButtonStyle} onPress={() => onPressLocation(item)}>
+                <FastImage
+                    source={tempData[item.index]}
+                    style={[styles.ImageStyle, { borderColor: item.index === locationIndex ? '#7777ff' : '#0000' }]}
                     resizeMode={'stretch'}
-                /> */}
+                />
                 {item.index === locationIndex && <Check style={styles.SelectedIcon} />}
-                <Text>{item.item.title.toUpperCase()}</Text>
+                <Text style={styles.ButtonText}> {item.item.title.toUpperCase()} </Text>
             </TouchableOpacity>
         )
     }
@@ -142,30 +142,32 @@ const styles = StyleSheet.create({
     ZoneButtonContainer: {
         flexDirection: 'row'
     },
-    UnselectedButton: {
+    ButtonStyle: {
         width: windowWidth * 0.43,
-        height: windowWidth * 0.19,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
+        height: windowWidth * 0.43 / 360 * 160,
         margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    SelectedButton: {
+    ImageStyle: {
         width: windowWidth * 0.43,
-        height: windowWidth * 0.19,
+        height: windowWidth * 0.43 / 360 * 160,
+        borderRadius: 15,
         borderWidth: 3,
-        borderColor: '#7777ff',
-        borderRadius: 10,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     SelectedIcon: {
         position: 'absolute',
         top: 10,
         right: 10,
-    }
+    },
+    ButtonText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 13,
+        color: 'white',
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowOffset: { width: 0, height: 2 },
+        textShadowRadius: 10,
+        position: 'absolute'
+    },
 })
 
