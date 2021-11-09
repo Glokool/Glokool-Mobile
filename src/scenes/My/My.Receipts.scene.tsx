@@ -74,7 +74,7 @@ export const PaidChatList = (props: PaidChatListProps): LayoutElement => {
                     <Layout style={styles.InfoContainer}>
                         <Layout style={styles.LocationContainer}>
                             <Location />
-                            <Text style={styles.LocationText}>{item.item.travelArea}</Text>
+                            <Text style={styles.LocationText}>{item.item.travelArea.toUpperCase()}</Text>
                         </Layout>
                         <Layout style={styles.InfoItem}>
                             <Text style={[styles.InfoText, { color: '#b4b4b4' }]}>Travel Assistant</Text>

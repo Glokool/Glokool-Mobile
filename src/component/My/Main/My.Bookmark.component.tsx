@@ -30,9 +30,9 @@ export const BookmarkList = (props: MyScreenProps) => {
 
     const onPressItem = (type: string, id: string) => {
         if (type == 'blog') {
-            props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_BLOG, { Id: id });
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id });
         } else if (type == 'content') {
-            props.navigation.navigate(SceneRoute.BOOKMARK_DETAIL_CONTENT, { Id: id });
+            props.navigation.navigate(SceneRoute.ZONE_DETAIL_CONTENT, { Id: id });
         }
     }
 

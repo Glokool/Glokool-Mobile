@@ -94,39 +94,53 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
         };
     }, [])
 
-    const onPressChatroom = (item: ChatRoomData) => {
-        Alert.alert(
-            "Chat Room Rules",
-            "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
-            [{
-                text: "Cancel",
-                onPress: () => console.log("press canceled"),
-                style: "destructive"
-            }, {
-                text: "Confirm",
-                onPress: () => {
-                    props.navigation.navigate(SceneRoute.CHATROOM, {
-                        id: item._id,
-                        guide: {
-                            name: item.guide.name,
-                            uid: item.guide.uid,
-                            avatar: item.guide.avatar,
-                        },
-                        zone: item.zone,
-                        maxUser: item.maxUserNum,
-                        day: item.travelDate,
-                        finish: true,
-                    })
-                },
-                style: "default"
-            }],
-        )
+    const navigateChatroom = (item: ChatRoomData) => {
+        props.navigation.navigate(SceneRoute.CHATROOM, {
+            id: item._id,
+            guide: {
+                name: item.guide.name,
+                uid: item.guide.uid,
+                avatar: item.guide.avatar,
+            },
+            zone: item.zone,
+            maxUser: item.maxUserNum,
+            day: item.travelDate,
+            finish: true,
+        })
+    }
+
+    const onPressChatroom = async (item: ChatRoomData) => {
+        const response = await AsyncStorage.getAllKeys();
+        if (response.includes(item._id + '_alert')) {
+            navigateChatroom(item);
+        } else {
+            Alert.alert(
+                "Chat Room Rules",
+                "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
+                [{
+                    text: "Cancel",
+                    onPress: () => console.log("press canceled"),
+                    style: "destructive"
+                }, {
+                    text: "Confirm",
+                    onPress: () => {
+                        navigateChatroom(item);
+                        AsyncStorage.setItem(item._id + '_alert', 'true');
+                    },
+                    style: "default"
+                }],
+            )
+        }
+
+
     }
 
     const isAvailable = () => {
         const hourDiff = new Date().getTimezoneOffset() / 60 * 100;
         const localTime = Number(moment(new Date()).format('kkmm'));
         const KST = localTime + hourDiff + 900;
+
+        console.log(KST)
 
         if (1801 <= KST && KST <= 2359) {
             return false;
@@ -136,7 +150,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
     }
 
     const onPressBookButton = () => {
-        if (currentUser) {
+        if (currentUser && isAvailable()) {
             props.navigation.navigate(SceneRoute.CHAT_ZONE_SELECT);
         }
         else {

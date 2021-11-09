@@ -51,14 +51,14 @@ export default (props: any): React.ReactFragment => {
     const [onChat, setChatIcon] = React.useState(false);
     const value = { onChat, setChatIcon };
 
-    const [chatCount, setChatCount ] = React.useState<Array<ChatCountState>>([]);
+    const [chatCount, setChatCount] = React.useState<Array<ChatCountState>>([]);
     const count = { chatCount, setChatCount };
 
     const store = createStore(rootReducer);
 
-    
+
     React.useEffect(() => {
-        
+
         auth().onAuthStateChanged((user) => {
             if (user?.providerData[0].providerId == "password" || user?.providerData[0].providerId == null) {
                 if (user && user?.emailVerified) {
@@ -91,7 +91,7 @@ export default (props: any): React.ReactFragment => {
     }, []);
 
     React.useEffect(() => {
-        const unsubscribe = messaging().onMessage(async(remoteMessage) => {
+        const unsubscribe = messaging().onMessage(async (remoteMessage) => {
 
             AsyncStorage.setItem('ChatCheck', 'true');
             AsyncStorage.setItem(`ChatCheck_${remoteMessage.data?.roomId}`, remoteMessage.data?.time);
@@ -124,16 +124,16 @@ export default (props: any): React.ReactFragment => {
         <Provider store={store}>
             <React.Fragment>
                 <IconRegistry icons={EvaIconsPack} />
-                <StatusBar barStyle={Platform.OS === 'ios' ? "dark-content" : "default"}/>
+                <StatusBar barStyle={Platform.OS === 'ios' ? "dark-content" : "default"} />
                 <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }} customMapping={mapping} >
                     <SafeAreaProvider>
                         <AuthContext.Provider value={userValue}>
                             <ChatCountContext.Provider value={count}>
-                            <ChatContext.Provider value={value}>
-                                <NavigationContainer linking={linking}>
-                                    <AppNavigator key={'App'} type={'Glokool'} props={undefined} />
-                                </NavigationContainer>
-                            </ChatContext.Provider>
+                                <ChatContext.Provider value={value}>
+                                    <NavigationContainer linking={linking}>
+                                        <AppNavigator key={'App'} type={'Glokool'} props={undefined} />
+                                    </NavigationContainer>
+                                </ChatContext.Provider>
                             </ChatCountContext.Provider>
                         </AuthContext.Provider>
                     </SafeAreaProvider>

@@ -8,10 +8,12 @@ import { AuthContext } from "../../../../context/AuthContext";
 import { setLocation } from "../../../../model/Chat/Chat.Location.model";
 import { setLocationVisiblityTrue } from "../../../../model/Chat/Chat.UI.model";
 import { LocationBubbleMessage } from "../../../../types";
+import auth from '@react-native-firebase/auth';
 
 
 export const renderLocationMessage = (props: BubbleProps<IMessage> & LocationBubbleMessage, dispatch: Dispatch<any>) => {
-
+    const userID = auth().currentUser?.uid;
+    const textColor = props.currentMessage?.user._id === userID ? 'black' : 'white';
     // Mapview (My Location) 출력을 위한 코드
     if (props.currentMessage.messageType === 'location') {
 
@@ -25,7 +27,7 @@ export const renderLocationMessage = (props: BubbleProps<IMessage> & LocationBub
             >
                 <Layout style={styles.MyLocationHeaderContainer}>
                     <LocationTitle />
-                    <Text style={styles.MyLocationHeaderText}>My Location</Text>
+                    <Text style={[styles.MyLocationHeaderText, { color: textColor }]}>My Location</Text>
                 </Layout>
 
                 <MapView
@@ -76,8 +78,7 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginTop: 5,
         marginRight: 10,
-        color: '#8C8C8C',
-        fontFamily: 'BrandonGrotesque-Medium',
+        fontFamily: 'Pretendard-Regular',
         fontSize: 17,
         marginLeft: 5
     },

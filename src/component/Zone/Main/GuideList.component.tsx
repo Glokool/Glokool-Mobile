@@ -54,13 +54,13 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     }
 
     const onPressExploreButton = () => {
-        if (currentUser) {
+        if (currentUser && isAvailable()) {
             props.navigation.navigate(
                 SceneRoute.CHAT_TA_SELECT,
                 { zone: props.zoneTitle! }
             )
         } else {
-            if (!isAvailable()) {
+            if (isAvailable()) {
                 loginAlertWindow(props.navigation);
             } else {
                 Alert.alert("", "Sorry, booking is only available from 12AM ~ 5:59PM (KST) everyday. Please try again later.")

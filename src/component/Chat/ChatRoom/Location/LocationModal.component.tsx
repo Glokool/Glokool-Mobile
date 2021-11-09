@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
         alignItems: 'center',
-        fontFamily: 'BrandonGrotesque-Medium',
-        color: '#8C8C8C'
+        fontFamily: 'Pretendard-Medium',
+        color: 'black'
     }
 
 })
