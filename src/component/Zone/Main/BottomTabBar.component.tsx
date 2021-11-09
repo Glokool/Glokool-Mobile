@@ -19,9 +19,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
     const heightLevel = new Animated.Value(0);
 
     const locationVisiblity = useSelector((state: RootState) => state.ZoneUIModel.locationVisiblity);
-    const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
     const locationIndex = useSelector((state: RootState) => state.ZoneLocationModel.index);
-
     const dispatch = useDispatch();
 
     const tempData = [
@@ -29,19 +27,16 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         require('../../../assets/image/Zone/Button002.png'),
         require('../../../assets/image/Zone/Button003.png'),
         require('../../../assets/image/Zone/Button004.png'),
-
     ]
 
     React.useEffect(() => {
-
         if (locationVisiblity) {
             Animated.timing(heightLevel, {
-                duration: 500,
-                toValue: AnimatedHeight - 65 - getBottomSpace() / 2,
+                duration: 1000,
+                toValue: Platform.OS === 'ios' ? -(windowHeight * 0.3) : -(windowHeight * 0.33),
                 useNativeDriver: false
             }).start();
         }
-
     }, [locationVisiblity]);
 
     const BottomTabBarMovement = () => {
@@ -52,12 +47,12 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         }
     }
 
-    const PressBackward = (e: GestureResponderEvent): void => {
+    const PressBackdrop = (e: GestureResponderEvent): void => {
         e.stopPropagation();
 
         Animated.timing(heightLevel, {
             duration: 1000,
-            toValue: (windowHeight * 0.3),
+            toValue: windowHeight,
             useNativeDriver: false
         }).start();
 
@@ -75,8 +70,6 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
     }
 
     const renderButton = (item: any): React.ReactElement => {
-
-
         return (
             <TouchableOpacity style={styles.ButtonStyle} onPress={() => onPressLocation(item)}>
                 <FastImage
@@ -94,7 +87,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
     return (
         <>
             {locationVisiblity && (
-                <Pressable style={styles.BackdropContainer} onPress={(e) => PressBackward(e)}>
+                <Pressable style={styles.BackdropContainer} onPress={(e) => PressBackdrop(e)}>
 
                     <Animated.View style={[styles.BottomButtonContainer, BottomTabBarMovement()]}>
                         <Divider style={styles.Divider} />
@@ -110,7 +103,6 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         </>
     )
 
-
 }
 
 const styles = StyleSheet.create({
@@ -124,7 +116,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: AnimatedHeight,
         width: windowWidth,
-        height: windowWidth * 0.55,
+        height: windowHeight * 0.3,
         zIndex: 100,
         backgroundColor: 'white',
         borderTopStartRadius: 10,

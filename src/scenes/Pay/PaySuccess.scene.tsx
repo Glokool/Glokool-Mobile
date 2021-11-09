@@ -14,8 +14,6 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
     const ReservationData = props.route.params;
 
-    console.log(ReservationData)
-
     React.useEffect(() => {
         SendPaymentData();
     }, []);
@@ -36,7 +34,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             name: ReservationData.name,
             chatRoomCode: ReservationData.ChatRoomID,
             paymentPlatform: ReservationData.Payment.pg
-        });   
+        });
 
         const option = {
             headers: {
@@ -53,6 +51,31 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             .catch((err) => {
                 console.log(err);
             })
+
+    }
+
+    const InitGuideInfo = async () => {
+        const response = await axios.get(`${SERVER}/chat-rooms/${ReservationData.ChatRoomID}`)
+        const ChatRoom = response.data;
+
+        props.navigation.reset({
+            routes:
+                [{
+                    name: SceneRoute.CHATROOM,
+                    params: {
+                        id: ReservationData.ChatRoomID,
+                        guide: {
+                            name: ReservationData.guideName,
+                            uid: ReservationData.guide,
+                            avatar: ChatRoom.guide.avatar,
+                        },
+                        zone: ReservationData.zone,
+                        maxUser: ReservationData.maxUserNum,
+                        day: ChatRoom.guide.travelDate,
+                        finish: true,
+                    }
+                }]
+        })
 
     }
 
@@ -96,7 +119,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { backgroundColor: '#7777ff' }]}
-                    onPress={() => { }}
+                    onPress={() => { InitGuideInfo() }}
                 >
                     <Text style={[styles.ButtonText, { color: 'white' }]}>START CONVERSATION</Text>
                 </TouchableOpacity>

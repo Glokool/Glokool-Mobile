@@ -8,6 +8,7 @@ import { PaymentData } from 'iamport-react-native';
 import { MainNavigatorParams } from './Main.navigator';
 import { ReservationData_FIRST, ReservationData_Process, ReservationData_SECOND, ReservationData_SUCCESS } from '../types';
 import { PaidChatList } from '../scenes/My';
+import { ChatRoomScene } from '../scenes/Chat';
 
 
 
@@ -19,6 +20,19 @@ type PayNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.PAY_PROCESS]: ReservationData_Process;
     [SceneRoute.PAY_SUCCESS]: ReservationData_SUCCESS;
     [SceneRoute.PAID_CHAT_LIST]: undefined;
+
+    [SceneRoute.CHATROOM]: {
+        id: string;
+        guide: {
+            name: string;
+            uid: string;
+            avatar?: string;
+        }
+        day: string,
+        zone: string;
+        maxUser: number;
+        finish: boolean;
+    };
 }
 
 export interface PayFirstSceneProps {
@@ -61,5 +75,8 @@ export const PayNavigator = (): React.ReactElement => (
         <Stack.Screen name={SceneRoute.PAY_PROCESS} component={PayProcessScene} />
         <Stack.Screen name={SceneRoute.PAY_SUCCESS} component={PaySuccessScene} />
         <Stack.Screen name={SceneRoute.PAID_CHAT_LIST} component={PaidChatList} />
+
+        <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
+
     </Stack.Navigator>
 );

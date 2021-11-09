@@ -22,8 +22,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         pluginKey: 'd9d38a55e5e1d7b03f80037e229a7203'
     };
 
-
-
     // React.useEffect(() => {
     //     ChannelIO.boot(ChannelSettings)
     //         .then((result) => {
@@ -33,7 +31,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     //             console.log('채널톡 시동 에러 : ',err);
     //         })
     // }, [])
-
 
     useFocusEffect(
         useCallback(() => {
@@ -63,7 +60,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
 
         return true;
     };
-
 
     return (
         <Layout style={styles.MainContainer}>

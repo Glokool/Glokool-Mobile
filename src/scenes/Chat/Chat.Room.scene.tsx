@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     SafeAreaView,
@@ -54,6 +54,7 @@ import { setKeyboardHeight, cleanKeyboardHeight, setEmojiKeyboardFalse } from '.
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
 import { GuideModal } from '../../component/Chat/ChatRoomSetting';
+import { useFocusEffect } from '@react-navigation/core';
 
 
 
@@ -73,12 +74,25 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
     const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
     const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
-
+    const [keyboardPadding, setKeyboardPadding] = useState<number>(getBottomSpace() - 34);
 
     const [messagesCount, setMessagesCount] = React.useState<number>(50);
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
+    useFocusEffect(() => {
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+            setKeyboardPadding(getBottomSpace() - 34);
+        });
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            setKeyboardPadding(getBottomSpace() - 13);
+        });
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    });
 
     const getAccessToken = async () => {
         try {
@@ -161,8 +175,8 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
     const ChatRoomMessageInit = async (): Promise<void> => {
 
         const travelDate = props.route.params.day
-        const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages'; 
-        
+        const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages';
+
         const Chat = database().ref(DBURL);
         setChatDB(Chat);
 
@@ -305,7 +319,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             //     'Please refrain from any content that may offend the other person.',
             //     1000,
             // );
-            Alert.alert("","The message contains inappropriate languages. Please try again.");
+            Alert.alert("", "The message contains inappropriate languages. Please try again.");
         }
 
     };
@@ -313,7 +327,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+        <Layout style={{ flex: 1, backgroundColor: 'white' }}>
 
             <Layout style={{ flex: 1 }} >
 
@@ -328,7 +342,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
                         _id: currentUser?.uid,
                     }}
                     messagesContainerStyle={{
-                        paddingBottom: Platform.OS === 'ios' ? getBottomSpace() - 13 : 20,
+                        paddingBottom: Platform.OS === 'ios' ? keyboardPadding : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
                     onLoadEarlier={() => { LoadEarlierMessages() }}
@@ -350,7 +364,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             </Layout>
 
             {/* 사이드바 컴포넌트 */}
-            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} TravelDate={props.route.params.day}/>
+            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} TravelDate={props.route.params.day} />
 
             {/* 이모지 키보드 컴포넌트 */}
             <EmojiKeyboardComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
@@ -371,9 +385,9 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
             {/* <NoticeComponent /> */}
 
             {/* 가이드 모달 */}
-            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser}/>
-
-        </SafeAreaView>
+            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser} />
+            <SafeAreaView style={{ backgroundColor: '#f8f8f8' }} />
+        </Layout>
 
     );
 };

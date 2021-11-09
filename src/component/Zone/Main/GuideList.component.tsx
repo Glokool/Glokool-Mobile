@@ -26,7 +26,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     const { currentUser } = useContext(AuthContext);
 
     // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
-    const InitialGuideInfo = async (item: any) => {
+    const InitialGuideInfo = (item: any) => {
 
         if (item.uid != '') {
             axios.get(`${SERVER}/chat-rooms/` + item._id).then((res) => {
