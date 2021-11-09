@@ -160,7 +160,7 @@ export const ChatRoomScene = (props: ChatRoomSceneProps): LayoutElement => {
 
     const ChatRoomMessageInit = async (): Promise<void> => {
 
-        const travelDate = moment(props.route.params.day).format('yyyy-MM-DD');
+        const travelDate = props.route.params.day
         const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages'; 
         
         const Chat = database().ref(DBURL);

@@ -175,7 +175,7 @@ export const AudioRecordComponent = (props : any) => {
 
     const sendAudio = () => {
 
-        const travelDate = moment(props.travelDate).format('yyyy-MM-DD');
+        const travelDate = props.travelDate;
         const newMessage = ChatDB.push();
         const reference = storage().ref();
         const voiceRef = reference.child(`chats/${travelDate}/${props.roomName}/voice/${newMessage.key}.aac`,); //xxxxx는 대화방 이름으로 변경

@@ -25,7 +25,7 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
       uid: string;
       avatar?: string;
     }
-    day: Date,
+    day: string,
     zone: string;
     maxUser: number;
     finish: boolean;
