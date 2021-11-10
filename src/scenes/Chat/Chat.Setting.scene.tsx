@@ -24,13 +24,13 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                 if (value === null) {
                     // 한번도 저장되지 않은 값이므로
                     setMute(false);
-                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
                 }
                 else if (value === 'true') {
-                    setMute(true);
+                    setMute(false);
                 }
                 else {
-                    setMute(false);
+                    setMute(true);
                 }
 
             })
@@ -42,42 +42,28 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
 
     const PressMute = () => {
         // 반대로 저장
-        if (mute === true) {
+        if (mute === false) {
+            setMute(true);
             messaging().unsubscribeFromTopic(ChatRoomID)
                 .then(() => {
-                    console.log('FCM 토픽 구독 해제 성공 : ', ChatRoomID);
-                    setMute(!mute)
-                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
+                    console.log('FCM 토픽 구독 해제 성공 : ', ChatRoomID);                    
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
                 })
                 .catch((err) => {
                     console.log('FCM 토픽 구독 해제 실패 : ', err);
                 })
         }
         else {
+            setMute(false);
             messaging().subscribeToTopic(ChatRoomID)
                 .then(() => {
-                    console.log('FCM 토픽 구독 성공 : ', ChatRoomID);
-                    setMute(!mute)
-                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
+                    console.log('FCM 토픽 구독 성공 : ', ChatRoomID);                    
+                    AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
                 })
                 .catch((err) => {
                     console.log('FCM 토픽 구독 실패 : ', err);
                 })
         }
-    }
-
-    const PressProfile = () => {
-        dispatch(setGuideVisiblityTrue());
-    }
-
-    const PressReport = () => {
-        props.navigation.navigate(SceneRoute.CHAT_REPORT, {
-            id: 'charRoomID', // 채팅방 id
-            user: {
-                name: '가이드 이름',
-                uid: '1234'
-            }
-        })
     }
 
     return (

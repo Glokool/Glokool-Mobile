@@ -5,7 +5,7 @@ import { SceneRoute, NavigatorRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { ZoneMainScene, ZoneContentsScene, ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 import { MainNavigatorParams } from '../Main.navigator';
-import { ChatRoomScene, ChatTASelectScene } from '../../scenes/Chat';
+import { ChatRoomScene, ChatRoomSettingScene, ChatTASelectScene } from '../../scenes/Chat';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +28,13 @@ export type ZoneNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
         zone : string;
         maxUser : number;
         finish: boolean;
+    };
+
+    [SceneRoute.CHAT_ROOM_SETTING]: {
+        id: string;
+        guide: string;
+        maxUser: number;
+        zone: string;
       };
 }
 
@@ -61,5 +68,6 @@ export const ZoneNavigator = (): React.ReactElement => (
 
         <Stack.Screen name={SceneRoute.CHAT_TA_SELECT} component={ChatTASelectScene} />
         <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
+        <Stack.Screen name={SceneRoute.CHAT_ROOM_SETTING} component={ChatRoomSettingScene} />
     </Stack.Navigator>
 )

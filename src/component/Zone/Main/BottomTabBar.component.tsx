@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text, Alert } from 'react-native';
+import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text, Alert, StatusBar, Dimensions } from 'react-native';
 import { Divider, Layout } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
@@ -12,9 +12,15 @@ import { Check } from '../../../assets/icon/Zone';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { setZoneLocation } from '../../../model/Zone/Zone.Location.model';
 
-const AnimatedHeight = Platform.OS === 'ios' ? -(windowWidth * 0.55) : -(windowWidth * 0.53);
+const screenHeight = Dimensions.get('screen').height;
+const WindowHeight = Dimensions.get('window').height;
+const navbarHeight = screenHeight - WindowHeight + StatusBar?.currentHeight;
+
+
 
 export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
+
+    console.log(navbarHeight, ' ' , screenHeight, ' ',WindowHeight, ' ', StatusBar.setHidden(false));
 
     const heightLevel = new Animated.Value(0);
 
@@ -112,11 +118,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.5)',
         position: 'absolute',
     },
+
     BottomButtonContainer: {
         position: 'absolute',
-        bottom: AnimatedHeight,
+        bottom: (Platform.OS === 'ios')? -(windowWidth * 0.55) : - (windowHeight * 0.3) ,
         width: windowWidth,
-        height: windowHeight * 0.3,
+        height: (Platform.OS === 'ios')? (windowHeight * 0.3) : (windowHeight * 0.4),
         zIndex: 100,
         backgroundColor: 'white',
         borderTopStartRadius: 10,

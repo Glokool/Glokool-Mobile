@@ -1,5 +1,6 @@
 package com.glokool;
 import android.os.Bundle;
+import android.view.View;
 import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivity;
 
@@ -19,6 +20,20 @@ public class MainActivity extends ReactActivity {
       
       SplashScreen.show(this);
       super.onCreate(savedInstanceState);
+      hideNavigationBar();
            
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if(hasFocus) {
+          hideNavigationBar();
+        }
+    }
+
+    private void hideNavigationBar() {
+      getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 }

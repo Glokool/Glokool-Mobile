@@ -42,18 +42,16 @@ import {
     renderAvatar,
     renderCustomBubble,
     BottomTabBarComponent,
-    NoticeComponent,
     renderLoadEarlier,
     EmojiKeyboardComponent,
     GuideModalComponent,
 } from '../index';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../../../model';
-import { cleanRoomName, setGuideUID, setRoomName } from '../../../../model/Chat/Chat.Data.model';
+import { cleanRoomName, setRoomName } from '../../../../model/Chat/Chat.Data.model';
 import { setKeyboardHeight, cleanKeyboardHeight, setEmojiKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
-import { GuideModal } from '../../../../component/Chat/ChatRoomSetting';
 
 export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
 
@@ -114,19 +112,14 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
     const LoadEarlierMessages = () => {
 
         // 50개씩 예전 메시지 로딩
+        setChatMessages([]);
 
         ChatDB?.off('child_added'); // 먼저 기존 리스너 제거
 
         var tempMessages: Array<IMessage> = [];
-        let newItems = false;
 
         ChatDB?.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            if (newItems === false) {
-                newItems = true;
-            }
-            else {
-                setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-            }
+            setChatMessages(value => GiftedChat.append(value, snapshot.val()));            
         });
 
 
@@ -134,10 +127,9 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
-
-            setChatMessages(tempMessages);
         });
 
+        setChatMessages(tempMessages);
         setMessagesCount(messagesCount + 50);
 
     }
@@ -165,12 +157,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
         let newItems = false;
 
         Chat.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            if (newItems === false) {
-                newItems = true;
-            }
-            else {
-                setChatMessages(value => GiftedChat.append(value, snapshot.val()));
-            }
+            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
         });
 
 
@@ -264,7 +251,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
         axios.post(url, data, options)
             .catch((e) => {
                 if (e.response) {
-                    console.log(e.response.data);
+                    console.log('FCM 전송 실패 : ', e.response.data);
                 }
             });
     }

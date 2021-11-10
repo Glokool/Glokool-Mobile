@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
         textAlign : 'center',
     },
 
-    
     LeftIcon : {
         width: 10,
         height : 10,

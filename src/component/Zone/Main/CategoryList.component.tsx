@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     CategoryContainer: {
-        paddingVertical: 15,
+        paddingVertical: 5,
     },
     BottomButton: {
         backgroundColor: '#7777ff',

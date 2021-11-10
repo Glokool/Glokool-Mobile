@@ -1,5 +1,6 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Layout } from '@ui-kitten/components';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
@@ -9,6 +10,8 @@ import { windowWidth, windowHeight } from '../../Design.component';
 import { NavigatorRoute, SceneRoute } from '../../navigation/app.route';
 import axios from 'axios';
 import { SERVER } from '../../server.component';
+
+
 
 export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
@@ -46,7 +49,16 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
         axios.post(url, data, option)
             .then((result) => {
-                AsyncStorage.setItem(`${ReservationData.ChatRoomID}_fcm`, 'false');
+                
+                const TokenMessage = messaging().subscribeToTopic(ReservationData.ChatRoomID)
+                    .then(() => {
+                        console.log('FCM 토픽 구독 성공 : ', ReservationData.ChatRoomID);
+                        AsyncStorage.setItem(`${ReservationData.ChatRoomID}_fcm`, 'true');
+                    })
+                    .catch((err) => {
+                        console.log('FCM 토픽 구독 실패 : ', err);                        
+                    })
+
             })
             .catch((err) => {
                 console.log(err);
