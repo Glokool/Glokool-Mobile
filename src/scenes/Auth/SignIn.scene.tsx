@@ -104,6 +104,8 @@ export const SigninScreen = (props: SignInScreenProps): LayoutElement => {
           } else if (error.code === 'auth/wrong-password') {
             Alert.alert('Failed', 'The password is invalid or the user does not have a password.');
           }
+
+          dispatch(AuthLoadingEnd());
         });
     }
 
