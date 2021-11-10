@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { Layout, LayoutElement, Input, Select, SelectItem, IndexPath } from '@ui-kitten/components';
 import { CommonTopTabBar } from '../../component/Common/TopTabBar.component';
 import { PayFirstSceneProps } from '../../navigation/Pay.navigator';
@@ -35,13 +35,13 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
         const params = {
             name: name,
             email: email,
-            guide : props.route.params.guide,
-            guideName : props.route.params.guideName,
-            ChatRoomID : props.route.params.ChatRoomID,
-            maxUserNum : props.route.params.maxUserNum,
-            zone : props.route.params.zone,
-            price : props.route.params.price,
-            PaymentPlatform : '',
+            guide: props.route.params.guide,
+            guideName: props.route.params.guideName,
+            ChatRoomID: props.route.params.ChatRoomID,
+            maxUserNum: props.route.params.maxUserNum,
+            zone: props.route.params.zone,
+            price: props.route.params.price,
+            PaymentPlatform: '',
             phone: {
                 type: callingCode[0],
                 value: phone,
@@ -51,7 +51,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                 value: snsID,
             }
         }
-        
+
         props.navigation.navigate(SceneRoute.PAY_SECOND, params);
     }
 
@@ -67,162 +67,163 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
                     </Layout>
                 } />
 
-            <Layout style={styles.FormContainer}>
-                <Text style={styles.ItemTitle}>
-                    FULL NAME
-                </Text>
-                <Input
-                    style={[styles.InputContainer, { borderBottomColor: name.length == 0 ? '#FF6148' : '#c9c9c9' }]}
-                    textStyle={styles.InputTextStyle}
-                    onChangeText={(e) => {
-                        setName(e);
-                    }}
-                    placeholder={'First name, Last name'}
-                    placeholderTextColor={'#aaa'}
-                />
-                <Layout style={styles.Warning}>
-                    {name.length == 0 &&
-                        <>
-                            <FormikErrorIcon />
-                            <Text style={styles.WarningText}>Please write your full name.</Text>
-                        </>
-                    }
-                </Layout>
-            </Layout>
-
-            <Layout style={styles.FormContainer}>
-                <Text style={styles.ItemTitle}>
-                    E-MAIL
-                </Text>
-                <Input
-                    style={[styles.InputContainer, { borderBottomColor: !isEmail ? '#FF6148' : '#c9c9c9' }]}
-                    textStyle={styles.InputTextStyle}
-                    onChangeText={(e) => {
-                        validEmail.isValid({
-                            email: e,
-                        }).then((response) => {
-                            setIsEmail(response)
-                            response ? setEmail(e) : setEmail("");
-                        });
-                    }}
-                    placeholder={'glokool@example.com'}
-                    placeholderTextColor={'#aaa'}
-                    keyboardType={'email-address'}
-                />
-                <Layout style={styles.Warning}>
-                    {!isEmail &&
-                        <>
-                            <FormikErrorIcon />
-                            <Text style={styles.WarningText}>Invalid email value</Text>
-                        </>
-                    }
-                </Layout>
-            </Layout>
-
-            <Layout style={styles.FormContainer}>
-                <Layout style={styles.OptionalContainer}>
+            <ScrollView style={styles.MainContainer} bounces={false}>
+                <Layout style={styles.FormContainer}>
                     <Text style={styles.ItemTitle}>
-                        PHONE NUMBER
+                        FULL NAME
                     </Text>
-                    <Text style={styles.OptionalText}>
-                        *Optional
-                    </Text>
-                </Layout>
-                <Layout style={styles.DropdownContainer}>
-                    <CountryPicker
-                        countryCode={countryCode}
-                        withFilter
-                        withFlag
-                        withCallingCodeButton
-                        withCallingCode
-                        withEmoji
-                        onSelect={(response) => {
-                            setCountryCode(response.cca2);
-                            setCallingCode(response.callingCode);
-                        }}
-                        containerButtonStyle={styles.CountryPickerStyle}
-                    />
                     <Input
-                        style={[styles.InputContainer, { flex: 2 }]}
+                        style={[styles.InputContainer, { borderBottomColor: name.length == 0 ? '#FF6148' : '#c9c9c9' }]}
                         textStyle={styles.InputTextStyle}
                         onChangeText={(e) => {
-                            setPhone(e)
+                            setName(e);
                         }}
-                        placeholder={'Your phone number'}
+                        placeholder={'First name, Last name'}
                         placeholderTextColor={'#aaa'}
-
                     />
+                    <Layout style={styles.Warning}>
+                        {name.length == 0 &&
+                            <>
+                                <FormikErrorIcon />
+                                <Text style={styles.WarningText}>Please write your full name.</Text>
+                            </>
+                        }
+                    </Layout>
                 </Layout>
-            </Layout>
 
-            <Layout style={styles.FormContainer}>
-                <Layout style={styles.OptionalContainer}>
+                <Layout style={styles.FormContainer}>
                     <Text style={styles.ItemTitle}>
-                        MESSENGER ID
+                        E-MAIL
                     </Text>
-                    <Text style={styles.OptionalText}>
-                        *Optional
-                    </Text>
+                    <Input
+                        style={[styles.InputContainer, { borderBottomColor: !isEmail ? '#FF6148' : '#c9c9c9' }]}
+                        textStyle={styles.InputTextStyle}
+                        onChangeText={(e) => {
+                            validEmail.isValid({
+                                email: e,
+                            }).then((response) => {
+                                setIsEmail(response)
+                                response ? setEmail(e) : setEmail("");
+                            });
+                        }}
+                        placeholder={'glokool@example.com'}
+                        placeholderTextColor={'#aaa'}
+                        keyboardType={'email-address'}
+                    />
+                    <Layout style={styles.Warning}>
+                        {!isEmail &&
+                            <>
+                                <FormikErrorIcon />
+                                <Text style={styles.WarningText}>Invalid email value</Text>
+                            </>
+                        }
+                    </Layout>
                 </Layout>
-                <Layout style={styles.DropdownContainer}>
-                    <Select
-                        style={styles.SelectContainer}
-                        selectedIndex={selectedIndex}
-                        onSelect={(index) => setSelectedIndex(index)}
-                        value={displayValue}
+
+                <Layout style={styles.FormContainer}>
+                    <Layout style={styles.OptionalContainer}>
+                        <Text style={styles.ItemTitle}>
+                            PHONE NUMBER
+                        </Text>
+                        <Text style={styles.OptionalText}>
+                            *Optional
+                        </Text>
+                    </Layout>
+                    <Layout style={styles.DropdownContainer}>
+                        <CountryPicker
+                            countryCode={countryCode}
+                            withFilter
+                            withFlag
+                            withCallingCodeButton
+                            withCallingCode
+                            withEmoji
+                            onSelect={(response) => {
+                                setCountryCode(response.cca2);
+                                setCallingCode(response.callingCode);
+                            }}
+                            containerButtonStyle={styles.CountryPickerStyle}
+                        />
+                        <Input
+                            style={[styles.InputContainer, { flex: 2 }]}
+                            textStyle={styles.InputTextStyle}
+                            onChangeText={(e) => {
+                                setPhone(e)
+                            }}
+                            placeholder={'Your phone number'}
+                            placeholderTextColor={'#aaa'}
+
+                        />
+                    </Layout>
+                </Layout>
+
+                <Layout style={styles.FormContainer}>
+                    <Layout style={styles.OptionalContainer}>
+                        <Text style={styles.ItemTitle}>
+                            MESSENGER ID
+                        </Text>
+                        <Text style={styles.OptionalText}>
+                            *Optional
+                        </Text>
+                    </Layout>
+                    <Layout style={styles.DropdownContainer}>
+                        <Select
+                            style={styles.SelectContainer}
+                            selectedIndex={selectedIndex}
+                            onSelect={(index) => setSelectedIndex(index)}
+                            value={displayValue}
+                        >
+                            <SelectItem title='Facebook' />
+                            <SelectItem title='Instagram' />
+                        </Select>
+                        <Input
+                            style={[styles.InputContainer, { flex: 2 }]}
+                            textStyle={styles.InputTextStyle}
+                            onChangeText={(e) => {
+                                setSnsID(e)
+                            }}
+                            placeholder={'glokool_korea'}
+                            placeholderTextColor={'#aaa'}
+                        />
+                    </Layout>
+                </Layout>
+
+                <Layout style={styles.InfoContainer}>
+                    <Text style={styles.InfoText}>By proceeding,</Text>
+                    <Text style={styles.InfoText}>You agree to our 'Cancellation Policy'.</Text>
+
+                    <TouchableOpacity
+                        style={styles.PolicyButton}
+                        onPress={() => props.navigation.navigate(SceneRoute.PAY_CANCELLATION)}
                     >
-                        <SelectItem title='Facebook' />
-                        <SelectItem title='Instagram' />
-                    </Select>
-                    <Input
-                        style={[styles.InputContainer, { flex: 2 }]}
-                        textStyle={styles.InputTextStyle}
-                        onChangeText={(e) => {
-                            setSnsID(e)
-                        }}
-                        placeholder={'glokool_korea'}
-                        placeholderTextColor={'#aaa'}
-                    />
+                        <Text style={styles.PolicyText}>Click to Check</Text>
+                        <AngleRight_Color width={'2%'} />
+                    </TouchableOpacity>
+
+
+
+                    <TouchableOpacity
+                        disabled={isEmail == false || name.length == 0}
+                        style={[styles.ButtonContainer, {
+                            backgroundColor:
+                                isEmail == false || name.length == 0
+                                    ? '#aaa' : '#7777ff'
+                        }]}
+                        onPress={() => { onPressButton() }}
+                    >
+                        <Text style={styles.ButtonText}>CONTINUE</Text>
+                    </TouchableOpacity>
                 </Layout>
-            </Layout>
 
-            <Layout style={styles.InfoContainer}>
-                <Text style={styles.InfoText}>By proceeding,</Text>
-                <Text style={styles.InfoText}>You agree to our 'Cancellation Policy'.</Text>
-
-                <TouchableOpacity
-                    style={styles.PolicyButton}
-                    onPress={() => props.navigation.navigate(SceneRoute.PAY_CANCELLATION)}
-                >
-                    <Text style={styles.PolicyText}>Click to Check</Text>
-                    <AngleRight_Color width={'2%'} />
-                </TouchableOpacity>
-
-
-
-                <TouchableOpacity
-                    disabled={isEmail == false || name.length == 0}
-                    style={[styles.ButtonContainer, {
-                        backgroundColor:
-                            isEmail == false || name.length == 0
-                                ? '#aaa' : '#7777ff'
-                    }]}
-                    onPress={() => { onPressButton() }}
-                >
-                    <Text style={styles.ButtonText}>CONTINUE</Text>
-                </TouchableOpacity>
-            </Layout>
-
-
+                <Layout style={{height: windowHeight * 0.1}} />
+            </ScrollView>
         </Layout >
     )
 };
 
 const styles = StyleSheet.create({
     MainContainer: {
-        alignItems: 'center',
-        height: '100%',
-        paddingBottom: 0,
+        width: windowWidth,
+        height: windowHeight,
     },
     Pagination: {
         width: '100%',
@@ -264,7 +265,8 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#0000',
         bottom: 10,
-        marginTop: windowHeight * 0.2
+        marginTop: windowHeight * 0.2,
+        alignSelf: 'center',
     },
     InfoText: {
         fontFamily: 'Pretendard-Medium',

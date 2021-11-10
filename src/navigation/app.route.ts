@@ -51,7 +51,7 @@ export enum SceneRoute {
     CHAT_ROOM = 'Chat Room',
     CHAT_ROOM_SETTING = 'Chat Room Setting',
     CHAT_ERROR_REPORT = 'Chat Error Report',
-
+    CHAT_INFO = 'Chat Info',
     CHAT_ZONE_SELECT = 'Chat Zone Select',
     CHAT_TA_SELECT = 'Chat TA Select',
 
@@ -94,10 +94,6 @@ export enum SceneRoute {
     PAID_CHAT_LIST = 'Paid Chat List',
     BOOKMARK_LIST = 'Bookmark List',
     HISTORY = 'History',
-
-    // My - Bookmark
-    BOOKMARK_DETAIL_BLOG = 'Bookmark Detail Blog',
-    BOOKMARK_DETAIL_CONTENT = 'Bookmark Detail Content',
 
     // My - Privacy
     PRIVACY = 'Privacy',

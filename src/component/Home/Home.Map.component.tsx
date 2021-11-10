@@ -77,7 +77,7 @@ export const HomeMapComponent = (props: HomeScreenProps) => {
 
     const onPressExplore = () => {
         if (zoneIndex > 1) {
-            Alert.alert("Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
+            Alert.alert("", "Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
         } else {
             props.navigation.navigate(NavigatorRoute.ZONE);
         }
@@ -191,11 +191,11 @@ const styles = StyleSheet.create({
     },
     LocationButtonDefault: {
         borderRadius: 10,
-        width: windowWidth * 0.35,
+        width: windowWidth * 0.3,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: windowHeight * 0.015,
-        marginVertical: windowHeight * 0.005,
+        paddingVertical: windowHeight * 0.012,
+        marginVertical: windowHeight * 0.0025,
         borderWidth: 2,
     },
     LocationButtonUnselected: {
@@ -213,12 +213,11 @@ const styles = StyleSheet.create({
     },
     LocationButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 13
+        fontSize: 11
     },
     ZoneImageContainer: {
         backgroundColor: '#0000',
-        paddingVertical: windowHeight * 0.02,
-        marginTop: windowHeight * 0.01
+        paddingVertical: windowHeight * 0.015,
     },
     FlatListContainer: {
 
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: windowHeight * 0.004,
-        marginTop: windowHeight * 0.01
+        marginTop: windowHeight * 0.005
     },
     ExploreButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',

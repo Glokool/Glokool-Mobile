@@ -9,7 +9,8 @@ import {
   ChatTASelectScene,
   ChatMainScene,
   ChatRoomScene,
-  ChatReportScene
+  ChatReportScene,
+  ChatInfoScene
 } from '../../scenes/Chat';
 import { MainNavigatorParams } from '../Main.navigator';
 
@@ -24,9 +25,9 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
       uid: string;
       avatar?: string;
     }
-    day: Date,
-    zone : string;
-    maxUser : number;
+    day: string,
+    zone: string;
+    maxUser: number;
     finish: boolean;
   };
   [SceneRoute.CHAT_HELP]: {
@@ -43,15 +44,15 @@ export type ChatNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
       uid: string;
     }
   };
-  [SceneRoute.CHAT_ROOM_SETTING] : {
-    id : string;
-    guide : string;
-    maxUser : number;
-    zone : string;
+  [SceneRoute.CHAT_ROOM_SETTING]: {
+    id: string;
+    guide: string;
+    maxUser: number;
+    zone: string;
   };
-  [SceneRoute.CHAT_ZONE_SELECT] : undefined;
-  [SceneRoute.CHAT_TA_SELECT] : {
-    zone : string;
+  [SceneRoute.CHAT_ZONE_SELECT]: undefined;
+  [SceneRoute.CHAT_TA_SELECT]: {
+    zone: string;
   };
 }
 
@@ -60,17 +61,17 @@ export interface ChatMainSceneProps {
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
 }
 
-export interface ChatRoomSceneProps { 
+export interface ChatRoomSceneProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
 }
 
-export interface ChatReportSceneProps { 
+export interface ChatReportSceneProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_REPORT>;
 }
 
-export interface ChatRoomSettingSceneProps { 
+export interface ChatRoomSettingSceneProps {
   navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
   route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT_ROOM_SETTING>;
 }
@@ -90,8 +91,8 @@ export const ChatNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.CHAT} component={ChatMainScene} />
     <Stack.Screen name={SceneRoute.CHAT_ZONE_SELECT} component={ChatZoneSelectScene} />
     <Stack.Screen name={SceneRoute.CHAT_TA_SELECT} component={ChatTASelectScene} />
-    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />    
-    <Stack.Screen name={SceneRoute.CHAT_ROOM_SETTING} component={ChatRoomSettingScene}/>
+    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
+    <Stack.Screen name={SceneRoute.CHAT_ROOM_SETTING} component={ChatRoomSettingScene} />
     <Stack.Screen name={SceneRoute.CHAT_REPORT} component={ChatReportScene} />
   </Stack.Navigator>
 );

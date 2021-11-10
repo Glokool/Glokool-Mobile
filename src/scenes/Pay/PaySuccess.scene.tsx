@@ -14,14 +14,12 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
     const ReservationData = props.route.params;
 
-    console.log(ReservationData)
-
     React.useEffect(() => {
         SendPaymentData();
     }, []);
 
     const SendPaymentData = async () => {
-        const authToken = await auth().currentUser?.getIdToken();  
+        const authToken = await auth().currentUser?.getIdToken();
 
         const url = SERVER + '/payments';
 
@@ -36,14 +34,14 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             name: ReservationData.name,
             chatRoomCode: ReservationData.ChatRoomID,
             paymentPlatform: ReservationData.Payment.pg
-        });   
+        });
 
-        const option = {            
+        const option = {
             headers: {
                 Authorization: 'Bearer ' + authToken,
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             },
-            
+
         }
 
         axios.post(url, data, option)
@@ -53,6 +51,31 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
             .catch((err) => {
                 console.log(err);
             })
+
+    }
+
+    const InitGuideInfo = async () => {
+        const response = await axios.get(`${SERVER}/chat-rooms/${ReservationData.ChatRoomID}`)
+        const ChatRoom = response.data;
+
+        props.navigation.reset({
+            routes:
+                [{
+                    name: SceneRoute.CHATROOM,
+                    params: {
+                        id: ReservationData.ChatRoomID,
+                        guide: {
+                            name: ReservationData.guideName,
+                            uid: ReservationData.guide,
+                            avatar: ChatRoom.guide.avatar,
+                        },
+                        zone: ReservationData.zone,
+                        maxUser: ReservationData.maxUserNum,
+                        day: ChatRoom.guide.travelDate,
+                        finish: true,
+                    }
+                }]
+        })
 
     }
 
@@ -81,10 +104,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { borderWidth: 2, borderColor: '#7777ff' }]}
                     onPress={() => {
-                        props.navigation.navigate(NavigatorRoute.MY, {
-                            screen: SceneRoute.PAID_CHAT_LIST,
-                            params: undefined
-                        })
+                        props.navigation.navigate(SceneRoute.PAID_CHAT_LIST, undefined)
                     }}
                 >
                     <Text style={[styles.ButtonText, { color: '#7777ff' }]}>VIEW RECEIPTS</Text>
@@ -99,7 +119,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
 
                 <TouchableOpacity
                     style={[styles.ButtonContainer, { backgroundColor: '#7777ff' }]}
-                    onPress={() => { }}
+                    onPress={() => { InitGuideInfo() }}
                 >
                     <Text style={[styles.ButtonText, { color: 'white' }]}>START CONVERSATION</Text>
                 </TouchableOpacity>

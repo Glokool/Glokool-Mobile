@@ -36,7 +36,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         const response = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '/sub-categories')
         setCategory([{ name: "all" }, ...response.data]);
 
-        const ALL = await axios.get(SERVER + '/main-categories/hongdae?q=all');
+        const ALL = await axios.get(SERVER + '/main-categories/' + props.route.params.title + '?q=all');
         setFetchedItem({ ...fetchedItem, all: ALL.data });
     }
 
@@ -45,6 +45,7 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
         if (type == 'blog') {
             props.navigation.navigate(SceneRoute.ZONE_DETAIL_BLOG, { Id: id });
         } else if (type == 'content') {
+            console.log(id);
             props.navigation.navigate(SceneRoute.ZONE_DETAIL_CONTENT, { Id: id });
         }
     }

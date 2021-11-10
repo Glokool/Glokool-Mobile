@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, FlatList, GestureResponderEvent, Pressable, StyleSheet, Platform, Text, Alert } from 'react-native';
-import { Divider } from '@ui-kitten/components'
+import { Divider, Layout } from '@ui-kitten/components'
 import { ZoneMainSceneProps } from '../../../navigation/SceneNavigator/Zone.navigator';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,34 +12,31 @@ import { Check } from '../../../assets/icon/Zone';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { setZoneLocation } from '../../../model/Zone/Zone.Location.model';
 
+const AnimatedHeight = Platform.OS === 'ios' ? -(windowWidth * 0.55) : -(windowWidth * 0.53);
 
 export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
     const heightLevel = new Animated.Value(0);
 
     const locationVisiblity = useSelector((state: RootState) => state.ZoneUIModel.locationVisiblity);
-    const location = useSelector((state: RootState) => state.ZoneLocationModel.location);
     const locationIndex = useSelector((state: RootState) => state.ZoneLocationModel.index);
-
     const dispatch = useDispatch();
 
     const tempData = [
         require('../../../assets/image/Zone/Button001.png'),
         require('../../../assets/image/Zone/Button002.png'),
         require('../../../assets/image/Zone/Button003.png'),
-        require('../../../assets/image/Zone/Button001.png')
+        require('../../../assets/image/Zone/Button004.png'),
     ]
 
     React.useEffect(() => {
-
         if (locationVisiblity) {
             Animated.timing(heightLevel, {
-                duration: 500,
-                toValue: -(windowWidth * 0.55) - 65 - getBottomSpace() / 2,
+                duration: 1000,
+                toValue: Platform.OS === 'ios' ? -(windowHeight * 0.3) : -(windowHeight * 0.33),
                 useNativeDriver: false
             }).start();
         }
-
     }, [locationVisiblity]);
 
     const BottomTabBarMovement = () => {
@@ -50,12 +47,12 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         }
     }
 
-    const PressBackward = (e: GestureResponderEvent): void => {
+    const PressBackdrop = (e: GestureResponderEvent): void => {
         e.stopPropagation();
 
         Animated.timing(heightLevel, {
             duration: 1000,
-            toValue: (windowHeight * 0.3),
+            toValue: windowHeight,
             useNativeDriver: false
         }).start();
 
@@ -66,25 +63,22 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
 
     const onPressLocation = (item: any) => {
         if (item.index > 1) {
-            Alert.alert("","Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
+            Alert.alert("", "Coming Very Soon!\nWe are working very hard to open new zones. Please stay tuned!");
         } else {
             dispatch(setZoneLocation(item.item.title, item.index));
         }
     }
 
     const renderButton = (item: any): React.ReactElement => {
-
-        const buttonStyle = item.index === locationIndex ? styles.SelectedButton : styles.UnselectedButton;
-
         return (
-            <TouchableOpacity style={buttonStyle} onPress={() => onPressLocation(item)}>
-                {/* <FastImage
-                    source={item.item}
-                    style={buttonStyle}
+            <TouchableOpacity style={styles.ButtonStyle} onPress={() => onPressLocation(item)}>
+                <FastImage
+                    source={tempData[item.index]}
+                    style={[styles.ImageStyle, { borderColor: item.index === locationIndex ? '#7777ff' : '#0000' }]}
                     resizeMode={'stretch'}
-                /> */}
+                />
                 {item.index === locationIndex && <Check style={styles.SelectedIcon} />}
-                <Text>{item.item.title.toUpperCase()}</Text>
+                <Text style={styles.ButtonText}> {item.item.title.toUpperCase()} </Text>
             </TouchableOpacity>
         )
     }
@@ -93,7 +87,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
     return (
         <>
             {locationVisiblity && (
-                <Pressable style={styles.BackdropContainer} onPress={(e) => PressBackward(e)}>
+                <Pressable style={styles.BackdropContainer} onPress={(e) => PressBackdrop(e)}>
 
                     <Animated.View style={[styles.BottomButtonContainer, BottomTabBarMovement()]}>
                         <Divider style={styles.Divider} />
@@ -109,7 +103,6 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
         </>
     )
 
-
 }
 
 const styles = StyleSheet.create({
@@ -121,9 +114,9 @@ const styles = StyleSheet.create({
     },
     BottomButtonContainer: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? -(windowWidth * 0.58) : - (windowWidth * 0.55 + 12),
+        bottom: AnimatedHeight,
         width: windowWidth,
-        height: windowWidth * 0.55,
+        height: windowHeight * 0.3,
         zIndex: 100,
         backgroundColor: 'white',
         borderTopStartRadius: 10,
@@ -141,30 +134,32 @@ const styles = StyleSheet.create({
     ZoneButtonContainer: {
         flexDirection: 'row'
     },
-    UnselectedButton: {
+    ButtonStyle: {
         width: windowWidth * 0.43,
-        height: windowWidth * 0.19,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
+        height: windowWidth * 0.43 / 360 * 160,
         margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    SelectedButton: {
+    ImageStyle: {
         width: windowWidth * 0.43,
-        height: windowWidth * 0.19,
+        height: windowWidth * 0.43 / 360 * 160,
+        borderRadius: 15,
         borderWidth: 3,
-        borderColor: '#7777ff',
-        borderRadius: 10,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     SelectedIcon: {
         position: 'absolute',
         top: 10,
         right: 10,
-    }
+    },
+    ButtonText: {
+        fontFamily: 'BrandonGrotesque-Bold',
+        fontSize: 13,
+        color: 'white',
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowOffset: { width: 0, height: 2 },
+        textShadowRadius: 10,
+        position: 'absolute'
+    },
 })
 

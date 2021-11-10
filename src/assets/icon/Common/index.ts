@@ -23,6 +23,7 @@ import Exit_C from './Exit_Color.svg';
 import Comments from './Comments.svg';
 import Location from './Location.svg';
 import EmptyImage from './EmptyImage.svg';
+import CheckIcon from './Check.svg';
 
 export {
     Korean, 
@@ -46,6 +47,7 @@ export {
     Location,
     EmptyImage,
     PurpleArrow,
-    AngleRight_Gray
+    AngleRight_Gray,
+    CheckIcon
 }
 

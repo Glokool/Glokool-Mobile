@@ -24,7 +24,7 @@ export const TASelectTopTabBarComponent = (props: ChatTASelectSceneProps): React
             </Pressable>
 
             <Layout style={styles.TitleContainer}>
-                <Text style={styles.Title}>{Zone}</Text>
+                <Text style={styles.Title}>{Zone.toUpperCase()}</Text>
             </Layout>
 
             <Layout style={styles.EmptyContainer} />

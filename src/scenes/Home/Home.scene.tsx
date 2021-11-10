@@ -22,8 +22,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         pluginKey: 'd9d38a55e5e1d7b03f80037e229a7203'
     };
 
-
-
     // React.useEffect(() => {
     //     ChannelIO.boot(ChannelSettings)
     //         .then((result) => {
@@ -33,7 +31,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
     //             console.log('채널톡 시동 에러 : ',err);
     //         })
     // }, [])
-
 
     useFocusEffect(
         useCallback(() => {
@@ -64,7 +61,6 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
         return true;
     };
 
-
     return (
         <Layout style={styles.MainContainer}>
 
@@ -84,7 +80,7 @@ export const HomeScreen = (props: HomeScreenProps): LayoutElement => {
                 {/* I WANT TO VISIT */}
                 <HomeVisitComponent {...props} />
 
-                <Layout style={{ height: windowHeight * 0.05, backgroundColor: '#0000' }} />
+                <Layout style={{ height: windowHeight * 0.15, backgroundColor: '#0000' }} />
 
             </ScrollView>
 
@@ -97,7 +93,6 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         backgroundColor: '#ECECFC',
-        paddingBottom: windowHeight * 0.1
     },
     ScrollViewContainer: {
         width: '100%',

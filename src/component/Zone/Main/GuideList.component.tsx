@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, FlatList, TouchableOpacity, Dimensions, Alert, Platform } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, Text, FlatList, Pressable, Dimensions, Alert, Platform } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { SERVER, CDN } from '../../../server.component';
 import axios from 'axios';
@@ -12,6 +12,9 @@ import { ZoneChatModal } from '..';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight } from '../../../Design.component';
 import { SceneRoute, NavigatorRoute } from '../../../navigation/app.route';
+import { AuthContext } from '../../../context/AuthContext';
+import { loginAlertWindow } from '../../Common/LoginCheck.component';
+import moment from 'moment';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,8 +23,10 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
     const dispatch = useDispatch();
     const [guideInfo, setGuideInfo] = useState();
 
+    const { currentUser } = useContext(AuthContext);
+
     // 가이드 클릭했을 때 모달로 넘겨줄 정보 요청
-    const InitialGuideInfo = async (item: any) => {
+    const InitialGuideInfo = (item: any) => {
 
         if (item.uid != '') {
             axios.get(`${SERVER}/chat-rooms/` + item._id).then((res) => {
@@ -36,10 +41,37 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
         }
     }
 
+    const isAvailable = () => {
+        const hourDiff = new Date().getTimezoneOffset() / 60 * 100;
+        const localTime = Number(moment(new Date()).format('kkmm'));
+        const KST = localTime + hourDiff + 900;
+
+        if (1801 <= KST && KST <= 2359) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const onPressExploreButton = () => {
+        if (currentUser && isAvailable()) {
+            props.navigation.navigate(
+                SceneRoute.CHAT_TA_SELECT,
+                { zone: props.zoneTitle! }
+            )
+        } else {
+            if (isAvailable()) {
+                loginAlertWindow(props.navigation);
+            } else {
+                Alert.alert("", "Sorry, booking is only available from 12AM ~ 5:59PM (KST) everyday. Please try again later.")
+            }
+        }
+    }
+
     const ListHeaderComponent = () => {
         return (
-            <TouchableOpacity style={styles.GuideContainer} onPress={() => { }}>
-                <Layout style={[styles.ItemContainer, { borderWidth: 3, borderColor: '#D1D1FF' }]}>
+            <Pressable style={styles.GuideContainer} onPress={() => { }}>
+                <Layout style={[styles.ItemContainer, { borderColor: '#D1D1FF' }]}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: '#8797ff' }]}>
                         <GloProfile />
@@ -54,15 +86,15 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 
                 </Layout>
 
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 
     // 가이드 리스트 아이템
     const renderItem = (item: { item, index: number }) => {
         return (
-            <TouchableOpacity style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
-                <Layout style={styles.ItemContainer}>
+            <Pressable style={styles.GuideContainer} onPress={() => InitialGuideInfo(item.item)}>
+                <Layout style={[styles.ItemContainer, { borderColor: '#fff' }]}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: item.item.maxUserNum > item.item.userCount ? '#7777ff' : '#0000' }]}>
                         <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
@@ -112,7 +144,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                     )
                 )}
 
-            </TouchableOpacity>
+            </Pressable>
         )
     }
 
@@ -133,18 +165,15 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 keyExtractor={(item, index) => index.toString()}
             />
             {/* guide 더보기 버튼 */}
-            <TouchableOpacity
+            <Pressable
                 style={styles.ButtonContainer}
                 onPress={() => {
-                    props.navigation.navigate(
-                        SceneRoute.CHAT_TA_SELECT,
-                        { zone: 'HONGDAE' }
-                    )
+                    onPressExploreButton();
                 }}>
                 <Text style={[styles.ButtonText, { color: 'white' }]}>Click to Explore More </Text>
                 <Text style={[styles.ButtonText, { color: '#8596FF', marginRight: 10, }]}>Travel Assistants</Text>
                 <ExploreIcon />
-            </TouchableOpacity>
+            </Pressable>
 
             {guideInfo && <ZoneChatModal guideInfo={guideInfo} />}
 
@@ -155,6 +184,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
 const styles = StyleSheet.create({
     ItemContainer: {
         borderRadius: 10,
+        borderWidth: 3,
         width: windowWidth * 0.35,
         alignItems: 'center',
         paddingVertical: 20,
@@ -167,6 +197,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3.84,
         elevation: 5,
+        backgroundColor: 'white'
     },
     ItemText: {
         fontFamily: 'Pretendard-Medium',
@@ -178,11 +209,13 @@ const styles = StyleSheet.create({
         height: windowWidth * 0.15,
         borderWidth: 0.5,
         borderRadius: 100,
+        backgroundColor: '#0000',
     },
     KeywordContainer: {
         alignItems: 'center',
         marginTop: 7,
-        height: windowHeight * 0.04
+        height: windowHeight * 0.04,
+        backgroundColor: '#0000',
     },
     KeywordText: {
         fontFamily: 'Pretendard-Regular',
@@ -226,6 +259,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#0000',
     },
     FlatListContainer: {
         paddingBottom: 20,

@@ -15,8 +15,6 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
 
     const dispatch = useDispatch();
     const ChatRoomID = props.route.params.id;
-
-    const [users, setUsers] = React.useState<Array<any>>([]);
     const [mute, setMute] = React.useState(false);
 
     React.useEffect(() => {
@@ -41,10 +39,6 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
             })
 
     }, [])
-
-    const PressLeave = () => {
-        console.log(props)
-    }
 
     const PressMute = () => {
         // 반대로 저장

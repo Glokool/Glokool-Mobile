@@ -36,13 +36,6 @@ type MyNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.HISTORY]: undefined;
   [SceneRoute.CHATROOM]: undefined;
 
-  // bookmark
-  [SceneRoute.BOOKMARK_DETAIL_BLOG]: {
-    Id: string;
-  };
-  [SceneRoute.BOOKMARK_DETAIL_CONTENT]: {
-    Id: string;
-  }
 };
 
 export interface MyScreenProps {
@@ -130,10 +123,6 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
 
     <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
-
-    {/* Bookmark */}
-    <Stack.Screen name={SceneRoute.BOOKMARK_DETAIL_BLOG} component={ZoneDetailBlogScene} />
-    <Stack.Screen name={SceneRoute.BOOKMARK_DETAIL_CONTENT} component={ZoneDetailContentScene} />
 
   </Stack.Navigator>
 );

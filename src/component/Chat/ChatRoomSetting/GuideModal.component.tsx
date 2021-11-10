@@ -73,7 +73,7 @@ export const GuideModal = (props: any) : React.ReactElement => {
 
                     {data?.avatar? 
                         <Image
-                            source={{uri : data.avatar}}
+                            source={{uri : CDN + data.avatar}}
                             style={styles.profileImage}
                         />
                     :

@@ -14,12 +14,6 @@ export type ZoneNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
     [SceneRoute.ZONE_CONTENTS]: {
         title: string;
     };
-    [SceneRoute.ZONE_DETAIL_BLOG]: {
-        Id: string;
-    };
-    [SceneRoute.ZONE_DETAIL_CONTENT]: {
-        Id: string;
-    };
     [SceneRoute.CHAT_TA_SELECT]: {
         zone: string;
     };
@@ -64,8 +58,7 @@ export const ZoneNavigator = (): React.ReactElement => (
     <Stack.Navigator headerMode='none'>
         <Stack.Screen name={SceneRoute.ZONE_MAIN} component={ZoneMainScene} />
         <Stack.Screen name={SceneRoute.ZONE_CONTENTS} component={ZoneContentsScene} />
-        <Stack.Screen name={SceneRoute.ZONE_DETAIL_BLOG} component={ZoneDetailBlogScene} />
-        <Stack.Screen name={SceneRoute.ZONE_DETAIL_CONTENT} component={ZoneDetailContentScene} />
+
         <Stack.Screen name={SceneRoute.CHAT_TA_SELECT} component={ChatTASelectScene} />
         <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
     </Stack.Navigator>

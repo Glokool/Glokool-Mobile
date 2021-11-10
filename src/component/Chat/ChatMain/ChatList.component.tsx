@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import auth from '@react-native-firebase/auth';
 import { StyleSheet, Pressable, FlatList, ScrollView, Text, Alert } from 'react-native';
 import { Layout, Divider } from '@ui-kitten/components';
@@ -13,6 +13,8 @@ import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CDN, SERVER } from '../../../server.component';
 import axios from 'axios';
+import { AuthContext } from '../../../context/AuthContext';
+import { loginAlertWindow } from '../../Common/LoginCheck.component';
 
 interface CheckedList {
     ChatRoomID: string;
@@ -20,19 +22,19 @@ interface CheckedList {
 }
 
 interface ChatRoomData {
-    _id : string;
-    createdAt : Date;
-    guide : {
-        _id : string;
-        keyward : Array<string>;
-        name : string;
-        uid : string;
-        avatar : string;
+    _id: string;
+    createdAt: Date;
+    guide: {
+        _id: string;
+        keyward: Array<string>;
+        name: string;
+        uid: string;
+        avatar: string;
     }
-    priority : number;
-    travelDate : Date;
-    zone : string;
-    maxUserNum : number;
+    priority: number;
+    travelDate: Date;
+    zone: string;
+    maxUserNum: number;
 }
 
 export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
@@ -40,22 +42,24 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
     const [checkedList, setCheckedList] = React.useState<Array<CheckedList>>([]);
     const [data, setData] = React.useState<Array<ChatRoomData>>([]);
 
-    const InitList = async() => {
+    const { currentUser } = useContext(AuthContext);
+
+    const InitList = async () => {
 
         const token = await auth().currentUser?.getIdToken();
         const url = SERVER + '/users/chat-rooms';
         const config = {
-            headers : {
-                Authorization : `Bearer ${token}`
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         }
 
         axios.get(url, config)
             .then((response) => {
                 setData(response.data.userChatRoom);
-                
+
                 // 알림 표시를 위한 For Each 문
-                response.data.userChatRoom.forEach(async (item : ChatRoomData) => {
+                response.data.userChatRoom.forEach(async (item: ChatRoomData) => {
 
                     var temp = await AsyncStorage.getItem(`ChatCheck_${item._id}`);
 
@@ -81,9 +85,6 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
     React.useEffect(() => {
 
-
-
-        
         const ScreenListener = props.navigation.addListener('focus', () => {
             InitList();
         });
@@ -93,33 +94,72 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
         };
     }, [])
 
-    const onPressChatroom = (item: ChatRoomData) => {
-        Alert.alert(
-            "Chat Room Rules",
-            "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
-            [{
-                text: "Cancel",
-                onPress: () => console.log("press canceled"),
-                style: "destructive"
-            }, {
-                text: "Confirm",
-                onPress: () => {
-                    props.navigation.navigate(SceneRoute.CHATROOM, {
-                        id: item._id,
-                        guide: {
-                            name: item.guide.name,
-                            uid: item.guide.uid,
-                            avatar: item.guide.avatar,
-                        },
-                        zone : item.zone,
-                        maxUser : item.maxUserNum,
-                        day: item.travelDate,
-                        finish: true,
-                    })
-                },
-                style: "default"
-            }],
-        )
+    const navigateChatroom = (item: ChatRoomData) => {
+        props.navigation.navigate(SceneRoute.CHATROOM, {
+            id: item._id,
+            guide: {
+                name: item.guide.name,
+                uid: item.guide.uid,
+                avatar: item.guide.avatar,
+            },
+            zone: item.zone,
+            maxUser: item.maxUserNum,
+            day: item.travelDate,
+            finish: true,
+        })
+    }
+
+    const onPressChatroom = async (item: ChatRoomData) => {
+        const response = await AsyncStorage.getAllKeys();
+        if (response.includes(item._id + '_alert')) {
+            navigateChatroom(item);
+        } else {
+            Alert.alert(
+                "Chat Room Rules",
+                "\n- Quality and content about Korean traveling only\n- No hate speech or bullying\n- No ads, promotions, or spam\n-Be civil, kind, and respect others\n- Service hours are from 10AM ~ 7PM\n\n* If you violate above rules, you may be removed from the chat room",
+                [{
+                    text: "Cancel",
+                    onPress: () => console.log("press canceled"),
+                    style: "destructive"
+                }, {
+                    text: "Confirm",
+                    onPress: () => {
+                        navigateChatroom(item);
+                        AsyncStorage.setItem(item._id + '_alert', 'true');
+                    },
+                    style: "default"
+                }],
+            )
+        }
+
+
+    }
+
+    const isAvailable = () => {
+        const hourDiff = new Date().getTimezoneOffset() / 60 * 100;
+        const localTime = Number(moment(new Date()).format('kkmm'));
+        const KST = localTime + hourDiff + 900;
+
+        console.log(KST)
+
+        if (1801 <= KST && KST <= 2359) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    const onPressBookButton = () => {
+        if (currentUser && isAvailable()) {
+            props.navigation.navigate(SceneRoute.CHAT_ZONE_SELECT);
+        }
+        else {
+            if (isAvailable()) {
+                loginAlertWindow(props.navigation);
+            } else {
+                Alert.alert("", "Sorry, booking is only available from 12AM ~ 5:59PM (KST) everyday. Please try again later.")
+            }
+        }
     }
 
     const renderGuide = ({ item }: { item: ChatRoomData, index: number }): React.ReactElement => {
@@ -143,12 +183,12 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
                         <Layout style={styles.ProfileContainer}>
 
-                            {(item.guide.avatar)?
-                                <FastImage source={{uri : CDN + item.guide.avatar}} style={styles.ChatRoomProfileImage} />
-                            :
+                            {(item.guide.avatar) ?
+                                <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.ChatRoomProfileImage} />
+                                :
                                 <FastImage source={require('../../../assets/image/Chat/guideGray.png')} style={styles.ChatRoomProfileImage} />
                             }
-                            
+
 
                             <Layout style={styles.ChatRoomGuideInfoContainer}>
 
@@ -157,13 +197,13 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
                                 <Layout style={styles.ChatRoomGuideTagContainer}>
 
-                                    {(item.guide.keyward)?
+                                    {(item.guide.keyward) ?
                                         item.guide.keyward.map((item, index) => (
                                             <Layout style={styles.ChatRoomTagTextContainer}>
                                                 <Text style={styles.ChatRoomTagText}>{item}</Text>
                                             </Layout>
                                         ))
-                                    :
+                                        :
                                         null
                                     }
 
@@ -217,11 +257,11 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
                         <Arrow_Bottom style={styles.BottomIcon} />
 
-                        <Pressable style={styles.ChatMainADButton} onPress={() => props.navigation.navigate(SceneRoute.CHAT_ZONE_SELECT)}>
+                        <Pressable style={styles.ChatMainADButton} onPress={() => onPressBookButton()}>
                             <Chat_Book_Button width={windowWidth * 0.9} />
                         </Pressable>
 
-                        <Pressable style={styles.ChatMainADButton} >
+                        <Pressable style={styles.ChatMainADButton} onPress={() => props.navigation.navigate(SceneRoute.CHAT_INFO)}>
                             <How_It_Works_Button width={windowWidth * 0.9} />
                         </Pressable>
 

@@ -5,6 +5,7 @@ import { NavigatorRoute, SceneRoute } from '../app.route';
 import { AppNavigatorParams } from '../App.navigator';
 import { HomeScreen } from '../../scenes/Home';
 import { MainNavigatorParams } from '../Main.navigator';
+import { ZoneDetailBlogScene, ZoneDetailContentScene } from '../../scenes/Zone';
 
 type HomeNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.HOME]: undefined;

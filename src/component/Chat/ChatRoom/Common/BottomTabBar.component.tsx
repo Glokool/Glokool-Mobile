@@ -23,7 +23,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
 
-    const TravelDate = moment(props.TravelDate).format('yyyy-MM-DD');
+    const TravelDate = props.TravelDate;
     const ChatDB : FirebaseDatabaseTypes.Reference = props.ChatDB;
     const ChatRoomID : string = props.ChatRoomID;
 
