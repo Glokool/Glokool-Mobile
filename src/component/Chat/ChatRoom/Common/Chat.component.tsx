@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import {
     SafeAreaView,
@@ -72,6 +72,24 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
     const msgRef = database().ref(`chats/${roomName}/userUnreadCount`);
+
+    const [iphoneXKeyboardPadding, setIphoneXKeyboardPadding] = useState<number>(getBottomSpace() - 34);
+    const [iosKeyboardPadding, setIosKeyboardPadding] = useState<number>(-14);
+
+    React.useEffect(() => {
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+            setIphoneXKeyboardPadding(getBottomSpace() - 34);
+            setIosKeyboardPadding(-14);
+        });
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            setIphoneXKeyboardPadding(getBottomSpace() - 13);
+            setIosKeyboardPadding(20);
+        });
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
 
     const getAccessToken = async () => {
         try {
@@ -148,8 +166,8 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
     const ChatRoomMessageInit = async (): Promise<void> => {
 
         const travelDate = moment(props.route.params.day).format('yyyy-MM-DD');
-        const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages'; 
-        
+        const DBURL = '/chats/' + travelDate + '/' + props.route.params.id + '/messages';
+
         const Chat = database().ref(DBURL);
         setChatDB(Chat);
 
@@ -287,7 +305,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             //     'Please refrain from any content that may offend the other person.',
             //     1000,
             // );
-            Alert.alert("","The message contains inappropriate languages. Please try again.");
+            Alert.alert("", "The message contains inappropriate languages. Please try again.");
         }
 
     };
@@ -310,7 +328,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                         _id: currentUser?.uid,
                     }}
                     messagesContainerStyle={{
-                        paddingBottom: Platform.OS === 'ios' ? getBottomSpace() - 13 : 20,
+                        paddingBottom: Platform.OS === 'ios' ? (isIphoneX() ? iphoneXKeyboardPadding : iosKeyboardPadding) : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
                     onLoadEarlier={() => { LoadEarlierMessages() }}
@@ -332,7 +350,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             </Layout>
 
             {/* 사이드바 컴포넌트 */}
-            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} TravelDate={props.route.params.day}/>
+            <BottomTabBarComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} TravelDate={props.route.params.day} />
 
             {/* 이모지 키보드 컴포넌트 */}
             <EmojiKeyboardComponent ChatDB={ChatDB} ChatRoomID={props.route.params.id} />
@@ -353,7 +371,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             {/* <NoticeComponent /> */}
 
             {/* 가이드 모달 */}
-            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser}/>
+            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser} />
 
         </SafeAreaView>
 
