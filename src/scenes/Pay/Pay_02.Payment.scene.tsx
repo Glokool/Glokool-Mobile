@@ -319,10 +319,8 @@ const styles = StyleSheet.create({
     ToastText : {
         color: 'white',
         fontSize : 16,
-        fontFamily: 'Pretenedard-SemiBold',
+        fontFamily: 'Pretendard-SemiBold',
     },
-
-
 
     InnerContainer: {
         // paddingHorizontal: windowWidth * 0.05
