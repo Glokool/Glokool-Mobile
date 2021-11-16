@@ -15,23 +15,23 @@ export const PayProcessScene = (props: PayProcessSceneProps): LayoutElement => {
         const data = props.route.params.ReservationData;        
         Object.assign( data, { Payment : props.route.params.params });
 
-        props.navigation.reset({
-            routes: [{
-                name: SceneRoute.PAY_SUCCESS,
-                params: props.route.params.ReservationData
-            }]
-        });
+        // props.navigation.reset({
+        //     routes: [{
+        //         name: SceneRoute.PAY_SUCCESS,
+        //         params: props.route.params.ReservationData
+        //     }]
+        // });
 
-        // if (response.imp_success === "true") {
-        //     props.navigation.reset({
-        //         routes: [{
-        //             name: SceneRoute.PAY_SUCCESS,
-        //             params: props.route.params.ReservationData
-        //         }]
-        //     });
-        // } else {
-        //     props.navigation.navigate(SceneRoute.PAY_FAILED);            
-        // }
+        if (response.imp_success === "true") {
+            props.navigation.reset({
+                routes: [{
+                    name: SceneRoute.PAY_SUCCESS,
+                    params: props.route.params.ReservationData
+                }]
+            });
+        } else {
+            props.navigation.navigate(SceneRoute.PAY_FAILED);            
+        }
     }
 
     return (

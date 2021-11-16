@@ -50,7 +50,7 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                     AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'true');
                 })
                 .catch((err) => {
-                    console.log('FCM 토픽 구독 해제 실패 : ', err);
+                    console.error('FCM 토픽 구독 해제 실패 : ', err);
                 })
         }
         else {
@@ -61,7 +61,7 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                     AsyncStorage.setItem(`${ChatRoomID}_fcm`, 'false');
                 })
                 .catch((err) => {
-                    console.log('FCM 토픽 구독 실패 : ', err);
+                    console.error('FCM 토픽 구독 실패 : ', err);
                 })
         }
     }

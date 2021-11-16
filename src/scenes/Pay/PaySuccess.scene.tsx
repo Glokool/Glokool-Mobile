@@ -56,7 +56,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
                         AsyncStorage.setItem(`${ReservationData.ChatRoomID}_fcm`, 'true');
                     })
                     .catch((err) => {
-                        console.log('FCM 토픽 구독 실패 : ', err);                        
+                        console.error('FCM 토픽 구독 실패 : ', err);                        
                     })
 
             })

@@ -53,6 +53,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         const data = JSON.stringify({
             chatRoomCode : props.route.params.ChatRoomID
         });
+        
         const config = {
             headers : {
                 Authorization : `Bearer ${token}`,
@@ -79,7 +80,8 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
     const PaypalMethod = () => {
         const PayMethod: IMP_PAY_METHOD = 'card';
         // 테스트 중에는 결제금액 1로 설정
-        const amount = 1;
+
+        const amount = props.route.params.price.discountPrice;
 
         const params: PaymentData = {
             pg: 'paypal',
@@ -103,7 +105,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
     const KakaoPayMethod = async () => {
         const PayMethod: IMP_PAY_METHOD = 'card';
         // 테스트 중에는 결제금액 1로 설정
-        const amount = 1;
+        const amount = props.route.params.price.discountPrice * 1200;
 
         const params: PaymentData = {
             pg: 'kakaopay',
@@ -200,10 +202,17 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
 
                 <Layout style={styles.CostContainer}>
                     <Text style={styles.SubTitleText}>TOTAL</Text>
-                    <Layout style={styles.RowContainer}>
-                        <Text style={styles.CostText}>{props.route.params.price.discountPrice}</Text>
-                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>USD</Text>
-                    </Layout>
+                    {state.kakaoClicked? 
+                        <Layout style={styles.RowContainer}>                    
+                            <Text style={styles.CostText}>{(props.route.params.price.discountPrice * 1200).toLocaleString('ko-KR')}</Text>
+                            <Text style={[styles.ValueText, { color: '#7777ff' }]}>KRW</Text>
+                        </Layout>
+                    : 
+                        <Layout style={styles.RowContainer}>                    
+                            <Text style={styles.CostText}>{props.route.params.price.discountPrice}</Text>
+                            <Text style={[styles.ValueText, { color: '#7777ff' }]}>USD</Text>
+                        </Layout>
+                    }
                 </Layout>
 
                 <Layout style={styles.MethodContainer}>
