@@ -369,8 +369,7 @@ glokool.page.link/jdF1`,
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
-                keyboardVerticalOffset={Platform.OS === 'android' ? -190 : 0}
-                behavior="padding"
+
             >
                 <ScrollView
                     style={{ backgroundColor: '#ffffff', }}
