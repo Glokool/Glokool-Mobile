@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         height: windowHeight * 0.06,
         paddingHorizontal: 10,
+        width : windowWidth * 0.75
     },
     ButtonText: {
         fontFamily: 'Pretendard-Regular',

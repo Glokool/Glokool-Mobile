@@ -79,6 +79,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
             })
             .catch((err) => {
                 console.log('유저가 보유한 채팅 리스트 조회 실패 : ', err);
+                setData([]);
             })
 
     }
@@ -551,11 +552,14 @@ const styles = StyleSheet.create({
     ChatRoomInfoContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        width : 50,
+        height : 50,
+        marginBottom: 10
     },
 
     TimeText: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 12,
+        fontSize: 14,
         color: '#929292'
     },
 
@@ -566,8 +570,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#7777FF',
         // marginHorizontal: 10,
         marginTop: 5,
-        width: 15,
-        height: 15
+        width: 17,
+        height: 17
     },
 
     UnreadMessageText: {

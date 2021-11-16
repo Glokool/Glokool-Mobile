@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         marginRight: 5,
         backgroundColor: '#efefef',
-        width: windowWidth * 0.35,
+        width: windowWidth * 0.34,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: 10,
+        alignSelf : 'center',
     },
     sideSpace: {
         width: 30,

@@ -53,6 +53,7 @@ import { cleanRoomName, setRoomName } from '../../../../model/Chat/Chat.Data.mod
 import { setKeyboardHeight, cleanKeyboardHeight, setEmojiKeyboardFalse } from '../../../../model/Chat/Chat.Keyboard.model';
 import { getBottomSpace, getStatusBarHeight, isIphoneX } from 'react-native-iphone-x-helper';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
 
@@ -88,6 +89,8 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
         });
 
         getAccessToken();
+
+        AsyncStorage.setItem(`ChatCheck_${props.route.params.id}`, "");
 
         return () => {
             showSubscription.remove();
@@ -261,14 +264,15 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             },
         });
 
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer token ${currentUser.access_token}`,
+                Authorization: `Bearer ${currentUser.access_token}`,
             }
         };
 
-        console.log(currentUser.access_token);
+        console.log(currentUser);
 
         axios.post(url, data, options)
             .catch((e) => {
