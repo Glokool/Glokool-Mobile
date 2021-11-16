@@ -161,7 +161,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 showsHorizontalScrollIndicator={false}
                 style={styles.FlatListContainer}
                 ListFooterComponent={<Layout style={{ width: 15 }} />}
-                ListHeaderComponent={ListHeaderComponent}
+                //ListHeaderComponent={ListHeaderComponent} 차후 챗보 업데이트시 사용
                 keyExtractor={(item, index) => index.toString()}
             />
             {/* guide 더보기 버튼 */}
