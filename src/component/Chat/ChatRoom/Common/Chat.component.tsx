@@ -152,10 +152,10 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
-        });
 
-        setChatMessages(tempMessages);
-        setMessagesCount(messagesCount + 50);
+            setChatMessages(tempMessages);
+            setMessagesCount(messagesCount + 50);
+        });
 
     }
 

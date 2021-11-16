@@ -33,24 +33,15 @@ import { ChatTopTabBarComponent } from './TopTabBar.component';
 
 export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
 
-    const day = props.route.params.day
     const Guide = props.route.params.guide;
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
 
     const dispatch = useDispatch();
-    const roomName = useSelector((state: RootState) => state.ChatDataModel.roomName);
-    const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
-    const emojiKeyboardVisiblity = useSelector((state: RootState) => state.ChatKeyboardModel.emojiKeyboardVisiblity);
-
-
     const [messagesCount, setMessagesCount] = React.useState<number>(50);
     const [ChatDB, setChatDB] = React.useState<FirebaseDatabaseTypes.Reference | undefined>(undefined);
     const [chatMessages, setChatMessages] = React.useState<Array<IMessage>>([]);
 
-
-    const [iphoneXKeyboardPadding, setIphoneXKeyboardPadding] = useState<number>(getBottomSpace() - 34);
-    const [iosKeyboardPadding, setIosKeyboardPadding] = useState<number>(-14);
 
     React.useEffect(() => {
         
@@ -72,27 +63,18 @@ export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement =
     const LoadEarlierMessages = () => {
 
         // 50개씩 예전 메시지 로딩
-        setChatMessages([]);
-
-        ChatDB?.off('child_added'); // 먼저 기존 리스너 제거
-
         var tempMessages: Array<IMessage> = [];
-
-        ChatDB?.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            setChatMessages(value => GiftedChat.append(value, snapshot.val()));            
-        });
-
 
         ChatDB?.orderByKey().limitToLast(messagesCount + 50).once('value', (snapshot) => {
             snapshot.forEach((data) => {
                 tempMessages = GiftedChat.append(tempMessages, data.val());
             });
+
+            setChatMessages(tempMessages);
+            setMessagesCount(messagesCount + 50);
         });
 
-
-        setChatMessages(tempMessages);
-        setMessagesCount(messagesCount + 50);
-        
+       
     }
 
     const OfftheDB = (snapshot: FirebaseDatabaseTypes.DataSnapshot, response?: string | null | undefined): void => {
@@ -109,8 +91,6 @@ export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement =
         const Chat = database().ref(DBURL);
         setChatDB(Chat);
 
-        console.log(travelDate)
-
         var tempMessages: Array<IMessage> = [];
 
         Chat.orderByKey().limitToLast(messagesCount).once('value', (snapshot) => {
@@ -123,8 +103,6 @@ export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement =
 
     }
 
-
-
     
 
     return (
@@ -134,7 +112,7 @@ export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement =
 
                 <GiftedChat
                     messages={chatMessages}
-                    textInputProps={{ autoFocus: true }}
+                    
                     bottomOffset={(isIphoneX()) ? -getBottomSpace() + 47 : (Platform.OS === 'ios') ? - 25 : 0}
                     infiniteScroll={true}
                     loadEarlier={true}
@@ -142,12 +120,13 @@ export const HistoryChatComponent = (props: ChatRoomSceneProps): LayoutElement =
                         _id: currentUser?.uid,
                     }}
                     messagesContainerStyle={{
+                        height : '100%',
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
-                    onLoadEarlier={() => { LoadEarlierMessages() }}
                     alwaysShowSend={false}
                     showUserAvatar={false}
                     renderAvatarOnTop={true}
+                    onLoadEarlier={() => LoadEarlierMessages()}
                     renderLoadEarlier={renderLoadEarlier}
                     renderAvatar={renderAvatar}
                     renderTime={renderTime}

@@ -99,7 +99,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.LocationContainer}>
                         <Location />
-                        <Text style={styles.LocationText}>{item.item.zone}</Text>
+                        <Text style={styles.LocationText}>{item.item.zone.toUpperCase()}</Text>
                     </Layout>
                     <Layout style={styles.InfoItem}>
                         <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Travel Assistant</Text>
