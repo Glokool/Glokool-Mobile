@@ -75,7 +75,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
             <Layout style={styles.GuideContainer}>
 
                 <Layout style={styles.GuideInfoContainer}>
-                    <FastImage source={{ uri: item.guide.avatar }} style={styles.Avatar} />
+                    <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
