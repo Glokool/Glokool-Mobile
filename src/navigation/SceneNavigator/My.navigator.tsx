@@ -21,6 +21,7 @@ import { ChatRoomScene } from '../../scenes/Chat';
 import { ChatNavigatorParams } from '../../navigation/SceneNavigator/Chat.navigator';
 import { authContextType, ReceiptDetailInfo, ReservationInfo } from '../../types';
 import { MainNavigatorParams } from '../Main.navigator';
+import { MyHistoryChatScene } from '../../scenes/My/My.HistoryChat.scene';
 
 type MyNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.MY]: undefined;
@@ -34,8 +35,18 @@ type MyNavigatorParams = AppNavigatorParams & MainNavigatorParams & {
   [SceneRoute.FAQ]: undefined;
   [SceneRoute.MY_PROFILE]: undefined;
   [SceneRoute.HISTORY]: undefined;
-  [SceneRoute.CHATROOM]: undefined;
-
+  [SceneRoute.CHATROOM] : {
+      id: string;
+      guide: {
+        name: string;
+        uid: string;
+        avatar?: string;
+      }
+      day: string,
+      zone: string;
+      maxUser: number;
+      finish: boolean;
+    };
 };
 
 export interface MyScreenProps {
@@ -93,12 +104,14 @@ export interface FAQProps {
   route: RouteProp<MyNavigatorParams, SceneRoute.FAQ>;
 }
 
-// 일단은 history -> chat 으로 가니까 이렇게 해둠
-// 나중에 chat 바뀔때 recent 를 chat navigator 에서 없애고
-// my navigator 로 이식
 export interface HistoryScreenProps {
-  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHAT>;
-  route: RouteProp<ChatNavigatorParams, SceneRoute.CHAT>;
+  navigation: StackNavigationProp<MyNavigatorParams, SceneRoute.HISTORY>;
+  route: RouteProp<MyNavigatorParams, SceneRoute.HISTORY>;
+}
+
+export interface MyHistoryChatSceneProps {
+  navigation: StackNavigationProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
+  route: RouteProp<ChatNavigatorParams, SceneRoute.CHATROOM>;
 }
 
 
@@ -122,7 +135,7 @@ export const MyNavigator = (): React.ReactElement => (
     <Stack.Screen name={SceneRoute.PRIVACY_CONFIRM} component={PrivacyConfirm} />
     <Stack.Screen name={SceneRoute.PRIVACY_LOGIN} component={PrivacyLogin} />
 
-    <Stack.Screen name={SceneRoute.CHATROOM} component={ChatRoomScene} />
+    <Stack.Screen name={SceneRoute.CHATROOM} component={MyHistoryChatScene} />
 
   </Stack.Navigator>
 );

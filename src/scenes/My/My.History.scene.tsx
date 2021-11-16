@@ -1,58 +1,117 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import {
     StyleSheet,
     Dimensions,
     FlatList,
     Platform,
-    Text
+    Text,
+    Pressable
 } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { HistoryScreenProps } from '../../navigation/SceneNavigator/My.navigator';
 import { Location } from '../../assets/icon/Common';
 import { CommonTopTabBar } from '../../component/Common';
+import axios from 'axios';
+import { CDN, SERVER } from '../../server.component';
+import moment from 'moment';
+import FastImage from 'react-native-fast-image';
+import { SceneRoute } from '../../navigation/app.route';
 
 const windowWidth = Dimensions.get('window').width;
 
+interface HistoryChatData {
+    _id : string;
+    keyward : Array<string>;
+    guide : {
+        avatar : string;
+        name : string;
+        uid : string;
+    }
+    maxUserNum : number;
+    price : {
+        discountPrice : string;
+        price : string;
+    }
+    priority : number;
+    reservationPending: Array<string>;
+    travelDate: Date;
+    users : Array<String>;
+    zone : string;
+}
+
 export const HistoryScreen = (props: HistoryScreenProps) => {
 
-    const sampleData = [
-        {
-            location: 'HONGDAE',
-            assistant: 'Jaehoon Jang',
-            date: '2021.07.04',
-        },
-        {
-            location: 'HONGDAE',
-            assistant: 'Glokool Official',
-            date: '2021.07.04',
-        },
-        {
-            location: 'HONGDAE',
-            assistant: 'Sungsoo Park',
-            date: '2021.07.04',
-        },
-    ]
+    const [data, setData] = React.useState<Array<HistoryChatData>>([]);
 
-    const renderItem = (item) => {
+    React.useEffect(() => {
+        InitPastChat();
+    }, []);
+
+    const InitPastChat = async() => {
+
+        const token = await auth().currentUser?.getIdToken();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
+        }
+        axios.get(SERVER + '/users/chat-rooms/past', config)
+            .then((result) => {
+                setData(result.data);
+            })
+            .catch((err) => {
+                console.log("에러 : ", err)
+            })
+    }
+
+    const PressChat = (item : HistoryChatData) => {
+        props.navigation.navigate(SceneRoute.CHATROOM, {
+            id: item._id,
+            guide: {
+                name: item.guide.name,
+                uid: item.guide.uid,
+                avatar: item.guide.avatar,
+            },
+            zone: item.zone,
+            maxUser: item.maxUserNum,
+            day: moment(item.travelDate).format('yyyy-MM-DD'),
+            finish: true,
+        })
+    }
+
+    const renderItem = (item : {item : HistoryChatData, index : number}) => {
+
+
 
         return (
-            <Layout style={styles.ItemContainer}>
-                <Layout style={styles.ImageItem} />
+            <Pressable 
+                style={styles.ItemContainer}
+                onPress={() => PressChat(item.item)}
+            >
+
+                <Layout style={styles.ImageItem}>
+                    <FastImage source={{uri : CDN + item.item.guide.avatar}} style={styles.ImageItem}/>
+                </Layout>
+                
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.LocationContainer}>
                         <Location />
-                        <Text style={styles.LocationText}>{item.item.location}</Text>
+                        <Text style={styles.LocationText}>{item.item.zone}</Text>
                     </Layout>
                     <Layout style={styles.InfoItem}>
                         <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Travel Assistant</Text>
-                        <Text style={[styles.InfoText, { flex: 1 }]}>{item.item.assistant}</Text>
+                        <Text style={[styles.InfoText, { flex: 1 }]}>{item.item.guide.name}</Text>
                     </Layout>
                     <Layout style={styles.InfoItem}>
                         <Text style={[styles.InfoText, { color: '#b4b4b4', flex: 1, }]}>Booking Date</Text>
-                        <Text style={[styles.InfoText, { flex: 1 }]}>{item.item.date}</Text>
+                        <Text style={[styles.InfoText, { flex: 1 }]}>{moment(item.item.travelDate).format('yyyy.MM.DD')}</Text>
                     </Layout>
                 </Layout>
-            </Layout>
+
+            </Pressable>
         )
     }
 
@@ -64,7 +123,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
 
             {/* Previous Chatting List */}
             <FlatList
-                data={sampleData}
+                data={data}
                 renderItem={renderItem}
                 style={styles.FlatListContainer}
             />
@@ -102,6 +161,7 @@ const styles = StyleSheet.create({
     },
     ItemContainer: {
         flexDirection: 'row',
+        backgroundColor : 'white',
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,

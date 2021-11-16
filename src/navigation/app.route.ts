@@ -94,6 +94,7 @@ export enum SceneRoute {
     PAID_CHAT_LIST = 'Paid Chat List',
     BOOKMARK_LIST = 'Bookmark List',
     HISTORY = 'History',
+    HISTORY_CHAT = 'History Chat',
 
     // My - Privacy
     PRIVACY = 'Privacy',
