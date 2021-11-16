@@ -4,6 +4,7 @@ import { authContextType } from '../types';
 const user = {
     currentUser: {
         access_token: "",
+        expiry_date: 0,
         displayName: "",
         email: "",
         photoURL: "",

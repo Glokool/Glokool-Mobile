@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging'
 import {
     SafeAreaView,
     Platform,
@@ -85,6 +86,9 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             setIphoneXKeyboardPadding(getBottomSpace() - 13);
             setIosKeyboardPadding(20);
         });
+
+        getAccessToken();
+
         return () => {
             showSubscription.remove();
             hideSubscription.remove();
@@ -93,7 +97,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
 
     const getAccessToken = async () => {
         try {
-            const res = await axios.get(`${SERVER}/api/token`);
+            const res = await axios.get(`${SERVER}/token`);
             setCurrentUser({ ...currentUser, ...res.data });
         } catch (e) {
             console.log('e', e);
@@ -229,16 +233,14 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
     }, []);
 
 
-    const ChatRoomInit = (id: string): void => {
-        dispatch(setChatLoadingTrue()) // 로딩 시작
-        setChatMessages([]); //로컬 메시지 저장소 초기화
-        dispatch(setRoomName(id));
-    }
-
     const FCMSend = async (message: IMessage) => {
 
-        const token = await auth().currentUser?.getIdToken();
+        const current = new Date().getTime();
         const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
+
+        if (currentUser.expiry_date < current) {
+            await getAccessToken();
+        }
 
         const data = JSON.stringify({
             message: {
@@ -262,9 +264,11 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer token ${token}`,
+                Authorization: `Bearer token ${currentUser.access_token}`,
             }
         };
+
+        console.log(currentUser.access_token);
 
         axios.post(url, data, options)
             .catch((e) => {
