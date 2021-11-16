@@ -136,9 +136,6 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
 
     const LoadEarlierMessages = () => {
 
-        // 50개씩 예전 메시지 로딩
-        setChatMessages([]);
-
         ChatDB?.off('child_added'); // 먼저 기존 리스너 제거
 
         var tempMessages: Array<IMessage> = [];
@@ -343,6 +340,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                         paddingBottom: Platform.OS === 'ios' ? (isIphoneX() ? iphoneXKeyboardPadding : iosKeyboardPadding) : 20,
                         paddingTop: isIphoneX() ? getStatusBarHeight() + 13 : 60
                     }}
+                    isLoadingEarlier={false}
                     onLoadEarlier={() => { LoadEarlierMessages() }}
                     alwaysShowSend={true}
                     showUserAvatar={false}
