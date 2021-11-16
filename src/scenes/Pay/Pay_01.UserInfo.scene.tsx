@@ -223,7 +223,7 @@ export const PayFirstScene = (props: PayFirstSceneProps): LayoutElement => {
 const styles = StyleSheet.create({
     MainContainer: {
         width: windowWidth,
-        height: windowHeight,
+        height: "100%",
     },
     Pagination: {
         width: '100%',
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     Warning: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: windowHeight * 0.02
+        height: windowHeight * 0.03
     },
     WarningText: {
         color: '#FF6148',

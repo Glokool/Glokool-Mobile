@@ -294,17 +294,21 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             }
 
             newMessage?.set(message, (e) => {
-                if (e != null) { console.log('채팅 전송 실패 : ', e) }
+                if (e != null) { 
+                    Alert.alert("", "The transmission failed. Please try again.");
+                    console.log('채팅 전송 실패 : ', e) 
+                }
+
+                else {
+                    FCMSend(message);
+                    console.log('채팅 전송 성공')
+                }
             });
 
-            FCMSend(message);
+            
 
 
         } else {
-            // ToastRef.show(
-            //     'Please refrain from any content that may offend the other person.',
-            //     1000,
-            // );
             Alert.alert("", "The message contains inappropriate languages. Please try again.");
         }
 

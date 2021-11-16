@@ -53,7 +53,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
         const data = JSON.stringify({
             chatRoomCode : props.route.params.ChatRoomID
         });
-        
+
         const config = {
             headers : {
                 Authorization : `Bearer ${token}`,
@@ -180,10 +180,27 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     <Text style={styles.ValueText}>English</Text>
                 </Layout>
 
+                {state.kakaoClicked? 
                 <Layout style={styles.PaymentContainer}>
                     <Text style={styles.TitleText}>
                         PAYMENT DETAILS
                     </Text>
+
+                    <Layout style={styles.PairContainer}>
+                        <Text style={styles.SubTitleText}>Service Fees</Text>
+                        <Text style={styles.ValueText}>{(props.route.params.price.discountPrice * 1200).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW</Text>
+                    </Layout>
+                    <Layout style={styles.PairContainer}>
+                        <Text style={styles.SubTitleText}>Promotion</Text>
+                        <Text style={[styles.ValueText, { color: '#7777ff' }]}>-{(((props.route.params.price.price) - (props.route.params.price.discountPrice)) * 1200).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} KRW</Text>
+                    </Layout>
+                </Layout>
+                : 
+                <Layout style={styles.PaymentContainer}>
+                    <Text style={styles.TitleText}>
+                        PAYMENT DETAILS
+                    </Text>
+
                     <Layout style={styles.PairContainer}>
                         <Text style={styles.SubTitleText}>Service Fees</Text>
                         <Text style={styles.ValueText}>{props.route.params.price.price} USD</Text>
@@ -193,6 +210,9 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                         <Text style={[styles.ValueText, { color: '#7777ff' }]}>-{(props.route.params.price.price) - (props.route.params.price.discountPrice)} USD</Text>
                     </Layout>
                 </Layout>
+                }
+
+                
 
                 {/* Banner */}
                 <PromotionBanner width={windowWidth * 0.9} />
@@ -204,7 +224,7 @@ export const PaySecondScene = (props: PaySecondSceneProps): LayoutElement => {
                     <Text style={styles.SubTitleText}>TOTAL</Text>
                     {state.kakaoClicked? 
                         <Layout style={styles.RowContainer}>                    
-                            <Text style={styles.CostText}>{(props.route.params.price.discountPrice * 1200).toLocaleString('ko-KR')}</Text>
+                            <Text style={styles.CostText}>{(props.route.params.price.discountPrice * 1200).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                             <Text style={[styles.ValueText, { color: '#7777ff' }]}>KRW</Text>
                         </Layout>
                     : 
