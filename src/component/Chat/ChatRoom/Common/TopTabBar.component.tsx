@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         borderRadius: 100,
-        marginRight: 15,
+        marginRight: 5,
     },
 
     SmallIconContainer: {

@@ -141,7 +141,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
         var tempMessages: Array<IMessage> = [];
 
         ChatDB?.orderByKey().limitToLast(1).on('child_added', (snapshot, previousKey) => {
-            setChatMessages(value => GiftedChat.append(value, snapshot.val()));            
+            setChatMessages(value => GiftedChat.append(value, snapshot.val()));
         });
 
 
@@ -289,7 +289,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                 user: {
                     _id: currentUser?.uid,
                     name: currentUser?.displayName,
-                    avatar : currentUser?.photoURL
+                    avatar: currentUser?.photoURL
                 },
                 messageType: 'message',
                 createdAt: new Date().getTime(),
@@ -300,9 +300,9 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             }
 
             newMessage?.set(message, (e) => {
-                if (e != null) { 
+                if (e != null) {
                     Alert.alert("", "The transmission failed. Please try again.");
-                    console.log('채팅 전송 실패 : ', e) 
+                    console.log('채팅 전송 실패 : ', e)
                 }
 
                 else {
@@ -311,7 +311,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                 }
             });
 
-            
+
 
 
         } else {
@@ -356,7 +356,6 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                     renderMessageImage={(props) => renderImage(props, dispatch)}
                     renderMessageAudio={(props) => renderSound(props, Guide)}
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
-                    
                 />
 
             </Layout>
@@ -383,7 +382,11 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             {/* <NoticeComponent /> */}
 
             {/* 가이드 모달 */}
-            <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser} />
+            <GuideModalComponent
+                guide={props.route.params.guide.uid}
+                zone={props.route.params.zone}
+                maxUser={props.route.params.maxUser}
+            />
 
         </SafeAreaView>
 

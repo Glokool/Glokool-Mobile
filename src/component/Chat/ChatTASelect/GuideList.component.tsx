@@ -10,6 +10,10 @@ import { useInterval } from '../ChatRoom/Audio/Timer.component';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { CDN, SERVER } from '../../../server.component';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { GuideModalComponent } from '../ChatRoom';
+import { RootState } from '../../../model';
 
 interface GuideData {
     _id: string;
@@ -33,6 +37,8 @@ interface GuideData {
 }
 
 export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
+
+    const dispatch = useDispatch();
 
     const KRTIMEDIFF = 9 * 60 * 60 * 1000;
 
@@ -75,7 +81,11 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
             <Layout style={styles.GuideContainer}>
 
                 <Layout style={styles.GuideInfoContainer}>
-                    <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
+                    <Pressable onPress={() => {
+                        dispatch(setGuideVisiblityTrue());
+                    }}>
+                        <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
+                    </Pressable>
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
@@ -133,6 +143,13 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                         <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}>{item.price.discountPrice}</Text> / day</Text>
                     </Layout>
                 </Layout>
+
+                <GuideModalComponent
+                    guide={item.guide.uid}
+                    zone={props.route.params.zone}
+                    maxUser={item.maxUserNum}
+                />
+
             </Layout>
         )
     }
@@ -161,6 +178,7 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
                 </Layout>
             )}
+
 
         </ScrollView>
 
@@ -210,7 +228,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginLeft: 5,
-        width: '100%'
+        width: '100%',
     },
 
     Avatar: {
@@ -223,7 +241,8 @@ const styles = StyleSheet.create({
 
     Button: {
         width: 80,
-        height: 30
+        height: 30,
+        justifyContent:'center'
     },
 
     TagContainer: {
@@ -256,7 +275,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 10,
-        flex: 1
+        flex: 1,
     },
 
     IconContainer: {
@@ -270,14 +289,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1
     },
 
     PriceContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1
+        paddingHorizontal: 10,
     },
 
     MainTitle: {

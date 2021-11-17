@@ -8,19 +8,20 @@ import { RootState } from '../../../model';
 import { setGuideVisiblityFalse } from '../../../model/Chat/Chat.Setting.model';
 import { Location } from '../../../assets/icon/Common';
 import axios from 'axios';
+import { windowWidth } from '../../../Design.component';
 
 interface GuideInfo {
-    _id : string;
-    avatar : string;
-    country : string;
-    keyward : Array<string>;
-    lang : Array<boolean>;
-    name : string;
-    oneLineIntro : string | undefined;
-    intro : string | undefined;
+    _id: string;
+    avatar: string;
+    country: string;
+    keyword: Array<string>;
+    lang: Array<boolean>;
+    name: string;
+    oneLineIntro: string | undefined;
+    intro: string | undefined;
 }
 
-export const GuideModal = (props: any) : React.ReactElement => {
+export const GuideModal = (props: any): React.ReactElement => {
 
     const guideUID = props.guide;
     const guideVisible = useSelector((state: RootState) => state.ChatSettingUIModel.guideVisiblity);
@@ -36,7 +37,7 @@ export const GuideModal = (props: any) : React.ReactElement => {
                 setData(response.data);
             })
             .catch((err) => {
-                console.log('가이드 정보 불러오기 실패 (guides/uid) : ',err);
+                console.log('가이드 정보 불러오기 실패 (guides/uid) : ', err);
             })
     }, []);
 
@@ -52,7 +53,7 @@ export const GuideModal = (props: any) : React.ReactElement => {
         )
     }
 
-    return (        
+    return (
         <Modal
             style={{ padding: 20, width: '100%', }}
             visible={guideVisible}
@@ -71,12 +72,12 @@ export const GuideModal = (props: any) : React.ReactElement => {
 
                 <Layout style={styles.innerContainer}>
 
-                    {data?.avatar? 
+                    {data?.avatar ?
                         <Image
-                            source={{uri : CDN + data.avatar}}
+                            source={{ uri: CDN + data.avatar }}
                             style={styles.profileImage}
                         />
-                    :
+                        :
                         <Image
                             source={require('../../../assets/image/Chat/guideGray.png')}
                             style={styles.profileImage}
@@ -100,8 +101,8 @@ export const GuideModal = (props: any) : React.ReactElement => {
 
                     <Layout style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                         <Text style={styles.keyTextStyle}>Language</Text>
-                        <Text style={styles.valTextStyle}>{(data?.lang[0])? 'English' : ''} {(data?.lang[1] != undefined)? (data.lang[1])? 'Chinese' : '' : ''}</Text>
-                        
+                        <Text style={styles.valTextStyle}>{(data?.lang[0]) ? 'English' : ''} {(data?.lang[1] != undefined) ? (data.lang[1]) ? 'Chinese' : '' : ''}</Text>
+
                     </Layout>
 
                     <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
@@ -112,7 +113,7 @@ export const GuideModal = (props: any) : React.ReactElement => {
                     <Layout style={{ flexDirection: 'row', marginTop: 3, alignItems: 'flex-end' }}>
                         <Text style={styles.keyTextStyle}>Chat Type</Text>
                         <Text style={[styles.valTextStyle, { flex: 1 }]}>
-                            {props.maxUser === 1? 'Private Chat' : 'Group Chat'}
+                            {props.maxUser === 1 ? 'Private Chat' : 'Group Chat'}
                         </Text>
                         <Layout style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end' }}>
                             <Text style={styles.keyTextStyle}>Max</Text>
@@ -133,7 +134,7 @@ export const GuideModal = (props: any) : React.ReactElement => {
                     {/* keyword 에 다른 값이 들어와서 잠시 주석처리 */}
                     <Layout style={{ marginTop: 20, alignItems: 'center' }}>
                         <FlatList
-                            data={data?.keyward}
+                            data={data?.keyword}
                             renderItem={renderItem}
                             horizontal
                             scrollEnabled={false}
@@ -203,7 +204,10 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         paddingHorizontal: 17,
         paddingVertical: 8,
-        marginRight: 5,
+        marginHorizontal: 2,
+        width: windowWidth * 0.35,
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#efefef',
     },
     keywordText: {

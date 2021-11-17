@@ -132,12 +132,14 @@ const styles = StyleSheet.create({
         height: 70,
         alignContent : 'center',
         justifyContent: 'center',
+        
     },
 
     ActionButton: {
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
+        
     },
 
     ChatComposer: {
@@ -148,6 +150,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none',
         paddingBottom: 0,
         paddingTop: 0,
+        
     },
 
 });
