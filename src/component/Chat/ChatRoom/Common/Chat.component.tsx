@@ -288,7 +288,8 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                 _id: newMessage?.key,
                 user: {
                     _id: currentUser?.uid,
-                    name: currentUser?.displayName
+                    name: currentUser?.displayName,
+                    avatar : currentUser?.photoURL
                 },
                 messageType: 'message',
                 createdAt: new Date().getTime(),
@@ -355,6 +356,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
                     renderMessageImage={(props) => renderImage(props, dispatch)}
                     renderMessageAudio={(props) => renderSound(props, Guide)}
                     renderCustomView={(props) => renderCustomBubble(props, dispatch)}
+                    
                 />
 
             </Layout>

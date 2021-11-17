@@ -60,7 +60,7 @@ export const renderBubble = (props: BubbleProps<IMessage>, guide: any): JSX.Elem
 const styles = StyleSheet.create({
 
     BubbleContainer: {
-        marginTop: 10
+        marginTop: 8
     },
 
     LeftBubbleWrapper: {

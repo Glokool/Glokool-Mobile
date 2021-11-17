@@ -59,7 +59,7 @@ export const PaySuccessScene = (props: PaySuccessSceneProps) => {
                         console.error('FCM 토픽 구독 실패 : ', err);                        
                     })
                 
-                const NoticeMessage = messaging().subscribeToTopic(`${ReservationData.ChatRoomID}/notice`)
+                const NoticeMessage = messaging().subscribeToTopic(`${ReservationData.ChatRoomID}_notice`)
                     .then(() => {
                         console.log('FCM 공지 토픽 구독 성공 : ', ReservationData.ChatRoomID);
                     })

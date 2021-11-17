@@ -63,8 +63,12 @@ export const AudioRecordComponent = (props : any) => {
 
     const FCMSend = async(message : IMessage, messageType : string) => {
           
-        const token = await auth().currentUser?.getIdToken();
         const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
+        const current = new Date().getTime();
+
+        if (currentUser.expiry_date < current) {
+            await getAccessToken();
+        }
 
         const data = JSON.stringify({
             message: {
@@ -88,7 +92,7 @@ export const AudioRecordComponent = (props : any) => {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${currentUser.access_token}`,
             }
         };
 
@@ -130,47 +134,53 @@ export const AudioRecordComponent = (props : any) => {
     }
 
     const handleAudio = async () => {
-        AudioRecorder.requestAuthorization().then((isAuthorised) => { });
-
-        if (startAudio == false) {
-            //오디오 버튼 시작
-
-            setStartAudio(true);
-
-            await AudioRecorder.prepareRecordingAtPath(
-                `${AudioUtils.DocumentDirectoryPath}/${messageIdGenerator()}.aac`,
-                {
-                    SampleRate: 22050,
-                    Channels: 1,
-                    AudioQuality: 'Low',
-                    AudioEncoding: 'aac',
-                    MeteringEnabled: true,
-                    IncludeBase64: true,
-                    AudioEncodingBitRate: 32000,
-                },
-            );
-            await AudioRecorder.startRecording();
-            audioStopwatchReset();
-            audioStopwatchStart();
-            console.log('start?');
-        } else {
-            // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
-            setStartAudio(false);
-            audioStopwatchStop();
-            console.log('stop?');
-
-            const recorder = await AudioRecorder.stopRecording();
-            AudioRecorder.onFinished = (data) => {
-
-                if (Platform.OS === 'ios') {
-                    var path = data.audioFileURL;
-                    setAudioPath(path);
+        
+        AudioRecorder.requestAuthorization().then(async(isAuthorised) => { 
+            if(isAuthorised) { 
+                if (startAudio == false) {
+                    //오디오 버튼 시작
+        
+                    setStartAudio(true);
+        
+                    await AudioRecorder.prepareRecordingAtPath(
+                        `${AudioUtils.DocumentDirectoryPath}/${messageIdGenerator()}.aac`,
+                        {
+                            SampleRate: 22050,
+                            Channels: 1,
+                            AudioQuality: 'Low',
+                            AudioEncoding: 'aac',
+                            MeteringEnabled: true,
+                            IncludeBase64: true,
+                            AudioEncodingBitRate: 32000,
+                        },
+                    );
+                    await AudioRecorder.startRecording();
+                    audioStopwatchReset();
+                    audioStopwatchStart();
+                    console.log('start?');
                 } else {
-                    var path = `file://${data.audioFileURL}`;
-                    setAudioPath(path);
+                    // 다시 눌렀을 경우 (녹음 종료후 바로 전달)
+                    setStartAudio(false);
+                    audioStopwatchStop();
+                    console.log('stop?');
+        
+                    const recorder = await AudioRecorder.stopRecording();
+                    AudioRecorder.onFinished = (data) => {
+        
+                        if (Platform.OS === 'ios') {
+                            var path = data.audioFileURL;
+                            setAudioPath(path);
+                        } else {
+                            var path = `file://${data.audioFileURL}`;
+                            setAudioPath(path);
+                        }
+                    };
                 }
-            };
-        }
+            }
+            else { console.log('아니') }
+        });
+
+        
     };
 
     const sendAudio = () => {
@@ -189,7 +199,8 @@ export const AudioRecordComponent = (props : any) => {
                         _id : newMessage.key,
                         user : {
                             _id : currentUser?.uid,
-                            name : currentUser?.displayName
+                            name : currentUser?.displayName,
+                            avatar : currentUser.photoURL
                         },
                         messageType : 'audio',
                         createdAt : new Date().getTime(),

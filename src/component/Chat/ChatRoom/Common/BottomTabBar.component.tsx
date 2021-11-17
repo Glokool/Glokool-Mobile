@@ -15,8 +15,6 @@ import Geolocation from '@react-native-community/geolocation';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from 'axios';
 import { SERVER } from '../../../../server.component';
-import { IMessage } from 'react-native-gifted-chat';
-import moment from 'moment';
 
 
 export const BottomTabBarComponent = (props : any) : React.ReactElement => {
@@ -43,8 +41,12 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
 
     const FCMSend = async(message : any, messageType : string) => {
           
-        const token = await auth().currentUser?.getIdToken();
         const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
+        const current = new Date().getTime();
+
+        if (currentUser.expiry_date < current) {
+            await getAccessToken();
+        }
 
         const data = JSON.stringify({
             message: {
@@ -68,7 +70,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
         const options = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${currentUser.access_token}`,
             }
         };
 
@@ -153,7 +155,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                                                 _id : newMessage.key,
                                                 user : {
                                                     _id : currentUser?.uid,
-                                                    name : currentUser?.displayName
+                                                    name : currentUser?.displayName,
+                                                    avatar : currentUser?.photoURL
                                                 },
                                                 messageType : 'image',
                                                 createdAt : new Date().getTime(),
@@ -235,7 +238,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                                     _id : newMessage.key,
                                     user : {
                                         _id : currentUser?.uid,
-                                        name : currentUser?.displayName
+                                        name : currentUser?.displayName,
+                                        avatar : currentUser?.photoURL
                                     },
                                     messageType : 'image',
                                     createdAt : new Date().getTime(),
@@ -282,7 +286,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                 _id : newMessage.key,
                 user : {
                     _id : currentUser?.uid,
-                    name : currentUser?.displayName
+                    name : currentUser?.displayName,
+                    avatar : currentUser?.photoURL
                 },
                 messageType : 'location',
                 createdAt : new Date().getTime(),
