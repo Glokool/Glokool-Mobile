@@ -13,13 +13,13 @@ export const renderAvatar = (props: AvatarProps<IMessage>): React.ReactElement =
                 <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: - 10 }}>
                     <FastImage source={require('../../../../assets/image/Chat/guideGray.png')} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
                 </Layout>
-                <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage?.user.name}</Text>
+                {/* <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage?.user.name}</Text> */}
             </>
         )
     }
 
     return (
-        <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: 10 }}>
+        <Layout style={{ width: windowWidth * 0.08, height: windowWidth * 0.08, marginRight: 5, marginTop: - 10 }}>
             <FastImage source={{ uri: props.currentMessage.user.avatar }} style={{ width: windowWidth * 0.08, height: windowWidth * 0.08 }} resizeMode={'stretch'} />
 
             <Text numberOfLines={1} style={styles.NicknameText}>{props.currentMessage.user.name}</Text>

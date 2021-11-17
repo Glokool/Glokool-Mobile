@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         width: '100%',
         alignItems: 'center',
-        backgroundColor: '#ECECFC',
+        backgroundColor: '#f9f9f9',
     },
     ScrollViewContainer: {
         width: '100%',

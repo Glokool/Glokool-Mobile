@@ -71,14 +71,15 @@ const styles = StyleSheet.create({
     GloChatImage: {
         position: 'absolute',
         right: 0,
-        bottom: windowHeight * 0.05,
+        bottom: windowHeight * 0.08,
     },
     GloChatTitleContainer: {
         backgroundColor: '#0000',
+        marginTop: 15
     },
     GloChatTitleText: {
         fontFamily: 'Pretendard-ExtraBold',
-        fontSize: 27,
+        fontSize: 25,
         color: '#2F2073'
     },
     GloChatSubTitleContainer: {
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: windowHeight * 0.12,
+        marginTop: windowHeight * 0.15,
         paddingBottom: windowHeight * 0.025,
         width: windowWidth * 0.9,
         backgroundColor: '#0000',

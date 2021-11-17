@@ -35,18 +35,17 @@ export const TopTabWeatherbar = (): LayoutElement => {
             <Layout style={styles.TextContainer}>
 
                 <Layout style={styles.TextMinorContainer}>
-                    <Text style={styles.Location}>
-                        SEOUL
+                    <Text style={styles.Location}>SEOUL
                     </Text>
-                    <Text style={styles.Date}>
-                        {`${moment(today).format('MM / DD')}`}
-                    </Text>
+                    <Text style={[styles.Date, { marginLeft: 10 }]}>Today</Text>
                 </Layout>
 
                 <Layout style={styles.TextMinorContainer}>
-                    <Text style={styles.Date}>Today</Text>
-                    <Text style={styles.HighLowTem}>
-                        {`H  ${data?.temp_max}° L  ${data?.temp_min}°`}                        
+                    <Text style={styles.Date}>
+                        {`${moment(today).format('MM / DD')}`}
+                    </Text>
+                    <Text style={[styles.HighLowTem, { marginLeft: 10 }]}>
+                        {`H  ${data?.temp_max}° L  ${data?.temp_min}°`}
                     </Text>
                 </Layout>
 
@@ -59,18 +58,18 @@ export const TopTabWeatherbar = (): LayoutElement => {
                 </Layout>
 
                 <Layout style={styles.WeatherIcon}>
-                    {(data?.main === 'Snow')?
+                    {(data?.main === 'Snow') ?
                         <Snow />
                         :
-                     (data?.main === 'Clouds')?
-                        <Cloudy />
-                        :
-                     (data?.main === 'Rain')?
-                        <Rain />
-                        :
-                        <Sunny />
+                        (data?.main === 'Clouds') ?
+                            <Cloudy />
+                            :
+                            (data?.main === 'Rain') ?
+                                <Rain />
+                                :
+                                <Sunny />
                     }
-                </Layout>               
+                </Layout>
             </Layout>
 
 
@@ -92,15 +91,15 @@ const styles = StyleSheet.create({
 
     TextContainer: {
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
+        // flexDirection: 'row',
+
         justifyContent: 'center'
     },
 
     TextMinorContainer: {
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginHorizontal: 5
+        // justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
 
     TextMinorContainer2: {
@@ -115,14 +114,13 @@ const styles = StyleSheet.create({
     },
     Location: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 24,
+        fontSize: 20,
         color: 'black'
     },
     Date: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 16,
+        fontSize: 15,
         color: 'black',
-        marginTop: -5
     },
     HighLowTem: {
         fontFamily: 'Pretendard-Medium',
@@ -146,17 +144,17 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: 15,
         color: '#8797FF',
-        marginTop : -10
+        marginTop: -10
     },
 
-    WeatherContainer : {
+    WeatherContainer: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
-    },      
+    },
 
-    WeatherIcon : {
+    WeatherIcon: {
         alignItems: 'center',
         justifyContent: 'flex-end',
         marginBottom: -5

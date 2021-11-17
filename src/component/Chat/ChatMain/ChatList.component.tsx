@@ -26,7 +26,7 @@ interface ChatRoomData {
     createdAt: Date;
     guide: {
         _id: string;
-        keyward: Array<string>;
+        keyword: Array<string>;
         name: string;
         uid: string;
         avatar: string;
@@ -198,8 +198,8 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 
                                 <Layout style={styles.ChatRoomGuideTagContainer}>
 
-                                    {(item.guide.keyward) ?
-                                        item.guide.keyward.map((item, index) => (
+                                    {(item.guide.keyword) ?
+                                        item.guide.keyword.map((item, index) => (
                                             <Layout style={styles.ChatRoomTagTextContainer}>
                                                 <Text style={styles.ChatRoomTagText}>{item}</Text>
                                             </Layout>
@@ -245,7 +245,7 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
         return (
             <Layout style={styles.Container}>
 
-                <ScrollView>
+                <ScrollView style={{ backgroundColor: '#0000' }}>
 
                     <Text style={styles.Title}>MY GloChat</Text>
 
@@ -298,7 +298,8 @@ export const ChatList = (props: ChatMainSceneProps): React.ReactElement => {
 const styles = StyleSheet.create({
     Container: {
         marginBottom: 65,
-        height: windowHeight - 75 - 6 - 65
+        height: windowHeight - 75 - 6 - 65,
+        backgroundColor: '#f8f8f8'
     },
 
     MainContainer: {
@@ -306,7 +307,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 40
+        marginBottom: 40,
+        backgroundColor: '#f8f8f8'
     },
 
     MainContainer2: {
@@ -521,7 +523,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        marginTop: 5
+        marginTop: 10
     },
 
     ChatRoomGuideTitle1: {
@@ -538,7 +540,11 @@ const styles = StyleSheet.create({
 
     ChatRoomTagTextContainer: {
         backgroundColor: '#F1F1FF',
-        borderRadius: 15
+        borderRadius: 15,
+        width: windowWidth * 0.2,
+        marginRight: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     ChatRoomTagText: {
@@ -552,8 +558,8 @@ const styles = StyleSheet.create({
     ChatRoomInfoContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        width : 50,
-        height : 50,
+        width: 50,
+        height: 50,
         marginBottom: 10
     },
 

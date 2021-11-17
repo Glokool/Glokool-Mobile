@@ -16,12 +16,12 @@ export const renderBubble = (props: BubbleProps<IMessage>, guide: any): JSX.Elem
                 null
                 :
                 (props.previousMessage == undefined) ?
-                    <Text style={styles.UserNameText}></Text>
+                    <Text style={styles.UserNameText}>ddd</Text>
                     :
                     (props.currentMessage?.user._id === props.previousMessage?.user?._id) ?
                         null
                         :
-                        <Text style={styles.UserNameText}></Text>
+                        <Text style={styles.UserNameText}>{props.currentMessage?.user.name}</Text>
             }
             {(props.currentMessage.messageType === 'emoji') ?
                 <Bubble
