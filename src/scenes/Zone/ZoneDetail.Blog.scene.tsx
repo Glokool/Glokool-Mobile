@@ -245,7 +245,7 @@ glokool.page.link/jdF1`,
         var data = qs.stringify({
             blogCode: content?._id,
         });
-      
+
         var config: AxiosRequestConfig = {
             method: 'post',
             url: SERVER + '/users/bookmark',
@@ -504,7 +504,7 @@ glokool.page.link/jdF1`,
                                 </Text>
                             </Layout>
                             {recommendation.map((item) => (
-                                <Layout style={{ marginLeft: 10, }}>
+                                <Layout style={{ marginLeft: 10, backgroundColor: '#0000' }}>
                                     <TouchableOpacity
                                         onPress={() => {
                                             // 이전에 있었던 화면은 사라집니다...

@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: windowWidth,
         paddingHorizontal: 15,
+        marginBottom: windowHeight * 0.02
     },
     TitleText: {
         fontFamily: 'Pretendard-Bold',

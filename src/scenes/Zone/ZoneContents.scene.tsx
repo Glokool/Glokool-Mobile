@@ -199,10 +199,11 @@ const styles = StyleSheet.create({
     CategoryItemStyle: {
         borderBottomWidth: 2.5,
         paddingHorizontal: 10,
+        alignItems:'center',
+        justifyContent:'center',
         // paddingBottom: 5,
     },
     CategoryTextStyle: {
-        marginLeft: 5,
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 14,
         paddingBottom: 5,

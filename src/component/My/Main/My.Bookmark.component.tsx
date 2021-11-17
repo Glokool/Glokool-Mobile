@@ -80,6 +80,7 @@ export const BookmarkList = (props: MyScreenProps) => {
                 keyExtractor={(item) => "_" + item._id}
                 style={styles.FlatListContainer}
                 contentContainerStyle={styles.ContentContainer}
+                scrollEnabled={false}
             />
         </View>
     )

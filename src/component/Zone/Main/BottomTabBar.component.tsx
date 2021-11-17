@@ -38,7 +38,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
     React.useEffect(() => {
         if (locationVisiblity) {
             Animated.timing(heightLevel, {
-                duration: 1000,
+                duration: 350,
                 toValue: Platform.OS === 'ios' ? -(windowHeight * 0.3) : -(windowHeight * 0.33),
                 useNativeDriver: false
             }).start();

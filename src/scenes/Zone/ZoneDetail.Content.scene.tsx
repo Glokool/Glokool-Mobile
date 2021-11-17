@@ -776,6 +776,7 @@ const styles = StyleSheet.create({
     },
     CheckMoreItemContainer: {
         marginLeft: 10,
+        backgroundColor:'#0000'
     },
     CheckMoreTxtStyle: {
         fontFamily: 'BrandonGrotesque-BoldItalic',
