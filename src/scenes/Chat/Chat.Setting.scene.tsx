@@ -52,6 +52,14 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                 .catch((err) => {
                     console.error('FCM 토픽 구독 해제 실패 : ', err);
                 })
+            messaging().unsubscribeFromTopic(`${ChatRoomID}/notice`)
+                .then(() => {
+                    console.log('FCM 공지 토픽 구독 해제 성공 : ', ChatRoomID);                    
+                })
+                .catch((err) => {
+                    console.error('FCM 공지 토픽 구독 해제 실패 : ', err);
+                })
+            
         }
         else {
             setMute(false);
@@ -62,6 +70,13 @@ export const ChatRoomSettingScene = (props: ChatRoomSettingSceneProps): React.Re
                 })
                 .catch((err) => {
                     console.error('FCM 토픽 구독 실패 : ', err);
+                })
+            messaging().subscribeToTopic(`${ChatRoomID}/notice`)
+                .then(() => {
+                    console.log('FCM 공지 토픽 구독 성공 : ', ChatRoomID);                    
+                })
+                .catch((err) => {
+                    console.error('FCM 공지 토픽 구독 실패 : ', err);
                 })
         }
     }
