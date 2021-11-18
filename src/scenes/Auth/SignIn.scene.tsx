@@ -36,6 +36,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../model';
 import { AuthLoadingEnd, AuthLoadingStart } from '../../model/Auth/Auth.Loading.model';
 import { Loading } from '../../component/Common';
+import { windowHeight, windowWidth } from '../../Design.component';
 
 
 GoogleSignin.configure({
@@ -376,6 +377,7 @@ const styles = StyleSheet.create({
   },
   SnsLoginLogo: {
     alignItems: 'center',
+    marginVertical: 5,
   },
   GoogleLoginLogo: {
     shadowColor: "#000",
@@ -415,6 +417,7 @@ const styles = StyleSheet.create({
   Divider: {
     backgroundColor: '#D9D9D9',
     flex: 1,
+    marginVertical: windowHeight * 0.03,
   },
   OrTxt: {
     fontFamily: 'Pretendard-Medium',
@@ -450,7 +453,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   LoginButton: {
-    width: WindowSize - 60,
+    width: windowWidth * 0.9,
     height: 50,
     borderRadius: 8,
     backgroundColor: '#7777FF',

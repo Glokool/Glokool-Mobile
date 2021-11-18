@@ -155,11 +155,13 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
     }
 
     return (
-        <ScrollView scrollEnabled={data.length > 0} showsVerticalScrollIndicator={false}>
+        <ScrollView scrollEnabled={data.length > 0} showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f9f9f9' }}>
 
-            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} time={time} />
-            <Text style={styles.MainTitle}>FIND THE BEST</Text>
-            <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
+            <Layout>
+                <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} time={time} />
+                <Text style={styles.MainTitle}>FIND THE BEST</Text>
+                <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
+            </Layout>
 
             {data.length > 0 ? (
                 <FlatList
@@ -178,7 +180,6 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                     <Text style={styles.EmptyTitle3}>Discover various travel tips at the “Zone” tap!</Text>
                 </Layout>
             )}
-
 
         </ScrollView>
 
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        marginBottom: 20
+        marginVertical: 10
     },
 
     GuideInfoContainer: {
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     Button: {
         width: 80,
         height: 30,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
 
     TagContainer: {
@@ -301,14 +302,14 @@ const styles = StyleSheet.create({
     MainTitle: {
         fontFamily: 'Pretendard-SemiBold',
         color: '#404040',
-        fontSize: 17,
+        fontSize: 15,
         marginLeft: windowWidth * 0.06,
         marginTop: windowHeight * 0.01,
     },
     SubTitle: {
         fontFamily: 'Pretendard-Bold',
         color: '#000000',
-        fontSize: 17,
+        fontSize: 15,
         marginLeft: windowWidth * 0.06,
         marginBottom: windowHeight * 0.02,
     },
@@ -369,7 +370,8 @@ const styles = StyleSheet.create({
     EmptyContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: windowHeight * 0.03
+        paddingVertical: windowHeight * 0.03,
+        backgroundColor: '#0000'
     },
 
     EmptyTitle1: {

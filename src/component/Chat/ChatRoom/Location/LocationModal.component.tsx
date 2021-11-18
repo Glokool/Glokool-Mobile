@@ -16,30 +16,13 @@ export const LocationModal = (): React.ReactElement => {
     const lon = useSelector((state: RootState) => state.ChatLocationModel.lon);
     const dispatch = useDispatch();
 
-    // 맵 뷰 헤더
-    const LocationModalHeader = (): React.ReactElement => (
-        <Layout style={{ flexDirection: 'row', padding: 20 }}>
-            <Layout style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Text style={styles.MyLocaionTitleText}>
-                    My Location
-                </Text>
-            </Layout>
-
-            <Layout style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Pressable onPress={() => dispatch(setLocationVisiblityFalse())}>
-                    <FontAwesomeIcon icon={faTimes} size={28} />
-                </Pressable>
-            </Layout>
-        </Layout>
-    );
-
     return (
         <Modal
             visible={mapVisibility}
             backdropStyle={styles.BackDrop}
             onBackdropPress={() => dispatch(setLocationVisiblityFalse())}
         >
-            <Card disabled={true} header={LocationModalHeader}>
+            <Card disabled={true}>
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={{

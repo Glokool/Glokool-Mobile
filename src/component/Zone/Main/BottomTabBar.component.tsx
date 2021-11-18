@@ -80,7 +80,7 @@ export const ZoneMainBottomTabBarComponent = (props: ZoneMainSceneProps) => {
             <TouchableOpacity style={styles.ButtonStyle} onPress={() => onPressLocation(item)}>
                 <FastImage
                     source={tempData[item.index]}
-                    style={[styles.ImageStyle, { borderColor: item.index === locationIndex ? '#7777ff' : '#0000' }]}
+                    style={[styles.ImageStyle, { borderColor: item.index === locationIndex ? '#7777ff' : '#fff' }]}
                     resizeMode={'stretch'}
                 />
                 {item.index === locationIndex && <Check style={styles.SelectedIcon} />}
@@ -142,15 +142,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     ButtonStyle: {
-        width: windowWidth * 0.43,
-        height: windowWidth * 0.43 / 360 * 160,
-        margin: 5,
+        width: windowWidth * 0.45,
+        height: windowWidth * 0.45 / 360 * 160,
+        // margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
     },
     ImageStyle: {
-        width: windowWidth * 0.43,
-        height: windowWidth * 0.43 / 360 * 160,
+        width: windowWidth * 0.45,
+        height: windowWidth * 0.45 / 360 * 160,
         borderRadius: 15,
         borderWidth: 3,
     },

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         height: 60,
         width: '100%',
         backgroundColor: 'white',
-        marginVertical: 10,
+        marginVertical: 5,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
     ButtonText: {
         fontFamily: 'BrandonGrotesque-Bold',
-        fontSize: 16,
+        fontSize: 14,
         textAlign: 'left'
     }
 

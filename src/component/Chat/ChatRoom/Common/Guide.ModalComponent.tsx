@@ -65,7 +65,7 @@ export const GuideModalComponent = (props: any): React.ReactElement => {
 
                 <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
 
-                    <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
+                    <Pressable onPress={() => dispatch(setGuideVisiblityFalse())} style={{ width: 25, height: 25, alignItems: 'center', justifyContent: 'center' }}>
                         <CloseButton />
                     </Pressable>
                 </Layout>

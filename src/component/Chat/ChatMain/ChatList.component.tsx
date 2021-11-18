@@ -589,7 +589,7 @@ const styles = StyleSheet.create({
     },
 
     ChatMainADButton: {
-        marginVertical: 10,
+        marginVertical: 5,
     }
 
 

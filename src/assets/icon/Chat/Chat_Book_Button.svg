@@ -1,20 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="364" height="56" viewBox="0 0 364 56">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="364" height="50" viewBox="0 0 364 50">
   <defs>
     <linearGradient id="linear-gradient" x1="0.765" y1="1.226" x2="0.236" y2="-0.182" gradientUnits="objectBoundingBox">
       <stop offset="0" stop-color="#77f"/>
       <stop offset="1" stop-color="#794fcb"/>
     </linearGradient>
   </defs>
-  <g id="그룹_2360" data-name="그룹 2360" transform="translate(-25 -333)">
-    <rect id="사각형_3295" data-name="사각형 3295" width="364" height="56" rx="28" transform="translate(25 333)" fill="url(#linear-gradient)"/>
-    <text id="Book_travel_assistant_service" data-name="Book travel assistant service" transform="translate(99 367)" fill="#fff" font-size="17" font-family="Pretendard-Medium, Pretendard" font-weight="500" letter-spacing="-0.011em"><tspan x="0" y="0">Book travel assistant service</tspan></text>
-    <g id="그룹_2229" data-name="그룹 2229" transform="translate(350.241 348)">
-      <g id="타원_727" data-name="타원 727" transform="translate(-0.241)" fill="none" stroke="#bdbdff" stroke-width="1.5">
-        <circle cx="13" cy="13" r="13" stroke="none"/>
-        <circle cx="13" cy="13" r="12.25" fill="none"/>
+  <g id="그룹_2653" data-name="그룹 2653" transform="translate(-25 -339)">
+    <rect id="사각형_3295" data-name="사각형 3295" width="364" height="50" rx="25" transform="translate(25 339)" fill="url(#linear-gradient)"/>
+    <g id="그룹_2634" data-name="그룹 2634" transform="translate(0 -9)">
+      <text id="Book_travel_assistant_service" data-name="Book travel assistant service" transform="translate(99 379)" fill="#fff" font-size="17" font-family="Pretendard-Medium, Pretendard" font-weight="500" letter-spacing="-0.011em"><tspan x="0" y="0">Book travel assistant service</tspan></text>
+      <g id="그룹_2229" data-name="그룹 2229" transform="translate(350.241 360)">
+        <g id="타원_727" data-name="타원 727" transform="translate(-0.241)" fill="none" stroke="#bdbdff" stroke-width="1.5">
+          <circle cx="13" cy="13" r="13" stroke="none"/>
+          <circle cx="13" cy="13" r="12.25" fill="none"/>
+        </g>
+        <line id="선_232" data-name="선 232" x2="13" transform="translate(5.5 13.5)" fill="none" stroke="#bdbdff" stroke-width="1.5"/>
+        <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(12.5 6.5)" fill="none" stroke="#bdbdff" stroke-width="1.5"/>
       </g>
-      <line id="선_232" data-name="선 232" x2="13" transform="translate(5.5 13.5)" fill="none" stroke="#bdbdff" stroke-width="1.5"/>
-      <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(12.5 6.5)" fill="none" stroke="#bdbdff" stroke-width="1.5"/>
     </g>
   </g>
 </svg>

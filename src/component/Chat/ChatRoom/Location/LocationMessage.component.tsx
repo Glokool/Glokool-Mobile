@@ -25,10 +25,10 @@ export const renderLocationMessage = (props: BubbleProps<IMessage> & LocationBub
                 }}
                 style={styles.MyLocationContainer}
             >
-                <Layout style={styles.MyLocationHeaderContainer}>
+                {/* <Layout style={styles.MyLocationHeaderContainer}>
                     <LocationTitle />
                     <Text style={[styles.MyLocationHeaderText, { color: textColor }]}>My Location</Text>
-                </Layout>
+                </Layout> */}
 
                 <MapView
                     provider={PROVIDER_GOOGLE}

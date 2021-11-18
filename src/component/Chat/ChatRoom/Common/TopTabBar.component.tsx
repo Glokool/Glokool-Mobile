@@ -13,31 +13,31 @@ import { CDN } from '../../../../server.component';
 
 const statusBarHeight = getStatusBarHeight();
 
-export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.ReactElement => {
+export const ChatTopTabBarComponent = (props: ChatRoomSceneProps): React.ReactElement => {
 
     const guide = props.route.params.guide;
     const dispatch = useDispatch();
-    
-    return(
+
+    return (
 
         <Layout style={styles.TabBar}>
 
-            <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>      
+            <Layout style={styles.TabBarContainer} onTouchStart={Keyboard.dismiss}>
 
                 <Pressable
                     style={styles.LeftIcon}
-                    onPress={() => {props.navigation.goBack()}}>
+                    onPress={() => { props.navigation.goBack() }}>
                     <ArrowLeft />
                 </Pressable>
 
                 <Layout style={styles.ProfileContainer}>
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
-                        {(props.route.params.guide.avatar)?
+                        {(props.route.params.guide.avatar) ?
                             <FastImage
-                                source={{uri : CDN + props.route.params.guide.avatar}}
+                                source={{ uri: CDN + props.route.params.guide.avatar }}
                                 style={styles.ProfileImage}
                             />
-                        :
+                            :
                             <FastImage
                                 source={require('../../../../assets/image/Chat/guideGray.png')}
                                 style={styles.ProfileImage}
@@ -49,25 +49,25 @@ export const ChatTopTabBarComponent = (props : ChatRoomSceneProps) : React.React
                     <TouchableOpacity onPress={() => dispatch(setGuideVisiblityTrue())}>
                         <Text style={styles.Title}>{guide.name}</Text>
                     </TouchableOpacity>
-                    
+
                 </Layout>
 
                 <Pressable
                     style={styles.RightIcon}
                     onPress={() => {
-                        props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING, { 
-                            id : props.route.params.id,
-                            zone : props.route.params.zone,
-                            guide : props.route.params.guide.uid,
-                            maxUser : props.route.params.maxUser
+                        props.navigation.navigate(SceneRoute.CHAT_ROOM_SETTING, {
+                            id: props.route.params.id,
+                            zone: props.route.params.zone,
+                            guide: props.route.params.guide.uid,
+                            maxUser: props.route.params.maxUser
                         });
                     }}>
                     <Chat_Setting />
                 </Pressable>
 
-            </Layout>            
+            </Layout>
         </Layout>
-        
+
     )
 }
 
@@ -82,25 +82,26 @@ const styles = StyleSheet.create({
 
     Title: {
         fontFamily: 'Pretendard-Medium',
-        textAlign : 'center',
+        textAlign: 'center',
         fontSize: Platform.OS === 'ios' ? 18 : 16,
     },
 
     TabBar: {
         position: 'absolute',
         width: '100%',
-        top: Platform.OS === 'android' ? 0 : isIphoneX()? statusBarHeight : 20 ,
+        top: Platform.OS === 'android' ? 0 : isIphoneX() ? statusBarHeight : 20,
         height: 60,
-        justifyContent : 'center',
+        justifyContent: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        borderBottomWidth : 1,
-        borderBottomColor : '#F0F0F0'
+        borderBottomWidth: 1,
+        borderBottomColor: '#F0F0F0'
     },
 
-    TabBarContainer : {
+    TabBarContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#00FF0000'
+        backgroundColor: '#00FF0000',
+        marginTop: 10
     },
 
     ProfileContainer: {
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000'
     },
 
-    ProfileImage: {        
+    ProfileImage: {
         width: 25,
         height: 25,
         borderRadius: 100,
@@ -127,36 +128,36 @@ const styles = StyleSheet.create({
         backgroundColor: '#00FF0000'
     },
 
-    LeftIcon : {
+    LeftIcon: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
         backgroundColor: '#00FF0000'
     },
 
-    RightIcon : {
+    RightIcon: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10
     },
 
-    SmallIcon : {
+    SmallIcon: {
         width: 10,
-        height : 10,
+        height: 10,
         marginHorizontal: 5,
-        padding : 15,
+        padding: 15,
         justifyContent: 'center',
         alignItems: 'center'
     }
 
-    
+
 });
 

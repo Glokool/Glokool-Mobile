@@ -24,6 +24,7 @@ import Comments from './Comments.svg';
 import Location from './Location.svg';
 import EmptyImage from './EmptyImage.svg';
 import CheckIcon from './Check.svg';
+import Enter_Purple from './Enter_purple.svg';
 
 export {
     Korean, 
@@ -48,6 +49,7 @@ export {
     EmptyImage,
     PurpleArrow,
     AngleRight_Gray,
-    CheckIcon
+    CheckIcon,
+    Enter_Purple
 }
 
