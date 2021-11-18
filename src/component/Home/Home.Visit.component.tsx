@@ -24,7 +24,7 @@ export const HomeVisitComponent = (props: HomeScreenProps) => {
 
 const styles = StyleSheet.create({
     VisitContainer: {
-        width: windowWidth * 0.9,
+        width: windowWidth,
         alignSelf: 'center',
         marginTop: windowHeight * 0.025,
         padding: windowWidth * 0.05,

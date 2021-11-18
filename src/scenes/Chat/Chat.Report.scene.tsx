@@ -12,7 +12,7 @@ export const ChatReportScene = (props: ChatReportSceneProps): LayoutElement => {
     const user = props.route.params.user;
     const [value, setValue] = React.useState('');
 
-    
+
 
     return (
         <SafeAreaView style={styles.MainContainer}>
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     desc: {
         fontFamily: 'Pretendard-Medium',
         fontSize: 16,
+        marginLeft: 10,
     },
     input: {
         width: '100%',
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 19,
     },
-
     TextInputStyle: {
         width: windowWidth * 0.9,
         height: windowWidth * 0.6,

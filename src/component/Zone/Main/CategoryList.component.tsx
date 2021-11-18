@@ -10,6 +10,7 @@ import { CDN } from '../../../server.component';
 import { ZoneContentsType, ZoneItemListType } from '../../../types';
 import { useDispatch } from 'react-redux';
 import { setCategoryIndex } from '../../../model/Zone/Zone.UI.model';
+import { Enter_Purple } from '../../../assets/icon/Common';
 
 export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
 
@@ -100,7 +101,7 @@ export const ZoneCategoryListComponent = (props: ZoneMainSceneProps) => {
                 <Layout style={styles.SideSpace} />
                 <Text style={styles.BottomButtonText}>Click to Explore More Posts</Text>
                 <Layout style={styles.SideSpace}>
-                    <ExploreIcon />
+                    <Enter_Purple />
                 </Layout>
             </TouchableOpacity>
 
@@ -126,10 +127,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: windowWidth,
         paddingHorizontal: 15,
+        marginBottom: windowHeight * 0.02
     },
     TitleText: {
         fontFamily: 'Pretendard-Bold',
-        fontSize: 17,
+        fontSize: 16,
     },
     AllContainer: {
         backgroundColor: '#f2f2f2',
@@ -157,17 +159,17 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
     },
     BottomButton: {
-        backgroundColor: '#7777ff',
+        backgroundColor: '#7777ff33',
         flexDirection: 'row',
         width: windowWidth * 0.9,
         alignItems: 'center',
         borderRadius: 50,
         justifyContent: 'space-evenly',
-        paddingVertical: 15,
+        paddingVertical: 10,
         marginTop: 20,
     },
     BottomButtonText: {
-        color: 'white',
+        color: '#7777ff',
         fontFamily: 'Pretendard-Medium',
         fontSize: 16,
         textAlign: 'center',

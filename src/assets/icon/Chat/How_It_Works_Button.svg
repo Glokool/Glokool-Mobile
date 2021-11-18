@@ -1,17 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="364" height="56" viewBox="0 0 364 56">
-  <g id="그룹_2481" data-name="그룹 2481" transform="translate(-25 -413)">
-    <g id="사각형_3518" data-name="사각형 3518" transform="translate(25 413)" fill="none" stroke="#a3a3ff" stroke-width="2">
-      <rect width="364" height="56" rx="28" stroke="none"/>
-      <rect x="1" y="1" width="362" height="54" rx="27" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="364" height="50" viewBox="0 0 364 50">
+  <g id="그룹_2654" data-name="그룹 2654" transform="translate(-25 -401)">
+    <g id="패스_3657" data-name="패스 3657" transform="translate(25 401)" fill="none">
+      <path d="M25,0H339a25,25,0,0,1,0,50H25A25,25,0,0,1,25,0Z" stroke="none"/>
+      <path d="M 25 2 C 21.8941650390625 2 18.88226318359375 2.60784912109375 16.04794311523438 3.806648254394531 C 13.30938720703125 4.964950561523438 10.84945678710938 6.623600006103516 8.736541748046875 8.736549377441406 C 6.62359619140625 10.8494987487793 4.964935302734375 13.30939865112305 3.806640625 16.04800033569336 C 2.60784912109375 18.88224983215332 2 21.89414978027344 2 25 C 2 28.10585021972656 2.60784912109375 31.11775016784668 3.806640625 33.95199966430664 C 4.964935302734375 36.69060134887695 6.62359619140625 39.1505012512207 8.736541748046875 41.26345062255859 C 10.84945678710938 43.37639999389648 13.30938720703125 45.03504943847656 16.04794311523438 46.19335174560547 C 18.88226318359375 47.39215087890625 21.8941650390625 48 25 48 L 339 48 C 342.1058349609375 48 345.1177368164062 47.39215087890625 347.9519958496094 46.19335174560547 C 350.6906127929688 45.03504943847656 353.1505126953125 43.37639999389648 355.2634582519531 41.26345062255859 C 357.3764038085938 39.1505012512207 359.0350646972656 36.69060134887695 360.193359375 33.95199966430664 C 361.3921508789062 31.11775016784668 362 28.10585021972656 362 25 C 362 21.89414978027344 361.3921508789062 18.88224983215332 360.193359375 16.04800033569336 C 359.0350646972656 13.30939865112305 357.3764038085938 10.8494987487793 355.2634582519531 8.736549377441406 C 353.1505126953125 6.623600006103516 350.6906127929688 4.964950561523438 347.9519958496094 3.806648254394531 C 345.1177368164062 2.60784912109375 342.1058349609375 2 339 2 L 25 2 M 25 0 L 339 0 C 352.8070983886719 0 364 11.19290161132812 364 25 C 364 38.80709838867188 352.8070983886719 50 339 50 L 25 50 C 11.19284057617188 50 0 38.80709838867188 0 25 C 0 11.19290161132812 11.19284057617188 0 25 0 Z" stroke="none" fill="#a3a3ff"/>
     </g>
-    <text id="How_it_works_" data-name="How it works?" transform="translate(154 447)" fill="#77f" font-size="17" font-family="Pretendard-Medium, Pretendard" font-weight="500" letter-spacing="-0.011em"><tspan x="0" y="0">How it works?</tspan></text>
-    <g id="그룹_2435" data-name="그룹 2435" transform="translate(350.241 428)">
-      <g id="타원_727" data-name="타원 727" transform="translate(-0.241)" fill="none" stroke="#a3a3ff" stroke-width="1.5">
-        <circle cx="13" cy="13" r="13" stroke="none"/>
-        <circle cx="13" cy="13" r="12.25" fill="none"/>
-      </g>
-      <line id="선_232" data-name="선 232" x2="13" transform="translate(5.5 13.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
-      <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(12.5 6.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
+    <text id="How_it_works_" data-name="How it works?" transform="translate(154 432)" fill="#77f" font-size="17" font-family="Pretendard-Medium, Pretendard" font-weight="500" letter-spacing="-0.011em"><tspan x="0" y="0">How it works?</tspan></text>
+    <g id="타원_727" data-name="타원 727" transform="translate(350 413)" fill="none" stroke="#a3a3ff" stroke-width="1.5">
+      <circle cx="13" cy="13" r="13" stroke="none"/>
+      <circle cx="13" cy="13" r="12.25" fill="none"/>
     </g>
+    <line id="선_232" data-name="선 232" x2="13" transform="translate(355.741 426.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
+    <path id="패스_2466" data-name="패스 2466" d="M0,0,6.485,6.911,0,14" transform="translate(362.741 419.5)" fill="none" stroke="#a3a3ff" stroke-width="1.5"/>
   </g>
 </svg>

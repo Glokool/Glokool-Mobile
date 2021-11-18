@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     UserText: {
         fontSize: 16,
-        fontFamily: 'BrandonGrotesque-Medium',
+        fontFamily: 'Pretendard-Medium',
         marginHorizontal: 5,
     },
     UserContainer: {

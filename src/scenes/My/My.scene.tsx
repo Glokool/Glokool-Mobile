@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Dimensions,
     SafeAreaView,
-    ScrollView, 
+    ScrollView,
     Text
 } from 'react-native';
 import { Divider, Layout, LayoutElement } from '@ui-kitten/components';
@@ -23,6 +23,7 @@ import {
     BookmarkListIcon,
 } from '../../assets/icon/My';
 import { SceneRoute } from '../../navigation/app.route';
+import { windowHeight } from '../../Design.component';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -64,7 +65,7 @@ export const MYScreen = (props: MyScreenProps): LayoutElement => {
     return currentUser === null ? (
         <Layout />
     ) : (
-        <ScrollView style={styles.SuperContainer} bounces={false} showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.SuperContainer} showsVerticalScrollIndicator={false}>
 
             <SafeAreaView />
 
@@ -145,6 +146,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         backgroundColor: '#00000000',
         alignItems: 'center',
+        paddingBottom: windowHeight * 0.12
     },
     Container: {
         alignItems: 'center',

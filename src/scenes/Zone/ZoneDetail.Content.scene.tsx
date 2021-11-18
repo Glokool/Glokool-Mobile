@@ -39,7 +39,7 @@ import { SelectableText } from '../../component/Common/SelectableText.component'
 import { ShareDialog } from 'react-native-fbsdk-next';
 import Share from 'react-native-share';
 import { Share as ShareOut, FacebookShare } from '../../assets/icon/Series';
-import { GlokoolServiceButton, GlokoolServiceModal } from '../../component/Zone';
+import { GloChatButton, GlokoolServiceButton, GlokoolServiceModal } from '../../component/Zone';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { recommendation_Item, Comments_Item, Series_Item, FacebookShareItem, ShareItem, Bookmark_Item } from '../../types';
 import ImageModal from 'react-native-image-modal';
@@ -446,9 +446,10 @@ glokool.page.link/jdF1`,
                             </Layout>
                         ))}
                     </Layout>
+                    <GloChatButton />
 
                     {/* 보라색 배경 */}
-                    <Layout style={styles.PurpleContainerLayoutStyle}>
+                    {/* <Layout style={styles.PurpleContainerLayoutStyle}>
                         <PurpleArrow style={styles.PurpleArrow} />
                         <Layout style={styles.PurpleTopLayoutStyle}>
                             <Text style={styles.PurpleTopTxtStyle}>
@@ -466,7 +467,7 @@ glokool.page.link/jdF1`,
                                 </TouchableOpacity>
                             </Layout>
                         </Layout>
-                    </Layout>
+                    </Layout> */}
 
                     {/* 보라색 배경 아래 얇은 그레이 선 */}
                     <Layout style={styles.GrayLineContainerLayoutStyle} />
@@ -483,6 +484,13 @@ glokool.page.link/jdF1`,
                                     Comments
                                 </Text>
                             </Layout>
+
+                            {comments.length === 0 && (
+                                <Layout style={{ alignItems: 'center', }}>
+                                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 15, color: '#d2d2d2' }}>Glokool is waiting for your opinion</Text>
+                                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 15, color: '#8c8c8c', marginTop: 10, marginBottom: 15 }}>Be the first to comment!</Text>
+                                </Layout>
+                            )}
 
                             {/* comments content */}
                             {comments.map((item) => (
@@ -601,7 +609,7 @@ glokool.page.link/jdF1`,
 
                         {/* 댓글 입력 */}
                         {uid ? (
-                            <Layout>
+                            <Layout style={styles.CommentsTextLayout}>
                                 <TextInput
                                     style={styles.CommentsTextInput}
                                     placeholder="Write your comment"
@@ -776,9 +784,10 @@ const styles = StyleSheet.create({
     },
     CheckMoreItemContainer: {
         marginLeft: 10,
+        backgroundColor:'#0000'
     },
     CheckMoreTxtStyle: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
         color: '#000000',
     },
@@ -844,7 +853,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     CommentsTitleTxt: {
-        fontFamily: 'BrandonGrotesque-Bold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 20,
         color: '#000000',
     },
@@ -901,17 +910,21 @@ const styles = StyleSheet.create({
     CommentsTextInput: {
         height: 49,
         borderColor: '#D1D1D1',
-        borderWidth: 1.5,
+        // borderWidth: 1.5,
         borderRadius: 30,
         paddingLeft: 20,
         fontFamily: 'Pretendard-Medium',
+        fontSize: 15,
+        position: 'relative',
         paddingTop: 0,
         paddingBottom: 0,
+        backgroundColor: 'white',
+        width: windowWidth * 0.95
     },
     CommentSendingTouch: {
         position: 'absolute',
-        right: 3,
-        top: 3,
+        right: 3 + windowWidth * 0.025,
+        top: 13,
     },
     ShareButtonContainer: {
         borderWidth: 1,
@@ -925,5 +938,13 @@ const styles = StyleSheet.create({
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: Platform.OS === 'ios' ? 16 : 14,
         color: '#7777ff'
+    },
+    CommentsTextLayout: {
+        margin: 15,
+        backgroundColor: '#f8f8f8',
+        width: windowWidth,
+        alignSelf: 'center',
+        paddingVertical: 10,
+        alignItems: 'center',
     },
 });

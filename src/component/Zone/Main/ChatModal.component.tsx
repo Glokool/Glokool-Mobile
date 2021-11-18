@@ -137,29 +137,31 @@ export const ZoneChatModal = (props: { guideInfo: any }) => {
 
                     <Layout style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
 
-                        <Pressable onPress={() => dispatch(setGuideVisiblityFalse())}>
+                        <Pressable onPress={() => dispatch(setGuideVisiblityFalse())} style={styles.CloseButton}>
                             <CloseButton />
                         </Pressable>
                     </Layout>
 
                     <Layout style={styles.innerContainer}>
-                        {props.guideInfo.avatar != " " &&
-                            props.guideInfo.avatar != undefined &&
-                            props.guideInfo.avatar != null ? (
+                        {props.guideInfo.guide.avatar != "" &&
+                            props.guideInfo.guide.avatar != undefined &&
+                            props.guideInfo.guide.avatar != null ? (
                             <Image
-                                source={{ uri: CDN + props.guideInfo.avatar }}
+                                source={{ uri: CDN + props.guideInfo.guide.avatar }}
                                 style={styles.profileImage}
+                                resizeMode={'stretch'}
                             />
                         ) : (
                             <Image
                                 source={require('../../../assets/image/Chat/guideGray.png')}
                                 style={styles.profileImage}
+                                resizeMode={'stretch'}
                             />
                         )}
                         <Layout style={styles.nameContainer}>
                             <Layout style={styles.locationContainer}>
                                 <Location />
-                                <Text style={styles.locationText}>HONGDAE</Text>
+                                <Text style={styles.locationText}>{props.guideInfo.zone.toUpperCase()}</Text>
                             </Layout>
                             <Text
                                 style={styles.guideNameText}>
@@ -269,7 +271,6 @@ const styles = StyleSheet.create({
         height: 73,
         borderRadius: 100,
         borderColor: '#ccc',
-        borderWidth: 0.5,
     },
     keyTextStyle: {
         fontFamily: 'Pretendard-Medium',
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         marginTop: 10,
-        alignSelf : 'center',
+        alignSelf: 'center',
     },
     sideSpace: {
         width: 30,
@@ -373,5 +374,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 5,
         alignItems: 'flex-end'
+    },
+    CloseButton: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 30,
+        height: 30
     }
 });

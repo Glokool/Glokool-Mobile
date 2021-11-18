@@ -11,10 +11,9 @@ export const GloChatButton = (props: any) => {
 
     return (
         <View style={styles.MainContainer}>
-            <PurpleArrow style={styles.PurpleArrow} />
             <View style={styles.InnerContainer}>
                 <View style={styles.GloChatTextContainer}>
-                    <Text style={{ fontFamily: 'BrandonGrotesque-BoldItalic', color: 'white', fontSize: 19 }}>
+                    <Text style={{ fontFamily: 'Pretendard-SemiBold', color: 'white', fontSize: 19, marginBottom: 10 }}>
                         GO TO GloChat
                     </Text>
                     <Text style={styles.Description}>

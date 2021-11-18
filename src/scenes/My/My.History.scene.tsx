@@ -17,27 +17,28 @@ import { CDN, SERVER } from '../../server.component';
 import moment from 'moment';
 import FastImage from 'react-native-fast-image';
 import { SceneRoute } from '../../navigation/app.route';
+import { windowHeight } from '../../Design.component';
 
 const windowWidth = Dimensions.get('window').width;
 
 interface HistoryChatData {
-    _id : string;
-    keyward : Array<string>;
-    guide : {
-        avatar : string;
-        name : string;
-        uid : string;
+    _id: string;
+    keyward: Array<string>;
+    guide: {
+        avatar: string;
+        name: string;
+        uid: string;
     }
-    maxUserNum : number;
-    price : {
-        discountPrice : string;
-        price : string;
+    maxUserNum: number;
+    price: {
+        discountPrice: string;
+        price: string;
     }
-    priority : number;
+    priority: number;
     reservationPending: Array<string>;
     travelDate: Date;
-    users : Array<String>;
-    zone : string;
+    users: Array<String>;
+    zone: string;
 }
 
 export const HistoryScreen = (props: HistoryScreenProps) => {
@@ -48,7 +49,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
         InitPastChat();
     }, []);
 
-    const InitPastChat = async() => {
+    const InitPastChat = async () => {
 
         const token = await auth().currentUser?.getIdToken();
 
@@ -67,7 +68,7 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
             })
     }
 
-    const PressChat = (item : HistoryChatData) => {
+    const PressChat = (item: HistoryChatData) => {
         props.navigation.navigate(SceneRoute.CHATROOM, {
             id: item._id,
             guide: {
@@ -82,20 +83,20 @@ export const HistoryScreen = (props: HistoryScreenProps) => {
         })
     }
 
-    const renderItem = (item : {item : HistoryChatData, index : number}) => {
+    const renderItem = (item: { item: HistoryChatData, index: number }) => {
 
 
 
         return (
-            <Pressable 
+            <Pressable
                 style={styles.ItemContainer}
                 onPress={() => PressChat(item.item)}
             >
 
                 <Layout style={styles.ImageItem}>
-                    <FastImage source={{uri : CDN + item.item.guide.avatar}} style={styles.ImageItem}/>
+                    <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} />
                 </Layout>
-                
+
                 <Layout style={styles.InfoContainer}>
                     <Layout style={styles.LocationContainer}>
                         <Location />
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#f9f9f9',
     },
     TopTabContainer: {
         width: windowWidth,
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     },
     ItemContainer: {
         flexDirection: 'row',
-        backgroundColor : 'white',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,
@@ -177,10 +178,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3.84,
         elevation: 2,
+        height: windowHeight * 0.15,
     },
     ImageItem: {
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderWidth: 0.3,
         borderRadius: 100,
     },
@@ -188,14 +190,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: windowWidth * 0.65,
         alignItems: 'center',
+        marginVertical: 2,
     },
     InfoText: {
         fontFamily: 'Pretendard-Medium',
-        fontSize: 15,
+        fontSize: 14,
     },
     LocationContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: 5,
     },
     LocationText: {
         fontFamily: 'BrandonGrotesque-Bold',

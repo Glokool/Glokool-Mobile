@@ -40,6 +40,7 @@ import { privacyPolicycard } from '../../component/Privacy.component'
 import { AngleLeft } from '../../assets/icon/Common';
 import { Mini_K, Mini_R, Mini_T } from '../../assets/icon/UserType';
 import Toast from 'react-native-easy-toast';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const useDatepickerState = (initialDate = null) => {
   const [date, setDate] = React.useState(initialDate);
@@ -327,7 +328,7 @@ export const SignupScreen = (props: SignUpScreenProps): LayoutElement => {
                 </View>
               </View>
 
-              <View style={styles.checkboxContainer}>
+              <View style={[styles.checkboxContainer, { marginBottom: 30 }]}>
                 <CheckBox
                   style={{ marginRight: 10 }}
                   checked={Privacy}
@@ -460,6 +461,7 @@ const styles = StyleSheet.create({
   },
   formControl: {
     marginVertical: 4,
+    marginBottom: 10,
   },
   submitButton: {
     marginVertical: 10,
@@ -467,7 +469,8 @@ const styles = StyleSheet.create({
     borderColor: '#FFC043',
   },
   smallTitle: {
-    marginVertical: 10,
+    marginTop: 25,
+    marginBottom:5,
     color: '#7777FF',
     fontSize: 12
   },
@@ -521,7 +524,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     backgroundColor: '#00FF0000',
-    bottom: 10,
+    bottom: getBottomSpace() + 10,
     left: 15
   },
   TopTabBar: {

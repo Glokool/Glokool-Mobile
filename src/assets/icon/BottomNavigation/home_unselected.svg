@@ -1,11 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="33" height="43" viewBox="0 0 33 43">
-  <g id="그룹_2083" data-name="그룹 2083" transform="translate(-55 -161.082)">
-    <g id="그룹_2049" data-name="그룹 2049" transform="translate(3 -745.918)">
-      <text id="HOME" transform="translate(52 947)" fill="#c6c6c6" font-size="11" font-family="Helvetica"><tspan x="0" y="0">HOME</tspan></text>
-      <g id="_ver2_HOME_아이콘_면_" data-name="(ver2) HOME 아이콘 면 " transform="translate(55.45 908)">
-        <path id="패스_1607" data-name="패스 1607" d="M5.271-1.505,17.886-13.172,30.37-1.505" transform="translate(-5.271 13.172)" fill="none" stroke="#c6c6c6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <path id="패스_1608" data-name="패스 1608" d="M0,.357,7.57-6.864,15.413.357v10.3H0Z" transform="translate(4.843 13.554)" fill="none" stroke="#c6c6c6" stroke-linejoin="round" stroke-width="2"/>
-      </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="43" viewBox="0 0 32 43">
+  <g id="그룹_2068" data-name="그룹 2068" transform="translate(-52 -907)">
+    <text id="HOME" transform="translate(52 947)" fill="#c6c6c6" font-size="11" font-family="Pretendard-Medium, Pretendard" font-weight="500"><tspan x="0" y="0">HOME</tspan></text>
+    <g id="_ver2_HOME_아이콘_면_" data-name="(ver2) HOME 아이콘 면 " transform="translate(55.45 908)">
+      <path id="패스_1607" data-name="패스 1607" d="M5.271-1.505,17.886-13.172,30.37-1.505" transform="translate(-5.271 13.172)" fill="none" stroke="#c6c6c6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="패스_1608" data-name="패스 1608" d="M0,.357,7.57-6.864,15.413.357v10.3H0Z" transform="translate(4.843 13.554)" fill="none" stroke="#c6c6c6" stroke-linejoin="round" stroke-width="2"/>
     </g>
   </g>
 </svg>

@@ -17,16 +17,16 @@ import axios from 'axios';
 import { SERVER } from '../../../../server.component';
 
 
-export const BottomTabBarComponent = (props : any) : React.ReactElement => {
+export const BottomTabBarComponent = (props: any): React.ReactElement => {
 
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
 
     const TravelDate = props.TravelDate;
-    const ChatDB : FirebaseDatabaseTypes.Reference = props.ChatDB;
-    const ChatRoomID : string = props.ChatRoomID;
+    const ChatDB: FirebaseDatabaseTypes.Reference = props.ChatDB;
+    const ChatRoomID: string = props.ChatRoomID;
 
-    const menuVisiblity = useSelector((state : RootState) => state.ChatUIModel.menuVisiblity);
-    const keyboardHeight = useSelector((state : RootState) => state.ChatKeyboardModel.keyboardHeight);
+    const menuVisiblity = useSelector((state: RootState) => state.ChatUIModel.menuVisiblity);
+    const keyboardHeight = useSelector((state: RootState) => state.ChatKeyboardModel.keyboardHeight);
     const dispatch = useDispatch();
 
     const getAccessToken = async () => {
@@ -39,8 +39,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
     };
 
 
-    const FCMSend = async(message : any, messageType : string) => {
-          
+    const FCMSend = async (message: any, messageType: string) => {
+
         const url = 'https://fcm.googleapis.com/v1/projects/glokool-a7604/messages:send';
         const current = new Date().getTime();
 
@@ -58,7 +58,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                     time: new Date(Date.now()).toString(),
                     roomId: ChatRoomID,
                 },
-                topic : ChatRoomID,
+                topic: ChatRoomID,
                 webpush: {
                     fcm_options: {
                         link: 'guide/main/chat',
@@ -66,7 +66,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                 },
             },
         });
-    
+
         const options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -74,8 +74,8 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
             }
         };
 
-    
-        axios.post(url , data, options).catch((e) => {
+
+        axios.post(url, data, options).catch((e) => {
             if (e.response) {
                 console.log(e.response.data);
             }
@@ -90,7 +90,7 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
         dispatch(setMenuVisiblityFalse());
 
         try {
-            const { granted } : any = await requestCameraPermission();
+            const { granted }: any = await requestCameraPermission();
 
             if (!granted) {
                 throw Error('Camera permission denied');
@@ -107,25 +107,25 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
 
                         if (response.didCancel == true) {
                             console.log('카메라 촬영 취소');
-                        } 
-                        
+                        }
+
                         else {
 
-                            if (response.type === undefined || response.uri === undefined){
+                            if (response.type === undefined || response.uri === undefined) {
                                 throw Error('카메라 촬영파일 불러오기 실패');
                             }
 
                             const newMessage = ChatDB.push();
-                            const type : string = response.type;
+                            const type: string = response.type;
                             const imageType = type.split('/');
                             const reference = storage().ref();
 
                             const picRef = reference.child(`chats/${TravelDate}/${ChatRoomID}/picture/${newMessage.key}.${imageType[1]}`,).putFile(response.uri);
 
-                            picRef.on(storage.TaskEvent.STATE_CHANGED, 
+                            picRef.on(storage.TaskEvent.STATE_CHANGED,
                                 function (snapshot) { // 업로드 도중 실행 함수
                                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                                
+
                                     switch (snapshot.state) {
                                         case storage.TaskState.PAUSED:
                                             console.log('Upload is paused');
@@ -149,30 +149,30 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                                 },
                                 function () {
                                     picRef.snapshot?.ref.getDownloadURL() // 업로드 성공 (Firebase Storage)
-                                        .then(function (downloadURL : string) {
-                                            
+                                        .then(function (downloadURL: string) {
+
                                             let message = {
-                                                _id : newMessage.key,
-                                                user : {
-                                                    _id : currentUser?.uid,
-                                                    name : currentUser?.displayName,
-                                                    avatar : currentUser?.photoURL
+                                                _id: newMessage.key,
+                                                user: {
+                                                    _id: currentUser?.uid,
+                                                    name: currentUser?.displayName,
+                                                    avatar: currentUser?.photoURL
                                                 },
-                                                messageType : 'image',
-                                                createdAt : new Date().getTime(),
-                                                location : '',
-                                                image : downloadURL,
-                                                audio : '',
-                                                text : ''
+                                                messageType: 'image',
+                                                createdAt: new Date().getTime(),
+                                                location: '',
+                                                image: downloadURL,
+                                                audio: '',
+                                                text: ''
                                             };
-                                
+
                                             newMessage?.set(message, (e) => {
                                                 console.log('이미지 메시지 전송 실패 : ', e)
                                             });
 
                                             FCMSend(message, "Sent a picture");
 
-                                    });
+                                        });
                                 }
                             );
                         }
@@ -190,25 +190,25 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
         dispatch(setMenuVisiblityFalse());
 
         try {
-            const { granted } : any = await requestStoragePermission();
-            
+            const { granted }: any = await requestStoragePermission();
+
             if (!granted) {
                 throw Error('Storage permission denied');
             }
 
-            const images = await ImagePicker.openPicker((Platform.OS === 'ios')? {multiple : false, forceJpg : true} : {multiple : false});
+            const images = await ImagePicker.openPicker((Platform.OS === 'ios') ? { multiple: false, forceJpg: true } : { multiple: false });
 
             if (images != undefined) {
-                
+
                 const newMessage = ChatDB.push();
                 const reference = storage().ref();
                 const imageType = images.mime.split('/');
                 const picRef = reference.child(`chats/${TravelDate}/${ChatRoomID}/picture/${newMessage.key}.${imageType}`,).putFile(images.path);
 
-                picRef.on(storage.TaskEvent.STATE_CHANGED, 
+                picRef.on(storage.TaskEvent.STATE_CHANGED,
                     function (snapshot) { // 업로드 도중 실행 함수
                         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    
+
                         switch (snapshot.state) {
                             case storage.TaskState.PAUSED:
                                 console.log('Upload is paused');
@@ -232,43 +232,43 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                     },
                     function () {
                         picRef.snapshot?.ref.getDownloadURL() // 업로드 성공 (Firebase Storage)
-                            .then(function (downloadURL : string) {
-                                
+                            .then(function (downloadURL: string) {
+
                                 let message = {
-                                    _id : newMessage.key,
-                                    user : {
-                                        _id : currentUser?.uid,
-                                        name : currentUser?.displayName,
-                                        avatar : currentUser?.photoURL
+                                    _id: newMessage.key,
+                                    user: {
+                                        _id: currentUser?.uid,
+                                        name: currentUser?.displayName,
+                                        avatar: currentUser?.photoURL
                                     },
-                                    messageType : 'image',
-                                    createdAt : new Date().getTime(),
-                                    location : '',
-                                    image : downloadURL,
-                                    audio : '',
-                                    text : ''
+                                    messageType: 'image',
+                                    createdAt: new Date().getTime(),
+                                    location: '',
+                                    image: downloadURL,
+                                    audio: '',
+                                    text: ''
                                 };
-                    
+
                                 newMessage?.set(message, (e) => {
                                     console.log('이미지 메시지 전송 실패 : ', e)
                                 });
 
                                 FCMSend(message, "Sent a picture");
 
-                        });
+                            });
                     }
                 );
 
 
             }
-        } 
+        }
         catch (e) {
             console.log('기존 저장 이미지 전송 에러 : ', e);
         }
     };
 
 
-    const LocationMessage = () : boolean => {
+    const LocationMessage = (): boolean => {
 
         dispatch(setMenuVisiblityFalse());
 
@@ -283,21 +283,21 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
             const newMessage = ChatDB.push();
 
             let message = {
-                _id : newMessage.key,
-                user : {
-                    _id : currentUser?.uid,
-                    name : currentUser?.displayName,
-                    avatar : currentUser?.photoURL
+                _id: newMessage.key,
+                user: {
+                    _id: currentUser?.uid,
+                    name: currentUser?.displayName,
+                    avatar: currentUser?.photoURL
                 },
-                messageType : 'location',
-                createdAt : new Date().getTime(),
-                location : {
+                messageType: 'location',
+                createdAt: new Date().getTime(),
+                location: {
                     lat: position.coords.latitude,
                     lon: position.coords.longitude,
                 },
-                image : '',
-                audio : '',
-                text : '',
+                image: '',
+                audio: '',
+                text: '',
             };
 
             newMessage?.set(message, (e) => {
@@ -310,15 +310,15 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
             console.log(error);
         })
 
-        return true;        
+        return true;
     };
 
 
 
-    return(
+    return (
         <>
-            {(menuVisiblity)?
-                <Layout style={{ justifyContent: 'center', backgroundColor: '#F8F8F8', height: keyboardHeight, minHeight: 180}}>
+            {(menuVisiblity) ?
+                <Layout style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8F8F8', height: keyboardHeight, minHeight: 180 }}>
                     <Layout style={styles.SideContainer}>
                         <Pressable
                             style={styles.SideButton}
@@ -326,21 +326,21 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                             <Record />
                             <Text style={styles.SideButtonTxt}>Voices</Text>
                         </Pressable>
-        
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => ImageSend()}>
                             <Images />
                             <Text style={styles.SideButtonTxt}>Images</Text>
                         </Pressable>
-        
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => takePhoto()}>
                             <Camera />
                             <Text style={styles.SideButtonTxt}>Camera</Text>
                         </Pressable>
-        
+
                         <Pressable
                             style={styles.SideButton}
                             onPress={() => LocationMessage()}>
@@ -350,22 +350,22 @@ export const BottomTabBarComponent = (props : any) : React.ReactElement => {
                             </Text>
                         </Pressable>
                     </Layout>
-        
+
                     <Layout style={styles.SideContainer}></Layout>
                 </Layout>
                 :
-                    null
-                }
+                null
+            }
         </>
     )
 }
 
-const styles = StyleSheet.create({    
+const styles = StyleSheet.create({
     SideContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        width: '100%',
+        width: '90%',
         height: '50%',
         backgroundColor: '#F8F8F8',
 
@@ -379,7 +379,8 @@ const styles = StyleSheet.create({
     },
     SideButtonTxt: {
         fontFamily: 'Pretendard-Medium',
-        color: '#8C8C8C',
+        color: '#aaa',
         fontSize: 12,
+        marginTop: 5
     },
 })

@@ -14,8 +14,8 @@ export const ZoneMainTopTabBarComponent = (props): React.ReactElement => {
     return (
         <Layout style={styles.TopTabBarContainer}>
             <Pressable style={styles.ZoneButtonContainer} onPress={() => dispatch(setLocationVisiblityTrue())}>
+                <TopTabButton style={styles.ZoneButtonIcon} width={25} height={25}/>
                 <Text style={styles.ZoneButtonText}>{props.zoneTitle.toUpperCase()}</Text>
-                <TopTabButton style={styles.ZoneButtonIcon} />
             </Pressable>
         </Layout>
     )
@@ -52,11 +52,10 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     ZoneButtonIcon: {
-        minWidth: 27,
-        minHeight: 27,
-        width: windowWidth * 0.065,
-        height: windowWidth * 0.065,
-        marginLeft: 5
+        // minWidth: 27,
+        // minHeight: 27,
+        // width: windowWidth * 0.065,
+        // height: windowWidth * 0.065,
     }
 
 

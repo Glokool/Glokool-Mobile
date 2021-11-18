@@ -123,8 +123,8 @@ export const ZoneContentsScene = (props: ZoneContentsSceneProps) => {
                     showsVerticalScrollIndicator={false}
                     style={styles.PageList}
                     contentContainerStyle={styles.PageListContainer}
-                    ListFooterComponent={<SeriesBottomLogo />}
-                    ListFooterComponentStyle={styles.PageFooterContainer}
+                    ListFooterComponent={<Layout style={{ height: windowHeight * 0.05 }} />}
+                    // ListFooterComponentStyle={styles.PageFooterContainer}
                 />
             </Layout>
         )
@@ -199,10 +199,11 @@ const styles = StyleSheet.create({
     CategoryItemStyle: {
         borderBottomWidth: 2.5,
         paddingHorizontal: 10,
+        alignItems:'center',
+        justifyContent:'center',
         // paddingBottom: 5,
     },
     CategoryTextStyle: {
-        marginLeft: 5,
         fontFamily: 'BrandonGrotesque-Bold',
         fontSize: 14,
         paddingBottom: 5,

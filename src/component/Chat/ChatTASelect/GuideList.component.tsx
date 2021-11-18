@@ -10,6 +10,10 @@ import { useInterval } from '../ChatRoom/Audio/Timer.component';
 import { windowHeight, windowWidth } from '../../../Design.component';
 import { CDN, SERVER } from '../../../server.component';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGuideVisiblityTrue } from '../../../model/Chat/Chat.UI.model';
+import { GuideModalComponent } from '../ChatRoom';
+import { RootState } from '../../../model';
 
 interface GuideData {
     _id: string;
@@ -33,6 +37,8 @@ interface GuideData {
 }
 
 export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactElement => {
+
+    const dispatch = useDispatch();
 
     const KRTIMEDIFF = 9 * 60 * 60 * 1000;
 
@@ -75,7 +81,11 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
             <Layout style={styles.GuideContainer}>
 
                 <Layout style={styles.GuideInfoContainer}>
-                    <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
+                    <Pressable onPress={() => {
+                        dispatch(setGuideVisiblityTrue());
+                    }}>
+                        <FastImage source={{ uri: CDN + item.guide.avatar }} style={styles.Avatar} />
+                    </Pressable>
                     <Layout style={styles.GuideInfoTextContainer}>
                         <Layout style={styles.GuideNameContainer}>
                             <Text style={styles.GuideName}>{item.guide.name}</Text>
@@ -133,16 +143,25 @@ export const GuideListComponent = (props: ChatTASelectSceneProps): React.ReactEl
                         <Text style={styles.DiscountAfterText1}> $ <Text style={styles.DiscountAfterText2}>{item.price.discountPrice}</Text> / day</Text>
                     </Layout>
                 </Layout>
+
+                <GuideModalComponent
+                    guide={item.guide.uid}
+                    zone={props.route.params.zone}
+                    maxUser={item.maxUserNum}
+                />
+
             </Layout>
         )
     }
 
     return (
-        <ScrollView scrollEnabled={data.length > 0} showsVerticalScrollIndicator={false}>
+        <ScrollView scrollEnabled={data.length > 0} showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f9f9f9' }}>
 
-            <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} time={time} />
-            <Text style={styles.MainTitle}>FIND THE BEST</Text>
-            <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
+            <Layout>
+                <CurrentKoreanTimeComponent year={time.getFullYear()} month={time.getMonth() + 1} day={time.getDate()} hour={time.getHours()} minutes={time.getMinutes()} time={time} />
+                <Text style={styles.MainTitle}>FIND THE BEST</Text>
+                <Text style={styles.SubTitle}>TRAVEL ASSISTANT FOR YOU</Text>
+            </Layout>
 
             {data.length > 0 ? (
                 <FlatList
@@ -188,7 +207,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        marginBottom: 20
+        marginVertical: 10
     },
 
     GuideInfoContainer: {
@@ -210,7 +229,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginLeft: 5,
-        width: '100%'
+        width: '100%',
     },
 
     Avatar: {
@@ -223,7 +242,8 @@ const styles = StyleSheet.create({
 
     Button: {
         width: 80,
-        height: 30
+        height: 30,
+        justifyContent: 'center'
     },
 
     TagContainer: {
@@ -256,7 +276,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 10,
-        flex: 1
+        flex: 1,
     },
 
     IconContainer: {
@@ -270,27 +290,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1
     },
 
     PriceContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1
+        paddingHorizontal: 10,
     },
 
     MainTitle: {
         fontFamily: 'Pretendard-SemiBold',
         color: '#404040',
-        fontSize: 17,
+        fontSize: 15,
         marginLeft: windowWidth * 0.06,
         marginTop: windowHeight * 0.01,
     },
     SubTitle: {
         fontFamily: 'Pretendard-Bold',
         color: '#000000',
-        fontSize: 17,
+        fontSize: 15,
         marginLeft: windowWidth * 0.06,
         marginBottom: windowHeight * 0.02,
     },
@@ -351,7 +370,8 @@ const styles = StyleSheet.create({
     EmptyContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: windowHeight * 0.03
+        paddingVertical: windowHeight * 0.03,
+        backgroundColor: '#0000'
     },
 
     EmptyTitle1: {

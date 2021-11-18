@@ -21,7 +21,9 @@ export const renderBubble = (props: BubbleProps<IMessage>, guide: any): JSX.Elem
                     (props.currentMessage?.user._id === props.previousMessage?.user?._id) ?
                         null
                         :
-                        <Text style={styles.UserNameText}></Text>
+                        <Text style={styles.UserNameText}>
+                            {/* {props.currentMessage?.user.name} */}
+                        </Text>
             }
             {(props.currentMessage.messageType === 'emoji') ?
                 <Bubble
@@ -60,7 +62,8 @@ export const renderBubble = (props: BubbleProps<IMessage>, guide: any): JSX.Elem
 const styles = StyleSheet.create({
 
     BubbleContainer: {
-        marginTop: 8
+        marginTop: 8,
+        // paddingVertical: 20,
     },
 
     LeftBubbleWrapper: {
@@ -70,6 +73,8 @@ const styles = StyleSheet.create({
         borderBottomStartRadius: 15,
         borderBottomEndRadius: 15,
         marginBottom: 3,
+        paddingVertical: 3,
+        paddingHorizontal: 3,
     },
 
     LeftBubbleText: {
@@ -86,6 +91,8 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         borderColor: '#7676FE',
         borderWidth: 2,
+        paddingVertical: 3,
+        paddingHorizontal: 3,
     },
 
 
@@ -101,6 +108,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 2,
         elevation: 2,
+        paddingVertical: 3,
+        paddingHorizontal: 3,
     },
 
 
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Pretendard-Medium',
         fontSize: 14,
         color: 'black',
-        left: 5
+        left: 5,
     },
 
     EmojiContainer: {

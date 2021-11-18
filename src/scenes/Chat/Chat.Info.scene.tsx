@@ -13,7 +13,7 @@ export const ChatInfoScene = () => {
     const [button, setButton] = useState(true);
 
     return (
-        <ScrollView style={styles.ScrollViewContainer}>
+        <ScrollView style={styles.ScrollViewContainer} showsVerticalScrollIndicator={false}>
             <Layout style={styles.MainContainer}>
                 <CommonTopTabBar title={'HOW IT WORKS?'} />
                 <Layout style={styles.TitleContainer}>

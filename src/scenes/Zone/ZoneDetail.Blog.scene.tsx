@@ -245,7 +245,7 @@ glokool.page.link/jdF1`,
         var data = qs.stringify({
             blogCode: content?._id,
         });
-      
+
         var config: AxiosRequestConfig = {
             method: 'post',
             url: SERVER + '/users/bookmark',
@@ -369,7 +369,8 @@ glokool.page.link/jdF1`,
     ) : (
         <Layout style={styles.ContainerLayout}>
             <KeyboardAvoidingView
-
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            // style={{ flex: 1 }}
             >
                 <ScrollView
                     style={{ backgroundColor: '#ffffff', }}
@@ -426,13 +427,13 @@ glokool.page.link/jdF1`,
                                     paginationStyle={{ bottom: -30 }}
                                     paginationDefaultColor={'#7777ff77'}
                                     paginationStyleItemActive={{
-                                        width: 10,
-                                        height: 5,
+                                        width: 15,
+                                        height: 3,
                                     }}
                                     paginationActiveColor={'#7777ff'}
                                     paginationStyleItemInactive={{
-                                        width: 10,
-                                        height: 5,
+                                        width: 15,
+                                        height: 3,
                                     }}
                                 />
                             </Layout>
@@ -490,8 +491,9 @@ glokool.page.link/jdF1`,
                                 })
                             }>
                             <Text style={styles.ThankyouText}>
-                                Go Up <GoUp />
+                                GO UP
                             </Text>
+                            <GoUp />
                         </TouchableOpacity>
                     </Layout>
 
@@ -504,7 +506,7 @@ glokool.page.link/jdF1`,
                                 </Text>
                             </Layout>
                             {recommendation.map((item) => (
-                                <Layout style={{ marginLeft: 10, }}>
+                                <Layout style={{ marginLeft: 10, backgroundColor: '#0000' }}>
                                     <TouchableOpacity
                                         onPress={() => {
                                             // 이전에 있었던 화면은 사라집니다...
@@ -536,6 +538,13 @@ glokool.page.link/jdF1`,
                                     Comments
                                 </Text>
                             </Layout>
+
+                            {comments.length === 0 && (
+                                <Layout style={{ alignItems: 'center', }}>
+                                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 15, color: '#d2d2d2' }}>Glokool is waiting for your opinion</Text>
+                                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 15, color: '#8c8c8c', marginTop: 10, marginBottom: 15 }}>Be the first to comment!</Text>
+                                </Layout>
+                            )}
 
                             {/* comments content */}
                             {comments.map((item) => (
@@ -676,92 +685,54 @@ glokool.page.link/jdF1`,
                         ) : null}
                     </Layout>
 
-                    <Layout style={{ height: windowHeight * 0.1 }} />
+                    {/* <Layout style={{ height: windowHeight * 0.1 }} /> */}
+                    {/* <SafeAreaView /> */}
                 </ScrollView>
             </KeyboardAvoidingView>
 
-            {/* 탑탭바 */}
-            {height >= windowWidth - 100 ? (
-                // 스크롤을 내렸을 시
-                <Layout style={styles.ContainerLayoutAngleLeft}>
-                    <SafeAreaView
-                        style={{ flex: 0, backgroundColor: '#ffffff' }}
-                    />
-                    <Layout style={styles.ContainerIconLayout}>
-                        <TouchableOpacity
-                            style={styles.ContainerAngleLeft_W}
-                            onPress={() => props.navigation.goBack()}>
-                            <AngleLeft />
-                        </TouchableOpacity>
-                        {uid ? (
-                            <Layout style={styles.TopTabIconLayout}>
-                                <TouchableOpacity
-                                    style={styles.BookmarkTouch}
-                                    onPress={() => PressScrollButton()}
-                                >
-                                    <Comments />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.BookmarkTouch}
-                                    onPress={() => PressBookmark()}
-                                >
-                                    {pressBookmark ?
-                                        <Bookmark_P />
-                                        :
-                                        <Bookmark_D2D2D2 />
-                                    }
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.PlusTouch}
-                                    onPress={() => PressPlus()}
-                                >
-                                    {pressLike ? (
-                                        <Plus_P />
-                                    ) : (
-                                        <Plus_D2D2D2 />
-                                    )}
-                                </TouchableOpacity>
-                            </Layout>
-                        ) : null}
-                    </Layout>
-                </Layout>
-            ) : (
-                // 맨위에 포커스
-                <Layout style={styles.ContainerOpacityLayoutAngleLeft}>
+
+            <Layout style={styles.ContainerLayoutAngleLeft}>
+                <SafeAreaView
+                    style={{ flex: 0, backgroundColor: '#ffffff' }}
+                />
+                <Layout style={styles.ContainerIconLayout}>
                     <TouchableOpacity
-                        style={styles.ContainerAngleLeft}
+                        style={styles.ContainerAngleLeft_W}
                         onPress={() => props.navigation.goBack()}>
-                        <AngleLeft_W />
+                        <AngleLeft />
                     </TouchableOpacity>
-                    <Layout style={styles.TopImgIconLayout}>
-                        <TouchableOpacity
-                            style={styles.BookmarkTouch}
-                            onPress={() => PressScrollButton()}
-                        >
-                            <Comments />
-                        </TouchableOpacity>
-                        {uid ? (
-                            <TouchableOpacity style={styles.BookmarkTouch} onPress={() => PressBookmark()}>
+                    {uid ? (
+                        <Layout style={styles.TopTabIconLayout}>
+                            <TouchableOpacity
+                                style={styles.BookmarkTouch}
+                                onPress={() => PressScrollButton()}
+                            >
+                                <Comments />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.BookmarkTouch}
+                                onPress={() => PressBookmark()}
+                            >
                                 {pressBookmark ?
                                     <Bookmark_P />
                                     :
                                     <Bookmark_D2D2D2 />
                                 }
                             </TouchableOpacity>
-                        ) : null}
-                        {uid ? (
-                            <TouchableOpacity style={styles.PlusTouch} onPress={() => PressPlus()}>
+                            <TouchableOpacity
+                                style={styles.PlusTouch}
+                                onPress={() => PressPlus()}
+                            >
                                 {pressLike ? (
                                     <Plus_P />
                                 ) : (
                                     <Plus_D2D2D2 />
                                 )}
                             </TouchableOpacity>
-                        ) : null}
-                    </Layout>
-
+                        </Layout>
+                    ) : null}
                 </Layout>
-            )}
+            </Layout>
 
         </Layout>
     );
@@ -787,6 +758,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         width: windowWidth,
         backgroundColor: '#0000',
+        height: windowHeight * 0.03,
     },
     ContainerOpacityLayoutAngleLeft: {
         width: windowWidth,
@@ -826,7 +798,7 @@ const styles = StyleSheet.create({
     CoverImg: {
         width: windowWidth,
         height: windowWidth,
-        marginTop: isIphoneX() ? getStatusBarHeight() + windowHeight * 0.01 : 0,
+        marginTop: isIphoneX() ? 60 + windowHeight * 0.03 : 20 + windowHeight * 0.03,
         position: 'relative',
     },
     SeriesBottomLayout: {
@@ -839,6 +811,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'flex-end',
         justifyContent: 'center',
+        opacity: 0.7
     },
     SeriesDateLayoutStyle: {
         flexDirection: 'row',
@@ -879,9 +852,10 @@ const styles = StyleSheet.create({
         color: '#000000',
     },
     SmallTitleTxt: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 20,
         color: '#999999',
+        marginTop: 20,
     },
     descTxt: {
         marginTop: 10,
@@ -908,6 +882,7 @@ const styles = StyleSheet.create({
         bottom: 10,
         left: 20,
         backgroundColor: '#00FF0000',
+        opacity: 0.7,
     },
     authorText: {
         fontFamily: 'Pretendard-Medium',
@@ -941,15 +916,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         marginBottom: 20,
     },
     ThankyouText: {
         color: '#7777FF',
         fontFamily: 'BrandonGrotesque-BoldItalic',
         fontSize: 17,
+        marginRight: 10,
     },
     GoUpButton: {
+        flexDirection: 'row',
         borderRadius: 15,
         width: 100,
         height: 40,
@@ -977,7 +954,7 @@ const styles = StyleSheet.create({
         marginRight: 45,
     },
     CheckMoreTxtStyle: {
-        fontFamily: 'BrandonGrotesque-BoldItalic',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 15,
         color: '#000000',
     },
@@ -998,7 +975,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     CommentsTitleTxt: {
-        fontFamily: 'BrandonGrotesque-Bold',
+        fontFamily: 'Pretendard-SemiBold',
         fontSize: 20,
         color: '#000000',
     },
@@ -1056,11 +1033,16 @@ const styles = StyleSheet.create({
     },
     CommentsTextLayout: {
         margin: 15,
+        backgroundColor: '#f8f8f8',
+        width: windowWidth,
+        alignSelf: 'center',
+        paddingVertical: 10,
+        alignItems: 'center',
     },
     CommentsTextInput: {
         height: 49,
         borderColor: '#D1D1D1',
-        borderWidth: 1.5,
+        // borderWidth: 1.5,
         borderRadius: 30,
         paddingLeft: 20,
         fontFamily: 'Pretendard-Medium',
@@ -1068,11 +1050,13 @@ const styles = StyleSheet.create({
         position: 'relative',
         paddingTop: 0,
         paddingBottom: 0,
+        backgroundColor: 'white',
+        width: windowWidth * 0.95
     },
     CommentSendingTouch: {
         position: 'absolute',
-        right: 3,
-        top: 3,
+        right: 3 + windowWidth * 0.025,
+        top: 13,
     },
     ShareButtonContainer: {
         borderWidth: 1,

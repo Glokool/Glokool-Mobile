@@ -127,32 +127,33 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: windowHeight,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#e9e9e9'
     },
     InnerContainer: {
         width: windowWidth,
         backgroundColor: '#ffffff',
         paddingBottom: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 3.84,
-        elevation: 2,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 3.84,
+        // elevation: 2,
     },
 
     ListContainer: {
         marginTop: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 3.84,
-        elevation: 2,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.2,
+        // shadowRadius: 3.84,
+        // elevation: 2,
     },
     ReloadMessage: {
         fontFamily: 'Pretendard-Regular',

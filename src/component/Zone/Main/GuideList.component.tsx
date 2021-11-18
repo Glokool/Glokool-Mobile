@@ -97,7 +97,7 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                 <Layout style={[styles.ItemContainer, { borderColor: '#fff' }]}>
 
                     <Layout style={[styles.ImageBorder, { borderColor: item.item.maxUserNum > item.item.userCount ? '#7777ff' : '#0000' }]}>
-                        <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'contain'} />
+                        <FastImage source={{ uri: CDN + item.item.guide.avatar }} style={styles.ImageItem} resizeMode={'stretch'} />
                     </Layout>
 
                     <Text style={styles.ItemText}>{item.item.guide.name}</Text>
@@ -105,7 +105,10 @@ export const ZoneGuideListComponent = (props: ZoneMainSceneProps) => {
                     <Layout style={styles.KeywordContainer}>
                         {item.item.guide.keyword &&
                             item.item.guide.keyword.map((item) => (
-                                <Text style={styles.KeywordText}>#{item}</Text>
+                                <Text style={styles.KeywordText}>
+                                    <Text style={[styles.KeywordText, { color: '#bebebe' }]}># </Text>
+                                    {item}
+                                </Text>
                             ))
                         }
                     </Layout>
@@ -207,7 +210,6 @@ const styles = StyleSheet.create({
     ImageItem: {
         width: windowWidth * 0.15,
         height: windowWidth * 0.15,
-        borderWidth: 0.5,
         borderRadius: 100,
         backgroundColor: '#0000',
     },
@@ -273,8 +275,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderRadius: 10,
+        paddingVertical: 10,
+        borderRadius: 100,
     },
     ButtonText: {
         fontFamily: 'Pretendard-Medium',
@@ -282,7 +284,7 @@ const styles = StyleSheet.create({
     },
     GuideText: {
         fontFamily: 'Pretendard-Bold',
-        fontSize: 18,
+        fontSize: 16,
         alignSelf: 'center',
         marginTop: 20,
         marginBottom: 10,
