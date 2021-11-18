@@ -380,7 +380,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} travelDate={props.route.params.day} />
 
             {/* 공지사항 화면 */}
-            <NoticeComponent />
+            <NoticeComponent {...props}/>
 
             {/* 가이드 모달 */}
             <GuideModalComponent
