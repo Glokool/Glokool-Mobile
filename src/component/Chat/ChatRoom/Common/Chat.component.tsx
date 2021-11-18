@@ -46,6 +46,7 @@ import {
     renderLoadEarlier,
     EmojiKeyboardComponent,
     GuideModalComponent,
+    NoticeComponent,
 } from '../index';
 import { setChatLoadingFalse, setChatLoadingTrue } from '../../../../model/Chat/Chat.Loading.model';
 import { RootState } from '../../../../model';
@@ -380,7 +381,7 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             <AudioRecordComponent roomName={roomName} ChatDB={ChatDB} travelDate={props.route.params.day} />
 
             {/* 공지사항 화면 */}
-            {/* <NoticeComponent /> */}
+            <NoticeComponent />
 
             {/* 가이드 모달 */}
             <GuideModalComponent guide={props.route.params.guide.uid} zone={props.route.params.zone} maxUser={props.route.params.maxUser} />
