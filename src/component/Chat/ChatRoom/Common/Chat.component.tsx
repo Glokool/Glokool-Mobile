@@ -61,6 +61,8 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
     const day = props.route.params.day
     const Guide = props.route.params.guide;
 
+    const [text, setText] = React.useState("");
+
     const { currentUser, setCurrentUser } = React.useContext(AuthContext);
     const { setChatIcon } = useContext(ChatContext);
 
@@ -303,6 +305,9 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             newMessage?.set(message, (e) => {
                 if (e != null) {
                     Alert.alert("", "The transmission failed. Please try again.");
+                    
+                    setText(text);
+
                     console.log('채팅 전송 실패 : ', e)
                 }
 
@@ -329,6 +334,8 @@ export const ChatComponent = (props: ChatRoomSceneProps): LayoutElement => {
             <Layout style={{ flex: 1 }} >
 
                 <GiftedChat
+                    text={text}
+                    onInputTextChanged={(text) => setText(text)}
                     messages={chatMessages}
                     textInputProps={{ autoFocus: true }}
                     bottomOffset={(isIphoneX()) ? -getBottomSpace() + 47 : (Platform.OS === 'ios') ? - 25 : 0}
